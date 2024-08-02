@@ -1,0 +1,170 @@
+{# Dump the view result for debugging #}
+
+{% set current_language = language_manager.getCurrentLanguage().getId() %}
+
+{{dump(current_language)}}
+
+{# Acceder a la asignatura actual #}
+{% set subject = view.result[0]._entity %}
+{% if subject.hasTranslation(current_language) %}
+  {% set translated_subject = subject.getTranslation(current_language) %}
+{% else %}
+  {% set translated_subject = subject %}
+{% endif %}
+
+{# Acceder a la carrera a la que pertenece la asignatura #}
+{% set degree = translated_subject.field_carrera.entity %}
+{% if degree %}
+  {% if degree.hasTranslation(current_language) %}
+    {% set translated_degree = degree.getTranslation(current_language) %}
+  {% else %}
+    {% set translated_degree = degree %}
+  {% endif %}
+{% endif %}
+
+{# Acceder a la universidad a la que pertenece la carrera #}
+{% set university = degree.field_universidad.entity %}
+{% if university %}
+  {% if university.hasTranslation(current_language) %}
+    {% set translated_university = university.getTranslation(current_language) %}
+  {% else %}
+    {% set translated_university = university %}
+  {% endif %}
+{% endif %}
+
+
+{% set university_primary_color = translated_university.field_primary_color[0].color %}
+{% set university_text_color = translated_university.field_text_color[0].color %}
+{% set university_emphasis_text_color = translated_university.field_emphasis_text_color[0].color %}
+
+<style>
+  :root {
+    --university_primary_color: {{ university_primary_color }};
+    --university_text_color: {{ university_text_color }};
+    --university_emphasis_text_color: {{ university_emphasis_text_color }};
+  }
+</style>
+
+
+
+
+{# Cuatrimestres del curso #}
+{% set cuatrimestres_curso = {
+  '1o': '1º',
+  '2o': '2º',
+  '3o': '3º',
+  '4o': '4º',
+} %}
+
+<div class="degree-page">
+    <div class="sticky-nav">
+      <a href="{{ path('entity.node.canonical', {'node': translated_degree.id}) }}" class="degree-header-link">
+        <div class="degree-header">
+          <div class="container-fluid">
+            <h1 class="degree-title">
+              {{ translated_degree.title.value|raw }}
+            </h1>
+          </div>
+        </div>
+      </a>
+      <div class="subject-header">
+        <div class="container-fluid">
+          <h5>{{'Subject'|t}}</h5>
+          <h2 class="subject-title">
+            {{ translated_subject.label|upper }}
+          </h2>
+        </div>
+      </div>
+    </div>
+
+
+  <div class="container-fluid">
+      <div class="my-custom-container">
+
+        <div class="row">
+          <div class="col-md-8">
+            <div class="degree-section" id="general-information" style="text-align: justify;">
+              <h3>{{ 'PRESENTATION'|t }}</h3>
+              {{ translated_subject.field_subject_introduction.value|raw }}
+            </div>
+            <div class="degree-section" id="main-objective" style="text-align: justify;">
+              <h3>{{ 'INSTRUCTORS'|t }}</h3>
+              {{ translated_subject.field_subject_instructors.value|raw }}
+            </div>
+            <div class="degree-section" id="competencies" style="text-align: justify;">
+              <h3>{{ 'SUBJECT CONTENT'|t }}</h3>
+              {{ translated_subject.field_subject_contents.value|raw }}
+            </div>
+            <div class="degree-section" id="competencies" style="text-align: justify;">
+              <h3>{{ 'LEARNING OUTCOMES'|t }}</h3>
+              {{ translated_subject.field_subject_learning_outcomes.value|raw }}
+            </div>
+            <div class="degree-section" id="competencies" style="text-align: justify;">
+              <h3>{{ 'RECOMMENDED READINGS AND TOOLS'|t }}</h3>
+              {{ translated_subject.field_subject_recommendations.value|raw }}
+            </div>
+            <div class="degree-section" id="competencies" style="text-align: justify;">
+              <h3>{{ 'PLANNED ACTIVITIES'|t }}</h3>
+              {{ translated_subject.field_subject_planned_activities.value|raw }}
+            </div>
+            <div class="degree-section" id="competencies" style="text-align: justify;">
+              <h3>{{ 'EVALUATION METHOD AND CRITERIA'|t }}</h3>
+              {{ translated_subject.field_subject_evaluation.value|raw }}
+            </div>
+
+          </div>
+
+          <div class="col-md-4">
+            <div class="degree-sidebar bg-light p-3">
+              <h3>{{ 'General Data'|t }}</h3>
+              <div class="row">
+                <div class="col-md-6">
+                  <strong>{{ 'Academic Course'|t }}:</strong> 23/24
+                </div>
+                <div class="col-md-6">
+                  <strong>{{ 'Type'|t }}:</strong> {{ translated_subject.field_tipo.value|capitalize|t }}
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-6">
+                  <strong>{{ 'Course'|t }}:</strong> {{ cuatrimestres_curso[translated_subject.field_curso.value] }}
+                </div>
+                <div class="col-md-6">
+                  <strong>{{ 'Period'|t }}:</strong> {{ cuatrimestres_curso[translated_subject.field_cuatrimestre.value] }}
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-12">
+                  <strong>{{ 'ECTS Credits'|t }}:</strong> {{ translated_subject.field_creditos.value }}
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-12">
+                  <strong>{{ 'Modality'|t }}:</strong> {{ translated_subject.field_subject_modality.value|capitalize|t }}
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-12">
+                  <strong>{{ 'Requirements'|t }}:</strong> {{ translated_subject.field_requirements.value }}
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-12">
+                  <strong>{{ 'Language'|t }}:</strong> {{ translated_subject.field_subject_language.value|capitalize|t }}
+                </div>
+              </div>
+              <h3 class="mt-4">{{ 'Coordination'|t }}</h3>
+              <p>{{ translated_subject.field_coordinador.value }}</p>
+              <p>
+                <i class="fa fa-phone"></i> {{ translated_subject.field_telefono.value }}
+              </p>
+              <p>
+                <i class="fa fa-envelope"></i> {{ translated_subject.field_email.value }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+</div>

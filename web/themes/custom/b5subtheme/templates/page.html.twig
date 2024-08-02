@@ -1,0 +1,26 @@
+{# themes/custom/b5subtheme/templates/page.html.twig #}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{ attach_library('b5subtheme/global-styling') }}
+  <title>{{ head_title|safe_join(' | ') }}</title>
+</head>
+<body>
+
+  <header>
+    {{ page.university_menu }}
+    {{ page.header }}
+  </header>
+
+  <main>
+    {{ page.content }}
+  </main>
+
+  <footer>
+    {{ page.footer }}
+  </footer>
+
+</body>
+</html>

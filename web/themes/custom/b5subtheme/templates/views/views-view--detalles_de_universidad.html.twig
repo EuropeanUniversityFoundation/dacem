@@ -1,0 +1,137 @@
+{{ attach_library('b5subtheme/catalogue_buttons') }}
+
+{% set current_language = language_manager.getCurrentLanguage().getId() %}
+
+{% set entity = view.result[0]._entity %}
+{% if entity.hasTranslation(current_language) %}
+  {% set translated_entity = entity.getTranslation(current_language) %}
+{% else %}
+  {% set translated_entity = entity %}
+{% endif %}
+
+{% set university = translated_entity %}
+
+{% set university_primary_color = university.field_primary_color[0].color %}
+{% set university_text_color = university.field_text_color[0].color %}
+{% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
+
+<style>
+  :root {
+    --university_primary_color: {{ university_primary_color }};
+    --university_text_color: {{ university_text_color }};
+    --university_emphasis_text_color: {{ university_emphasis_text_color }};
+  }
+</style>
+
+<div class="container-fluid">
+  <!-- Menú superior de la universidad -->
+  {{ page.university_menu }}
+
+  <div class="search-and-filters-container mb-4">
+    <div class="search-and-filters">
+      <div class="search-header d-flex align-items-center mb-3">
+        <h1 class="me-3">{{'CATALOGUE'|t}}</h1>
+        <div class="d-flex">
+          <button class="btn filter-button me-2 selected" id='titulaciones-button'>{{'DEGREES'|t}}</button>
+          <button class="btn filter-button" id='asignaturas-button'>{{'SUBJECTS'|t}}</button>
+        </div>
+      </div>
+      <div class="search-bar d-flex mb-3">
+        <input type="text" class="form-control" id='search-input' placeholder={{'Search for a degree'|t}}>
+        <button class="btn btn-dark search-button ms-0" id='search-button'><i class="fas fa-search"></i></button>
+      </div>
+      <div class="filters d-flex">
+        <button class="btn btn-danger me-2"><i class="fas fa-filter"></i></button>
+        <select class="form-control me-2">
+          <option>{{ 'LEVEL'|t }}</option>
+          <option>{{ 'Bachelor'|t }}</option>
+          <option>{{ 'Master'|t }}</option>
+        </select>
+        <select class="form-control me-2">
+          <option>{{ 'LANGUAGE'|t }}</option>
+          <option>{{ 'Spanish'|t }}</option>
+          <option>{{ 'English'|t }}</option>
+        </select>
+
+        <select class="form-control">
+          <option>2024</option>
+          <option>2023</option>
+          <option>2022</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Barra lateral con categorías -->
+    <div class="col-md-3">
+      <div class="navbar sidebar-categories">
+        {% set icon_map = {
+          'artes_humanidades': 'fas fa-archway',
+          'ciencias': 'fas fa-atom',
+          'ciencias_de_la_salud': 'fas fa-heartbeat',
+          'ciencias_sociales_y_juridicas': 'fas fa-balance-scale',
+          'ingenieria_y_arquitectura': 'fas fa-drafting-compass'
+        } %}
+        
+        {% set categories_es = {
+          'artes_humanidades': 'Artes y Humanidades',
+          'ciencias': 'Ciencias',
+          'ciencias_de_la_salud': 'Ciencias de la Salud',
+          'ciencias_sociales_y_juridicas': 'Ciencias Sociales y Jurídicas',
+          'ingenieria_y_arquitectura': 'Ingeniería y Arquitectura'
+        } %}
+
+        {% set categories_en = {
+          'artes_humanidades': 'Arts and Humanities',
+          'ciencias': 'Sciences',
+          'ciencias_de_la_salud': 'Health Sciences',
+          'ciencias_sociales_y_juridicas': 'Social and Legal Sciences',
+          'ingenieria_y_arquitectura': 'Engineering and Architecture'
+        } %}
+        
+        {% set category_labels = current_language == 'es' ? categories_es : categories_en %}
+
+        <ul class="nav flex-column">
+          {% if grouped_carreras is defined %}
+            {% set sorted_keys = grouped_carreras|keys|sort %}
+            {% for area in sorted_keys %}
+              <li class="nav-item">
+                <a class="nav-link" href="#{{ area | clean_id }}">
+                  <i class="{{ icon_map[area] }}"></i> {{ category_labels[area] }}
+                </a>
+              </li>
+            {% endfor %}
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fas fa-folder"></i> No hay áreas disponibles</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="col-md-9">
+      <!-- Lista de programas o titulaciones -->
+      <div class="program-list">
+        {% if grouped_carreras is defined %}
+          {% for area in sorted_keys %}
+            <h2 id="{{ area | clean_id }}">{{ category_labels[area]|upper }}</h2>
+            <ul>
+              {% for carrera in grouped_carreras[area] %}  
+                <li>
+                  <a href="{{ path('entity.node.canonical', {'node': carrera.field_universidad_node_field_data_nid}) }}">
+                    {{ carrera.field_universidad_node_field_data_title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endfor %}
+        {% else %}
+          <p>No hay carreras disponibles.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

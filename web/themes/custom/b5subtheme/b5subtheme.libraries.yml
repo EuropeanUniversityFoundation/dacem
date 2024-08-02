@@ -1,0 +1,17 @@
+global-styling:
+  css:
+    theme:
+      css/style.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external }
+
+global-scripts:
+  version: 1.x
+  js:
+    js/custom-scroll.js: {}
+    js/course_buttons.js: {}
+    js/university_menu_behavior.js: {}
+    js/catalogue_buttons.js: {}
+    
+  dependencies:
+    - core/jquery
+
