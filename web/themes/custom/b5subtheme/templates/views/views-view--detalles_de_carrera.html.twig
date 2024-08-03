@@ -24,6 +24,59 @@
   }
 </style>
 
+
+
+{% set cuatrimestres_curso = {
+  '1o': '1º',
+  '2o': '2º',
+  '3o': '3º',
+  '4o': '4º',
+} %}
+
+{% set courses = {
+  '1o': '1º Course',
+  '2o': '2º Course',
+  '3o': '3º Course',
+  '4o': '4º Course'
+} %}
+
+{% set credit_types = [
+  'Core',
+  'Mandatory',
+  'Optional',
+  'External internships',
+  'Final project'
+] %}
+
+{# Inicialización del array credits #}
+{% set credits = {
+  '1o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'External internships': 0, 'Final project': 0},
+  '2o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'External internships': 0, 'Final project': 0},
+  '3o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'External internships': 0, 'Final project': 0},
+  '4o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'External internships': 0, 'Final project': 0}
+} %}
+
+{% for row in view.result %}
+  {% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
+  {% if subject.hasTranslation(current_language) %}
+    {% set translated_subject = subject.getTranslation(current_language) %}
+  {% else %}
+    {% set translated_subject = subject %}
+  {% endif %}
+  {% set course_id = translated_subject.field_curso[0].value %}
+  {% set credit_type = translated_subject.field_tipo[0].value|trim %}
+  {% set credit_value = translated_subject.field_creditos[0].value|number_format(2, '.', '') %}
+
+  {% if course_id in credits|json_encode(constant('JSON_PRETTY_PRINT')) and credit_type|capitalize in credits[course_id]|json_encode(constant('JSON_PRETTY_PRINT')) %}
+    {% set credits = credits|merge({ (course_id): credits[course_id]|merge({ (credit_type)|capitalize: credits[course_id][credit_type|capitalize] + credit_value }) }) %}
+  {% else %}
+    <pre>Condition not met for Course ID: "{{ course_id }}" and Credit Type: "{{ credit_type }}"</pre>
+  {% endif %}
+{% endfor %}
+
+
+
+
 {# Diccionario para traducir Level #}
 {% set level_translation = {
   'Grado': 'Bachelor',
@@ -127,6 +180,7 @@
                     <tbody>
                       {% for row in view.result %}
                         {% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
+                        {{dump}}
                         {% if subject.hasTranslation(current_language) %}
                           {% set translated_subject = subject.getTranslation(current_language) %}
                         {% else %}
@@ -222,6 +276,7 @@
                 {% if current_language == 'es' %}
                   {{ translated_entity.field_modalidad.value|capitalize }}
                 {% else %}
+                  
                   {{ modality_translation[translated_entity.field_modalidad.value|capitalize]|default(translated_entity.field_modalidad.value)|capitalize }}
                 {% endif %}
               </div>

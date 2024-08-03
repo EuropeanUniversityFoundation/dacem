@@ -2,8 +2,6 @@
 
 {% set current_language = language_manager.getCurrentLanguage().getId() %}
 
-{{dump(current_language)}}
-
 {# Acceder a la asignatura actual #}
 {% set subject = view.result[0]._entity %}
 {% if subject.hasTranslation(current_language) %}
