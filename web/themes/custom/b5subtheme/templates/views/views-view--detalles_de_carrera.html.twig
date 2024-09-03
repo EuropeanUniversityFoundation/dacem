@@ -199,6 +199,7 @@
                             </td>
                             <td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
                             <td>{{ translated_subject.field_creditos[0].value }}</td>
+                            {{dump(translated_subject)}}
                             <td>{{ translated_subject.field_tipo[0].value|capitalize }}</td>
                           </tr>
                         {% endif %}
