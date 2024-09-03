@@ -25,6 +25,8 @@
 </style>
 
 
+{{dump("Vista de carrera")}}
+
 
 {% set cuatrimestres_curso = {
   '1o': '1º',
@@ -60,6 +62,7 @@
   {% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
   {% if subject.hasTranslation(current_language) %}
     {% set translated_subject = subject.getTranslation(current_language) %}
+    
   {% else %}
     {% set translated_subject = subject %}
   {% endif %}
@@ -70,7 +73,7 @@
   {% if course_id in credits|json_encode(constant('JSON_PRETTY_PRINT')) and credit_type|capitalize in credits[course_id]|json_encode(constant('JSON_PRETTY_PRINT')) %}
     {% set credits = credits|merge({ (course_id): credits[course_id]|merge({ (credit_type)|capitalize: credits[course_id][credit_type|capitalize] + credit_value }) }) %}
   {% else %}
-    <pre>Condition not met for Course ID: "{{ course_id }}" and Credit Type: "{{ credit_type }}"</pre>
+    <!--<pre>Condition not met for Course ID: "{{ course_id }}" and Credit Type: "{{ credit_type }}"</pre>-->
   {% endif %}
 {% endfor %}
 
@@ -180,7 +183,7 @@
                     <tbody>
                       {% for row in view.result %}
                         {% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
-                        {{dump}}
+                          
                         {% if subject.hasTranslation(current_language) %}
                           {% set translated_subject = subject.getTranslation(current_language) %}
                         {% else %}

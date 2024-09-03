@@ -10,6 +10,9 @@
   {% set translated_subject = subject %}
 {% endif %}
 
+{{dump("Vista asignatura")}}
+
+
 {# Acceder a la carrera a la que pertenece la asignatura #}
 {% set degree = translated_subject.field_carrera.entity %}
 {% if degree %}
