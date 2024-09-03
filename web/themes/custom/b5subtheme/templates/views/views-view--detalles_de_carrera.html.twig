@@ -43,19 +43,19 @@
 } %}
 
 {% set credit_types = [
-  'Core',
-  'Mandatory',
-  'Optional',
-  'External internships',
-  'Final project'
+  'Nucleo',
+  'Obligatorio',
+  'Opcional',
+  'Practicas externas',
+  'Proyecto final'
 ] %}
 
 {# Inicialización del array credits #}
 {% set credits = {
-  '1o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'External internships': 0, 'Final project': 0},
-  '2o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'External internships': 0, 'Final project': 0},
-  '3o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'External internships': 0, 'Final project': 0},
-  '4o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'External internships': 0, 'Final project': 0}
+  '1o': {'Nucleo': 0, 'Obligatorio': 0, 'Opcional': 0, 'Practicas externas': 0, 'Proyecto final': 0},
+  '2o': {'Nucleo': 0, 'Obligatorio': 0, 'Opcional': 0, 'Practicas externas': 0, 'Proyecto final': 0},
+  '3o': {'Nucleo': 0, 'Obligatorio': 0, 'Opcional': 0, 'Practicas externas': 0, 'Proyecto final': 0},
+  '4o': {'Nucleo': 0, 'Obligatorio': 0, 'Opcional': 0, 'Practicas externas': 0, 'Proyecto final': 0}
 } %}
 
 {% for row in view.result %}
@@ -214,11 +214,11 @@
                   <thead>
                     <tr>
                       <th>{{ 'Course'|t }}</th>
-                      <th>{{ 'Core'|t }}</th>
-                      <th>{{ 'Mandatory'|t }}</th>
-                      <th>{{ 'Optional'|t }}</th>
-                      <th>{{ 'External internships'|t }}</th>
-                      <th>{{ 'Final project'|t }}</th>
+                      <th>{{ 'Nucleo'|t }}</th>
+                      <th>{{ 'Obligatorio'|t }}</th>
+                      <th>{{ 'Opcional'|t }}</th>
+                      <th>{{ 'Practicas externas'|t }}</th>
+                      <th>{{ 'Proyecto final'|t }}</th>
                       <th>{{ 'TOTAL'|t }}</th>
                     </tr>
                   </thead>
