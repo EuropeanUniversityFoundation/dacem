@@ -13015,9 +13015,7 @@ code {
   align-items: center;
 }
 
-.university-menu-block .university-logo {
-  margin-right: auto;
-}
+
 
 .university-menu-block .menu-and-language {
   display: flex;
@@ -13031,10 +13029,7 @@ code {
 
 
 
-.university-logo img {
-  max-width: 100%; /* Asegurar que el logo se ajuste al contenedor */
-  height: auto;
-}
+
 
 .language-switcher .lang-option {
   color: #ccc;
@@ -13206,10 +13201,6 @@ code {
   margin-bottom: 0px;
 }
 
-.university-menu-block .university-logo img {
-  height: 100%; /* La imagen ocupa todo el contenedor */
-  width: auto; /* Mantiene la proporción de la imagen */
-}
 
 .university-menu-links {
   display: flex;
@@ -13410,44 +13401,82 @@ code {
 
 
 
-
-/* Estilo por defecto para pantallas grandes */
-.university-logo {
-  max-height: 100px; /* Ajusta este tamaño según lo necesites */
-  width: auto;
+/* Estilos básicos para el logo en el navbar de la universidad en todas las pantallas */
+.university-navbar .navbar-brand img {
+  width: auto; /* Mantiene la proporción del logo */
+  height: auto; /* Mantiene la proporción del logo */
+  max-height: 150px; /* Tamaño grande por defecto para pantallas grandes */
 }
 
-.navbar-brand img {
-  width: auto;
-  height: auto;
-}
-
-/* Estilo para pantallas medianas */
+/* Estilos para el logo cuando la pantalla tiene un ancho de hasta 992px */
 @media (max-width: 992px) {
-  .university-logo {
-    max-height: 70px;
+  .university-navbar .navbar-brand img {
+    max-height: none; /* Tamaño reducido para pantallas medianas */
+    width: 100%;
+    height:auto;
   }
 }
 
-/* Estilo para pantallas pequeñas y móviles */
+/* Estilos para el logo y comportamiento del menú en pantallas muy pequeñas o móviles */
 @media (max-width: 768px) {
-  .university-logo {
-    max-height: none;
-    width: 100%;
-    height: 70%; /* Deja que ocupe todo el ancho */
+  .university-navbar .navbar-brand img {
+    max-height: none; /* Remueve la restricción de altura máxima */
+    width: 100%; /* El logo ocupa todo el ancho disponible */
+    height: auto; /* Altura relativa para mantener la visibilidad del logo */
   }
   
-  /* Colapsar el menú en pantallas pequeñas */
-  .navbar-collapse {
+  /* Esconde el menú al colapsar en pantallas pequeñas */
+  .university-navbar .navbar-collapse {
     display: none;
   }
 
-  .navbar-toggler {
-    display: block; /* Asegúrate de que el botón de toggling esté visible */
+  /* Asegura que el botón de colapso esté siempre visible en pantallas pequeñas */
+  .university-navbar .navbar-toggler {
+    display: block;
+  }
+
+  /* Muestra el menú cuando está en estado 'show' */
+  .university-navbar .collapse.show {
+    display: block;
   }
 }
 
+/* Estilos para los enlaces dentro del navbar */
+.university-navbar .nav-link {
+  text-decoration: none; /* Elimina el subrayado de los enlaces */
+  color: inherit; /* Hereda el color de texto del elemento padre */
+  padding: 10px 15px; /* Padding para aumentar el área clickeable */
+  font-weight: bold;
+}
 
-.collapse.show {
-  display: block; /* Asegura que el menú se muestre */
+.university-navbar .nav-link:hover{
+  background-color: var(--university_primary_color);
+  color: var(--university_emphasis_text_color);
+}
+
+/* Estilos para la alineación de los elementos del navbar */
+.university-navbar .navbar-nav {
+  display: flex;
+  justify-content: center; /* Centra los elementos horizontalmente */
+  align-items: center; /* Alinea los elementos verticalmente */
+  list-style: none; /* Remueve estilos de lista */
+}
+
+.university-navbar .nav-item {
+  margin: 0 15px; /* Margen entre elementos del menú */
+}
+
+/* Estilos para el interruptor de idiomas */
+.university-navbar .language-switcher {
+  display: flex;
+  align-items: center; /* Alinea verticalmente los enlaces de idioma */
+  justify-content: flex-end; /* Alinea los enlaces de idioma a la derecha */
+  padding-right: 2%; /* Espacio a la derecha dentro del contenedor */
+}
+
+.university-navbar .language-switcher a {
+  text-decoration: none; /* Elimina el subrayado de los enlaces */
+  color: inherit; /* Hereda el color de texto del elemento padre */
+  margin-left: 5px; /* Espaciado entre opciones de idioma */
+  padding: 10px; /* Aumenta el área clickeable */
 }

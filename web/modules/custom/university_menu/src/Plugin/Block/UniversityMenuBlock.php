@@ -75,7 +75,7 @@ class UniversityMenuBlock extends BlockBase {
 
         $build = [
           '#markup' => $this->t('
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg university-navbar">
               <div class="container-fluid">
                 <a class="navbar-brand" href="@university_url">
                   <img src="@logo_url" alt="@university_name" class="university-logo d-inline-block align-text-top">
@@ -86,7 +86,7 @@ class UniversityMenuBlock extends BlockBase {
                 </button>
                 <!-- Menú colapsable -->
                 <div class="collapse navbar-collapse" id="universityNavbar">
-                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <ul class="navbar-nav university-menu-links me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                       <a class="nav-link" href="/@university_path/informacion-institucional">' . $this->t('INSTITUTIONAL INFORMATION') . '</a>
                     </li>
@@ -116,6 +116,7 @@ class UniversityMenuBlock extends BlockBase {
               '@university_url' => $university_url,
             ]),
         ];
+        
         
         
         
