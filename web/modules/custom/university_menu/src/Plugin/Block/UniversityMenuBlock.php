@@ -75,25 +75,38 @@ class UniversityMenuBlock extends BlockBase {
 
         $build = [
           '#markup' => $this->t('
-            <div class="container-fluid university-menu-block">
-                <div class="col-auto university-logo">
-                  <a href="@university_url">
-                    <img src="@logo_url" alt="@university_name">
-                  </a>
-                </div>
-                <div class="col menu-and-language">
-                  <ul class="university-menu-links d-flex align-items-center mb-0">
-                    <li><a href="/@university_path/informacion-institucional">' . $this->t('CATALOGUE') . '</a></li>
-                    <li><a href="/@university_path/catalogo">' . $this->t('INSTITUTIONAL INFORMATION') . '</a></li>
-                    <li><a href="/@university_path/recursos-y-servicios">' . $this->t('RESOURCES AND SERVICES') . '</a></li>
-                    <li><a href="/@university_path/vida-universitaria">' . $this->t('UNIVERSITY LIFE') . '</a></li>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+              <div class="container-fluid">
+                <a class="navbar-brand" href="@university_url">
+                  <img src="@logo_url" alt="@university_name" class="university-logo d-inline-block align-text-top">
+                </a>
+                <!-- Botón de colapso -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#universityNavbar" aria-controls="universityNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Menú colapsable -->
+                <div class="collapse navbar-collapse" id="universityNavbar">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/@university_path/informacion-institucional">' . $this->t('INSTITUTIONAL INFORMATION') . '</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/@university_path/catalogo">' . $this->t('CATALOGUE') . '</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/@university_path/recursos-y-servicios">' . $this->t('RESOURCES AND SERVICES') . '</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/@university_path/vida-universitaria">' . $this->t('UNIVERSITY LIFE') . '</a>
+                    </li>
                   </ul>
-                  <div class="language-switcher d-flex align-items-center">
-                    <a href="@url_es" class="lang-option">ES</a> | 
-                    <a href="@url_en_gb" class="lang-option">EN</a>
+                  <div class="d-flex">
+                    <a href="@url_es" class="btn btn-outline-secondary me-2">ES</a>
+                    <a href="@url_en_gb" class="btn btn-outline-secondary">EN</a>
                   </div>
                 </div>
-            </div>',
+              </div>
+            </nav>',
             [
               '@logo_url' => $logo_url,
               '@university_name' => $university->getTitle(),
@@ -103,6 +116,9 @@ class UniversityMenuBlock extends BlockBase {
               '@university_url' => $university_url,
             ]),
         ];
+        
+        
+        
       }
     }
 

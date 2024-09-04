@@ -13405,3 +13405,49 @@ code {
 
 
 
+
+
+
+
+
+
+/* Estilo por defecto para pantallas grandes */
+.university-logo {
+  max-height: 100px; /* Ajusta este tamaño según lo necesites */
+  width: auto;
+}
+
+.navbar-brand img {
+  width: auto;
+  height: auto;
+}
+
+/* Estilo para pantallas medianas */
+@media (max-width: 992px) {
+  .university-logo {
+    max-height: 70px;
+  }
+}
+
+/* Estilo para pantallas pequeñas y móviles */
+@media (max-width: 768px) {
+  .university-logo {
+    max-height: none;
+    width: 100%;
+    height: 70%; /* Deja que ocupe todo el ancho */
+  }
+  
+  /* Colapsar el menú en pantallas pequeñas */
+  .navbar-collapse {
+    display: none;
+  }
+
+  .navbar-toggler {
+    display: block; /* Asegúrate de que el botón de toggling esté visible */
+  }
+}
+
+
+.collapse.show {
+  display: block; /* Asegura que el menú se muestre */
+}
