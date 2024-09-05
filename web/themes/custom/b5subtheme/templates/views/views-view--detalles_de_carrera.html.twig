@@ -1,4 +1,5 @@
 {{ attach_library('b5subtheme/course_buttons') }}
+{{ attach_library('b5subtheme/degree_menu_scroll') }}
 
 {% set current_language = language_manager.getCurrentLanguage().getId() %}
 
@@ -105,8 +106,29 @@
     </div>
 
     <nav id="degree-navbar" class="degree-nav" style="background-color: white;" data-bs-spy="scroll" data-bs-target="#degree-navbar" data-bs-offset="0">
-      <div class="container">
-        <ul class="nav nav-tabs justify-content-center">
+      <div class="container-fluid">
+        <!-- Franja horizontal en pantallas pequeñas -->
+        <div class="dropdown d-lg-none">
+          <!-- Botón para mostrar el menú desplegable en pantallas pequeñas -->
+          <button id="degreeDropdownButton" class="btn btn-secondary dropdown-toggle w-100 button-menu-degree" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ 'General Information'|t }}
+          </button>
+
+          <!-- Menú desplegable -->
+          <ul class="dropdown-menu degree-menu w-100" aria-labelledby="degreeDropdownButton">
+            <li><a class="dropdown-item" href="#general-information">{{ 'General Information'|t }}</a></li>
+            <li><a class="dropdown-item" href="#main-objective">{{ 'Main Objective'|t }}</a></li>
+            <li><a class="dropdown-item" href="#competencies">{{ 'Competencies'|t }}</a></li>
+            <li><a class="dropdown-item" href="#qualification">{{ 'Qualification'|t }}</a></li>
+            <li><a class="dropdown-item" href="#subjects">{{ 'Subjects'|t }}</a></li>
+            <li><a class="dropdown-item" href="#admission">{{ 'Admission'|t }}</a></li>
+            <li><a class="dropdown-item" href="#regulations">{{ 'Regulations'|t }}</a></li>
+          </ul>
+
+        </div>
+
+        <!-- Menú de pestañas visible en pantallas grandes -->
+        <ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
           <li class="nav-item">
             <a class="nav-link active" href="#general-information">{{ 'General Information'|t }}</a>
           </li>
@@ -197,7 +219,7 @@
                             </td>
                             <td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
                             <td>{{ translated_subject.field_creditos[0].value }}</td>
-                            {{dump(translated_subject)}}
+                            
                             <td>{{ translated_subject.field_tipo[0].value|capitalize }}</td>
                           </tr>
                         {% endif %}

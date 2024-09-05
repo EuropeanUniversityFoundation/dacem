@@ -11,6 +11,7 @@ global-scripts:
     js/course_buttons.js: {}
     js/university_menu_behavior.js: {}
     js/catalogue_buttons.js: {}
+    js/degree_menu_scroll.js: {}
     
   dependencies:
     - core/jquery

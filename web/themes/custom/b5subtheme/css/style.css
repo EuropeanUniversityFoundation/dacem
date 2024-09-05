@@ -13494,3 +13494,29 @@ code {
   justify-content: flex-start; /* Alinear los botones de idioma a la izquierda */
   margin: 0 !important;
 }
+
+
+
+
+
+
+
+
+
+
+.button-menu-degree{
+  background-color: #000;
+  border-radius: 0;
+  font-weight: bold;
+}
+
+.button-menu-degree:hover{
+  background-color: #000;
+  font-weight: bold;
+}
+
+.degree-menu .dropdown-item:hover{
+  background-color: #000;
+  color: white;
+  font-weight: bold;
+}
