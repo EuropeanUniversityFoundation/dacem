@@ -6,9 +6,9 @@
 {% set entity = view.result[0]._entity %}
 
 {% if entity.hasTranslation(current_language) %}
-  {% set translated_entity = entity.getTranslation(current_language) %}
+	{% set translated_entity = entity.getTranslation(current_language) %}
 {% else %}
-  {% set translated_entity = entity %}
+	{% set translated_entity = entity %}
 {% endif %}
 
 {% set university = entity.field_universidad.entity %}
@@ -17,334 +17,336 @@
 {% set university_text_color = university.field_text_color[0].color %}
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
 
-<style>
-  :root {
-    --university_primary_color: {{ university_primary_color }};
-    --university_text_color: {{ university_text_color }};
-    --university_emphasis_text_color: {{ university_emphasis_text_color }};
-  }
-</style>
-
-
-
-{% set cuatrimestres_curso = {
+<style>:root
+{
+	--university_primary_color: {{university_primary_color}}
+	;
+	--university_text_color: {{university_text_color}}
+	;
+	--university_emphasis_text_color: {{university_emphasis_text_color}}
+	;
+}</style>{% set cuatrimestres_curso = {
   '1o': '1º',
   '2o': '2º',
   '3o': '3º',
   '4o': '4º',
-} %}
-
-{% set courses = {
+} %}{% set courses = {
   '1o': '1º Course',
   '2o': '2º Course',
   '3o': '3º Course',
   '4o': '4º Course'
-} %}
-
-{% set credit_types = [
+} %}{% set credit_types = [
   'Nucleo',
   'Obligatorio',
   'Opcional',
   'Practicas externas',
   'Proyecto final'
-] %}
-
-{# Inicialización del array credits #}
-{% set credits = {
+] %}{# Inicialización del array credits #}{% set credits = {
   '1o': {'Nucleo': 0, 'Obligatorio': 0, 'Opcional': 0, 'Practicas externas': 0, 'Proyecto final': 0},
   '2o': {'Nucleo': 0, 'Obligatorio': 0, 'Opcional': 0, 'Practicas externas': 0, 'Proyecto final': 0},
   '3o': {'Nucleo': 0, 'Obligatorio': 0, 'Opcional': 0, 'Practicas externas': 0, 'Proyecto final': 0},
   '4o': {'Nucleo': 0, 'Obligatorio': 0, 'Opcional': 0, 'Practicas externas': 0, 'Proyecto final': 0}
-} %}
+} %}{% for row in view.result %}
+{% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
+{% if subject.hasTranslation(current_language) %}
+	{% set translated_subject = subject.getTranslation(current_language) %}
 
-{% for row in view.result %}
-  {% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
-  {% if subject.hasTranslation(current_language) %}
-    {% set translated_subject = subject.getTranslation(current_language) %}
-    
-  {% else %}
-    {% set translated_subject = subject %}
-  {% endif %}
-  {% set course_id = translated_subject.field_curso[0].value %}
-  {% set credit_type = translated_subject.field_tipo[0].value|trim %}
-  {% set credit_value = translated_subject.field_creditos[0].value|number_format(2, '.', '') %}
+{% else %}
+	{% set translated_subject = subject %}
+{% endif %}
+{% set course_id = translated_subject.field_curso[0].value %}
+{% set credit_type = translated_subject.field_tipo[0].value|trim %}
+{% set credit_value = translated_subject.field_creditos[0].value|number_format(2, '.', '') %}
 
-  {% if course_id in credits|json_encode(constant('JSON_PRETTY_PRINT')) and credit_type|capitalize in credits[course_id]|json_encode(constant('JSON_PRETTY_PRINT')) %}
-    {% set credits = credits|merge({ (course_id): credits[course_id]|merge({ (credit_type)|capitalize: credits[course_id][credit_type|capitalize] + credit_value }) }) %}
-  {% else %}
-    <!--<pre>Condition not met for Course ID: "{{ course_id }}" and Credit Type: "{{ credit_type }}"</pre>-->
-  {% endif %}
-{% endfor %}
-
-
-
-
-{# Diccionario para traducir Level #}
-{% set level_translation = {
+{% if course_id in credits|json_encode(constant('JSON_PRETTY_PRINT')) and credit_type|capitalize in credits[course_id]|json_encode(constant('JSON_PRETTY_PRINT')) %}
+	{% set credits = credits|merge({ (course_id): credits[course_id]|merge({ (credit_type)|capitalize: credits[course_id][credit_type|capitalize] + credit_value }) }) %}
+	{% else %}
+	<!--<pre>Condition not met for Course ID: "{{ course_id }}" and Credit Type: "{{ credit_type }}"</pre>-->
+{% endif %}{% endfor %}{# Diccionario para traducir Level #}{% set level_translation = {
   'Grado': 'Bachelor',
   'Máster': 'Master'
-} %}
-
-{# Diccionario para traducir Modality #}
-{% set modality_translation = {
+} %}{# Diccionario para traducir Modality #}{% set modality_translation = {
   'Presencial': 'In-Person',
   'Online': 'Online'
-} %}
-
-{# Diccionario para traducir Professional Practices #}
-{% set practices_translation = {
+} %}{# Diccionario para traducir Professional Practices #}{% set practices_translation = {
   'Si': 'Yes',
   'No': 'No'
-} %}
+} %}<div class="degree-page">
+<div class="sticky-nav">
+	<div class="degree-header">
+		<div class="container-fluid">
+			<h1 class="degree-title">{{ translated_entity.title.value|raw }}</h1>
+		</div>
+	</div>
 
-<div class="degree-page">
-  <div class="sticky-nav">
-    <div class="degree-header">
-      <div class="container-fluid">
-        <h1 class="degree-title">{{ translated_entity.title.value|raw }}</h1>
-      </div>
-    </div>
+	<nav id="degree-navbar" class="degree-nav" style="background-color: white;" data-bs-spy="scroll" data-bs-target="#degree-navbar" data-bs-offset="0">
+		<div
+			class="container-fluid">
+			<!-- Franja horizontal en pantallas pequeñas -->
+			<div
+				class="dropdown d-lg-none">
+				<!-- Botón para mostrar el menú desplegable en pantallas pequeñas -->
+				<button id="degreeDropdownButton" class="btn btn-secondary dropdown-toggle w-100 button-menu-degree" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					{{ 'General Information'|t }}
+				</button>
 
-    <nav id="degree-navbar" class="degree-nav" style="background-color: white;" data-bs-spy="scroll" data-bs-target="#degree-navbar" data-bs-offset="0">
-      <div class="container-fluid">
-        <!-- Franja horizontal en pantallas pequeñas -->
-        <div class="dropdown d-lg-none">
-          <!-- Botón para mostrar el menú desplegable en pantallas pequeñas -->
-          <button id="degreeDropdownButton" class="btn btn-secondary dropdown-toggle w-100 button-menu-degree" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ 'General Information'|t }}
-          </button>
+				<!-- Menú desplegable -->
+				<ul class="dropdown-menu degree-menu w-100" aria-labelledby="degreeDropdownButton">
+					<li>
+						<a class="dropdown-item" href="#general-information">{{ 'General Information'|t }}</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#main-objective">{{ 'Main Objective'|t }}</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#competencies">{{ 'Competencies'|t }}</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#qualification">{{ 'Qualification'|t }}</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#subjects">{{ 'Subjects'|t }}</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#admission">{{ 'Admission'|t }}</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#regulations">{{ 'Regulations'|t }}</a>
+					</li>
+				</ul>
 
-          <!-- Menú desplegable -->
-          <ul class="dropdown-menu degree-menu w-100" aria-labelledby="degreeDropdownButton">
-            <li><a class="dropdown-item" href="#general-information">{{ 'General Information'|t }}</a></li>
-            <li><a class="dropdown-item" href="#main-objective">{{ 'Main Objective'|t }}</a></li>
-            <li><a class="dropdown-item" href="#competencies">{{ 'Competencies'|t }}</a></li>
-            <li><a class="dropdown-item" href="#qualification">{{ 'Qualification'|t }}</a></li>
-            <li><a class="dropdown-item" href="#subjects">{{ 'Subjects'|t }}</a></li>
-            <li><a class="dropdown-item" href="#admission">{{ 'Admission'|t }}</a></li>
-            <li><a class="dropdown-item" href="#regulations">{{ 'Regulations'|t }}</a></li>
-          </ul>
+			</div>
 
-        </div>
-
-        <!-- Menú de pestañas visible en pantallas grandes -->
-        <ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
-          <li class="nav-item">
-            <a class="nav-link active" href="#general-information">{{ 'General Information'|t }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#main-objective">{{ 'Main Objective'|t }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#competencies">{{ 'Competencies'|t }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#qualification">{{ 'Qualification'|t }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#subjects">{{ 'Subjects'|t }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#admission">{{ 'Admission'|t }}</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#regulations">{{ 'Regulations'|t }}</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </div>
-
-  <div class="container-fluid">
-    <div class="my-custom-container">
-      <div class="row">
-        <div class="col-md-8">
-          <div class="scrollspy-example" data-bs-spy="scroll" data-bs-target="#degree-navbar" data-bs-root-margin="0px 0px -60%" tabindex="0">
-            <div class="degree-section" id="general-information" style="text-align: justify;">
-              <h2>{{ 'Presentation'|t|upper }}</h2>
-              {{ translated_entity.field_presentacion.value|raw }}
-            </div>
-            <div class="degree-section" id="main-objective" style="text-align: justify;">
-              <h2>{{ 'Main Objective'|t|upper }}</h2>
-              {{ translated_entity.field_objetivo_principal.value|raw }}
-            </div>
-            <div class="degree-section" id="competencies" style="text-align: justify;">
-              <h2>{{ 'Competencies'|t|upper }}</h2>
-              {{ translated_entity.field_competencias.value|raw }}
-            </div>
-            <div class="degree-section" id="qualification" style="text-align: justify;">
-              <h2>{{ 'Qualification'|t|upper }}</h2>
-              {{ translated_entity.field_cualificacion.value|raw }}
-            </div>
-            <div class="degree-section" id="subjects" style="text-align: justify;">
-              <h2>{{ 'Subjects'|t|upper }}</h2>
-              <p>{{ 'The following tables show all the subjects that make up the Study Plan with reference to the 2023-24 academic year'|t }}:</p>
-
-              <div class="custom-btn-group btn-group mb-3" role="group" aria-label="{{ 'Courses'|t }}">
-                {% for course_id, course_name in courses %}
-                  <button type="button" class="btn btn-{% if loop.first %}primary{% else %}outline-primary{% endif %} toggle-button" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="{{ loop.first ? 'true' : 'false' }}" aria-controls="course{{ loop.index }}">{{ course_name|t }}</button>
-                {% endfor %}
-                <button id="structure-btn" type="button" class="btn btn-outline-secondary toggle-button" data-bs-toggle="collapse" data-bs-target="#structure" aria-expanded="false" aria-controls="structure">{{ 'Structure'|t }}</button>
-              </div>
-
-              {% for course_id, course_name in courses %}
-                <div id="course{{ loop.index }}" class="collapse {% if loop.first %}show{% endif %}">
-                  <h3>{{ course_name|t }}</h3>
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th>{{ 'Code'|t }}</th>
-                        <th>{{ 'Subject'|t }}</th>
-                        <th>{{ 'Quarter'|t }}</th>
-                        <th>{{ 'ECTS'|t }}</th>
-                        <th>{{ 'Type'|t }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for row in view.result %}
-                        {% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
-                          
-                        {% if subject.hasTranslation(current_language) %}
-                          {% set translated_subject = subject.getTranslation(current_language) %}
-                        {% else %}
-                          {% set translated_subject = subject %}
-                        {% endif %}
-                        {% if translated_subject.field_curso[0].value == course_id %}
-                          <tr>
-                            <td>{{ translated_subject.field_codigo[0].value }}</td>
-                            <td>
-                              <a href="{{ path('entity.node.canonical', {'node': translated_subject.id()}) }}">
-                                {{ translated_subject.title.value }}
-                              </a>
-                            </td>
-                            <td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
-                            <td>{{ translated_subject.field_creditos[0].value }}</td>
-                            
-                            <td>{{ translated_subject.field_tipo[0].value|capitalize }}</td>
-                          </tr>
-                        {% endif %}
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-              {% endfor %}
-
-              <div id="structure" class="collapse">
-                <h3>{{ 'STRUCTURE AND DISTRIBUTION OF CREDITS'|t }}</h3>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>{{ 'Course'|t }}</th>
-                      <th>{{ 'Nucleo'|t }}</th>
-                      <th>{{ 'Obligatorio'|t }}</th>
-                      <th>{{ 'Opcional'|t }}</th>
-                      <th>{{ 'Practicas externas'|t }}</th>
-                      <th>{{ 'Proyecto final'|t }}</th>
-                      <th>{{ 'TOTAL'|t }}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for course_id, course_name in courses %}
-                      {% set total_credits = 0 %}
-                      <tr>
-                        <td>{{ cuatrimestres_curso[course_id] }}</td>
-                        {% for credit_type in credit_types %}
-                          <td>{{ credits[course_id][credit_type]|number_format(2, '.', '') }}</td>
-                          {% set total_credits = total_credits + credits[course_id][credit_type] %}
-                        {% endfor %}
-                        <td>{{ total_credits|number_format(2, '.', '') }}</td>
-                      </tr>
-                    {% endfor %}
-                    <tr>
-                      <td>{{ 'TOTAL'|t }}</td>
-                      {% set grand_total_credits = 0 %}
-                      {% for credit_type in credit_types %}
-                        {% set type_total = 0 %}
-                        {% for course_id in courses %}
-                          {% set type_total = type_total + credits[course_id][credit_type] %}
-                        {% endfor %}
-                        <td>{{ type_total|number_format(2, '.', '') }}</td>
-                        {% set grand_total_credits = grand_total_credits + type_total %}
-                      {% endfor %}
-                      <td>{{ grand_total_credits|number_format(2, '.', '') }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="degree-sidebar bg-light p-3">
-            <h3>{{ 'General Data'|t }}</h3>
-            <div class="row">
-              <div class="col-md-6">
-                <strong>{{ 'Academic Course'|t }}:</strong> {{ translated_entity.field_curso_academico.value }}
-              </div>
-              <div class="col-md-6">
-                <strong>{{ 'Level'|t }}:</strong> 
-                {% if current_language == 'es' %}
-                  {{ translated_entity.field_nivel.value|capitalize }}
-                {% else %}
-                  {{ level_translation[translated_entity.field_nivel.value|capitalize]|default(translated_entity.field_nivel.value)|capitalize }}
-                {% endif %}
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-6">
-                <strong>{{ 'ECTS Credits'|t }}:</strong> {{ translated_entity.field_creditos_carrera.value }}
-              </div>
-              <div class="col-md-6">
-                <strong>{{ 'Modality'|t }}:</strong> 
-                {% if current_language == 'es' %}
-                  {{ translated_entity.field_modalidad.value|capitalize }}
-                {% else %}
-                  
-                  {{ modality_translation[translated_entity.field_modalidad.value|capitalize]|default(translated_entity.field_modalidad.value)|capitalize }}
-                {% endif %}
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-12">
-                <strong>{{ 'ISCED-F'|t }}:</strong> {{ translated_entity.field_isced_f.value }}
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-12">
-                <strong>{{ 'Qualification Level'|t }}:</strong> {{ translated_entity.field_nivel_de_cualificacion.value }}
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-12">
-                <strong>{{ 'Study Modality'|t }}:</strong> {{ translated_entity.field_modalidad_de_estudio.value }}
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-12">
-                <strong>{{ 'Professional Practices'|t }}:</strong> 
-                {% if current_language == 'es' %}
-                  {{ translated_entity.field_practicas_profesionales.value|capitalize }}
-                {% else %}
-                  {{ practices_translation[translated_entity.field_practicas_profesionales.value|capitalize]|default(translated_entity.field_practicas_profesionales.value)|capitalize }}
-                {% endif %}
-              </div>
-            </div>
-            <h3 class="mt-4">{{ 'Coordination'|t }}</h3>
-            <p>{{ translated_entity.field_coordinador.value }}</p>
-            <p>
-              <i class="fa fa-phone"></i> {{ translated_entity.field_telefono.value }}
-            </p>
-            <p>
-              <i class="fa fa-envelope"></i> {{ translated_entity.field_email.value }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+			<!-- Menú de pestañas visible en pantallas grandes -->
+			<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
+				<li class="nav-item">
+					<a class="nav-link active" href="#general-information">{{ 'General Information'|t }}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#main-objective">{{ 'Main Objective'|t }}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#competencies">{{ 'Competencies'|t }}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#qualification">{{ 'Qualification'|t }}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#subjects">{{ 'Subjects'|t }}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#admission">{{ 'Admission'|t }}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#regulations">{{ 'Regulations'|t }}</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
+<div class="container-fluid">
+	<div class="my-custom-container">
+
+
+		<div class="scrollspy-example" data-bs-spy="scroll" data-bs-target="#degree-navbar" data-bs-root-margin="0px 0px -60%" tabindex="0">
+
+			<div class="row">
+				<div class="col-lg-7 col-md-12 col-sm-12">
+					<div class="degree-section" id="general-information" style="text-align: justify;">
+						<h2>{{ 'Presentation'|t|upper }}</h2>
+						{{ translated_entity.field_presentacion.value|raw }}
+					</div>
+				</div>
+
+				<div class="col-lg-5 col-md-12 mt-4 mt-lg-0">
+					<div class="degree-sidebar bg-light p-3">
+						<h3>{{ 'General Data'|t }}</h3>
+						<div class="row">
+							<div class="col-md-6">
+								<strong>{{ 'Academic Course'|t }}:</strong>
+								{{ translated_entity.field_curso_academico.value }}
+							</div>
+							<div class="col-md-6">
+								<strong>{{ 'Level'|t }}:</strong>
+								{% if current_language == 'es' %}
+									{{ translated_entity.field_nivel.value|capitalize }}
+								{% else %}
+									{{ level_translation[translated_entity.field_nivel.value|capitalize]|default(translated_entity.field_nivel.value)|capitalize }}
+								{% endif %}
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-md-6">
+								<strong>{{ 'ECTS Credits'|t }}:</strong>
+								{{ translated_entity.field_creditos_carrera.value }}
+							</div>
+							<div class="col-md-6">
+								<strong>{{ 'Modality'|t }}:</strong>
+								{% if current_language == 'es' %}
+									{{ translated_entity.field_modalidad.value|capitalize }}
+								{% else %}
+
+									{{ modality_translation[translated_entity.field_modalidad.value|capitalize]|default(translated_entity.field_modalidad.value)|capitalize }}
+								{% endif %}
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-md-12">
+								<strong>{{ 'ISCED-F'|t }}:</strong>
+								{{ translated_entity.field_isced_f.value }}
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-md-12">
+								<strong>{{ 'Qualification Level'|t }}:</strong>
+								{{ translated_entity.field_nivel_de_cualificacion.value }}
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-md-12">
+								<strong>{{ 'Study Modality'|t }}:</strong>
+								{{ translated_entity.field_modalidad_de_estudio.value }}
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-md-12">
+								<strong>{{ 'Professional Practices'|t }}:</strong>
+								{% if current_language == 'es' %}
+									{{ translated_entity.field_practicas_profesionales.value|capitalize }}
+								{% else %}
+									{{ practices_translation[translated_entity.field_practicas_profesionales.value|capitalize]|default(translated_entity.field_practicas_profesionales.value)|capitalize }}
+								{% endif %}
+							</div>
+						</div>
+						<h3 class="mt-4">{{ 'Coordination'|t }}</h3>
+						<p>{{ translated_entity.field_coordinador.value }}</p>
+						<p>
+							<i class="fa fa-phone"></i>
+							{{ translated_entity.field_telefono.value }}
+						</p>
+						<p>
+							<i class="fa fa-envelope"></i>
+							{{ translated_entity.field_email.value }}
+						</p>
+					</div>
+				</div>
+			
+		</div>
+
+		
+
+			<div class="col-lg-7 col-md-12 col-sm-12">
+				<div class="degree-section" id="main-objective" style="text-align: justify;">
+					<h2>{{ 'Main Objective'|t|upper }}</h2>
+					{{ translated_entity.field_objetivo_principal.value|raw }}
+				</div>
+				<div class="degree-section" id="competencies" style="text-align: justify;">
+					<h2>{{ 'Competencies'|t|upper }}</h2>
+					{{ translated_entity.field_competencias.value|raw }}
+				</div>
+				<div class="degree-section" id="qualification" style="text-align: justify;">
+					<h2>{{ 'Qualification'|t|upper }}</h2>
+					{{ translated_entity.field_cualificacion.value|raw }}
+				</div>
+				<div class="degree-section" id="subjects" style="text-align: justify;">
+					<h2>{{ 'Subjects'|t|upper }}</h2>
+					<p>{{ 'The following tables show all the subjects that make up the Study Plan with reference to the 2023-24 academic year'|t }}:</p>
+
+					<div class="custom-btn-group btn-group mb-3" role="group" aria-label="{{ 'Courses'|t }}">
+						{% for course_id, course_name in courses %}
+							<button type="button" class="btn btn-{% if loop.first %}primary{% else %}outline-primary{% endif %} toggle-button" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="{{ loop.first ? 'true' : 'false' }}" aria-controls="course{{ loop.index }}">{{ course_name|t }}</button>
+						{% endfor %}
+						<button id="structure-btn" type="button" class="btn btn-outline-secondary toggle-button" data-bs-toggle="collapse" data-bs-target="#structure" aria-expanded="false" aria-controls="structure">{{ 'Structure'|t }}</button>
+					</div>
+
+					{% for course_id, course_name in courses %}
+						<div id="course{{ loop.index }}" class="collapse {% if loop.first %}show{% endif %}">
+							<h3>{{ course_name|t }}</h3>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>{{ 'Code'|t }}</th>
+										<th>{{ 'Subject'|t }}</th>
+										<th>{{ 'Quarter'|t }}</th>
+										<th>{{ 'ECTS'|t }}</th>
+										<th>{{ 'Type'|t }}</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for row in view.result %}
+										{% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
+
+										{% if subject.hasTranslation(current_language) %}
+											{% set translated_subject = subject.getTranslation(current_language) %}
+										{% else %}
+											{% set translated_subject = subject %}
+										{% endif %}
+										{% if translated_subject.field_curso[0].value == course_id %}
+											<tr>
+												<td>{{ translated_subject.field_codigo[0].value }}</td>
+												<td>
+													<a href="{{ path('entity.node.canonical', {'node': translated_subject.id()}) }}">
+														{{ translated_subject.title.value }}
+													</a>
+												</td>
+												<td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
+												<td>{{ translated_subject.field_creditos[0].value }}</td>
+
+												<td>{{ translated_subject.field_tipo[0].value|capitalize }}</td>
+											</tr>
+										{% endif %}
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					{% endfor %}
+
+					<div id="structure" class="collapse">
+						<h3>{{ 'STRUCTURE AND DISTRIBUTION OF CREDITS'|t }}</h3>
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>{{ 'Course'|t }}</th>
+									<th>{{ 'Nucleo'|t }}</th>
+									<th>{{ 'Obligatorio'|t }}</th>
+									<th>{{ 'Opcional'|t }}</th>
+									<th>{{ 'Practicas externas'|t }}</th>
+									<th>{{ 'Proyecto final'|t }}</th>
+									<th>{{ 'TOTAL'|t }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for course_id, course_name in courses %}
+									{% set total_credits = 0 %}
+									<tr>
+										<td>{{ cuatrimestres_curso[course_id] }}</td>
+										{% for credit_type in credit_types %}
+											<td>{{ credits[course_id][credit_type]|number_format(2, '.', '') }}</td>
+											{% set total_credits = total_credits + credits[course_id][credit_type] %}
+										{% endfor %}
+										<td>{{ total_credits|number_format(2, '.', '') }}</td>
+									</tr>
+								{% endfor %}
+								<tr>
+									<td>{{ 'TOTAL'|t }}</td>
+									{% set grand_total_credits = 0 %}
+									{% for credit_type in credit_types %}
+										{% set type_total = 0 %}
+										{% for course_id in courses %}
+											{% set type_total = type_total + credits[course_id][credit_type] %}
+										{% endfor %}
+										<td>{{ type_total|number_format(2, '.', '') }}</td>
+										{% set grand_total_credits = grand_total_credits + type_total %}
+									{% endfor %}
+									<td>{{ grand_total_credits|number_format(2, '.', '') }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div></div></div></div><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
