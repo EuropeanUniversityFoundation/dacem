@@ -13202,11 +13202,24 @@ code {
 }
 
 
+.university-navbar .navbar-nav{
+  height: 150px !important;
+}
+
+.university-navbar .navbar-brand{
+  padding: 0px !important;
+}
+
+.container-fluid{
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
 .university-menu-links {
   display: flex;
   justify-content: center; /* Centra los enlaces */
   align-items: center;
-  height: 100%; /* Asegura que los enlaces ocupen toda la altura del contenedor */
+  height: 150px; /* Asegura que los enlaces ocupen toda la altura del contenedor */
   list-style: none;
   padding-left: 300px;
   margin: 0;
@@ -13408,15 +13421,6 @@ code {
   max-height: 150px; /* Tamaño grande por defecto para pantallas grandes */
 }
 
-/* Estilos para el logo cuando la pantalla tiene un ancho de hasta 992px */
-@media (max-width: 992px) {
-  .university-navbar .navbar-brand img {
-    max-height: none; /* Tamaño reducido para pantallas medianas */
-    width: 100%;
-    height:auto;
-  }
-}
-
 /* Estilos para el logo y comportamiento del menú en pantallas muy pequeñas o móviles */
 @media (max-width: 768px) {
   .university-navbar .navbar-brand img {
@@ -13424,46 +13428,35 @@ code {
     width: 100%; /* El logo ocupa todo el ancho disponible */
     height: auto; /* Altura relativa para mantener la visibilidad del logo */
   }
-  
-  /* Esconde el menú al colapsar en pantallas pequeñas */
-  .university-navbar .navbar-collapse {
-    display: none;
-  }
-
-  /* Asegura que el botón de colapso esté siempre visible en pantallas pequeñas */
-  .university-navbar .navbar-toggler {
-    display: block;
-  }
-
-  /* Muestra el menú cuando está en estado 'show' */
-  .university-navbar .collapse.show {
-    display: block;
-  }
 }
 
-/* Estilos para los enlaces dentro del navbar */
+/* Estilos para los enlaces dentro del navbar en pantallas grandes */
 .university-navbar .nav-link {
   text-decoration: none; /* Elimina el subrayado de los enlaces */
   color: inherit; /* Hereda el color de texto del elemento padre */
   padding: 10px 15px; /* Padding para aumentar el área clickeable */
   font-weight: bold;
+  height: 100%; /* Asegura que los enlaces ocupen toda la altura del navbar */
+  display: flex;
+  align-items: center; /* Alinea el contenido verticalmente */
 }
 
-.university-navbar .nav-link:hover{
-  background-color: var(--university_primary_color);
-  color: var(--university_emphasis_text_color);
+/* Al hacer hover, el fondo ocupa toda la altura del navbar */
+.university-navbar .nav-link:hover {
+  background-color: var(--university_primary_color); /* Color de fondo al pasar el ratón */
+  color: var(--university_emphasis_text_color); /* Color de texto al pasar el ratón */
+  height: 100%; /* Asegura que el fondo ocupe toda la altura */
 }
 
 /* Estilos para la alineación de los elementos del navbar */
 .university-navbar .navbar-nav {
-  display: flex;
-  justify-content: center; /* Centra los elementos horizontalmente */
-  align-items: center; /* Alinea los elementos verticalmente */
   list-style: none; /* Remueve estilos de lista */
+  height: 100%; /* Hace que el contenedor del menú también ocupe toda la altura */
 }
 
 .university-navbar .nav-item {
   margin: 0 15px; /* Margen entre elementos del menú */
+  height: 100%; /* Asegura que cada nav-item ocupe toda la altura del navbar */
 }
 
 /* Estilos para el interruptor de idiomas */
@@ -13472,6 +13465,7 @@ code {
   align-items: center; /* Alinea verticalmente los enlaces de idioma */
   justify-content: flex-end; /* Alinea los enlaces de idioma a la derecha */
   padding-right: 2%; /* Espacio a la derecha dentro del contenedor */
+  height: 100%; /* Ocupa toda la altura del navbar */
 }
 
 .university-navbar .language-switcher a {
@@ -13479,4 +13473,9 @@ code {
   color: inherit; /* Hereda el color de texto del elemento padre */
   margin-left: 5px; /* Espaciado entre opciones de idioma */
   padding: 10px; /* Aumenta el área clickeable */
+}
+
+.university-navbar {
+  margin-bottom: 0; /* Elimina cualquier margen inferior del navbar */
+  padding-bottom: 0; /* Asegura que no haya padding inferior */
 }

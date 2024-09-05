@@ -75,48 +75,53 @@ class UniversityMenuBlock extends BlockBase {
 
         $build = [
           '#markup' => $this->t('
-            <nav class="navbar navbar-expand-lg university-navbar">
-              <div class="container-fluid">
-                <a class="navbar-brand" href="@university_url">
-                  <img src="@logo_url" alt="@university_name" class="university-logo d-inline-block align-text-top">
-                </a>
-                <!-- Botón de colapso -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#universityNavbar" aria-controls="universityNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <!-- Menú colapsable -->
-                <div class="collapse navbar-collapse" id="universityNavbar">
-                  <ul class="navbar-nav university-menu-links me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                      <a class="nav-link" href="/@university_path/informacion-institucional">' . $this->t('INSTITUTIONAL INFORMATION') . '</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/@university_path/catalogo">' . $this->t('CATALOGUE') . '</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/@university_path/recursos-y-servicios">' . $this->t('RESOURCES AND SERVICES') . '</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/@university_path/vida-universitaria">' . $this->t('UNIVERSITY LIFE') . '</a>
-                    </li>
-                  </ul>
-                  <div class="d-flex">
-                    <a href="@url_es" class="btn btn-outline-secondary me-2">ES</a>
-                    <a href="@url_en_gb" class="btn btn-outline-secondary">EN</a>
+              <nav class="navbar navbar-expand-lg university-navbar">
+                  <div class="container-fluid">
+                      <!-- Logo -->
+                      <a class="navbar-brand" href="@university_url">
+                          <img src="@logo_url" alt="@university_name" class="university-logo d-inline-block align-text-top">
+                      </a>
+                      
+                      <!-- Botón de colapso para móviles -->
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#universityNavbar" aria-controls="universityNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                      </button>
+                      
+                      <!-- Menú colapsable -->
+                      <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
+                          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                              <li class="nav-item">
+                                  <a class="nav-link" href="/@university_path/informacion-institucional">' . $this->t('INSTITUTIONAL INFORMATION') . '</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="/@university_path/catalogo">' . $this->t('CATALOGUE') . '</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="/@university_path/recursos-y-servicios">' . $this->t('RESOURCES AND SERVICES') . '</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="/@university_path/vida-universitaria">' . $this->t('UNIVERSITY LIFE') . '</a>
+                              </li>
+                          </ul>
+      
+                          <!-- Botones de idioma -->
+                          <div class="d-flex ms-lg-2">
+                              <a href="@url_es" class="btn btn-outline-secondary me-2">ES</a>
+                              <a href="@url_en_gb" class="btn btn-outline-secondary">EN</a>
+                          </div>
+                      </div>
                   </div>
-                </div>
-              </div>
-            </nav>',
-            [
-              '@logo_url' => $logo_url,
-              '@university_name' => $university->getTitle(),
-              '@university_path' => $university->toUrl()->getInternalPath(),
-              '@url_es' => $switch_links['es'],
-              '@url_en_gb' => $switch_links['en-gb'],
-              '@university_url' => $university_url,
-            ]),
-        ];
-        
+              </nav>',
+              [
+                  '@logo_url' => $logo_url,
+                  '@university_name' => $university->getTitle(),
+                  '@university_path' => $university->toUrl()->getInternalPath(),
+                  '@url_es' => $switch_links['es'],
+                  '@url_en_gb' => $switch_links['en-gb'],
+                  '@university_url' => $university_url,
+              ]),
+      ];
+      
         
         
         
