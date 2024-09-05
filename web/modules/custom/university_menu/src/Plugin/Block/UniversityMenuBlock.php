@@ -105,7 +105,7 @@ class UniversityMenuBlock extends BlockBase {
                           </ul>
       
                           <!-- Botones de idioma -->
-                          <div class="d-flex ms-lg-2">
+                          <div class="d-flex ms-lg-2 language-buttons">
                               <a href="@url_es" class="btn btn-outline-secondary me-2">ES</a>
                               <a href="@url_en_gb" class="btn btn-outline-secondary">EN</a>
                           </div>

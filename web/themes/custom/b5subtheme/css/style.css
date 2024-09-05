@@ -13202,9 +13202,6 @@ code {
 }
 
 
-.university-navbar .navbar-nav{
-  height: 150px !important;
-}
 
 .university-navbar .navbar-brand{
   padding: 0px !important;
@@ -13414,6 +13411,7 @@ code {
 
 
 
+
 /* Estilos básicos para el logo en el navbar de la universidad en todas las pantallas */
 .university-navbar .navbar-brand img {
   width: auto; /* Mantiene la proporción del logo */
@@ -13421,14 +13419,7 @@ code {
   max-height: 150px; /* Tamaño grande por defecto para pantallas grandes */
 }
 
-/* Estilos para el logo y comportamiento del menú en pantallas muy pequeñas o móviles */
-@media (max-width: 768px) {
-  .university-navbar .navbar-brand img {
-    max-height: none; /* Remueve la restricción de altura máxima */
-    width: 100%; /* El logo ocupa todo el ancho disponible */
-    height: auto; /* Altura relativa para mantener la visibilidad del logo */
-  }
-}
+
 
 /* Estilos para los enlaces dentro del navbar en pantallas grandes */
 .university-navbar .nav-link {
@@ -13451,11 +13442,12 @@ code {
 /* Estilos para la alineación de los elementos del navbar */
 .university-navbar .navbar-nav {
   list-style: none; /* Remueve estilos de lista */
-  height: 100%; /* Hace que el contenedor del menú también ocupe toda la altura */
+  height: 150px ; /* Hace que el contenedor del menú también ocupe toda la altura */
+  
 }
 
 .university-navbar .nav-item {
-  margin: 0 15px; /* Margen entre elementos del menú */
+  margin: 0 0; /* Margen entre elementos del menú */
   height: 100%; /* Asegura que cada nav-item ocupe toda la altura del navbar */
 }
 
@@ -13464,7 +13456,6 @@ code {
   display: flex;
   align-items: center; /* Alinea verticalmente los enlaces de idioma */
   justify-content: flex-end; /* Alinea los enlaces de idioma a la derecha */
-  padding-right: 2%; /* Espacio a la derecha dentro del contenedor */
   height: 100%; /* Ocupa toda la altura del navbar */
 }
 
@@ -13475,7 +13466,31 @@ code {
   padding: 10px; /* Aumenta el área clickeable */
 }
 
-.university-navbar {
-  margin-bottom: 0; /* Elimina cualquier margen inferior del navbar */
-  padding-bottom: 0; /* Asegura que no haya padding inferior */
+
+
+
+.language-buttons{
+  margin-left: 15vw !important;
+  margin-right: 10px;
+  position: relative;
+  transition: all 0.2s ease-in-out; /* Suavizar la transición */
+}
+
+
+/* Estilos para el menú cuando está expandido */
+#universityNavbar .navbar-collapse.show {
+  background-color: #f8f9fa; /* Cambiar el fondo solo cuando está expandido */
+  padding: 15px; /* Ajustar el padding cuando el menú esté expandido */
+}
+
+.university-navbar .navbar-collapse.show .navbar-nav {
+  /* Cambiar el menú a una columna en el estado expandido */
+  align-items: flex-start; /* Alinear los elementos a la izquierda cuando está expandido */
+  height: 100%;
+}
+
+.university-navbar .navbar-collapse.show .language-buttons {
+  padding: 15px; /* Añadir espacio superior entre el menú y los botones de idioma */
+  justify-content: flex-start; /* Alinear los botones de idioma a la izquierda */
+  margin: 0 !important;
 }
