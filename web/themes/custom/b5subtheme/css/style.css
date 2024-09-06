@@ -13290,6 +13290,7 @@ code {
 .search-header h1 {
   font-size: 2rem;
   color: #fff;
+  text-align: center;
 }
 
 .search-header .btn {
@@ -13348,7 +13349,7 @@ code {
   margin-right: 10px;
   flex: 0 0 auto; /* Evitar que los selectores se expandan */
   width: auto; /* Ajustar el ancho automáticamente */
-  max-width: 150px; /* Limitar el ancho máximo */
+  max-width: 60%; /* Limitar el ancho máximo */
 }
 
 .filters .btn-danger {
@@ -13529,4 +13530,38 @@ code {
 
 
 
+/* Ocultar elementos o cambiar el diseño en pantallas pequeñas */
+@media (max-width: 992px) {
+  .search-and-filters {
+    flex-direction: column; /* Coloca todo en formato vertical */
+  }
+
+  .filters {
+    flex-direction: column; /* Cambia los filtros a una columna */
+    align-items: stretch; /* Asegura que ocupen el 100% del ancho */
+  }
+
+  .filters .form-control {
+    margin-bottom: 10px; /* Añade espacio entre los selectores */
+    width: 100%; /* Asegura que los selectores ocupen todo el ancho */
+  }
+
+  .search-bar {
+    flex-direction: column; /* Barra de búsqueda también vertical */
+  }
+
+  .search-bar input {
+    width: 100%; /* El input ocupa todo el ancho */
+    margin-bottom: 0; /* Añade espacio entre el input y el botón */
+  }
+
+  .search-bar button {
+    width: 100%; /* El botón de búsqueda ocupa todo el ancho */
+  }
+
+  .filter-button {
+    width: 100%; /* Los botones de filtros también ocupan todo el ancho */
+    margin-bottom: 10px; /* Espaciado entre los botones */
+  }
+}
 
