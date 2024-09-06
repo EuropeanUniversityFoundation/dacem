@@ -12864,6 +12864,10 @@ code {
 .degree-title{
   color:#000;
   text-transform: uppercase;
+  white-space: nowrap;
+  font-size: clamp(12px, 2vw, 27px); /* Mínimo 16px, adaptable con vw, máximo 24px */
+  color: #fff;
+  padding-left: 12%;
 }
 
  .degree-page .degree-header {
@@ -12881,10 +12885,7 @@ code {
   height: 80px;
 }
 
-.degree-page .degree-title {
-  font-size: 2em;
-  color: #fff;
-}
+
 
 .degree-page .nav-tabs .nav-link {
   color: #333;
@@ -13000,10 +13001,6 @@ code {
   padding-right: 12%; /* Ajusta según tus necesidades */
   margin-top: 50px;
   
-}
-
-.degree-title{
-  padding-left: 12%;
 }
 
 
