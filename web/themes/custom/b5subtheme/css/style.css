@@ -13170,10 +13170,12 @@ code {
   color: white; /* Cambia según sea necesario */
   padding: 10px 0; /* Ajusta el padding según sea necesario */
 }
+
 .subject-title {
   margin: 0;
-  font-size: 1.5em;
   font-weight: bold;
+  white-space: nowrap;
+  font-size: clamp(12px, 2vw, 27px); /* Mínimo 16px, adaptable con vw, máximo 24px */
 }
 
 
@@ -13517,4 +13519,14 @@ code {
   color: white;
   font-weight: bold;
 }
+
+
+
+.degree-section{
+  text-align: left !important;
+}
+
+
+
+
 
