@@ -249,6 +249,56 @@
 					<h2>{{ 'Qualification'|t|upper }}</h2>
 					{{ translated_entity.field_cualificacion.value|raw }}
 				</div>
+
+
+
+
+
+
+				<div class="degree-section" id="structure" style="text-align: justify;">
+						<h2>{{ 'STRUCTURE AND DISTRIBUTION OF CREDITS'|t }}</h2>
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>{{ 'Course'|t }}</th>
+									<th>{{ 'Nucleo'|t }}</th>
+									<th>{{ 'Obligatorio'|t }}</th>
+									<th>{{ 'Opcional'|t }}</th>
+									<th>{{ 'Practicas externas'|t }}</th>
+									<th>{{ 'Proyecto final'|t }}</th>
+									<th>{{ 'TOTAL'|t }}</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for course_id, course_name in courses %}
+									{% set total_credits = 0 %}
+									<tr>
+										<td>{{ cuatrimestres_curso[course_id] }}</td>
+										{% for credit_type in credit_types %}
+											<td>{{ credits[course_id][credit_type]|number_format(2, '.', '') }}</td>
+											{% set total_credits = total_credits + credits[course_id][credit_type] %}
+										{% endfor %}
+										<td>{{ total_credits|number_format(2, '.', '') }}</td>
+									</tr>
+								{% endfor %}
+								<tr>
+									<td>{{ 'TOTAL'|t }}</td>
+									{% set grand_total_credits = 0 %}
+									{% for credit_type in credit_types %}
+										{% set type_total = 0 %}
+										{% for course_id in courses %}
+											{% set type_total = type_total + credits[course_id][credit_type] %}
+										{% endfor %}
+										<td>{{ type_total|number_format(2, '.', '') }}</td>
+										{% set grand_total_credits = grand_total_credits + type_total %}
+									{% endfor %}
+									<td>{{ grand_total_credits|number_format(2, '.', '') }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+
 				<div class="degree-section" id="subjects" style="text-align: justify;">
 					<h2>{{ 'Subjects'|t|upper }}</h2>
 					<p>{{ 'The following tables show all the subjects that make up the Study Plan with reference to the 2023-24 academic year'|t }}:</p>
@@ -257,7 +307,6 @@
 						{% for course_id, course_name in courses %}
 							<button type="button" class="btn btn-{% if loop.first %}primary{% else %}outline-primary{% endif %} toggle-button" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="{{ loop.first ? 'true' : 'false' }}" aria-controls="course{{ loop.index }}">{{ course_name|t }}</button>
 						{% endfor %}
-						<button id="structure-btn" type="button" class="btn btn-outline-secondary toggle-button" data-bs-toggle="collapse" data-bs-target="#structure" aria-expanded="false" aria-controls="structure">{{ 'Structure'|t }}</button>
 					</div>
 
 					{% for course_id, course_name in courses %}
@@ -302,48 +351,7 @@
 						</div>
 					{% endfor %}
 
-					<div id="structure" class="collapse">
-						<h3>{{ 'STRUCTURE AND DISTRIBUTION OF CREDITS'|t }}</h3>
-						<table class="table table-bordered">
-							<thead>
-								<tr>
-									<th>{{ 'Course'|t }}</th>
-									<th>{{ 'Nucleo'|t }}</th>
-									<th>{{ 'Obligatorio'|t }}</th>
-									<th>{{ 'Opcional'|t }}</th>
-									<th>{{ 'Practicas externas'|t }}</th>
-									<th>{{ 'Proyecto final'|t }}</th>
-									<th>{{ 'TOTAL'|t }}</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for course_id, course_name in courses %}
-									{% set total_credits = 0 %}
-									<tr>
-										<td>{{ cuatrimestres_curso[course_id] }}</td>
-										{% for credit_type in credit_types %}
-											<td>{{ credits[course_id][credit_type]|number_format(2, '.', '') }}</td>
-											{% set total_credits = total_credits + credits[course_id][credit_type] %}
-										{% endfor %}
-										<td>{{ total_credits|number_format(2, '.', '') }}</td>
-									</tr>
-								{% endfor %}
-								<tr>
-									<td>{{ 'TOTAL'|t }}</td>
-									{% set grand_total_credits = 0 %}
-									{% for credit_type in credit_types %}
-										{% set type_total = 0 %}
-										{% for course_id in courses %}
-											{% set type_total = type_total + credits[course_id][credit_type] %}
-										{% endfor %}
-										<td>{{ type_total|number_format(2, '.', '') }}</td>
-										{% set grand_total_credits = grand_total_credits + type_total %}
-									{% endfor %}
-									<td>{{ grand_total_credits|number_format(2, '.', '') }}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					
 				</div>
 			</div>
 		</div>
