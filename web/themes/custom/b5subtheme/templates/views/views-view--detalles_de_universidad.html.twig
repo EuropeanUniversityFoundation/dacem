@@ -15,83 +15,9 @@
 {% set university_text_color = university.field_text_color[0].color %}
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
 
-<style>:root
-{
-	--university_primary_color: {{university_primary_color}}
-	;
-	--university_text_color: {{university_text_color}}
-	;
-	--university_emphasis_text_color: {{university_emphasis_text_color}}
-	;
-}</style><div
-class="container-fluid">
-<!-- Menú superior de la universidad -->
-{{ page.university_menu }}
-
-<div class="search-and-filters-container mb-4">
-	<div
-		class="search-and-filters">
-		<!-- Encabezado de búsqueda -->
-		<div class="search-header d-flex align-items-center mb-3">
-			<div class="row">
-				<div class="col-lg-5 col-md-12 col-sm-12">
-					<h1>{{'CATALOGUE'|t}}</h1>
-				</div>
-				<div class="col-lg-3">
-					<div class="d-flex">
-						<button class="btn filter-button me-2 selected" id='titulaciones-button'>{{'DEGREES'|t}}</button>
-						<button class="btn filter-button" id='asignaturas-button'>{{'SUBJECTS'|t}}</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Barra de búsqueda -->
-		<div class="search-bar d-flex mb-3 ">
-			<input type="text" class="form-control lg-mb-3 " id='search-input' placeholder={{'Search for a degree'|t}}>
-			<button class="btn btn-dark search-button ms-0" id='search-button'>
-				<i class="fas fa-search"></i>
-			</button>
-		</div>
-
-		<!-- Filtros -->
-		<div class="row filters d-flex flex-wrap">
-			<button class="btn btn-danger me-2">
-				<i class="fas fa-filter"></i>
-			</button>
-
-      <div class="col-lg-auto col-md-12 col-sm-12">
-			<select class="form-control me-2">
-				<option>{{ 'LEVEL'|t }}</option>
-				<option>{{ 'Bachelor'|t }}</option>
-				<option>{{ 'Master'|t }}</option>
-			</select>
-      </div>
-      <div class="col-lg-auto col-md-12 col-sm-12">
-			<select class="form-control me-2">
-				<option>{{ 'LANGUAGE'|t }}</option>
-				<option>{{ 'Spanish'|t }}</option>
-				<option>{{ 'English'|t }}</option>
-			</select>
-      </div>
-      <div class="col-lg-auto col-md-12 col-sm-12">
-			<select class="form-control">
-				<option>2024</option>
-				<option>2023</option>
-				<option>2022</option>
-			</select>
-      </div>
-		</div>
-	</div>
-</div>
 
 
-<div
-	class="row">
-	<!-- Barra lateral con categorías -->
-	<div class="col-md-3 d-none d-lg-block ">
-		<div class="navbar sidebar-categories ">
-			{% set icon_map = {
+{% set icon_map = {
           'artes_humanidades': 'fas fa-archway',
           'ciencias': 'fas fa-atom',
           'ciencias_de_la_salud': 'fas fa-heartbeat',
@@ -116,6 +42,100 @@ class="container-fluid">
         } %}
 
 			{% set category_labels = current_language == 'es' ? categories_es : categories_en %}
+
+
+
+
+
+<style>:root
+{
+	--university_primary_color: {{university_primary_color}}
+	;
+	--university_text_color: {{university_text_color}}
+	;
+	--university_emphasis_text_color: {{university_emphasis_text_color}}
+	;
+}</style><div
+class="container-fluid">
+<!-- Menú superior de la universidad -->
+{{ page.university_menu }}
+<div class="search-and-filters-container mb-4">
+	<div class="search-and-filters">
+		<!-- Encabezado de búsqueda -->
+		<div class="search-header d-flex align-items-center mb-3">
+			<div class="search-header-row row">
+				<div class="col-lg-5 col-md-12 col-sm-12">
+					<h1>{{'CATALOGUE'|t}}</h1>
+				</div>
+				<div class="col-lg-3">
+					<div class="d-flex">
+						<button class="btn filter-button me-2 selected" id='titulaciones-button'>{{'DEGREES'|t}}</button>
+						<button class="btn filter-button" id='asignaturas-button'>{{'SUBJECTS'|t}}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Barra de búsqueda -->
+		<div class="search-bar d-flex mb-3">
+			<input type="text" class="form-control" id='search-input' placeholder={{'Search for a degree'|t}}>
+			<button class="btn btn-dark search-button ms-0" id='search-button'>
+				<i class="fas fa-search"></i>
+			</button>
+		</div>
+
+		<!-- Filtros -->
+		<div class="row filters d-flex align-items-center flex-wrap">
+			<div class="col-lg-1 col-md-2 col-sm-2">
+				<!-- Botón de filtro (visible solo en pantallas grandes) -->
+				<button class="btn btn-danger d-none d-lg-block w-100">
+					<i class="fas fa-filter"></i>
+				</button>
+			</div>
+
+			<div class="col-lg-2 col-md-12 col-sm-12 d-lg-none">
+				<select class="form-control me-2">
+					<option>{{ 'All'|t }}</option>
+					{% set sorted_keys = grouped_carreras|keys|sort %}
+					{% for area in sorted_keys %}
+						<option>{{ category_labels[area] }}</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			<div class="col-lg-2 col-md-12 col-sm-12">
+				<select class="form-control me-2">
+					<option>{{ 'LEVEL'|t }}</option>
+					<option>{{ 'Bachelor'|t }}</option>
+					<option>{{ 'Master'|t }}</option>
+				</select>
+			</div>
+			<div class="col-lg-2 col-md-12 col-sm-12">
+				<select class="form-control me-2">
+					<option>{{ 'LANGUAGE'|t }}</option>
+					<option>{{ 'Spanish'|t }}</option>
+					<option>{{ 'English'|t }}</option>
+				</select>
+			</div>
+			<div class="col-lg-2 col-md-12 col-sm-12">
+				<select class="form-control">
+					<option>2024</option>
+					<option>2023</option>
+					<option>2022</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div
+	class="row w-100">
+	<!-- Barra lateral con categorías -->
+	<div class="col-md-3 d-none d-lg-block ">
+		<div class="navbar sidebar-categories ">
+			
 
 			<ul class="nav flex-column">
 				{% if grouped_carreras is defined %}
@@ -143,7 +163,7 @@ class="container-fluid">
 	<div
 		class="col-md-9">
 		<!-- Lista de programas o titulaciones -->
-		<div class="program-list">
+		<div class="program-list m-lg-0">
 			{% if grouped_carreras is defined %}
 				{% for area in sorted_keys %}
 					<h2 id="{{ area | clean_id }}">{{ category_labels[area]|upper }}</h2>

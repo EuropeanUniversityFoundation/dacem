@@ -12874,7 +12874,15 @@ code {
   padding: 20px 0;
   width: 100%;
   background-color: var(--university_primary_color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
+
+.container-fluid-degree-band{
+  overflow: auto !important;
+}
+
 
 .degree-page .degree-title-logo {
   display: flex;
@@ -13000,7 +13008,7 @@ code {
   padding-left: 12%; /* Ajusta según tus necesidades */
   padding-right: 12%; /* Ajusta según tus necesidades */
   margin-top: 50px;
-  
+  overflow: auto;
 }
 
 
@@ -13164,7 +13172,7 @@ code {
 .subject-header {
   position: -webkit-sticky; /* Safari */
   position: sticky;
-  top: 60px; /* Ajusta este valor para que no se superponga a .sticky-nav */
+  top: 0; /* Ajusta este valor para que no se superponga a .sticky-nav */
   z-index: 999; /* Un poco menos que .sticky-nav */
   background-color: black; /* Cambia según sea necesario */
   color: white; /* Cambia según sea necesario */
@@ -13271,7 +13279,7 @@ code {
 .search-and-filters-container {
   background: url('../images/fondo-uvigo.jpg') no-repeat center center; /* Ruta a tu imagen */
   background-size: cover; /* Ajusta el tamaño de la imagen para cubrir el cuadro de búsqueda */
-  padding: 20px;
+  padding: 2%;
   border-radius: 0px;
   margin-bottom: 20px;
   position: relative; /* Necesario para que el z-index funcione */
@@ -13293,11 +13301,17 @@ code {
   text-align: center;
 }
 
+/* Para pantallas grandes (lg) y superiores: */
+@media (min-width: 992px) {
+  .search-header h1 {
+    text-align: left; /* Cambia la alineación a la izquierda en pantallas grandes */
+  }
+}
+
 .search-header .btn {
-  font-size: 1rem;
   font-weight: bold;
   text-transform: uppercase;
-  margin-left: 10px;
+  margin-left: 0;
 }
 
 .search-header .btn-dark {
@@ -13348,8 +13362,10 @@ code {
   height: 38px;
   margin-right: 10px;
   flex: 0 0 auto; /* Evitar que los selectores se expandan */
-  width: auto; /* Ajustar el ancho automáticamente */
-  max-width: 60%; /* Limitar el ancho máximo */
+  width: 100%; /* Ajustar el ancho automáticamente */
+  max-width: 100%; /* Limitar el ancho máximo */
+  text-align: center;
+  font-weight: bold;
 }
 
 .filters .btn-danger {
@@ -13377,7 +13393,7 @@ code {
   background-color: var(--university_primary_color);
   color: var(--university_emphasis_text_color);
   border: none;
-  padding: 10px 20px;
+  padding: 3%;
   cursor: pointer;
 }
 
@@ -13391,6 +13407,14 @@ code {
   font-size: 1.3em; /* Ajusta este valor según tus necesidades */
 }
 
+.program-list{
+  margin:8%;
+}
+
+.program-list h2{
+  font-size: clamp(20px, 2vw, 32px); 
+}
+
 .program-list ul {
   list-style: none; /* Eliminar puntos de la lista */
   padding: 0;
@@ -13400,7 +13424,8 @@ code {
 }
 .program-list a {
   text-transform: uppercase; /* Poner en mayúsculas */
-  color: var(--university_primary_color)
+  color: var(--university_primary_color);
+  font-size: clamp(13px, 2vw, 18px); 
 }
 
 
@@ -13522,10 +13547,20 @@ code {
 }
 
 
+p {
+  text-align: justify;
+  hyphens: auto; /* Permitir división automática de palabras */
+  max-width: 600px; /* Ajustar el ancho máximo para mejorar la distribución */
+  word-spacing: 0.05em; /* Ajustar espaciado entre palabras */
+  text-align-last: left; /* Dejar la última línea alineada a la izquierda */
+}
 
-.degree-section{
+
+.degree-section {
   text-align: left !important;
 }
+
+
 
 
 
@@ -13560,8 +13595,23 @@ code {
   }
 
   .filter-button {
-    width: 100%; /* Los botones de filtros también ocupan todo el ancho */
+    width: 100% !important; /* Los botones de filtros también ocupan todo el ancho */
     margin-bottom: 10px; /* Espaciado entre los botones */
   }
 }
+
+
+
+
+.search-header-row{
+  margin: 0 !important;
+  width: 100%;
+}
+
+
+.filter-button{
+  width: 100% !important;
+  font-size: clamp(13px, 2vw, 18px); 
+}
+
 
