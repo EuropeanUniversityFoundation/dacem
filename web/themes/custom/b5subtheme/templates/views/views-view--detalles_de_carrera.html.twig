@@ -231,10 +231,9 @@
 						</p>
 					</div>
 				</div>
-			
-		</div>
 
-		
+			</div>
+
 
 			<div class="col-lg-7 col-md-12 col-sm-12">
 				<div class="degree-section" id="main-objective" style="text-align: justify;">
@@ -251,108 +250,153 @@
 				</div>
 
 
-
-
-
-
 				<div class="degree-section" id="structure" style="text-align: justify;">
-						<h2>{{ 'STRUCTURE AND DISTRIBUTION OF CREDITS'|t }}</h2>
-						<table class="table table-bordered">
-							<thead>
+					<h2>{{ 'STRUCTURE AND DISTRIBUTION OF CREDITS'|t }}</h2>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>{{ 'Course'|t }}</th>
+								<th>{{ 'Nucleo'|t }}</th>
+								<th>{{ 'Obligatorio'|t }}</th>
+								<th>{{ 'Opcional'|t }}</th>
+								<th>{{ 'Practicas externas'|t }}</th>
+								<th>{{ 'Proyecto final'|t }}</th>
+								<th>{{ 'TOTAL'|t }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for course_id, course_name in courses %}
+								{% set total_credits = 0 %}
 								<tr>
-									<th>{{ 'Course'|t }}</th>
-									<th>{{ 'Nucleo'|t }}</th>
-									<th>{{ 'Obligatorio'|t }}</th>
-									<th>{{ 'Opcional'|t }}</th>
-									<th>{{ 'Practicas externas'|t }}</th>
-									<th>{{ 'Proyecto final'|t }}</th>
-									<th>{{ 'TOTAL'|t }}</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for course_id, course_name in courses %}
-									{% set total_credits = 0 %}
-									<tr>
-										<td>{{ cuatrimestres_curso[course_id] }}</td>
-										{% for credit_type in credit_types %}
-											<td>{{ credits[course_id][credit_type]|number_format(2, '.', '') }}</td>
-											{% set total_credits = total_credits + credits[course_id][credit_type] %}
-										{% endfor %}
-										<td>{{ total_credits|number_format(2, '.', '') }}</td>
-									</tr>
-								{% endfor %}
-								<tr>
-									<td>{{ 'TOTAL'|t }}</td>
-									{% set grand_total_credits = 0 %}
+									<td>{{ cuatrimestres_curso[course_id] }}</td>
 									{% for credit_type in credit_types %}
-										{% set type_total = 0 %}
-										{% for course_id in courses %}
-											{% set type_total = type_total + credits[course_id][credit_type] %}
-										{% endfor %}
-										<td>{{ type_total|number_format(2, '.', '') }}</td>
-										{% set grand_total_credits = grand_total_credits + type_total %}
+										<td>{{ credits[course_id][credit_type]|number_format(2, '.', '') }}</td>
+										{% set total_credits = total_credits + credits[course_id][credit_type] %}
 									{% endfor %}
-									<td>{{ grand_total_credits|number_format(2, '.', '') }}</td>
+									<td>{{ total_credits|number_format(2, '.', '') }}</td>
 								</tr>
-							</tbody>
-						</table>
-					</div>
+							{% endfor %}
+							<tr>
+								<td>{{ 'TOTAL'|t }}</td>
+								{% set grand_total_credits = 0 %}
+								{% for credit_type in credit_types %}
+									{% set type_total = 0 %}
+									{% for course_id in courses %}
+										{% set type_total = type_total + credits[course_id][credit_type] %}
+									{% endfor %}
+									<td>{{ type_total|number_format(2, '.', '') }}</td>
+									{% set grand_total_credits = grand_total_credits + type_total %}
+								{% endfor %}
+								<td>{{ grand_total_credits|number_format(2, '.', '') }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 
 
 				<div class="degree-section" id="subjects" style="text-align: justify;">
 					<h2>{{ 'Subjects'|t|upper }}</h2>
 					<p>{{ 'The following tables show all the subjects that make up the Study Plan with reference to the 2023-24 academic year'|t }}:</p>
 
+					<!-- Contenedor de los botones de los cursos -->
 					<div class="custom-btn-group btn-group mb-3" role="group" aria-label="{{ 'Courses'|t }}">
 						{% for course_id, course_name in courses %}
-							<button type="button" class="btn btn-{% if loop.first %}primary{% else %}outline-primary{% endif %} toggle-button btn-subjects-dropdown" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="{{ loop.first ? 'true' : 'false' }}" aria-controls="course{{ loop.index }}">{{ course_name|t }}</button>
+							<button type="button" class="btn btn-{% if loop.first %}primary{% else %}outline-primary{% endif %} toggle-button btn-subjects-dropdown" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="false" aria-controls="course{{ loop.index }}">
+								{{ course_name|t }}
+							</button>
+
+
+							<div class="courses-container d-block d-sm-block d-md-none d-lg-none">
+
+								<div id="course{{ loop.index }}" class="collapse">
+									<h3>{{ course_name|t }}</h3>
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th>{{ 'Code'|t }}</th>
+												<th>{{ 'Subject'|t }}</th>
+												<th>{{ 'Quarter'|t }}</th>
+												<th>{{ 'ECTS'|t }}</th>
+												<th>{{ 'Type'|t }}</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for row in view.result %}
+												{% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
+												{% if subject.hasTranslation(current_language) %}
+													{% set translated_subject = subject.getTranslation(current_language) %}
+												{% else %}
+													{% set translated_subject = subject %}
+												{% endif %}
+												{% if translated_subject.field_curso[0].value == course_id %}
+													<tr>
+														<td>{{ translated_subject.field_codigo[0].value }}</td>
+														<td>
+															<a href="{{ path('entity.node.canonical', {'node': translated_subject.id()}) }}">
+																{{ translated_subject.title.value }}
+															</a>
+														</td>
+														<td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
+														<td>{{ translated_subject.field_creditos[0].value }}</td>
+														<td>{{ translated_subject.field_tipo[0].value|t|capitalize }}</td>
+													</tr>
+												{% endif %}
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+
+
 						{% endfor %}
 					</div>
 
-					{% for course_id, course_name in courses %}
-						<div id="course{{ loop.index }}" class="collapse {% if loop.first %}show{% endif %}">
-							<h3>{{ course_name|t }}</h3>
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th>{{ 'Code'|t }}</th>
-										<th>{{ 'Subject'|t }}</th>
-										<th>{{ 'Quarter'|t }}</th>
-										<th>{{ 'ECTS'|t }}</th>
-										<th>{{ 'Type'|t }}</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for row in view.result %}
-										{% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
-
-										{% if subject.hasTranslation(current_language) %}
-											{% set translated_subject = subject.getTranslation(current_language) %}
-										{% else %}
-											{% set translated_subject = subject %}
-										{% endif %}
-										{% if translated_subject.field_curso[0].value == course_id %}
-											<tr>
-												<td>{{ translated_subject.field_codigo[0].value }}</td>
-												<td>
-													<a href="{{ path('entity.node.canonical', {'node': translated_subject.id()}) }}">
-														{{ translated_subject.title.value }}
-													</a>
-												</td>
-												<td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
-												<td>{{ translated_subject.field_creditos[0].value }}</td>
-
-												<td>{{ translated_subject.field_tipo[0].value|t|capitalize }}</td>
-											</tr>
-										{% endif %}
-									{% endfor %}
-								</tbody>
-							</table>
-						</div>
-					{% endfor %}
-
-					
+					<!-- Contenedor de las tablas colapsables, siempre debajo de los botones -->
+					<div class="courses-container d-none d-md-block d-lg-block">
+						{% for course_id, course_name in courses %}
+							<div id="course{{ loop.index }}" class="collapse">
+								<h3>{{ course_name|t }}</h3>
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>{{ 'Code'|t }}</th>
+											<th>{{ 'Subject'|t }}</th>
+											<th>{{ 'Quarter'|t }}</th>
+											<th>{{ 'ECTS'|t }}</th>
+											<th>{{ 'Type'|t }}</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for row in view.result %}
+											{% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
+											{% if subject.hasTranslation(current_language) %}
+												{% set translated_subject = subject.getTranslation(current_language) %}
+											{% else %}
+												{% set translated_subject = subject %}
+											{% endif %}
+											{% if translated_subject.field_curso[0].value == course_id %}
+												<tr>
+													<td>{{ translated_subject.field_codigo[0].value }}</td>
+													<td>
+														<a href="{{ path('entity.node.canonical', {'node': translated_subject.id()}) }}">
+															{{ translated_subject.title.value }}
+														</a>
+													</td>
+													<td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
+													<td>{{ translated_subject.field_creditos[0].value }}</td>
+													<td>{{ translated_subject.field_tipo[0].value|t|capitalize }}</td>
+												</tr>
+											{% endif %}
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						{% endfor %}
+					</div>
 				</div>
+
+
 			</div>
 		</div>
 	</div>

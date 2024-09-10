@@ -13618,3 +13618,58 @@ p {
   font-size: clamp(13px, 2vw, 18px); 
 }
 
+
+
+
+
+
+
+
+
+
+/* General Styles for Buttons and Button Group */
+.btn-group {
+  display: flex;
+  flex-wrap: nowrap; /* Permitir que los botones se reorganicen en pantallas pequeñas */
+  justify-content: center; /* Alinear los botones en el centro */
+  gap: 10px; /* Espacio entre los botones */
+}
+
+/* Para pantallas móviles */
+@media (max-width: 768px) {
+  .btn-group {
+    flex-direction: column; /* Los botones se apilan verticalmente en pantallas pequeñas */
+    width: 100%;
+  }
+
+  .btn-subjects-dropdown {
+    width: 100%; /* Los botones ocuparán el ancho completo del contenedor en pantallas pequeñas */
+    margin-bottom: 10px; /* Espacio entre los botones en la parte inferior */
+  }
+
+  .courses-container .collapse {
+    margin-top: 10px; /* Añadir un pequeño margen para separar el botón del contenido */
+  }
+}
+
+/* Para pantallas grandes */
+@media (min-width: 768px) {
+  .btn-group {
+    flex-direction: row; /* Los botones se alinean en una fila en pantallas grandes */
+    justify-content: center; /* Centrar los botones */
+    flex-wrap: nowrap;
+  }
+
+  .btn-subjects-dropdown {
+    width: auto; /* Los botones recuperan su tamaño natural en pantallas grandes */
+  }
+
+  .courses-container {
+    margin-top: 20px; /* Las asignaturas aparecerán debajo de la línea de botones */
+  }
+
+  .courses-container .collapse {
+    width: 100%; /* Las tablas colapsables ocupan el ancho completo en pantallas grandes */
+    margin-top: 20px;
+  }
+}
