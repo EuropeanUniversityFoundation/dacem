@@ -12865,9 +12865,11 @@ code {
   color:#000;
   text-transform: uppercase;
   white-space: nowrap;
-  font-size: clamp(12px, 2vw, 27px); /* Mínimo 16px, adaptable con vw, máximo 24px */
+  font-size: clamp(10px, 2vw, 27px); /* Mínimo 16px, adaptable con vw, máximo 24px */
   color: #fff;
   padding-left: 12%;
+  padding-right: 12%;
+  font-weight: 1000;
 }
 
  .degree-page .degree-header {
@@ -12881,6 +12883,7 @@ code {
 
 .container-fluid-degree-band{
   overflow: auto !important;
+  width: 100% !important;
 }
 
 
@@ -13533,6 +13536,7 @@ code {
   background-color: #000;
   border-radius: 0;
   font-weight: bold;
+  margin: 0! important;
 }
 
 .button-menu-degree:hover{
@@ -13613,5 +13617,4 @@ p {
   width: 100% !important;
   font-size: clamp(13px, 2vw, 18px); 
 }
-
 
