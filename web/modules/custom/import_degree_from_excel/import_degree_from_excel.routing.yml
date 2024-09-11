@@ -1,0 +1,7 @@
+importar_datos.form:
+  path: '/admin/import-degree-from-excel'
+  defaults:
+    _form: '\Drupal\import_degree_from_excel\Form\ImportDegreeForm'
+    _title: 'Importar Datos desde Excel'
+  requirements:
+    _permission: 'administer site configuration'
