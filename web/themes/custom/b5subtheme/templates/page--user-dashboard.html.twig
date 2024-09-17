@@ -1,0 +1,17 @@
+{# page--user-dashboard.html.twig #}
+
+<h1>Bienvenido a tu panel de control</h1>
+
+
+
+
+<div class="user-dashboard-content">
+  {# Renderiza la vista que muestra las entidades relacionadas con el usuario #}
+  {{ drupal_view('user_dashboard', 'default') }}
+  {{dump(drupal_view('user_dashboard', 'default'))}}
+</div>
+
+<div class="actions">
+  <a href="{{ path('<front>') }}" class="btn btn-primary">{{ 'Ir a la página principal'|t }}</a>
+  <a href="{{ path('user.logout') }}" class="btn btn-danger">{{ 'Cerrar sesión'|t }}</a>
+</div>
