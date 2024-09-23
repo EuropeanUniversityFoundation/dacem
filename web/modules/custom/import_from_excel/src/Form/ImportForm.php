@@ -23,26 +23,81 @@ class ImportForm extends FormBase
    */
   public function buildForm(array $form, FormStateInterface $form_state)
   {
-
     $current_user = \Drupal::currentUser();
     $username = $current_user->getDisplayName();
     \Drupal::messenger()->addMessage('El usuario actual es: ' . $username);
 
+    // Obtener el ID del usuario actual
+    $uid = $current_user->id();
+
+    // Inicializar array de opciones vacío.
+    $options = [];
+
+    // Cargar las membresías del usuario en los grupos
+    $group_memberships = \Drupal::service('group.membership_loader')->loadByUser($current_user);
+
+    if ($current_user->hasRole('administrator')) {
+      // Si es administrador global, mostrar todas las opciones.
+      $options['universidades'] = $this->t('Universidades');
+      $options['carreras'] = $this->t('Carreras');
+      $options['asignaturas'] = $this->t('Asignaturas');
+    } else {
+
+
+      // Verificar los roles dentro de los grupos.
+      foreach ($group_memberships as $membership) {
+        $roles = $membership->getRoles();
+
+        //\Drupal::messenger()->addMessage('Roles: ' . print_r($roles, TRUE));
+
+        // Imprimir los roles del usuario
+        foreach ($roles as $role) {
+          // Obtener el ID del rol
+          $role_label = $role->label();
+          //\Drupal::messenger()->addMessage('Role label: ' . $role_label);
+
+          // Si el usuario tiene el rol de "University Admin", mostrar universidades.
+          if ($role_label == 'University Admin') {
+              $options['universidades'] = $this->t('Universidades');
+              $options['carreras'] = $this->t('Carreras');
+              $options['asignaturas'] = $this->t('Asignaturas');
+          }
+
+          // Si el usuario tiene el rol de "Degree Admin", mostrar carreras.
+          if ($role_label == 'Degree Admin') {
+              $options['carreras'] = $this->t('Carreras');
+              $options['asignaturas'] = $this->t('Asignaturas');
+          }
+
+          // Si el usuario tiene el rol de "Subject Admin", mostrar asignaturas.
+          if ($role_label == 'Subject Admin') {
+              $options['asignaturas'] = $this->t('Asignaturas');
+          }
+      }
+      }
+    }
+
+    // Si no tiene roles asignados en los grupos, mostrará el mensaje de falta de permisos.
+    if (empty($options)) {
+      \Drupal::messenger()->addMessage($this->t('No tienes permisos para realizar ninguna importación.'), 'error');
+    }
+
+    // Definir el campo seleccionable con las opciones basadas en los roles.
     $form['import_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Selecciona el tipo de importación'),
-      '#options' => [
-        'carreras' => $this->t('Carreras'),
-        'asignaturas' => $this->t('Asignaturas'),
-      ],
+      '#options' => $options,
+      '#required' => TRUE,
     ];
 
+    // Definir el campo para subir el archivo Excel.
     $form['asignaturas_ingenieria_software'] = [
       '#type' => 'file',
       '#title' => $this->t('Sube el archivo Excel'),
       '#required' => TRUE,
     ];
 
+    // Definir el botón de submit.
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Importar'),
@@ -50,6 +105,7 @@ class ImportForm extends FormBase
 
     return $form;
   }
+
 
 
 
@@ -324,7 +380,7 @@ class ImportForm extends FormBase
       '2º' => '2o',
       '3º' => '3o',
       '4º' => '4o',
-      
+
     ];
 
     // Iterar sobre las filas del Excel para extraer data.
@@ -366,11 +422,11 @@ class ImportForm extends FormBase
         $planned_activities = $data[15];
         $recommedatios = $data[16];
         $type = strtolower($data[17]); // Campo de lista de texto.
-        
+
 
         // Validar campos de lista de texto.
         if (!isset($valid_courses_quarters[$course]) && !isset($valid_courses_quarters[$quarter])) {
-          \Drupal::messenger()->addError($this->t('El curso @curso o el cuatrimestre @cuatrimestre no son válidos.', ['@curso' => $course, 'cuatrimestre'=>$quarter]));
+          \Drupal::messenger()->addError($this->t('El curso @curso o el cuatrimestre @cuatrimestre no son válidos.', ['@curso' => $course, 'cuatrimestre' => $quarter]));
           continue;
         }
 
