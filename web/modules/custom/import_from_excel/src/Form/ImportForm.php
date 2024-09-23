@@ -23,6 +23,11 @@ class ImportForm extends FormBase
    */
   public function buildForm(array $form, FormStateInterface $form_state)
   {
+
+    $current_user = \Drupal::currentUser();
+    $username = $current_user->getDisplayName();
+    \Drupal::messenger()->addMessage('El usuario actual es: ' . $username);
+
     $form['import_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Selecciona el tipo de importación'),
