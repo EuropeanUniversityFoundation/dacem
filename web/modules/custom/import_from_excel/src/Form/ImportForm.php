@@ -7,6 +7,11 @@ use Drupal\Core\Form\FormStateInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Drupal\node\Entity\Node;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\import_from_excel\Service\DegreeImport;
+use Drupal\import_from_excel\Service\SubjectImport;
+use Drupal\import_from_excel\Service\UniversityImport;
+
 class ImportForm extends FormBase
 {
 
@@ -17,6 +22,25 @@ class ImportForm extends FormBase
   {
     return 'importar_carrera_form';
   }
+
+  protected $universityImport;
+  protected $degreeImport;
+  protected $subjectImport;
+
+  public function __construct(UniversityImport $university_import, DegreeImport $degree_import, SubjectImport $subject_import) {
+    $this->universityImport = $university_import;
+    $this->degreeImport = $degree_import;
+    $this->subjectImport = $subject_import;
+  }
+
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('import_from_excel.university_import'),
+      $container->get('import_from_excel.degree_import'),
+      $container->get('import_from_excel.subject_import')
+    );
+  }
+
 
   /**
    * {@inheritdoc}
@@ -108,9 +132,7 @@ class ImportForm extends FormBase
 
 
 
-
-  public function submitForm(array &$form, FormStateInterface $form_state)
-  {
+  public function submitForm(array &$form, FormStateInterface $form_state) {
     // Obtener el archivo subido.
     $file = file_save_upload('asignaturas_ingenieria_software', [
       'file_validate_extensions' => ['xls xlsx'],
@@ -123,44 +145,67 @@ class ImportForm extends FormBase
         $file = reset($file);
       }
 
-      // Asegurarnos de que el archivo es un objeto antes de llamar a setPermanent().
+      // Asegurarse de que el archivo es un objeto antes de llamarlo.
       if ($file instanceof \Drupal\file\FileInterface) {
-        // Verificar la ruta del archivo y el tipo MIME.
+        // Verificar el tipo MIME.
         $mime = mime_content_type($file->getFileUri());
-        \Drupal::messenger()->addMessage($this->t('Tipo MIME del archivo: @mime', ['@mime' => $mime]));
-
-        // Asegurarnos de que sea un archivo Excel.
         if (!in_array($mime, ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])) {
           \Drupal::messenger()->addError($this->t('Error: El archivo no es un archivo Excel válido.'));
           return;
         }
 
-        // Mover el archivo a una ubicación permanente.
-        $file->setPermanent();
-        $file->save();
+        // Procesar el archivo Excel.
+        $this->processExcel($file->getFileUri());
 
-
-
-        $import_type = $form_state->getValue('import_type');
-
-        if ($file) {
-          // Si es "Carreras", llamar a procesarExcel para carreras.
-          if ($import_type == 'carreras') {
-            $this->processDegreeExcel($file->getFileUri());
-          }
-          // Si es "Asignaturas", llamar a procesarExcel para asignaturas.
-          else if ($import_type == 'asignaturas') {
-            $this->processSubjectsExcel($file->getFileUri());
-          }
-        } else {
-          \Drupal::messenger()->addError($this->t('Error: No se pudo subir el archivo correctamente.'));
-        }
       } else {
-        \Drupal::messenger()->addError($this->t('Error: No se seleccionó ningún archivo o el archivo no es válido.'));
+        \Drupal::messenger()->addError($this->t('Error: No se pudo subir el archivo correctamente.'));
       }
+    } else {
+      \Drupal::messenger()->addError($this->t('Error: No se seleccionó ningún archivo o el archivo no es válido.'));
     }
   }
 
+
+  protected function processExcel($file_path) {
+    // Convertir la ruta de Drupal a una ruta de archivo real.
+    $real_file_path = \Drupal::service('file_system')->realpath($file_path);
+
+    if (!file_exists($real_file_path)) {
+      \Drupal::messenger()->addError($this->t('El archivo no existe en la ruta: @ruta', ['@ruta' => $real_file_path]));
+      return;
+    }
+
+    try {
+      // Cargar el archivo Excel.
+      $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($real_file_path);
+    } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+      \Drupal::messenger()->addError($this->t('Error al cargar el archivo Excel: @message', ['@message' => $e->getMessage()]));
+      return;
+    }
+
+    // Procesar las hojas del Excel.
+    foreach ($spreadsheet->getSheetNames() as $sheetName) {
+      $sheet = $spreadsheet->getSheetByName($sheetName);
+      $rows = $sheet->toArray();
+
+      // Si la hoja está vacía, saltar esta hoja.
+      if (empty(array_filter($rows))) {
+        \Drupal::messenger()->addMessage($this->t('La hoja "@sheet" está vacía y no se procesará.', ['@sheet' => $sheetName]));
+        continue;
+      }
+
+      // Procesar la hoja según su nombre.
+      if ($sheetName == 'Degrees') {
+        $this->degreeImport->process($rows);
+      } elseif ($sheetName == 'Subjects') {
+        $this->subjectImport->process($rows);
+      } elseif ($sheetName == 'Universities') {
+        $this->universityImport->process($rows);
+      } else {
+        \Drupal::messenger()->addMessage($this->t('Hoja desconocida "@sheet", no se procesará.', ['@sheet' => $sheetName]));
+      }
+    }
+  }
 
 
   protected function getUniversityByName($university_name)
