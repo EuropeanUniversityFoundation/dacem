@@ -2,8 +2,8 @@ services:
   import_from_excel.university_import:
     class: Drupal\import_from_excel\Service\UniversityImport
 
-  import_from_excel.career_import:
-    class: Drupal\import_from_excel\Service\CareerImport
+  import_from_excel.degree_import:
+    class: Drupal\import_from_excel\Service\DegreeImport
 
   import_from_excel.subject_import:
     class: Drupal\import_from_excel\Service\SubjectImport

@@ -13,6 +13,7 @@ class DegreeImport
         'Ciencias de la salud' => 'ciencias_de_la_salud',
         'Ciencias sociales y jurídicas' => 'ciencias_sociales_y_juridicas',
         'Ingeniería y Arquitectura' => 'ingenieria_y_arquitectura',
+        
     ];
 
 
@@ -43,29 +44,65 @@ class DegreeImport
 
 
 
+  protected function getDegreeByName($degree_name, $university_id)
+  {
+
+    // Crear una consulta para buscar la universidad por su nombre (título).
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'carrera')  // Asumiendo que el tipo de nodo es "carrera".
+      ->condition('field_universidad', value: $university_id) // Buscar por universidad.
+      ->condition('title', $degree_name)  // Buscar por título.
+      ->accessCheck(FALSE)  // No verificar permisos de acceso.
+      ->range(0, 1);  // Limitar la búsqueda a un resultado.
+
+    $nids = $query->execute();  // Ejecutar la consulta.
+    // Si encontramos la universidad, devolver su ID.
+    if (!empty($nids)) {
+      $nid = reset($nids);
+      return \Drupal\node\Entity\Node::load($nid);  // Devolver el nodo de la universidad.
+    }
+
+    // Si no se encuentra la universidad, devolver NULL.
+    return NULL;
+  }
+
+
+
 
     public function process($worksheet)
     {
+        $header = [];  // Inicializar el array de encabezados.
+
         foreach ($worksheet->getRowIterator() as $rowIndex => $row) {
             // Saltar la primera fila (encabezados).
             if ($rowIndex == 1) {
-              $cellIterator = $row->getCellIterator();
-              $cellIterator->setIterateOnlyExistingCells(FALSE);
-              foreach ($cellIterator as $cell) {
-                $header[] = $cell->getValue(); // Almacenar los encabezados.
-              }
-              continue; // Saltar a la siguiente fila.
+                $cellIterator = $row->getCellIterator();
+                $cellIterator->setIterateOnlyExistingCells(FALSE);
+                foreach ($cellIterator as $cell) {
+                    $header[] = $cell->getValue(); // Almacenar los encabezados.
+                }
+                continue; // Saltar a la siguiente fila.
             }
-          
+
             $cellIterator = $row->getCellIterator();
             $cellIterator->setIterateOnlyExistingCells(FALSE);
             $data = [];
-          
-            foreach ($cellIterator as $cellIndex => $cell) {
-              $headerValue = $header[$cellIndex]; // Obtener el nombre de la columna.
-              $data[$headerValue] = $cell->getValue(); // Asignar el valor a la clave correspondiente.
+
+            $headerCount = 0; // Contador para coincidir con las columnas del encabezado.
+
+            foreach ($cellIterator as $cell) {
+                if (isset($header[$headerCount])) {
+                    $headerValue = $header[$headerCount]; // Obtener el nombre de la columna.
+                    $data[$headerValue] = $cell->getValue(); // Asignar el valor a la clave correspondiente.
+                }
+                $headerCount++;
             }
-          
+
+            // Comprobar si los encabezados esperados están presentes en la fila.
+            if (!isset($data['University'])) {
+                \Drupal::messenger()->addError(t('La fila no contiene los datos requeridos.'));
+                continue;
+            }
 
 
             try {
@@ -92,11 +129,13 @@ class DegreeImport
                 $qualification = $data['Qualification'];
 
                 // Validar campos de lista de texto.
+
+                /*
                 if (!isset(self::VALID_AREAS[$area])) {
                     \Drupal::messenger()->addError(\Drupal::translation()->translate('El área @area no es válida.', ['@area' => $area]));
                     continue;
                 }
-
+                */
                 /*
         
                 if (!isset($valid_modalitys[$modality])) {
@@ -115,17 +154,42 @@ class DegreeImport
                 */
 
                 $university = $this->getUniversityByName($university_name);
+                $degree = $this->getDegreeByName($degree_name, $university->id());
+
+                if ($degree) {
+
+                    $degree->set('field_presentacion', $presentation);
+                    $degree->set('field_objetivo_principal', $main_objective);
+                    $degree->set('field_competencias', $competencies);
+                    $degree->set('field_creditos_carrera', $credits);
+                    $degree->set('field_nivel', strtolower($level));  // Validado
+                    $degree->set('field_modalidad', strtolower($modality));  // Validado
+                    $degree->set('field_nivel_de_cualificacion', $qualification_level);
+                    $degree->set('field_modalidad_de_estudio', $study_modality);
+                    $degree->set('field_practicas_profesionales', strtolower($external_internships));
+                    $degree->set('field_isced_f', $isced_f);
+                    $degree->set('field_curso_academico', $academic_course);
+                    $degree->set('field_coordinador', $coordinator);
+                    $degree->set('field_telefono', $phone);
+                    $degree->set('field_email', $email);
+                    $degree->set('field_area', self::VALID_AREAS[$area]);
+                    $degree->set('field_cualificacion', $qualification);
+
+                    // Guardar los cambios.
+                    $degree->save();
+                    \Drupal::messenger()->addMessage('Degree actualizada con éxito.');
+
+                }else {
 
                 // Crear la entidad "Carrera" (suponiendo que es de tipo "node").
                 $node = Node::create([
                     'type' => 'carrera',
                     'title' => $degree_name,
                     'field_universidad' => ['target_id' => $university->id()],  // Referencia a la universidad.
-                    'field_idioma' => $language,
                     'field_presentacion' => $presentation,
                     'field_objetivo_principal' => $main_objective,
                     'field_competencias' => $competencies,
-                    'field_creditos' => $credits,
+                    'field_creditos_carrera' => $credits,
                     'field_nivel' => strtolower($level),  // Validado
                     'field_modalidad' => strtolower($modality),  // Validado
                     'field_nivel_de_cualificacion' => $qualification_level,
@@ -143,8 +207,12 @@ class DegreeImport
 
                 // Guardar el nodo en la base de datos.
                 $node->save();
+
+                }
+
+                
             } catch (\Exception $e) {
-                \Drupal::messenger()->addError(\Drupal::translation()->translate('Error al procesar la fila'));
+                \Drupal::messenger()->addError(\Drupal::translation()->translate('Error al procesar la fila, error: @e',['@e' => $e]));
                 continue;  // Continuar con la siguiente fila en caso de error
             }
         }

@@ -66,9 +66,33 @@ class SubjectImport
     return NULL;
   }
 
+  protected function getSubjectByName($subject_name, $degree_id)
+  {
+
+    // Crear una consulta para buscar la universidad por su nombre (título).
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'asignatura')
+      ->condition('field_carrera', value: $degree_id)
+      ->condition('title', $subject_name)  // Buscar por título.
+      ->accessCheck(FALSE)  // No verificar permisos de acceso.
+      ->range(0, 1);  // Limitar la búsqueda a un resultado.
+
+    $nids = $query->execute();  // Ejecutar la consulta.
+    // Si encontramos la asignatura, devolver su ID.
+    if (!empty($nids)) {
+      $nid = reset($nids);
+      return \Drupal\node\Entity\Node::load($nid);  // Devolver el nodo de la asignatura.
+    }
+
+    // Si no se encuentra la asignatura, devolver NULL.
+    return NULL;
+  }
+
 
   public function process($worksheet)
   {
+
+    $header = [];  // Inicializar el array de encabezados.
 
     foreach ($worksheet->getRowIterator() as $rowIndex => $row) {
       // Saltar la primera fila (encabezados).
@@ -80,15 +104,27 @@ class SubjectImport
         }
         continue; // Saltar a la siguiente fila.
       }
-    
+
       $cellIterator = $row->getCellIterator();
       $cellIterator->setIterateOnlyExistingCells(FALSE);
       $data = [];
-    
-      foreach ($cellIterator as $cellIndex => $cell) {
-        $headerValue = $header[$cellIndex]; // Obtener el nombre de la columna.
-        $data[$headerValue] = $cell->getValue(); // Asignar el valor a la clave correspondiente.
+
+      $headerCount = 0; // Contador para coincidir con las columnas del encabezado.
+
+      foreach ($cellIterator as $cell) {
+        if (isset($header[$headerCount])) {
+          $headerValue = $header[$headerCount]; // Obtener el nombre de la columna.
+          $data[$headerValue] = $cell->getValue(); // Asignar el valor a la clave correspondiente.
+        }
+        $headerCount++;
       }
+
+      // Comprobar si los encabezados esperados están presentes en la fila.
+      if (!isset($data['University'])) {
+        \Drupal::messenger()->addError(t('La fila no contiene los datos requeridos.'));
+        continue;
+      }
+
 
       try {
 
@@ -112,7 +148,7 @@ class SubjectImport
         $learning_outcomes = $data['Subject Learning Outcomes'];
         $modality = $data['Subject Modality'];
         $planned_activities = $data['Subject Planned Activities'];
-        $recommedatios = $data['Subject Recommendations'];
+        $recommendations = $data['Subject Recommendations'];
         $type = strtolower($data['Type']); // Campo de lista de texto.
 
 
@@ -121,7 +157,7 @@ class SubjectImport
           \Drupal::messenger()->addError(\Drupal::translation()->translate('El curso @curso o el cuatrimestre @cuatrimestre no son válidos.', ['@curso' => $course, 'cuatrimestre' => $quarter]));
           continue;
         }
-        
+
         /*
   
         if (!isset($valid_modalitys[$modality])) {
@@ -141,32 +177,60 @@ class SubjectImport
 
         $university = $this->getUniversityByName($university_name);
         $degree = $this->getDegreeByName($degree_name, $university->id());
+        $subject = $this->getSubjectByName($subject_name, $degree->id());
 
-        // Crear la entidad "Carrera" (suponiendo que es de tipo "node").
-        $node = Node::create([
-          'type' => 'asignatura',
-          'title' => $subject_name,
-          'field_carrera' => ['target_id' => $degree->id()],  // Referencia a la universidad.
-          'field_creditos' => $credits,
-          'field_cuatrimestre' => self::VALIDAD_COURSES_QUARTERS[$quarter],
-          'field_curso' => self::VALIDAD_COURSES_QUARTERS[$course],
-          'field_codigo' => $code,
-          'field_requirements' => $requirements,
-          'field_subject_contents' => $contents,
-          'field_subject_evaluation' => $evaluation,  // Validado
-          'field_subject_instructors' => $instructors,  // Validado
-          'field_subject_introduction' => $introduction,
-          'field_subject_language' => $language,
-          'field_subject_learning_outcomes' => $learning_outcomes,  // Validado
-          'field_subject_modality' => $modality,
-          'field_subject_planned_activities' => $planned_activities,
-          'field_subject_recommendations' => $recommedatios,
-          'field_tipo' => $type,
-          'status' => 1,  // Publicado
-        ]);
 
-        // Guardar el nodo en la base de datos.
-        $node->save();
+        if ($subject) {
+
+          
+          $subject->set('field_creditos', $credits);
+          $subject->set('field_cuatrimestre', self::VALIDAD_COURSES_QUARTERS[$quarter]);
+          $subject->set('field_curso', self::VALIDAD_COURSES_QUARTERS[$course]);
+          $subject->set('field_codigo', $code);
+          $subject->set('field_requirements', $requirements);  // Validado
+          $subject->set('field_subject_contents', $contents);  // Validado
+          $subject->set('field_subject_evaluation', $evaluation);
+          $subject->set('field_subject_instructors', $instructors);
+          $subject->set('field_subject_introduction', $introduction);
+          $subject->set('field_subject_language', $language);
+          $subject->set('field_subject_learning_outcomes', $learning_outcomes);
+          $subject->set('field_subject_modality', $modality);
+          $subject->set('field_subject_planned_activities', $planned_activities);
+          $subject->set('field_subject_recommendations', $recommendations);
+          $subject->set('field_tipo', $type);
+
+          
+        } else {
+          // Crear la entidad "Aignatura" (suponiendo que es de tipo "node").
+          $node = Node::create(values: [
+            'type' => 'asignatura',
+            'title' => $subject_name,
+            'field_carrera' => ['target_id' => $degree->id()],  // Referencia a la carrera.
+            'field_creditos' => $credits,
+            'field_cuatrimestre' => self::VALIDAD_COURSES_QUARTERS[$quarter],
+            'field_curso' => self::VALIDAD_COURSES_QUARTERS[$course],
+            'field_codigo' => $code,
+            'field_requirements' => $requirements,
+            'field_subject_contents' => $contents,
+            'field_subject_evaluation' => $evaluation,  // Validado
+            'field_subject_instructors' => $instructors,  // Validado
+            'field_subject_introduction' => $introduction,
+            'field_subject_language' => $language,
+            'field_subject_learning_outcomes' => $learning_outcomes,  // Validado
+            'field_subject_modality' => $modality,
+            'field_subject_planned_activities' => $planned_activities,
+            'field_subject_recommendations' => $recommendations,
+            'field_tipo' => $type,
+            'status' => 1,  // Publicado
+          ]);
+
+          // Guardar el nodo en la base de datos.
+          $node->save();
+
+        }
+
+
+
       } catch (\Exception $e) {
         \Drupal::messenger()->addError(\Drupal::translation()->translate('Error al procesar la fila'));
         continue;  // Continuar con la siguiente fila en caso de error

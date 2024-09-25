@@ -5,6 +5,7 @@ namespace Drupal\import_from_excel\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Drupal\node\Entity\Node;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -27,13 +28,15 @@ class ImportForm extends FormBase
   protected $degreeImport;
   protected $subjectImport;
 
-  public function __construct(UniversityImport $university_import, DegreeImport $degree_import, SubjectImport $subject_import) {
+  public function __construct(UniversityImport $university_import, DegreeImport $degree_import, SubjectImport $subject_import)
+  {
     $this->universityImport = $university_import;
     $this->degreeImport = $degree_import;
     $this->subjectImport = $subject_import;
   }
 
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container)
+  {
     return new static(
       $container->get('import_from_excel.university_import'),
       $container->get('import_from_excel.degree_import'),
@@ -82,22 +85,22 @@ class ImportForm extends FormBase
 
           // Si el usuario tiene el rol de "University Admin", mostrar universidades.
           if ($role_label == 'University Admin') {
-              $options['universidades'] = $this->t('Universidades');
-              $options['carreras'] = $this->t('Carreras');
-              $options['asignaturas'] = $this->t('Asignaturas');
+            $options['universidades'] = $this->t('Universidades');
+            $options['carreras'] = $this->t('Carreras');
+            $options['asignaturas'] = $this->t('Asignaturas');
           }
 
           // Si el usuario tiene el rol de "Degree Admin", mostrar carreras.
           if ($role_label == 'Degree Admin') {
-              $options['carreras'] = $this->t('Carreras');
-              $options['asignaturas'] = $this->t('Asignaturas');
+            $options['carreras'] = $this->t('Carreras');
+            $options['asignaturas'] = $this->t('Asignaturas');
           }
 
           // Si el usuario tiene el rol de "Subject Admin", mostrar asignaturas.
           if ($role_label == 'Subject Admin') {
-              $options['asignaturas'] = $this->t('Asignaturas');
+            $options['asignaturas'] = $this->t('Asignaturas');
           }
-      }
+        }
       }
     }
 
@@ -115,7 +118,7 @@ class ImportForm extends FormBase
     ];
 
     // Definir el campo para subir el archivo Excel.
-    $form['asignaturas_ingenieria_software'] = [
+    $form['university_excel'] = [
       '#type' => 'file',
       '#title' => $this->t('Sube el archivo Excel'),
       '#required' => TRUE,
@@ -132,9 +135,10 @@ class ImportForm extends FormBase
 
 
 
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state)
+  {
     // Obtener el archivo subido.
-    $file = file_save_upload('asignaturas_ingenieria_software', [
+    $file = file_save_upload('university_excel', [
       'file_validate_extensions' => ['xls xlsx'],
     ]);
 
@@ -166,10 +170,12 @@ class ImportForm extends FormBase
   }
 
 
-  protected function processExcel($file_path) {
+  protected function processExcel($file_path)
+  {
     // Convertir la ruta de Drupal a una ruta de archivo real.
     $real_file_path = \Drupal::service('file_system')->realpath($file_path);
 
+    // Verificar si el archivo existe.
     if (!file_exists($real_file_path)) {
       \Drupal::messenger()->addError($this->t('El archivo no existe en la ruta: @ruta', ['@ruta' => $real_file_path]));
       return;
@@ -183,366 +189,59 @@ class ImportForm extends FormBase
       return;
     }
 
-    // Procesar las hojas del Excel.
+    // Procesar cada hoja del Excel por su nombre.
     foreach ($spreadsheet->getSheetNames() as $sheetName) {
+      // Obtener la hoja de cálculo por su nombre.
       $sheet = $spreadsheet->getSheetByName($sheetName);
+
+      // Convertir las filas de la hoja en un array.
       $rows = $sheet->toArray();
 
-      // Si la hoja está vacía, saltar esta hoja.
-      if (empty(array_filter($rows))) {
+      // Verificar si la hoja está vacía (todas las filas están vacías).
+      if ($this->isSheetEmpty($rows)) {
         \Drupal::messenger()->addMessage($this->t('La hoja "@sheet" está vacía y no se procesará.', ['@sheet' => $sheetName]));
-        continue;
+        continue;  // Saltar a la siguiente hoja.
       }
 
-      // Procesar la hoja según su nombre.
-      if ($sheetName == 'Degrees') {
-        $this->degreeImport->process($rows);
-      } elseif ($sheetName == 'Subjects') {
-        $this->subjectImport->process($rows);
-      } elseif ($sheetName == 'Universities') {
-        $this->universityImport->process($rows);
-      } else {
-        \Drupal::messenger()->addMessage($this->t('Hoja desconocida "@sheet", no se procesará.', ['@sheet' => $sheetName]));
+      \Drupal::messenger()->addMessage('Valor: ' . print_r($sheetName, TRUE));
+
+      // Procesar según el nombre de la hoja.
+      switch ($sheetName) {
+        case 'Degrees':
+          $this->degreeImport->process($sheet);
+          break;
+        case 'Subjects':
+          $this->subjectImport->process($sheet);
+          break;
+        case 'Universities':
+          $this->universityImport->process($sheet);
+          break;
+        default:
+          \Drupal::messenger()->addMessage($this->t('Hoja desconocida "@sheet", no se procesará.', ['@sheet' => $sheetName]));
+          break;
       }
     }
   }
-
-
-  protected function getUniversityByName($university_name)
-  {
-
-    // Crear una consulta para buscar la universidad por su nombre (título).
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'universidad')  // Asumiendo que el tipo de nodo es "universidad".
-      ->condition('title', $university_name)  // Buscar por título.
-      ->accessCheck(FALSE)  // No verificar permisos de acceso.
-      ->range(0, 1);  // Limitar la búsqueda a un resultado.
-
-    $nids = $query->execute();  // Ejecutar la consulta.
-    // Si encontramos la universidad, devolver su ID.
-    if (!empty($nids)) {
-      $nid = reset($nids);
-      return \Drupal\node\Entity\Node::load($nid);  // Devolver el nodo de la universidad.
-    }
-
-    // Si no se encuentra la universidad, devolver NULL.
-    return NULL;
-  }
-
-
-
 
   /**
-   * Procesar el archivo Excel y crear las entidades de carreras.
+   * Verificar si la hoja está vacía.
+   *
+   * @param array $rows
+   *   Las filas de la hoja.
+   *
+   * @return bool
+   *   TRUE si todas las filas están vacías, FALSE en caso contrario.
    */
-  protected function processDegreeExcel($file_path)
+  protected function isSheetEmpty(array $rows)
   {
-    // Convertir la ruta Drupal (e.g., "temporary://") a una ruta real del sistema de archivos.
-    $real_file_path = \Drupal::service('file_system')->realpath($file_path);
-
-    // Verificar si el archivo existe.
-    if (!file_exists($real_file_path)) {
-      \Drupal::messenger()->addError($this->t('El archivo no existe en la ruta: @ruta', ['@ruta' => $real_file_path]));
-      return;
-    }
-
-    try {
-      // Cargar el archivo Excel utilizando PhpSpreadsheet.
-      $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($real_file_path);
-      $worksheet = $spreadsheet->getActiveSheet();
-    } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
-      \Drupal::messenger()->addError($this->t('Error al cargar el archivo Excel: @message', ['@message' => $e->getMessage()]));
-      return;
-    }
-
-    // Validación de campos de lista de texto.
-    $valid_areas = [
-      'Artes y Humanidades' => 'artes_humanidades',
-      'Ciencias' => 'ciencias',
-      'Ciencias de la salud' => 'ciencias_de_la_salud',
-      'Ciencias sociales y jurídicas' => 'ciencias_sociales_y_juridicas',
-      'Ingeniería y Arquitectura' => 'ingenieria_y_arquitectura',
-    ];
-
-    // Iterar sobre las filas del Excel para extraer data.
-    foreach ($worksheet->getRowIterator() as $rowIndex => $row) {
-      // Saltar la primera fila (nombres de columnas).
-      if ($rowIndex == 1) {
-        continue;
-      }
-
-      $cellIterator = $row->getCellIterator();
-      $cellIterator->setIterateOnlyExistingCells(FALSE);
-      $data = [];
-
-      foreach ($cellIterator as $cellIndex => $cell) {
-        $data[] = $cell->getValue();
-      }
-
-      try {
-
-
-
-
-        // Asignar cada columna a su respectivo campo.
-        $university_name = $data[0];
-        $degree_name = $data[1];
-        $language = $data[2];
-        $presentation = $data[3];
-        $main_objective = $data[4];
-        $competencies = $data[5];
-        $credits = $data[6];
-        $level = $data[7]; // Campo de lista de texto.
-        $modality = $data[8]; // Campo de lista de texto.
-        $qualification_level = $data[9];
-        $study_modality = $data[10];
-        $external_internships = $data[11]; // Campo de lista de texto.
-        $isced_f = $data[12];
-        $academic_course = $data[13];
-        $coordinator = $data[14];
-        $phone = $data[15];
-        $email = $data[16];
-        $area = $data[17]; // Campo de lista de texto.
-        $qualification = $data[18];
-
-        // Validar campos de lista de texto.
-        if (!isset($valid_areas[$area])) {
-          \Drupal::messenger()->addError($this->t('El área @area no es válida.', ['@area' => $area]));
-          continue;
-        }
-
-        /*
-
-        if (!isset($valid_modalitys[$modality])) {
-          \Drupal::messenger()->addError($this->t('La modalidad @modality no es válida.', ['@modality' => $modality]));
-          continue;
-        }
-        if (!isset($valid_levels[$level])) {
-          \Drupal::messenger()->addError($this->t('El nivel @level no es válido.', ['@level' => $level]));
-          continue;
-        }
-        if (!isset($valid_external_internships[$external_internships])) {
-          \Drupal::messenger()->addError($this->t('El valor de prácticas profesionales @external_internships no es válido.', ['@external_internships' => $external_internships]));
-          continue;
-        }
-
-        */
-
-        $university = $this->getUniversityByName($university_name);
-
-        // Crear la entidad "Carrera" (suponiendo que es de tipo "node").
-        $node = Node::create([
-          'type' => 'carrera',
-          'title' => $degree_name,
-          'field_universidad' => ['target_id' => $university->id()],  // Referencia a la universidad.
-          'field_idioma' => $language,
-          'field_presentacion' => $presentation,
-          'field_objetivo_principal' => $main_objective,
-          'field_competencias' => $competencies,
-          'field_creditos' => $credits,
-          'field_nivel' => strtolower($level),  // Validado
-          'field_modalidad' => strtolower($modality),  // Validado
-          'field_nivel_de_cualificacion' => $qualification_level,
-          'field_modalidad_de_estudio' => $study_modality,
-          'field_practicas_profesionales' => strtolower($external_internships),  // Validado
-          'field_isced_f' => $isced_f,
-          'field_curso_academico' => $academic_course,
-          'field_coordinador' => $coordinator,
-          'field_telefono' => $phone,
-          'field_email' => $email,
-          'field_area' => $valid_areas[$area],  // Validado
-          'field_cualificacion' => $qualification,
-          'status' => 1,  // Publicado
-        ]);
-
-        // Guardar el nodo en la base de datos.
-        $node->save();
-      } catch (\Exception $e) {
-        \Drupal::messenger()->addError($this->t('Error al procesar la fila @fila: @error', ['@fila' => $rowIndex, '@error' => $e->getMessage()]));
-        continue;  // Continuar con la siguiente fila en caso de error
+    // Filtrar filas vacías y verificar si hay al menos una fila con datos.
+    foreach ($rows as $row) {
+      if (array_filter($row)) {
+        return FALSE;  // Hay al menos una fila con datos.
       }
     }
-
-    \Drupal::messenger()->addMessage($this->t('Importación completada.'));
+    return TRUE;  // Todas las filas están vacías.
   }
-
-
-
-
-
-
-
-  protected function getDegreeByName($degree_name, $university_id)
-  {
-
-    // Crear una consulta para buscar la universidad por su nombre (título).
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'carrera')  // Asumiendo que el tipo de nodo es "carrera".
-      ->condition('field_universidad', value: $university_id) // Buscar por universidad.
-      ->condition('title', $degree_name)  // Buscar por título.
-      ->accessCheck(FALSE)  // No verificar permisos de acceso.
-      ->range(0, 1);  // Limitar la búsqueda a un resultado.
-
-    $nids = $query->execute();  // Ejecutar la consulta.
-    // Si encontramos la universidad, devolver su ID.
-    if (!empty($nids)) {
-      $nid = reset($nids);
-      return \Drupal\node\Entity\Node::load($nid);  // Devolver el nodo de la universidad.
-    }
-
-    // Si no se encuentra la universidad, devolver NULL.
-    return NULL;
-  }
-
-
-
-
-
-
-  protected function processSubjectsExcel($file_path)
-  {
-    // Convertir la ruta Drupal (e.g., "temporary://") a una ruta real del sistema de archivos.
-    $real_file_path = \Drupal::service('file_system')->realpath($file_path);
-
-    // Verificar si el archivo existe.
-    if (!file_exists($real_file_path)) {
-      \Drupal::messenger()->addError($this->t('El archivo no existe en la ruta: @ruta', ['@ruta' => $real_file_path]));
-      return;
-    }
-
-    try {
-      // Cargar el archivo Excel utilizando PhpSpreadsheet.
-      $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($real_file_path);
-      $worksheet = $spreadsheet->getActiveSheet();
-    } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
-      \Drupal::messenger()->addError($this->t('Error al cargar el archivo Excel: @message', ['@message' => $e->getMessage()]));
-      return;
-    }
-
-    // Validación de campos de lista de texto.
-    $valid_courses_quarters = [
-      '1º' => '1o',
-      '2º' => '2o',
-      '3º' => '3o',
-      '4º' => '4o',
-
-    ];
-
-    // Iterar sobre las filas del Excel para extraer data.
-    foreach ($worksheet->getRowIterator() as $rowIndex => $row) {
-      // Saltar la primera fila (nombres de columnas).
-      if ($rowIndex == 1) {
-        continue;
-      }
-
-      $cellIterator = $row->getCellIterator();
-      $cellIterator->setIterateOnlyExistingCells(FALSE);
-      $data = [];
-
-      foreach ($cellIterator as $cellIndex => $cell) {
-        $data[] = $cell->getValue();
-      }
-
-      try {
-
-
-
-
-        // Asignar cada columna a su respectivo campo.
-        $university_name = $data[0];
-        $degree_name = $data[1];
-        $subject_name = $data[2];
-        $credits = $data[3];
-        $quarter = $data[4];
-        $course = $data[5];
-        $code = $data[6];
-        $requirements = $data[7]; // Campo de lista de texto.
-        $contents = $data[8]; // Campo de lista de texto.
-        $evaluation = $data[9];
-        $instructors = $data[10];
-        $introduction = $data[11]; // Campo de lista de texto.
-        $language = $data[12];
-        $learning_outcomes = $data[13];
-        $modality = $data[14];
-        $planned_activities = $data[15];
-        $recommedatios = $data[16];
-        $type = strtolower($data[17]); // Campo de lista de texto.
-
-
-        // Validar campos de lista de texto.
-        if (!isset($valid_courses_quarters[$course]) && !isset($valid_courses_quarters[$quarter])) {
-          \Drupal::messenger()->addError($this->t('El curso @curso o el cuatrimestre @cuatrimestre no son válidos.', ['@curso' => $course, 'cuatrimestre' => $quarter]));
-          continue;
-        }
-
-        /*
-
-        if (!isset($valid_modalitys[$modality])) {
-          \Drupal::messenger()->addError($this->t('La modalidad @modality no es válida.', ['@modality' => $modality]));
-          continue;
-        }
-        if (!isset($valid_levels[$level])) {
-          \Drupal::messenger()->addError($this->t('El nivel @level no es válido.', ['@level' => $level]));
-          continue;
-        }
-        if (!isset($valid_external_internships[$external_internships])) {
-          \Drupal::messenger()->addError($this->t('El valor de prácticas profesionales @external_internships no es válido.', ['@external_internships' => $external_internships]));
-          continue;
-        }
-
-        */
-
-        $university = $this->getUniversityByName($university_name);
-        $degree = $this->getDegreeByName($degree_name, $university->id());
-
-        // Crear la entidad "Carrera" (suponiendo que es de tipo "node").
-        $node = Node::create([
-          'type' => 'asignatura',
-          'title' => $subject_name,
-          'field_carrera' => ['target_id' => $degree->id()],  // Referencia a la universidad.
-          'field_creditos' => $credits,
-          'field_cuatrimestre' => $valid_courses_quarters[$quarter],
-          'field_curso' => $valid_courses_quarters[$course],
-          'field_codigo' => $code,
-          'field_requirements' => $requirements,
-          'field_subject_contents' => $contents,
-          'field_subject_evaluation' => $evaluation,  // Validado
-          'field_subject_instructors' => $instructors,  // Validado
-          'field_subject_introduction' => $introduction,
-          'field_subject_language' => $language,
-          'field_subject_learning_outcomes' => $learning_outcomes,  // Validado
-          'field_subject_modality' => $modality,
-          'field_subject_planned_activities' => $planned_activities,
-          'field_subject_recommendations' => $recommedatios,
-          'field_tipo' => $type,
-          'status' => 1,  // Publicado
-        ]);
-
-        // Guardar el nodo en la base de datos.
-        $node->save();
-      } catch (\Exception $e) {
-        \Drupal::messenger()->addError($this->t('Error al procesar la fila @fila: @error', ['@fila' => $rowIndex, '@error' => $e->getMessage()]));
-        continue;  // Continuar con la siguiente fila en caso de error
-      }
-    }
-
-    \Drupal::messenger()->addMessage($this->t('Importación completada.'));
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

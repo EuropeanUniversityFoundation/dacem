@@ -2,12 +2,45 @@
 
 namespace Drupal\import_from_excel\Service;
 use Drupal\node\Entity\Node;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+
 
 class UniversityImport
 {
 
+
+
+  protected function getUniversityByName($university_name)
+  {
+
+    // Crear una consulta para buscar la universidad por su nombre (título).
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'universidad')  // Asumiendo que el tipo de nodo es "universidad".
+      ->condition('title', $university_name)  // Buscar por título.
+      ->accessCheck(FALSE)  // No verificar permisos de acceso.
+      ->range(0, 1);  // Limitar la búsqueda a un resultado.
+
+    $nids = $query->execute();  // Ejecutar la consulta.
+    // Si encontramos la universidad, devolver su ID.
+    if (!empty($nids)) {
+      $nid = reset($nids);
+      return \Drupal\node\Entity\Node::load($nid);  // Devolver el nodo de la universidad.
+    }
+
+    // Si no se encuentra la universidad, devolver NULL.
+    return NULL;
+  }
+
+
+
+
+
+
   public function process($worksheet)
   {
+    $header = [];  // Inicializar el array de encabezados.
+
     foreach ($worksheet->getRowIterator() as $rowIndex => $row) {
       // Saltar la primera fila (encabezados).
       if ($rowIndex == 1) {
@@ -18,41 +51,62 @@ class UniversityImport
         }
         continue; // Saltar a la siguiente fila.
       }
-    
+
       $cellIterator = $row->getCellIterator();
       $cellIterator->setIterateOnlyExistingCells(FALSE);
       $data = [];
-    
-      foreach ($cellIterator as $cellIndex => $cell) {
-        $headerValue = $header[$cellIndex]; // Obtener el nombre de la columna.
-        $data[$headerValue] = $cell->getValue(); // Asignar el valor a la clave correspondiente.
+
+      $headerCount = 0; // Contador para coincidir con las columnas del encabezado.
+
+      foreach ($cellIterator as $cell) {
+        if (isset($header[$headerCount])) {
+          $headerValue = $header[$headerCount]; // Obtener el nombre de la columna.
+          $data[$headerValue] = $cell->getValue(); // Asignar el valor a la clave correspondiente.
+        }
+        $headerCount++;
       }
-    
-      $university_name = $data['University']; // Acceder a la columna "Universidad".
-      
-      // Hacer lo que necesites con los valores.
-      \Drupal::messenger()->addMessage(t('Procesando la universidad: @university', [
-        '@university' => $university_name,
-      ]));
+
+      // Comprobar si los encabezados esperados están presentes en la fila.
+      if (!isset($data['University'])) {
+        \Drupal::messenger()->addError(t('La fila no contiene los datos requeridos.'));
+        continue;
+      }
+
+      // Obtener los valores de las columnas correspondientes.
+      $university_name = $data['University']; // Acceder a la columna "University".
+      $university_information = $data['Information'];
+      $university_primary_color = $data['Primary Color'];
+      $university_text_color = $data['Text Color'];
+      $university_emphasis_color = $data['Emphasis Text Color'];
 
       try {
-        
-        // Crear la entidad "Carrera" (suponiendo que es de tipo "node").
-        $node = Node::create([
-          'type' => 'universidad',
-          'title' => $university_name,
-          
-        ]);
+        $university = $this->getUniversityByName($university_name);
 
-        // Guardar el nodo en la base de datos.
-        $node->save();
+        if ($university) {
+          $university->set('field_informacion', $university_information);
+          $university->set('field_primary_color', $university_primary_color);
+          $university->set('field_text_color', $university_text_color);
+          $university->set('field_emphasis_text_color', $university_emphasis_color);
+
+          // Guardar los cambios.
+          $university->save();
+          \Drupal::messenger()->addMessage('Universidad actualizada con éxito.');
+        } else {
+          // Crear la entidad "Universidad".
+          $node = Node::create([
+            'type' => 'universidad',
+            'title' => $university_name,
+          ]);
+
+          // Guardar el nodo en la base de datos.
+          $node->save();
+          \Drupal::messenger()->addMessage('Universidad creada con éxito.');
+        }
       } catch (\Exception $e) {
-        \Drupal::messenger()->addError(\Drupal::translation()->translate('Error al procesar la fila'));
-        continue;  // Continuar con la siguiente fila en caso de error
+        \Drupal::messenger()->addError(\Drupal::translation()->translate('Error al procesar la fila: @message', ['@message' => $e->getMessage()]));
+        continue;  // Continuar con la siguiente fila en caso de error.
       }
-
-
-
     }
   }
+
 }
