@@ -46,47 +46,50 @@ class DegreeImport
 
     public function process($worksheet)
     {
-        // Usar RowIterator para iterar sobre las filas
-        foreach ($worksheet->getRowIterator() as $row) {
-            // Obtener el número de fila
-            $row_number = $row->getRowIndex();
-
-            if ($row_number == 1) {
-                continue;
+        foreach ($worksheet->getRowIterator() as $rowIndex => $row) {
+            // Saltar la primera fila (encabezados).
+            if ($rowIndex == 1) {
+              $cellIterator = $row->getCellIterator();
+              $cellIterator->setIterateOnlyExistingCells(FALSE);
+              foreach ($cellIterator as $cell) {
+                $header[] = $cell->getValue(); // Almacenar los encabezados.
+              }
+              continue; // Saltar a la siguiente fila.
             }
-
-            // Obtener las celdas de la fila
+          
             $cellIterator = $row->getCellIterator();
             $cellIterator->setIterateOnlyExistingCells(FALSE);
-
             $data = [];
-            foreach ($cellIterator as $cell) {
-                $data[] = $cell->getValue();  // Obtener el valor de cada celda
+          
+            foreach ($cellIterator as $cellIndex => $cell) {
+              $headerValue = $header[$cellIndex]; // Obtener el nombre de la columna.
+              $data[$headerValue] = $cell->getValue(); // Asignar el valor a la clave correspondiente.
             }
+          
 
 
             try {
 
                 // Asignar cada columna a su respectivo campo.
-                $university_name = $data[0];
-                $degree_name = $data[1];
-                $language = $data[2];
-                $presentation = $data[3];
-                $main_objective = $data[4];
-                $competencies = $data[5];
-                $credits = $data[6];
-                $level = $data[7]; // Campo de lista de texto.
-                $modality = $data[8]; // Campo de lista de texto.
-                $qualification_level = $data[9];
-                $study_modality = $data[10];
-                $external_internships = $data[11]; // Campo de lista de texto.
-                $isced_f = $data[12];
-                $academic_course = $data[13];
-                $coordinator = $data[14];
-                $phone = $data[15];
-                $email = $data[16];
-                $area = $data[17]; // Campo de lista de texto.
-                $qualification = $data[18];
+                $university_name = $data['University'];
+                $degree_name = $data['Degree'];
+                $language = $data['Language'];
+                $presentation = $data['Presentation'];
+                $main_objective = $data['Main Objective'];
+                $competencies = $data['Competencies'];
+                $credits = $data['Credits'];
+                $level = $data['Level']; // Campo de lista de texto.
+                $modality = $data['Modality']; // Campo de lista de texto.
+                $qualification_level = $data['Qualification Level'];
+                $study_modality = $data['Study Modality'];
+                $external_internships = $data['External Internships']; // Campo de lista de texto.
+                $isced_f = $data['ISCED-F'];
+                $academic_course = $data['Academic Course'];
+                $coordinator = $data['Coordinator'];
+                $phone = $data['Phone'];
+                $email = $data['Email'];
+                $area = $data['Area']; // Campo de lista de texto.
+                $qualification = $data['Qualification'];
 
                 // Validar campos de lista de texto.
                 if (!isset(self::VALID_AREAS[$area])) {
