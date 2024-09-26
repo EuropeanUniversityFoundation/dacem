@@ -83,7 +83,7 @@ class NewUniversityImport
                 $group->addRelationship($university, 'group_node:universidad');
             
                 // Añadir el administrador al grupo con el rol correspondiente.
-                $group->addMember($admin_user, ['group_roles' => ['universitytypegroup-university_admin']]);
+                $group->addMember($admin_user, ['group_roles' => ['universitytypegroup-university_a']]);
             
                 \Drupal::messenger()->addMessage('Universidad y grupo creados con éxito.');
             } catch (\Exception $e) {

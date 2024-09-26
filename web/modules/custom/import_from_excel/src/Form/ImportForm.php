@@ -78,6 +78,9 @@ class ImportForm extends FormBase
       // Verificar los roles dentro de los grupos.
       foreach ($group_memberships as $membership) {
         $roles = $membership->getRoles();
+        \Drupal::messenger()->addMessage($roles);
+        
+        
 
         //\Drupal::messenger()->addMessage('Roles: ' . print_r($roles, TRUE));
 
