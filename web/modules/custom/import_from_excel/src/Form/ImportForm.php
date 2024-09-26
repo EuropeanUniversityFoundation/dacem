@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\import_from_excel\Service\DegreeImport;
 use Drupal\import_from_excel\Service\SubjectImport;
 use Drupal\import_from_excel\Service\UniversityImport;
+use Drupal\import_from_excel\Service\NewUniversityImport;
 
 class ImportForm extends FormBase
 {
@@ -27,12 +28,14 @@ class ImportForm extends FormBase
   protected $universityImport;
   protected $degreeImport;
   protected $subjectImport;
+  protected $newUniversityImport;
 
-  public function __construct(UniversityImport $university_import, DegreeImport $degree_import, SubjectImport $subject_import)
+  public function __construct(UniversityImport $university_import, DegreeImport $degree_import, SubjectImport $subject_import, NewUniversityImport $new_university_import)
   {
     $this->universityImport = $university_import;
     $this->degreeImport = $degree_import;
     $this->subjectImport = $subject_import;
+    $this->newUniversityImport = $new_university_import;
   }
 
   public static function create(ContainerInterface $container)
@@ -40,7 +43,8 @@ class ImportForm extends FormBase
     return new static(
       $container->get('import_from_excel.university_import'),
       $container->get('import_from_excel.degree_import'),
-      $container->get('import_from_excel.subject_import')
+      $container->get('import_from_excel.subject_import'),
+      $container->get('import_from_excel.new_university_import')
     );
   }
 
@@ -215,6 +219,9 @@ class ImportForm extends FormBase
           break;
         case 'Universities':
           $this->universityImport->process($sheet);
+          break;
+        case 'New Universities':
+          $this->newUniversityImport->process($sheet);
           break;
         default:
           \Drupal::messenger()->addMessage($this->t('Hoja desconocida "@sheet", no se procesará.', ['@sheet' => $sheetName]));

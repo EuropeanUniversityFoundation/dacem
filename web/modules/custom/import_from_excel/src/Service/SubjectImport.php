@@ -8,7 +8,7 @@ class SubjectImport
 
 
   // Validación de campos de lista de texto.
-  const VALIDAD_COURSES_QUARTERS = [
+  const VALID_COURSES_QUARTERS = [
     '1º' => '1o',
     '2º' => '2o',
     '3º' => '3o',
@@ -143,7 +143,7 @@ class SubjectImport
         $contents = $data['Subject Contents']; // Campo de lista de texto.
         $evaluation = $data['Subject Evaluation'];
         $instructors = $data['Subject Instructors'];
-        $introduction = $data['Subject Introductio']; // Campo de lista de texto.
+        $introduction = $data['Subject Introduction']; // Campo de lista de texto.
         $language = $data['Subject Language'];
         $learning_outcomes = $data['Subject Learning Outcomes'];
         $modality = $data['Subject Modality'];
@@ -151,12 +151,13 @@ class SubjectImport
         $recommendations = $data['Subject Recommendations'];
         $type = strtolower($data['Type']); // Campo de lista de texto.
 
-
+        /*
         // Validar campos de lista de texto.
         if (!isset($valid_courses_quarters[$course]) && !isset($valid_courses_quarters[$quarter])) {
           \Drupal::messenger()->addError(\Drupal::translation()->translate('El curso @curso o el cuatrimestre @cuatrimestre no son válidos.', ['@curso' => $course, 'cuatrimestre' => $quarter]));
           continue;
         }
+        */
 
         /*
   
@@ -183,9 +184,11 @@ class SubjectImport
         if ($subject) {
 
           
+          \Drupal::messenger()->addMessage(\Drupal::translation()->translate('Quarter @quarter, Course @course', ['@quarter'=>self::VALID_COURSES_QUARTERS[$quarter], '@course'=>self::VALID_COURSES_QUARTERS[$course]]));
+
           $subject->set('field_creditos', $credits);
-          $subject->set('field_cuatrimestre', self::VALIDAD_COURSES_QUARTERS[$quarter]);
-          $subject->set('field_curso', self::VALIDAD_COURSES_QUARTERS[$course]);
+          $subject->set('field_cuatrimestre', self::VALID_COURSES_QUARTERS[$quarter]);
+          $subject->set('field_curso', self::VALID_COURSES_QUARTERS[$course]);
           $subject->set('field_codigo', $code);
           $subject->set('field_requirements', $requirements);  // Validado
           $subject->set('field_subject_contents', $contents);  // Validado
@@ -199,6 +202,8 @@ class SubjectImport
           $subject->set('field_subject_recommendations', $recommendations);
           $subject->set('field_tipo', $type);
 
+          $subject->save();
+
           
         } else {
           // Crear la entidad "Aignatura" (suponiendo que es de tipo "node").
@@ -207,8 +212,8 @@ class SubjectImport
             'title' => $subject_name,
             'field_carrera' => ['target_id' => $degree->id()],  // Referencia a la carrera.
             'field_creditos' => $credits,
-            'field_cuatrimestre' => self::VALIDAD_COURSES_QUARTERS[$quarter],
-            'field_curso' => self::VALIDAD_COURSES_QUARTERS[$course],
+            'field_cuatrimestre' => self::VALID_COURSES_QUARTERS[$quarter],
+            'field_curso' => self::VALID_COURSES_QUARTERS[$course],
             'field_codigo' => $code,
             'field_requirements' => $requirements,
             'field_subject_contents' => $contents,

@@ -6,7 +6,6 @@
 {% set entity = view.result[0]._entity %}
 
 
-
 {% if entity.hasTranslation(current_language) %}
 	{% set translated_entity = entity.getTranslation(current_language) %}
 {% else %}
@@ -14,14 +13,11 @@
 {% endif %}
 
 
-
 {% set university = entity.field_universidad.entity %}
 
 {% set university_primary_color = university.field_primary_color[0].color %}
 {% set university_text_color = university.field_text_color[0].color %}
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
-
-
 
 
 <style>:root
@@ -337,15 +333,36 @@
 												{% endif %}
 												{% if translated_subject.field_curso[0].value == course_id %}
 													<tr>
-														<td>{{ translated_subject.field_codigo[0].value }}</td>
+
+														<td>
+															{% if translated_subject.field_codigo is not empty %}
+																{{ translated_subject.field_codigo[0].value|t|capitalize }}
+															{% else %}
+																{{ 'Sin codigo'|t }}
+															{% endif %}
+														</td>
+
 														<td>
 															<a href="{{ path('entity.node.canonical', {'node': translated_subject.id()}) }}">
 																{{ translated_subject.title.value }}
 															</a>
 														</td>
 														<td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
-														<td>{{ translated_subject.field_creditos[0].value }}</td>
-														<td>{{ translated_subject.field_tipo[0].value|t|capitalize }}</td>
+														<td>
+															{% if translated_subject.field_creditos is not empty %}
+																{{ translated_subject.field_creditos[0].value|t|capitalize }}
+															{% else %}
+																{{ 0}}
+															{% endif %}
+														</td>
+														<td>
+															{% if translated_subject.field_tipo is not empty %}
+																{{ translated_subject.field_tipo[0].value|t|capitalize }}
+															{% else %}
+																{{'Sin tipo'}}
+															{% endif %}
+														</td>
+
 													</tr>
 												{% endif %}
 											{% endfor %}
@@ -384,15 +401,36 @@
 											{% endif %}
 											{% if translated_subject.field_curso[0].value == course_id %}
 												<tr>
-													<td>{{ translated_subject.field_codigo[0].value }}</td>
+
+													<td>
+														{% if translated_subject.field_codigo is not empty %}
+															{{ translated_subject.field_codigo[0].value|t|capitalize }}
+														{% else %}
+															{{ 'Sin codigo'|t }}
+														{% endif %}
+													</td>
+
 													<td>
 														<a href="{{ path('entity.node.canonical', {'node': translated_subject.id()}) }}">
 															{{ translated_subject.title.value }}
 														</a>
 													</td>
 													<td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
-													<td>{{ translated_subject.field_creditos[0].value }}</td>
-													<td>{{ translated_subject.field_tipo[0].value|t|capitalize }}</td>
+													<td>
+														{% if translated_subject.field_creditos is not empty %}
+															{{ translated_subject.field_creditos[0].value }}
+														{% else %}
+															{{ '0' }}
+														{% endif %}
+													</td>
+													<td>
+														{% if translated_subject.field_tipo is not empty %}
+															{{ translated_subject.field_tipo[0].value|t|capitalize }}
+														{% else %}
+															{{ 'Sin tipo'|t }}
+														{% endif %}
+													</td>
+
 												</tr>
 											{% endif %}
 										{% endfor %}

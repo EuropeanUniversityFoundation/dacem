@@ -7,3 +7,6 @@ services:
 
   import_from_excel.subject_import:
     class: Drupal\import_from_excel\Service\SubjectImport
+
+  import_from_excel.new_university_import:
+    class: Drupal\import_from_excel\Service\NewUniversityImport
