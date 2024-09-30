@@ -2,6 +2,9 @@
 
 namespace Drupal\import_from_excel\Service;
 use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
+use Drupal\group\Entity\Group;
+use Drupal\group\Entity\GroupType;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 class DegreeImport
@@ -13,7 +16,7 @@ class DegreeImport
         'Ciencias de la salud' => 'ciencias_de_la_salud',
         'Ciencias sociales y jurídicas' => 'ciencias_sociales_y_juridicas',
         'Ingeniería y Arquitectura' => 'ingenieria_y_arquitectura',
-        
+
     ];
 
 
@@ -44,33 +47,39 @@ class DegreeImport
 
 
 
-  protected function getDegreeByName($degree_name, $university_id)
-  {
+    protected function getDegreeByName($degree_name, $university_id)
+    {
 
-    // Crear una consulta para buscar la universidad por su nombre (título).
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'carrera')  // Asumiendo que el tipo de nodo es "carrera".
-      ->condition('field_universidad', value: $university_id) // Buscar por universidad.
-      ->condition('title', $degree_name)  // Buscar por título.
-      ->accessCheck(FALSE)  // No verificar permisos de acceso.
-      ->range(0, 1);  // Limitar la búsqueda a un resultado.
+        // Crear una consulta para buscar la universidad por su nombre (título).
+        $query = \Drupal::entityQuery('node')
+            ->condition('type', 'carrera')  // Asumiendo que el tipo de nodo es "carrera".
+            ->condition('field_universidad', value: $university_id) // Buscar por universidad.
+            ->condition('title', $degree_name)  // Buscar por título.
+            ->accessCheck(FALSE)  // No verificar permisos de acceso.
+            ->range(0, 1);  // Limitar la búsqueda a un resultado.
 
-    $nids = $query->execute();  // Ejecutar la consulta.
-    // Si encontramos la universidad, devolver su ID.
-    if (!empty($nids)) {
-      $nid = reset($nids);
-      return \Drupal\node\Entity\Node::load($nid);  // Devolver el nodo de la universidad.
+        $nids = $query->execute();  // Ejecutar la consulta.
+        // Si encontramos la universidad, devolver su ID.
+        if (!empty($nids)) {
+            $nid = reset($nids);
+            return \Drupal\node\Entity\Node::load($nid);  // Devolver el nodo de la universidad.
+        }
+
+        // Si no se encuentra la universidad, devolver NULL.
+        return NULL;
     }
-
-    // Si no se encuentra la universidad, devolver NULL.
-    return NULL;
-  }
 
 
 
 
     public function process($worksheet)
     {
+
+        if (!\Drupal::currentUser()->hasPermission('administer site configuration')) {
+            \Drupal::messenger()->addError(t('No tienes permisos para realizar esta acción.'));
+            return;
+        }
+
         $header = [];  // Inicializar el array de encabezados.
 
         foreach ($worksheet->getRowIterator() as $rowIndex => $row) {
@@ -106,6 +115,8 @@ class DegreeImport
 
 
             try {
+
+
 
                 // Asignar cada columna a su respectivo campo.
                 $university_name = $data['University'];
@@ -179,40 +190,99 @@ class DegreeImport
                     $degree->save();
                     \Drupal::messenger()->addMessage('Degree actualizada con éxito.');
 
-                }else {
+                } else {
 
-                // Crear la entidad "Carrera" (suponiendo que es de tipo "node").
-                $node = Node::create([
-                    'type' => 'carrera',
-                    'title' => $degree_name,
-                    'field_universidad' => ['target_id' => $university->id()],  // Referencia a la universidad.
-                    'field_presentacion' => $presentation,
-                    'field_objetivo_principal' => $main_objective,
-                    'field_competencias' => $competencies,
-                    'field_creditos_carrera' => $credits,
-                    'field_nivel' => strtolower($level),  // Validado
-                    'field_modalidad' => strtolower($modality),  // Validado
-                    'field_nivel_de_cualificacion' => $qualification_level,
-                    'field_modalidad_de_estudio' => $study_modality,
-                    'field_practicas_profesionales' => strtolower($external_internships),  // Validado
-                    'field_isced_f' => $isced_f,
-                    'field_curso_academico' => $academic_course,
-                    'field_coordinador' => $coordinator,
-                    'field_telefono' => $phone,
-                    'field_email' => $email,
-                    'field_area' => self::VALID_AREAS[$area],  // Validado
-                    'field_cualificacion' => $qualification,
-                    'status' => 1,  // Publicado
-                ]);
+                    // Crear la entidad "Carrera" (suponiendo que es de tipo "node").
+                    $degree = Node::create([
+                        'type' => 'carrera',
+                        'title' => $degree_name,
+                        'field_universidad' => ['target_id' => $university->id()],  // Referencia a la universidad.
+                        'field_presentacion' => $presentation,
+                        'field_objetivo_principal' => $main_objective,
+                        'field_competencias' => $competencies,
+                        'field_creditos_carrera' => $credits,
+                        'field_nivel' => strtolower($level),  // Validado
+                        'field_modalidad' => strtolower($modality),  // Validado
+                        'field_nivel_de_cualificacion' => $qualification_level,
+                        'field_modalidad_de_estudio' => $study_modality,
+                        'field_practicas_profesionales' => strtolower($external_internships),  // Validado
+                        'field_isced_f' => $isced_f,
+                        'field_curso_academico' => $academic_course,
+                        'field_coordinador' => $coordinator,
+                        'field_telefono' => $phone,
+                        'field_email' => $email,
+                        'field_area' => self::VALID_AREAS[$area],  // Validado
+                        'field_cualificacion' => $qualification,
+                        'status' => 1,  // Publicado
+                    ]);
 
-                // Guardar el nodo en la base de datos.
-                $node->save();
+                    // Guardar el nodo en la base de datos.
+                    $degree->save();
+
+                    $admin_email = $data['Admin Email'];
+                    $admin_username = $data['Admin Username'];
+                    $admin_password = $data['Admin Password'];
+
+                    // Crear el usuario administrador de la universidad.
+                    $admin_user = User::create([
+                        'name' => $admin_username,
+                        'mail' => $admin_email,
+                        'pass' => $admin_password,
+                        'status' => 1,
+                    ]);
+
+                    // Guardar el usuario y asignarlo como propietario de la universidad.
+                    $admin_user->save();
+                    $degree->setOwner($admin_user);
+                    $degree->save();
+
+
+                    // Nombre del grupo que estás buscando.
+                    $group_name = 'Group ' . $university_name;  // Nombre del grupo.
+                    \Drupal::messenger()->addMessage($group_name);
+
+
+                    // Cargar los grupos que coincidan con el nombre y el tipo de grupo.
+                    $query = \Drupal::entityQuery('group')
+                        ->condition('label', $group_name)
+                        ->condition('type', 'universitytypegroup')  // Asegurarse de que es el tipo de grupo correcto.
+                        ->accessCheck(FALSE); // Añadir accessCheck.
+                    $group_ids = $query->execute();
+                    
+                    \Drupal::messenger()->addMessage($group_ids);
+                    $group = NULL;
+
+                    // Si encontramos algún grupo.
+                    if (!empty($group_ids)) {
+                        $group_id = reset($group_ids);  // Obtener el primer grupo encontrado.
+                        $group = Group::load($group_id);
+
+                        if ($group) {
+                            \Drupal::messenger()->addMessage('El grupo "' . $group->label() . '" fue encontrado.');
+                        }
+                    } else {
+                        \Drupal::messenger()->addError('No se encontró ningún grupo con ese nombre.');
+                    }
+
+
+                    $group->addRelationship($degree, 'group_node:carrera');
+
+                    // Añadir el administrador al grupo con el rol correspondiente.
+                    $group->addMember($admin_user, ['group_roles' => ['universitytypegroup-degree_admin']]);
+                    $group->save();
+
+
+
+
+                    \Drupal::messenger()->addMessage('Carrera y grupo creados con éxito.');
+
+
 
                 }
 
-                
+
             } catch (\Exception $e) {
-                \Drupal::messenger()->addError(\Drupal::translation()->translate('Error al procesar la fila, error: @e',['@e' => $e]));
+                \Drupal::messenger()->addError(\Drupal::translation()->translate('Error al procesar la fila, error: @e', ['@e' => $e]));
                 continue;  // Continuar con la siguiente fila en caso de error
             }
         }
