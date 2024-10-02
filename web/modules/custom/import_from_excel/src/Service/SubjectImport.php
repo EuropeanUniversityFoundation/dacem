@@ -2,6 +2,8 @@
 
 namespace Drupal\import_from_excel\Service;
 use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
+use Drupal\group\Entity\Group;
 
 class SubjectImport
 {
@@ -181,59 +183,79 @@ class SubjectImport
         $subject = $this->getSubjectByName($subject_name, $degree->id());
 
 
-        if ($subject) {
 
-          
-          \Drupal::messenger()->addMessage(\Drupal::translation()->translate('Quarter @quarter, Course @course', ['@quarter'=>self::VALID_COURSES_QUARTERS[$quarter], '@course'=>self::VALID_COURSES_QUARTERS[$course]]));
+        // Obtener el grupo de la universidad.
+        $group_name = 'Group ' . $university_name;
+        $query = \Drupal::entityQuery('group')
+          ->condition('label', $group_name)
+          ->condition('type', 'universitytypegroup')
+          ->accessCheck(FALSE);
 
-          $subject->set('field_creditos', $credits);
-          $subject->set('field_cuatrimestre', self::VALID_COURSES_QUARTERS[$quarter]);
-          $subject->set('field_curso', self::VALID_COURSES_QUARTERS[$course]);
-          $subject->set('field_codigo', $code);
-          $subject->set('field_requirements', $requirements);  // Validado
-          $subject->set('field_subject_contents', $contents);  // Validado
-          $subject->set('field_subject_evaluation', $evaluation);
-          $subject->set('field_subject_instructors', $instructors);
-          $subject->set('field_subject_introduction', $introduction);
-          $subject->set('field_subject_language', $language);
-          $subject->set('field_subject_learning_outcomes', $learning_outcomes);
-          $subject->set('field_subject_modality', $modality);
-          $subject->set('field_subject_planned_activities', $planned_activities);
-          $subject->set('field_subject_recommendations', $recommendations);
-          $subject->set('field_tipo', $type);
-
-          $subject->save();
-
-          
-        } else {
-          // Crear la entidad "Aignatura" (suponiendo que es de tipo "node").
-          $node = Node::create(values: [
-            'type' => 'asignatura',
-            'title' => $subject_name,
-            'field_carrera' => ['target_id' => $degree->id()],  // Referencia a la carrera.
-            'field_creditos' => $credits,
-            'field_cuatrimestre' => self::VALID_COURSES_QUARTERS[$quarter],
-            'field_curso' => self::VALID_COURSES_QUARTERS[$course],
-            'field_codigo' => $code,
-            'field_requirements' => $requirements,
-            'field_subject_contents' => $contents,
-            'field_subject_evaluation' => $evaluation,  // Validado
-            'field_subject_instructors' => $instructors,  // Validado
-            'field_subject_introduction' => $introduction,
-            'field_subject_language' => $language,
-            'field_subject_learning_outcomes' => $learning_outcomes,  // Validado
-            'field_subject_modality' => $modality,
-            'field_subject_planned_activities' => $planned_activities,
-            'field_subject_recommendations' => $recommendations,
-            'field_tipo' => $type,
-            'status' => 1,  // Publicado
-          ]);
-
-          // Guardar el nodo en la base de datos.
-          $node->save();
-
+        $group_ids = $query->execute();
+        if (empty($group_ids)) {
+          \Drupal::messenger()->addError('No se encontró ningún grupo con ese nombre.');
+          continue;
         }
 
+        $group_id = reset($group_ids);
+        $group = Group::load($group_id);
+        if (!$group) {
+          \Drupal::messenger()->addError('Error al cargar el grupo.');
+          continue;
+        }
+
+        // Verificar si el usuario tiene permisos en el grupo.
+        $current_user = \Drupal::currentUser();
+        $user = User::load($current_user->id());
+        $membership = $group->getMember($user);
+
+        if ($membership) {
+          // Obtener el ID del miembro y los roles que tiene en el grupo.
+          $user_id = $membership->getUser()->id();
+          $roles = $membership->getRoles();
+
+          // Convertir los roles a una cadena de texto para imprimir.
+          $roles_list = [];
+          foreach ($roles as $role) {
+            $roles_list[] = $role->label();
+          }
+
+          // Imprimir información sobre el usuario y sus roles.
+          \Drupal::messenger()->addMessage('Usuario ID: ' . $user_id);
+          \Drupal::messenger()->addMessage('Roles en el grupo: ' . implode(', ', $roles_list));
+        } else {
+          \Drupal::messenger()->addMessage('El usuario no pertenece a este grupo.');
+        }
+
+
+        if (!$membership) {
+          \Drupal::messenger()->addError('No tienes permiso para crear o editar asignaturas en esta carrera.');
+          continue;
+        }
+
+        if ($membership->hasPermission('create group_node:asignatura entity') || $membership->hasPermission('update own group_node:asignatura entity')) {
+
+          // Verificar si la carrera ya existe.
+
+          if ($subject) {
+            if ($subject->getOwnerId() == $current_user->id() || $membership->hasPermission('update any group_node:asignatura entity')) {
+              $this->updateSubject($subject, $data);
+            } else {
+              \Drupal::messenger()->addError('No tienes permiso para editar esta asignatura.');
+            }
+
+          } else {
+            if ($degree->getOwnerId() == $current_user->id()) {
+              \Drupal::messenger()->addMessage('Id del propietario: ' . $degree->getOwnerId() . ' e id del usuario: ' . $current_user->id());
+
+              $this->createNewSubject($subject_name, $degree, $data, $group);
+            } else {
+              \Drupal::messenger()->addError('No tienes permiso para crear asignaturas en esta carrera.');
+            }
+          }
+        } else {
+          \Drupal::messenger()->addError('No tienes permiso para editar o crear asignaturas en esta carera.');
+        }
 
 
       } catch (\Exception $e) {
@@ -245,6 +267,93 @@ class SubjectImport
 
 
   }
+
+
+  protected function updateSubject($subject, $data)
+  {
+
+    $subject->set('field_creditos', $data['Credits']);
+    $subject->set('field_cuatrimestre', self::VALID_COURSES_QUARTERS[$data['Quarter']]);
+    $subject->set('field_curso', self::VALID_COURSES_QUARTERS[$data['Course']]);
+    $subject->set('field_codigo', $data['Code']);
+    $subject->set('field_requirements', $data['Requirements']);  // Validado
+    $subject->set('field_subject_contents', $data['Subject Contents']);  // Validado
+    $subject->set('field_subject_evaluation', $data['Subject Evaluation']);
+    $subject->set('field_subject_instructors', $data['Subject Instructors']);
+    $subject->set('field_subject_introduction', $data['Subject Introduction']);
+    $subject->set('field_subject_language', $data['Language']);
+    $subject->set('field_subject_learning_outcomes', $data['Subject Learning Outcomes']);
+    $subject->set('field_subject_modality', $data['Subject Modality']);
+    $subject->set('field_subject_planned_activities', $data['Subject Planned Activities']);
+    $subject->set('field_subject_recommendations', $data['Subject Recommendations']);
+    $subject->set('field_tipo', strtolower($data['Type']));
+
+    $subject->save();
+
+  }
+
+  protected function createNewSubject($subject_name, $degree, $data, $group)
+  {
+    $subject = Node::create(values: [
+      'type' => 'asignatura',
+      'title' => $subject_name,
+      'field_carrera' => ['target_id' => $degree->id()],  // Referencia a la carrera.
+      'field_creditos' => $data['Credits'],
+      'field_cuatrimestre' => self::VALID_COURSES_QUARTERS[$data['Quarter']],
+      'field_curso' => self::VALID_COURSES_QUARTERS[$data['Course']],
+      'field_codigo' => $data['Code'],
+      'field_requirements' => $data['Requirements'],
+      'field_subject_contents' => $data['Subject Contents'],
+      'field_subject_evaluation' => $data['Subject Evaluation'],  // Validado
+      'field_subject_instructors' => $data['Subject Instructors'],  // Validado
+      'field_subject_introduction' => $data['Subject Introduction'],
+      'field_subject_language' => $data['Language'],
+      'field_subject_learning_outcomes' => $data['Subject Learning Outcomes'],  // Validado
+      'field_subject_modality' => $data['Subject Modality'],
+      'field_subject_planned_activities' => $data['Subject Planned Activities'],
+      'field_subject_recommendations' => $data['Subject Recommendations'],
+      'field_tipo' => strtolower($data['Type']),
+      'status' => 1,  // Publicado
+    ]);
+
+    // Guardar el nodo en la base de datos.
+    $subject->save();
+
+
+    // Crear el administrador de la asignatura.
+    $admin_email = $data['Admin Email'];
+    $admin_username = $data['Admin Username'];
+    $admin_password = $data['Admin Password'];
+
+    $admin_user = User::create([
+        'name' => $admin_username,
+        'mail' => $admin_email,
+        'pass' => $admin_password,
+        'status' => 1,
+    ]);
+
+    $admin_user->save();
+    $subject->setOwner($admin_user);
+    $subject->save();
+
+    // Relacionar la asignatura con el grupo de la universidad.
+    $group->addRelationship($subject, 'group_node:asignatura');
+
+    // Añadir el administrador de la carrera al grupo con el rol correspondiente.
+    $group->addMember($admin_user, ['group_roles' => ['universitytypegroup-subject_admi']]);
+
+    \Drupal::messenger()->addMessage('Asignatura y administrador creados con éxito.');
+
+
+
+
+
+
+  }
+
+
+
+
 }
 
 

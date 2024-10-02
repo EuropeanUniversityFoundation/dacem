@@ -127,8 +127,8 @@ class DegreeImport
                     foreach ($role_permissions as $permission) {
                         \Drupal::messenger()->addMessage($permission);
                     }
-                }*/
-
+                }
+                */
 
 
                 if ($membership) {
@@ -158,15 +158,24 @@ class DegreeImport
                     continue;
                 }
 
-                if ($membership->hasPermission('create group_node:carrera entity') || $membership->hasPermission('update any group_node:carrera entity')) {
+                if ($membership->hasPermission('create group_node:carrera entity') || $membership->hasPermission('update own group_node:carrera entity')) {
 
                     // Verificar si la carrera ya existe.
                     $degree = $this->getDegreeByName($degree_name, $university->id());
 
                     if ($degree) {
+                        if ($degree->getOwnerId() == $current_user->id() || $membership->hasPermission('update any group_node:carrera entity')) {
                         $this->updateDegree($degree, $data);
+                        }else{
+                            \Drupal::messenger()->addError('No tienes permiso para editar esta carrera.');
+                        }
+                
                     } else {
-                        $this->createNewDegree($degree_name, $university, $data, $group);
+                        if ($membership->hasPermission('create group_node:carrera entity')) {
+                            $this->createNewDegree($degree_name, $university, $data, $group);
+                        }else{
+                                \Drupal::messenger()->addError('No tienes permiso para crear carreras en esta universidad.');
+                            }
                     }
                 } else {
                     \Drupal::messenger()->addError('Degree2 No tienes permiso para crear o editar carreras en esta universidad.');
