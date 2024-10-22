@@ -9,23 +9,34 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class UniversityImport
 {
 
-
-
-  protected function getUniversityByName($university_name)
+  protected function getUniversityByName($original_university_name, $university_name, $lang_code = 'es')
   {
-
     // Crear una consulta para buscar la universidad por su nombre (título).
     $query = \Drupal::entityQuery('node')
       ->condition('type', 'universidad')  // Asumiendo que el tipo de nodo es "universidad".
-      ->condition('title', $university_name)  // Buscar por título.
+      ->condition('title', $original_university_name)  // Buscar por título.
       ->accessCheck(FALSE)  // No verificar permisos de acceso.
       ->range(0, 1);  // Limitar la búsqueda a un resultado.
 
     $nids = $query->execute();  // Ejecutar la consulta.
-    // Si encontramos la universidad, devolver su ID.
+
+    // Si encontramos la universidad, cargar el nodo original.
     if (!empty($nids)) {
       $nid = reset($nids);
-      return \Drupal\node\Entity\Node::load($nid);  // Devolver el nodo de la universidad.
+      $node = \Drupal\node\Entity\Node::load($nid);  // Cargar el nodo de la universidad.
+
+      // Verificar si el nodo tiene una traducción para el idioma especificado.
+      if ($node->hasTranslation($lang_code)) {
+        // Devolver el nodo traducido en el idioma solicitado.
+        return $node->getTranslation($lang_code);
+      } else {
+
+            $translated_university = $node->addTranslation($lang_code);
+            $translated_university->setTitle($university_name);
+            $translated_university->save();
+
+        return $translated_university;  // Devolver el nodo original en su idioma base.
+      }
     }
 
     // Si no se encuentra la universidad, devolver NULL.
@@ -73,6 +84,8 @@ class UniversityImport
       }
 
       // Obtener los valores de las columnas correspondientes.
+      $original_university_name = $data['Original Name'];
+      $lang_code =  $data['Lang code'];
       $university_name = $data['University']; // Acceder a la columna "University".
       $university_information = $data['Information'];
       $university_primary_color = $data['Primary Color'];
@@ -80,9 +93,11 @@ class UniversityImport
       $university_emphasis_color = $data['Emphasis Text Color'];
 
       try {
-        $university = $this->getUniversityByName($university_name);
+        $university = $this->getUniversityByName($original_university_name, $university_name, $lang_code);
 
         if ($university) {
+          
+          $university->set('field_informacion', $university_information);
           $university->set('field_informacion', $university_information);
           $university->set('field_primary_color', $university_primary_color);
           $university->set('field_text_color', $university_text_color);

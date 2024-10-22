@@ -40,7 +40,7 @@
         "drupal/twig_vardumper": "^3.1",
         "drupal/user_redirect": "^2.0",
         "drush/drush": "^12.5",
-        "phpoffice/phpspreadsheet": "^2.2"
+        "phpoffice/phpspreadsheet": "^3.3"
     },
     "conflict": {
         "drupal/drupal": "*"
