@@ -31,6 +31,7 @@
         "drupal/group_content_menu": "^3.0",
         "drupal/jquery_scrollup": "^2.0",
         "drupal/locale_download": "^1.0@RC",
+        "drupal/login_destination": "^2.0@beta",
         "drupal/og": "^1.0@alpha",
         "drupal/pathauto": "^1.12",
         "drupal/scrollup": "^3.0",
