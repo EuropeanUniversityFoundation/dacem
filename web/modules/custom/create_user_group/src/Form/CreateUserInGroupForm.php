@@ -65,6 +65,18 @@ class CreateUserInGroupForm extends FormBase {
             '#required' => TRUE,
           ];
 
+          $form['role'] = [
+            '#type' => 'select',
+            '#title' => $this->t('Role'),
+            '#options' => [
+              'university_a' => $this->t('University Admin'),
+              'degree_admin' => $this->t('Degree Admin'),
+              'subject_admi' => $this->t('Subject Admin'),
+            ],
+            '#required' => TRUE,
+          ];
+          
+
           $form['submit'] = [
             '#type' => 'submit',
             '#value' => $this->t('Create User and Add to Group'),
@@ -87,6 +99,7 @@ class CreateUserInGroupForm extends FormBase {
     $username = $form_state->getValue('username');
     $email = $form_state->getValue('email');
     $password = $form_state->getValue('password');
+    $role = $form_state->getValue('role');
 
     // Crear el usuario.
     $user = User::create([
@@ -97,18 +110,19 @@ class CreateUserInGroupForm extends FormBase {
     ]);
     $user->save();
 
+
     // Obtener el grupo actual desde la URL.
     $group = \Drupal::routeMatch()->getParameter('group');
     if ($group instanceof Group) {
       // Añadir el usuario al grupo con un rol específico.
-      $group->addMember($user, ['group_roles' => ['responsable_de_carrera']]);
+      $group->addMember($user, ['group_roles' => ['universitytypegroup-'.$role]]);
     }
 
     // Mostrar mensaje de confirmación.
     \Drupal::messenger()->addMessage($this->t('User %username has been created and added to the group.', ['%username' => $user->getAccountName()]));
 
     // Redirigir a la página de miembros del grupo.
-    $form_state->setRedirect('entity.group.canonical', ['group' => $group->id()]);
+    $form_state->setRedirect('view.group_members.page_1', ['group' => $group->id()]);
 
   }
 

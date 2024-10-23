@@ -42,7 +42,7 @@ function create_user_group_preprocess_block(&$variables) {
             \Drupal::messenger()->addMessage('Usuario con rol University Admin detectado.');
 
             // Crear el HTML del botón.
-            $button_html = '<li><a href="/group/' . $group->id() . '/create-user" class="button button-action">Crear usuario</a></li>';
+            $button_html = '<li><a href="/group/' . $group->id() . '/create-user" class="button button-action">Create user</a></li>';
 
             // Comprobar si el bloque tiene la clave #markup
             if (isset($variables['content']['#markup'])) {
