@@ -121,9 +121,17 @@ class CreateUserInGroupForm extends FormBase {
     // Mostrar mensaje de confirmación.
     \Drupal::messenger()->addMessage($this->t('User %username has been created and added to the group.', ['%username' => $user->getAccountName()]));
 
-    // Redirigir a la página de miembros del grupo.
-    $form_state->setRedirect('view.group_members.page_1', ['group' => $group->id()]);
+    $destination = \Drupal::request()->query->get('destination');
 
+    if ($destination) {
+      // Redirigir a la página desde donde se inició el proceso de creación del usuario.
+      $form_state->setRedirectUrl(\Drupal\Core\Url::fromUserInput($destination));
+    } else {
+      // Si no se proporciona un destino, redirigir a la página de miembros del grupo.
+      $group = \Drupal::routeMatch()->getParameter('group');
+      $form_state->setRedirect('view.group_members.page_1', ['group' => $group->id()]);
+    }
+    
   }
 
 

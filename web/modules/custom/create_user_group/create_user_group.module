@@ -23,6 +23,7 @@ function create_user_group_preprocess_block(&$variables) {
       $group = \Drupal::routeMatch()->getParameter('group');
       if ($group) {
         \Drupal::messenger()->addMessage('Grupo encontrado: ' . $group->label());
+        
 
         // Verificar que el usuario actual tiene el rol University Admin en el grupo.
         $current_user = \Drupal::currentUser();
@@ -63,6 +64,15 @@ function create_user_group_preprocess_block(&$variables) {
       }
     }
   }
+
+
+
+
+
+   
+
+
+
 }
 
 
