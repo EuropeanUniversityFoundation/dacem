@@ -141,7 +141,7 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
       $current_url = \Drupal::request()->getRequestUri();
       $form['create_user_button'] = [
         '#type' => 'link',
-        '#title' => t('Crear usuario'),
+        '#title' => t('Create user'),
         '#url' => \Drupal\Core\Url::fromRoute('create_user_group.create_user_form', ['group' => $group->id()], ['query' => ['destination' => $current_url]]),
         '#attributes' => ['class' => ['button', 'button--primary']],
       ];
