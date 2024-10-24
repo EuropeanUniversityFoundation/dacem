@@ -1,48 +1,165 @@
 <?php
+use Drupal\group\Entity\Group;
+use Drupal\group\Entity\GroupContent;
+
+
 
 /**
  * Implements hook_form_alter() to restrict the 'universidad' field in group content creation
  * and restrict the 'carrera' field for assignment creation.
  */
-function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
+{
   // Obtener el usuario actual.
   $current_user = \Drupal::currentUser();
 
-  
-      // Asegurarse de que el campo de autor esté presente en el formulario.
-      if (isset($form['uid'])) {
-        // Hacer que el campo de autor sea visible y editable.
-        $form['uid']['#access'] = TRUE;
-        $form['uid']['#disabled'] = FALSE;  // Hacer editable el campo.
 
-        // Mover el campo "Autor" a la parte superior del formulario.
-       
-        \Drupal::messenger()->addMessage(t('El campo de autor está habilitado.'));
-      }
-  
-  
+  // Asegurarse de que el campo de autor esté presente en el formulario.
+  if (isset($form['uid'])) {
+    // Hacer que el campo de autor sea visible y editable.
+    $form['uid']['#access'] = TRUE;
+    $form['uid']['#disabled'] = FALSE;  // Hacer editable el campo.
+
+    // Mover el campo "Autor" a la parte superior del formulario.
+
+    \Drupal::messenger()->addMessage(t('El campo de autor está habilitado.'));
+  }
+
+
   // Verificar si el usuario NO es el administrador general.
   if (!$current_user->hasRole('administrator')) {
+    // Verificar si estamos editando una carrera o una asignatura.
+    if ($form_id === 'node_carrera_edit_form' || $form_id === 'node_asignatura_edit_form') {
+      // Obtener el nodo actual (carrera o asignatura).
+      $node = $form_state->getFormObject()->getEntity();
     
+      // Comprobar si el nodo tiene un campo que referencia a la universidad.
+      if ($node->hasField('field_universidad') && !$node->get('field_universidad')->isEmpty()) {
+        // Obtener la entidad Universidad referenciada.
+        $university = $node->get('field_universidad')->entity;
+    
+        if ($university) {
+          \Drupal::messenger()->addMessage('Universidad encontrada: ' . $university->label());
+    
+          // Cargar las relaciones de la entidad universidad con los grupos.
+          $relationships = \Drupal\group\Entity\GroupRelationship::loadByEntity($university);
+    
+          if (!empty($relationships)) {
+            foreach ($relationships as $relationship) {
+              // Obtener el grupo asociado a la universidad.
+              $group = $relationship->getGroup();
+              \Drupal::messenger()->addMessage('Grupo encontrado: ' . $group->label());
+    
+              // Obtener los miembros del grupo.
+              $members = $group->getMembers();
+              $user_options = [];
+    
+              foreach ($members as $member) {
+                $user = $member->getUser();
+                // Agregar los usuarios a las opciones del campo autor.
+                $user_options[$user->id()] = $user->getDisplayName();
+                \Drupal::messenger()->addMessage('Usuario encontrado: ' . $user->getDisplayName());
+              }
+              
+              // Ordenar los nombres de los usuarios alfabéticamente.
+              asort($user_options);
+
+              // Modificar el campo autor para que solo muestre esos usuarios y cambiar el tipo de campo.
+              if (isset($form['uid']) && !empty($user_options)) {
+                // Convertir el campo de autocompletar en un campo de selección.
+                $form['uid']['widget'][0]['target_id'] = [
+                  '#type' => 'select',
+                  '#title' => t('Escrito por'),
+                  '#options' => $user_options,
+                  '#default_value' => $node->getOwnerId(), // Preseleccionar el autor actual.
+                  '#required' => TRUE,
+                ];
+    
+                \Drupal::messenger()->addMessage('Campo de autor modificado con los usuarios del grupo.');
+              } else {
+                \Drupal::messenger()->addMessage('No se encontraron usuarios en este grupo para agregar al campo autor.');
+              }
+            }
+          } else {
+            \Drupal::messenger()->addMessage('No se encontraron grupos para esta universidad.');
+          }
+        } else {
+          \Drupal::messenger()->addMessage('No se encontró la universidad referenciada.');
+        }
+      } else {
+        \Drupal::messenger()->addMessage('El nodo no tiene una universidad asociada en el campo field_universidad.');
+      }
+
+    
+
+
+
+
+
+
+      //$university = $node->get('field_universidad')->value;
+      //\Drupal::messenger()->addMessage(t('Nodoooooo ' . (string)$node));
+      //\Drupal::messenger()->addMessage(t('Universityyyy  ' . $university));
+      // Obtener el grupo relacionado con la entidad (carrera o asignatura).
+      /*
+      $group_contents = $node->group();
+      if ($group_contents) {
+        // Tomar el primer grupo que esté relacionado con la entidad.
+        $group_content = reset($group_contents);
+        $group = $group_content->getGroup();
+
+        // Verificar si estamos en una carrera o asignatura.
+        if ($form_id === 'node_carrera_edit_form') {
+          // Obtener los usuarios con el rol Degree Admin en el grupo.
+          $role_id = 'universitytypegroup-degree_admin';
+        } else if ($form_id === 'node_asignatura_edit_form') {
+          // Obtener los usuarios con el rol Subject Admin en el grupo.
+          $role_id = 'universitytypegroup-subject_admin';
+        }
+
+        // Buscar todos los usuarios que tienen ese rol en el grupo.
+        $members = $group->getMembers();
+        $user_options = [];
+        foreach ($members as $member) {
+          $user = $member->getUser();
+          if ($member->hasRole($role_id)) {
+            $user_options[$user->id()] = $user->getDisplayName();
+          }
+        }
+
+        // Modificar el campo autor para que solo muestre esos usuarios.
+        if (isset($form['uid'])) {
+          $form['uid']['#options'] = $user_options;
+        }
+      }*/
+    }
+
+
+
+
+
+
+
+
     // Caso 1: Crear Carrera (Restricción de universidad).
     if ($form_id === 'node_carrera_form') {
       \Drupal::messenger()->addMessage(t('Creando carrera.'));
-      
+
       // Obtener el grupo desde la URL.
       $group = \Drupal::routeMatch()->getParameter('group');
-      
+
       // Verificar que estamos en el contexto de un grupo y que es un grupo de tipo 'UniversityTypeGroup'.
       if ($group && $group->bundle() == 'universitytypegroup') {
         // Obtener las relaciones de contenido del grupo.
         $relationships = $group->getRelationships();
-        
+
         foreach ($relationships as $relationship) {
           $entity = $relationship->getEntity();
-          
+
           // Verificar si la entidad es del tipo "universidad".
           if ($entity && $entity->bundle() == 'universidad') {
             \Drupal::messenger()->addMessage(t('University found: ' . $entity->label()));
-            
+
             // Limitar el campo de selección 'field_universidad' a solo esta universidad y mostrar su nombre sin opción de cambiarlo.
             if (isset($form['field_universidad'])) {
               $form['field_universidad']['widget'][0]['target_id']['#default_value'] = $entity;
@@ -54,42 +171,42 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
         }
       }
     }
-    
+
     // Caso 2: Crear Asignatura (Restricción de carrera).
     elseif ($form_id === 'node_asignatura_form') {
       \Drupal::messenger()->addMessage(t('Creando asignatura.'));
-      
+
       // Obtener el grupo desde la URL.
       $group = \Drupal::routeMatch()->getParameter('group');
-      
+
       // Verificar que estamos en el contexto de un grupo y que es un grupo de tipo 'UniversityTypeGroup'.
       if ($group && $group->bundle() == 'universitytypegroup') {
         // Obtener las relaciones de contenido del grupo.
         $relationships = $group->getRelationships();
-        
+
         foreach ($relationships as $relationship) {
           $entity = $relationship->getEntity();
-          
+
           // Verificar si la entidad es del tipo "carrera" y si el usuario es el propietario.
           if ($entity && $entity->bundle() == 'carrera' && $entity->getOwnerId() == $current_user->id()) {
             \Drupal::messenger()->addMessage(t('Carrera found: ' . $entity->label()));
-            
+
             // Verificar si el campo field_carrera está en el formulario.
             if (isset($form['field_carrera'])) {
               \Drupal::messenger()->addMessage(t('Field carrera encontrado.'));
-              
+
               // Aplicar filtro directamente en la consulta de referencia de la carrera.
               $form['field_carrera']['widget'][0]['target_id']['#selection_handler'] = 'default';
               $form['field_carrera']['widget'][0]['target_id']['#selection_settings'] = [
                 'target_bundles' => ['carrera'],
                 'auto_create' => FALSE,
               ];
-              
+
               // Limitar la selección de la carrera solo a la carrera del usuario.
               $form['field_carrera']['widget'][0]['target_id']['#default_value'] = $entity;
               $form['field_carrera']['widget'][0]['target_id']['#options'] = [$entity->id() => $entity->label()];
               $form['field_carrera']['widget'][0]['target_id']['#disabled'] = TRUE;  // Deshabilitar el campo.
-              
+
               // Añadir más depuración.
               \Drupal::messenger()->addMessage(t('Set carrera value: ' . $entity->id() . ' - ' . $entity->label()));
             } else {
