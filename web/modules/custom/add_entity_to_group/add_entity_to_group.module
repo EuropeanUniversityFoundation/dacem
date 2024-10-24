@@ -34,11 +34,17 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
     if ($form_id === 'node_carrera_edit_form' || $form_id === 'node_asignatura_edit_form') {
       // Obtener el nodo actual (carrera o asignatura).
       $node = $form_state->getFormObject()->getEntity();
-    
+      $university=null;
+      $degree=null;
+
       // Comprobar si el nodo tiene un campo que referencia a la universidad.
       if ($node->hasField('field_universidad') && !$node->get('field_universidad')->isEmpty()) {
         // Obtener la entidad Universidad referenciada.
         $university = $node->get('field_universidad')->entity;
+      }else if ($node->hasField('field_carrera') && !$node->get('field_carrera')->isEmpty()){
+        $degree = $node->get('field_carrera')->entity;
+        $university = $degree->get('field_universidad')->entity;
+      }
     
         if ($university) {
           \Drupal::messenger()->addMessage('Universidad encontrada: ' . $university->label());
@@ -58,9 +64,24 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
     
               foreach ($members as $member) {
                 $user = $member->getUser();
-                // Agregar los usuarios a las opciones del campo autor.
+                $role = $member->getRoles();
+                $user_role = reset($role); // Obtener el primer (y único) rol del array.
+                \Drupal::messenger()->addMessage('Rol de usuario ' . $user_role->id());
+                if ($form_id === 'node_carrera_edit_form'){
+                  \Drupal::messenger()->addMessage('Estamos en form de nodo carrera ');
+                  if($user_role->id() == 'universitytypegroup-degree_admin'){
+                    $user_options[$user->id()] = $user->getDisplayName();
+                    \Drupal::messenger()->addMessage('É degree admin ');
+                  }
+
+                }else if ($form_id === 'node_asignatura_edit_form'){
+                \Drupal::messenger()->addMessage('Estamos en if de nodo asginatura ');
                 $user_options[$user->id()] = $user->getDisplayName();
-                \Drupal::messenger()->addMessage('Usuario encontrado: ' . $user->getDisplayName());
+
+                }
+                // Agregar los usuarios a las opciones del campo autor.
+                
+                //\Drupal::messenger()->addMessage('Usuario encontrado: ' . $user->getDisplayName());
               }
               
               // Ordenar los nombres de los usuarios alfabéticamente.
@@ -88,54 +109,7 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
         } else {
           \Drupal::messenger()->addMessage('No se encontró la universidad referenciada.');
         }
-      } else {
-        \Drupal::messenger()->addMessage('El nodo no tiene una universidad asociada en el campo field_universidad.');
-      }
 
-    
-
-
-
-
-
-
-      //$university = $node->get('field_universidad')->value;
-      //\Drupal::messenger()->addMessage(t('Nodoooooo ' . (string)$node));
-      //\Drupal::messenger()->addMessage(t('Universityyyy  ' . $university));
-      // Obtener el grupo relacionado con la entidad (carrera o asignatura).
-      /*
-      $group_contents = $node->group();
-      if ($group_contents) {
-        // Tomar el primer grupo que esté relacionado con la entidad.
-        $group_content = reset($group_contents);
-        $group = $group_content->getGroup();
-
-        // Verificar si estamos en una carrera o asignatura.
-        if ($form_id === 'node_carrera_edit_form') {
-          // Obtener los usuarios con el rol Degree Admin en el grupo.
-          $role_id = 'universitytypegroup-degree_admin';
-        } else if ($form_id === 'node_asignatura_edit_form') {
-          // Obtener los usuarios con el rol Subject Admin en el grupo.
-          $role_id = 'universitytypegroup-subject_admin';
-        }
-
-        // Buscar todos los usuarios que tienen ese rol en el grupo.
-        $members = $group->getMembers();
-        $user_options = [];
-        foreach ($members as $member) {
-          $user = $member->getUser();
-          if ($member->hasRole($role_id)) {
-            $user_options[$user->id()] = $user->getDisplayName();
-          }
-        }
-
-        // Modificar el campo autor para que solo muestre esos usuarios.
-        if (isset($form['uid'])) {
-          $form['uid']['#options'] = $user_options;
-        }
-      }*/
-
-      // Ahora agregas el botón "Crear Usuario" solo si el usuario es University Admin.
     
       // Añadir un botón de "Crear Usuario" debajo del campo de autor.
       $current_url = \Drupal::request()->getRequestUri();
