@@ -42,7 +42,7 @@ class DacemMenuBlock extends BlockBase
             $languages = $language_manager->getLanguages();
             $switch_links = [
                 'es' => '',
-                'en-gb' => ''
+                'en' => ''
             ];
 
             foreach ($languages as $language) {
@@ -90,7 +90,7 @@ class DacemMenuBlock extends BlockBase
                           <!-- Botones de idioma -->
                           <div class="d-flex ms-lg-2 language-buttons">
                               <a href="@url_es" class="btn btn-outline-secondary me-2" style="color:red; border-color:red;">ES</a>
-                              <a href="@url_en_gb" class="btn btn-outline-secondary" style="color:red; border-color:red;">EN</a>
+                              <a href="@url_en" class="btn btn-outline-secondary" style="color:red; border-color:red;">EN</a>
                           </div>
                       </div>
                   </div>
@@ -98,7 +98,7 @@ class DacemMenuBlock extends BlockBase
                     [
                         '@menu_image_url' => $logo_url,
                         '@url_es' => $switch_links['es'],
-                        '@url_en_gb' => $switch_links['en-gb'],
+                        '@url_en' => $switch_links['en'],
                     ]
                 ),
             ];

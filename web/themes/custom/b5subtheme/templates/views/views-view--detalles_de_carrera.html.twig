@@ -1,9 +1,44 @@
 {{ attach_library('b5subtheme/course_buttons') }}
 {{ attach_library('b5subtheme/degree_menu_scroll') }}
 
+
+{#{{dump(view.result[0])}}
+
+{# Obtener la entidad de contenido desde la vista #}
+{% set entity = view.result[0]._entity %}
+{#{{dump(entity)}}
+
+{# Obtener el idioma actual basado en la URL, NO en la interfaz #}
+{#{% set current_current_language = entity.get('langcode').value %}#}
+{#{% set current_current_language = language_manager.getCurrentLanguage().getId() %}#}
+{#{% set current_current_language = view.result[0].node_field_data_langcode %}#}
+{{dump(view.result[0].node_field_data_langcode)}}
+{% set current_language = view.result[0].node_field_data_langcode %}
+{{dump(current_language)}}
+
+
+{# Verificar si la entidad tiene una traducción en el idioma de la URL #}
+	{% if entity.hasTranslation(current_language) %}
+	{% set translated_entity = entity.getTranslation(current_language) %}
+	{{dump('entramos if, hai traduccion')}}
+{% else %}
+	{% set translated_entity = entity %}
+	{{dump('entramos else, non hai traduccion')}}
+{% endif %}
+
+{#{{dump(translated_entity.field_nivel_de_cualificacion.value)}}#}
+
+
+{#
 {% set current_language = language_manager.getCurrentLanguage().getId() %}
 
 {% set entity = view.result[0]._entity %}
+{{dump(entity)}}
+
+{% if entity is defined %}
+  {% set current_language = entity.get('langcode').value %}
+  {{ current_language }}
+{% endif %}
 
 
 {% if entity.hasTranslation(current_language) %}
@@ -11,13 +46,19 @@
 {% else %}
 	{% set translated_entity = entity %}
 {% endif %}
-
+#}
 
 {% set university = entity.field_universidad.entity %}
 
 {% set university_primary_color = university.field_primary_color[0].color %}
 {% set university_text_color = university.field_text_color[0].color %}
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
+
+{% if translations is defined %}
+	{{ dump(translations) }}
+{% else %}
+	<p>No translations loaded.</p>
+{% endif %}
 
 
 <style>:root
@@ -123,25 +164,25 @@
 			<!-- Menú de pestañas visible en pantallas grandes -->
 			<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 				<li class="nav-item">
-					<a class="nav-link active" href="#general-information">{{ 'General Information'|t }}</a>
+					<a class="nav-link active" href="#general-information">{{ translations[current_language]['General Information']}}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#main-objective">{{ 'Main Objective'|t }}</a>
+					<a class="nav-link" href="#main-objective">{{ translations[current_language]['Main Objective'] }}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#competencies">{{ 'Competencies'|t }}</a>
+					<a class="nav-link" href="#competencies">{{ translations[current_language]['Competencies'] }}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#qualification">{{ 'Qualification'|t }}</a>
+					<a class="nav-link" href="#qualification">{{translations[current_language]['Qualification']  }}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#subjects">{{ 'Subjects'|t }}</a>
+					<a class="nav-link" href="#subjects">{{ translations[current_language]['Subjects'] }}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#admission">{{ 'Admission'|t }}</a>
+					<a class="nav-link" href="#admission">{{ translations[current_language]['Admission']  }}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#regulations">{{ 'Regulations'|t }}</a>
+					<a class="nav-link" href="#regulations">{{ translations[current_language]['Regulations'] }}</a>
 				</li>
 			</ul>
 		</div>
@@ -157,72 +198,59 @@
 			<div class="row">
 				<div class="col-lg-7 col-md-12 col-sm-12">
 					<div class="degree-section" id="general-information" style="text-align: justify;">
-						<h2>{{ 'Presentation'|t|upper }}</h2>
+						<h2>{{ translations[current_language]['Presentation']|upper }}</h2>
 						{{ translated_entity.field_presentacion.value|raw }}
 					</div>
 				</div>
 
 				<div class="col-lg-5 col-md-12 mt-4 mt-lg-0">
 					<div class="degree-sidebar bg-light p-3">
-						<h3>{{ 'General Data'|t }}</h3>
+						<h3>{{ translations[current_language]['General Data']  }}</h3>
 						<div class="row">
 							<div class="col-md-6">
-								<strong>{{ 'Academic Course'|t }}:</strong>
+								<strong>{{ translations[current_language]['Academic Course']  }}:</strong>
 								{{ translated_entity.field_curso_academico.value }}
 							</div>
 							<div class="col-md-6">
-								<strong>{{ 'Level'|t }}:</strong>
-								{% if current_language == 'es' %}
-									{{ translated_entity.field_nivel.value|capitalize }}
-								{% else %}
-									{{ level_translation[translated_entity.field_nivel.value|capitalize]|default(translated_entity.field_nivel.value)|capitalize }}
-								{% endif %}
+								<strong>{{ translations[current_language]['Level'] }}:</strong>
+								{{ level_translation[translated_entity.field_nivel.value|capitalize]|default(translated_entity.field_nivel.value)|capitalize }}
 							</div>
 						</div>
 						<div class="row mt-2">
 							<div class="col-md-6">
-								<strong>{{ 'ECTS Credits'|t }}:</strong>
+								<strong>{{ translations[current_language]['ECTS Credits'] }}:</strong>
 								{{ translated_entity.field_creditos_carrera.value }}
 							</div>
 							<div class="col-md-6">
-								<strong>{{ 'Modality'|t }}:</strong>
-								{% if current_language == 'es' %}
-									{{ translated_entity.field_modalidad.value|capitalize }}
-								{% else %}
-
-									{{ modality_translation[translated_entity.field_modalidad.value|capitalize]|default(translated_entity.field_modalidad.value)|capitalize }}
-								{% endif %}
+								<strong>{{ translations[current_language]['Modality'] }}:</strong>
+								{{ modality_translation[translated_entity.field_modalidad.value|capitalize]|default(translated_entity.field_modalidad.value)|capitalize }}
 							</div>
 						</div>
 						<div class="row mt-2">
 							<div class="col-md-12">
-								<strong>{{ 'ISCED-F'|t }}:</strong>
+								<strong>{{ translations[current_language]['ISCED-F'] }}:</strong>
 								{{ translated_entity.field_isced_f.value }}
 							</div>
 						</div>
 						<div class="row mt-2">
 							<div class="col-md-12">
-								<strong>{{ 'Qualification Level'|t }}:</strong>
+								<strong>{{ translations[current_language]['Qualification Level']  }}:</strong>
 								{{ translated_entity.field_nivel_de_cualificacion.value }}
 							</div>
 						</div>
 						<div class="row mt-2">
 							<div class="col-md-12">
-								<strong>{{ 'Study Modality'|t }}:</strong>
+								<strong>{{ translations[current_language]['Study Modality']  }}:</strong>
 								{{ translated_entity.field_modalidad_de_estudio.value }}
 							</div>
 						</div>
 						<div class="row mt-2">
 							<div class="col-md-12">
-								<strong>{{ 'Professional Practices'|t }}:</strong>
-								{% if current_language == 'es' %}
-									{{ translated_entity.field_practicas_profesionales.value|capitalize }}
-								{% else %}
-									{{ practices_translation[translated_entity.field_practicas_profesionales.value|capitalize]|default(translated_entity.field_practicas_profesionales.value)|capitalize }}
-								{% endif %}
+								<strong>{{ translations[current_language]['Professional Practices']  }}:</strong>
+								{{ practices_translation[translated_entity.field_practicas_profesionales.value|capitalize]|default(translated_entity.field_practicas_profesionales.value)|capitalize }}
 							</div>
 						</div>
-						<h3 class="mt-4">{{ 'Coordination'|t }}</h3>
+						<h3 class="mt-4">{{translations[current_language]['Coordination'] }}</h3>
 						<p>{{ translated_entity.field_coordinador.value }}</p>
 						<p>
 							<i class="fa fa-phone"></i>
@@ -235,36 +263,37 @@
 					</div>
 				</div>
 
+
 			</div>
 
 
 			<div class="col-lg-7 col-md-12 col-sm-12">
 				<div class="degree-section" id="main-objective" style="text-align: justify;">
-					<h2>{{ 'Main Objective'|t|upper }}</h2>
+					<h2>{{ translations[current_language]['Main Objective']|upper }}</h2>
 					{{ translated_entity.field_objetivo_principal.value|raw }}
 				</div>
 				<div class="degree-section" id="competencies" style="text-align: justify;">
-					<h2>{{ 'Competencies'|t|upper }}</h2>
+					<h2>{{ translations[current_language]['Competencies']|upper }}</h2>
 					{{ translated_entity.field_competencias.value|raw }}
 				</div>
 				<div class="degree-section" id="qualification" style="text-align: justify;">
-					<h2>{{ 'Qualification'|t|upper }}</h2>
+					<h2>{{ translations[current_language]['Qualification']|upper }}</h2>
 					{{ translated_entity.field_cualificacion.value|raw }}
 				</div>
 
 
 				<div class="degree-section" id="structure" style="text-align: justify;">
-					<h2>{{ 'STRUCTURE AND DISTRIBUTION OF CREDITS'|t }}</h2>
+					<h2>{{ translations[current_language]['Structure and Distribution of credits']|upper }}</h2>
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th>{{ 'Course'|t }}</th>
-								<th>{{ 'Nucleo'|t }}</th>
-								<th>{{ 'Obligatorio'|t }}</th>
-								<th>{{ 'Opcional'|t }}</th>
-								<th>{{ 'Practicas externas'|t }}</th>
-								<th>{{ 'Proyecto final'|t }}</th>
-								<th>{{ 'TOTAL'|t }}</th>
+								<th>{{ translations[current_language]['Course'] }}</th>
+								<th>{{ translations[current_language]['Nucleo'] }}</th>
+								<th>{{ translations[current_language]['Obligatorio'] }}</th>
+								<th>{{ translations[current_language]['Opcional'] }}</th>
+								<th>{{ translations[current_language]['Practicas externas'] }}</th>
+								<th>{{ translations[current_language]['Proyecto final'] }}</th>
+								<th>{{ translations[current_language]['TOTAL'] }}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -301,11 +330,11 @@
 					<h2>{{ 'Subjects'|t|upper }}</h2>
 					<p>{{ 'The following tables show all the subjects that make up the Study Plan with reference to the 2023-24 academic year'|t }}:</p>
 
-					<!-- Contenedor de los botones de los cursos -->
+					<!-- Contenedor de	 los botones de los cursos -->
 					<div class="custom-btn-group btn-group mb-3" role="group" aria-label="{{ 'Courses'|t }}">
 						{% for course_id, course_name in courses %}
 							<button type="button" class="btn btn-{% if loop.first %}primary{% else %}outline-primary{% endif %} toggle-button btn-subjects-dropdown" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="false" aria-controls="course{{ loop.index }}">
-								{{ course_name|t }}
+								{{ translations[current_language][course_name] }}
 							</button>
 
 
@@ -316,11 +345,11 @@
 									<table class="table table-bordered">
 										<thead>
 											<tr>
-												<th>{{ 'Code'|t }}</th>
-												<th>{{ 'Subject'|t }}</th>
-												<th>{{ 'Quarter'|t }}</th>
-												<th>{{ 'ECTS'|t }}</th>
-												<th>{{ 'Type'|t }}</th>
+												<th>{{ translations[current_language]['Code'] }}</th>
+												<th>{{ translations[current_language]['Subject'] }}</th>
+												<th>{{ translations[current_language]['Quarter'] }}</th>
+												<th>{{ translations[current_language]['ECTS'] }}</th>
+												<th>{{ translations[current_language]['Type'] }}</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -333,6 +362,7 @@
 												{% endif %}
 												{% if translated_subject.field_curso[0].value == course_id %}
 													<tr>
+													
 
 														<td>
 															{% if translated_subject.field_codigo is not empty %}
@@ -357,7 +387,8 @@
 														</td>
 														<td>
 															{% if translated_subject.field_tipo is not empty %}
-																{{ translated_subject.field_tipo[0].value|t|capitalize }}
+															{{dump(translated_subject.field_tipo[0].value)}}
+																{{ translations[current_language][translated_subject.field_tipo[0].value]}}
 															{% else %}
 																{{'Sin tipo'}}
 															{% endif %}
@@ -384,11 +415,11 @@
 								<table class="table table-bordered">
 									<thead>
 										<tr>
-											<th>{{ 'Code'|t }}</th>
-											<th>{{ 'Subject'|t }}</th>
-											<th>{{ 'Quarter'|t }}</th>
-											<th>{{ 'ECTS'|t }}</th>
-											<th>{{ 'Type'|t }}</th>
+											<th>{{ translations[current_language]['Code'] }}</th>
+												<th>{{ translations[current_language]['Subject'] }}</th>
+												<th>{{ translations[current_language]['Quarter'] }}</th>
+												<th>{{ translations[current_language]['ECTS'] }}</th>
+												<th>{{ translations[current_language]['Type'] }}</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -425,7 +456,7 @@
 													</td>
 													<td>
 														{% if translated_subject.field_tipo is not empty %}
-															{{ translated_subject.field_tipo[0].value|t|capitalize }}
+															{{ translations[current_language][translated_subject.field_tipo[0].value]}}
 														{% else %}
 															{{ 'Sin tipo'|t }}
 														{% endif %}

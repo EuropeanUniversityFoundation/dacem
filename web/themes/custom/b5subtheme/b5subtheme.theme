@@ -30,6 +30,7 @@ function b5subtheme_preprocess_block(&$variables) {
 function b5subtheme_preprocess_page(&$variables) {
   // Your custom preprocess code for pages.
    $variables['#attached']['library'][] = 'b5subtheme/course_buttons';
+    
 }
 
 /**
@@ -53,10 +54,29 @@ function b5subtheme_preprocess_HOOK(&$variables) {
  * Implements hook_preprocess_HOOK() for views_view templates.
  */
 function b5subtheme_preprocess_views_view(&$variables) {
+
+  $path = \Drupal::theme()->getActiveTheme()->getPath() . '/translations/translations.yml';
+  
+  // Cargar el contenido del archivo YAML.
+  if (file_exists($path)) {
+    $translations = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($path));
+    
+    // Verifica si las traducciones se están cargando correctamente.
+    \Drupal::logger('b5subtheme')->notice('Translations loaded: <pre>@translations</pre>', ['@translations' => print_r($translations, TRUE)]);
+    
+    // Pasar las traducciones al contexto de Twig.
+    $variables['translations'] = $translations;
+  } else {
+    \Drupal::logger('b5subtheme')->error('Translations file not found at path: @path', ['@path' => $path]);
+  }
+
+
+
+
   // Importar el language_manager.
   $language_manager = \Drupal::service('language_manager');
   $variables['language_manager'] = $language_manager;
-
+  
   if ($variables['view']->id() == 'detalles_de_universidad') {
     $grouped_carreras = [];
 

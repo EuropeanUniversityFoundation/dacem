@@ -1,5 +1,27 @@
 {{ attach_library('b5subtheme/catalogue_buttons') }}
 
+
+{# Obtener la entidad de contenido desde la vista #}
+{% set entity = view.result[0]._entity %}
+{{dump(entity)}}
+
+{{dump(view.result)}}
+{{dump(view.result[0].node_field_data_langcode)}}
+{% set current_language = view.result[0].node_field_data_langcode %}
+{{dump(current_language)}}
+
+
+{# Verificar si la entidad tiene una traducción en el idioma de la URL #}
+{% if entity.hasTranslation(current_language) %}
+	{% set translated_entity = entity.getTranslation(current_language) %}
+{% else %}
+	{% set translated_entity = entity %}
+{% endif %}
+
+{# Obtener el idioma actual de la URL #}
+
+
+{#
 {% set current_language = language_manager.getCurrentLanguage().getId() %}
 
 {% set entity = view.result[0]._entity %}
@@ -10,11 +32,11 @@
 {% endif %}
 
 {% set university = translated_entity %}
+#}
 
 {% set university_primary_color = university.field_primary_color[0].color %}
 {% set university_text_color = university.field_text_color[0].color %}
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
-
 
 
 {% set icon_map = {
@@ -25,7 +47,7 @@
           'ingenieria_y_arquitectura': 'fas fa-drafting-compass'
         } %}
 
-			{% set categories_es = {
+{% set categories_es = {
           'artes_humanidades': 'Artes y Humanidades',
           'ciencias': 'Ciencias',
           'ciencias_de_la_salud': 'Ciencias de la Salud',
@@ -33,7 +55,7 @@
           'ingenieria_y_arquitectura': 'Ingeniería y Arquitectura'
         } %}
 
-			{% set categories_en = {
+{% set categories_en = {
           'artes_humanidades': 'Arts and Humanities',
           'ciencias': 'Sciences',
           'ciencias_de_la_salud': 'Health Sciences',
@@ -41,10 +63,7 @@
           'ingenieria_y_arquitectura': 'Engineering and Architecture'
         } %}
 
-			{% set category_labels = current_language == 'es' ? categories_es : categories_en %}
-
-
-
+{% set category_labels = current_language == 'es' ? categories_es : categories_en %}
 
 
 <style>:root
@@ -60,7 +79,8 @@ class="container-fluid">
 <!-- Menú superior de la universidad -->
 {{ page.university_menu }}
 <div class="search-and-filters-container mb-4">
-	<div class="search-and-filters">
+	<div
+		class="search-and-filters">
 		<!-- Encabezado de búsqueda -->
 		<div class="search-header d-flex align-items-center mb-3">
 			<div class="search-header-row row">
@@ -86,7 +106,8 @@ class="container-fluid">
 
 		<!-- Filtros -->
 		<div class="row filters d-flex align-items-center flex-wrap">
-			<div class="col-lg-1 col-md-2 col-sm-2">
+			<div
+				class="col-lg-1 col-md-2 col-sm-2">
 				<!-- Botón de filtro (visible solo en pantallas grandes) -->
 				<button class="btn btn-danger d-none d-lg-block w-100">
 					<i class="fas fa-filter"></i>
@@ -129,13 +150,12 @@ class="container-fluid">
 </div>
 
 
-
 <div
 	class="row w-100">
 	<!-- Barra lateral con categorías -->
 	<div class="col-md-3 d-none d-lg-block ">
 		<div class="navbar sidebar-categories ">
-			
+
 
 			<ul class="nav flex-column">
 				{% if grouped_carreras is defined %}

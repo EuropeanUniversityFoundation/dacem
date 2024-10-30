@@ -1,0 +1,134 @@
+en:
+
+  #Degree Menu and Sections
+  General Information: 'General Information'
+  Presentation: 'Presentation'
+  Main Objective: 'Main Objective'
+  Competencies: 'Competencies'
+  Qualification: 'Qualification'
+  Subjects: 'Subjects'
+  Admission: 'Admission'
+  Regulations: 'Regulations'
+  Structure and Distribution of credits: 'Structure and Distribution of credits'
+  
+  #Degree General Information
+  General Data: 'General Data'
+  Professional Practices: 'Professional Practices'
+  ECTS Credits: 'ECTS Credits'
+  Coordination: 'Coordination'
+  Academic Course: 'Academic Course'
+  Level: 'Level'
+  Modality: 'Modality'
+  ISCED-F: 'ISCED-F'
+  Qualification Level: 'Qualification Level'
+  Study Modality: 'Study Modality'
+
+  #Degree Structure and Distributions of credits.
+  Course: 'Course'
+  nucleo: 'Core'
+  obligatorio: 'Mandatory'
+  opcional: 'Optional'
+  Nucleo: 'Core'
+  Obligatorio: 'Mandatory'
+  Opcional: 'Optional'
+  Practicas externas: 'External Practices'
+  Proyecto final: 'Final Project'
+  TOTAL: 'TOTAL'
+  Code: 'Code'
+  Subject: 'Subject'
+  Quarter: 'Quarter'
+  ECTS: 'ECTS'
+  Type: 'Type'
+
+
+  #Courses. Change in future
+  1º Course: '1º Course'
+  2º Course: '2º Course'
+  3º Course: '3º Course'
+  4º Course: '4º Course'
+
+
+
+#SUBJECT
+  PRESENTATION: 'PRESENTATION'
+  Period: 'Period'
+  Requirements: 'Requirements'
+  Language: 'Language'
+  INSTRUCTORS: 'INSTRUCTORS'
+  SUBJECT CONTENT: 'SUBJECT CONTENT'
+  LEARNING OUTCOMES: 'LEARNING OUTCOMES'
+  RECOMMENDED READINGS AND TOOLS: 'RECOMMENDED READINGS AND TOOLS'
+  PLANNED ACTIVITIES: 'PLANNED ACTIVITIES'
+  EVALUATION METHODS AND CRITERIA: 'EVALUATION METHODS AND CRITERIA'
+  in_person: 'In person'
+
+
+
+
+
+
+
+
+
+es:
+
+  #Menu Carrera e Apartados
+  General Information: 'Información General'
+  Presentation: 'Presentación'
+  Main Objective: 'Objetivo Principal'
+  Competencies: 'Competencias'
+  Qualification: 'Cualificación'
+  Subjects: 'Asignaturas'
+  Admission: 'Admisión'
+  Regulations: 'Normativas'
+  Structure and Distribution of credits: 'Estructura y Distribución de créditos'
+
+
+  #Información General Carrera
+  General Data: 'Datos Generales'
+  Professional Practices: 'Prácticas Profesionales'
+  ECTS Credits: 'Créditos ECTS'
+  Coordination: 'Coordinación'
+  Academic Course: 'Curso Académico'
+  Level: 'Nivel'
+  Modality: 'Modalidad'
+  ISCED-F: 'ISCED-F'
+  Qualification Level: 'Nivel de Cualificación'
+  Study Modality: 'Modalidad de estudio'
+
+  #Carrera Estructura y distribución de creditos
+  Course: 'Curso'
+  nucleo: 'Núcleo'
+  obligatorio: 'Obligatorio'
+  opcional: 'Opcional'
+  Nucleo: 'Núcleo'
+  Obligatorio: 'Obligatorio'
+  Opcional: 'Opcional'
+  Practicas externas: 'Prácticas externas'
+  Proyecto final: 'Proyecto final'
+  TOTAL: 'TOTAL'
+  Code: 'Código'
+  Subject: 'Asignatura'
+  Quarter: 'Cuatrimestre'
+  ECTS: 'ECTS'
+  Type: 'Tipo'
+
+  #Cursos, cambiar nun futuro
+  1º Course: '1º Curso'
+  2º Course: '2º Curso'
+  3º Course: '3º Curso'
+  4º Course: '4º Curso'
+
+
+  #ASIGNATURA
+  PRESENTATION: 'PRESENTACIÓN'
+  Period: 'Cuatrimestre'
+  Requirements: 'Requisitos'
+  Language: 'Idioma'
+  INSTRUCTORS: 'PROFESORES'
+  SUBJECT CONTENT: 'CONTENIDO DE LA ASIGNATURA'
+  LEARNING OUTCOMES: 'RESULTADOS DE APRENDIZAJE'
+  RECOMMENDED READINGS AND TOOLS: 'LECTURAS Y HERRAMIENTAS RECOMENDADAS'
+  PLANNED ACTIVITIES: 'ACTIVIDADES PLANIFICADAS'
+  EVALUATION METHODS AND CRITERIA: 'MÉTODOS Y CRITERIOS DE EVALUACIÓN'
+  in_person: 'Presencial'

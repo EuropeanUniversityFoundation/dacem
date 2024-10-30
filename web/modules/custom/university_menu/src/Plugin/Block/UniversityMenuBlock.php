@@ -62,7 +62,7 @@ class UniversityMenuBlock extends BlockBase {
         $languages = $language_manager->getLanguages();
         $switch_links = [
           'es' => '',
-          'en-gb' => ''
+          'en' => ''
         ];
 
         foreach ($languages as $language) {
@@ -70,8 +70,11 @@ class UniversityMenuBlock extends BlockBase {
           if (isset($switch_links[$langcode])) {
             $url = Url::fromRoute('<current>', [], ['language' => $language]);
             $switch_links[$langcode] = $url->toString();
+            
           }
         }
+
+        print_r($switch_links);
 
         $build = [
           '#markup' => $this->t('
@@ -107,7 +110,7 @@ class UniversityMenuBlock extends BlockBase {
                           <!-- Botones de idioma -->
                           <div class="d-flex ms-lg-2 language-buttons">
                               <a href="@url_es" class="btn btn-outline-secondary me-2">ES</a>
-                              <a href="@url_en_gb" class="btn btn-outline-secondary">EN</a>
+                              <a href="@url_en" class="btn btn-outline-secondary">EN</a>
                           </div>
                       </div>
                   </div>
@@ -117,7 +120,7 @@ class UniversityMenuBlock extends BlockBase {
                   '@university_name' => $university->getTitle(),
                   '@university_path' => $university->toUrl()->getInternalPath(),
                   '@url_es' => $switch_links['es'],
-                  '@url_en_gb' => $switch_links['en-gb'],
+                  '@url_en' => $switch_links['en'],
                   '@university_url' => $university_url,
               ]),
       ];
