@@ -13280,7 +13280,7 @@ code {
 
 
 .search-and-filters-container {
-  background: url('../images/fondo-uvigo.jpg') no-repeat center center; /* Ruta a tu imagen */
+  background: grey; /* Ruta a tu imagen */
   background-size: cover; /* Ajusta el tamaño de la imagen para cubrir el cuadro de búsqueda */
   padding: 2%;
   border-radius: 0px;

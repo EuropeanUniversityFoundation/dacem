@@ -91,7 +91,7 @@ class DegreeImport
                 $university_name = $data['University'];
                 $degree_name = $data['Degree'];
                 $university = $this->getUniversityByName($university_name);
-                $language_code = $data['Lang code'];
+                //$language_code = $data['Lang code'];
 
                 // Obtener el grupo de la universidad.
                 $group_name = 'Group ' . $university_name;
@@ -235,11 +235,13 @@ class DegreeImport
             'field_email' => $data['Email'],
             'field_area' => self::VALID_AREAS[$data['Area']],
             'field_cualificacion' => $data['Qualification'],
+            'langcode' => $data['Lang code'],  // Aquí asignas el código de idioma
             'status' => 1,
         ]);
 
         $degree->save();
 
+        /*
         // Crear el administrador de la carrera.
         $admin_email = $data['Admin Email'];
         $admin_username = $data['Admin Username'];
@@ -263,6 +265,7 @@ class DegreeImport
         $group->addMember($admin_user, ['group_roles' => ['universitytypegroup-degree_admin']]);
 
         \Drupal::messenger()->addMessage('Carrera y administrador creados con éxito.');
+        */
     }
 }
 

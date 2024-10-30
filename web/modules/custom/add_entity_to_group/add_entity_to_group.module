@@ -233,9 +233,9 @@ function add_entity_to_group_preprocess_block(&$variables) {
     \Drupal::messenger()->addMessage('Botón "Add existing content" encontrado.');
 
     // Deshabilitamos el botón.
-    $variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['onclick'] = 'return false;';
-    $variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['class'][] = 'button--disabled';
-    $variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['style'] = 'pointer-events: none; opacity: 0.5;';
+    //$variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['onclick'] = 'return false;';
+    //$variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['class'][] = 'button--disabled';
+    //$variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['style'] = 'pointer-events: none; opacity: 0.5;';
   }
 }
 

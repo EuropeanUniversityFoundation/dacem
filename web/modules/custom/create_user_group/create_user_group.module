@@ -25,10 +25,10 @@ function create_user_group_preprocess_block(&$variables) {
         \Drupal::messenger()->addMessage('Botón "Añadir miembro" encontrado.');
 
        // Deshabilitar el botón añadiendo clases CSS para simular el estado deshabilitado
-       $variables['content']['group.add_member']['#link']['localized_options']['attributes']['class'][] = 'button--disabled';
+       //$variables['content']['group.add_member']['#link']['localized_options']['attributes']['class'][] = 'button--disabled';
        // Evitar que el enlace funcione al hacer clic
-       $variables['content']['group.add_member']['#link']['localized_options']['attributes']['onclick'] = 'return false;';
-       $variables['content']['group.add_member']['#link']['localized_options']['attributes']['style'] = 'pointer-events: none; opacity: 0.5;';
+       //$variables['content']['group.add_member']['#link']['localized_options']['attributes']['onclick'] = 'return false;';
+       //$variables['content']['group.add_member']['#link']['localized_options']['attributes']['style'] = 'pointer-events: none; opacity: 0.5;';
        
 
         \Drupal::messenger()->addMessage('Botón "Añadir miembro" deshabilitado.');
