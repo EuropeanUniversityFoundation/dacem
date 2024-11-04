@@ -13,9 +13,9 @@
 
 {# Verificar si la entidad tiene una traducción en el idioma de la URL #}
 {% if entity.hasTranslation(current_language) %}
-	{% set translated_entity = entity.getTranslation(current_language) %}
+	{% set university = entity.getTranslation(current_language) %}
 {% else %}
-	{% set translated_entity = entity %}
+	{% set university = entity %}
 {% endif %}
 
 {# Obtener el idioma actual de la URL #}
@@ -33,8 +33,9 @@
 
 {% set university = translated_entity %}
 #}
-
+{{dump(university)}}
 {% set university_primary_color = university.field_primary_color[0].color %}
+{{dump(university_primary_color)}}
 {% set university_text_color = university.field_text_color[0].color %}
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
 
@@ -85,12 +86,12 @@ class="container-fluid">
 		<div class="search-header d-flex align-items-center mb-3">
 			<div class="search-header-row row">
 				<div class="col-lg-5 col-md-12 col-sm-12">
-					<h1>{{'CATALOGUE'|t}}</h1>
+					<h1>{{translations[current_language]['CATALOGUE']}}</h1>
 				</div>
 				<div class="col-lg-3">
 					<div class="d-flex">
-						<button class="btn filter-button me-2 selected" id='titulaciones-button'>{{'DEGREES'|t}}</button>
-						<button class="btn filter-button" id='asignaturas-button'>{{'SUBJECTS'|t}}</button>
+						<button class="btn filter-button me-2 selected" id='titulaciones-button'>{{translations[current_language]['DEGREES']}}</button>
+						<button class="btn filter-button" id='asignaturas-button'>{{translations[current_language]['SUBJECTS']}}</button>
 					</div>
 				</div>
 			</div>
@@ -98,7 +99,7 @@ class="container-fluid">
 
 		<!-- Barra de búsqueda -->
 		<div class="search-bar d-flex mb-3">
-			<input type="text" class="form-control" id='search-input' placeholder={{'Search for a degree'|t}}>
+			<input type="text" class="form-control" id='search-input' placeholder={{translations[current_language]['Search']}}>
 			<button class="btn btn-dark search-button ms-0" id='search-button'>
 				<i class="fas fa-search"></i>
 			</button>
@@ -126,16 +127,16 @@ class="container-fluid">
 
 			<div class="col-lg-2 col-md-12 col-sm-12">
 				<select class="form-control me-2">
-					<option>{{ 'LEVEL'|t }}</option>
-					<option>{{ 'Bachelor'|t }}</option>
-					<option>{{ 'Master'|t }}</option>
+					<option>{{ translations[current_language]['LEVEL'] }}</option>
+					<option>{{ translations[current_language]['Bachelor'] }}</option>
+					<option>{{ translations[current_language]['Master'] }}</option>
 				</select>
 			</div>
 			<div class="col-lg-2 col-md-12 col-sm-12">
 				<select class="form-control me-2">
-					<option>{{ 'LANGUAGE'|t }}</option>
-					<option>{{ 'Spanish'|t }}</option>
-					<option>{{ 'English'|t }}</option>
+					<option>{{ translations[current_language]['LANGUAGE'] }}</option>
+					<option>{{ translations[current_language]['Spanish'] }}</option>
+					<option>{{ translations[current_language]['English'] }}</option>
 				</select>
 			</div>
 			<div class="col-lg-2 col-md-12 col-sm-12">

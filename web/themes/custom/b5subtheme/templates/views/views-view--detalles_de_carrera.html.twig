@@ -106,16 +106,9 @@
 	{% set credits = credits|merge({ (course_id): credits[course_id]|merge({ (credit_type)|capitalize: credits[course_id][credit_type|capitalize] + credit_value }) }) %}
 	{% else %}
 	<!--<pre>Condition not met for Course ID: "{{ course_id }}" and Credit Type: "{{ credit_type }}"</pre>-->
-{% endif %}{% endfor %}{# Diccionario para traducir Level #}{% set level_translation = {
-  'Grado': 'Bachelor',
-  'Máster': 'Master'
-} %}{# Diccionario para traducir Modality #}{% set modality_translation = {
-  'Presencial': 'In-Person',
-  'Online': 'Online'
-} %}{# Diccionario para traducir Professional Practices #}{% set practices_translation = {
-  'Si': 'Yes',
-  'No': 'No'
-} %}<div class="degree-page">
+{% endif %}{% endfor %}
+
+<div class="degree-page">
 <div class="sticky-nav">
 	<div class="degree-header">
 		<div class="container-fluid container-fluid-degree-band ">
@@ -213,7 +206,7 @@
 							</div>
 							<div class="col-md-6">
 								<strong>{{ translations[current_language]['Level'] }}:</strong>
-								{{ level_translation[translated_entity.field_nivel.value|capitalize]|default(translated_entity.field_nivel.value)|capitalize }}
+								{{ translations[current_language][translated_entity.field_nivel.value]}}
 							</div>
 						</div>
 						<div class="row mt-2">
@@ -223,7 +216,7 @@
 							</div>
 							<div class="col-md-6">
 								<strong>{{ translations[current_language]['Modality'] }}:</strong>
-								{{ modality_translation[translated_entity.field_modalidad.value|capitalize]|default(translated_entity.field_modalidad.value)|capitalize }}
+								{{ translations[current_language][translated_entity.field_modalidad.value]|default(translated_entity.field_modalidad.value)|capitalize }}
 							</div>
 						</div>
 						<div class="row mt-2">
@@ -247,7 +240,7 @@
 						<div class="row mt-2">
 							<div class="col-md-12">
 								<strong>{{ translations[current_language]['Professional Practices']  }}:</strong>
-								{{ practices_translation[translated_entity.field_practicas_profesionales.value|capitalize]|default(translated_entity.field_practicas_profesionales.value)|capitalize }}
+								{{ translations[current_language][translated_entity.field_practicas_profesionales.value]}}
 							</div>
 						</div>
 						<h3 class="mt-4">{{translations[current_language]['Coordination'] }}</h3>
@@ -327,7 +320,7 @@
 
 
 				<div class="degree-section" id="subjects" style="text-align: justify;">
-					<h2>{{ 'Subjects'|t|upper }}</h2>
+					<h2>{{ translations[current_language]['Subjects']|upper }}</h2>
 					<p>{{ 'The following tables show all the subjects that make up the Study Plan with reference to the 2023-24 academic year'|t }}:</p>
 
 					<!-- Contenedor de	 los botones de los cursos -->
@@ -341,7 +334,7 @@
 							<div class="courses-container d-block d-sm-block d-md-none d-lg-none">
 
 								<div id="course{{ loop.index }}" class="collapse">
-									<h3>{{ course_name|t }}</h3>
+									<h3>{{ translations[current_language][course_name]}}</h3>
 									<table class="table table-bordered">
 										<thead>
 											<tr>
@@ -411,7 +404,7 @@
 					<div class="courses-container d-none d-md-block d-lg-block">
 						{% for course_id, course_name in courses %}
 							<div id="course{{ loop.index }}" class="collapse">
-								<h3>{{ course_name|t }}</h3>
+								<h3>{{ translations[current_language][course_name]}}</h3>
 								<table class="table table-bordered">
 									<thead>
 										<tr>

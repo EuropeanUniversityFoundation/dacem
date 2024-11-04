@@ -2,6 +2,7 @@
 
 use Drupal\Core\Messenger\MessengerInterface;
 
+/*
 function import_from_excel_group_permissions_alter(array &$group_permissions, array $context) {
   // Enviar un mensaje al sistema de log o a la interfaz de usuario.
   \Drupal::messenger()->addMessage(t('Permisos personalizados de importación de Excel han sido añadidos.'));
@@ -12,3 +13,4 @@ function import_from_excel_group_permissions_alter(array &$group_permissions, ar
     'description' => t('Allows access to the Import from Excel Page'),
   ];
 }
+*/

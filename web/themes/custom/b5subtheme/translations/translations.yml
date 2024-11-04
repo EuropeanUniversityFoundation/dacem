@@ -1,5 +1,22 @@
 en:
 
+
+
+  #University View Search and Filters
+  DEGREES: 'DEGREES'
+  SUBJECTS: 'SUBJECTS'
+  CATALOGUE: 'CATALOGUE'
+  LANGUAGE: 'LANGUAGE'
+  LEVEL: 'LEVEL'
+  Bachelor: 'Bachelor'
+  Master: 'Master'
+  Spanish: 'Spanish'
+  English: 'English'
+  Search: 'Search'
+
+
+
+
   #Degree Menu and Sections
   General Information: 'General Information'
   Presentation: 'Presentation'
@@ -22,6 +39,14 @@ en:
   ISCED-F: 'ISCED-F'
   Qualification Level: 'Qualification Level'
   Study Modality: 'Study Modality'
+  presencial: 'In person'
+  online: 'Online'
+  grado: 'Bachelor'
+  master: 'Master'
+  yes: 'Yes'
+  no: 'No'
+  si: 'Yes'
+
 
   #Degree Structure and Distributions of credits.
   Course: 'Course'
@@ -39,6 +64,7 @@ en:
   Quarter: 'Quarter'
   ECTS: 'ECTS'
   Type: 'Type'
+  
 
 
   #Courses. Change in future
@@ -72,6 +98,20 @@ en:
 
 es:
 
+
+  #Vista Universidad Filtros e Búsqueda
+  DEGREES: 'CARRERAS'
+  SUBJECTS: 'ASIGNATURAS'
+  CATALOGUE: 'CATÁLOGO'
+  LANGUAGE: 'IDIOMA'
+  LEVEL: 'NIVEL'
+  Bachelor: 'Grado'
+  Master: 'Máster'
+  Spanish: 'Español'
+  English: 'Inglés'
+  Search: 'Buscar'
+
+
   #Menu Carrera e Apartados
   General Information: 'Información General'
   Presentation: 'Presentación'
@@ -95,6 +135,14 @@ es:
   ISCED-F: 'ISCED-F'
   Qualification Level: 'Nivel de Cualificación'
   Study Modality: 'Modalidad de estudio'
+  presencial: 'Presencial'
+  online: 'Online'
+  grado: 'Grado'
+  master: 'Máster'
+  yes: 'Si'
+  no: 'No'
+  si: 'Si'
+
 
   #Carrera Estructura y distribución de creditos
   Course: 'Curso'

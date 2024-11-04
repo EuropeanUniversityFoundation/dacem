@@ -5,6 +5,7 @@ namespace Drupal\university_menu\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Url;
+use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Provides a 'University Menu' Block.
@@ -17,12 +18,35 @@ use Drupal\Core\Url;
  */
 class UniversityMenuBlock extends BlockBase {
 
+
+
   /**
    * {@inheritdoc}
    */
   public function build() {
+
+    $translations = [
+      'en' => [
+        'INSTITUTIONAL INFORMATION' => 'INSTITUTIONAL INFORMATION',
+        'CATALOGUE' => 'CATALOGUE',
+        'RESOURCES AND SERVICES' => 'RESOURCES AND SERVICES',
+        'UNIVERSITY LIFE' => 'UNIVERSITY LIFE',
+      ],
+      'es' => [
+        'INSTITUTIONAL INFORMATION' => 'INFORMACIÓN INSTITUCIONAL',
+        'CATALOGUE' => 'CATÁLOGO',
+        'RESOURCES AND SERVICES' => 'RECURSOS Y SERVICIOS',
+        'UNIVERSITY LIFE' => 'VIDA UNIVERSITARIA',
+      ],
+      // Agrega otros idiomas si es necesario
+    ];
+    
+
+
+    
     $build = [];
     $current_node = \Drupal::routeMatch()->getParameter('node');
+    dump($current_node);
 
     if ($current_node instanceof NodeInterface) {
       $node_type = $current_node->bundle();
@@ -39,7 +63,13 @@ class UniversityMenuBlock extends BlockBase {
         }
       }
 
+
+
+
+
+
       if (!empty($university)) {
+        dump('tenemos universidad');
         $logo_url = '';
         if (!$university->get('field_logo')->isEmpty()) {
           $media = $university->get('field_logo')->entity;
@@ -51,9 +81,23 @@ class UniversityMenuBlock extends BlockBase {
           }
         }
 
+
+
+        if ($university instanceof NodeInterface && $university->hasField('field_primary_color') && !$university->get('field_primary_color')->isEmpty()) {
+          dump('entramos if');
+          $color_value = $university->get('field_primary_color')->value;
+          dump($color_value);
+        } else {
+          dump('no hay color');
+        }
+
+
+
+
         // Obtener el idioma actual
         $language_manager = \Drupal::service('language_manager');
-        $current_language = $language_manager->getCurrentLanguage()->getId();
+        //$current_language = $language_manager->getCurrentLanguage()->getId();
+        $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
         // Generar la URL de la universidad en el idioma actual
         $university_url = $university->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
@@ -94,16 +138,16 @@ class UniversityMenuBlock extends BlockBase {
                       <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
                           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                               <li class="nav-item">
-                                  <a class="nav-link" href="/@university_path/informacion-institucional">' . $this->t('INSTITUTIONAL INFORMATION') . '</a>
+                                  <a class="nav-link" href="/@university_path/informacion-institucional">' . $translations[$current_language]['INSTITUTIONAL INFORMATION']. '</a>
                               </li>
                               <li class="nav-item">
-                                  <a class="nav-link" href="/@university_path/catalogo">' . $this->t('CATALOGUE') . '</a>
+                                  <a class="nav-link" href="/@university_path/catalogo">' . $translations[$current_language]['CATALOGUE'] . '</a>
                               </li>
                               <li class="nav-item">
-                                  <a class="nav-link" href="/@university_path/recursos-y-servicios">' . $this->t('RESOURCES AND SERVICES') . '</a>
+                                  <a class="nav-link" href="/@university_path/recursos-y-servicios">' . $translations[$current_language]['RESOURCES AND SERVICES'] . '</a>
                               </li>
                               <li class="nav-item">
-                                  <a class="nav-link" href="/@university_path/vida-universitaria">' . $this->t('UNIVERSITY LIFE') . '</a>
+                                  <a class="nav-link" href="/@university_path/vida-universitaria">' . $translations[$current_language]['UNIVERSITY LIFE'] . '</a>
                               </li>
                           </ul>
       
