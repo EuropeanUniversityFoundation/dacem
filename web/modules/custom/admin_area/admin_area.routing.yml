@@ -1,0 +1,7 @@
+admin_area.my_area:
+  path: '/my-area'
+  defaults:
+    _controller: '\Drupal\admin_area\Controller\AdminAreaController::content'
+    _title: 'My Area'
+  requirements:
+    _permission: 'access content'

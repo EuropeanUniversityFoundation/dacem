@@ -1,7 +1,5 @@
 {% set current_language = view.result[0].node_field_data_langcode %}
-{{dump(current_language)}}
 
-{{dump(view.result[0])}}
 
 {# Acceder a la asignatura actual #}
 {% set subject = view.result[0]._entity %}

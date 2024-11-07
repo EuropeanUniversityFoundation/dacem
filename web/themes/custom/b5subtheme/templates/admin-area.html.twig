@@ -1,0 +1,22 @@
+<h1>{{ title }}</h1>
+<!-- Esta es la plantilla page--my-area.html.twig -->
+
+<!-- Mostrar contenido de `data` para depuración -->
+
+
+<h1> alskdjfñalskdjf </h1>
+{{dump(data)}}
+
+{% if data.university %}
+  <h2>Universidad: {{ data.university }}</h2>
+  {% for carrera in data.carreras %}
+    <h3>Carrera: {{ carrera.title }}</h3>
+    <ul>
+      {% for asignatura in carrera.asignaturas %}
+        <li>{{ asignatura }}</li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+{% else %}
+  <p>No tienes permisos para ver esta área.</p>
+{% endif %}

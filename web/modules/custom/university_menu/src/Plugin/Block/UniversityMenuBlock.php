@@ -46,7 +46,7 @@ class UniversityMenuBlock extends BlockBase {
     
     $build = [];
     $current_node = \Drupal::routeMatch()->getParameter('node');
-    dump($current_node);
+    //dump($current_node);
 
     if ($current_node instanceof NodeInterface) {
       $node_type = $current_node->bundle();
@@ -69,7 +69,7 @@ class UniversityMenuBlock extends BlockBase {
 
 
       if (!empty($university)) {
-        dump('tenemos universidad');
+        //dump('tenemos universidad');
         $logo_url = '';
         if (!$university->get('field_logo')->isEmpty()) {
           $media = $university->get('field_logo')->entity;
@@ -84,11 +84,11 @@ class UniversityMenuBlock extends BlockBase {
 
 
         if ($university instanceof NodeInterface && $university->hasField('field_primary_color') && !$university->get('field_primary_color')->isEmpty()) {
-          dump('entramos if');
+          //dump('entramos if');
           $color_value = $university->get('field_primary_color')->value;
-          dump($color_value);
+          //dump($color_value);
         } else {
-          dump('no hay color');
+          //dump('no hay color');
         }
 
 
@@ -118,7 +118,7 @@ class UniversityMenuBlock extends BlockBase {
           }
         }
 
-        print_r($switch_links);
+        //print_r($switch_links);
 
         $build = [
           '#markup' => $this->t('

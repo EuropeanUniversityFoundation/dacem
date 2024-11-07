@@ -12,18 +12,18 @@
 {#{% set current_current_language = entity.get('langcode').value %}#}
 {#{% set current_current_language = language_manager.getCurrentLanguage().getId() %}#}
 {#{% set current_current_language = view.result[0].node_field_data_langcode %}#}
-{{dump(view.result[0].node_field_data_langcode)}}
+
 {% set current_language = view.result[0].node_field_data_langcode %}
-{{dump(current_language)}}
+
 
 
 {# Verificar si la entidad tiene una traducción en el idioma de la URL #}
 	{% if entity.hasTranslation(current_language) %}
 	{% set translated_entity = entity.getTranslation(current_language) %}
-	{{dump('entramos if, hai traduccion')}}
+
 {% else %}
 	{% set translated_entity = entity %}
-	{{dump('entramos else, non hai traduccion')}}
+
 {% endif %}
 
 {#{{dump(translated_entity.field_nivel_de_cualificacion.value)}}#}
@@ -55,7 +55,7 @@
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
 
 {% if translations is defined %}
-	{{ dump(translations) }}
+
 {% else %}
 	<p>No translations loaded.</p>
 {% endif %}
@@ -380,7 +380,7 @@
 														</td>
 														<td>
 															{% if translated_subject.field_tipo is not empty %}
-															{{dump(translated_subject.field_tipo[0].value)}}
+															
 																{{ translations[current_language][translated_subject.field_tipo[0].value]}}
 															{% else %}
 																{{'Sin tipo'}}

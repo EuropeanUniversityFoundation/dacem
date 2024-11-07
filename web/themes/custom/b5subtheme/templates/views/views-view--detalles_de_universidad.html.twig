@@ -3,12 +3,9 @@
 
 {# Obtener la entidad de contenido desde la vista #}
 {% set entity = view.result[0]._entity %}
-{{dump(entity)}}
 
-{{dump(view.result)}}
-{{dump(view.result[0].node_field_data_langcode)}}
 {% set current_language = view.result[0].node_field_data_langcode %}
-{{dump(current_language)}}
+
 
 
 {# Verificar si la entidad tiene una traducción en el idioma de la URL #}
@@ -33,9 +30,9 @@
 
 {% set university = translated_entity %}
 #}
-{{dump(university)}}
+
 {% set university_primary_color = university.field_primary_color[0].color %}
-{{dump(university_primary_color)}}
+
 {% set university_text_color = university.field_text_color[0].color %}
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
 
