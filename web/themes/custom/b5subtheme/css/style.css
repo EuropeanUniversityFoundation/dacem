@@ -13689,3 +13689,25 @@ p {
   background-color: blue !important;
 
 }*/
+
+
+.degree-container-admin-area{
+  width: 80%;
+}
+
+/* Asegúrate de que las tablas tengan el mismo diseño */
+.degree-container-admin-area table {
+  width: 100%;
+  table-layout: fixed; /* Hace que todas las columnas tengan el mismo ancho */
+}
+
+/* Alinea verticalmente los botones dentro de las celdas */
+.degree-container-admin-area td {
+  vertical-align: middle; /* Alinea el contenido verticalmente al centro */
+  text-align: left; /* Alinea horizontalmente al centro */
+}
+
+/* Asegura un diseño uniforme para las celdas de las acciones */
+.degree-container-admin-area td:nth-child(2) { /* La columna de "Actions" */
+  width: 20%; /* Ajusta según sea necesario */
+}
