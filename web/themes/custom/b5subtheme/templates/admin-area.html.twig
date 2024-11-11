@@ -1,22 +1,113 @@
 <h1>{{ title }}</h1>
-<!-- Esta es la plantilla page--my-area.html.twig -->
-
-<!-- Mostrar contenido de `data` para depuración -->
 
 
-<h1> alskdjfñalskdjf </h1>
-{{dump(data)}}
 
-{% if data.university %}
-  <h2>Universidad: {{ data.university }}</h2>
-  {% for carrera in data.carreras %}
-    <h3>Carrera: {{ carrera.title }}</h3>
-    <ul>
-      {% for asignatura in carrera.asignaturas %}
-        <li>{{ asignatura }}</li>
-      {% endfor %}
-    </ul>
-  {% endfor %}
-{% else %}
-  <p>No tienes permisos para ver esta área.</p>
+
+<!-- EN CASO DE SER UNIVERSITY ADMIN -->
+{% if data.role == 'universitytypegroup-university_a' %}
+	<div class="d-flex align-items-center">
+		<h2 class="me-3 mb-0">
+			<a class='h1' href="{{ data.university.link }}">{{ data.university.title }}</a>
+		</h2>
+		<a href="{{ data.university.edit_link }}" class="btn btn-primary">Edit University</a>
+	</div>
+
+
+	{% for degree in data.degrees %}
+		<table
+			class="table table-bordered mt-4">
+			<!-- Primera fila: nombre de la degree -->
+			<thead class="table-my-area">
+				<tr>
+
+					<th class="table-my-area" colspan="2">
+						<a class='h3' href="{{ degree.link }}">{{ degree.title }}</a>
+						<a href="{{ degree.edit_link }}" class="btn btn-secondary btn-sm">Edit</a>
+						<a href="{{ degree.delete_link }}" class="btn btn-danger btn-sm">Delete</a>
+					</th>
+
+				</tr>
+				<!-- Segunda fila: encabezados para subjects y acciones -->
+				<tr>
+					<th class="table-my-area">Subject</th>
+					<th class="table-my-area">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for subject in degree.subjects %}
+					<tr>
+						<td>
+							<a href="{{ subject.link }}">{{ subject.title }}</a>
+						</td>
+						<td>
+							<a href="{{ subject.edit_link }}" class="btn btn-secondary btn-sm">Edit</a>
+							<a href="{{ subject.delete_link }}" class="btn btn-danger btn-sm">Delete</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endfor %}
+{% elseif data.role == 'universitytypegroup-degree_admin' %}
+	<p>El valor es degree admin.</p>
+  
+
+  <table
+			class="table table-bordered mt-4">
+			<!-- Primera fila: nombre de la degree -->
+			<thead class="table-my-area">
+				<tr>
+
+					<th class="table-my-area" colspan="2">
+						<a class='h3' href="{{ data.degree.link }}">{{ data.degree.title }}</a>
+						<a href="{{ data.degree.edit_link }}" class="btn btn-secondary btn-sm">Edit</a>
+						<a href="{{ data.degree.delete_link }}" class="btn btn-danger btn-sm">Delete</a>
+					</th>
+
+				</tr>
+				<!-- Segunda fila: encabezados para subjects y acciones -->
+				<tr>
+					<th class="table-my-area">Subject</th>
+					<th class="table-my-area">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+      
+				{% for subject in data.subjects %}
+					<tr>
+						<td>
+							<a href="{{ subject.link }}">{{ subject.title }}</a>
+						</td>
+						<td>
+							<a href="{{ subject.edit_link }}" class="btn btn-secondary btn-sm">Edit</a>
+							<a href="{{ subject.delete_link }}" class="btn btn-danger btn-sm">Delete</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% elseif data.role == 'universitytypegroup-subject_admi' %}
+	<p>El valor es subject admin.</p>
 {% endif %}
+
+

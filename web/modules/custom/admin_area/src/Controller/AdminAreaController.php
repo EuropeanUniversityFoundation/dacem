@@ -6,13 +6,12 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\group\Entity\Group;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\node\Entity\Node;
 
 /**
  * Controlador para la página /my-area.
  */
-class AdminAreaController extends ControllerBase {
-
+class AdminAreaController extends ControllerBase
+{
   /**
    * El usuario actual.
    *
@@ -23,14 +22,16 @@ class AdminAreaController extends ControllerBase {
   /**
    * Constructor.
    */
-  public function __construct(AccountProxyInterface $current_user) {
+  public function __construct(AccountProxyInterface $current_user)
+  {
     $this->currentUser = $current_user;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container)
+  {
     return new static(
       $container->get('current_user')
     );
@@ -39,7 +40,8 @@ class AdminAreaController extends ControllerBase {
   /**
    * Página de /my-area.
    */
-  public function content() {
+  public function content()
+  {
     $user_id = $this->currentUser->id();
 
     // Cargar los grupos del usuario.
@@ -48,103 +50,219 @@ class AdminAreaController extends ControllerBase {
     // Variable para almacenar los datos que se mostrarán.
     $data = [];
 
-    // Buscar el grupo de la universidad en el que el usuario es "University Admin".
     foreach ($user_groups as $membership) {
       $group = $membership->getGroup();
-      \Drupal::messenger()->addMessage('Grupo cargado: ' . $group->label());
-
       $roles = $membership->getRoles();
 
       foreach ($roles as $role) {
-        if ($role->id() === 'universitytypegroup-university_a') { // Verifica si el usuario tiene el rol de University Admin en el grupo.
-            \Drupal::messenger()->addMessage('Usuario tiene rol University Admin en el grupo.');
-          // 1. Intentar obtener la universidad de la que el usuario es autor.
-          $university = $this->getUniversityAuthoredByUser($user_id);
+        switch ($role->id()) {
+          case 'universitytypegroup-university_a':
+            $data = $this->getUniversityAdminData($group, $user_id);
+            break 2;
 
-          // 2. Si no se encuentra, obtener la única universidad del grupo.
-          if (!$university) {
-            $university = $this->getSingleUniversityInGroup($group);
-          }
+          case 'universitytypegroup-degree_admin':
+            
+            $data = $this->getDegreeAdminData($group, $user_id);
+            break 2;
 
-          if ($university) {
-            $data['university'] = $university->label();
-
-            // Cargar todas las carreras asociadas a esta universidad.
-            $carreras = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-              'type' => 'carrera',
-              'field_universidad' => $university->id(),
-            ]);
-
-            \Drupal::messenger()->addMessage('Id de universidad.' . $university->label());
-
-            $data['carreras'] = [];
-            foreach ($carreras as $carrera) {
-              $carrera_data = [
-                'title' => $carrera->label(),
-                'asignaturas' => [],
-              ];
-              \Drupal::messenger()->addMessage('ID de carrera.' . $carrera->label());
-              // Cargar asignaturas de cada carrera.
-              $asignaturas = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-                'type' => 'asignatura',
-                'field_carrera' => $carrera->id(),
-              ]);
-
-              foreach ($asignaturas as $asignatura) {
-                $carrera_data['asignaturas'][] = $asignatura->label();
-              }
-
-              $data['carreras'][] = $carrera_data;
-            }
-          }
-          // Verifica el contenido de `$data` antes de devolverlo.
-        \Drupal::messenger()->addMessage('Datos a enviar a la plantilla: ' . print_r($data, TRUE));
-
-          break 2; // Salir de ambos bucles al encontrar el grupo.
+          case 'universitytypegroup-subject_a':
+            $data = $this->getSubjectAdminData($group, $user_id);
+            break 2;
         }
       }
     }
-    \Drupal::messenger()->addMessage('ID de carrera.' . print_r($data));
+
     return [
-      '#theme' => 'admin-area', // Asegúrate de que esta parte está configurada correctamente.
-      '#title' => $this->t('Admin Area - University Admin'),
-      '#data' => $data, 
+      '#theme' => 'admin-area',
+      '#title' => $this->t('Admin Area'),
+      '#data' => $data,
     ];
+  }
+
+  /**
+   * Obtiene los datos para University Admin.
+   */
+  protected function getUniversityAdminData(Group $group, $user_id)
+  {
+    // Intentar obtener la universidad del usuario.
+    $university = $this->getUniversityAuthoredByUser($user_id) ?: $this->getSingleUniversityInGroup($group);
+
+    if (!$university) {
+      return [];
+    }
+
+    $data = [
+      'university' => [
+        'title' => $university->label(),
+        'link' => $university->toUrl()->toString(),
+        'edit_link' => $university->toUrl('edit-form')->toString(),
+        'university_primary_color' => $university->field_primary_color[0]->color ?? '#FFFFFF',
+      ],
+      'degrees' => [],
+    ];
+
+    // Obtener carreras asociadas.
+    $degrees = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+      'type' => 'carrera',
+      'field_universidad' => $university->id(),
+    ]);
+
+    foreach ($degrees as $degree) {
+      $degree_data = [
+        'title' => $degree->label(),
+        'link' => $degree->toUrl()->toString(),
+        'edit_link' => $degree->toUrl('edit-form')->toString(),
+        'delete_link' => $degree->toUrl('delete-form')->toString(),
+        'subjects' => [],
+      ];
+
+      // Obtener asignaturas asociadas a la carrera.
+      $subjects = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+        'type' => 'asignatura',
+        'field_carrera' => $degree->id(),
+      ]);
+
+      foreach ($subjects as $subject) {
+        $degree_data['subjects'][] = [
+          'title' => $subject->label(),
+          'link' => $subject->toUrl()->toString(),
+          'edit_link' => $subject->toUrl('edit-form')->toString(),
+          'delete_link' => $subject->toUrl('delete-form')->toString(),
+        ];
+      }
+
+      $data['degrees'][] = $degree_data;
+    }
+    $data['role']='universitytypegroup-university_a';
+    return $data;
+  }
+
+  /**
+   * Obtiene los datos para Degree Admin.
+   */
+  protected function getDegreeAdminData(Group $group, $user_id)
+  {
+    $degree = $this->getDegreeAuthoredByUser($user_id);
     
+    if (!$degree) {
+      return [];
+    }
     
+    $data = [
+      'degree' => [
+        'title' => $degree->label(),
+        'link' => $degree->toUrl()->toString(),
+        'edit_link' => $degree->toUrl('edit-form')->toString(),
+        'delete_link' => $degree->toUrl('delete-form')->toString(),
+      ],
+      'subjects' => [],
+    ];
+
+    // Obtener asignaturas asociadas.
+    $subjects = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+      'type' => 'asignatura',
+      'field_carrera' => $degree->id(),
+    ]);
+
+    foreach ($subjects as $subject) {
+      $data['subjects'][] = [
+        'title' => $subject->label(),
+        'link' => $subject->toUrl()->toString(),
+        'edit_link' => $subject->toUrl('edit-form')->toString(),
+        'delete_link' => $subject->toUrl('delete-form')->toString(),
+      ];
+    }
+
+    $data['role']='universitytypegroup-degree_admin';
+    return $data;
+  }
+
+  /**
+   * Obtiene los datos para Subject Admin.
+   */
+  protected function getSubjectAdminData(Group $group, $user_id)
+  {
+    $subject = $this->getSingleEntityInGroup($group, 'asignatura', $user_id);
+
+    if (!$subject) {
+      return [];
+    }
+    
+    $data['role']='universitytypegroup-subject_admi';
+    $data['subject'] =  [
+      'title' => $subject->label(),
+      'link' => $subject->toUrl()->toString(),
+      'edit_link' => $subject->toUrl('edit-form')->toString(),
+      'delete_link' => $subject->toUrl('delete-form')->toString(),
+    ];
+
+    return $data;
   }
 
   /**
    * Obtiene la universidad de la que el usuario actual es autor.
    */
-  protected function getUniversityAuthoredByUser($user_id) {
+  protected function getUniversityAuthoredByUser($user_id)
+  {
     $universities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
       'type' => 'universidad',
       'uid' => $user_id,
     ]);
-    if (!empty($universities)) {
-      \Drupal::messenger()->addMessage('Universidad encontrada como autor.');
-      return reset($universities);
-    } else {
-      \Drupal::messenger()->addMessage('No se encontró universidad donde el usuario sea autor.');
-    }
-    return NULL;
+    return !empty($universities) ? reset($universities) : NULL;
   }
-  
 
   /**
    * Obtiene la única universidad en el grupo.
    */
-  protected function getSingleUniversityInGroup(Group $group) {
-    $group_contents = $group->getContent();
-    foreach ($group_contents as $content) {
+  protected function getSingleUniversityInGroup(Group $group)
+  {
+    foreach ($group->getContent() as $content) {
       if ($content->getEntity()->bundle() === 'universidad') {
-        \Drupal::messenger()->addMessage('Universidad encontrada en el grupo.');
         return $content->getEntity();
       }
     }
-    \Drupal::messenger()->addMessage('No se encontró universidad en el grupo.');
     return NULL;
   }
-  
+
+  /**
+   * Obtiene una única entidad (carrera o asignatura) dentro de un grupo.
+   */
+  protected function getSingleEntityInGroup(Group $group, $type, $user_id)
+  {
+    foreach ($group->getContent() as $content) {
+      $entity = $content->getEntity();
+      if ($entity->bundle() === $type && $entity->getOwnerId() === $user_id) {
+        return $entity;
+      }
+    }
+    return NULL;
+  }
+
+
+  protected function getDegreeAuthoredByUser($user_id)
+  {
+    $universities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+      'type' => 'carrera',
+      'uid' => $user_id,
+    ]);
+    return !empty($universities) ? reset($universities) : NULL;
+  }
+
+  protected function getSubjectAuthoredByUser($user_id)
+  {
+    $universities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+      'type' => 'asignatura',
+      'uid' => $user_id,
+    ]);
+    return !empty($universities) ? reset($universities) : NULL;
+  }
+
+
+
+
+
+
+
+
+
 }
