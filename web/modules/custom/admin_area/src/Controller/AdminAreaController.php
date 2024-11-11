@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\group\Entity\Group;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\Url;
 
 /**
  * Controlador para la página /my-area.
@@ -80,7 +81,11 @@ class AdminAreaController extends ControllerBase
   }
 
   /**
+   *****************************************
+   * *****************************************
    * Obtiene los datos para University Admin.
+   * *****************************************
+   * *****************************************
    */
   protected function getUniversityAdminData(Group $group, $user_id)
   {
@@ -97,6 +102,9 @@ class AdminAreaController extends ControllerBase
         'link' => $university->toUrl()->toString(),
         'edit_link' => $university->toUrl('edit-form')->toString(),
         'university_primary_color' => $university->field_primary_color[0]->color ?? '#FFFFFF',
+        'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
+          'node' => $university->id(),
+          ])->toString(),
       ],
       'degrees' => [],
     ];
@@ -113,6 +121,9 @@ class AdminAreaController extends ControllerBase
         'link' => $degree->toUrl()->toString(),
         'edit_link' => $degree->toUrl('edit-form')->toString(),
         'delete_link' => $degree->toUrl('delete-form')->toString(),
+        'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
+          'node' => $degree->id(),
+          ])->toString(),
         'subjects' => [],
       ];
 
@@ -128,6 +139,9 @@ class AdminAreaController extends ControllerBase
           'link' => $subject->toUrl()->toString(),
           'edit_link' => $subject->toUrl('edit-form')->toString(),
           'delete_link' => $subject->toUrl('delete-form')->toString(),
+          'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
+            'node' => $subject->id(),
+            ])->toString(),
         ];
       }
 
@@ -138,7 +152,11 @@ class AdminAreaController extends ControllerBase
   }
 
   /**
+   * *****************************************
+   * *****************************************
    * Obtiene los datos para Degree Admin.
+   * *****************************************
+   * *****************************************
    */
   protected function getDegreeAdminData(Group $group, $user_id)
   {
@@ -176,6 +194,9 @@ class AdminAreaController extends ControllerBase
         'link' => $degree->toUrl()->toString(),
         'edit_link' => $degree->toUrl('edit-form')->toString(),
         'delete_link' => $degree->toUrl('delete-form')->toString(),
+        'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
+          'node' => $degree->id(),
+          ])->toString(),
         'subjects' => [],
       ];
 
@@ -192,6 +213,9 @@ class AdminAreaController extends ControllerBase
           'link' => $subject->toUrl()->toString(),
           'edit_link' => $subject->toUrl('edit-form')->toString(),
           'delete_link' => $subject->toUrl('delete-form')->toString(),
+          'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
+            'node' => $subject->id(),
+            ])->toString(),
         ];
       }
 
@@ -209,7 +233,11 @@ class AdminAreaController extends ControllerBase
   }
 
   /**
+   * *****************************************
+   * *****************************************
    * Obtiene los datos para Subject Admin.
+   * *****************************************
+   * *****************************************
    */
   protected function getSubjectAdminData(Group $group, $user_id)
   {
@@ -231,10 +259,6 @@ class AdminAreaController extends ControllerBase
     $count = 0;
     // Organizar asignaturas por carrera.
     foreach ($subjects as $subject) {
-
-
-
-
 
 
       // Obtener el ID de la carrera asociada a la asignatura.
@@ -285,9 +309,13 @@ class AdminAreaController extends ControllerBase
           'link' => $subject->toUrl()->toString(),
           'edit_link' => $subject->toUrl('edit-form')->toString(),
           'delete_link' => $subject->toUrl('delete-form')->toString(),
+          'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
+            'node' => $subject->id(),
+            ])->toString(),
         ];
+        
       }
-
+      
       $count++;
     }
 
