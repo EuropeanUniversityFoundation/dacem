@@ -7,6 +7,8 @@ use Drupal\group\Entity\Group;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
+use Drupal\group\Entity\GroupContent;
+
 
 /**
  * Controlador para la página /my-area.
@@ -169,7 +171,10 @@ class AdminAreaController extends ControllerBase
 
     $count = 0;
     foreach ($degrees as $degree) {
-      //dump($degree);
+      
+      $group_id = $this->getGroupIdsByEntity($degree->id());
+      //dump($group_id);
+      
       if ($count == 0) {
 
         $university_id = $degree->get('field_universidad')->target_id;
@@ -197,6 +202,8 @@ class AdminAreaController extends ControllerBase
         'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
           'node' => $degree->id(),
           ])->toString(),
+
+        'create_subject_link' => $this->getGroupEntityCreationUrl($group_id, 'asignatura', $degree),
         'subjects' => [],
       ];
 
@@ -370,6 +377,67 @@ class AdminAreaController extends ControllerBase
 
     return !empty($subjects) ? $subjects : [];
   }
+
+
+/**
+ * Given a node, find the group IDs that the node is a part of.
+ *
+ * @param int $nid
+ *   The node ID.
+ *
+ * @return array
+ *   An array of group IDs that the node is present in.
+ */
+function getGroupIdsByEntity($nid) {
+  $query = \Drupal::database()->select('group_relationship_field_data', 'gr');
+  $query->innerjoin('groups_field_data', 'gfd', 'gr.gid = gfd.id');
+  $query->condition('gr.entity_id', $nid);
+
+  // Don't include group user memberships in the query.
+  $query->condition('gr.type', 'group-group_membership', '!=');
+
+  $query->fields('gr', ['gid']);
+  $result = $query->execute();
+
+  $groupIds = [];
+  foreach ($result as $record) {
+    $groupIds[] = $record->gid;
+  }
+
+
+  //Para retornar todos os ids de todos os grupos descomentamos a linea de abaixo,
+  //temos o [0] porque de momento cada entidad solo pertence a un grupo.
+  //return $groupIds;
+  
+  return $groupIds[0];
+}
+
+
+
+/**
+ * Genera la URL para crear una entidad dentro de un grupo.
+ *
+ * @param int $group_id
+ *   El ID del grupo.
+ * @param string $entity_type
+ *   El tipo de entidad a crear (por ejemplo, "asignatura").
+ *
+ * @return string
+ *   La URL para crear la entidad dentro del grupo.
+ */
+protected function getGroupEntityCreationUrl($group_id, $entity_type, $degree) {
+  // Generar la ruta para crear la entidad dentro del grupo.
+  return Url::fromRoute('entity.group_relationship.create_form', [
+    'group' => $group_id,
+    'plugin_id' => 'group_node:' . $entity_type, 
+  ], [
+    'query' => ['field_carrera' => $degree->id()], // Incluye el ID de la carrera.
+  ])->toString();
+  
+}
+
+
+
 
 
 

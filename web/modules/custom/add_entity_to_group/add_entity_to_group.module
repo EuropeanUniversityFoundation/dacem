@@ -4,11 +4,222 @@ use Drupal\group\Entity\GroupContent;
 
 
 
+
+/**
+ * Implements hook_form_alter().
+ */
+function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
+{
+  // Determinar la operación actual.
+  $operation = $form_state->getFormObject()->getOperation();
+
+  // Casos para carreras.
+  if ($form_id === 'node_carrera_form') {
+    if ($operation === 'default') {
+      _alter_create_carrera_form($form, $form_state);
+    } elseif ($operation === 'edit') {
+      _alter_edit_carrera_form($form, $form_state);
+    }
+  }
+
+  // Casos para asignaturas.
+  if ($form_id === 'node_asignatura_form') {
+    if ($operation === 'default') {
+      _alter_create_asignatura_form($form, $form_state);
+    } elseif ($operation === 'edit') {
+      _alter_edit_asignatura_form($form, $form_state);
+    }
+  }
+
+
+  // Casos para asignaturas.
+  if ($form_id === 'node_asignatura_form') {
+    if ($operation === 'default') {
+      _alter_create_asignatura_form($form, $form_state);
+    } elseif ($operation === 'edit') {
+      _alter_edit_asignatura_form($form, $form_state);
+    }
+  }
+}
+
+/**
+ * Altera el formulario al crear una carrera.
+ */
+function _alter_create_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
+{
+  // Lógica personalizada para crear carreras.
+  \Drupal::messenger()->addMessage(t('Formulario para crear una carrera.'));
+}
+
+/**
+ * Altera el formulario al editar una carrera.
+ */
+function _alter_edit_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
+{
+  $node = $form_state->getFormObject()->getEntity();
+
+  if ($node->hasField('field_universidad') && !$node->get('field_universidad')->isEmpty()) {
+    $university = $node->get('field_universidad')->entity;
+
+    if ($university) {
+      \Drupal::messenger()->addMessage('Universidad encontrada: ' . $university->label());
+      $user_options = _get_group_users_by_role($university, 'universitytypegroup-degree_admin');
+
+      if (!empty($user_options)) {
+        _set_uid_field_as_select($form, $node, $user_options);
+
+        // Botón para crear usuario.
+        _add_create_user_button($form, $university);
+      }
+    }
+  }
+}
+
+/**
+ * Altera el formulario al crear una asignatura.
+ */
+function _alter_create_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  // Verificar si el campo field_carrera existe en el formulario.
+  if (isset($form['field_carrera'])) {
+    // Obtener el ID de la carrera desde la URL (si está presente).
+    $carrera_id = \Drupal::request()->query->get('field_carrera');
+
+
+    // Si hay un ID de carrera en la URL, usarlo como valor predeterminado.
+    if ($carrera_id) {
+      $carrera = \Drupal::entityTypeManager()->getStorage('node')->load($carrera_id);
+      if ($carrera && $carrera->bundle() === 'carrera') {
+        // Preseleccionar la carrera y deshabilitar el campo.
+        $form['field_carrera']['widget'][0]['target_id']['#default_value'] = $carrera;
+        $form['field_carrera']['widget'][0]['target_id']['#disabled'] = TRUE; // Deshabilitar el campo.
+        \Drupal::messenger()->addMessage(t('Carrera preseleccionada: @name', ['@name' => $carrera->label()]));
+        return; // Salir, ya que la carrera fue configurada correctamente.
+      }
+    }
+
+    // Si no hay carrera válida, mostrar un mensaje de error.
+    \Drupal::messenger()->addError(t('No se pudo preseleccionar la carrera.'));
+  }
+}
+
+
+
+
+
+
+
+
+
+/**
+ * Altera el formulario al editar una asignatura.
+ */
+function _alter_edit_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
+{
+  $node = $form_state->getFormObject()->getEntity();
+
+  if ($node->hasField('field_carrera') && !$node->get('field_carrera')->isEmpty()) {
+    $degree = $node->get('field_carrera')->entity;
+
+    if ($degree) {
+      $university = $degree->get('field_universidad')->entity;
+      if ($university) {
+        $user_options = _get_group_users_by_role($university, 'universitytypegroup-subject_admi');
+
+        if (!empty($user_options)) {
+          _set_uid_field_as_select($form, $node, $user_options);
+
+          // Botón para crear usuario.
+          _add_create_user_button($form, $university);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Obtiene usuarios de un grupo con un rol específico.
+ */
+function _get_group_users_by_role($university, $role_id)
+{
+  $relationships = GroupRelationship::loadByEntity($university);
+  $user_options = [];
+
+  foreach ($relationships as $relationship) {
+    $group = $relationship->getGroup();
+    $members = $group->getMembers();
+
+    foreach ($members as $member) {
+      $user = $member->getUser();
+      $roles = $member->getRoles();
+
+      foreach ($roles as $role) {
+        if ($role->id() === $role_id) {
+          $user_options[$user->id()] = $user->getDisplayName();
+        }
+      }
+    }
+  }
+
+  asort($user_options);
+  return $user_options;
+}
+
+/**
+ * Configura el campo UID como una lista desplegable.
+ */
+function _set_uid_field_as_select(&$form, $node, $user_options)
+{
+  if (isset($form['uid']) && !empty($user_options)) {
+    $form['uid']['widget'][0]['target_id'] = [
+      '#type' => 'select',
+      '#title' => t('Author'),
+      '#options' => $user_options,
+      '#default_value' => $node->getOwnerId(),
+      '#required' => TRUE,
+    ];
+  }
+}
+
+/**
+ * Añade un botón para crear un usuario debajo del campo autor.
+ */
+function _add_create_user_button(&$form, $university)
+{
+  $current_url = \Drupal::request()->getRequestUri();
+
+  $form['create_user_button'] = [
+    '#type' => 'link',
+    '#title' => t('Create user'),
+    '#url' => \Drupal\Core\Url::fromRoute('create_user_group.create_user_form', [
+      'group' => $university->id(),
+    ], [
+      'query' => ['destination' => $current_url],
+    ]),
+    '#attributes' => ['class' => ['button', 'button--primary']],
+  ];
+}
+
+/**
+ * Función auxiliar para obtener el grupo desde el contexto.
+ */
+function _get_group_from_context()
+{
+  $route_match = \Drupal::routeMatch();
+  return $route_match->getParameter('group') ?: NULL;
+}
+
+
+
+
+
+
+
+
 /**
  * Implements hook_form_alter() to restrict the 'universidad' field in group content creation
  * and restrict the 'carrera' field for assignment creation.
  */
-function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
+function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
 {
   // Obtener el usuario actual.
   $current_user = \Drupal::currentUser();
@@ -133,102 +344,104 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
 
 
     // Caso 1: Crear Carrera (Restricción de universidad).
-    if ($form_id === 'node_carrera_form') {
-      \Drupal::messenger()->addMessage(t('Creando carrera.'));
-
-      // Obtener el grupo desde la URL.
-      $group = \Drupal::routeMatch()->getParameter('group');
-
-      // Verificar que estamos en el contexto de un grupo y que es un grupo de tipo 'UniversityTypeGroup'.
-      if ($group && $group->bundle() == 'universitytypegroup') {
-        // Obtener las relaciones de contenido del grupo.
-        $relationships = $group->getRelationships();
-
-        foreach ($relationships as $relationship) {
-          $entity = $relationship->getEntity();
-
-          // Verificar si la entidad es del tipo "universidad".
-          if ($entity && $entity->bundle() == 'universidad') {
-            \Drupal::messenger()->addMessage(t('University found: ' . $entity->label()));
-
-            // Limitar el campo de selección 'field_universidad' a solo esta universidad y mostrar su nombre sin opción de cambiarlo.
-            if (isset($form['field_universidad'])) {
-              $form['field_universidad']['widget'][0]['target_id']['#default_value'] = $entity;
-              $form['field_universidad']['widget'][0]['target_id']['#options'] = [$entity->id() => $entity->label()];
-              $form['field_universidad']['widget'][0]['target_id']['#disabled'] = TRUE;
-            }
-            break; // Solo necesitamos una universidad, por lo tanto, salimos del bucle.
-          }
-        }
-      }
+    if ($form_id !== 'node_asignatura_form') {
+      return;
     }
 
-    // Caso 2: Crear Asignatura (Restricción de carrera).
-    elseif ($form_id === 'node_asignatura_form') {
-      \Drupal::messenger()->addMessage(t('Creando asignatura.'));
+    // Obtener el usuario actual.
+    $current_user = \Drupal::currentUser();
 
-      // Obtener el grupo desde la URL.
-      $group = \Drupal::routeMatch()->getParameter('group');
+    // Obtener el grupo al que pertenece la entidad (esto depende de tu implementación).
+    // Cambia `$group` por la lógica específica para obtener el grupo.
+    $group = _get_group_from_context(); // Cambia esta función por la lógica para obtener el grupo.
 
-      // Verificar que estamos en el contexto de un grupo y que es un grupo de tipo 'UniversityTypeGroup'.
-      if ($group && $group->bundle() == 'universitytypegroup') {
-        // Obtener las relaciones de contenido del grupo.
-        $relationships = $group->getRelationships();
+    if ($group && $group->bundle() === 'universitytypegroup') {
+      // Obtener las relaciones de contenido del grupo.
+      $relationships = $group->getRelationships();
+      $carrera_options = [];
 
-        foreach ($relationships as $relationship) {
-          $entity = $relationship->getEntity();
-
-          // Verificar si la entidad es del tipo "carrera" y si el usuario es el propietario.
-          if ($entity && $entity->bundle() == 'carrera' && $entity->getOwnerId() == $current_user->id()) {
-            \Drupal::messenger()->addMessage(t('Carrera found: ' . $entity->label()));
-
-            // Verificar si el campo field_carrera está en el formulario.
-            if (isset($form['field_carrera'])) {
-              \Drupal::messenger()->addMessage(t('Field carrera encontrado.'));
-
-              // Aplicar filtro directamente en la consulta de referencia de la carrera.
-              $form['field_carrera']['widget'][0]['target_id']['#selection_handler'] = 'default';
-              $form['field_carrera']['widget'][0]['target_id']['#selection_settings'] = [
-                'target_bundles' => ['carrera'],
-                'auto_create' => FALSE,
-              ];
-
-              // Limitar la selección de la carrera solo a la carrera del usuario.
-              $form['field_carrera']['widget'][0]['target_id']['#default_value'] = $entity;
-              $form['field_carrera']['widget'][0]['target_id']['#options'] = [$entity->id() => $entity->label()];
-              $form['field_carrera']['widget'][0]['target_id']['#disabled'] = TRUE;  // Deshabilitar el campo.
-
-              // Añadir más depuración.
-              \Drupal::messenger()->addMessage(t('Set carrera value: ' . $entity->id() . ' - ' . $entity->label()));
-            } else {
-              \Drupal::messenger()->addMessage(t('Field carrera no encontrado.'));
-            }
-            break; // Solo necesitamos la carrera del usuario.
-          }
+      // Filtrar las carreras que pertenecen al usuario actual.
+      foreach ($relationships as $relationship) {
+        $entity = $relationship->getEntity();
+        if ($entity && $entity->bundle() === 'carrera' && $entity->getOwnerId() === $current_user->id()) {
+          $carrera_options[$entity->id()] = $entity->label();
         }
       }
+
+      // Si se encontraron carreras y existe el campo `field_carrera`.
+      if (!empty($carrera_options) && isset($form['field_carrera'])) {
+        // Mensaje de depuración para verificar las opciones encontradas.
+        \Drupal::messenger()->addMessage(t('Carreras disponibles: @carreras', [
+          '@carreras' => implode(', ', $carrera_options),
+        ]));
+
+        // Configurar el campo como una lista desplegable.
+        $default_value = key($carrera_options); // Obtener la primera carrera como valor predeterminado.
+        $form['field_carrera']['widget'][0]['target_id'] = [
+          '#type' => 'select',
+          '#title' => t('Select a career'),
+          '#options' => $carrera_options,
+          '#default_value' => $default_value,
+          '#empty_option' => t('- Select a career -'),
+          '#required' => TRUE,
+        ];
+      } else {
+        \Drupal::messenger()->addMessage(t('No tienes carreras disponibles.'));
+      }
     }
+  }
 
+  // Caso 2: Crear Asignatura (Restricción de carrera).
+  elseif ($form_id === 'node_asignatura_form') {
+    \Drupal::messenger()->addMessage(t('Creando asignatura.'));
 
+    // Obtener el grupo desde la URL.
+    $group = \Drupal::routeMatch()->getParameter('group');
 
+    // Verificar que estamos en el contexto de un grupo y que es un grupo de tipo 'UniversityTypeGroup'.
+    if ($group && $group->bundle() == 'universitytypegroup') {
+      // Obtener las relaciones de contenido del grupo.
+      $relationships = $group->getRelationships();
+      $carrera_options = []; // Aquí almacenaremos las carreras del usuario.
 
+      foreach ($relationships as $relationship) {
+        $entity = $relationship->getEntity();
+
+        // Verificar si la entidad es del tipo "carrera" y si el usuario es el propietario.
+        if ($entity && $entity->bundle() == 'carrera' && $entity->getOwnerId() == $current_user->id()) {
+          // Añadir la carrera a las opciones disponibles.
+          $carrera_options[$entity->id()] = $entity->label();
+        }
+      }
+
+      // Verificar si hay opciones disponibles y si el campo field_carrera está en el formulario.
+      if (!empty($carrera_options) && isset($form['field_carrera'])) {
+        \Drupal::messenger()->addMessage(t('Carreras disponibles: ' . implode(', ', $carrera_options)));
+
+        // Configurar el campo field_carrera como lista desplegable.
+        $form['field_carrera']['widget'][0]['target_id'] = [
+          '#type' => 'select',
+          '#options' => $carrera_options,
+          '#default_value' => key($carrera_options), // Selecciona la primera carrera por defecto.
+          '#empty_option' => t('- Select a career -'),
+          '#required' => TRUE,
+        ];
+      } else {
+        \Drupal::messenger()->addMessage(t('No tienes carreras disponibles.'));
+      }
+    }
 
 
   }
-
-
-
-
 }
-
-
 
 
 
 /**
  * Implements hook_preprocess_block() to disable the "Add existing content" button in the nodes tab.
  */
-function add_entity_to_group_preprocess_block(&$variables) {
+function add_entity_to_group_preprocess_block(&$variables)
+{
   if (isset($variables['content']['group_relationship.group_node_add_page'])) {
     \Drupal::messenger()->addMessage('Botón "Add existing content" encontrado.');
 

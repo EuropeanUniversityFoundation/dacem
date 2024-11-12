@@ -77,10 +77,10 @@
 					<a href="{{ degree.edit_link }}" class="btn btn-secondary btn-sm">Edit</a>
 					<a href="{{ degree.translation_link }}" class="btn btn-warning btn-sm">Translate</a>
 					<a href="{{ degree.delete_link }}" class="btn btn-danger btn-sm">Delete</a>
-
 					<button class="btn btn-link btn-sm toggle-subjects" data-bs-toggle="collapse" data-bs-target="#subjects-degree-{{ loop.index }}" aria-expanded="false" aria-controls="subjects-degree-{{ loop.index }}">
 						Show Subjects
 					</button>
+					<a href="{{ degree.create_subject_link }}" class="btn btn-success btn-sm">Create Subject</a>
 				</div>
 			</div>
 			<div id="subjects-degree-{{ loop.index }}" class="collapse mt-2">

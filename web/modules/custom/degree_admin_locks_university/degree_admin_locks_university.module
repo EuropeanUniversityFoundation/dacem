@@ -6,6 +6,9 @@
 function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   
     \Drupal::messenger()->addMessage('HOOK de degree_admin_locks_university_entity_form_alter');
+    //dump(\Drupal::routeMatch()->getRouteName());
+    //dump(\Drupal::routeMatch()->getParameters());
+
     //dump($form_state);
     // Verificamos que estamos en el formulario de edición de una entidad de tipo carrera.
   if ($form_id === 'node_carrera_edit_form') {
