@@ -93,7 +93,7 @@ class AdminAreaController extends ControllerBase
   {
     // Intentar obtener la universidad del usuario.
     $university = $this->getUniversityAuthoredByUser($user_id) ?: $this->getSingleUniversityInGroup($group);
-
+    $group_id = $this->getGroupIdsByEntity($university->id());
     if (!$university) {
       return [];
     }
@@ -109,6 +109,14 @@ class AdminAreaController extends ControllerBase
           ])->toString(),
       ],
       'degrees' => [],
+      'group_members'=> $this->getUsersGroup($group),
+      'create_user_link' => Url::fromRoute('create_user_group.create_user_form', [
+        'group' => $group->id(),
+    ], [
+        'query' => ['destination' => '/my-area'], // Parámetro de redirección.
+    ])->toString(),
+    'create_degree_link' => $this->getGroupEntityCreationUrl($group_id, 'carrera', $university),
+      
     ];
 
     // Obtener carreras asociadas.
@@ -118,6 +126,7 @@ class AdminAreaController extends ControllerBase
     ]);
 
     foreach ($degrees as $degree) {
+      $group_id = $this->getGroupIdsByEntity($degree->id());
       $degree_data = [
         'title' => $degree->label(),
         'link' => $degree->toUrl()->toString(),
@@ -126,6 +135,7 @@ class AdminAreaController extends ControllerBase
         'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
           'node' => $degree->id(),
           ])->toString(),
+        'create_subject_link' => $this->getGroupEntityCreationUrl($group_id, 'asignatura', $degree),
         'subjects' => [],
       ];
 
@@ -152,6 +162,94 @@ class AdminAreaController extends ControllerBase
     $data['role'] = 'universitytypegroup-university_a';
     return $data;
   }
+  protected function getUsersGroup(Group $group) {
+    $group_members = [];
+  
+    // Obtener los usuarios del grupo.
+    $members = $group->getMembers();
+    foreach ($members as $member) {
+      $user = $member->getUser();
+      $roles = $member->getRoles();
+  
+      // Obtener entidades asociadas al usuario según su rol.
+      $entities = [];
+      foreach ($roles as $role) {
+        switch ($role->id()) {
+
+          case 'universitytypegroup-university_a':
+            // Obtener carreras creadas por este usuario.
+            $universities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+              'type' => 'universidad',
+              'uid' => $user->id(),
+            ]);
+            foreach ($universities as $university) {
+              $entities[] = [
+                'title' => $university->label(),
+                'link' => $university->toUrl()->toString(),
+              ];
+            }
+            break;
+
+
+          case 'universitytypegroup-degree_admin':
+            // Obtener carreras creadas por este usuario.
+            $carreras = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+              'type' => 'carrera',
+              'uid' => $user->id(),
+            ]);
+            foreach ($carreras as $carrera) {
+              $entities[] = [
+                'title' => $carrera->label(),
+                'link' => $carrera->toUrl()->toString(),
+              ];
+            }
+            break;
+  
+          case 'universitytypegroup-subject_admi':
+            // Obtener asignaturas creadas por este usuario.
+            $subjects = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+              'type' => 'asignatura',
+              'uid' => $user->id(),
+            ]);
+            foreach ($subjects as $subject) {
+              // Obtener la carrera asociada.
+              $degree = $subject->get('field_carrera')->entity;
+              $entities[] = [
+                'title' => $subject->label() . ' (' . ($degree ? $degree->label() : 'No Degree') . ')',
+                'link' => $subject->toUrl()->toString(),
+              ];
+            }
+            break;
+        }
+      }
+  
+      // Formatear las entidades asociadas.
+      $user_entities = [];
+      foreach ($entities as $entity) {
+        $user_entities[] = [
+          'title' => $entity['title'],
+          'link' => $entity['link'],
+        ];
+      }
+  
+      $group_members[] = [
+        'name' => $user->getDisplayName(),
+        'email' => $user->getEmail(),
+        'roles' => array_map(function ($role) {
+          return $role->label();
+        }, $roles),
+        'edit_link' => $user->toUrl('edit-form')->toString(),
+        'delete_link' => Url::fromRoute('entity.user.cancel_form', [
+          'user' => $user->id(),
+        ])->toString(),
+        'entities' => $user_entities, // Agregar las entidades asociadas al usuario.
+      ];
+    }
+  
+    return $group_members; // Retorna los usuarios del grupo con sus entidades asociadas.
+  }
+  
+
 
   /**
    * *****************************************
@@ -425,14 +523,29 @@ function getGroupIdsByEntity($nid) {
  * @return string
  *   La URL para crear la entidad dentro del grupo.
  */
-protected function getGroupEntityCreationUrl($group_id, $entity_type, $degree) {
+protected function getGroupEntityCreationUrl($group_id, $entity_type, $parent_entity) {
   // Generar la ruta para crear la entidad dentro del grupo.
-  return Url::fromRoute('entity.group_relationship.create_form', [
-    'group' => $group_id,
-    'plugin_id' => 'group_node:' . $entity_type, 
-  ], [
-    'query' => ['field_carrera' => $degree->id()], // Incluye el ID de la carrera.
-  ])->toString();
+
+  if ($entity_type == 'asignatura'){
+    return Url::fromRoute('entity.group_relationship.create_form', [
+      'group' => $group_id,
+      'plugin_id' => 'group_node:' . $entity_type, 
+    ], [
+      'query' => ['field_carrera' => $parent_entity->id()], // Incluye el ID de la carrera.
+    ])->toString();
+
+  }else if($entity_type == 'carrera'){
+    
+    return Url::fromRoute('entity.group_relationship.create_form', [
+      'group' => $group_id,
+      'plugin_id' => 'group_node:' . $entity_type, 
+    ], [
+      'query' => ['field_carrera' => $parent_entity->id()], // Incluye el ID de la carrera.
+    ])->toString();
+  }else{
+    return 0;
+  }
+  
   
 }
 

@@ -39,7 +39,7 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
           //\Drupal::messenger()->addMessage('HOOK ' . print_r($membership));
           $roles = $membership->getRoles();
           foreach ($roles as $role) {
-            if ($role->id() === 'universitytypegroup-degree_admin') {
+            if ($role->id() === 'universitytypegroup-degree_admin' || $role->id() === 'universitytypegroup-university_a') {
               // Desactivar el campo de universidad para Degree Admin.
               $form['field_universidad']['#disabled'] = TRUE;
               \Drupal::messenger()->addMessage('El campo Universidad está desactivado para Degree Admin.');
@@ -85,14 +85,14 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
           // Verificar si el usuario tiene el rol de Degree Admin dentro de este grupo.
           //\Drupal::messenger()->addMessage('HOOK ' . print_r($membership));
           $roles = $membership->getRoles();
-          foreach ($roles as $role) {
-            if ($role->id() === 'universitytypegroup-subject_admi') {
+          //foreach ($roles as $role) {
+            //if ($role->id() === 'universitytypegroup-subject_admi') {
               // Desactivar el campo de universidad para Degree Admin.
               $form['field_carrera']['#disabled'] = TRUE;
               \Drupal::messenger()->addMessage('El campo Degree está desactivado para Degree Admin.');
-              break 2; // Salir de ambos bucles.
-            }
-          }
+              //break 2; // Salir de ambos bucles.
+            //}
+          //}
             /*
             $form['field_universidad']['widget'][0]['target_id']['#default_value'] = $entity;
             $form['field_universidad']['widget'][0]['target_id']['#options'] = [$entity->id() => $entity->label()];
