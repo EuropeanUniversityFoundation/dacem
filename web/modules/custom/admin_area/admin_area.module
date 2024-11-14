@@ -1,6 +1,6 @@
 <?php
 
-
+use Drupal\node\Entity\Node;
 /**
  * Implements hook_theme().
  */
@@ -14,3 +14,62 @@ function admin_area_theme($existing, $type, $theme, $path) {
     ];
   }
   
+/**
+ * Implements hook_entity_access().
+ */
+function admin_area_entity_access(\Drupal\Core\Entity\EntityInterface $entity, $operation, \Drupal\Core\Session\AccountInterface $account) {
+  // Solo manejamos nodos.
+  if ($entity->getEntityTypeId() !== 'node') {
+    return \Drupal\Core\Access\AccessResult::neutral();
+  }
+
+  // Verifica que es una asignatura.
+  if ($entity->bundle() === 'asignatura') {
+    // Carga los grupos del usuario.
+    $groups = \Drupal::service('group.membership_loader')->loadByUser($account);
+
+    foreach ($groups as $membership) {
+      $group = $membership->getGroup();
+      $roles = $membership->getRoles();
+
+      // Verifica si el usuario tiene un rol válido en este grupo.
+      foreach ($roles as $role) {
+        if (in_array($role->id(), ['universitytypegroup-university_a', 'universitytypegroup-degree_admin', 'universitytypegroup-subject_admi'])) {
+          // Verifica permisos del rol del grupo.
+          if ($role->id() === 'universitytypegroup-university_a' && in_array($operation, ['translate', 'view'])) {
+            return \Drupal\Core\Access\AccessResult::allowed();
+          }
+          if ($role->id() === 'universitytypegroup-degree_admin' && in_array($operation, ['translate'])) {
+            return \Drupal\Core\Access\AccessResult::allowed();
+          }
+          if ($role->id() === 'universitytypegroup-subject_admi' && in_array($operation, ['translate'])) {
+            return \Drupal\Core\Access\AccessResult::allowed();
+          }
+        }
+      }
+    }
+  }
+
+  // Devuelve acceso neutral si no se cumple ninguna condición.
+  return \Drupal\Core\Access\AccessResult::neutral();
+}
+
+ /* Implementación de hook_form_alter().
+ */
+function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  \Drupal::logger('admin_area')->info('Interceptado formulario con ID: @form_id', ['@form_id' => $form_id]);
+
+  if ($form_id === 'content_translation_overview_add_form') {
+    \Drupal::logger('admin_area')->info('Formulario de traducción interceptado.');
+
+    $node = $form_state->getFormObject()->getEntity();
+    if ($node) {
+      \Drupal::logger('admin_area')->info('Nodo cargado para traducción: ID: @id, tipo: @type', [
+        '@id' => $node->id(),
+        '@type' => $node->bundle(),
+      ]);
+    } else {
+      \Drupal::logger('admin_area')->error('No se pudo cargar el nodo para el formulario de traducción.');
+    }
+  }
+}

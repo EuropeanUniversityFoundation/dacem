@@ -12,6 +12,7 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
 {
   
 
+  
   // Casos para carreras.
   if ($form_id === 'node_carrera_form') {
     // Determinar la operación actual.
@@ -52,12 +53,22 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
  */
 function _alter_create_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
 {
-  \Drupal::messenger()->addMessage('Hook add entity to group alter create carrera form ****************************');
+  //\Drupal::messenger()->addMessage('Hook add entity to group alter create carrera form ****************************');
+  
+        
+        
+        
+  
+  
   if (isset($form['field_universidad'])) {
     // Obtener el ID de la carrera desde la URL (si está presente).
     $universidad_id = \Drupal::request()->query->get('field_universidad');
     
-
+    if (isset($form['uid'])) {
+      
+      $form['uid']['#access'] = TRUE;
+      $form['uid']['#disabled'] = FALSE; // Asegúrate de que el campo no esté bloqueado.
+    }
 
     // Si hay un ID de carrera en la URL, usarlo como valor predeterminado.
     if ($universidad_id) {
@@ -66,13 +77,14 @@ function _alter_create_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface
         // Preseleccionar la carrera y deshabilitar el campo.
         $form['field_universidad']['widget'][0]['target_id']['#default_value'] = $universidad;
         $form['field_universidad']['widget'][0]['target_id']['#disabled'] = TRUE; // Deshabilitar el campo.
-        \Drupal::messenger()->addMessage(t('Universidad preseleccionada: @name', ['@name' => $universidad->label()]));
+        
+        //\Drupal::messenger()->addMessage(t('Universidad preseleccionada: @name', ['@name' => $universidad->label()]));
         return; // Salir, ya que la carrera fue configurada correctamente.
       }
     }
 
     // Si no hay carrera válida, mostrar un mensaje de error.
-    \Drupal::messenger()->addError(t('No se pudo preseleccionar la carrera.'));
+    //\Drupal::messenger()->addError(t('No se pudo preseleccionar la carrera.'));
   }
 }
 
@@ -87,7 +99,7 @@ function _alter_edit_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $
     $university = $node->get('field_universidad')->entity;
 
     if ($university) {
-      \Drupal::messenger()->addMessage('Universidad encontrada: ' . $university->label());
+      //\Drupal::messenger()->addMessage('Universidad encontrada: ' . $university->label());
       $user_options = _get_group_users_by_role($university, 'universitytypegroup-degree_admin');
 
       if (!empty($user_options)) {
@@ -105,6 +117,16 @@ function _alter_edit_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $
  */
 function _alter_create_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
   // Verificar si el campo field_carrera existe en el formulario.
+  //\Drupal::messenger()->addMessage(t('El campo de asdfasdfasdffaasdsdfautor esasdfasdfasdtasdfasdfasdfá habasdfasdfilitado.'));
+  if (isset($form['uid'])) {
+    // Hacer que el campo de autor sea visible y editable.
+    $form['uid']['#access'] = TRUE;
+    $form['uid']['#disabled'] = FALSE;  // Hacer editable el campo.
+
+    // Mover el campo "Autor" a la parte superior del formulario.
+
+    //\Drupal::messenger()->addMessage(t('El campo de autor está habilitado.'));
+  }
   if (isset($form['field_carrera'])) {
     // Obtener el ID de la carrera desde la URL (si está presente).
     $carrera_id = \Drupal::request()->query->get('field_carrera');
@@ -117,13 +139,13 @@ function _alter_create_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterf
         // Preseleccionar la carrera y deshabilitar el campo.
         $form['field_carrera']['widget'][0]['target_id']['#default_value'] = $carrera;
         $form['field_carrera']['widget'][0]['target_id']['#disabled'] = TRUE; // Deshabilitar el campo.
-        \Drupal::messenger()->addMessage(t('Carrera preseleccionada: @name', ['@name' => $carrera->label()]));
+        //\Drupal::messenger()->addMessage(t('Carrera preseleccionada: @name', ['@name' => $carrera->label()]));
         return; // Salir, ya que la carrera fue configurada correctamente.
       }
     }
 
     // Si no hay carrera válida, mostrar un mensaje de error.
-    \Drupal::messenger()->addError(t('No se pudo preseleccionar la carrera.'));
+    //\Drupal::messenger()->addError(t('No se pudo preseleccionar la carrera.'));
   }
 }
 
@@ -140,7 +162,18 @@ function _alter_create_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterf
  */
 function _alter_edit_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
 {
+
   $node = $form_state->getFormObject()->getEntity();
+  //\Drupal::messenger()->addMessage(t('El campo dasdfasdfdfasdfae autor sdfaestfasdfsdfasasdfá habilitado.'));
+  if (isset($form['uid'])) {
+    // Hacer que el campo de autor sea visible y editable.
+    $form['uid']['#access'] = TRUE;
+    $form['uid']['#disabled'] = FALSE;  // Hacer editable el campo.
+
+    // Mover el campo "Autor" a la parte superior del formulario.
+
+    //\Drupal::messenger()->addMessage(t('El campo de autor está habilitado.'));
+  }
 
   if ($node->hasField('field_carrera') && !$node->get('field_carrera')->isEmpty()) {
     $degree = $node->get('field_carrera')->entity;
@@ -258,7 +291,7 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
 
     // Mover el campo "Autor" a la parte superior del formulario.
 
-    \Drupal::messenger()->addMessage(t('El campo de autor está habilitado.'));
+    //\Drupal::messenger()->addMessage(t('El campo de autor está habilitado.'));
   }
 
 
@@ -283,7 +316,7 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
       }
 
       if ($university) {
-        \Drupal::messenger()->addMessage('Universidad encontrada: ' . $university->label());
+        //\Drupal::messenger()->addMessage('Universidad encontrada: ' . $university->label());
 
         // Cargar las relaciones de la entidad universidad con los grupos.
         $relationships = \Drupal\group\Entity\GroupRelationship::loadByEntity($university);
@@ -292,7 +325,7 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
           foreach ($relationships as $relationship) {
             // Obtener el grupo asociado a la universidad.
             $group = $relationship->getGroup();
-            \Drupal::messenger()->addMessage('Grupo encontrado: ' . $group->label());
+            //\Drupal::messenger()->addMessage('Grupo encontrado: ' . $group->label());
 
             // Obtener los miembros del grupo.
             $members = $group->getMembers();
@@ -302,25 +335,25 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
               $user = $member->getUser();
               $role = $member->getRoles();
               $user_role = reset($role); // Obtener el primer (y único) rol del array.
-              \Drupal::messenger()->addMessage('Rol de usuario ' . $user_role->id());
+              //\Drupal::messenger()->addMessage('Rol de usuario ' . $user_role->id());
               if ($form_id === 'node_carrera_edit_form') {
-                \Drupal::messenger()->addMessage('Estamos en form de nodo carrera ');
+                //\Drupal::messenger()->addMessage('Estamos en form de nodo carrera ');
                 if ($user_role->id() == 'universitytypegroup-degree_admin') {
                   $user_options[$user->id()] = $user->getDisplayName();
-                  \Drupal::messenger()->addMessage('É degree admin ');
+                  //\Drupal::messenger()->addMessage('É degree admin ');
                 }
 
               } else if ($form_id === 'node_asignatura_edit_form') {
-                \Drupal::messenger()->addMessage('Estamos en if de nodo asginatura ');
+                //\Drupal::messenger()->addMessage('Estamos en if de nodo asginatura ');
                 if ($user_role->id() == 'universitytypegroup-subject_admi') {
                   $user_options[$user->id()] = $user->getDisplayName();
-                  \Drupal::messenger()->addMessage('É subject admin ');
+                  //\Drupal::messenger()->addMessage('É subject admin ');
                 }
 
               }
               // Agregar los usuarios a las opciones del campo autor.
 
-              //\Drupal::messenger()->addMessage('Usuario encontrado: ' . $user->getDisplayName());
+              ////\Drupal::messenger()->addMessage('Usuario encontrado: ' . $user->getDisplayName());
             }
 
             // Ordenar los nombres de los usuarios alfabéticamente.
@@ -337,16 +370,16 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
                 '#required' => TRUE,
               ];
 
-              \Drupal::messenger()->addMessage('Campo de autor modificado con los usuarios del grupo.');
+              //\Drupal::messenger()->addMessage('Campo de autor modificado con los usuarios del grupo.');
             } else {
-              \Drupal::messenger()->addMessage('No se encontraron usuarios en este grupo para agregar al campo autor.');
+              //\Drupal::messenger()->addMessage('No se encontraron usuarios en este grupo para agregar al campo autor.');
             }
           }
         } else {
-          \Drupal::messenger()->addMessage('No se encontraron grupos para esta universidad.');
+          //\Drupal::messenger()->addMessage('No se encontraron grupos para esta universidad.');
         }
       } else {
-        \Drupal::messenger()->addMessage('No se encontró la universidad referenciada.');
+        //\Drupal::messenger()->addMessage('No se encontró la universidad referenciada.');
       }
 
 
@@ -396,9 +429,7 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
       // Si se encontraron carreras y existe el campo `field_carrera`.
       if (!empty($carrera_options) && isset($form['field_carrera'])) {
         // Mensaje de depuración para verificar las opciones encontradas.
-        \Drupal::messenger()->addMessage(t('Carreras disponibles: @carreras', [
-          '@carreras' => implode(', ', $carrera_options),
-        ]));
+        
 
         // Configurar el campo como una lista desplegable.
         $default_value = key($carrera_options); // Obtener la primera carrera como valor predeterminado.
@@ -411,14 +442,14 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
           '#required' => TRUE,
         ];
       } else {
-        \Drupal::messenger()->addMessage(t('No tienes carreras disponibles.'));
+        //\Drupal::messenger()->addMessage(t('No tienes carreras disponibles.'));
       }
     }
   }
 
   // Caso 2: Crear Asignatura (Restricción de carrera).
   elseif ($form_id === 'node_asignatura_form') {
-    \Drupal::messenger()->addMessage(t('Creando asignatura.'));
+    //\Drupal::messenger()->addMessage(t('Creando asignatura.'));
 
     // Obtener el grupo desde la URL.
     $group = \Drupal::routeMatch()->getParameter('group');
@@ -441,7 +472,7 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
 
       // Verificar si hay opciones disponibles y si el campo field_carrera está en el formulario.
       if (!empty($carrera_options) && isset($form['field_carrera'])) {
-        \Drupal::messenger()->addMessage(t('Carreras disponibles: ' . implode(', ', $carrera_options)));
+        //\Drupal::messenger()->addMessage(t('Carreras disponibles: ' . implode(', ', $carrera_options)));
 
         // Configurar el campo field_carrera como lista desplegable.
         $form['field_carrera']['widget'][0]['target_id'] = [
@@ -452,7 +483,7 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
           '#required' => TRUE,
         ];
       } else {
-        \Drupal::messenger()->addMessage(t('No tienes carreras disponibles.'));
+        //\Drupal::messenger()->addMessage(t('No tienes carreras disponibles.'));
       }
     }
 
@@ -468,7 +499,7 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
 function add_entity_to_group_preprocess_block(&$variables)
 {
   if (isset($variables['content']['group_relationship.group_node_add_page'])) {
-    \Drupal::messenger()->addMessage('Botón "Add existing content" encontrado.');
+    //\Drupal::messenger()->addMessage('Botón "Add existing content" encontrado.');
 
     // Deshabilitamos el botón.
     //$variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['onclick'] = 'return false;';
@@ -476,7 +507,5 @@ function add_entity_to_group_preprocess_block(&$variables)
     //$variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['style'] = 'pointer-events: none; opacity: 0.5;';
   }
 }
-
-
 
 

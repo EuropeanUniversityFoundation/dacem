@@ -44,7 +44,7 @@ class CreateUserInGroupForm extends FormBase {
       
       // Comprobar si el usuario tiene el rol "university_admin".
       foreach ($roles as $role) {
-        \Drupal::messenger()->addMessage('Roool: ' . $role->id());
+        //\Drupal::messenger()->addMessage('Roool: ' . $role->id());
         if ($role->id() == 'universitytypegroup-university_a') {
           // Permitir acceso al formulario si tiene el rol "university_admin".
           $form['username'] = [
@@ -119,7 +119,7 @@ class CreateUserInGroupForm extends FormBase {
     }
 
     // Mostrar mensaje de confirmación.
-    \Drupal::messenger()->addMessage($this->t('User %username has been created and added to the group.', ['%username' => $user->getAccountName()]));
+    //\Drupal::messenger()->addMessage($this->t('User %username has been created and added to the group.', ['%username' => $user->getAccountName()]));
 
     $destination = \Drupal::request()->query->get('destination');
 

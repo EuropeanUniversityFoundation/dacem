@@ -6,7 +6,7 @@
  * Implements hook_preprocess_block() to add a button to the local actions block.
  */
 function create_user_group_preprocess_block(&$variables) {
-  \Drupal::messenger()->addMessage('Hook preprocess block.');
+  //\Drupal::messenger()->addMessage('Hook preprocess block.');
   
 
   // Verificar si es el bloque de acciones locales (local actions).
@@ -95,7 +95,7 @@ function create_user_group_page_alter(&$page) {
 
   // Verificar la ruta actual para depurar.
   $route_name = \Drupal::routeMatch()->getRouteName();
-  \Drupal::messenger()->addMessage(t('Ruta actual: @route', ['@route' => $route_name]));
+  //\Drupal::messenger()->addMessage(t('Ruta actual: @route', ['@route' => $route_name]));
 }
 
 
@@ -103,5 +103,5 @@ function create_user_group_page_alter(&$page) {
  * Implements hook_page_top().
  */
 function create_user_group_page_top(array &$page_top) {
-  \Drupal::messenger()->addMessage(t('Hook page top.'));
+  //\Drupal::messenger()->addMessage(t('Hook page top.'));
 }

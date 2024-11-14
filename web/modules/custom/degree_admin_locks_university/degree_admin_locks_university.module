@@ -5,17 +5,24 @@
  */
 function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   
-    \Drupal::messenger()->addMessage('HOOK de degree_admin_locks_university_entity_form_alter');
-    //dump(\Drupal::routeMatch()->getRouteName());
-    //dump(\Drupal::routeMatch()->getParameters());
-
+    
     //dump($form_state);
     // Verificamos que estamos en el formulario de edición de una entidad de tipo carrera.
   if ($form_id === 'node_carrera_edit_form') {
+
+    if (isset($form['uid'])) {
+      // Hacer que el campo de autor sea visible y editable.
+      $form['uid']['#access'] = TRUE;
+      $form['uid']['#disabled'] = FALSE;  // Hacer editable el campo.
+  
+      // Mover el campo "Autor" a la parte superior del formulario.
+  
+      ////\Drupal::messenger()->addMessage(t('El campo de autor está habilitado.'));
+    }
     // Obtener el nodo actual que se está editando.
     $node = $form_state->getFormObject()->getEntity();
 
-    \Drupal::messenger()->addMessage('HOOK de degree_admin_locks_university_entity_form_alter222');
+    ////\Drupal::messenger()->addMessage('HOOK de degree_admin_locks_university_entity_form_alter222');
 
     // Solo aplicamos esto si el campo de universidad está presente en el formulario.
     if (isset($form['field_universidad'])) {
@@ -31,18 +38,18 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
         
         
         $group = $membership->getGroup();
-        \Drupal::messenger()->addMessage('HOOK29384kjklj ' . $group->getEntityTypeId() );
+        ////\Drupal::messenger()->addMessage('HOOK29384kjklj ' . $group->getEntityTypeId() );
         // Verificar que el grupo esté relacionado con la universidad de la carrera actual.
         if (($group->getEntityTypeId() === 'node' || $group->getEntityTypeId() === 'group' ) && $group->getGroupType()->id() === 'universitytypegroup') {
        
           // Verificar si el usuario tiene el rol de Degree Admin dentro de este grupo.
-          //\Drupal::messenger()->addMessage('HOOK ' . print_r($membership));
+          //////\Drupal::messenger()->addMessage('HOOK ' . print_r($membership));
           $roles = $membership->getRoles();
           foreach ($roles as $role) {
             if ($role->id() === 'universitytypegroup-degree_admin' || $role->id() === 'universitytypegroup-university_a') {
               // Desactivar el campo de universidad para Degree Admin.
               $form['field_universidad']['#disabled'] = TRUE;
-              \Drupal::messenger()->addMessage('El campo Universidad está desactivado para Degree Admin.');
+              ////\Drupal::messenger()->addMessage('El campo Universidad está desactivado para Degree Admin.');
               break 2; // Salir de ambos bucles.
             }
           }
@@ -62,7 +69,17 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
     // Obtener el nodo actual que se está editando.
     $node = $form_state->getFormObject()->getEntity();
 
-    \Drupal::messenger()->addMessage('HOOK de degree_admin_locks_university_entity_form_alter222');
+    if (isset($form['uid'])) {
+      // Hacer que el campo de autor sea visible y editable.
+      $form['uid']['#access'] = TRUE;
+      $form['uid']['#disabled'] = FALSE;  // Hacer editable el campo.
+  
+      // Mover el campo "Autor" a la parte superior del formulario.
+  
+      ////\Drupal::messenger()->addMessage(t('El campo de autor está habilitado.'));
+    }
+
+    ////\Drupal::messenger()->addMessage('HOOK de degree_admin_locks_university_entity_form_alter222');
 
     // Solo aplicamos esto si el campo de universidad está presente en el formulario.
     if (isset($form['field_carrera'])) {
@@ -78,18 +95,18 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
         
         
         $group = $membership->getGroup();
-        \Drupal::messenger()->addMessage('HOOK29384kjklj ' . $group->getEntityTypeId() );
+        ////\Drupal::messenger()->addMessage('HOOK29384kjklj ' . $group->getEntityTypeId() );
         // Verificar que el grupo esté relacionado con la universidad de la carrera actual.
         if (($group->getEntityTypeId() === 'node' || $group->getEntityTypeId() === 'group' ) && $group->getGroupType()->id() === 'universitytypegroup') {
        
           // Verificar si el usuario tiene el rol de Degree Admin dentro de este grupo.
-          //\Drupal::messenger()->addMessage('HOOK ' . print_r($membership));
+          //////\Drupal::messenger()->addMessage('HOOK ' . print_r($membership));
           $roles = $membership->getRoles();
           //foreach ($roles as $role) {
             //if ($role->id() === 'universitytypegroup-subject_admi') {
               // Desactivar el campo de universidad para Degree Admin.
               $form['field_carrera']['#disabled'] = TRUE;
-              \Drupal::messenger()->addMessage('El campo Degree está desactivado para Degree Admin.');
+              ////\Drupal::messenger()->addMessage('El campo Degree está desactivado para Degree Admin.');
               //break 2; // Salir de ambos bucles.
             //}
           //}
@@ -109,3 +126,4 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
 
 
 }
+

@@ -4,7 +4,7 @@ use Drupal\group\Entity\GroupContent;
 
 function admin_content_filter_views_query_alter($view, $query)
 {
-  \Drupal::messenger()->addMessage('ENTRA A ADMIN CONTENT FILTER VIEWS QUERY ALTER');
+  //\Drupal::messenger()->addMessage('ENTRA A ADMIN CONTENT FILTER VIEWS QUERY ALTER');
   // Verifica si estamos en la vista admin/content.
   if ($view->id() == 'content' && $view->getPath() == 'admin/content') {
 
@@ -36,17 +36,17 @@ function admin_content_filter_views_query_alter($view, $query)
     // Verificar qué nodos puede editar el usuario.
     foreach ($nodes as $node) {
       if ($node->access('update', $current_user)) {
-        \Drupal::messenger()->addMessage('El usuario tiene permiso para editar el nodo: ' . $node->label());
+        //\Drupal::messenger()->addMessage('El usuario tiene permiso para editar el nodo: ' . $node->label());
         $editable_node_ids[] = $node->id();
       }
     }
 
     // Si el usuario no puede editar ningún nodo, filtramos todo.
     if (empty($editable_node_ids)) {
-      \Drupal::messenger()->addMessage('El usuario no puede editar ningún nodo.');
+      //\Drupal::messenger()->addMessage('El usuario no puede editar ningún nodo.');
       $query->addWhere(0, 'node_field_data.nid', -1, '=');
     } else {
-      \Drupal::messenger()->addMessage('El usuario puede editar algunos nodos.');
+      //\Drupal::messenger()->addMessage('El usuario puede editar algunos nodos.');
       // Filtrar la vista para mostrar solo los nodos que el usuario puede editar.
       $query->addWhere(0, 'node_field_data.nid', $editable_node_ids, 'IN');
     }

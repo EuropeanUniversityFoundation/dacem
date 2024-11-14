@@ -104,15 +104,15 @@ class AdminAreaController extends ControllerBase
         'link' => $university->toUrl()->toString(),
         'edit_link' => $university->toUrl('edit-form', [
           'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
-      ])->toString(),
+        ])->toString(),
         'university_primary_color' => $university->field_primary_color[0]->color ?? '#FFFFFF',
         'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
           'node' => $university->id(),
         ])->toString(),
         'create_degree_link' => $this->getGroupEntityCreationUrl($group_id, 'carrera', parent_entity: $university),
-      
+
       ],
-      
+
       'degrees' => [],
       'group_members' => $this->getUsersGroup($group),
       'create_user_link' => Url::fromRoute('create_user_group.create_user_form', [
@@ -120,7 +120,7 @@ class AdminAreaController extends ControllerBase
       ], [
         'query' => ['destination' => '/my-area'], // Parámetro de redirección.
       ])->toString(),
-      
+
     ];
 
     // Obtener carreras asociadas.
@@ -136,14 +136,17 @@ class AdminAreaController extends ControllerBase
         'link' => $degree->toUrl()->toString(),
         'edit_link' => $degree->toUrl('edit-form', [
           'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
-      ])->toString(),
-        'delete_link' => $degree->toUrl('delete-form')->toString(),
+        ])->toString(),
+        'delete_link' => $degree->toUrl('delete-form', [
+          'query' => ['destination' => '/my-area'],
+        ])->toString(),
         'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
           'node' => $degree->id(),
         ])->toString(),
         'create_subject_link' => $this->getGroupEntityCreationUrl($group_id, 'asignatura', $degree),
         'subjects' => [],
       ];
+
 
       // Obtener asignaturas asociadas a la carrera.
       $subjects = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
@@ -157,17 +160,22 @@ class AdminAreaController extends ControllerBase
           'link' => $subject->toUrl()->toString(),
           'edit_link' => $subject->toUrl('edit-form', [
             'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
-        ])->toString(),
-          'delete_link' => $subject->toUrl('delete-form')->toString(),
+          ])->toString(),
+          'delete_link' => $subject->toUrl('delete-form', [
+            'query' => ['destination' => '/my-area'],
+          ])->toString(),
           'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
             'node' => $subject->id(),
           ])->toString(),
         ];
       }
 
+
       $data['degrees'][] = $degree_data;
+
     }
     $data['role'] = 'universitytypegroup-university_a';
+    //dump($data);
     return $data;
   }
   protected function getUsersGroup(Group $group)
@@ -247,9 +255,19 @@ class AdminAreaController extends ControllerBase
         'roles' => array_map(function ($role) {
           return $role->label();
         }, $roles),
-        'edit_link' => $user->toUrl('edit-form')->toString(),
+        'edit_link' => $user->toUrl('edit-form', [
+          'query' => ['destination' => '/my-area'], // Redirigir a /my-area después de editar.
+      ])->toString(),
+      
+
+        
+        
+
+
         'delete_link' => Url::fromRoute('entity.user.cancel_form', [
           'user' => $user->id(),
+        ], [
+          'query' => ['destination' => '/my-area'], // Redirigir a /my-area después de eliminar.
         ])->toString(),
         'entities' => $user_entities, // Agregar las entidades asociadas al usuario.
       ];
@@ -308,7 +326,9 @@ class AdminAreaController extends ControllerBase
           'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
         ])->toString(),
 
-        'delete_link' => $degree->toUrl('delete-form')->toString(),
+        'delete_link' => $degree->toUrl('delete-form', [
+          'query' => ['destination' => '/my-area'],
+        ])->toString(),
         'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
           'node' => $degree->id(),
         ])->toString(),
@@ -330,11 +350,14 @@ class AdminAreaController extends ControllerBase
           'link' => $subject->toUrl()->toString(),
           'edit_link' => $subject->toUrl('edit-form', [
             'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
-        ])->toString(),
-          'delete_link' => $subject->toUrl('delete-form')->toString(),
+          ])->toString(),
+          'delete_link' => $subject->toUrl('delete-form', [
+            'query' => ['destination' => '/my-area'],
+          ])->toString(),
           'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
             'node' => $subject->id(),
           ])->toString(),
+
         ];
       }
 
@@ -428,8 +451,10 @@ class AdminAreaController extends ControllerBase
           'link' => $subject->toUrl()->toString(),
           'edit_link' => $subject->toUrl('edit-form', [
             'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
-        ])->toString(),
-          'delete_link' => $subject->toUrl('delete-form')->toString(),
+          ])->toString(),
+          'delete_link' => $subject->toUrl('delete-form', [
+            'query' => ['destination' => '/my-area'],
+          ])->toString(),
           'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
             'node' => $subject->id(),
           ])->toString(),
@@ -549,7 +574,7 @@ class AdminAreaController extends ControllerBase
         'group' => $group_id,
         'plugin_id' => 'group_node:' . $entity_type,
       ], [
-        'query' => ['field_carrera' => $parent_entity->id()], // Incluye el ID de la carrera.
+        'query' => ['field_carrera' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
       ])->toString();
 
     } else if ($entity_type == 'carrera') {
@@ -558,7 +583,7 @@ class AdminAreaController extends ControllerBase
         'group' => $group_id,
         'plugin_id' => 'group_node:' . $entity_type,
       ], [
-        'query' => ['field_universidad' => $parent_entity->id()], // Incluye el ID de la carrera.
+        'query' => ['field_universidad' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
       ])->toString();
     } else {
       return 0;
