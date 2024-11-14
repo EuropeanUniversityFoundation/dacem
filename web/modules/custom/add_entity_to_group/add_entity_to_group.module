@@ -52,8 +52,28 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
  */
 function _alter_create_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
 {
-  // Lógica personalizada para crear carreras.
-  \Drupal::messenger()->addMessage(t('Formulario para crear una carrera.'));
+  \Drupal::messenger()->addMessage('Hook add entity to group alter create carrera form ****************************');
+  if (isset($form['field_universidad'])) {
+    // Obtener el ID de la carrera desde la URL (si está presente).
+    $universidad_id = \Drupal::request()->query->get('field_universidad');
+    
+
+
+    // Si hay un ID de carrera en la URL, usarlo como valor predeterminado.
+    if ($universidad_id) {
+      $universidad = \Drupal::entityTypeManager()->getStorage('node')->load($universidad_id);
+      if ($universidad_id && $universidad->bundle() === 'universidad') {
+        // Preseleccionar la carrera y deshabilitar el campo.
+        $form['field_universidad']['widget'][0]['target_id']['#default_value'] = $universidad;
+        $form['field_universidad']['widget'][0]['target_id']['#disabled'] = TRUE; // Deshabilitar el campo.
+        \Drupal::messenger()->addMessage(t('Universidad preseleccionada: @name', ['@name' => $universidad->label()]));
+        return; // Salir, ya que la carrera fue configurada correctamente.
+      }
+    }
+
+    // Si no hay carrera válida, mostrar un mensaje de error.
+    \Drupal::messenger()->addError(t('No se pudo preseleccionar la carrera.'));
+  }
 }
 
 /**

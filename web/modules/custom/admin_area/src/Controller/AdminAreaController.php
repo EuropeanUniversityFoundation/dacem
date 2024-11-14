@@ -100,22 +100,26 @@ class AdminAreaController extends ControllerBase
 
     $data = [
       'university' => [
-        'title' => $university->label(),
+        'name' => $university->label(),
         'link' => $university->toUrl()->toString(),
-        'edit_link' => $university->toUrl('edit-form')->toString(),
+        'edit_link' => $university->toUrl('edit-form', [
+          'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
+      ])->toString(),
         'university_primary_color' => $university->field_primary_color[0]->color ?? '#FFFFFF',
         'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
           'node' => $university->id(),
-          ])->toString(),
+        ])->toString(),
+        'create_degree_link' => $this->getGroupEntityCreationUrl($group_id, 'carrera', parent_entity: $university),
+      
       ],
+      
       'degrees' => [],
-      'group_members'=> $this->getUsersGroup($group),
+      'group_members' => $this->getUsersGroup($group),
       'create_user_link' => Url::fromRoute('create_user_group.create_user_form', [
         'group' => $group->id(),
-    ], [
+      ], [
         'query' => ['destination' => '/my-area'], // Parámetro de redirección.
-    ])->toString(),
-    'create_degree_link' => $this->getGroupEntityCreationUrl($group_id, 'carrera', $university),
+      ])->toString(),
       
     ];
 
@@ -130,11 +134,13 @@ class AdminAreaController extends ControllerBase
       $degree_data = [
         'title' => $degree->label(),
         'link' => $degree->toUrl()->toString(),
-        'edit_link' => $degree->toUrl('edit-form')->toString(),
+        'edit_link' => $degree->toUrl('edit-form', [
+          'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
+      ])->toString(),
         'delete_link' => $degree->toUrl('delete-form')->toString(),
         'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
           'node' => $degree->id(),
-          ])->toString(),
+        ])->toString(),
         'create_subject_link' => $this->getGroupEntityCreationUrl($group_id, 'asignatura', $degree),
         'subjects' => [],
       ];
@@ -149,11 +155,13 @@ class AdminAreaController extends ControllerBase
         $degree_data['subjects'][] = [
           'title' => $subject->label(),
           'link' => $subject->toUrl()->toString(),
-          'edit_link' => $subject->toUrl('edit-form')->toString(),
+          'edit_link' => $subject->toUrl('edit-form', [
+            'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
+        ])->toString(),
           'delete_link' => $subject->toUrl('delete-form')->toString(),
           'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
             'node' => $subject->id(),
-            ])->toString(),
+          ])->toString(),
         ];
       }
 
@@ -162,15 +170,16 @@ class AdminAreaController extends ControllerBase
     $data['role'] = 'universitytypegroup-university_a';
     return $data;
   }
-  protected function getUsersGroup(Group $group) {
+  protected function getUsersGroup(Group $group)
+  {
     $group_members = [];
-  
+
     // Obtener los usuarios del grupo.
     $members = $group->getMembers();
     foreach ($members as $member) {
       $user = $member->getUser();
       $roles = $member->getRoles();
-  
+
       // Obtener entidades asociadas al usuario según su rol.
       $entities = [];
       foreach ($roles as $role) {
@@ -204,7 +213,7 @@ class AdminAreaController extends ControllerBase
               ];
             }
             break;
-  
+
           case 'universitytypegroup-subject_admi':
             // Obtener asignaturas creadas por este usuario.
             $subjects = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
@@ -222,7 +231,7 @@ class AdminAreaController extends ControllerBase
             break;
         }
       }
-  
+
       // Formatear las entidades asociadas.
       $user_entities = [];
       foreach ($entities as $entity) {
@@ -231,7 +240,7 @@ class AdminAreaController extends ControllerBase
           'link' => $entity['link'],
         ];
       }
-  
+
       $group_members[] = [
         'name' => $user->getDisplayName(),
         'email' => $user->getEmail(),
@@ -245,10 +254,10 @@ class AdminAreaController extends ControllerBase
         'entities' => $user_entities, // Agregar las entidades asociadas al usuario.
       ];
     }
-  
+
     return $group_members; // Retorna los usuarios del grupo con sus entidades asociadas.
   }
-  
+
 
 
   /**
@@ -269,10 +278,10 @@ class AdminAreaController extends ControllerBase
 
     $count = 0;
     foreach ($degrees as $degree) {
-      
+
       $group_id = $this->getGroupIdsByEntity($degree->id());
       //dump($group_id);
-      
+
       if ($count == 0) {
 
         $university_id = $degree->get('field_universidad')->target_id;
@@ -295,11 +304,14 @@ class AdminAreaController extends ControllerBase
       $degree_data = [
         'title' => $degree->label(),
         'link' => $degree->toUrl()->toString(),
-        'edit_link' => $degree->toUrl('edit-form')->toString(),
+        'edit_link' => $degree->toUrl('edit-form', [
+          'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
+        ])->toString(),
+
         'delete_link' => $degree->toUrl('delete-form')->toString(),
         'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
           'node' => $degree->id(),
-          ])->toString(),
+        ])->toString(),
 
         'create_subject_link' => $this->getGroupEntityCreationUrl($group_id, 'asignatura', $degree),
         'subjects' => [],
@@ -316,11 +328,13 @@ class AdminAreaController extends ControllerBase
         $degree_data['subjects'][] = [
           'title' => $subject->label(),
           'link' => $subject->toUrl()->toString(),
-          'edit_link' => $subject->toUrl('edit-form')->toString(),
+          'edit_link' => $subject->toUrl('edit-form', [
+            'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
+        ])->toString(),
           'delete_link' => $subject->toUrl('delete-form')->toString(),
           'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
             'node' => $subject->id(),
-            ])->toString(),
+          ])->toString(),
         ];
       }
 
@@ -412,15 +426,17 @@ class AdminAreaController extends ControllerBase
         $data['subjects_by_degree'][$degree_id]['subjects'][] = [
           'title' => $subject->label(),
           'link' => $subject->toUrl()->toString(),
-          'edit_link' => $subject->toUrl('edit-form')->toString(),
+          'edit_link' => $subject->toUrl('edit-form', [
+            'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
+        ])->toString(),
           'delete_link' => $subject->toUrl('delete-form')->toString(),
           'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
             'node' => $subject->id(),
-            ])->toString(),
+          ])->toString(),
         ];
-        
+
       }
-      
+
       $count++;
     }
 
@@ -477,77 +493,79 @@ class AdminAreaController extends ControllerBase
   }
 
 
-/**
- * Given a node, find the group IDs that the node is a part of.
- *
- * @param int $nid
- *   The node ID.
- *
- * @return array
- *   An array of group IDs that the node is present in.
- */
-function getGroupIdsByEntity($nid) {
-  $query = \Drupal::database()->select('group_relationship_field_data', 'gr');
-  $query->innerjoin('groups_field_data', 'gfd', 'gr.gid = gfd.id');
-  $query->condition('gr.entity_id', $nid);
+  /**
+   * Given a node, find the group IDs that the node is a part of.
+   *
+   * @param int $nid
+   *   The node ID.
+   *
+   * @return array
+   *   An array of group IDs that the node is present in.
+   */
+  function getGroupIdsByEntity($nid)
+  {
+    $query = \Drupal::database()->select('group_relationship_field_data', 'gr');
+    $query->innerjoin('groups_field_data', 'gfd', 'gr.gid = gfd.id');
+    $query->condition('gr.entity_id', $nid);
 
-  // Don't include group user memberships in the query.
-  $query->condition('gr.type', 'group-group_membership', '!=');
+    // Don't include group user memberships in the query.
+    $query->condition('gr.type', 'group-group_membership', '!=');
 
-  $query->fields('gr', ['gid']);
-  $result = $query->execute();
+    $query->fields('gr', ['gid']);
+    $result = $query->execute();
 
-  $groupIds = [];
-  foreach ($result as $record) {
-    $groupIds[] = $record->gid;
+    $groupIds = [];
+    foreach ($result as $record) {
+      $groupIds[] = $record->gid;
+    }
+
+
+    //Para retornar todos os ids de todos os grupos descomentamos a linea de abaixo,
+    //temos o [0] porque de momento cada entidad solo pertence a un grupo.
+    //return $groupIds;
+
+    return $groupIds[0];
   }
 
 
-  //Para retornar todos os ids de todos os grupos descomentamos a linea de abaixo,
-  //temos o [0] porque de momento cada entidad solo pertence a un grupo.
-  //return $groupIds;
-  
-  return $groupIds[0];
-}
+
+  /**
+   * Genera la URL para crear una entidad dentro de un grupo.
+   *
+   * @param int $group_id
+   *   El ID del grupo.
+   * @param string $entity_type
+   *   El tipo de entidad a crear (por ejemplo, "asignatura").
+   *
+   * @return string
+   *   La URL para crear la entidad dentro del grupo.
+   */
+  protected function getGroupEntityCreationUrl($group_id, $entity_type, $parent_entity)
+  {
+    // Generar la ruta para crear la entidad dentro del grupo.
+
+    if ($entity_type == 'asignatura') {
+      return Url::fromRoute('entity.group_relationship.create_form', [
+        'group' => $group_id,
+        'plugin_id' => 'group_node:' . $entity_type,
+      ], [
+        'query' => ['field_carrera' => $parent_entity->id()], // Incluye el ID de la carrera.
+      ])->toString();
+
+    } else if ($entity_type == 'carrera') {
+
+      return Url::fromRoute('entity.group_relationship.create_form', [
+        'group' => $group_id,
+        'plugin_id' => 'group_node:' . $entity_type,
+      ], [
+        'query' => ['field_universidad' => $parent_entity->id()], // Incluye el ID de la carrera.
+      ])->toString();
+    } else {
+      return 0;
+    }
 
 
-
-/**
- * Genera la URL para crear una entidad dentro de un grupo.
- *
- * @param int $group_id
- *   El ID del grupo.
- * @param string $entity_type
- *   El tipo de entidad a crear (por ejemplo, "asignatura").
- *
- * @return string
- *   La URL para crear la entidad dentro del grupo.
- */
-protected function getGroupEntityCreationUrl($group_id, $entity_type, $parent_entity) {
-  // Generar la ruta para crear la entidad dentro del grupo.
-
-  if ($entity_type == 'asignatura'){
-    return Url::fromRoute('entity.group_relationship.create_form', [
-      'group' => $group_id,
-      'plugin_id' => 'group_node:' . $entity_type, 
-    ], [
-      'query' => ['field_carrera' => $parent_entity->id()], // Incluye el ID de la carrera.
-    ])->toString();
-
-  }else if($entity_type == 'carrera'){
-    
-    return Url::fromRoute('entity.group_relationship.create_form', [
-      'group' => $group_id,
-      'plugin_id' => 'group_node:' . $entity_type, 
-    ], [
-      'query' => ['field_carrera' => $parent_entity->id()], // Incluye el ID de la carrera.
-    ])->toString();
-  }else{
-    return 0;
   }
-  
-  
-}
 
 
 
