@@ -120,6 +120,13 @@ class UniversityMenuBlock extends BlockBase {
 
         //print_r($switch_links);
 
+        
+      $general_info_url = Url::fromRoute('view.general_information.page_1', [
+        'arg_0' => $university->id(),
+      ])->toString();
+      dump($general_info_url);
+      
+
         $build = [
           '#markup' => $this->t('
               <nav class="navbar navbar-expand-lg university-navbar">
@@ -138,7 +145,8 @@ class UniversityMenuBlock extends BlockBase {
                       <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
                           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                               <li class="nav-item">
-                                  <a class="nav-link" href="/@university_path/informacion-institucional">' . $translations[$current_language]['INSTITUTIONAL INFORMATION']. '</a>
+                              <a class="nav-link" href="' . $general_info_url . '">' . $translations[$current_language]['INSTITUTIONAL INFORMATION']. '</a>
+
                               </li>
                               <li class="nav-item">
                                   <a class="nav-link" href="/@university_path/catalogo">' . $translations[$current_language]['CATALOGUE'] . '</a>

@@ -60,6 +60,7 @@
 	<p>No translations loaded.</p>
 {% endif %}
 
+{{dump(translated_entity)}}
 
 <style>:root
 {
@@ -181,6 +182,28 @@
 		</div>
 	</nav>
 </div>
+
+
+{% if translated_entity.field_degree_pdf %}
+  <ul>
+    {% for item in translated_entity.field_degree_pdf %}
+      {% if item.entity is not empty %}
+        {% set file = item.entity %}
+		<!--{{dump(file)}}
+		{{dump(file.uri.value)}}
+		{{dump(file.filename.value)}}-->
+        <li>
+          <a href="{{ file.uri.value | file_url  }}" target="_blank" download>
+            {{file.filename.value}}
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endif %}
+
+
+
 
 <div class="container-fluid">
 	<div class="my-custom-container">
