@@ -167,6 +167,10 @@ class AdminAreaController extends ControllerBase
           'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
             'node' => $subject->id(),
           ])->toString(),
+          
+
+          
+         
         ];
       }
 
@@ -594,6 +598,44 @@ class AdminAreaController extends ControllerBase
 
 
 
+
+
+  /**
+ * Genera el enlace de traducción para un nodo.
+ *
+ * @param \Drupal\node\Entity\Node $node
+ *   El nodo para el que se generará el enlace de traducción.
+ *
+ * @return string
+ *   La URL del enlace de traducción o una cadena vacía si no es válido.
+ */
+
+protected function getTranslationLink($entity) {
+  // Verifica si la entidad es un nodo.
+  if (!$entity instanceof \Drupal\node\Entity\Node) {
+    \Drupal::logger('admin_area')->warning('La entidad proporcionada no es un nodo.');
+    return '';
+  }
+
+  // Obtén el idioma actual.
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+  // Verifica si existe traducción en el idioma actual.
+  if (!$entity->hasTranslation($langcode)) {
+    // Si no existe traducción, verifica el idioma predeterminado.
+    $default_langcode = \Drupal::languageManager()->getDefaultLanguage()->getId();
+    if (!$entity->hasTranslation($default_langcode)) {
+      // No existe una traducción base, devuelve un enlace vacío o mensaje.
+      return '';
+    }
+  }
+  
+
+  // Genera el enlace de traducción.
+  return Url::fromRoute('entity.node.content_translation_overview', [
+    'node' => $entity->id(),
+  ])->toString();
+}
 
 
 
