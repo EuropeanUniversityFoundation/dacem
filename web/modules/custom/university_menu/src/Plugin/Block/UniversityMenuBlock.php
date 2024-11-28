@@ -128,6 +128,8 @@ class UniversityMenuBlock extends BlockBase {
       
 
         $build = [
+        
+
           '#markup' => $this->t('
               <nav class="navbar navbar-expand-lg university-navbar">
                   <div class="container-fluid">
@@ -181,6 +183,8 @@ class UniversityMenuBlock extends BlockBase {
         
         
       }
+    }else{
+      
     }
 
     return $build;

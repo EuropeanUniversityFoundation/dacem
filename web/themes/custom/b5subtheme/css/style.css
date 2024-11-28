@@ -13711,3 +13711,72 @@ p {
 .degree-container-admin-area td:nth-child(2) { /* La columna de "Actions" */
   width: 20%; /* Ajusta según sea necesario */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.academic-authorities {
+  text-align: center;
+  padding: 20px;
+}
+
+.authorities-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.authority-item {
+  flex: 1 1 calc(25% - 20px); /* 4 elementos por fila, ajusta según sea necesario */
+  max-width: 200px; /* Ajusta el tamaño máximo */
+  text-align: center;
+}
+
+.authority-photo {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 50%; /* Hace la imagen circular */
+  border: 3px solid #ccc; /* Opcional: Añade un borde */
+}
+
+.authority-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta la imagen al contenedor */
+}
+
+.authority-info {
+  margin-top: 10px;
+}
+
+.authority-info h3 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.authority-info p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+
+
+
+
+

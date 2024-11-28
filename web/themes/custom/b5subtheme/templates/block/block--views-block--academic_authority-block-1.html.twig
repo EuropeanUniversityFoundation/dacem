@@ -1,0 +1,22 @@
+<div class="academic-authorities">
+  <h2>Autoridades Académicas</h2>
+  <div class="authorities-grid">
+    {% for row in content['#view'].result %}
+      <div class="authority-item">
+        {{dump(row._entity.field_ac_photo)}}
+        {% set media_entity = row._entity.field_ac_photo.entity %}
+        
+        {% set file_entity = media_entity.field_media_image.entity %}
+        {% if file_entity is not empty %}
+          <div class="authority-photo">
+            <img src="{{ file_url(file_entity.uri.value) }}" alt="{{ row._entity.title.value }}">
+          </div>
+        {% endif %}
+        <div class="authority-info">
+          <h3>{{ row._entity.title.value }}</h3>
+          <p>{{ row._entity.field_role.value }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

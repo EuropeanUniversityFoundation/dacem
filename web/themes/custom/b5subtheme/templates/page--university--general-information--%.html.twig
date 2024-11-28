@@ -1,3 +1,32 @@
-<h1> Estamos en plantilla correcta </h1>
+<h1>Estamos en plantilla correcta</h1>
 
-{{dump(university)}}
+<!-- Mostrar la imagen de la universidad -->
+{% if university.field_picture is not empty %}
+  {% set media_entity = university.field_picture.entity %}
+  
+  {% if media_entity is not empty %}
+    {% set file_entity = media_entity.field_media_image.entity %}
+    {% if file_entity is not empty %}
+      <div class="university-photo">
+        <img src="{{ file_url(file_entity.uri.value) }}" alt="{{ university.title.value }}">
+      </div>
+    {% else %}
+      <p>No hay archivo de imagen disponible.</p>
+    {% endif %}
+  {% else %}
+    <p>No hay entidad Media asociada.</p>
+  {% endif %}
+{% else %}
+  <p>No hay imagen disponible.</p>
+{% endif %}
+
+
+<!-- Cargar el bloque de autoridades académicas -->
+{% set academic_authority_block = drupal_block('views_block:academic_authority-block_1') %}
+
+{% if academic_authority_block is not empty %}
+  <h2>El bloque fue cargado correctamente</h2>
+  {{ academic_authority_block }}
+{% else %}
+  <h2>No se pudo cargar el bloque</h2>
+{% endif %}
