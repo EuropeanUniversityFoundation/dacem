@@ -1,24 +1,52 @@
-<h1>Estamos en plantilla correcta</h1>
 
-<!-- Mostrar la imagen de la universidad -->
-{% if university.field_picture is not empty %}
-  {% set media_entity = university.field_picture.entity %}
-  
-  {% if media_entity is not empty %}
-    {% set file_entity = media_entity.field_media_image.entity %}
-    {% if file_entity is not empty %}
-      <div class="university-photo">
-        <img src="{{ file_url(file_entity.uri.value) }}" alt="{{ university.title.value }}">
-      </div>
-    {% else %}
-      <p>No hay archivo de imagen disponible.</p>
+
+{{dump(university)}}
+
+<div class="university-banner">
+  {% if university.field_picture is not empty %}
+    {% set media_entity = university.field_picture.entity %}
+    {% if media_entity is not empty %}
+      {% set file_entity = media_entity.field_media_image.entity %}
+      {% if file_entity is not empty %}
+        <div class="university-photo">
+          <img src="{{ file_url(file_entity.uri.value) }}" alt="{{ university.title.value }} " class="university-img">
+        </div>
+      {% endif %}
     {% endif %}
   {% else %}
-    <p>No hay entidad Media asociada.</p>
+    <p>No hay imagen disponible.</p>
   {% endif %}
-{% else %}
-  <p>No hay imagen disponible.</p>
-{% endif %}
+</div>
+
+<div class="university-details">
+  <!-- Mostrar el país (no traducible) -->
+  {% if university.field_country is not empty %}
+    <p><strong>País:</strong> {{ university.field_country.value }}</p>
+  {% else %}
+    <p><strong>País:</strong> No disponible</p>
+  {% endif %}
+
+  <!-- Mostrar la información -->
+  {% set current_language = university.langcode.value %}
+  {% if university.field_informacion[current_language] is not empty %}
+    <div class="university-info">
+      <strong>Información:</strong>
+      <p>{{ university.field_informacion.value }}</p>
+    </div>
+  {% else %}
+    <p><strong>Información:</strong> No disponible</p>
+  {% endif %}
+
+  <!-- Mostrar los requisitos de admisión -->
+  {% if university.field_admission_requirements is not empty %}
+    <div class="admission-requirements">
+      <strong>Requisitos de Admisión:</strong>
+      <p>{{ university.field_admission_requirements.value }}</p>
+    </div>
+  {% else %}
+    <p><strong>Requisitos de Admisión:</strong> No disponible</p>
+  {% endif %}
+</div>
 
 
 <!-- Cargar el bloque de autoridades académicas -->

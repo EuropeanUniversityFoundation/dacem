@@ -1,5 +1,8 @@
 <?php
 
+use Drupal\Core\Language\LanguageInterface;
+
+
 /**
  * @file
  * B5 subtheme theme file.
@@ -32,19 +35,24 @@ function b5subtheme_preprocess_block(&$variables) {
  */
 function b5subtheme_preprocess_page(&$variables) {
   
-    // Verifica que estamos en la ruta correcta (la ruta de tu vista).
-    if (\Drupal::routeMatch()->getRouteName() === 'view.general_information.page_1') {
-      // Obtén el argumento de la URL (el ID de la universidad).
-      $university_id = \Drupal::routeMatch()->getParameter('arg_0');
-      if ($university_id) {
-        // Carga el nodo de la universidad.
-        $university_node = \Drupal\node\Entity\Node::load($university_id);
-        if ($university_node) {
-          // Pasa el nodo de la universidad a Twig como una variable.
-          $variables['university'] = $university_node;
-        }
+    // Verifica si estamos en la ruta deseada.
+  if (\Drupal::routeMatch()->getRouteName() === 'view.general_information.page_1') {
+    // Obtén el idioma actual.
+    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+    
+    // Obtén el nodo pasado como argumento a la vista.
+    $arg_0 = \Drupal::routeMatch()->getParameter('arg_0');
+    if ($arg_0 && is_numeric($arg_0)) {
+      $node = \Drupal\node\Entity\Node::load($arg_0);
+      if ($node && $node->hasTranslation($current_language)) {
+        // Carga la traducción activa del nodo.
+        $translated_node = $node->getTranslation($current_language);
+
+        // Pasa el nodo traducido a las plantillas Twig.
+        $variables['university'] = $translated_node;
       }
     }
+  }
   
   
 

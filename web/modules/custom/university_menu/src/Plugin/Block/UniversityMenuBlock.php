@@ -16,14 +16,16 @@ use Drupal\Core\Language\LanguageInterface;
  *   category = @Translation("Custom")
  * )
  */
-class UniversityMenuBlock extends BlockBase {
+class UniversityMenuBlock extends BlockBase
+{
 
 
 
   /**
    * {@inheritdoc}
    */
-  public function build() {
+  public function build()
+  {
 
     $translations = [
       'en' => [
@@ -40,10 +42,10 @@ class UniversityMenuBlock extends BlockBase {
       ],
       // Agrega otros idiomas si es necesario
     ];
-    
 
 
-    
+
+
     $build = [];
     $current_node = \Drupal::routeMatch()->getParameter('node');
     //dump($current_node);
@@ -98,7 +100,7 @@ class UniversityMenuBlock extends BlockBase {
         $language_manager = \Drupal::service('language_manager');
         //$current_language = $language_manager->getCurrentLanguage()->getId();
         $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-
+        
         // Generar la URL de la universidad en el idioma actual
         $university_url = $university->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
 
@@ -114,21 +116,24 @@ class UniversityMenuBlock extends BlockBase {
           if (isset($switch_links[$langcode])) {
             $url = Url::fromRoute('<current>', [], ['language' => $language]);
             $switch_links[$langcode] = $url->toString();
-            
+
           }
         }
 
         //print_r($switch_links);
 
-        
-      $general_info_url = Url::fromRoute('view.general_information.page_1', [
-        'arg_0' => $university->id(),
-      ])->toString();
-      dump($general_info_url);
-      
+
+        // Genera la URL con el idioma activo.
+        $general_info_url = Url::fromRoute('view.general_information.page_1', [
+          'arg_0' => $university->id(),
+        ], [
+          'language' => \Drupal::languageManager()->getLanguage($current_language),
+        ])->toString();
+        dump($general_info_url);
+
 
         $build = [
-        
+
 
           '#markup' => $this->t('
               <nav class="navbar navbar-expand-lg university-navbar">
@@ -147,7 +152,7 @@ class UniversityMenuBlock extends BlockBase {
                       <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
                           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                               <li class="nav-item">
-                              <a class="nav-link" href="' . $general_info_url . '">' . $translations[$current_language]['INSTITUTIONAL INFORMATION']. '</a>
+                              <a class="nav-link" href="' . $general_info_url . '">' . $translations[$current_language]['INSTITUTIONAL INFORMATION'] . '</a>
 
                               </li>
                               <li class="nav-item">
@@ -169,22 +174,23 @@ class UniversityMenuBlock extends BlockBase {
                       </div>
                   </div>
               </nav>',
-              [
-                  '@logo_url' => $logo_url,
-                  '@university_name' => $university->getTitle(),
-                  '@university_path' => $university->toUrl()->getInternalPath(),
-                  '@url_es' => $switch_links['es'],
-                  '@url_en' => $switch_links['en'],
-                  '@university_url' => $university_url,
-              ]),
-      ];
-      
-        
-        
-        
+            [
+              '@logo_url' => $logo_url,
+              '@university_name' => $university->getTitle(),
+              '@university_path' => $university->toUrl()->getInternalPath(),
+              '@url_es' => $switch_links['es'],
+              '@url_en' => $switch_links['en'],
+              '@university_url' => $university_url,
+            ]
+          ),
+        ];
+
+
+
+
       }
-    }else{
-      
+    } else {
+
     }
 
     return $build;
