@@ -1,6 +1,5 @@
 
 
-{{dump(university)}}
 
 <div class="university-banner">
   {% if university.field_picture is not empty %}
@@ -37,16 +36,9 @@
     <p><strong>Información:</strong> No disponible</p>
   {% endif %}
 
-  <!-- Mostrar los requisitos de admisión -->
-  {% if university.field_admission_requirements is not empty %}
-    <div class="admission-requirements">
-      <strong>Requisitos de Admisión:</strong>
-      <p>{{ university.field_admission_requirements.value }}</p>
-    </div>
-  {% else %}
-    <p><strong>Requisitos de Admisión:</strong> No disponible</p>
-  {% endif %}
-</div>
+
+
+
 
 
 <!-- Cargar el bloque de autoridades académicas -->
@@ -58,3 +50,43 @@
 {% else %}
   <h2>No se pudo cargar el bloque</h2>
 {% endif %}
+
+
+
+
+
+<div class="admission-section">
+  <h2>ADMISSION</h2>
+
+  <div class="admission-requirements">
+    <!-- Requisitos principales -->
+    {% if university.field_admission_description is not empty %}
+      <h3>Main Requirements</h3>
+      <ul>
+        {% for requirement in university.field_admission_description.value|split("\n") %}
+          <li>{{ requirement }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <!-- Idiomas -->
+    {% if university.field_admission_languages is not empty %}
+      <h3>Languages</h3>
+      <ul>
+        {% for language in university.field_admission_languages.value|split(",") %}
+          <li>{{ language }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <!-- Registro -->
+    {% if university.field_admission_registration is not empty %}
+      <h3>Registration</h3>
+      <p>Visit the registration page at: 
+        <a href="{{ university.field_admission_registration.value }}" target="_blank">
+          {{ university.field_admission_registration.value }}
+        </a>
+      </p>
+    {% endif %}
+  </div>
+</div>
