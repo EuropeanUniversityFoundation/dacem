@@ -13495,6 +13495,19 @@ code {
 }
 
 
+/* Excluir el botón "Select Language" de este efecto */
+.navbar .no-hover-bg {
+  margin-right: 60px;
+}
+
+/* Excluir el botón "Select Language" de este efecto */
+.navbar .no-hover-bg:hover {
+  background-color: transparent !important;
+  color: inherit; /* Mantener el color original */
+  cursor: default; /* Cambiar el cursor para que no parezca clickeable */
+}
+
+
 
 
 .language-buttons{
@@ -13797,40 +13810,43 @@ PARA PÁXINA DE GENERAL INFORMATION
 
 
 
+
+
+
+
+
 .admission-section {
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
 .admission-section h2 {
-  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
   font-size: 24px;
-  margin-bottom: 15px;
-  color: #000;
+  margin-bottom: 20px;
 }
 
-.admission-requirements h3 {
-  text-transform: uppercase;
+.admission-section h3,
+.admission-section h4 {
+  font-weight: bold;
   font-size: 18px;
   margin-top: 20px;
-  margin-bottom: 10px;
 }
 
-.admission-requirements ul {
+.admission-section ul.languages-list {
+  margin-left: 40px; /* Ajusta este valor para más o menos margen */
   list-style-type: disc;
-  padding-left: 20px;
 }
 
-.admission-requirements ul li {
+.admission-section ul.languages-list li {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-.admission-requirements a {
-  color: #e63946;
-  text-decoration: none;
-}
 
-.admission-requirements a:hover {
-  text-decoration: underline;
-}
+
+
+
+
+

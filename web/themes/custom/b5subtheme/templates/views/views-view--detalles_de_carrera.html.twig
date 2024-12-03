@@ -57,10 +57,9 @@
 {% if translations is defined %}
 
 {% else %}
-	<p>No translations loaded.</p>
+	No translations loaded.
 {% endif %}
 
-{{dump(translated_entity)}}
 
 <style>:root
 {
@@ -267,15 +266,15 @@
 							</div>
 						</div>
 						<h3 class="mt-4">{{translations[current_language]['Coordination'] }}</h3>
-						<p>{{ translated_entity.field_coordinador.value }}</p>
-						<p>
+						{{ translated_entity.field_coordinador.value }}
+						
 							<i class="fa fa-phone"></i>
 							{{ translated_entity.field_telefono.value }}
-						</p>
-						<p>
+						
+						
 							<i class="fa fa-envelope"></i>
 							{{ translated_entity.field_email.value }}
-						</p>
+						
 					</div>
 				</div>
 
@@ -344,7 +343,7 @@
 
 				<div class="degree-section" id="subjects" style="text-align: justify;">
 					<h2>{{ translations[current_language]['Subjects']|upper }}</h2>
-					<p>{{ 'The following tables show all the subjects that make up the Study Plan with reference to the 2023-24 academic year'|t }}:</p>
+					{{ 'The following tables show all the subjects that make up the Study Plan with reference to the 2023-24 academic year'|t }}:
 
 					<!-- Contenedor de	 los botones de los cursos -->
 					<div class="custom-btn-group btn-group mb-3" role="group" aria-label="{{ 'Courses'|t }}">

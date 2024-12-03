@@ -48,7 +48,8 @@ class UniversityMenuBlock extends BlockBase
 
     $build = [];
     $current_node = \Drupal::routeMatch()->getParameter('node');
-    //dump($current_node);
+
+
 
     if ($current_node instanceof NodeInterface) {
       $node_type = $current_node->bundle();
@@ -100,28 +101,49 @@ class UniversityMenuBlock extends BlockBase
         $language_manager = \Drupal::service('language_manager');
         //$current_language = $language_manager->getCurrentLanguage()->getId();
         $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-        
+
         // Generar la URL de la universidad en el idioma actual
         $university_url = $university->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
 
         // Generar URLs de cambio de idioma
         $languages = $language_manager->getLanguages();
+        $language_options = '';
         $switch_links = [
           'es' => '',
           'en' => ''
         ];
 
+        $flags = [
+          'en' => '🇬🇧', // Inglés
+          'es' => '🇪🇸', // Español
+          'pt-pt' => '🇵🇹', // Portugués
+          'fr' => '🇫🇷', // Francés
+          'el' => '🇬🇷', // Griego
+          'cs' => '🇨🇿', // Checo
+          'sl' => '🇸🇮', // Esloveno
+          'hu' => '🇭🇺', // Húngaro
+          'et' => '🇪🇪', // Estonio
+          'gl' => '🇪🇸', // Gallego
+        ];
+
         foreach ($languages as $language) {
           $langcode = $language->getId();
-          if (isset($switch_links[$langcode])) {
-            $url = Url::fromRoute('<current>', [], ['language' => $language]);
-            $switch_links[$langcode] = $url->toString();
+          $abbreviation = strtoupper($langcode); // Convertir el código del idioma a mayúsculas
 
-          }
+          //$url = Url::fromRoute('<current>', [], ['language' => $language]);
+          $url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
+
+          $flag = $flags[$langcode] ?? ''; // Asegurarse de tener un icono
+
+          $language_options .= '
+              <li>
+                <a class="dropdown-item" href="' . $url . '">' . $flag . ' ' . $abbreviation . '</a>
+              </li>';
+
         }
 
-        //print_r($switch_links);
 
+        //print_r($switch_links);
 
         // Genera la URL con el idioma activo.
         $general_info_url = Url::fromRoute('view.general_information.page_1', [
@@ -129,7 +151,7 @@ class UniversityMenuBlock extends BlockBase
         ], [
           'language' => \Drupal::languageManager()->getLanguage($current_language),
         ])->toString();
-        dump($general_info_url);
+
 
 
         $build = [
@@ -168,8 +190,18 @@ class UniversityMenuBlock extends BlockBase
       
                           <!-- Botones de idioma -->
                           <div class="d-flex ms-lg-2 language-buttons">
-                              <a href="@url_es" class="btn btn-outline-secondary me-2">ES</a>
-                              <a href="@url_en" class="btn btn-outline-secondary">EN</a>
+                          <!-- Menú -->
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                              <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle no-hover-bg" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ' . strtoupper($current_language) . ' ' . $flags[$current_language] . '
+                                </a>
+                          
+                                <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                                ' . $language_options . '
+                                </ul>
+                              </li>
+                            </ul>
                           </div>
                       </div>
                   </div>
@@ -190,6 +222,7 @@ class UniversityMenuBlock extends BlockBase
 
       }
     } else {
+
 
     }
 

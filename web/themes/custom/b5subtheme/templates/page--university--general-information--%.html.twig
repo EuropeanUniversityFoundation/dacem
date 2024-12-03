@@ -17,9 +17,15 @@
   {% endif %}
 </div>
 
+
+<div class="container-fluid">
+
+<div class="my-custom-container">
+
+
 <div class="university-details">
   <!-- Mostrar el país (no traducible) -->
-  {% if university.field_country is not empty %}
+  {% if university.field_country.value is not empty %}
     <p><strong>País:</strong> {{ university.field_country.value }}</p>
   {% else %}
     <p><strong>País:</strong> No disponible</p>
@@ -27,9 +33,9 @@
 
   <!-- Mostrar la información -->
   {% set current_language = university.langcode.value %}
-  {% if university.field_informacion[current_language] is not empty %}
+  {% if university.field_informacion.value is not empty %}
     <div class="university-info">
-      <strong>Información:</strong>
+      
       <p>{{ university.field_informacion.value }}</p>
     </div>
   {% else %}
@@ -45,7 +51,7 @@
 {% set academic_authority_block = drupal_block('views_block:academic_authority-block_1') %}
 
 {% if academic_authority_block is not empty %}
-  <h2>El bloque fue cargado correctamente</h2>
+  
   {{ academic_authority_block }}
 {% else %}
   <h2>No se pudo cargar el bloque</h2>
@@ -54,39 +60,51 @@
 
 
 
-
 <div class="admission-section">
-  <h2>ADMISSION</h2>
+  <!-- Título principal centrado -->
+  <h2 style="text-align: center; font-weight: bold;">ADMISSION</h2>
 
-  <div class="admission-requirements">
-    <!-- Requisitos principales -->
-    {% if university.field_admission_description is not empty %}
-      <h3>Main Requirements</h3>
-      <ul>
-        {% for requirement in university.field_admission_description.value|split("\n") %}
-          <li>{{ requirement }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
+  <!-- Descripción general -->
+  {% if university.field_admission_description is not empty %}
+  <h3 style="font-weight: bold;">Description</h3>
+    <p>{{ university.field_admission_description.value }}</p>
+  {% endif %}
 
-    <!-- Idiomas -->
+   <!-- Main Requirements -->
+  {% if university.field_main_requirements is not empty %}
+    <h3 style="font-weight: bold;">Main Requirements</h3>
+    <p>{{ university.field_main_requirements.value }}</p>
+  {% endif %}
+
+   <!-- Language Policy -->
+  {% if university.field_admission_language_policy is not empty %}
+    <h3 style="font-weight: bold;">Language Policy</h3>
+    <p>{{ university.field_admission_language_policy.value }}</p>
+
+     <!-- Subapartado: Languages -->
     {% if university.field_admission_languages is not empty %}
-      <h3>Languages</h3>
-      <ul>
-        {% for language in university.field_admission_languages.value|split(",") %}
-          <li>{{ language }}</li>
+      <h4 style="font-weight: bold; margin-left: 20px;">Languages</h4>
+      <ul style="margin-left: 20px;">
+        {% for language in university.field_admission_languages %}
+          <li>{{ language.value }}</li>
         {% endfor %}
       </ul>
     {% endif %}
+  
+  {% endif %}
 
-    <!-- Registro -->
-    {% if university.field_admission_registration is not empty %}
-      <h3>Registration</h3>
-      <p>Visit the registration page at: 
-        <a href="{{ university.field_admission_registration.value }}" target="_blank">
-          {{ university.field_admission_registration.value }}
-        </a>
-      </p>
-    {% endif %}
-  </div>
+  <!-- Registration Procedures -->
+  {% if university.field_admission_registration is not empty %}
+    <h3 style="font-weight: bold;">Registration Procedures</h3>
+    <p>{{ university.field_admission_registration.value }}</p>
+  {% endif %}
 </div>
+
+
+
+
+</div>
+
+
+</div>
+

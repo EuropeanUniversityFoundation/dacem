@@ -4,6 +4,7 @@ namespace Drupal\dacem_menu\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Url;
+use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Provides a 'Dacem Menu' Block.
@@ -25,7 +26,6 @@ class DacemMenuBlock extends BlockBase {
 public function build() {
     // Obtener el nombre de la ruta actual.
     $route_name = \Drupal::routeMatch()->getRouteName();
-
     // Lista de rutas donde el bloque debe aparecer.
     $allowed_routes = [
         'view.lista_de_universidades.page_1', // Reemplaza con la ruta real de la vista.
@@ -46,11 +46,41 @@ public function build() {
     $languages = $language_manager->getLanguages();
     $switch_links = [];
 
-    foreach ($languages as $language) {
+     // Obtener el idioma actual
+     $language_manager = \Drupal::service('language_manager');
+     //$current_language = $language_manager->getCurrentLanguage()->getId();
+     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
+    $flags = [
+        'en' => '🇬🇧', // Inglés
+        'es' => '🇪🇸', // Español
+        'pt-pt' => '🇵🇹', // Portugués
+        'fr' => '🇫🇷', // Francés
+        'el' => '🇬🇷', // Griego
+        'cs' => '🇨🇿', // Checo
+        'sl' => '🇸🇮', // Esloveno
+        'hu' => '🇭🇺', // Húngaro
+        'et' => '🇪🇪', // Estonio
+        'gl' => '🇪🇸', // Gallego
+      ];
+
+      foreach ($languages as $language) {
         $langcode = $language->getId();
-        $url = Url::fromRoute('<current>', [], ['language' => $language]);
-        $switch_links[$langcode] = $url->toString();
-    }
+        $abbreviation = strtoupper($langcode); // Convertir el código del idioma a mayúsculas
+        
+          //$url = Url::fromRoute('<current>', [], ['language' => $language]);
+          $url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
+
+          $flag = $flags[$langcode] ?? ''; // Asegurarse de tener un icono
+
+          $language_options .= '
+            <li>
+              <a class="dropdown-item" href="' . $url . '">' . $flag . ' ' . $abbreviation . '</a>
+            </li>';
+    
+      }
+      
+
 
     return [
         '#markup' => $this->t('
@@ -71,9 +101,19 @@ public function build() {
                           <li class="nav-item"><a class="nav-link" href="/" style="color:red;">' . $this->t('CONTACT') . '</a></li>
                       </ul>
                       <div class="d-flex ms-lg-2 language-buttons">
-                          <a href="@url_es" class="btn btn-outline-secondary me-2" style="color:red; border-color:red;">ES</a>
-                          <a href="@url_en" class="btn btn-outline-secondary" style="color:red; border-color:red;">EN</a>
-                      </div>
+                          <!-- Menú -->
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                              <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle no-hover-bg" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ' . strtoupper($current_language) . ' ' . $flags[$current_language] . '
+                                </a>
+                          
+                                <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                                ' . $language_options . '
+                                </ul>
+                              </li>
+                            </ul>
+                          </div>
                   </div>
               </div>
             </nav>',
