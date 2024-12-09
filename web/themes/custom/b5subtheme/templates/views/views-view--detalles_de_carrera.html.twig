@@ -182,7 +182,7 @@
 	</nav>
 </div>
 
-
+{#
 {% if translated_entity.field_degree_pdf %}
   <ul>
     {% for item in translated_entity.field_degree_pdf %}
@@ -200,7 +200,7 @@
     {% endfor %}
   </ul>
 {% endif %}
-
+#}
 
 
 
@@ -267,10 +267,10 @@
 						</div>
 						<h3 class="mt-4">{{translations[current_language]['Coordination'] }}</h3>
 						{{ translated_entity.field_coordinador.value }}
-						
+						<br>
 							<i class="fa fa-phone"></i>
 							{{ translated_entity.field_telefono.value }}
-						
+						<br>
 						
 							<i class="fa fa-envelope"></i>
 							{{ translated_entity.field_email.value }}
