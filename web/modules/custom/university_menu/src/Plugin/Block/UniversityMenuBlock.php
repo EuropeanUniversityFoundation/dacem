@@ -40,6 +40,49 @@ class UniversityMenuBlock extends BlockBase
         'RESOURCES AND SERVICES' => 'RECURSOS Y SERVICIOS',
         'UNIVERSITY LIFE' => 'VIDA UNIVERSITARIA',
       ],
+      'fr' => [
+        'INSTITUTIONAL INFORMATION' => 'INFORMATIONS INSTITUTIONNELLES',
+        'CATALOGUE' => 'CATALOGUE',
+        'RESOURCES AND SERVICES' => 'RESSOURCES ET SERVICES',
+        'UNIVERSITY LIFE' => 'VIE UNIVERSITAIRE',
+      ],
+      'pt-pt' => [
+        'INSTITUTIONAL INFORMATION' => 'INFORMAÇÃO INSTITUCIONAL',
+        'CATALOGUE' => 'CATÁLOGO',
+        'RESOURCES AND SERVICES' => 'RECURSOS E SERVIÇOS',
+        'UNIVERSITY LIFE' => 'VIDA UNIVERSITÁRIA',
+      ],
+      'gl' => [
+        'INSTITUTIONAL INFORMATION' => 'INFORMACIÓN INSTITUCIONAL',
+        'CATALOGUE' => 'CATÁLOGO',
+        'RESOURCES AND SERVICES' => 'RECURSOS E SERVIZOS',
+        'UNIVERSITY LIFE' => 'VIDA UNIVERSITARIA',
+      ],
+      'hu' => [
+        'INSTITUTIONAL INFORMATION' => 'INTÉZMÉNYI INFORMÁCIÓK',
+        'CATALOGUE' => 'KATALÓGUS',
+        'RESOURCES AND SERVICES' => 'ERŐFORRÁSOK ÉS SZOLGÁLTATÁSOK',
+        'UNIVERSITY LIFE' => 'EGYETEMI ÉLET',
+      ],
+      'sl' => [
+        'INSTITUTIONAL INFORMATION' => 'INSTITUCIONALNE INFORMACIJE',
+        'CATALOGUE' => 'KATALOG',
+        'RESOURCES AND SERVICES' => 'VIRI IN STORITVE',
+        'UNIVERSITY LIFE' => 'UNIVERZITETNO ŽIVLJENJE',
+      ],
+      'et' => [
+        'INSTITUTIONAL INFORMATION' => 'ASUTUSE INFO',
+        'CATALOGUE' => 'KATALOOG',
+        'RESOURCES AND SERVICES' => 'RESSURSID JA TEENUSED',
+        'UNIVERSITY LIFE' => 'ÜLIKOOLIELU',
+      ],
+      'el' => [
+        'INSTITUTIONAL INFORMATION' => 'ΘΕΣΜΙΚΕΣ ΠΛΗΡΟΦΟΡΙΕΣ',
+        'CATALOGUE' => 'ΚΑΤΑΛΟΓΟΣ',
+        'RESOURCES AND SERVICES' => 'ΠΟΡΟΙ ΚΑΙ ΥΠΗΡΕΣΙΕΣ',
+        'UNIVERSITY LIFE' => 'ΦΟΙΤΗΤΙΚΗ ΖΩΗ',
+      ],
+
       // Agrega otros idiomas si es necesario
     ];
 
@@ -189,20 +232,20 @@ class UniversityMenuBlock extends BlockBase
                           </ul>
       
                           <!-- Botones de idioma -->
-                          <div class="d-flex ms-lg-2 language-buttons">
-                          <!-- Menú -->
-                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                              <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle no-hover-bg" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                ' . strtoupper($current_language) . ' ' . $flags[$current_language] . '
-                                </a>
-                          
-                                <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                                ' . $language_options . '
-                                </ul>
-                              </li>
-                            </ul>
-                          </div>
+                          <div class="d-flex ms-lg-2 language-buttons" style="position: relative; z-index: 1050;">
+  <!-- Menú -->
+  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle no-hover-bg" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        ' . strtoupper($current_language) . ' ' . $flags[$current_language] . '
+      </a>
+
+      <ul class="dropdown-menu" style="z-index: 1051;" aria-labelledby="languageDropdown">
+        ' . $language_options . '
+      </ul>
+    </li>
+  </ul>
+</div>
                       </div>
                   </div>
               </nav>',

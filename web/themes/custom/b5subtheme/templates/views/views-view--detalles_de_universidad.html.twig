@@ -6,8 +6,6 @@
 
 {% set current_language = view.result[0].node_field_data_langcode %}
 
-
-
 {# Verificar si la entidad tiene una traducción en el idioma de la URL #}
 {% if entity.hasTranslation(current_language) %}
 	{% set university = entity.getTranslation(current_language) %}
@@ -36,31 +34,88 @@
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
 
 
+
+{# Mapear iconos y categorías por idioma #}
 {% set icon_map = {
-          'artes_humanidades': 'fas fa-archway',
-          'ciencias': 'fas fa-atom',
-          'ciencias_de_la_salud': 'fas fa-heartbeat',
-          'ciencias_sociales_y_juridicas': 'fas fa-balance-scale',
-          'ingenieria_y_arquitectura': 'fas fa-drafting-compass'
-        } %}
+  'artes_humanidades': 'fas fa-archway',
+  'ciencias': 'fas fa-atom',
+  'ciencias_de_la_salud': 'fas fa-heartbeat',
+  'ciencias_sociales_y_juridicas': 'fas fa-balance-scale',
+  'ingenieria_y_arquitectura': 'fas fa-drafting-compass'
+} %}
 
-{% set categories_es = {
-          'artes_humanidades': 'Artes y Humanidades',
-          'ciencias': 'Ciencias',
-          'ciencias_de_la_salud': 'Ciencias de la Salud',
-          'ciencias_sociales_y_juridicas': 'Ciencias Sociales y Jurídicas',
-          'ingenieria_y_arquitectura': 'Ingeniería y Arquitectura'
-        } %}
+{# Definir las categorías en todos los idiomas soportados #}
+{% set categories = {
+  'es': {
+    'artes_humanidades': 'Artes y Humanidades',
+    'ciencias': 'Ciencias',
+    'ciencias_de_la_salud': 'Ciencias de la Salud',
+    'ciencias_sociales_y_juridicas': 'Ciencias Sociales y Jurídicas',
+    'ingenieria_y_arquitectura': 'Ingeniería y Arquitectura'
+  },
+  'en': {
+    'artes_humanidades': 'Arts and Humanities',
+    'ciencias': 'Sciences',
+    'ciencias_de_la_salud': 'Health Sciences',
+    'ciencias_sociales_y_juridicas': 'Social and Legal Sciences',
+    'ingenieria_y_arquitectura': 'Engineering and Architecture'
+  },
+  'fr': {
+    'artes_humanidades': 'Arts et Humanités',
+    'ciencias': 'Sciences',
+    'ciencias_de_la_salud': 'Sciences de la Santé',
+    'ciencias_sociales_y_juridicas': 'Sciences Sociales et Juridiques',
+    'ingenieria_y_arquitectura': 'Ingénierie et Architecture'
+  },
+  'pt-pt': {
+    'artes_humanidades': 'Artes e Humanidades',
+    'ciencias': 'Ciências',
+    'ciencias_de_la_salud': 'Ciências da Saúde',
+    'ciencias_sociales_y_juridicas': 'Ciências Sociais e Jurídicas',
+    'ingenieria_y_arquitectura': 'Engenharia e Arquitetura'
+  },
+  'gl': {
+    'artes_humanidades': 'Artes e Humanidades',
+    'ciencias': 'Ciencias',
+    'ciencias_de_la_salud': 'Ciencias da Saúde',
+    'ciencias_sociales_y_juridicas': 'Ciencias Sociais e Xurídicas',
+    'ingenieria_y_arquitectura': 'Enxeñería e Arquitectura'
+  },
+  'hu': {
+    'artes_humanidades': 'Művészetek és Bölcsészettudományok',
+    'ciencias': 'Tudományok',
+    'ciencias_de_la_salud': 'Egészségtudományok',
+    'ciencias_sociales_y_juridicas': 'Társadalmi és Jogtudományok',
+    'ingenieria_y_arquitectura': 'Mérnöki és Építészeti Tudományok'
+  },
+  'sl': {
+    'artes_humanidades': 'Umetnost in Humanistika',
+    'ciencias': 'Znanost',
+    'ciencias_de_la_salud': 'Zdravstvene vede',
+    'ciencias_sociales_y_juridicas': 'Družbene in Pravne Znanosti',
+    'ingenieria_y_arquitectura': 'Inženiring in Arhitektura'
+  },
+  'et': {
+    'artes_humanidades': 'Kunst ja Humanitaarteadused',
+    'ciencias': 'Teadused',
+    'ciencias_de_la_salud': 'Tervishoiuteadused',
+    'ciencias_sociales_y_juridicas': 'Sotsiaal- ja Õigusteadused',
+    'ingenieria_y_arquitectura': 'Inseneriteadus ja Arhitektuur'
+  },
+  'el': {
+    'artes_humanidades': 'Τέχνες και Ανθρωπιστικές Επιστήμες',
+    'ciencias': 'Επιστήμες',
+    'ciencias_de_la_salud': 'Επιστήμες Υγείας',
+    'ciencias_sociales_y_juridicas': 'Κοινωνικές και Νομικές Επιστήμες',
+    'ingenieria_y_arquitectura': 'Μηχανική και Αρχιτεκτονική'
+  }
+} %}
 
-{% set categories_en = {
-          'artes_humanidades': 'Arts and Humanities',
-          'ciencias': 'Sciences',
-          'ciencias_de_la_salud': 'Health Sciences',
-          'ciencias_sociales_y_juridicas': 'Social and Legal Sciences',
-          'ingenieria_y_arquitectura': 'Engineering and Architecture'
-        } %}
+{# Seleccionar las etiquetas del idioma actual #}
+{% set category_labels = categories[current_language] ?? categories['en'] %}
 
-{% set category_labels = current_language == 'es' ? categories_es : categories_en %}
+
+
 
 
 <style>:root

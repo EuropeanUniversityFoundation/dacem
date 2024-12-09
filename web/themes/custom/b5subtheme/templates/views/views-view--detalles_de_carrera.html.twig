@@ -348,7 +348,12 @@
 					<!-- Contenedor de	 los botones de los cursos -->
 					<div class="custom-btn-group btn-group mb-3" role="group" aria-label="{{ 'Courses'|t }}">
 						{% for course_id, course_name in courses %}
-							<button type="button" class="btn btn-{% if loop.first %}primary{% else %}outline-primary{% endif %} toggle-button btn-subjects-dropdown" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="false" aria-controls="course{{ loop.index }}">
+							<button type="button" 
+								class="btn btn-outline-primary toggle-button" 
+								data-bs-toggle="collapse" 
+								data-bs-target="#course{{ loop.index }}" 
+								aria-expanded="false" 
+								aria-controls="course{{ loop.index }}">
 								{{ translations[current_language][course_name] }}
 							</button>
 
