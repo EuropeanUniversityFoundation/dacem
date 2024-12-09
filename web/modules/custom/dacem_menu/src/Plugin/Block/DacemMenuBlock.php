@@ -51,6 +51,8 @@ public function build() {
      //$current_language = $language_manager->getCurrentLanguage()->getId();
      $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
+
+    $language_options='';
     $flags = [
         'en' => '🇬🇧', // Inglés
         'es' => '🇪🇸', // Español
