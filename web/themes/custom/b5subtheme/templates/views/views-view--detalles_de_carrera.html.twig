@@ -2,10 +2,11 @@
 {{ attach_library('b5subtheme/degree_menu_scroll') }}
 
 
-{#{{dump(view.result[0])}}
+{#{dump(view.result)}}
 
 {# Obtener la entidad de contenido desde la vista #}
 {% set entity = view.result[0]._entity %}
+
 {#{{dump(entity)}}
 
 {# Obtener el idioma actual basado en la URL, NO en la interfaz #}
@@ -92,10 +93,12 @@
   '4o': {'Nucleo': 0, 'Obligatorio': 0, 'Opcional': 0, 'Practicas externas': 0, 'Proyecto final': 0}
 } %}{% for row in view.result %}
 {% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
+
 {% if subject.hasTranslation(current_language) %}
 	{% set translated_subject = subject.getTranslation(current_language) %}
-
+	
 {% else %}
+	
 	{% set translated_subject = subject %}
 {% endif %}
 {% set course_id = translated_subject.field_curso[0].value %}
