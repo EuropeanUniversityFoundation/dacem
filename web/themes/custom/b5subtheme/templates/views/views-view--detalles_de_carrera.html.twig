@@ -17,7 +17,6 @@
 {% set current_language = view.result[0].node_field_data_langcode %}
 
 
-
 {# Verificar si la entidad tiene una traducción en el idioma de la URL #}
 	{% if entity.hasTranslation(current_language) %}
 	{% set translated_entity = entity.getTranslation(current_language) %}
@@ -57,8 +56,8 @@
 
 {% if translations is defined %}
 
-{% else %}
-	No translations loaded.
+	{% else %}
+		No translations loaded.
 {% endif %}
 
 
@@ -96,9 +95,9 @@
 
 {% if subject.hasTranslation(current_language) %}
 	{% set translated_subject = subject.getTranslation(current_language) %}
-	
+
 {% else %}
-	
+
 	{% set translated_subject = subject %}
 {% endif %}
 {% set course_id = translated_subject.field_curso[0].value %}
@@ -109,9 +108,7 @@
 	{% set credits = credits|merge({ (course_id): credits[course_id]|merge({ (credit_type)|capitalize: credits[course_id][credit_type|capitalize] + credit_value }) }) %}
 	{% else %}
 	<!--<pre>Condition not met for Course ID: "{{ course_id }}" and Credit Type: "{{ credit_type }}"</pre>-->
-{% endif %}{% endfor %}
-
-<div class="degree-page">
+{% endif %}{% endfor %}<div class="degree-page">
 <div class="sticky-nav">
 	<div class="degree-header">
 		<div class="container-fluid container-fluid-degree-band ">
@@ -206,7 +203,6 @@
 #}
 
 
-
 <div class="container-fluid">
 	<div class="my-custom-container">
 
@@ -271,13 +267,13 @@
 						<h3 class="mt-4">{{translations[current_language]['Coordination'] }}</h3>
 						{{ translated_entity.field_coordinador.value }}
 						<br>
-							<i class="fa fa-phone"></i>
-							{{ translated_entity.field_telefono.value }}
+						<i class="fa fa-phone"></i>
+						{{ translated_entity.field_telefono.value }}
 						<br>
-						
-							<i class="fa fa-envelope"></i>
-							{{ translated_entity.field_email.value }}
-						
+
+						<i class="fa fa-envelope"></i>
+						{{ translated_entity.field_email.value }}
+
 					</div>
 				</div>
 
@@ -351,12 +347,7 @@
 					<!-- Contenedor de	 los botones de los cursos -->
 					<div class="custom-btn-group btn-group mb-3" role="group" aria-label="{{ 'Courses'|t }}">
 						{% for course_id, course_name in courses %}
-							<button type="button" 
-								class="btn btn-outline-primary toggle-button" 
-								data-bs-toggle="collapse" 
-								data-bs-target="#course{{ loop.index }}" 
-								aria-expanded="false" 
-								aria-controls="course{{ loop.index }}">
+							<button type="button" class="btn btn-outline-primary toggle-button" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="false" aria-controls="course{{ loop.index }}">
 								{{ translations[current_language][course_name] }}
 							</button>
 
@@ -377,7 +368,7 @@
 										</thead>
 										<tbody>
 											{% for row in view.result %}
-											
+
 												{% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
 												{% if subject.hasTranslation(current_language) %}
 													{% set translated_subject = subject.getTranslation(current_language) %}
@@ -387,7 +378,7 @@
 
 												{% if translated_subject.field_curso[0].value == course_id %}
 													<tr>
-													
+
 
 														<td>
 															{% if translated_subject.field_codigo is not empty %}
@@ -398,9 +389,9 @@
 														</td>
 
 														<td>
-														
+
 															<a href="{{ path('entity.node.canonical', {'node': translated_subject.id()}) }}">
-														
+
 																{{ translated_subject.title.value }}
 															</a>
 														</td>
@@ -414,7 +405,7 @@
 														</td>
 														<td>
 															{% if translated_subject.field_tipo is not empty %}
-															
+
 																{{ translations[current_language][translated_subject.field_tipo[0].value]}}
 															{% else %}
 																{{'Sin tipo'}}
@@ -443,10 +434,10 @@
 									<thead>
 										<tr>
 											<th>{{ translations[current_language]['Code'] }}</th>
-												<th>{{ translations[current_language]['Subject'] }}</th>
-												<th>{{ translations[current_language]['Quarter'] }}</th>
-												<th>{{ translations[current_language]['ECTS'] }}</th>
-												<th>{{ translations[current_language]['Type'] }}</th>
+											<th>{{ translations[current_language]['Subject'] }}</th>
+											<th>{{ translations[current_language]['Quarter'] }}</th>
+											<th>{{ translations[current_language]['ECTS'] }}</th>
+											<th>{{ translations[current_language]['Type'] }}</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -469,10 +460,10 @@
 													</td>
 
 													<td>
-													{{dump('ola')}}
+
 														<a href="{{ row.custom_url }}">
-  {{ translated_subject.title.value }}
-</a>
+															{{ translated_subject.title.value }}
+														</a>
 													</td>
 													<td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
 													<td>

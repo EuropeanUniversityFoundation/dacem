@@ -523,12 +523,10 @@ function add_entity_to_group_preprocess_views_view(&$variables) {
           $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
           if ($subject->hasTranslation($current_language)) {
-            dump('ten traduccion');
             // Si la asignatura tiene traducción al idioma actual.
             $translated_subject = $subject->getTranslation($current_language);
             $row->custom_url = $translated_subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
           } else {
-            dump('non ten traduccion');
             // Si no tiene traducción, usar el idioma original de la asignatura.
             $original_language = $subject->language()->getId();
             $row->custom_url = $subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
