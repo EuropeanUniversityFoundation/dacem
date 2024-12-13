@@ -1,6 +1,7 @@
 <?php
 use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupContent;
+use Drupal\node\Entity\Node;
 
 
 
@@ -505,6 +506,36 @@ function add_entity_to_group_preprocess_block(&$variables)
     //$variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['onclick'] = 'return false;';
     //$variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['class'][] = 'button--disabled';
     //$variables['content']['group_relationship.group_node_add_page']['#link']['localized_options']['attributes']['style'] = 'pointer-events: none; opacity: 0.5;';
+  }
+}
+
+
+function add_entity_to_group_preprocess_views_view(&$variables) {
+  if ($variables['view']->id() === 'detalles_de_carrera') {
+    foreach ($variables['view']->result as &$row) {
+      // Asegúrate de que estamos procesando asignaturas relacionadas.
+      if (!empty($row->_relationship_entities['reverse__node__field_carrera'])) {
+        
+        $subject = $row->_relationship_entities['reverse__node__field_carrera'];
+        
+        if ($subject instanceof Node) {
+          dump($subject);
+          $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+          if ($subject->hasTranslation($current_language)) {
+            dump('ten traduccion');
+            // Si la asignatura tiene traducción al idioma actual.
+            $translated_subject = $subject->getTranslation($current_language);
+            $row->custom_url = $translated_subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
+          } else {
+            dump('non ten traduccion');
+            // Si no tiene traducción, usar el idioma original de la asignatura.
+            $original_language = $subject->language()->getId();
+            $row->custom_url = $subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
+          }
+        }
+      }
+    }
   }
 }
 

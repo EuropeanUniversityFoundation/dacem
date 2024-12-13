@@ -377,12 +377,14 @@
 										</thead>
 										<tbody>
 											{% for row in view.result %}
+											
 												{% set subject = row._relationship_entities['reverse__node__field_carrera'] %}
 												{% if subject.hasTranslation(current_language) %}
 													{% set translated_subject = subject.getTranslation(current_language) %}
 												{% else %}
 													{% set translated_subject = subject %}
 												{% endif %}
+
 												{% if translated_subject.field_curso[0].value == course_id %}
 													<tr>
 													
@@ -396,7 +398,9 @@
 														</td>
 
 														<td>
+														
 															<a href="{{ path('entity.node.canonical', {'node': translated_subject.id()}) }}">
+														
 																{{ translated_subject.title.value }}
 															</a>
 														</td>
@@ -465,9 +469,10 @@
 													</td>
 
 													<td>
-														<a href="{{ path('entity.node.canonical', {'node': translated_subject.id()}) }}">
-															{{ translated_subject.title.value }}
-														</a>
+													{{dump('ola')}}
+														<a href="{{ row.custom_url }}">
+  {{ translated_subject.title.value }}
+</a>
 													</td>
 													<td>{{ cuatrimestres_curso[translated_subject.field_cuatrimestre[0].value] }}</td>
 													<td>
