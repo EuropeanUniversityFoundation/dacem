@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\node\Entity\Node;
 
 
 /**
@@ -100,6 +101,7 @@ function b5subtheme_preprocess_HOOK(&$variables) {
  */
 function b5subtheme_preprocess_views_view(&$variables) {
   
+  //dump($variables['view']->id());
 
   $path = \Drupal::theme()->getActiveTheme()->getPath() . '/translations/translations.yml';
   
@@ -124,36 +126,49 @@ function b5subtheme_preprocess_views_view(&$variables) {
   $variables['language_manager'] = $language_manager;
   
   if ($variables['view']->id() == 'detalles_de_universidad') {
+    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
     $grouped_carreras = [];
-
+  
     foreach ($variables['view']->result as $row) {
-      // Acceder a la entidad de la carrera
-      $carrera = $row->_entity;
+      // Accede a la universidad principal.
+      $universidad = $row->_entity;
+  
+      // Accede a las carreras relacionadas desde la relación inversa.
+      if (isset($row->_relationship_entities['reverse__node__field_universidad'])) {
+        $carrera = $row->_relationship_entities['reverse__node__field_universidad'];
 
-      // Acceder al campo de área directamente desde el objeto $row
-      if (isset($row->field_universidad_node_field_data__node__field_area_field_ar)) {
-        $area = $row->field_universidad_node_field_data__node__field_area_field_ar;
-        $grouped_carreras[$area][] = $row;
+        
+        if ($carrera->hasTranslation($current_language)) {
+          $carrera_translated = $carrera->getTranslation($current_language);
+        } else {
+          $carrera_translated = $carrera; // Usa la carrera en su idioma original.
+        }
+  
+        // Valida si la entidad tiene un ID válido.
+        if ($carrera_translated && $carrera_translated->id()) {
+          // Obtén el área para agrupar las carreras.
+          $area = $carrera_translated->get('field_area')->value ?? 'undefined';
+          $grouped_carreras[$area][] = [
+            'title' => $carrera_translated->getTitle(),
+            'url' => $carrera_translated->toUrl('canonical')->toString(),
+          ];
+        }
       }
     }
-
-    // Ordenar las carreras alfabéticamente dentro de cada categoría (área)
-    foreach ($grouped_carreras as $area => &$carreras) {
-      usort($carreras, function($a, $b) {
-        // Obtener los títulos de las carreras para compararlas
-        $titleA = $a->field_universidad_node_field_data_title;
-        $titleB = $b->field_universidad_node_field_data_title;
-
-        // Comparar los títulos alfabéticamente
-        return strcmp($titleA, $titleB);
+  
+    // Ordena las carreras alfabéticamente dentro de cada área.
+    foreach ($grouped_carreras as &$carreras) {
+      usort($carreras, function ($a, $b) {
+        return strcmp($a['title'], $b['title']);
       });
     }
-
-    // Añadir las carreras agrupadas y ordenadas a las variables de la plantilla.
+  
+    // Pasa las carreras agrupadas a la plantilla.
     $variables['grouped_carreras'] = $grouped_carreras;
   }
-
-
+  
+  
 
 
 }

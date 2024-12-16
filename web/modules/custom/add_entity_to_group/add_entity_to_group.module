@@ -519,7 +519,7 @@ function add_entity_to_group_preprocess_views_view(&$variables) {
         $subject = $row->_relationship_entities['reverse__node__field_carrera'];
         
         if ($subject instanceof Node) {
-          dump($subject);
+          
           $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
           if ($subject->hasTranslation($current_language)) {

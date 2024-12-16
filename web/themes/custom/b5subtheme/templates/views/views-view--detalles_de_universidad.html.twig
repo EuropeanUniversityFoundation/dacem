@@ -1,6 +1,6 @@
 {{ attach_library('b5subtheme/catalogue_buttons') }}
 
-
+{{dump(view)}}
 {# Obtener la entidad de contenido desde la vista #}
 {% set entity = view.result[0]._entity %}
 
@@ -242,8 +242,8 @@ class="container-fluid">
 					<ul>
 						{% for carrera in grouped_carreras[area] %}
 							<li>
-								<a href="{{ path('entity.node.canonical', {'node': carrera.field_universidad_node_field_data_nid}) }}">
-									{{ carrera.field_universidad_node_field_data_title }}
+								<a href="{{ carrera.url }}">
+									{{ carrera.title }}
 								</a>
 							</li>
 						{% endfor %}
