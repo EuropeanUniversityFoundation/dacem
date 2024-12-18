@@ -13437,16 +13437,25 @@ code {
 
 
 
-
+.university-navbar{
+  padding: 0px;
+}
 
 
 /* Estilos básicos para el logo en el navbar de la universidad en todas las pantallas */
 .university-navbar .navbar-brand img {
   width: auto; /* Mantiene la proporción del logo */
   height: auto; /* Mantiene la proporción del logo */
-  max-height: 150px; /* Tamaño grande por defecto para pantallas grandes */
+  max-height: 100px; /* Tamaño grande por defecto para pantallas grandes */
 }
 
+/* Estilos para la alineación de los elementos del navbar */
+.university-navbar .navbar-nav {
+  list-style: none; /* Remueve estilos de lista */
+  height: 100px ; /* Hace que el contenedor del menú también ocupe toda la altura */
+  
+  
+}
 
 
 /* Estilos para los enlaces dentro del navbar en pantallas grandes */
@@ -13467,12 +13476,7 @@ code {
   height: 100%; /* Asegura que el fondo ocupe toda la altura */
 }
 
-/* Estilos para la alineación de los elementos del navbar */
-.university-navbar .navbar-nav {
-  list-style: none; /* Remueve estilos de lista */
-  height: 150px ; /* Hace que el contenedor del menú también ocupe toda la altura */
-  
-}
+
 
 .university-navbar .nav-item {
   margin: 0 0; /* Margen entre elementos del menú */
@@ -13880,14 +13884,13 @@ VISTA DE LISTA DE UNIVERSIDADES
 /* Cuerpo de la tarjeta (centrado) */
 .card-body {
   padding: 20px;
-  text-align: center; /* Centra el texto */
 }
 
 /* Título de la universidad */
 .card-title {
   font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 /* Texto de la tarjeta */
@@ -13896,6 +13899,15 @@ VISTA DE LISTA DE UNIVERSIDADES
   font-size: 0.9rem;
   line-height: 1.4;
   margin-bottom: 5px;
+}
+
+.card-text-country {
+
+  color: red;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 5px;
+
 }
 
 
@@ -13912,7 +13924,7 @@ VISTA DE LISTA DE UNIVERSIDADES
   display: flex;
   align-items: center;
   justify-content: center;
-  color: red; /* Color de la flecha */
+  color: white; /* Color de la flecha */
   font-size: 1.5rem;
   z-index: 10;
   transition: background-color 0.3s;
@@ -13942,8 +13954,8 @@ VISTA DE LISTA DE UNIVERSIDADES
 
 
 .container-university-list{
-  padding-left: 12%; /* Ajusta según tus necesidades */
-  padding-right: 12%; /* Ajusta según tus necesidades */
+  padding-left: 10%; /* Ajusta según tus necesidades */
+  padding-right: 10%; /* Ajusta según tus necesidades */
 }
 
 .univerties-map {
@@ -13956,4 +13968,68 @@ VISTA DE LISTA DE UNIVERSIDADES
 
 .map-and-explore {
   margin-top: 100px;  
+}
+
+
+
+
+/* Contenedor principal de la imagen */
+.image-banner {
+  position: relative;
+  width: 100%;
+  height: 400px; /* Altura deseada del rectángulo */
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.image-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
+}
+
+/* Texto centrado en la imagen */
+.overlay-text {
+  position: absolute;
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta al centro exacto */
+  text-align: center;
+  color: white; /* Color del texto */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para mejorar visibilidad */
+}
+
+.overlay-text h1 {
+  font-size: 3rem;
+  margin: 0 0 10px 0;
+  font-weight: bold;
+}
+
+/* Botón de llamada a la acción */
+.cta-button {
+  /*background-color: transparent;*/
+  background-color: rgba(255, 255, 255, 0.5); /* Blanco con 50% de opacidad */
+  color: white;
+  padding: 10px 20px;
+  border: 3px solid white;
+  font-size: 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.cta-button:hover {
+  background-color: rgba(0, 0, 0, 0.7); /* Negro con 70% de opacidad */
+  color: black;
+  border: 3px black;
+  padding: 10px 20px;
+}
+
+.text-under-main-image-uni{
+  text-align: center;
+  padding-left: 15%;
+  padding-right: 15%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  max-width: 100% ;
+  text-align-last: center;
 }

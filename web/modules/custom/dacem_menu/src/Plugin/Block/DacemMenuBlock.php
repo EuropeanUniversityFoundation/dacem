@@ -96,11 +96,11 @@ public function build() {
                   </button>
                   <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
                       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                          <li class="nav-item"><a class="nav-link" href="/" style="color:red;">' . $this->t('ABOUT') . '</a></li>
-                          <li class="nav-item"><a class="nav-link" href="/" style="color:red;">' . $this->t('TIMELINE') . '</a></li>
-                          <li class="nav-item"><a class="nav-link" href="/" style="color:red;">' . $this->t('RESOURCES') . '</a></li>
-                          <li class="nav-item"><a class="nav-link" href="/" style="color:red;">' . $this->t('PARTNERS') . '</a></li>
-                          <li class="nav-item"><a class="nav-link" href="/" style="color:red;">' . $this->t('CONTACT') . '</a></li>
+                          <li class="nav-item"><a class="nav-link" href="/">' . $this->t('ABOUT') . '</a></li>
+                          <li class="nav-item"><a class="nav-link" href="/">' . $this->t('TIMELINE') . '</a></li>
+                          <li class="nav-item"><a class="nav-link" href="/">' . $this->t('RESOURCES') . '</a></li>
+                          <li class="nav-item"><a class="nav-link" href="/">' . $this->t('PARTNERS') . '</a></li>
+                          <li class="nav-item"><a class="nav-link" href="/">' . $this->t('CONTACT') . '</a></li>
                       </ul>
                       <div class="d-flex ms-lg-2 language-buttons">
                           <!-- Menú -->
