@@ -13964,10 +13964,13 @@ VISTA DE LISTA DE UNIVERSIDADES
   height: auto; /* Altura fija para uniformidad */
   object-fit: cover; /* Mantiene proporción y recorta si es necesario */
 
+
 }
 
 .map-and-explore {
   margin-top: 100px;  
+  padding-right: 5%;
+  padding-left: 5%;
 }
 
 
