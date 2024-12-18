@@ -5,6 +5,8 @@ namespace Drupal\dacem_menu\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Url;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\file\Entity\File;
+use Drupal\user\Entity\User;
 
 /**
  * Provides a 'Dacem Menu' Block.
@@ -15,26 +17,28 @@ use Drupal\Core\Language\LanguageInterface;
  *   category = @Translation("Custom")
  * )
  */
-class DacemMenuBlock extends BlockBase {
+class DacemMenuBlock extends BlockBase
+{
 
   /**
    * {@inheritdoc}
    */
   /**
- * {@inheritdoc}
- */
-public function build() {
+   * {@inheritdoc}
+   */
+  public function build()
+  {
     // Obtener el nombre de la ruta actual.
     $route_name = \Drupal::routeMatch()->getRouteName();
     // Lista de rutas donde el bloque debe aparecer.
     $allowed_routes = [
-        'view.lista_de_universidades.page_1', // Reemplaza con la ruta real de la vista.
-        'admin_area.my_area',   // Otra vista donde quieres mostrar el bloque.
+      'view.lista_de_universidades.page_1', // Reemplaza con la ruta real de la vista.
+      'admin_area.my_area',   // Otra vista donde quieres mostrar el bloque.
     ];
 
     // Mostrar el bloque solo si la ruta actual está en la lista permitida.
     if (!in_array($route_name, $allowed_routes)) {
-        return []; // No renderizar el bloque.
+      return []; // No renderizar el bloque.
     }
 
     // Ruta del logo del menú.
@@ -46,46 +50,78 @@ public function build() {
     $languages = $language_manager->getLanguages();
     $switch_links = [];
 
-     // Obtener el idioma actual
-     $language_manager = \Drupal::service('language_manager');
-     //$current_language = $language_manager->getCurrentLanguage()->getId();
-     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+    // Obtener el idioma actual
+    $language_manager = \Drupal::service('language_manager');
+    //$current_language = $language_manager->getCurrentLanguage()->getId();
+    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
-
-    $language_options='';
+    $language_options = '';
     $flags = [
-        'en' => '🇬🇧', // Inglés
-        'es' => '🇪🇸', // Español
-        'pt-pt' => '🇵🇹', // Portugués
-        'fr' => '🇫🇷', // Francés
-        'el' => '🇬🇷', // Griego
-        'cs' => '🇨🇿', // Checo
-        'sl' => '🇸🇮', // Esloveno
-        'hu' => '🇭🇺', // Húngaro
-        'et' => '🇪🇪', // Estonio
-        'gl' => '🇪🇸', // Gallego
-      ];
+      'en' => '🇬🇧', // Inglés
+      'es' => '🇪🇸', // Español
+      'pt-pt' => '🇵🇹', // Portugués
+      'fr' => '🇫🇷', // Francés
+      'el' => '🇬🇷', // Griego
+      'cs' => '🇨🇿', // Checo
+      'sl' => '🇸🇮', // Esloveno
+      'hu' => '🇭🇺', // Húngaro
+      'et' => '🇪🇪', // Estonio
+      'gl' => '🇪🇸', // Gallego
+    ];
 
-      foreach ($languages as $language) {
-        $langcode = $language->getId();
-        $abbreviation = strtoupper($langcode); // Convertir el código del idioma a mayúsculas
-        
-          //$url = Url::fromRoute('<current>', [], ['language' => $language]);
-          $url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
+    foreach ($languages as $language) {
+      $langcode = $language->getId();
+      $abbreviation = strtoupper($langcode); // Convertir el código del idioma a mayúsculas
 
-          $flag = $flags[$langcode] ?? ''; // Asegurarse de tener un icono
+      //$url = Url::fromRoute('<current>', [], ['language' => $language]);
+      $url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
 
-          $language_options .= '
+      $flag = $flags[$langcode] ?? ''; // Asegurarse de tener un icono
+
+      $language_options .= '
             <li>
               <a class="dropdown-item" href="' . $url . '">' . $flag . ' ' . $abbreviation . '</a>
             </li>';
+
+    }
+
+    // Obtener el usuario actual
+    $current_user = \Drupal::currentUser();
+    $profile_picture_url = '';
     
+  // Verificar si el usuario no es anónimo
+if ($current_user->isAuthenticated() && $current_user->id() != 0) {
+  // Cargar la entidad del usuario
+  $user = User::load($current_user->id());
+
+  // Verificar si tiene una foto de perfil
+  if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
+      $file = File::load($user->get('user_picture')->target_id);
+      if ($file) {
+          $profile_picture_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
       }
-      
+  }
+
+  // Si no hay imagen, asignar una imagen predeterminada
+  if (!$profile_picture_url) {
+      $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
+  }
+
+  // Generar el HTML de la imagen
+  $profile_html = '
+      <div class="user-profile-container ms-3">
+          <img src="' . $profile_picture_url . '" alt="Profile Picture" class="user-profile-circle">
+      </div>';
+} else {
+  // Si el usuario es anónimo, no se renderiza la imagen
+  $profile_html = '';
+}
+  
+
 
 
     return [
-        '#markup' => $this->t('
+      '#markup' => $this->t('
             <nav class="navbar navbar-expand-lg university-navbar">
               <div class="container-fluid">
                   <a class="navbar-brand" href="@menu_image_url">
@@ -115,17 +151,19 @@ public function build() {
                                 </ul>
                               </li>
                             </ul>
+                            <!-- Imagen de perfil -->
+                            ' . $profile_html . '
                           </div>
                   </div>
               </div>
             </nav>',
-            [
-                '@menu_image_url' => $logo_url,
-                '@url_es' => $switch_links['es'] ?? '#',
-                '@url_en' => $switch_links['en'] ?? '#',
-            ]
-        ),
+        [
+          '@menu_image_url' => $logo_url,
+          '@url_es' => $switch_links['es'] ?? '#',
+          '@url_en' => $switch_links['en'] ?? '#',
+        ]
+      ),
     ];
-}
+  }
 
 }

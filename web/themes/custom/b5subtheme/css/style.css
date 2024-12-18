@@ -13501,7 +13501,7 @@ code {
 
 /* Excluir el botón "Select Language" de este efecto */
 .navbar .no-hover-bg {
-  margin-right: 60px;
+  margin-right: 0px;
 }
 
 /* Excluir el botón "Select Language" de este efecto */
@@ -13516,7 +13516,7 @@ code {
 
 .language-buttons{
   margin-left: 15vw !important;
-  margin-right: 10px;
+  margin-right: 3%;
   position: relative;
   transition: all 0.2s ease-in-out; /* Suavizar la transición */
 }
@@ -14032,4 +14032,21 @@ VISTA DE LISTA DE UNIVERSIDADES
   margin-bottom: 3%;
   max-width: 100% ;
   text-align-last: center;
+}
+
+/* Contenedor de la imagen */
+.user-profile-container {
+  display: flex;
+  align-items: center; /* Centrar verticalmente */
+  justify-content: center;
+}
+
+/* Imagen de perfil redondeada y pequeña */
+.user-profile-circle {
+  width: 45px; /* Tamaño pequeño de la imagen */
+  height: 45px;
+  border-radius: 50%; /* Hace la imagen redonda */
+  object-fit: cover; /* Evita la distorsión */
+  background-color: #000; /* Fondo negro si no carga la imagen */
+  border: 1px solid #ddd; /* Borde opcional */
 }
