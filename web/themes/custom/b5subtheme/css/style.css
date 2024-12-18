@@ -13848,5 +13848,112 @@ PARA PÁXINA DE GENERAL INFORMATION
 
 
 
+/*
+***************************************
+***************************************
+VISTA DE LISTA DE UNIVERSIDADES
+***************************************
+***************************************
+*/
+
+/* Contenedor del carrusel */
+.carousel {
+  max-width: 1200px; /* Limita el ancho máximo del carrusel */
+  margin: 0 auto; /* Centra el carrusel */
+}
+
+/* Tarjetas dentro del carrusel */
+.card {
+  border: none; /* Elimina el borde predeterminado */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+  border-radius: 8px; /* Bordes redondeados */
+  overflow: hidden; /* Evita desbordes */
+}
+
+/* Imagen dentro de la tarjeta */
+.card img {
+  width: 100%; /* Ocupar todo el ancho de la tarjeta */
+  height: 200px; /* Altura fija para uniformidad */
+  object-fit: cover; /* Mantiene proporción y recorta si es necesario */
+}
+
+/* Cuerpo de la tarjeta (centrado) */
+.card-body {
+  padding: 20px;
+  text-align: center; /* Centra el texto */
+}
+
+/* Título de la universidad */
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Texto de la tarjeta */
+.card-text {
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
 
 
+/* Personalización de las flechas */
+.custom-prev, .custom-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: red; /* Color de la flecha */
+  font-size: 1.5rem;
+  z-index: 10;
+  transition: background-color 0.3s;
+}
+
+.custom-prev {
+  left: -25px; /* Posición izquierda */
+}
+
+.custom-next {
+  right: -25px; /* Posición derecha */
+}
+
+.custom-prev:hover, .custom-next:hover {
+  background-color: rgba(0, 0, 0, 0.8); /* Cambio de color al pasar el mouse */
+}
+
+
+.truncate-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;    /* Número de líneas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;  /* Opcional, pero útil */
+}
+
+
+
+.container-university-list{
+  padding-left: 12%; /* Ajusta según tus necesidades */
+  padding-right: 12%; /* Ajusta según tus necesidades */
+}
+
+.univerties-map {
+
+  width: 100%; /* Ocupar todo el ancho de la tarjeta */
+  height: auto; /* Altura fija para uniformidad */
+  object-fit: cover; /* Mantiene proporción y recorta si es necesario */
+
+}
+
+.map-and-explore {
+  margin-top: 100px;  
+}

@@ -100,6 +100,10 @@ function b5subtheme_preprocess_HOOK(&$variables) {
  * Implements hook_preprocess_HOOK() for views_view templates.
  */
 function b5subtheme_preprocess_views_view(&$variables) {
+
+  // Importar el language_manager.
+  $language_manager = \Drupal::service('language_manager');
+  $variables['language_manager'] = $language_manager;
   
   //dump($variables['view']->id());
 
@@ -121,9 +125,14 @@ function b5subtheme_preprocess_views_view(&$variables) {
 
 
 
-  // Importar el language_manager.
-  $language_manager = \Drupal::service('language_manager');
-  $variables['language_manager'] = $language_manager;
+
+  if ($variables['view']->id() == 'lista_de_universidades') {
+    
+  }
+
+
+
+
   
   if ($variables['view']->id() == 'detalles_de_universidad') {
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
