@@ -13963,7 +13963,7 @@ VISTA DE LISTA DE UNIVERSIDADES
   width: 100%; /* Ocupar todo el ancho de la tarjeta */
   height: auto; /* Altura fija para uniformidad */
   object-fit: cover; /* Mantiene proporción y recorta si es necesario */
-
+  
 
 }
 
@@ -14053,3 +14053,12 @@ VISTA DE LISTA DE UNIVERSIDADES
   background-color: #000; /* Fondo negro si no carga la imagen */
   border: 1px solid #ddd; /* Borde opcional */
 }
+
+/* Centrar las tarjetas en móviles */
+@media (max-width: 768px) {
+  .carousel-item .row {
+    display: flex;
+    justify-content: center;
+  }
+}
+

@@ -1,17 +1,17 @@
-
+{{ attach_library('b5subtheme/university_carousel') }}
 
 
 <div class="image-banner">
-  <img src="/themes/custom/b5subtheme/images/panoramic_uni6.jpg" alt="Study in Europe">
-  <div class="overlay-text">
-    <h2 class="text-main-image-uni">Study in Europe</h2>
-    <button class="cta-button">FIND A PROGRAM</button>
-  </div>
+	<img src="/themes/custom/b5subtheme/images/panoramic_uni6.jpg" alt="Study in Europe">
+	<div class="overlay-text">
+		<h2 class="text-main-image-uni">Study in Europe</h2>
+		<button class="cta-button">FIND A PROGRAM</button>
+	</div>
 </div>
 
 <div class="container-flex container-university-list">
 
-<p class="d-flex text-under-main-image-uni">Explore the best opportunities to study in Europe. Discover universities, programs, and destinations tailored to your future. Your next academic adventure starts here.</p>
+	<p class="d-flex text-under-main-image-uni">Explore the best opportunities to study in Europe. Discover universities, programs, and destinations tailored to your future. Your next academic adventure starts here.</p>
 
 	<div
 		id="universityCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -28,10 +28,10 @@
 				{% set is_active = loop.index0 == 0 %}
 				{% if loop.index0 % 3 == 0 %}
 					<div class="carousel-item {% if is_active %}active{% endif %}">
-						<div class="row gx-3">
+						<div class="row justify-content-center">
 						{% endif %}
 						<!-- Tarjeta de la universidad -->
-						<div class="col-md-4">
+						<div class="col-12 col-md-4">
 							<div class="card h-100">
 								{% set media_entity = row._entity.field_picture.entity %}
 
@@ -73,38 +73,49 @@
 		</button>
 	</div>
 
-  <div class="row map-and-explore">
-  <div class="col-7">
-	<img src="/themes/custom/b5subtheme/images/mapa.png" alt="Map" class="univerties-map" style="padding-top: 1%;">
-  </div>
-  <div class="col-5" style="justify-content">
-  <h2>EXPLORE OUR UNIVERSITIES</h2>
+	<div class="row map-and-explore">
+		<div class="col-12 col-xl-7">
+			<img src="/themes/custom/b5subtheme/images/mapa.png" alt="Map" class="univerties-map" style="padding-top: 1%;">
+		</div>
+		<div class="col-12 col-xl-5" style="justify-content">
+			<h2>EXPLORE OUR UNIVERSITIES</h2>
 
-  <p>Find a new place to continue your studies, meet new people and learn a new language. Before this, you should:</p>
+			<p>Find a new place to continue your studies, meet new people and learn a new language. Before this, you should:</p>
 
-  <ul>
-    <li>
-      Find which <strong>universities</strong> are <strong>available</strong> from your home university at your local international office.
-    </li>
-    <li>
-      Ensure the <strong>courses</strong> align with your degree, are taught in a language you understand, and fit your academic <strong>calendar</strong>.
-    </li>
-    <li>
-      Assess <strong>accommodation</strong>, <strong>transportation</strong>, and daily <strong>expenses</strong>.
-    </li>
-    <li>
-      Research the local culture, <strong>student life</strong>, and opportunities for personal and <strong>professional growth</strong>.
-    </li>
-    <li>
-      Check healthcare coverage, <strong>safety</strong>, and housing availability.
-    </li>
-  </ul>
+			<ul>
+				<li>
+					Find which
+					<strong>universities</strong>
+					are
+					<strong>available</strong>
+					from your home university at your local international office.
+				</li>
+				<li>
+					Ensure the
+					<strong>courses</strong>
+					align with your degree, are taught in a language you understand, and fit your academic
+					<strong>calendar</strong>.
+				</li>
+				<li>
+					Assess
+					<strong>accommodation</strong>,
+					<strong>transportation</strong>, and daily
+					<strong>expenses</strong>.
+				</li>
+				<li>
+					Research the local culture,
+					<strong>student life</strong>, and opportunities for personal and
+					<strong>professional growth</strong>.
+				</li>
+				<li>
+					Check healthcare coverage,
+					<strong>safety</strong>, and housing availability.
+				</li>
+			</ul>
 
-  <p style="text-align: center; font-size: 18px; font-weight: bold; color: #000;">Don't miss the opportunity!</p>
-  </div>
+			<p style="text-align: center; font-size: 18px; font-weight: bold; color: #000;">Don't miss the opportunity!</p>
+		</div>
 
 
-
-
-  </div>
+	</div>
 </div>

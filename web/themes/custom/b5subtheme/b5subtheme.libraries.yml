@@ -16,3 +16,9 @@ global-scripts:
   dependencies:
     - core/jquery
 
+university_carousel:
+  version: 1.x
+  js:
+    js/university-carousel.js: {}
+  dependencies:
+    - core/jquery

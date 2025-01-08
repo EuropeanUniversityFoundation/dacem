@@ -88,35 +88,35 @@ class DacemMenuBlock extends BlockBase
     // Obtener el usuario actual
     $current_user = \Drupal::currentUser();
     $profile_picture_url = '';
-    
-  // Verificar si el usuario no es anónimo
-if ($current_user->isAuthenticated() && $current_user->id() != 0) {
-  // Cargar la entidad del usuario
-  $user = User::load($current_user->id());
 
-  // Verificar si tiene una foto de perfil
-  if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
-      $file = File::load($user->get('user_picture')->target_id);
-      if ($file) {
+    // Verificar si el usuario no es anónimo
+    if ($current_user->isAuthenticated() && $current_user->id() != 0) {
+      //dump($current_user->id());      // Cargar la entidad del usuario
+      $user = User::load($current_user->id());
+
+      // Verificar si tiene una foto de perfil
+      if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
+        $file = File::load($user->get('user_picture')->target_id);
+        if ($file) {
           $profile_picture_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+        }
       }
-  }
 
-  // Si no hay imagen, asignar una imagen predeterminada
-  if (!$profile_picture_url) {
-      $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
-  }
+      // Si no hay imagen, asignar una imagen predeterminada
+      if (!$profile_picture_url) {
+        $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
+      }
 
-  // Generar el HTML de la imagen
-  $profile_html = '
+      // Generar el HTML de la imagen
+      $profile_html = '
       <div class="user-profile-container ms-3">
           <img src="' . $profile_picture_url . '" alt="Profile Picture" class="user-profile-circle">
       </div>';
-} else {
-  // Si el usuario es anónimo, no se renderiza la imagen
-  $profile_html = '';
-}
-  
+    } else {
+      // Si el usuario es anónimo, no se renderiza la imagen
+      $profile_html = '';
+    }
+
 
 
 
