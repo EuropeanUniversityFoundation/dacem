@@ -6,6 +6,8 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Path\AliasManagerInterface;
 
 /**
  * Provides a 'University Menu' Block.
@@ -26,6 +28,8 @@ class UniversityMenuBlock extends BlockBase
    */
   public function build()
   {
+
+
 
     $translations = [
       'en' => [
@@ -92,9 +96,8 @@ class UniversityMenuBlock extends BlockBase
     $build = [];
     $current_node = \Drupal::routeMatch()->getParameter('node');
 
-
-
     if ($current_node instanceof NodeInterface) {
+      dump('if university menu block');
       $node_type = $current_node->bundle();
       $university = null;
 
@@ -109,98 +112,122 @@ class UniversityMenuBlock extends BlockBase
         }
       }
 
+    } else {
+
+      $current_route = \Drupal::routeMatch()->getRouteName();
+
+      if ($current_route === 'view.general_information.page_1') {
+        // Obtén el ID de la universidad desde el argumento de la URL.
+        $university_id = \Drupal::routeMatch()->getParameter('arg_0');
+        $university = \Drupal\node\Entity\Node::load($university_id);
+      } elseif ($current_route === 'view.detalles_de_universidad.page_1') {
+        // Si la ruta es de la vista, obtén la universidad desde el argumento.
+        $university_id = \Drupal::routeMatch()->getParameter('arg_0');
+        if ($university_id) {
+          $university = \Drupal\node\Entity\Node::load($university_id);
+        }
+      }
+
+    }
 
 
 
+    if (!empty($university)) {
 
 
-      if (!empty($university)) {
-        //dump('tenemos universidad');
-        $logo_url = '';
-        if (!$university->get('field_logo')->isEmpty()) {
-          $media = $university->get('field_logo')->entity;
-          if ($media && $media->hasField('field_media_image')) {
-            $file = $media->get('field_media_image')->entity;
-            if ($file) {
-              $logo_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
-            }
+
+      //dump('tenemos universidad');
+      $logo_url = '';
+      if (!$university->get('field_logo')->isEmpty()) {
+        $media = $university->get('field_logo')->entity;
+        if ($media && $media->hasField('field_media_image')) {
+          $file = $media->get('field_media_image')->entity;
+          if ($file) {
+            $logo_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
           }
         }
+      }
 
 
 
-        if ($university instanceof NodeInterface && $university->hasField('field_primary_color') && !$university->get('field_primary_color')->isEmpty()) {
-          //dump('entramos if');
-          $color_value = $university->get('field_primary_color')->value;
-          //dump($color_value);
-        } else {
-          //dump('no hay color');
-        }
+      if ($university instanceof NodeInterface && $university->hasField('field_primary_color') && !$university->get('field_primary_color')->isEmpty()) {
+        //dump('entramos if');
+        $color_value = $university->get('field_primary_color')->value;
+        //dump($color_value);
+      } else {
+        //dump('no hay color');
+      }
 
 
 
 
-        // Obtener el idioma actual
-        $language_manager = \Drupal::service('language_manager');
-        //$current_language = $language_manager->getCurrentLanguage()->getId();
-        $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+      // Obtener el idioma actual
+      $language_manager = \Drupal::service('language_manager');
+      //$current_language = $language_manager->getCurrentLanguage()->getId();
+      $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
-        // Generar la URL de la universidad en el idioma actual
-        $university_url = $university->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
+      // Generar la URL de la universidad en el idioma actual
+      $university_url = $university->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
 
-        // Generar URLs de cambio de idioma
-        $languages = $language_manager->getLanguages();
-        $language_options = '';
-        $switch_links = [
-          'es' => '',
-          'en' => ''
-        ];
+      // Generar URLs de cambio de idioma
+      $languages = $language_manager->getLanguages();
+      $language_options = '';
+      $switch_links = [
+        'es' => '',
+        'en' => ''
+      ];
 
-        $flags = [
-          'en' => '🇬🇧', // Inglés
-          'es' => '🇪🇸', // Español
-          'pt-pt' => '🇵🇹', // Portugués
-          'fr' => '🇫🇷', // Francés
-          'el' => '🇬🇷', // Griego
-          'cs' => '🇨🇿', // Checo
-          'sl' => '🇸🇮', // Esloveno
-          'hu' => '🇭🇺', // Húngaro
-          'et' => '🇪🇪', // Estonio
-          'gl' => '🇪🇸', // Gallego
-        ];
+      $flags = [
+        'en' => '🇬🇧', // Inglés
+        'es' => '🇪🇸', // Español
+        'pt-pt' => '🇵🇹', // Portugués
+        'fr' => '🇫🇷', // Francés
+        'el' => '🇬🇷', // Griego
+        'cs' => '🇨🇿', // Checo
+        'sl' => '🇸🇮', // Esloveno
+        'hu' => '🇭🇺', // Húngaro
+        'et' => '🇪🇪', // Estonio
+        'gl' => '🇪🇸', // Gallego
+      ];
 
-        foreach ($languages as $language) {
-          $langcode = $language->getId();
-          $abbreviation = strtoupper($langcode); // Convertir el código del idioma a mayúsculas
+      foreach ($languages as $language) {
+        $langcode = $language->getId();
+        $abbreviation = strtoupper($langcode); // Convertir el código del idioma a mayúsculas
 
-          //$url = Url::fromRoute('<current>', [], ['language' => $language]);
-          $url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
+        //$url = Url::fromRoute('<current>', [], ['language' => $language]);
+        $url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
 
-          $flag = $flags[$langcode] ?? ''; // Asegurarse de tener un icono
+        $flag = $flags[$langcode] ?? ''; // Asegurarse de tener un icono
 
-          $language_options .= '
+        $language_options .= '
               <li>
                 <a class="dropdown-item" href="' . $url . '">' . $flag . ' ' . $abbreviation . '</a>
               </li>';
 
-        }
+      }
 
 
-        //print_r($switch_links);
+      //print_r($switch_links);
 
-        // Genera la URL con el idioma activo.
-        $general_info_url = Url::fromRoute('view.general_information.page_1', [
-          'arg_0' => $university->id(),
-        ], [
-          'language' => \Drupal::languageManager()->getLanguage($current_language),
-        ])->toString();
-
-
-
-        $build = [
+      // Genera la URL con el idioma activo.
+      $general_info_url = Url::fromRoute('view.general_information.page_1', [
+        'arg_0' => $university->id(),
+      ], [
+        'language' => \Drupal::languageManager()->getLanguage($current_language),
+      ])->toString();
 
 
-          '#markup' => $this->t('
+      $alias_manager = \Drupal::service('path_alias.manager');
+
+      // Obtén el alias del nodo en el idioma actual.
+      $catalogue_url = $alias_manager->getAliasByPath('/node/' . $university->id(), \Drupal::languageManager()->getCurrentLanguage()->getId());
+
+
+
+      $build = [
+
+
+        '#markup' => $this->t('
               <nav class="navbar navbar-expand-lg university-navbar" style="margin: 0; padding: 0;">
                   <div class="container-fluid">
                       <!-- Logo -->
@@ -221,7 +248,7 @@ class UniversityMenuBlock extends BlockBase
 
                               </li>
                               <li class="nav-item">
-                                  <a class="nav-link" href="/@university_path/catalogo">' . $translations[$current_language]['CATALOGUE'] . '</a>
+                                  <a class="nav-link" href="' . $catalogue_url . '">' . $translations[$current_language]['CATALOGUE'] . '</a>
                               </li>
                               <li class="nav-item">
                                   <a class="nav-link" href="/@university_path/recursos-y-servicios">' . $translations[$current_language]['RESOURCES AND SERVICES'] . '</a>
@@ -249,22 +276,18 @@ class UniversityMenuBlock extends BlockBase
                       </div>
                   </div>
               </nav>',
-            [
-              '@logo_url' => $logo_url,
-              '@university_name' => $university->getTitle(),
-              '@university_path' => $university->toUrl()->getInternalPath(),
-              '@url_es' => $switch_links['es'],
-              '@url_en' => $switch_links['en'],
-              '@university_url' => $university_url,
-            ]
-          ),
-        ];
+          [
+            '@logo_url' => $logo_url,
+            '@university_name' => $university->getTitle(),
+            '@university_path' => $university->toUrl()->getInternalPath(),
+            '@url_es' => $switch_links['es'],
+            '@url_en' => $switch_links['en'],
+            '@university_url' => $university_url,
+          ]
+        ),
+      ];
 
 
-
-
-      }
-    } else {
 
 
     }

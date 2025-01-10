@@ -2967,6 +2967,7 @@ textarea.form-control-lg {
   opacity: var(--bs-btn-disabled-opacity);
 }
 
+
 .btn-primary {
   --bs-btn-color: #fff;
   --bs-btn-bg: #0d6efd;
@@ -14060,5 +14061,9 @@ VISTA DE LISTA DE UNIVERSIDADES
     display: flex;
     justify-content: center;
   }
+}
+
+a.card.h-100 {
+  text-decoration: none !important; /* Elimina el subrayado */
 }
 

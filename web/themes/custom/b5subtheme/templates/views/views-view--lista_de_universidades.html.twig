@@ -32,21 +32,25 @@
 						{% endif %}
 						<!-- Tarjeta de la universidad -->
 						<div class="col-12 col-md-4">
-							<div class="card h-100">
-								{% set media_entity = row._entity.field_picture.entity %}
+						
+							<a href="{{ path('view.general_information.page_1', {'arg_0': row._entity.id}) }}" class="card h-100">
+								
+									{% set media_entity = row._entity.field_picture.entity %}
 
-								{% set file_entity = media_entity.field_media_image.entity %}
-								{% if file_entity is not empty %}
-									<div>
-										<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ row._entity.title.value }}">
+									{% set file_entity = media_entity.field_media_image.entity %}
+									{% if file_entity is not empty %}
+										<div>
+											<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ row._entity.title.value }}">
+										</div>
+									{% endif %}
+									<div class="card-body ">
+										<h5 class="card-title">{{ row._entity.title.value }}</h5>
+										<p class="card-text-country">{{ row._entity.field_country.value }}</p>
+										<p class="card-text truncate-text">{{ row._entity.field_informacion.value }}</p>
 									</div>
-								{% endif %}
-								<div class="card-body ">
-									<h5 class="card-title">{{ row._entity.title.value }}</h5>
-									<p class="card-text-country">{{ row._entity.field_country.value }}</p>
-									<p class="card-text truncate-text">{{ row._entity.field_informacion.value }}</p>
-								</div>
-							</div>
+								
+							
+							</a>
 						</div>
 						{% if loop.index0 % 3 == 2 or loop.last %}
 						</div>

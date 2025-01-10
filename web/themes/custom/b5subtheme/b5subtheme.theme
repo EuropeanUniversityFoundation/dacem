@@ -35,20 +35,20 @@ function b5subtheme_preprocess_block(&$variables) {
  * Implements hook_preprocess_HOOK() for page templates.
  */
 function b5subtheme_preprocess_page(&$variables) {
+
   
     // Verifica si estamos en la ruta deseada.
-  if (\Drupal::routeMatch()->getRouteName() === 'view.general_information.page_1') {
+  if (\Drupal::routeMatch()->getRouteName() === 'view.general_information.page_1') { 
     // Obtén el idioma actual.
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-    
     // Obtén el nodo pasado como argumento a la vista.
     $arg_0 = \Drupal::routeMatch()->getParameter('arg_0');
     if ($arg_0 && is_numeric($arg_0)) {
       $node = \Drupal\node\Entity\Node::load($arg_0);
+      
       if ($node && $node->hasTranslation($current_language)) {
         // Carga la traducción activa del nodo.
         $translated_node = $node->getTranslation($current_language);
-
         // Pasa el nodo traducido a las plantillas Twig.
         $variables['university'] = $translated_node;
       }
@@ -127,8 +127,23 @@ function b5subtheme_preprocess_views_view(&$variables) {
 
 
   if ($variables['view']->id() == 'lista_de_universidades') {
-    
-  }
+    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
+    foreach ($variables['view']->result as $key => $row) {
+        $university_aux = $row->_entity;
+
+        // Verificar si la traducción está disponible
+        if ($university_aux->hasTranslation($current_language)) {
+            $university_translated = $university_aux->getTranslation($current_language);
+        } else {
+            $university_translated = $university_aux; // Usa el idioma original si no hay traducción
+        }
+
+        // Pasar los datos traducidos al array de variables
+        $variables['view']->result[$key]->_entity = $university_translated;
+    }
+}
+
 
 
 
