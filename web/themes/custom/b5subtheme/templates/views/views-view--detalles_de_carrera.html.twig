@@ -5,6 +5,7 @@
 {#{dump(view.result)}}
 
 {# Obtener la entidad de contenido desde la vista #}
+{{dump(view.result)}}
 {% set entity = view.result[0]._entity %}
 
 {#{{dump(entity)}}
@@ -69,7 +70,9 @@
 	;
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
-}</style>{% set cuatrimestres_curso = {
+}</style>
+
+{% set cuatrimestres_curso = {
   '1o': '1º',
   '2o': '2º',
   '3o': '3º',

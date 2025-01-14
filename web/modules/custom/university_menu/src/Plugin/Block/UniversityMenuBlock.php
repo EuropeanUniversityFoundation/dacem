@@ -162,9 +162,6 @@ class UniversityMenuBlock extends BlockBase
         
       }
 
-
-
-
       // Obtener el idioma actual
       $language_manager = \Drupal::service('language_manager');
       //$current_language = $language_manager->getCurrentLanguage()->getId();
@@ -176,11 +173,7 @@ class UniversityMenuBlock extends BlockBase
       // Generar URLs de cambio de idioma
       $languages = $language_manager->getLanguages();
       $language_options = '';
-      $switch_links = [
-        'es' => '',
-        'en' => ''
-      ];
-
+     
       $flags = [
         'en' => '🇬🇧', // Inglés
         'es' => '🇪🇸', // Español
@@ -211,8 +204,6 @@ class UniversityMenuBlock extends BlockBase
       }
 
 
-      //print_r($switch_links);
-
       // Genera la URL con el idioma activo.
       $general_info_url = Url::fromRoute('view.general_information.page_1', [
         'arg_0' => $university->id(),
@@ -222,10 +213,10 @@ class UniversityMenuBlock extends BlockBase
 
 
       $alias_manager = \Drupal::service('path_alias.manager');
-
       // Obtén el alias del nodo en el idioma actual. Niste caso é asi porque temos que para que mostre unha universidad se mostre desta forma directamente.
       $catalogue_url = $alias_manager->getAliasByPath('/node/' . $university->id(), \Drupal::languageManager()->getCurrentLanguage()->getId());
 
+      
       // Genera la URL con el idioma activo.
       $rs_url = Url::fromRoute('view.resources_and_services.page_1', [
         'arg_0' => $university->id(),
@@ -290,8 +281,6 @@ class UniversityMenuBlock extends BlockBase
             '@logo_url' => $logo_url,
             '@university_name' => $university->getTitle(),
             '@university_path' => $university->toUrl()->getInternalPath(),
-            '@url_es' => $switch_links['es'],
-            '@url_en' => $switch_links['en'],
             '@university_url' => $university_url,
           ]
         ),

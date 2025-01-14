@@ -2,10 +2,79 @@
 
 
 {{dump(view.result)}}
-
+{#
 {% for row in view.result %}
 
 <!-- entity sera unha entidad de tipo recursos e servicios -->
 {% set entity = row._entity %}
-{{dump(entity)}}
+
+
+
+<h2>COST OF LIVING </h2>
+{{entity.field_rs_cost_of_living.value|striptags}}
+<h2>CULTURAL EVENT CITY CALENDAR</h2>
+
+<h2>FINANCIAL SUPPORT FOR STUDENTS</h2>
+
+<h2>HOUSING</h2>
+
+<h2>INSURANCE</h2>
+
+<h2>lANGUAGE COURSES</h2>
+
+
 {% endfor %}
+#}
+
+{% set entity = view.result[0]._entity %}
+
+{#{{dump(entity)}}
+
+{# Obtener el idioma actual basado en la URL, NO en la interfaz #}
+{#{% set current_current_language = entity.get('langcode').value %}#}
+{#{% set current_current_language = language_manager.getCurrentLanguage().getId() %}#}
+{#{% set current_current_language = view.result[0].node_field_data_langcode %}#}
+
+
+
+
+
+
+
+{{dump(current_language)}}
+{# Verificar si la entidad tiene una traducción en el idioma de la URL #}
+	{% if entity.hasTranslation(current_language) %}
+	{% set translated_entity = entity.getTranslation(current_language) %}
+
+{% else %}
+	{% set translated_entity = entity %}
+
+{% endif %}
+
+<h2>COST OF LIVING </h2>
+{{translated_entity.field_rs_cost_of_living.value|striptags}}
+
+
+
+
+
+{#{ dump(view.result[0]._relationship_entities.field_rs_university) }#}
+
+{% set university = view.result[0]._relationship_entities.field_rs_university %}
+{{dump(university)}}
+
+
+{% set university_primary_color = university.field_primary_color[0].color %}
+{% set university_text_color = university.field_text_color[0].color %}
+{% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
+
+
+<style>:root
+{
+	--university_primary_color: {{university_primary_color}}
+	;
+	--university_text_color: {{university_text_color}}
+	;
+	--university_emphasis_text_color: {{university_emphasis_text_color}}
+	;
+}</style>

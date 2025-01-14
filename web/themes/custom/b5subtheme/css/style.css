@@ -13019,7 +13019,6 @@ code {
 
 .university-menu-block {
   display: flex;
-  width: 100%;
   justify-content: space-between;
   align-items: center;
 }
@@ -14071,4 +14070,14 @@ a.card.h-100 {
 
 .campus-list{
   max-width: 80%;
+}
+
+
+.region-header{
+  width: 100% !important;
+  display: flex !important;
+}
+
+.block-university-menu-block{
+  width: 100%;
 }
