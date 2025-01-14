@@ -124,7 +124,7 @@ class DacemMenuBlock extends BlockBase
       '#markup' => $this->t('
             <nav class="navbar navbar-expand-lg university-navbar">
               <div class="container-fluid">
-                  <a class="navbar-brand" href="@menu_image_url">
+                  <a class="navbar-brand" href="/">
                       <img src="@menu_image_url" alt="DACEM Logo" class="menu-logo d-inline-block align-text-top">
                   </a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#universityNavbar" aria-controls="universityNavbar" aria-expanded="false" aria-label="Toggle navigation">
