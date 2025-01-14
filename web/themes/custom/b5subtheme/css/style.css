@@ -14085,3 +14085,24 @@ a.card.h-100 {
 .block-dacem-menu-block{
   width: 100%;
 }
+
+
+.user-profile-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dropdown-menu {
+  min-width: 150px;
+}
+
+
+.dacem-menu-item:hover {
+  background-color: red;
+}
+
+.user-menu-item:hover{
+  background-color: grey;
+}

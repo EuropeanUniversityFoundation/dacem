@@ -109,9 +109,17 @@ class DacemMenuBlock extends BlockBase
 
       // Generar el HTML de la imagen
       $profile_html = '
-      <div class="user-profile-container ms-3">
-          <img src="' . $profile_picture_url . '" alt="Profile Picture" class="user-profile-circle">
+      <div class="user-profile-container dropdown ms-3">
+          <a href="#" id="userProfileDropdown" class="dropdown-toggle user-profile-link" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="' . $profile_picture_url . '" alt="Profile Picture" class="user-profile-circle">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
+              <li><a class="dropdown-item user-menu-item" href="/user">My Profile</a></li>
+              <li><a class="dropdown-item user-menu-item" href="/my-area">My Area</a></li>
+              <li><a class="dropdown-item user-menu-item" href="/user/logout">Logout</a></li>
+          </ul>
       </div>';
+
     } else {
       // Si el usuario es anónimo, no se renderiza la imagen
       $profile_html = '';
@@ -132,11 +140,11 @@ class DacemMenuBlock extends BlockBase
                   </button>
                   <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
                       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                          <li class="nav-item"><a class="nav-link" href="/">' . $this->t('ABOUT') . '</a></li>
-                          <li class="nav-item"><a class="nav-link" href="/">' . $this->t('TIMELINE') . '</a></li>
-                          <li class="nav-item"><a class="nav-link" href="/">' . $this->t('RESOURCES') . '</a></li>
-                          <li class="nav-item"><a class="nav-link" href="/">' . $this->t('PARTNERS') . '</a></li>
-                          <li class="nav-item"><a class="nav-link" href="/">' . $this->t('CONTACT') . '</a></li>
+                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('ABOUT') . '</a></li>
+                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('TIMELINE') . '</a></li>
+                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('RESOURCES') . '</a></li>
+                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('PARTNERS') . '</a></li>
+                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('CONTACT') . '</a></li>
                       </ul>
                       <div class="d-flex ms-lg-2 language-buttons">
                           <!-- Menú -->

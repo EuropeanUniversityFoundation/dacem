@@ -8,6 +8,10 @@ use Drupal\Core\Url;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Path\AliasManagerInterface;
+use Drupal\user\Entity\User;
+use Drupal\file\Entity\File;
+
+
 
 /**
  * Provides a 'University Menu' Block.
@@ -225,6 +229,55 @@ class UniversityMenuBlock extends BlockBase
       ])->toString();
 
 
+
+
+
+
+
+      // Imagen y menú desplegable de usuario
+      $current_user = \Drupal::currentUser();
+      if ($current_user->isAuthenticated() && $current_user->id() != 0) {
+        //dump($current_user->id());      // Cargar la entidad del usuario
+        $user = User::load($current_user->id());
+  
+        // Verificar si tiene una foto de perfil
+        if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
+          $file = File::load($user->get('user_picture')->target_id);
+          if ($file) {
+            $profile_picture_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+          }
+        }
+  
+        // Si no hay imagen, asignar una imagen predeterminada
+        if (!$profile_picture_url) {
+          $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
+        }
+  
+        // Generar el HTML de la imagen
+        $profile_html = '
+        <div class="user-profile-container dropdown ms-3">
+            <a href="#" id="userProfileDropdown" class="dropdown-toggle user-profile-link" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="' . $profile_picture_url . '" alt="Profile Picture" class="user-profile-circle">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
+                <li><a class="dropdown-item user-menu-item" href="/user">My Profile</a></li>
+                <li><a class="dropdown-item user-menu-item" href="/my-area">My Area</a></li>
+                <li><a class="dropdown-item user-menu-item" href="/user/logout">Logout</a></li>
+            </ul>
+        </div>';
+  
+      } else {
+        // Si el usuario es anónimo, no se renderiza la imagen
+        $profile_html = '';
+      }
+
+
+
+
+
+
+
+
       $build = [
 
 
@@ -242,7 +295,7 @@ class UniversityMenuBlock extends BlockBase
                       </button>
                       
                       <!-- Menú colapsable -->
-                      <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
+                      <div class="collapse navbar-collapse" id="universityNavbar">
                           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                               <li class="nav-item">
                               <a class="nav-link" href="' . $general_info_url . '">' . $translations[$current_language]['INSTITUTIONAL INFORMATION'] . '</a>
@@ -273,6 +326,7 @@ class UniversityMenuBlock extends BlockBase
                               </ul>
                             </li>
                           </ul>
+                          ' . $profile_html . '
                         </div>
                       </div>
                   </div>
