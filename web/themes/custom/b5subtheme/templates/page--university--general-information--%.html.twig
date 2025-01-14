@@ -1,114 +1,151 @@
-
-
-<div class="university-menu-block" >
-  {{ page.header }}
+<div class="university-menu-block">
+	{{ page.header }}
 </div>
 
 
 <div class="university-banner">
-  {% if university.field_picture is not empty %}
-    {% set media_entity = university.field_picture.entity %}
-    {% if media_entity is not empty %}
-      {% set file_entity = media_entity.field_media_image.entity %}
-      {% if file_entity is not empty %}
-        <div class="university-photo">
-          <img src="{{ file_url(file_entity.uri.value) }}" alt="{{ university.title.value }} " class="university-img">
-        </div>
-      {% endif %}
-    {% endif %}
-  {% else %}
-    <p>No hay imagen disponible.</p>
-  {% endif %}
+	{% if university.field_picture is not empty %}
+		{% set media_entity = university.field_picture.entity %}
+		{% if media_entity is not empty %}
+			{% set file_entity = media_entity.field_media_image.entity %}
+			{% if file_entity is not empty %}
+				<div class="university-photo">
+					<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ university.title.value }} " class="university-img">
+				</div>
+			{% endif %}
+		{% endif %}
+	{% else %}
+		<p>No hay imagen disponible.</p>
+	{% endif %}
 </div>
 
 
 <div class="container-fluid">
 
-<div class="my-custom-container">
+	<div class="my-custom-container">
 
 
-<div class="university-details">
-  <!-- Mostrar el país (no traducible) -->
-  {% if university.field_country.value is not empty %}
-    <p><strong>País:</strong> {{ university.field_country.value }}</p>
-  {% else %}
-    <p><strong>País:</strong> No disponible</p>
-  {% endif %}
+		<div
+			class="university-details">
+			<!-- Mostrar el país (no traducible) -->
+			{% if university.field_country.value is not empty %}
+				<p>
+					<strong>País:</strong>
+					{{ university.field_country.value }}</p>
+			{% else %}
+				<p>
+					<strong>País:</strong>
+					No disponible</p>
+			{% endif %}
 
-  <!-- Mostrar la información -->
-  {% set current_language = university.langcode.value %}
-  {% if university.field_informacion.value is not empty %}
-    <div class="university-info">
-      
-      <p>{{ university.field_informacion.value }}</p>
+			<!-- Mostrar la información -->
+			{% set current_language = university.langcode.value %}
+			{% if university.field_informacion.value is not empty %}
+				<div class="university-info">
+
+					<p>{{ university.field_informacion.value }}</p>
+				</div>
+			{% else %}
+				<p>
+					<strong>Información:</strong>
+					No disponible</p>
+			{% endif %}
+
+			<div class="campus-section">
+  <h2 class="section-title">CAMPUS</h2>
+
+  {% if campuses is not empty %}
+    <div class="campus-list">
+      {% for campus in campuses %}
+        <div class="card campus-card mb-4">
+          <div class="d-flex flex-row">
+            <!-- Información del campus -->
+            <div class="card-body col-md-8">
+              <h5 class="card-title">{{ campus.title.value }}</h5>
+              {% if campus.field_campus_location is not empty %}
+                <p class="card-text">{{ campus.field_campus_location.value }}</p>
+              {% endif %}
+              {% if campus.field_campus_description is not empty %}
+                <p class="card-text">{{ campus.field_campus_description.value }}</p>
+              {% endif %}
+            </div>
+            <!-- Imagen del campus -->
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+              {% if campus.field_campus_picture is not empty %}
+                {% set media_entity = campus.field_campus_picture.entity %}
+                {% if media_entity is not empty %}
+                  {% set file_entity = media_entity.field_media_image.entity %}
+                  {% if file_entity is not empty %}
+                    <img src="{{ file_url(file_entity.uri.value) }}" class="card-img-right img-fluid" alt="{{ campus.title.value }}">
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   {% else %}
-    <p><strong>Información:</strong> No disponible</p>
-  {% endif %}
-
-
-
-
-
-
-<!-- Cargar el bloque de autoridades académicas -->
-{% set academic_authority_block = drupal_block('views_block:academic_authority-block_1') %}
-
-{% if academic_authority_block is not empty %}
-  
-  {{ academic_authority_block }}
-{% else %}
-  <h2>No se pudo cargar el bloque</h2>
-{% endif %}
-
-
-
-
-<div class="admission-section">
-  <!-- Título principal centrado -->
-  <h2 style="text-align: center; font-weight: bold;">ADMISSION</h2>
-
-  <!-- Descripción general -->
-  {% if university.field_admission_description is not empty %}
-  <h3 style="font-weight: bold;">Description</h3>
-    <p>{{ university.field_admission_description.value }}</p>
-  {% endif %}
-
-   <!-- Main Requirements -->
-  {% if university.field_main_requirements is not empty %}
-    <h3 style="font-weight: bold;">Main Requirements</h3>
-    <p>{{ university.field_main_requirements.value }}</p>
-  {% endif %}
-
-   <!-- Language Policy -->
-  {% if university.field_admission_language_policy is not empty %}
-    <h3 style="font-weight: bold;">Language Policy</h3>
-    <p>{{ university.field_admission_language_policy.value }}</p>
-
-     <!-- Subapartado: Languages -->
-    {% if university.field_admission_languages is not empty %}
-      <h4 style="font-weight: bold; margin-left: 20px;">Languages</h4>
-      <ul style="margin-left: 20px;">
-        {% for language in university.field_admission_languages %}
-          <li>{{ language.value }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  
-  {% endif %}
-
-  <!-- Registration Procedures -->
-  {% if university.field_admission_registration is not empty %}
-    <h3 style="font-weight: bold;">Registration Procedures</h3>
-    <p>{{ university.field_admission_registration.value }}</p>
+    <p>No campuses available for this university.</p>
   {% endif %}
 </div>
 
 
 
+			<!-- Cargar el bloque de autoridades académicas -->
+			{% set academic_authority_block = drupal_block('views_block:academic_authority-block_1') %}
 
-</div>
+			{% if academic_authority_block is not empty %}
+
+				{{ academic_authority_block }}
+			{% else %}
+				<h2>No se pudo cargar el bloque</h2>
+			{% endif %}
 
 
-</div>
+			<div
+				class="admission-section">
+				<!-- Título principal centrado -->
+				<h2 style="text-align: center; font-weight: bold;">ADMISSION</h2>
 
+				<!-- Descripción general -->
+				{% if university.field_admission_description is not empty %}
+					<h3 style="font-weight: bold;">Description</h3>
+					<p>{{ university.field_admission_description.value }}</p>
+				{% endif %}
+
+				<!-- Main Requirements -->
+				{% if university.field_main_requirements is not empty %}
+					<h3 style="font-weight: bold;">Main Requirements</h3>
+					<p>{{ university.field_main_requirements.value }}</p>
+				{% endif %}
+
+				<!-- Language Policy -->
+				{% if university.field_admission_language_policy is not empty %}
+					<h3 style="font-weight: bold;">Language Policy</h3>
+					<p>{{ university.field_admission_language_policy.value }}</p>
+
+					<!-- Subapartado: Languages -->
+					{% if university.field_admission_languages is not empty %}
+						<h4 style="font-weight: bold; margin-left: 20px;">Languages</h4>
+						<ul style="margin-left: 20px;">
+							{% for language in university.field_admission_languages %}
+								<li>{{ language.value }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+
+				{% endif %}
+
+				<!-- Registration Procedures -->
+				{% if university.field_admission_registration is not empty %}
+					<h3 style="font-weight: bold;">Registration Procedures</h3>
+					<p>{{ university.field_admission_registration.value }}</p>
+				{% endif %}
+			</div>
+
+
+		</div>
+
+
+	</div>

@@ -1,0 +1,11 @@
+<h1> VIIIIIISTAAAAA DE RESOURCES AND SERVICEEEEES </h1>
+
+
+{{dump(view.result)}}
+
+{% for row in view.result %}
+
+<!-- entity sera unha entidad de tipo recursos e servicios -->
+{% set entity = row._entity %}
+{{dump(entity)}}
+{% endfor %}

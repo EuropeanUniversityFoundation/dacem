@@ -29,8 +29,6 @@ class UniversityMenuBlock extends BlockBase
   public function build()
   {
 
-
-
     $translations = [
       'en' => [
         'INSTITUTIONAL INFORMATION' => 'INSTITUTIONAL INFORMATION',
@@ -97,7 +95,7 @@ class UniversityMenuBlock extends BlockBase
     $current_node = \Drupal::routeMatch()->getParameter('node');
 
     if ($current_node instanceof NodeInterface) {
-      dump('if university menu block');
+     
       $node_type = $current_node->bundle();
       $university = null;
 
@@ -114,7 +112,10 @@ class UniversityMenuBlock extends BlockBase
 
     } else {
 
+   
+
       $current_route = \Drupal::routeMatch()->getRouteName();
+      
 
       if ($current_route === 'view.general_information.page_1') {
         // Obtén el ID de la universidad desde el argumento de la URL.
@@ -126,8 +127,11 @@ class UniversityMenuBlock extends BlockBase
         if ($university_id) {
           $university = \Drupal\node\Entity\Node::load($university_id);
         }
-      }
-
+      }elseif ($current_route === 'view.resources_and_services.page_1') {
+        $university_id = \Drupal::routeMatch()->getParameter('arg_0');
+        $university = \Drupal\node\Entity\Node::load($university_id);
+        }
+    
     }
 
 
@@ -136,8 +140,8 @@ class UniversityMenuBlock extends BlockBase
 
 
 
-      //dump('tenemos universidad');
       $logo_url = '';
+      
       if (!$university->get('field_logo')->isEmpty()) {
         $media = $university->get('field_logo')->entity;
         if ($media && $media->hasField('field_media_image')) {
@@ -151,11 +155,11 @@ class UniversityMenuBlock extends BlockBase
 
 
       if ($university instanceof NodeInterface && $university->hasField('field_primary_color') && !$university->get('field_primary_color')->isEmpty()) {
-        //dump('entramos if');
+        
         $color_value = $university->get('field_primary_color')->value;
-        //dump($color_value);
+        
       } else {
-        //dump('no hay color');
+        
       }
 
 
@@ -219,9 +223,15 @@ class UniversityMenuBlock extends BlockBase
 
       $alias_manager = \Drupal::service('path_alias.manager');
 
-      // Obtén el alias del nodo en el idioma actual.
+      // Obtén el alias del nodo en el idioma actual. Niste caso é asi porque temos que para que mostre unha universidad se mostre desta forma directamente.
       $catalogue_url = $alias_manager->getAliasByPath('/node/' . $university->id(), \Drupal::languageManager()->getCurrentLanguage()->getId());
 
+      // Genera la URL con el idioma activo.
+      $rs_url = Url::fromRoute('view.resources_and_services.page_1', [
+        'arg_0' => $university->id(),
+      ], [
+        'language' => \Drupal::languageManager()->getLanguage($current_language),
+      ])->toString();
 
 
       $build = [
@@ -251,7 +261,7 @@ class UniversityMenuBlock extends BlockBase
                                   <a class="nav-link" href="' . $catalogue_url . '">' . $translations[$current_language]['CATALOGUE'] . '</a>
                               </li>
                               <li class="nav-item">
-                                  <a class="nav-link" href="/@university_path/recursos-y-servicios">' . $translations[$current_language]['RESOURCES AND SERVICES'] . '</a>
+                                  <a class="nav-link" href="' . $rs_url . '">' . $translations[$current_language]['RESOURCES AND SERVICES'] . '</a>
                               </li>
                               <li class="nav-item">
                                   <a class="nav-link" href="/@university_path/vida-universitaria">' . $translations[$current_language]['UNIVERSITY LIFE'] . '</a>
