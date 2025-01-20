@@ -1,5 +1,3 @@
-
-
 {% set university_primary_color = university.field_primary_color[0].color %}
 {% set university_text_color = university.field_text_color[0].color %}
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
@@ -13,33 +11,21 @@
 	;
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
-}</style>
-
-
-
-
-
-<div class="university-menu-block">
-	{{ page.header }}
-</div>
-
-
-<div class="university-banner">
-	{% if university.field_picture is not empty %}
-		{% set media_entity = university.field_picture.entity %}
-		{% if media_entity is not empty %}
-			{% set file_entity = media_entity.field_media_image.entity %}
-			{% if file_entity is not empty %}
-				<div class="university-photo">
-					<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ university.title.value }} " class="university-img">
-				</div>
-			{% endif %}
+}</style><div class="university-menu-block">
+{{ page.header }}</div><div class="university-banner">
+{% if university.field_picture is not empty %}
+	{% set media_entity = university.field_picture.entity %}
+	{% if media_entity is not empty %}
+		{% set file_entity = media_entity.field_media_image.entity %}
+		{% if file_entity is not empty %}
+			<div class="university-photo">
+				<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ university.title.value }} " class="university-img">
+			</div>
 		{% endif %}
-	{% else %}
-		<p>No hay imagen disponible.</p>
 	{% endif %}
-</div>
-
+{% else %}
+	<p>No hay imagen disponible.</p>
+{% endif %}</div>
 
 <div class="container-fluid">
 
@@ -48,11 +34,10 @@
 
 		<div
 			class="university-details">
+
 			<!-- Mostrar el país (no traducible) -->
 			{% if university.field_country.value is not empty %}
-				<p>
-					<strong>País:</strong>
-					{{ university.field_country.value }}</p>
+				<h5 style="color: red;">{{ university.field_country.value }}</h5>
 			{% else %}
 				<p>
 					<strong>País:</strong>
@@ -61,56 +46,99 @@
 
 			<!-- Mostrar la información -->
 			{% set current_language = university.langcode.value %}
-			{% if university.field_informacion.value is not empty %}
-				<div class="university-info">
+			<div class='row'>
+				<div class='col 12 col-lg-7'>
+					{% if university.field_informacion.value is not empty %}
+						<br><br>
+						<div class="university-info">
 
-					<p>{{ university.field_informacion.value }}</p>
+							<p>{{ university.field_informacion.value }}</p>
+						</div>
+					{% else %}
+						<p>
+							<strong>Información:</strong>
+							No disponible</p>
+					{% endif %}
 				</div>
-			{% else %}
-				<p>
-					<strong>Información:</strong>
-					No disponible</p>
-			{% endif %}
+				<div class="col-12 col-lg-5">
+					<br><br>
+					<div class="degree-sidebar bg-light p-3">
+						<h3>{{university.title.value}}</h3>
+
+						<div class="row mb-3">
+							<i class="fa fa-map-marker-alt">
+								Avenida de la Universidad,s/n
+																													3604, Pontevedra, España</i>
+
+						</div>
+						<div class="row mb-3">
+							<i class="fa fa-globe">
+								www.universidadevigo.es
+							</i>
+						</div>
+						<div class='row mb-3'>
+							<i class="fa fa-phone">
+								+565856458</i>
+
+						</div>
+						<div class='row mb-3'>
+							<strong>Terms</strong>
+						</div>
+						<div>
+							Summer (June - August)<br>
+							Fall Semester (Septembre - January)<br>
+							Spring Semester (Marh - August)<br>
+							Calendar Year (March - January)<br>
+							Full Year (September - August)<br>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
 
 			<div class="campus-section">
-  <h2 class="section-title">CAMPUS</h2>
+				<div class="flex-row campus-title">
+					<h2>CAMPUS</h2>
+				</div>
 
-  {% if campuses is not empty %}
-    <div class="campus-list">
-      {% for campus in campuses %}
-        <div class="card campus-card mb-4">
-          <div class="d-flex flex-row">
-            <!-- Información del campus -->
-            <div class="card-body col-md-8">
-              <h5 class="card-title">{{ campus.title.value }}</h5>
-              {% if campus.field_campus_location is not empty %}
-                <p class="card-text">{{ campus.field_campus_location.value }}</p>
-              {% endif %}
-              {% if campus.field_campus_description is not empty %}
-                <p class="card-text">{{ campus.field_campus_description.value }}</p>
-              {% endif %}
-            </div>
-            <!-- Imagen del campus -->
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
-              {% if campus.field_campus_picture is not empty %}
-                {% set media_entity = campus.field_campus_picture.entity %}
-                {% if media_entity is not empty %}
-                  {% set file_entity = media_entity.field_media_image.entity %}
-                  {% if file_entity is not empty %}
-                    <img src="{{ file_url(file_entity.uri.value) }}" class="card-img-right img-fluid" alt="{{ campus.title.value }}">
-                  {% endif %}
-                {% endif %}
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>No campuses available for this university.</p>
-  {% endif %}
-</div>
 
+				{% if campuses is not empty %}
+					<div class="campus-list">
+						{% for campus in campuses %}
+							<div class="card campus-card mb-4">
+								<div
+									class="d-flex flex-row">
+									<!-- Información del campus -->
+									<div class="card-body col-md-8">
+										<h5 class="card-title">{{ campus.title.value }}</h5>
+										{% if campus.field_campus_location is not empty %}
+											<p class="card-text">{{ campus.field_campus_location.value }}</p>
+										{% endif %}
+										{% if campus.field_campus_description is not empty %}
+											<p class="card-text">{{ campus.field_campus_description.value }}</p>
+										{% endif %}
+									</div>
+									<!-- Imagen del campus -->
+									<div class="col-md-4 d-flex align-items-center justify-content-center">
+										{% if campus.field_campus_picture is not empty %}
+											{% set media_entity = campus.field_campus_picture.entity %}
+											{% if media_entity is not empty %}
+												{% set file_entity = media_entity.field_media_image.entity %}
+												{% if file_entity is not empty %}
+													<img src="{{ file_url(file_entity.uri.value) }}" class="card-img-right img-fluid" alt="{{ campus.title.value }}">
+												{% endif %}
+											{% endif %}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				{% else %}
+					<p>No campuses available for this university.</p>
+				{% endif %}
+			</div>
 
 
 			<!-- Cargar el bloque de autoridades académicas -->
@@ -127,28 +155,31 @@
 			<div
 				class="admission-section">
 				<!-- Título principal centrado -->
-				<h2 style="text-align: center; font-weight: bold;">ADMISSION</h2>
+				<div class="flex-row campus-title">
+					<h2>ADMISSION</h2>
+				</div>
+				
 
 				<!-- Descripción general -->
 				{% if university.field_admission_description is not empty %}
-					<h3 style="font-weight: bold;">Description</h3>
+					<h3 style="font-weight: bold;">DESCRIPTION</h3>
 					<p>{{ university.field_admission_description.value }}</p>
 				{% endif %}
 
 				<!-- Main Requirements -->
 				{% if university.field_main_requirements is not empty %}
-					<h3 style="font-weight: bold;">Main Requirements</h3>
+					<h3 style="font-weight: bold;">MAIN REQUIREMENTS</h3>
 					<p>{{ university.field_main_requirements.value }}</p>
 				{% endif %}
 
 				<!-- Language Policy -->
 				{% if university.field_admission_language_policy is not empty %}
-					<h3 style="font-weight: bold;">Language Policy</h3>
+					<h3 style="font-weight: bold;">LANGUAGE POLICY</h3>
 					<p>{{ university.field_admission_language_policy.value }}</p>
 
 					<!-- Subapartado: Languages -->
 					{% if university.field_admission_languages is not empty %}
-						<h4 style="font-weight: bold; margin-left: 20px;">Languages</h4>
+						<h4 style="font-weight: bold; margin-left: 20px;">LANGUAGES</h4>
 						<ul style="margin-left: 20px;">
 							{% for language in university.field_admission_languages %}
 								<li>{{ language.value }}</li>
@@ -160,7 +191,7 @@
 
 				<!-- Registration Procedures -->
 				{% if university.field_admission_registration is not empty %}
-					<h3 style="font-weight: bold;">Registration Procedures</h3>
+					<h3 style="font-weight: bold;">REGISTRATION PROCEDURES</h3>
 					<p>{{ university.field_admission_registration.value }}</p>
 				{% endif %}
 			</div>
@@ -170,3 +201,5 @@
 
 
 	</div>
+
+</div>

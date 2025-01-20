@@ -146,7 +146,7 @@ class DacemMenuBlock extends BlockBase
                           <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('PARTNERS') . '</a></li>
                           <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('CONTACT') . '</a></li>
                       </ul>
-                      <div class="d-flex ms-lg-2 language-buttons">
+                      <div class="d-flex ms-lg-2 language-buttons-dacem-menu">
                           <!-- Menú -->
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                               <li class="nav-item dropdown">

@@ -32,7 +32,6 @@ class UniversityMenuBlock extends BlockBase
    */
   public function build()
   {
-
     $translations = [
       'en' => [
         'INSTITUTIONAL INFORMATION' => 'INSTITUTIONAL INFORMATION',
@@ -279,8 +278,6 @@ class UniversityMenuBlock extends BlockBase
 
 
       $build = [
-
-
         '#markup' => $this->t('
               <nav class="navbar navbar-expand-lg university-navbar" style="margin: 0; padding: 0;">
                   <div class="container-fluid">
@@ -298,8 +295,7 @@ class UniversityMenuBlock extends BlockBase
                       <div class="collapse navbar-collapse" id="universityNavbar">
                           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                               <li class="nav-item">
-                              <a class="nav-link" href="' . $general_info_url . '">' . $translations[$current_language]['INSTITUTIONAL INFORMATION'] . '</a>
-
+                                  <a class="nav-link" href="' . $general_info_url . '">' . $translations[$current_language]['INSTITUTIONAL INFORMATION'] . '</a>
                               </li>
                               <li class="nav-item">
                                   <a class="nav-link" href="' . $catalogue_url . '">' . $translations[$current_language]['CATALOGUE'] . '</a>
@@ -311,34 +307,40 @@ class UniversityMenuBlock extends BlockBase
                                   <a class="nav-link" href="/@university_path/vida-universitaria">' . $translations[$current_language]['UNIVERSITY LIFE'] . '</a>
                               </li>
                           </ul>
-      
-                          <!-- Botones de idioma -->
-                          <div class="d-flex ms-lg-2 language-buttons" style="position: relative; z-index: 1050;">
-                          <!-- Menú -->
-                          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li class="nav-item dropdown">
-                              <a class="nav-link dropdown-toggle no-hover-bg" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                ' . strtoupper($current_language) . ' ' . $flags[$current_language] . '
+                          
+                          <!-- Botón personalizado -->
+                          <div class="d-flex align-items-center right-buttons-university-menu">
+                              <a href="/" class="btn btn-outline-primary me-2 back-button">
+                                  back to<br><strong>DACEM</strong>
                               </a>
-
-                              <ul class="dropdown-menu" style="z-index: 1051;" aria-labelledby="languageDropdown">
-                                ' . $language_options . '
-                              </ul>
-                            </li>
-                          </ul>
-                          ' . $profile_html . '
-                        </div>
+                              
+                              <!-- Botones de idioma -->
+                              <div class="language-buttons" style="position: relative; z-index: 1050;">
+                                  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                      <li class="nav-item dropdown">
+                                          <a class="nav-link dropdown-toggle no-hover-bg" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            ' . strtoupper($current_language) . ' ' . $flags[$current_language] . '
+                                          </a>
+                                          <ul class="dropdown-menu" style="z-index: 1051;" aria-labelledby="languageDropdown">
+                                            ' . $language_options . '
+                                          </ul>
+                                      </li>
+                                  </ul>
+                              </div>
+                              ' . $profile_html . '
+                          </div>
                       </div>
                   </div>
               </nav>',
-          [
-            '@logo_url' => $logo_url,
-            '@university_name' => $university->getTitle(),
-            '@university_path' => $university->toUrl()->getInternalPath(),
-            '@university_url' => $university_url,
-          ]
+            [
+              '@logo_url' => $logo_url,
+              '@university_name' => $university->getTitle(),
+              '@university_path' => $university->toUrl()->getInternalPath(),
+              '@university_url' => $university_url,
+            ]
         ),
-      ];
+    ];
+    
 
 
 

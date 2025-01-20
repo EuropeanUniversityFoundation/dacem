@@ -13515,11 +13515,19 @@ code {
 
 
 .language-buttons{
+  
+  margin-right: 3%;
+  position: relative;
+  transition: all 0.2s ease-in-out; /* Suavizar la transición */
+}
+
+.language-buttons-dacem-menu{
   margin-left: 15vw !important;
   margin-right: 3%;
   position: relative;
   transition: all 0.2s ease-in-out; /* Suavizar la transición */
 }
+
 
 
 /* Estilos para el menú cuando está expandido */
@@ -13756,6 +13764,7 @@ PARA PÁXINA DE GENERAL INFORMATION
 .academic-authorities {
   text-align: center;
   padding: 20px;
+  
 }
 
 .authorities-grid {
@@ -13819,19 +13828,7 @@ PARA PÁXINA DE GENERAL INFORMATION
 
 
 
-.admission-section {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
 
-.admission-section h2 {
-  text-align: center;
-  font-weight: bold;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.admission-section h3,
 .admission-section h4 {
   font-weight: bold;
   font-size: 18px;
@@ -14042,6 +14039,7 @@ VISTA DE LISTA DE UNIVERSIDADES
   display: flex;
   align-items: center; /* Centrar verticalmente */
   justify-content: center;
+  
 }
 
 /* Imagen de perfil redondeada y pequeña */
@@ -14069,7 +14067,8 @@ a.card.h-100 {
 
 
 .campus-list{
-  max-width: 80%;
+  padding-right: 10%;
+  padding-left: 10%;
 }
 
 
@@ -14105,4 +14104,47 @@ a.card.h-100 {
 
 .user-menu-item:hover{
   background-color: grey;
+}
+
+
+
+.campus-section {
+  margin-top: 5px;
+  text-align: center;
+  justify-content: center;
+}
+
+.campus-title {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;    /* Centra verticalmente (opcional) */
+  text-align: center;     /* Centra el texto */
+}
+
+
+
+.back-button {
+    text-align: center;
+    color: var(--university_primary_color);
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 15vw !important;
+    border-radius: 0;
+    border-width: 2px;
+    border-color: var(--university_primary_color);
+    
+}
+
+.back-button:hover {
+    background-color: var(--university_primary_color);
+    color: var(--university_emphasis_text_color);
+    border-color: var(--university_primary_color);
+}
+
+
+.right-buttons-university-menu {
+
+  padding-right: 30px;
+
 }
