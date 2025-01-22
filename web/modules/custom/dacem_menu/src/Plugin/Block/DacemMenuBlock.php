@@ -30,14 +30,17 @@ class DacemMenuBlock extends BlockBase
   {
     // Obtener el nombre de la ruta actual.
     $route_name = \Drupal::routeMatch()->getRouteName();
+    //dump($route_name);
     // Lista de rutas donde el bloque debe aparecer.
     $allowed_routes = [
       'view.lista_de_universidades.page_1', // Reemplaza con la ruta real de la vista.
       'admin_area.my_area',   // Otra vista donde quieres mostrar el bloque.
+      'about',
     ];
 
     // Mostrar el bloque solo si la ruta actual está en la lista permitida.
     if (!in_array($route_name, $allowed_routes)) {
+      //dump('ola');
       return []; // No renderizar el bloque.
     }
 
@@ -87,7 +90,7 @@ class DacemMenuBlock extends BlockBase
 
     // Obtener el usuario actual
     $current_user = \Drupal::currentUser();
-    $profile_picture_url = '';
+    $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
 
     // Verificar si el usuario no es anónimo
     if ($current_user->isAuthenticated() && $current_user->id() != 0) {
@@ -140,11 +143,9 @@ class DacemMenuBlock extends BlockBase
                   </button>
                   <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
                       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('ABOUT') . '</a></li>
-                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('TIMELINE') . '</a></li>
-                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('RESOURCES') . '</a></li>
-                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('PARTNERS') . '</a></li>
-                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('CONTACT') . '</a></li>
+                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/about">' . $this->t('ABOUT') . '</a></li>
+                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('INSTITUTIONS') . '</a></li>
+                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/contact">' . $this->t('CONTACT') . '</a></li>
                       </ul>
                       <div class="d-flex ms-lg-2 language-buttons-dacem-menu">
                           <!-- Menú -->

@@ -13280,7 +13280,8 @@ code {
 
 
 .search-and-filters-container {
-  background: grey; /* Ruta a tu imagen */
+  /*background: grey; /* Ruta a tu imagen */
+  background-image: url('/themes/custom/b5subtheme/images/fondocatalogo1.jpeg');
   background-size: cover; /* Ajusta el tamaño de la imagen para cubrir el cuadro de búsqueda */
   padding: 2%;
   border-radius: 0px;

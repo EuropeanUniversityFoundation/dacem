@@ -236,6 +236,7 @@ class UniversityMenuBlock extends BlockBase
       // Imagen y menú desplegable de usuario
       $current_user = \Drupal::currentUser();
       if ($current_user->isAuthenticated() && $current_user->id() != 0) {
+        $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
         //dump($current_user->id());      // Cargar la entidad del usuario
         $user = User::load($current_user->id());
   
@@ -282,7 +283,7 @@ class UniversityMenuBlock extends BlockBase
               <nav class="navbar navbar-expand-lg university-navbar" style="margin: 0; padding: 0;">
                   <div class="container-fluid">
                       <!-- Logo -->
-                      <a class="navbar-brand" href="@university_url">
+                      <a class="navbar-brand" href="' . $general_info_url . '">
                           <img src="@logo_url" alt="@university_name" class="university-logo d-inline-block align-text-top">
                       </a>
                       
@@ -311,7 +312,7 @@ class UniversityMenuBlock extends BlockBase
                           <!-- Botón personalizado -->
                           <div class="d-flex align-items-center right-buttons-university-menu">
                               <a href="/" class="btn btn-outline-primary me-2 back-button">
-                                  back to<br><strong>DACEM</strong>
+                                  <strong>DACEM</strong>
                               </a>
                               
                               <!-- Botones de idioma -->

@@ -1,7 +1,9 @@
+{#
+
 <h1> VIIIIIISTAAAAA DE RESOURCES AND SERVICEEEEES </h1>
 
 
-{{dump(view.result)}}
+{#{dump(view.result)}}
 {#
 {% for row in view.result %}
 
@@ -26,7 +28,7 @@
 {% endfor %}
 #}
 
-{% set entity = view.result[0]._entity %}
+{#% set entity = view.result[0]._entity %}
 
 {#{{dump(entity)}}
 
@@ -41,9 +43,9 @@
 
 
 
-{{dump(current_language)}}
+{#{dump(current_language)}}
 {# Verificar si la entidad tiene una traducción en el idioma de la URL #}
-	{% if entity.hasTranslation(current_language) %}
+{#}	{% if entity.hasTranslation(current_language) %}
 	{% set translated_entity = entity.getTranslation(current_language) %}
 
 {% else %}
@@ -59,7 +61,7 @@
 
 
 {#{ dump(view.result[0]._relationship_entities.field_rs_university) }#}
-
+{#}
 {% set university = view.result[0]._relationship_entities.field_rs_university %}
 {{dump(university)}}
 
@@ -78,3 +80,7 @@
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
 }</style>
+
+#}
+
+<h3>Web under development</h3>
