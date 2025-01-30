@@ -1,7 +1,0 @@
-contact.site_page:
-  path: '/contact'
-  defaults:
-    _controller: '\Drupal\contact_module\Controller\ContactController::content'
-    _title: 'Contact'
-  requirements:
-    _permission: 'access content'
