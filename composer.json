@@ -41,6 +41,7 @@
         "drupal/twig_tweak": "^3.3",
         "drupal/twig_vardumper": "^3.1",
         "drupal/user_redirect": "^2.0",
+        "drupal/views_alias_filter": "^1.0",
         "drush/drush": "^12.5",
         "phpoffice/phpspreadsheet": "^3.3"
     },

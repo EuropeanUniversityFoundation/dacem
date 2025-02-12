@@ -1,0 +1,186 @@
+
+{% set current_language = view.result[0].node_field_data_langcode %}
+
+
+{# Acceder a la asignatura actual #}
+{% set iec = view.result[0]._entity %}
+{% if iec.hasTranslation(current_language) %}
+	{% set translated_iec = iec.getTranslation(current_language) %}
+{% else %}
+	{% set translated_iec = iec %}
+{% endif %}
+
+{# Acceder a la carrera a la que pertenece la asignatura #}
+{% set programme = translated_iec.field_iec_programme.entity %}
+
+{% if programme %}
+	{% if programme.hasTranslation(current_language) %}
+		{% set translated_programme = programme.getTranslation(current_language) %}
+	{% else %}
+		{% set translated_programme = programme %}
+	{% endif %}
+{% endif %}
+
+{# Acceder a la universidad a la que pertenece la carrera #}
+{% set institution = programme.field_programme_institution.entity %}
+
+{% if institution %}
+	{% if institution.hasTranslation(current_language) %}
+		{% set translated_institution = institution.getTranslation(current_language) %}
+	{% else %}
+		{% set translated_institution = institution %}
+	{% endif %}
+{% endif %}
+
+{# Obtener colores de la universidad #}
+{% set university_primary_color = translated_institution.field_primary_color[0].color %}
+{% set university_text_color = translated_institution.field_text_color[0].color %}
+{% set university_emphasis_text_color = translated_institution.field_emphasis_text_color[0].color %}
+
+<style>:root
+{
+	--university_primary_color: {{university_primary_color}}
+	;
+	--university_text_color: {{university_text_color}}
+	;
+	--university_emphasis_text_color: {{university_emphasis_text_color}}
+	;
+}</style>{# Cuatrimestres del curso #}{% set cuatrimestres_curso = {
+  '1o': '1º',
+  '2o': '2º',
+  '3o': '3º',
+  '4o': '4º',
+} %}<div class="programme-page">
+<div class="sticky-nav">
+	{% if translated_programme and translated_programme.id %}
+		<a href="{{ path('entity.node.canonical', {'node': translated_programme.id}) }}" class="programme-header-link">
+			<div class="programme-header">
+				<div class="container-fluid">
+					<h1 class="programme-title">
+						{{ translated_programme.title.value|raw }}
+					</h1>
+				</div>
+			</div>
+		</a>
+	{% else %}
+		<div class="programme-header-link">
+			<div class="programme-header">
+				<div class="container-fluid">
+					<h1 class="programme-title">
+						{{ 'Degree information unavailable'|t }}
+					</h1>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+	<div class="iec-header">
+		<div class="container-fluid">
+			<!--<h5>{{ translations[current_language]['Subject'] }}</h5>-->
+            <h5>IEC</h5>
+			<h2 class="iec-title">
+				{{ translated_iec.label|upper }}
+			</h2>
+		</div>
+	</div>
+</div></div><div class="container-fluid">
+<div class="my-custom-container">
+	<div class="row">
+		<div class="col-lg-7 col-md-12 col-sm-12">
+			<div class="programme-section" id="general-information" style="text-align: justify;">
+				<!--<h3>{{ translations[current_language]['PRESENTATION'] }}</h3>-->
+                <h3>DESCRIPTION</h3>
+				{{ translated_iec.field_iec_description.value|raw }}
+			</div>
+		</div>
+
+		<div class="col-lg-5 col-md-12 mt-4 mt-lg-0">
+			<div class="programme-sidebar bg-light p-3">
+				<h3>{{ translations[current_language]['General Data'] }}</h3>
+				<div class="row">
+					<div class="col-md-6">
+						<strong>{{ translations[current_language]['Academic Course'] }}:</strong>
+						23/24
+					</div>
+					<div class="col-md-6">
+						<strong>{{ translations[current_language]['Type'] }}:</strong>
+						{{translations[current_language][translated_iec.field_iec_type.value]|capitalize}}
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col-md-6">
+						<strong>{{ translations[current_language]['Course'] }}:</strong>
+						{{ cuatrimestres_curso[translated_iec.field_iec_year.value] }}
+					</div>
+					<div class="col-md-6">
+						<strong>{{ translations[current_language]['Period'] }}:</strong>
+						{{ cuatrimestres_curso[translated_iec.field_iec_term.value] }}
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col-md-12">
+						<strong>{{ translations[current_language]['ECTS Credits'] }}:</strong>
+						{{ translated_iec.field_iec_credits.value }}
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col-md-12">
+						<strong>{{ translations[current_language]['Modality'] }}:</strong>
+						{{translations[current_language][translated_iec.field_iec_modality.value] }}
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col-md-12">
+						<strong>{{ translations[current_language]['Requirements'] }}:</strong>
+						{{ translated_iec.field_iec_requirements.value }}
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col-md-12">
+						<strong>{{ translations[current_language]['Language'] }}:</strong>
+						{{ translated_iec.field_iec_language.value|capitalize }}
+					</div>
+				</div>
+				<h3 class="mt-4">{{ translations[current_language]['Coordination'] }}</h3>
+				<p>{{ translated_iec.field_iec_coordinator.value }}</p>
+				<p>
+					<i class="fa fa-phone"></i>
+					{{ translated_iec.field_iec_phone.value }}
+				</p>
+				<p>
+					<i class="fa fa-envelope"></i>
+					{{ translated_iec.field_iec_email.value }}
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-7 col-md-12 col-sm-12">
+			<div class="programme-section" id="main-objective" style="text-align: justify;">
+				<h3>{{ translations[current_language]['INSTRUCTORS'] }}</h3>
+				{{ translated_iec.field_iec_instructors.value|raw }}
+			</div>
+			<div class="programme-section" id="competencies" style="text-align: justify;">
+				<!--<h3>{{ translations[current_language]['SUBJECT CONTENT'] }}</h3>-->
+                <h3>IEC CONTENTS</h3>
+				{{ translated_iec.field_iec_contents.value|raw }}
+			</div>
+			<div class="programme-section" id="competencies" style="text-align: justify;">
+				<h3>{{ translations[current_language]['LEARNING OUTCOMES'] }}</h3>
+				{{ translated_iec.field_iec_learning_outcomes.value|raw }}
+			</div>
+			<div class="programme-section" id="competencies" style="text-align: justify;">
+				<h3>{{ translations[current_language]['RECOMMENDED READINGS AND TOOLS'] }}</h3>
+				{{ translated_iec.field_iec_recommendations.value|raw }}
+			</div>
+			<div class="programme-section" id="competencies" style="text-align: justify;">
+				<h3>{{ translations[current_language]['PLANNED ACTIVITIES'] }}</h3>
+				{{ translated_iec.field_iec_planned_activities.value|raw }}
+			</div>
+			<div class="programme-section" id="competencies" style="text-align: justify;">
+				<h3>{{ translations[current_language]['EVALUATION METHODS AND CRITERIA'] }}</h3>
+				{{ translated_iec.field_iec_evaluation.value|raw }}
+			</div>
+		</div>
+	</div>
+</div></div></div>

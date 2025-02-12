@@ -21,6 +21,7 @@ regions:
   sidebar_second: 'Sidebar second'
   footer: Footer
   university_menu: 'University Menu'
+  institution_menu: 'Institution Menu'
 libraries-override:
   bootstrap5/global-styling: false
   

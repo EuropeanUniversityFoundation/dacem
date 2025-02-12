@@ -511,12 +511,12 @@ function add_entity_to_group_preprocess_block(&$variables)
 
 
 function add_entity_to_group_preprocess_views_view(&$variables) {
-  if ($variables['view']->id() === 'detalles_de_carrera') {
+  if ($variables['view']->id() === 'programme_information') {
     foreach ($variables['view']->result as &$row) {
       // Asegúrate de que estamos procesando asignaturas relacionadas.
-      if (!empty($row->_relationship_entities['reverse__node__field_carrera'])) {
+      if (!empty($row->_relationship_entities['reverse__node__field_iec_programme'])) {
         
-        $subject = $row->_relationship_entities['reverse__node__field_carrera'];
+        $subject = $row->_relationship_entities['reverse__node__field_iec_programme'];
         
         if ($subject instanceof Node) {
           

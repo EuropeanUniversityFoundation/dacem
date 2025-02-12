@@ -50,9 +50,9 @@ en:
 
   #Degree Structure and Distributions of credits.
   Course: 'Course'
-  nucleo: 'Core'
-  obligatorio: 'Mandatory'
-  opcional: 'Optional'
+  core: 'Core'
+  mandatory: 'Mandatory'
+  optional: 'Optional'
   Nucleo: 'Core'
   Obligatorio: 'Mandatory'
   Opcional: 'Optional'
@@ -146,9 +146,9 @@ es:
 
   #Carrera Estructura y distribución de creditos
   Course: 'Curso'
-  nucleo: 'Núcleo'
-  obligatorio: 'Obligatorio'
-  opcional: 'Opcional'
+  core: 'Núcleo'
+  mandatory: 'Obligatorio'
+  optional: 'Opcional'
   Nucleo: 'Núcleo'
   Obligatorio: 'Obligatorio'
   Opcional: 'Opcional'
@@ -228,9 +228,9 @@ fr: # Francés
 
   #Structure et Répartition des crédits
   Course: 'Cours'
-  nucleo: 'Noyau'
-  obligatorio: 'Obligatoire'
-  opcional: 'Optionnel'
+  core: 'Noyau'
+  mandatory: 'Obligatoire'
+  optional: 'Optionnel'
   Nucleo: 'Noyau'
   Obligatorio: 'Obligatoire'
   Opcional: 'Optionnel'
@@ -308,9 +308,9 @@ pt-pt: # Portugués
 
   #Estrutura e Distribuição de Créditos
   Course: 'Curso'
-  nucleo: 'Núcleo'
-  obligatorio: 'Obrigatório'
-  opcional: 'Opcional'
+  core: 'Núcleo'
+  mandatory: 'Obrigatório'
+  optional: 'Opcional'
   Nucleo: 'Núcleo'
   Obligatorio: 'Obrigatório'
   Opcional: 'Opcional'
@@ -391,9 +391,9 @@ el: # Griego
 
   #Δομή και Κατανομή Πιστωτικών Μονάδων
   Course: 'Μάθημα'
-  nucleo: 'Πυρήνας'
-  obligatorio: 'Υποχρεωτικό'
-  opcional: 'Επιλογής'
+  core: 'Πυρήνας'
+  mandatory: 'Υποχρεωτικό'
+  optional: 'Επιλογής'
   Nucleo: 'Πυρήνας'
   Obligatorio: 'Υποχρεωτικό'
   Opcional: 'Επιλογής'
@@ -471,9 +471,9 @@ cs: # Checo
 
   #Struktura a rozdělení kreditů
   Course: 'Kurz'
-  nucleo: 'Jádro'
-  obligatorio: 'Povinné'
-  opcional: 'Volitelné'
+  core: 'Jádro'
+  mandatory: 'Povinné'
+  optional: 'Volitelné'
   Nucleo: 'Jádro'
   Obligatorio: 'Povinné'
   Opcional: 'Volitelné'
@@ -554,9 +554,9 @@ sl: # Esloveno
 
   #Struktura in razdelitev kreditov
   Course: 'Tečaj'
-  nucleo: 'Jedro'
-  obligatorio: 'Obvezno'
-  opcional: 'Izbirno'
+  core: 'Jedro'
+  mandatory: 'Obvezno'
+  optional: 'Izbirno'
   Nucleo: 'Jedro'
   Obligatorio: 'Obvezno'
   Opcional: 'Izbirno'
@@ -634,9 +634,9 @@ hu: # Húngaro
 
   #Kreditstruktúra és -elosztás
   Course: 'Tantárgy'
-  nucleo: 'Mag'
-  obligatorio: 'Kötelező'
-  opcional: 'Választható'
+  core: 'Mag'
+  mandatory: 'Kötelező'
+  optional: 'Választható'
   Nucleo: 'Mag'
   Obligatorio: 'Kötelező'
   Opcional: 'Választható'
@@ -716,9 +716,9 @@ et: # Estonio
 
   #Struktuur ja ainepunktide jaotus
   Course: 'Kursus'
-  nucleo: 'Tuumik'
-  obligatorio: 'Kohustuslik'
-  opcional: 'Valikuline'
+  core: 'Tuumik'
+  mandatory: 'Kohustuslik'
+  optional: 'Valikuline'
   Nucleo: 'Tuumik'
   Obligatorio: 'Kohustuslik'
   Opcional: 'Valikuline'
@@ -796,9 +796,9 @@ gl: # Gallego
 
   #Estrutura e Distribución de Créditos
   Course: 'Curso'
-  nucleo: 'Núcleo'
-  obligatorio: 'Obrigatorio'
-  opcional: 'Opcional'
+  core: 'Núcleo'
+  mandatory: 'Obrigatorio'
+  optional: 'Opcional'
   Nucleo: 'Núcleo'
   Obligatorio: 'Obrigatorio'
   Opcional: 'Opcional'

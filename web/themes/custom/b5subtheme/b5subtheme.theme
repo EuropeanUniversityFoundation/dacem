@@ -2,7 +2,7 @@
 
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\node\Entity\Node;
-
+use Drupal\Core\Url;
 
 /**
  * @file
@@ -55,6 +55,7 @@ function b5subtheme_preprocess_page(&$variables)
         // Carga la traducción activa del nodo.
         $translated_node = $node->getTranslation($current_language);
         // Pasa el nodo traducido a las plantillas Twig.
+        //dump($translated_node);
         $variables['university'] = $translated_node;
         
         // Obtener los campus asociados a la universidad.
@@ -62,7 +63,7 @@ function b5subtheme_preprocess_page(&$variables)
           ->getStorage('node')
           ->loadByProperties([
             'type' => 'campus', // Asegúrate de que 'campus' sea el tipo de contenido.
-            'field_campus_university' => $translated_node->id(),
+            'field_campus_institution' => $translated_node->id(),
           ]);
 
           
@@ -181,18 +182,22 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
 
-  if ($variables['view']->id() == 'detalles_de_universidad') {
+  if ($variables['view']->id() == 'institution_catalogue') {
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-
+    
     $grouped_carreras = [];
 
+    
     foreach ($variables['view']->result as $row) {
+      
       // Accede a la universidad principal.
       $universidad = $row->_entity;
+      
 
       // Accede a las carreras relacionadas desde la relación inversa.
-      if (isset($row->_relationship_entities['reverse__node__field_universidad'])) {
-        $carrera = $row->_relationship_entities['reverse__node__field_universidad'];
+      if (isset($row->_relationship_entities['reverse__node__field_programme_institution'])) {
+        
+        $carrera = $row->_relationship_entities['reverse__node__field_programme_institution'];
 
 
         if ($carrera->hasTranslation($current_language)) {
@@ -204,10 +209,18 @@ function b5subtheme_preprocess_views_view(&$variables)
         // Valida si la entidad tiene un ID válido.
         if ($carrera_translated && $carrera_translated->id()) {
           // Obtén el área para agrupar las carreras.
-          $area = $carrera_translated->get('field_area')->value ?? 'undefined';
+          $area = $carrera_translated->get('field_programme_area')->value ?? 'undefined';
+          \Drupal::logger('custom_log')->notice('Area--> ' . $area);
+
+          //dump('/catalogue' . $carrera_translated->toUrl()->toString());
           $grouped_carreras[$area][] = [
             'title' => $carrera_translated->getTitle(),
-            'url' => $carrera_translated->toUrl('canonical')->toString(),
+            'url' => Url::fromRoute('view.programme_information.page_1', [
+              'arg_0' => $carrera_translated->id(),
+              'arg_1' => 333,
+          ])->toString(),
+          
+            
           ];
         }
       }
@@ -219,6 +232,7 @@ function b5subtheme_preprocess_views_view(&$variables)
         return strcmp($a['title'], $b['title']);
       });
     }
+    
 
     // Pasa las carreras agrupadas a la plantilla.
     $variables['grouped_carreras'] = $grouped_carreras;

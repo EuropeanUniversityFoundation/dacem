@@ -12862,18 +12862,18 @@ code {
 /*# sourceMappingURL=style.css.map */
 
 
-.degree-title{
+.programme-title{
   color:#000;
   text-transform: uppercase;
   white-space: nowrap;
   font-size: clamp(10px, 2vw, 27px); /* Mínimo 16px, adaptable con vw, máximo 24px */
   color: #fff;
-  padding-left: 12%;
+  padding-left: 12%programme-page;
   padding-right: 12%;
   font-weight: 1000;
 }
 
- .degree-page .degree-header {
+ .programme-page .programme-header {
   padding: 20px 0;
   width: 100%;
   background-color: var(--university_primary_color);
@@ -12882,43 +12882,43 @@ code {
   z-index: 1000;
 }
 
-.container-fluid-degree-band{
+.container-fluid-programme-band{
   overflow: auto !important;
   width: 100% !important;
 }
 
 
-.degree-page .degree-title-logo {
+.programme-page .programme-title-logo {
   display: flex;
   align-items: center;
 }
 
-.degree-page .degree-logo {
+.programme-page .degree-logo {
   height: 80px;
 }
 
 
 
-.degree-page .nav-tabs .nav-link {
+.programme-page .nav-tabs .nav-link {
   color: #333;
   margin: 0px;
 }
 
-.degree-page .nav-tabs .nav-link.active {
+.programme-page .nav-tabs .nav-link.active {
   background-color: #fff;
   border-color: #d9534f #d9534f #fff;
   color: #d9534f;
 }
 
-.degree-page .tab-content {
+.programme-page .tab-content {
   padding: 20px 0;
 }
 
-.degree-page .tab-content h2 {
+.programme-page .tab-content h2 {
   color: #d9534f;
 }
 
-.degree-page .tab-content p {
+.programme-page .tab-content p {
   margin: 10px 0;
 }
 
@@ -12927,14 +12927,14 @@ code {
 
 
 
-.degree-nav .nav.nav-tabs {
+.programme-nav .nav.nav-tabs {
   border-bottom: none !important; /* Asegúrate de usar !important para sobrescribir cualquier otro estilo */
 }
 
 
 
 
-.degree-nav .nav-link {
+.programme-nav .nav-link {
   color: black;
   background-color: white;
   border-radius: 0;
@@ -12944,12 +12944,12 @@ code {
   
 }
 
-.degree-nav .nav-link:hover {
+.programme-nav .nav-link:hover {
   color: white;
   background-color: black;
 }
 
-.degree-nav .nav-link.active {
+.programme-nav .nav-link.active {
   color: white !important;
   background-color: black !important;
   border: none
@@ -13160,7 +13160,7 @@ code {
 /*Para paxia de asignatura en detalle*/
 
 
-.degree-header-link {
+.programme-header-link {
   display: block;
   text-decoration: none;
   color: inherit;
@@ -13190,7 +13190,7 @@ code {
 }
 
 
-.degree-page .subject-header {
+.programme-page .subject-header {
   padding: 0.5% 0;
   width: 100%;
   padding-left: 12%;
@@ -13558,19 +13558,19 @@ code {
 
 
 
-.button-menu-degree{
+.button-menu-programme{
   background-color: #000;
   border-radius: 0;
   font-weight: bold;
   margin: 0! important;
 }
 
-.button-menu-degree:hover{
+.button-menu-programme:hover{
   background-color: #000;
   font-weight: bold;
 }
 
-.degree-menu .dropdown-item:hover{
+.programme-menu .dropdown-item:hover{
   background-color: #000;
   color: white;
   font-weight: bold;
@@ -13586,7 +13586,7 @@ p {
 }
 
 
-.degree-section {
+.programme-section {
   text-align: left !important;
 }
 
@@ -14040,6 +14040,7 @@ VISTA DE LISTA DE UNIVERSIDADES
   display: flex;
   align-items: center; /* Centrar verticalmente */
   justify-content: center;
+  z-index:2500;
   
 }
 
@@ -14081,6 +14082,8 @@ a.card.h-100 {
 .block-university-menu-block{
   width: 100%;
 }
+
+
 
 .block-dacem-menu-block{
   width: 100%;
@@ -14149,3 +14152,194 @@ a.card.h-100 {
   padding-right: 30px;
 
 }
+
+/******
+
+
+REFACT
+
+
+
+*****/
+
+
+/**
+VIEW IEC INFORMATION
+
+**/
+
+.programme-title{
+  color:#000;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-size: clamp(10px, 2vw, 27px); /* Mínimo 16px, adaptable con vw, máximo 24px */
+  color: #fff;
+  padding-left: 12%;
+  padding-right: 12%;
+  font-weight: 1000;
+}
+
+
+.programme-page .programme-header {
+  padding: 20px 0;
+  width: 100%;
+  background-color: var(--university_primary_color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+
+.programme-header-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+.iec-header {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0; /* Ajusta este valor para que no se superponga a .sticky-nav */
+  z-index: 999; /* Un poco menos que .sticky-nav */
+  background-color: black; /* Cambia según sea necesario */
+  color: white; /* Cambia según sea necesario */
+  padding: 10px 0; /* Ajusta el padding según sea necesario */
+}
+
+.iec-title {
+  margin: 0;
+  font-weight: bold;
+  white-space: nowrap;
+  font-size: clamp(12px, 2vw, 27px); /* Mínimo 16px, adaptable con vw, máximo 24px */
+}
+
+
+.programme-page .iec-header {
+  padding: 0.5% 0;
+  width: 100%;
+  padding-left: 12%;
+  
+}
+
+
+.programme-section {
+  text-align: left !important;
+}
+
+
+.programme-page .programme-header {
+  padding: 20px 0;
+  width: 100%;
+  background-color: var(--university_primary_color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+
+
+.programme-sidebar {
+  background-color: #373535; /* Gris claro */
+  border: 1px solid #ddd; /* Borde gris */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.programme-sidebar h3 {
+  font-size: 1.25rem; /* Tamaño de fuente */
+  margin-bottom: 15px; /* Espaciado inferior */
+}
+
+.programme-sidebar ul {
+  list-style-type: none; /* Sin viñetas */
+  padding: 0; /* Sin relleno */
+}
+
+.programme-sidebar ul li {
+  margin-bottom: 10px; /* Espaciado inferior */
+}
+
+.programme-sidebar p {
+  margin-bottom: 10px; /* Espaciado inferior */
+}
+
+
+
+/*
+
+INSTITUTION MENU
+
+*/
+
+.institution-dropdown {
+  position: relative;
+  display: inline-block;
+  z-index: 2000;
+  
+}
+
+.institution-toggle {
+  
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: black;
+  padding: 10px 15px;
+  display: inline-block;
+}
+
+.institution-toggle:hover {
+  color: black;
+  
+}
+
+.dropdown-arrow {
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.institution-dropdown .dropdown-menu {
+  background: white;
+  border: none;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  border-radius: 0;
+}
+
+.institution-dropdown .dropdown-menu a {
+  display: block;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: black;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.institution-dropdown .dropdown-menu a:hover {
+  background: #f5f5f5;
+}
+
+
+#block-b5subtheme-institutionmenublock{
+  width: 100%;
+  padding-left: 10%; /* Ajusta según tus necesidades */
+  padding-right: 12%; /* Ajusta según tus necesidades */
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+
+
+/**
+
+VIEW PROGRAMME INFORMATION
+
+
+**/
+

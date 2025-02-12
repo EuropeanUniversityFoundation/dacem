@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e168a63dfca0e99d8162c33af3ecb7b6",
+    "content-hash": "ae3fec047e2cfeb4b6acd5f47d1962bb",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3426,6 +3426,50 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/variationcache",
                 "issues": "https://drupal.org/project/issues/variationcache"
+            }
+        },
+        {
+            "name": "drupal/views_alias_filter",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/views_alias_filter.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/views_alias_filter-1.0.0.zip",
+                "reference": "1.0.0",
+                "shasum": "9934337a35bacddbf225adc37086730ece4e0edf"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.0",
+                    "datestamp": "1658680567",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "wombatbuddy",
+                    "homepage": "https://www.drupal.org/user/3547848"
+                }
+            ],
+            "description": "Provides exposed filter to filtering nodes by URL aliases.",
+            "homepage": "https://www.drupal.org/project/views_alias_filter",
+            "support": {
+                "source": "https://git.drupalcode.org/project/views_alias_filter"
             }
         },
         {
