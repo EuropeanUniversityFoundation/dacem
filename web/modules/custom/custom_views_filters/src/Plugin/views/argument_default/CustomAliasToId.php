@@ -13,27 +13,37 @@ use Drupal\views\Plugin\views\argument_default\ArgumentDefaultPluginBase;
  * )
  */
 class CustomAliasToId extends ArgumentDefaultPluginBase {
-  
-  /**
-   * Provide the default argument value.
-   *
-   * @return string|null
-   *   The node ID if the alias resolves to a node, or NULL otherwise.
-   */
   public function getArgument() {
-    // Get the current alias from the URL.
-    $current_alias = \Drupal::service('path.current')->getPath();
+    \Drupal::logger('custom_views_filters')->notice('Executing CustomAliasToId plugin');
     
-    // Resolve the alias to an internal path.
-    $internal_path = \Drupal::service('path_alias.manager')->getPathByAlias($current_alias);
+    $alias_manager = \Drupal::service('path_alias.manager');
+    $current_path = \Drupal::service('path.current')->getPath();
 
-    // Check if the internal path corresponds to a node.
-    if (strpos($internal_path, '/node/') === 0) {
-      // Extract and return the node ID.
-      return str_replace('/node/', '', $internal_path);
+    // 🔹 Extraer solo la parte final de la URL (nombre de la institución)
+    $path_parts = explode('/', trim($current_path, '/'));
+    
+    // 📌 Asegurar que haya al menos dos partes en la URL (/catalogue/university-vigo)
+    if (count($path_parts) < 2) {
+        \Drupal::logger('custom_views_filters')->warning('URL format incorrect, returning NULL');
+        return NULL;
     }
 
-    // Return NULL if the path does not resolve to a node.
+    // 📌 Tomar el último segmento como el alias de la institución
+    $alias_name = end($path_parts);
+
+    \Drupal::logger('custom_views_filters')->notice('Extracted alias: ' . $alias_name);
+
+    // 🔹 Resolver el alias a un nodo
+    $path = $alias_manager->getPathByAlias('/' . $alias_name);
+    \Drupal::logger('custom_views_filters')->notice('Resolved Path: ' . $path);
+
+    if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
+        \Drupal::logger('custom_views_filters')->notice('Converted alias to node ID: ' . $matches[1]);
+        return (int) $matches[1];
+    }
+
+    \Drupal::logger('custom_views_filters')->warning('Alias conversion failed, returning NULL');
     return NULL;
-  }
+}
+
 }

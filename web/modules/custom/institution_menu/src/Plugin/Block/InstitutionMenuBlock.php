@@ -99,23 +99,51 @@ class InstitutionMenuBlock extends BlockBase
 
         $build = [];
         $node_id = \Drupal::routeMatch()->getParameter('arg_0');
+
+        if (!is_numeric($node_id)) {
+            // Obtiene la ruta interna asociada al alias
+            $path = \Drupal::service('path_alias.manager')->getPathByAlias('/' . $node_id);
+
+
+
+            $alias_manager = \Drupal::service('path_alias.manager');
+            $path = $alias_manager->getPathByAlias('/' . $node_id);
+            dump($path);
+            //dump($path);
+            \Drupal::logger('custom_views_filters')->notice('Resolved Path: ' . $path);
+
+            if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
+                //dump('dentro if preg_math');
+                $node_id = (int) $matches[1];
+            
+            }
+
+        }
+
         $current_node = \Drupal\node\Entity\Node::load($node_id);
         //dump($current_node);
+        //$current_node = \Drupal::routeMatch()->getParameter('node');
+
+        ////dump($current_node);
         //dump(\Drupal::routeMatch()->getRouteName());
         //dump(\Drupal::routeMatch()->getParameters()->all());
 
 
         if ($current_node instanceof NodeInterface) {
-
-            //dump('if node interface');
+           
+            //dump($current_node);
+            
 
 
 
             $node_type = $current_node->bundle();
+            //dump($node_type);
             $institution = null;
 
             if ($node_type == 'institution') {
                 $institution = $current_node;
+                //dump('dentro if node type igual institution');
+                //dump($institution);
             } elseif ($node_type == 'programme') {
                 $institution = $current_node->get('field_programme_institution')->entity;
             } elseif ($node_type == 'individual_educational_component') {
@@ -250,7 +278,7 @@ class InstitutionMenuBlock extends BlockBase
             $current_user = \Drupal::currentUser();
             if ($current_user->isAuthenticated() && $current_user->id() != 0) {
                 $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
-                //dump($current_user->id());      // Cargar la entidad del usuario
+                ////dump($current_user->id());      // Cargar la entidad del usuario
                 $user = User::load($current_user->id());
 
                 // Verificar si tiene una foto de perfil

@@ -1,0 +1,57 @@
+<?php
+
+use Drupal\views\ViewExecutable;
+use Drupal\views\Plugin\views\query\Sql;
+
+/**
+ * Implements hook_views_query_alter().
+ * Modifies the query to replace the alias of the university with its node ID.
+ */
+function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query) {
+    
+    
+    // Solo alteramos la consulta de la vista 'institution_catalogue'
+    if ($view->id() === 'institution_catalogue' && $view->current_display === 'page_1') {
+        
+
+        // 🔹 Obtener el argumento actual de la vista (el alias de la universidad)
+        $args = $view->args;
+        
+        if (empty($args[0])) {
+            return;
+        }
+        
+        $alias_name = $args[0]; // Ejemplo: "university-vigo"
+
+        // 🔹 Obtener el ID del nodo a partir del alias
+        $alias_manager = \Drupal::service('path_alias.manager');
+        $path = $alias_manager->getPathByAlias('/' . $alias_name);
+        
+
+        if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
+            
+            $node_id = (int) $matches[1];
+           
+            // 🔹 Modificar la consulta reemplazando el alias con el ID
+            $where_conditions = &$query->where;
+
+            //dump($where_conditions);
+          
+            foreach ($where_conditions as &$condition_group) {
+                
+                foreach ($condition_group['conditions'] as &$condition) {
+                    if (isset($condition['field']) && strpos($condition['field'], 'node_field_data.nid') !== false) {
+                        \Drupal::logger('custom_views_filters')->notice('Replacing :node_field_data_nid with ' . $node_id);
+                        //dump('dentro if isset');
+                        // Modificar el valor del parámetro SQL
+                        $condition['value'][':node_field_data_nid'] = $node_id;
+                        //dump($condition['value'][':node_field_data_nid']);
+                    }
+
+                }
+            }
+        } else {
+            
+        }
+    }
+}
