@@ -4,6 +4,8 @@
 
 {{ attach_library('b5subtheme/university_carousel') }}
 
+{% set current_language = view.result[0].node_field_data_langcode %}
+
 
 <div class="image-banner">
 	<img src="/themes/custom/b5subtheme/images/panoramic_uni6.jpg" alt="Study in Europe">
@@ -38,9 +40,8 @@
 						<div class="col-12 col-md-4">
 						
 							{{dump(row._entity.path.alias)}}
-							<a href="{{ path('view.general_information.page_1', {'arg_0': row._entity.id}) }}" class="card h-100">
-
-								
+							<a href="{{ path('view.general_information.page_1', {'arg_0': row._entity.path.alias|replace({'/': ''})}) }}" class="card h-100">
+	
 									{% set media_entity = row._entity.field_picture.entity %}
 
 									{% set file_entity = media_entity.field_media_image.entity %}

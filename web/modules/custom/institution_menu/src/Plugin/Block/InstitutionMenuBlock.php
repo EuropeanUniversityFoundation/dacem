@@ -34,6 +34,9 @@ class InstitutionMenuBlock extends BlockBase
     {
 
 
+        dump('institutio-menu');
+
+
         $translations = [
             'en' => [
                 'INSTITUTIONAL INFORMATION' => 'INSTITUTIONAL INFORMATION',
@@ -100,50 +103,49 @@ class InstitutionMenuBlock extends BlockBase
         $build = [];
         $node_id = \Drupal::routeMatch()->getParameter('arg_0');
 
+
         if (!is_numeric($node_id)) {
+
+            
             // Obtiene la ruta interna asociada al alias
             $path = \Drupal::service('path_alias.manager')->getPathByAlias('/' . $node_id);
-
-
-
-            $alias_manager = \Drupal::service('path_alias.manager');
-            $path = $alias_manager->getPathByAlias('/' . $node_id);
-            dump($path);
-            //dump($path);
-            \Drupal::logger('custom_views_filters')->notice('Resolved Path: ' . $path);
-
+        
+            // Verifica si la ruta interna es de tipo nodo (/node/{nid})
             if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
-                //dump('dentro if preg_math');
-                $node_id = (int) $matches[1];
-            
+                $node_id = $matches[1]; // Obtiene el ID del nodo
+            } else {
+                // Si no es un alias válido, salimos
+                dump("No se encontró un nodo para el alias: " . $node_id);
+                return [];
             }
-
+            
+            //$current_node = \Drupal::routeMatch()->getParameter('node');
+            $current_node = \Drupal\node\Entity\Node::load($node_id);
+            //dump($current_node);
+        } else {
+            $current_node = \Drupal\node\Entity\Node::load($node_id);
         }
 
-        $current_node = \Drupal\node\Entity\Node::load($node_id);
-        //dump($current_node);
+
         //$current_node = \Drupal::routeMatch()->getParameter('node');
 
-        ////dump($current_node);
+        //dump($current_node);
         //dump(\Drupal::routeMatch()->getRouteName());
         //dump(\Drupal::routeMatch()->getParameters()->all());
 
 
         if ($current_node instanceof NodeInterface) {
-           
             //dump($current_node);
-            
+            dump('if node interface');
 
 
 
             $node_type = $current_node->bundle();
-            //dump($node_type);
             $institution = null;
 
             if ($node_type == 'institution') {
+                dump('node type insitution');
                 $institution = $current_node;
-                //dump('dentro if node type igual institution');
-                //dump($institution);
             } elseif ($node_type == 'programme') {
                 $institution = $current_node->get('field_programme_institution')->entity;
             } elseif ($node_type == 'individual_educational_component') {
@@ -181,6 +183,7 @@ class InstitutionMenuBlock extends BlockBase
 
         if (!empty($institution)) {
 
+            dump('if not empty institution');
 
 
             $logo_url = '';
@@ -210,6 +213,7 @@ class InstitutionMenuBlock extends BlockBase
             $language_manager = \Drupal::service('language_manager');
             //$current_language = $language_manager->getCurrentLanguage()->getId();
             $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+            //dump($current_language);
 
             // Generar la URL de la universidad en el idioma actual
             $institution_url = $institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
@@ -257,8 +261,23 @@ class InstitutionMenuBlock extends BlockBase
 
 
             $alias_manager = \Drupal::service('path_alias.manager');
-            // Obtén el alias del nodo en el idioma actual. Niste caso é asi porque temos que para que mostre unha universidad se mostre desta forma directamente.
-            $catalogue_url = $alias_manager->getAliasByPath('/node/' . $institution->id(), \Drupal::languageManager()->getCurrentLanguage()->getId());
+
+
+            // Obtener el alias de la institución en el idioma actual
+            $institution_alias = $alias_manager->getAliasByPath('/node/' . $institution->id(), $current_language);
+
+            // Obtener el prefijo de idioma actual (ejemplo: "/en" o "/es")
+            $language_prefix = '/' . $current_language;
+
+            // Asegurar que el alias no contenga el prefijo del idioma duplicado
+            if (strpos($institution_alias, $language_prefix) === 0) {
+                $institution_alias = substr($institution_alias, strlen($language_prefix));
+            }
+
+            // Construir la URL con el formato correcto
+            $catalogue_url = $language_prefix . '/catalogue' . $institution_alias;
+
+            $general_info_url = $language_prefix . '/general-information' . $institution_alias;
 
 
             // Genera la URL con el idioma activo.
@@ -278,7 +297,7 @@ class InstitutionMenuBlock extends BlockBase
             $current_user = \Drupal::currentUser();
             if ($current_user->isAuthenticated() && $current_user->id() != 0) {
                 $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
-                ////dump($current_user->id());      // Cargar la entidad del usuario
+
                 $user = User::load($current_user->id());
 
                 // Verificar si tiene una foto de perfil

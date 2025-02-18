@@ -40,10 +40,12 @@ function b5subtheme_preprocess_page(&$variables)
 {
 
 
+
   // Verifica si estamos en la ruta deseada.
-  if (\Drupal::routeMatch()->getRouteName() === 'view.general_information.page_1') {
+  /*if (\Drupal::routeMatch()->getRouteName() === 'view.general_information.page_1') {
     // Obtén el idioma actual.
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+    dump($current_language);
     // Obtén el nodo pasado como argumento a la vista.
     $arg_0 = \Drupal::routeMatch()->getParameter('arg_0');
     if ($arg_0 && is_numeric($arg_0)) {
@@ -51,9 +53,11 @@ function b5subtheme_preprocess_page(&$variables)
       $node = \Drupal\node\Entity\Node::load($arg_0);
 
       if ($node && $node->hasTranslation($current_language)) {
+        dump('dentro if');
       
         // Carga la traducción activa del nodo.
         $translated_node = $node->getTranslation($current_language);
+        dump($translated_node);
         // Pasa el nodo traducido a las plantillas Twig.
         //dump($translated_node);
         $variables['university'] = $translated_node;
@@ -83,7 +87,7 @@ function b5subtheme_preprocess_page(&$variables)
 
       }
     }
-  }
+  }*/
 
 
 
@@ -184,19 +188,17 @@ function b5subtheme_preprocess_views_view(&$variables)
 
   if ($variables['view']->id() == 'institution_catalogue') {
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-    
+
     $grouped_carreras = [];
 
-    
+
+
     foreach ($variables['view']->result as $row) {
-      
-      // Accede a la universidad principal.
-      $universidad = $row->_entity;
-      
+
 
       // Accede a las carreras relacionadas desde la relación inversa.
       if (isset($row->_relationship_entities['reverse__node__field_programme_institution'])) {
-        
+
         $carrera = $row->_relationship_entities['reverse__node__field_programme_institution'];
 
 
@@ -205,6 +207,20 @@ function b5subtheme_preprocess_views_view(&$variables)
         } else {
           $carrera_translated = $carrera; // Usa la carrera en su idioma original.
         }
+
+        // Accede a la universidad principal.
+        $institution = $row->_entity;
+
+
+        // Obtener el alias del programa en el idioma actual
+        $programme_alias = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $carrera_translated->id(), $current_language);
+
+        // Obtener el código del idioma actual
+        $language_prefix = '/' . \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
+        // Construir la URL con el formato deseado
+        $url = $language_prefix . '/catalogue/' . trim($programme_alias, '/');
+
 
         // Valida si la entidad tiene un ID válido.
         if ($carrera_translated && $carrera_translated->id()) {
@@ -215,12 +231,9 @@ function b5subtheme_preprocess_views_view(&$variables)
           //dump('/catalogue' . $carrera_translated->toUrl()->toString());
           $grouped_carreras[$area][] = [
             'title' => $carrera_translated->getTitle(),
-            'url' => Url::fromRoute('view.programme_information.page_1', [
-              'arg_0' => $carrera_translated->id(),
-              'arg_1' => 333,
-          ])->toString(),
-          
-            
+            'url' => $url,
+
+
           ];
         }
       }
@@ -232,7 +245,7 @@ function b5subtheme_preprocess_views_view(&$variables)
         return strcmp($a['title'], $b['title']);
       });
     }
-    
+
 
     // Pasa las carreras agrupadas a la plantilla.
     $variables['grouped_carreras'] = $grouped_carreras;

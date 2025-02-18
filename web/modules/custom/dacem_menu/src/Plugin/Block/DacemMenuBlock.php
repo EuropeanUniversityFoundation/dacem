@@ -33,7 +33,7 @@ class DacemMenuBlock extends BlockBase
     //dump($route_name);
     // Lista de rutas donde el bloque debe aparecer.
     $allowed_routes = [
-      'view.lista_de_universidades.page_1', // Reemplaza con la ruta real de la vista.
+      'view.main_page.page_1', // Reemplaza con la ruta real de la vista.
       'admin_area.my_area',   // Otra vista donde quieres mostrar el bloque.
       'about',
     ];

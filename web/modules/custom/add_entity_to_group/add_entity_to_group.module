@@ -2,7 +2,7 @@
 use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupContent;
 use Drupal\node\Entity\Node;
-
+use Drupal\Core\Language\LanguageInterface;
 
 
 
@@ -11,9 +11,9 @@ use Drupal\node\Entity\Node;
  */
 function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
 {
-  
 
-  
+
+
   // Casos para carreras.
   if ($form_id === 'node_carrera_form') {
     // Determinar la operación actual.
@@ -28,7 +28,7 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
   // Casos para asignaturas.
   if ($form_id === 'node_asignatura_form') {
     // Determinar la operación actual.
-  $operation = $form_state->getFormObject()->getOperation();
+    $operation = $form_state->getFormObject()->getOperation();
     if ($operation === 'default') {
       _alter_create_asignatura_form($form, $form_state);
     } elseif ($operation === 'edit') {
@@ -40,7 +40,7 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
   // Casos para asignaturas.
   if ($form_id === 'node_asignatura_form') {
     // Determinar la operación actual.
-  $operation = $form_state->getFormObject()->getOperation();
+    $operation = $form_state->getFormObject()->getOperation();
     if ($operation === 'default') {
       _alter_create_asignatura_form($form, $form_state);
     } elseif ($operation === 'edit') {
@@ -55,18 +55,18 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
 function _alter_create_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
 {
   //\Drupal::messenger()->addMessage('Hook add entity to group alter create carrera form ****************************');
-  
-        
-        
-        
-  
-  
+
+
+
+
+
+
   if (isset($form['field_universidad'])) {
     // Obtener el ID de la carrera desde la URL (si está presente).
     $universidad_id = \Drupal::request()->query->get('field_universidad');
-    
+
     if (isset($form['uid'])) {
-      
+
       $form['uid']['#access'] = TRUE;
       $form['uid']['#disabled'] = FALSE; // Asegúrate de que el campo no esté bloqueado.
     }
@@ -78,7 +78,7 @@ function _alter_create_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface
         // Preseleccionar la carrera y deshabilitar el campo.
         $form['field_universidad']['widget'][0]['target_id']['#default_value'] = $universidad;
         $form['field_universidad']['widget'][0]['target_id']['#disabled'] = TRUE; // Deshabilitar el campo.
-        
+
         //\Drupal::messenger()->addMessage(t('Universidad preseleccionada: @name', ['@name' => $universidad->label()]));
         return; // Salir, ya que la carrera fue configurada correctamente.
       }
@@ -116,7 +116,8 @@ function _alter_edit_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $
 /**
  * Altera el formulario al crear una asignatura.
  */
-function _alter_create_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+function _alter_create_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
+{
   // Verificar si el campo field_carrera existe en el formulario.
   //\Drupal::messenger()->addMessage(t('El campo de asdfasdfasdffaasdsdfautor esasdfasdfasdtasdfasdfasdfá habasdfasdfilitado.'));
   if (isset($form['uid'])) {
@@ -430,7 +431,7 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
       // Si se encontraron carreras y existe el campo `field_carrera`.
       if (!empty($carrera_options) && isset($form['field_carrera'])) {
         // Mensaje de depuración para verificar las opciones encontradas.
-        
+
 
         // Configurar el campo como una lista desplegable.
         $default_value = key($carrera_options); // Obtener la primera carrera como valor predeterminado.
@@ -510,26 +511,57 @@ function add_entity_to_group_preprocess_block(&$variables)
 }
 
 
-function add_entity_to_group_preprocess_views_view(&$variables) {
+function add_entity_to_group_preprocess_views_view(&$variables)
+{
   if ($variables['view']->id() === 'programme_information') {
     foreach ($variables['view']->result as &$row) {
       // Asegúrate de que estamos procesando asignaturas relacionadas.
       if (!empty($row->_relationship_entities['reverse__node__field_iec_programme'])) {
-        
+
         $subject = $row->_relationship_entities['reverse__node__field_iec_programme'];
-        
+
         if ($subject instanceof Node) {
-          
-          $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+          $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
           if ($subject->hasTranslation($current_language)) {
             // Si la asignatura tiene traducción al idioma actual.
             $translated_subject = $subject->getTranslation($current_language);
-            $row->custom_url = $translated_subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
+            //$row->custom_url = $translated_subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
+
+
+            $translated_url = $translated_subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
+
+            // Extraer el idioma desde la URL original
+            $language_prefix = '/' . \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+            // Eliminar el prefijo del idioma si ya está presente en la URL original
+            if (strpos($translated_url, $language_prefix) === 0) {
+              $translated_url = substr($translated_url, strlen($language_prefix));
+            }
+
+            // Construir la nueva URL con el formato correcto
+            $row->custom_url = $language_prefix . '/catalogue' . $translated_url;
+
+
           } else {
             // Si no tiene traducción, usar el idioma original de la asignatura.
             $original_language = $subject->language()->getId();
-            $row->custom_url = $subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
+            //$row->custom_url = $subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
+            $translated_url = $translated_subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
+
+            // Extraer el idioma desde la URL original
+            $language_prefix = '/' . \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+            // Eliminar el prefijo del idioma si ya está presente en la URL original
+            if (strpos($translated_url, $language_prefix) === 0) {
+              $translated_url = substr($translated_url, strlen($language_prefix));
+            }
+
+            // Construir la nueva URL con el formato correcto
+            $row->custom_url = $language_prefix . '/catalogue' . $translated_url;
+
+
           }
         }
       }

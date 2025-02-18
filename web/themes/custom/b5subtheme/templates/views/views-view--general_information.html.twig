@@ -2,10 +2,17 @@
 
 {% set institution = view.result[0]._entity %}
 
+
 {% set university_primary_color = institution.field_primary_color[0].color %}
 {% set university_text_color = institution.field_text_color[0].color %}
 {% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
 
+{% set current_language = view.result[0].node_field_data_langcode %}
+
+{% if institution.hasTranslation(current_language) %}
+	{% set institution = institution.getTranslation(current_language) %}
+
+{% endif %}
 
 <style>:root
 {
@@ -15,8 +22,11 @@
 	;
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
-}</style><div class="university-menu-block">
-{{ page.header }}</div><div class="university-banner">
+}</style>
+{#
+<div class="university-menu-block">
+{{ page.header }}</div>#}
+<div class="university-banner">
 {% if institution.field_picture is not empty %}
 	{% set media_entity = institution.field_picture.entity %}
 	{% if media_entity is not empty %}
@@ -50,13 +60,14 @@
 
 			<!-- Mostrar la información -->
 			{% set current_language = institution.langcode.value %}
+			
 			<div class='row'>
 				<div class='col 12 col-lg-7'>
-					{% if institution.field_informacion.value is not empty %}
+					{% if institution.field_information.value is not empty %}
 						<br><br>
 						<div class="university-info">
 
-							<p>{{ institution.field_informacion.value }}</p>
+							<p>{{ institution.field_information.value }}</p>
 						</div>
 					{% else %}
 						<p>
