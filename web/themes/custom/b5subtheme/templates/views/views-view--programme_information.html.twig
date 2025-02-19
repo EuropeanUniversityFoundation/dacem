@@ -18,7 +18,7 @@
 {#{% set current_current_language = view.result[0].node_field_data_langcode %}#}
 
 {% set current_language = view.result[0].node_field_data_langcode %}
-
+{{dump(view.result)}}
 
 {# Verificar si la entidad tiene una traducción en el idioma de la URL #}
 	{% if entity.hasTranslation(current_language) %}
@@ -375,6 +375,8 @@
 										</thead>
 										<tbody>
 											{% for row in view.result %}
+
+											
                                                 
 												{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
                                                 
@@ -398,8 +400,8 @@
 
 														<td>
 
-															<a href="{{ path('entity.node.canonical', {'node': translated_iec.id()}) }}">
-                                                               
+															<!--<a href="{{ path('entity.node.canonical', {'node': translated_iec.id()}) }}">-->
+																<a href="{{ row.custom_url }}">
 																{{ translated_iec.title.value }}
 															</a>
 														</td>
@@ -471,7 +473,8 @@
 													</td>
 
 													<td>
-														<a href="{{ row.custom_url }}">
+													{{dump(row)}}
+														<a href="/{{ row.custom_url }}">
 															{{ translated_iec.title.value }}
 														</a>
 													</td>

@@ -4,12 +4,10 @@
 
 {{ attach_library('b5subtheme/catalogue_buttons') }}
 
-{{dump(grouped_carreras)}}
-
 {# Obtener la entidad de contenido desde la vista #}
 {% set entity = view.result[0]._entity %}
 
-{{dump(view.result)}}
+
 
 {% set current_language = view.result[0].node_field_data_langcode %}
 

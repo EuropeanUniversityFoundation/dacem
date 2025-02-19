@@ -27,14 +27,75 @@ class InstitutionMenuBlock extends BlockBase
 
 
 
+    protected function getNodeFromAlias($alias, $langcode = NULL)
+    {
+        $alias_manager = \Drupal::service('path_alias.manager');
+
+        // Obtener el path interno en el idioma deseado
+        $internal_path = $alias_manager->getPathByAlias($alias, $langcode);
+
+        if (preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
+            $node = \Drupal\node\Entity\Node::load((int) $matches[1]);
+
+            // Verificar si hay una traducción disponible y cargarla
+            if ($langcode && $node->hasTranslation($langcode)) {
+                return $node->getTranslation($langcode);
+            }
+
+            return $node;
+        }
+
+        return NULL;
+    }
+
+
     /**
      * {@inheritdoc}
      */
     public function build()
     {
 
+        $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+        //dump('institutio-menu');
 
-        dump('institutio-menu');
+
+        // Imagen y menú desplegable de usuario
+        $current_user = \Drupal::currentUser();
+        if ($current_user->isAuthenticated() && $current_user->id() != 0) {
+            $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
+
+            $user = User::load($current_user->id());
+
+            // Verificar si tiene una foto de perfil
+            if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
+                $file = File::load($user->get('user_picture')->target_id);
+                if ($file) {
+                    $profile_picture_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+                }
+            }
+
+            // Si no hay imagen, asignar una imagen predeterminada
+            if (!$profile_picture_url) {
+                $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
+            }
+
+            // Generar el HTML de la imagen
+            $profile_html = '
+    <div class="user-profile-container dropdown ms-3">
+        <a href="#" id="userProfileDropdown" class="dropdown-toggle user-profile-link" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="' . $profile_picture_url . '" alt="Profile Picture" class="user-profile-circle">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
+            <li><a class="dropdown-item user-menu-item" href="/user">My Profile</a></li>
+            <li><a class="dropdown-item user-menu-item" href="/my-area">My Area</a></li>
+            <li><a class="dropdown-item user-menu-item" href="/user/logout">Logout</a></li>
+        </ul>
+    </div>';
+
+        } else {
+            // Si el usuario es anónimo, no se renderiza la imagen
+            $profile_html = '';
+        }
 
 
         $translations = [
@@ -101,55 +162,109 @@ class InstitutionMenuBlock extends BlockBase
 
 
         $build = [];
-        $node_id = \Drupal::routeMatch()->getParameter('arg_0');
+        $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+        //dump(\Drupal::routeMatch()->getParameters());
+
+        $current_path = \Drupal::service('path.current')->getPath();
+        //dump($current_path);
+        $current_path_aux = preg_replace('#^/[^/]+/#', '/', $current_path);
+        //dump($current_path_aux);
+        $current_node_aux = $this->getNodeFromAlias($current_path_aux, $current_language);
+        dump($current_node_aux->bundle());
 
 
-        if (!is_numeric($node_id)) {
 
+        $current_route = \Drupal::routeMatch()->getRouteName();
+        $current_page='';
+
+            if ($current_route === 'view.general_information.page_1') {
+                $current_page='general-information';
+                // Obtén el ID de la universidad desde el argumento de la URL.
+                $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+                $institution = \Drupal\node\Entity\Node::load($institution_id);
+            } elseif ($current_route === 'view.institution_catalogue.page_1') {
+                $current_page='catalogue';
+                // Si la ruta es de la vista, obtén la universidad desde el argumento.
+                $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+                if ($institution_id) {
+                    $institution = \Drupal\node\Entity\Node::load($institution_id);
+                }
+            } elseif ($current_route === 'view.resources_and_services.page_1') {
+                $current_page='resources-and-services';
+                $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+                $institution = \Drupal\node\Entity\Node::load($institution_id);
+            }
+
+
+        /*
+        if (!is_numeric($institution_id)) {
             
+            $url_aux = null;
+
+            if(\Drupal::routeMatch()->getParameter('arg_2') != null){
+                $url_aux = '/'. $current_language . '/' . \Drupal::routeMatch()->getParameter('arg_0') . '/' . \Drupal::routeMatch()->getParameter('arg_1') . '/' .\Drupal::routeMatch()->getParameter('arg_2');
+    
+            }else if(\Drupal::routeMatch()->getParameter('arg_1') != null){
+                //dump('asñdkfjañslkdfjañsdklfj');
+                $url_aux = '/'. $current_language . '/' . \Drupal::routeMatch()->getParameter('arg_0') . '/' . \Drupal::routeMatch()->getParameter('arg_1');
+    
+                
+            }else if(\Drupal::routeMatch()->getParameter('arg_0') != null){
+                $url_aux = '/'. $current_language . '/' . \Drupal::routeMatch()->getParameter('arg_0');
+    
+    
+            }
+            //dump('url_aux auuuux');
+            //dump($url_aux);
+
+            //dump($current_language);
             // Obtiene la ruta interna asociada al alias
-            $path = \Drupal::service('path_alias.manager')->getPathByAlias('/' . $node_id);
+            $path = \Drupal::service('path_alias.manager')->getPathByAlias('/' . $institution_id, $current_language);
+
         
             // Verifica si la ruta interna es de tipo nodo (/node/{nid})
             if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
-                $node_id = $matches[1]; // Obtiene el ID del nodo
+                $institution_id = $matches[1]; // Obtiene el ID del nodo
             } else {
                 // Si no es un alias válido, salimos
-                dump("No se encontró un nodo para el alias: " . $node_id);
+                //dump("No se encontró un nodo para el alias: " . $institution_id);
                 return [];
             }
             
-            //$current_node = \Drupal::routeMatch()->getParameter('node');
-            $current_node = \Drupal\node\Entity\Node::load($node_id);
-            //dump($current_node);
+            //$current_institution = \Drupal::routeMatch()->getParameter('node');
+            $current_institution = \Drupal\node\Entity\Node::load($institution_id);
+            ////dump($current_institution);
         } else {
-            $current_node = \Drupal\node\Entity\Node::load($node_id);
-        }
+            $current_institution = \Drupal\node\Entity\Node::load($institution_id);
+        }*/
 
 
-        //$current_node = \Drupal::routeMatch()->getParameter('node');
+        //$current_institution = \Drupal::routeMatch()->getParameter('node');
 
-        //dump($current_node);
-        //dump(\Drupal::routeMatch()->getRouteName());
-        //dump(\Drupal::routeMatch()->getParameters()->all());
-
-
-        if ($current_node instanceof NodeInterface) {
-            //dump($current_node);
-            dump('if node interface');
+        ////dump($current_institution);
+        ////dump(\Drupal::routeMatch()->getRouteName());
+        ////dump(\Drupal::routeMatch()->getParameters()->all());
 
 
+        if ($current_node_aux instanceof NodeInterface) {
+            ////dump($current_institution);
+            //dump('if node interface');
 
-            $node_type = $current_node->bundle();
+            
+
+            $node_type = $current_node_aux->bundle();
+            //dump('if node interface');
+            //dump($node_type);
+
             $institution = null;
 
             if ($node_type == 'institution') {
-                dump('node type insitution');
-                $institution = $current_node;
+                //dump('node type insitution');
+                $institution = $current_node_aux;
             } elseif ($node_type == 'programme') {
-                $institution = $current_node->get('field_programme_institution')->entity;
+                $institution = $current_node_aux->get('field_programme_institution')->entity;
             } elseif ($node_type == 'individual_educational_component') {
-                $programme = $current_node->get('field_iec_programme')->entity;
+                $programme = $current_node_aux->get('field_iec_programme')->entity;
                 if ($programme) {
                     $institution = $programme->get('field_programme_institution')->entity;
                 }
@@ -157,7 +272,9 @@ class InstitutionMenuBlock extends BlockBase
 
         } else {
 
-
+            ///////
+            //////ELIMINAR POSIBLEMENTE ISTE ELSE
+            //////
 
             $current_route = \Drupal::routeMatch()->getRouteName();
 
@@ -183,7 +300,7 @@ class InstitutionMenuBlock extends BlockBase
 
         if (!empty($institution)) {
 
-            dump('if not empty institution');
+            //dump('if not empty institution');
 
 
             $logo_url = '';
@@ -209,15 +326,17 @@ class InstitutionMenuBlock extends BlockBase
 
             }
 
+
+
             // Obtener el idioma actual
             $language_manager = \Drupal::service('language_manager');
             //$current_language = $language_manager->getCurrentLanguage()->getId();
             $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-            //dump($current_language);
+            ////dump($current_language);
 
             // Generar la URL de la universidad en el idioma actual
             $institution_url = $institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
-
+            //dump($institution_url);
             // Generar URLs de cambio de idioma
             $languages = $language_manager->getLanguages();
             $language_options = '';
@@ -236,12 +355,37 @@ class InstitutionMenuBlock extends BlockBase
             ];
 
             foreach ($languages as $language) {
+
+
+
+
+
+                $alias_manager = \Drupal::service('path_alias.manager');
+
+                // Obtener el alias de la institución en el idioma actual
+                //$institution_alias = $alias_manager->getAliasByPath('/node/' . $current_institution->id(), $language->getId());
+                //dump($institution_alias);
+                // Obtener el prefijo de idioma actual (ejemplo: "/en" o "/es")
+                $language_prefix = '/' . $language->getId();
+
+                // Asegurar que el alias no contenga el prefijo del idioma duplicado
+
                 $langcode = $language->getId();
+                ////dump($langcode);
                 $abbreviation = strtoupper($langcode); // Convertir el código del idioma a mayúsculas
 
                 //$url = Url::fromRoute('<current>', [], ['language' => $language]);
-                $url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
+                //$url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
+                $url = '';
+                if ($current_node_aux->hasTranslation($language->getId())) {
+                    $url = '/' . $langcode . '/' . $current_page . $alias_manager->getAliasByPath('/node/' . $current_node_aux->id(), $language->getId());
+                } else {
+                    $url = '/en/' . $current_page . $alias_manager->getAliasByPath('/node/' . $current_node_aux->id(), 'en');
+                }
 
+                //$url = '/' . $langcode . '/catalogue' .  $alias_manager->getAliasByPath('/node/' . $current_node_aux->id(), $language->getId());
+                dump($url);
+                //dump($url);
                 $flag = $flags[$langcode] ?? ''; // Asegurarse de tener un icono
 
                 $language_options .= '
@@ -293,43 +437,7 @@ class InstitutionMenuBlock extends BlockBase
 
 
 
-            // Imagen y menú desplegable de usuario
-            $current_user = \Drupal::currentUser();
-            if ($current_user->isAuthenticated() && $current_user->id() != 0) {
-                $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
 
-                $user = User::load($current_user->id());
-
-                // Verificar si tiene una foto de perfil
-                if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
-                    $file = File::load($user->get('user_picture')->target_id);
-                    if ($file) {
-                        $profile_picture_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
-                    }
-                }
-
-                // Si no hay imagen, asignar una imagen predeterminada
-                if (!$profile_picture_url) {
-                    $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
-                }
-
-                // Generar el HTML de la imagen
-                $profile_html = '
-        <div class="user-profile-container dropdown ms-3">
-            <a href="#" id="userProfileDropdown" class="dropdown-toggle user-profile-link" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="' . $profile_picture_url . '" alt="Profile Picture" class="user-profile-circle">
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userProfileDropdown">
-                <li><a class="dropdown-item user-menu-item" href="/user">My Profile</a></li>
-                <li><a class="dropdown-item user-menu-item" href="/my-area">My Area</a></li>
-                <li><a class="dropdown-item user-menu-item" href="/user/logout">Logout</a></li>
-            </ul>
-        </div>';
-
-            } else {
-                // Si el usuario es anónimo, no se renderiza la imagen
-                $profile_html = '';
-            }
 
             $institutions = \Drupal::entityTypeManager()
                 ->getStorage('node')

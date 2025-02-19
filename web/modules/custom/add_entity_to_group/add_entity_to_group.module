@@ -513,6 +513,7 @@ function add_entity_to_group_preprocess_block(&$variables)
 
 function add_entity_to_group_preprocess_views_view(&$variables)
 {
+  /*
   if ($variables['view']->id() === 'programme_information') {
     foreach ($variables['view']->result as &$row) {
       // Asegúrate de que estamos procesando asignaturas relacionadas.
@@ -566,7 +567,7 @@ function add_entity_to_group_preprocess_views_view(&$variables)
         }
       }
     }
-  }
+  }*/
 }
 
 

@@ -40,7 +40,7 @@
 						<div class="col-12 col-md-4">
 						
 							{{dump(row._entity.path.alias)}}
-							<a href="{{ path('view.general_information.page_1', {'arg_0': row._entity.path.alias|replace({'/': ''})}) }}" class="card h-100">
+							<a href="/{{ row.custom_url }}" class="card h-100">
 	
 									{% set media_entity = row._entity.field_picture.entity %}
 
