@@ -1,6 +1,4 @@
-{{dump('main-page view')}}
 
-{{dump(view.result)}}
 
 {{ attach_library('b5subtheme/university_carousel') }}
 
@@ -39,7 +37,6 @@
 						<!-- Tarjeta de la universidad -->
 						<div class="col-12 col-md-4">
 						
-							{{dump(row._entity.path.alias)}}
 							<a href="/{{ row.custom_url }}" class="card h-100">
 	
 									{% set media_entity = row._entity.field_picture.entity %}

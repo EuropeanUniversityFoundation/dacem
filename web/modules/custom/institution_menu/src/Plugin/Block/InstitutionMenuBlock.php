@@ -170,7 +170,7 @@ class InstitutionMenuBlock extends BlockBase
         $current_path_aux = preg_replace('#^/[^/]+/#', '/', $current_path);
         //dump($current_path_aux);
         $current_node_aux = $this->getNodeFromAlias($current_path_aux, $current_language);
-        dump($current_node_aux->bundle());
+        //dump($current_node_aux->bundle());
 
 
 
@@ -384,7 +384,7 @@ class InstitutionMenuBlock extends BlockBase
                 }
 
                 //$url = '/' . $langcode . '/catalogue' .  $alias_manager->getAliasByPath('/node/' . $current_node_aux->id(), $language->getId());
-                dump($url);
+                //dump($url);
                 //dump($url);
                 $flag = $flags[$langcode] ?? ''; // Asegurarse de tener un icono
 
