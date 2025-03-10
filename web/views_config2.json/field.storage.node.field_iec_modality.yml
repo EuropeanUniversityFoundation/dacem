@@ -1,0 +1,27 @@
+uuid: 0c8c86dc-57e0-425e-a39c-f04206ce2c11
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_iec_modality
+field_name: field_iec_modality
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: online
+      label: Online
+    -
+      value: in_person
+      label: 'In person'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

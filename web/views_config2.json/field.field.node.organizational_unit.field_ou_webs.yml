@@ -1,0 +1,24 @@
+uuid: 54381884-103f-4ffd-86fb-86359f640e59
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ou_webs
+    - filter.format.basic_html
+    - node.type.organizational_unit
+  module:
+    - text
+id: node.organizational_unit.field_ou_webs
+field_name: field_ou_webs
+entity_type: node
+bundle: organizational_unit
+label: Webs
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text

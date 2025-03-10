@@ -1,0 +1,19 @@
+uuid: a359f98a-f950-482f-9c8c-8e6f33eaa0fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_campus_gps_coordinates
+    - node.type.campus
+id: node.campus.field_campus_gps_coordinates
+field_name: field_campus_gps_coordinates
+entity_type: node
+bundle: campus
+label: 'GPS Coordinates'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

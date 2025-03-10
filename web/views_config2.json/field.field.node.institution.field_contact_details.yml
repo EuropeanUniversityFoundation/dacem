@@ -1,0 +1,19 @@
+uuid: 802d364e-25cc-4c6d-aa40-01ee787b8c4e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact_details
+    - node.type.institution
+id: node.institution.field_contact_details
+field_name: field_contact_details
+entity_type: node
+bundle: institution
+label: 'Contact Details'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

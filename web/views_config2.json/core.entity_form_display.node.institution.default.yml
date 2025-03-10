@@ -1,0 +1,257 @@
+uuid: 8ea32323-1a91-4e05-9712-606ce8b3f24c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.institution.body
+    - field.field.node.institution.field_abbreviation
+    - field.field.node.institution.field_admission_description
+    - field.field.node.institution.field_admission_language_policy
+    - field.field.node.institution.field_admission_languages
+    - field.field.node.institution.field_admission_registration
+    - field.field.node.institution.field_contact_details
+    - field.field.node.institution.field_country
+    - field.field.node.institution.field_ects_credit_allocation_pol
+    - field.field.node.institution.field_emphasis_text_color
+    - field.field.node.institution.field_erasmus_code
+    - field.field.node.institution.field_gps_coordinates
+    - field.field.node.institution.field_information
+    - field.field.node.institution.field_logo
+    - field.field.node.institution.field_picture
+    - field.field.node.institution.field_primary_color
+    - field.field.node.institution.field_text_color
+    - field.field.node.institution.field_university_map
+    - field.field.node.institution.field_university_pdfs
+    - field.field.node.institution.field_urls
+    - node.type.institution
+  module:
+    - color_field
+    - file
+    - link
+    - media_library
+    - path
+    - text
+id: node.institution.default
+targetEntityType: node
+bundle: institution
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 121
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_abbreviation:
+    type: string_textfield
+    weight: 122
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_admission_description:
+    type: string_textarea
+    weight: 123
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_admission_language_policy:
+    type: string_textarea
+    weight: 124
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_admission_languages:
+    type: string_textarea
+    weight: 125
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_admission_registration:
+    type: text_textarea
+    weight: 126
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_contact_details:
+    type: string_textarea
+    weight: 127
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_country:
+    type: string_textfield
+    weight: 128
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_ects_credit_allocation_pol:
+    type: text_textarea
+    weight: 129
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_emphasis_text_color:
+    type: color_field_widget_html5
+    weight: 130
+    region: content
+    settings:
+      show_extra: false
+    third_party_settings: {  }
+  field_erasmus_code:
+    type: string_textfield
+    weight: 131
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_gps_coordinates:
+    type: string_textfield
+    weight: 132
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_information:
+    type: string_textarea
+    weight: 133
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_logo:
+    type: media_library_widget
+    weight: 134
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_picture:
+    type: media_library_widget
+    weight: 135
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_primary_color:
+    type: color_field_widget_html5
+    weight: 136
+    region: content
+    settings:
+      show_extra: false
+    third_party_settings: {  }
+  field_text_color:
+    type: color_field_widget_html5
+    weight: 137
+    region: content
+    settings:
+      show_extra: false
+    third_party_settings: {  }
+  field_university_map:
+    type: media_library_widget
+    weight: 138
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_university_pdfs:
+    type: file_generic
+    weight: 139
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_urls:
+    type: link_default
+    weight: 140
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 15
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

@@ -1,0 +1,18 @@
+uuid: f6f2907e-fbef-455b-b6d5-8008cdab217d
+langcode: es
+status: true
+dependencies:
+  config:
+    - group.type.universitytypegroup
+    - user.role.anonymous
+id: universitytypegroup-anonimo
+label: Anonimo
+weight: 105
+admin: false
+scope: outsider
+global_role: anonymous
+group_type: universitytypegroup
+permissions:
+  - 'view group_node:asignatura entity'
+  - 'view group_node:carrera entity'
+  - 'view group_node:universidad entity'

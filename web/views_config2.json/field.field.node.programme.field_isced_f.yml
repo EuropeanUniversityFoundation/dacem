@@ -1,0 +1,24 @@
+uuid: ecb1e5b0-a263-423f-b123-9c6b91a400c0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_isced_f
+    - filter.format.basic_html
+    - node.type.programme
+  module:
+    - text
+id: node.programme.field_isced_f
+field_name: field_isced_f
+entity_type: node
+bundle: programme
+label: ISCED-F
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text

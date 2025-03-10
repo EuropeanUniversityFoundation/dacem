@@ -1,0 +1,20 @@
+uuid: 9ef6950c-9ae0-4138-aa7e-4c45a38319b4
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_ou_contacts
+field_name: field_ou_contacts
+entity_type: node
+type: text
+settings:
+  max_length: 255
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

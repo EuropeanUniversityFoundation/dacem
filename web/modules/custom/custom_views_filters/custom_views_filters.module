@@ -8,11 +8,14 @@ use Drupal\Core\Language\LanguageInterface;
  * Implements hook_views_query_alter().
  * Modifies the query to replace the alias of the university with its node ID.
  */
-function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query) {
+function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query)
+{
+
+
 
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-    
-    
+    $alias_manager = \Drupal::service('path_alias.manager');
+
     // Solo alteramos la consulta de la vista 'institution_catalogue'
     if ($view->id() === 'institution_catalogue' || $view->id() === 'iec_information' || $view->id() === 'general_information' || $view->id() === 'programme_information') {
         //dump('ola');
@@ -20,39 +23,39 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
 
         // 🔹 Obtener el argumento actual de la vista (el alias de la universidad)
         $args = $view->args;
-        $alias_name= '';
-        
+        $alias_name = '';
+
         if (empty($args[0])) {
             \Drupal::logger('custom_views_filters')->warning('No alias found in arguments');
             return;
         }
-        if($view->id()=='institution_catalogue' || $view->id() == 'general_information'){
+        if ($view->id() == 'institution_catalogue' || $view->id() == 'general_information') {
             $alias_name = $args[0]; // Ejemplo: "university-vigo"
-        }else if($view->id()=='iec_information'){
+        } else if ($view->id() == 'iec_information') {
             $alias_name = $args[0] . '/' . $args[1] . '/' . $args[2]; // Ejemplo: "university-vigo"
-        }else if($view->id() == 'programme_information'){
+        } else if ($view->id() == 'programme_information') {
             $alias_name = $args[0] . '/' . $args[1];
         }
-        
+
         //dump($alias_name);
 
         // 🔹 Obtener el ID del nodo a partir del alias
-        $alias_manager = \Drupal::service('path_alias.manager');
+
         $path = $alias_manager->getPathByAlias('/' . $alias_name, $current_language);
         //dump($path);
-        
+
 
         if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
-            
+
             $node_id = (int) $matches[1];
-           
+
             // 🔹 Modificar la consulta reemplazando el alias con el ID
             $where_conditions = &$query->where;
 
             //dump($where_conditions);
-          
+
             foreach ($where_conditions as &$condition_group) {
-                
+
                 foreach ($condition_group['conditions'] as &$condition) {
                     if (isset($condition['field']) && strpos($condition['field'], 'node_field_data.nid') !== false) {
                         \Drupal::logger('custom_views_filters')->notice('Replacing :node_field_data_nid with ' . $node_id);
@@ -64,8 +67,77 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
 
                 }
             }
-        } else {
-            
         }
+    } else if ($view->id() === 'resources_and_services') {
+        $args = $view->args;
+        $institution_name = $args[0];
+
+        if (empty($args[0])) {
+            \Drupal::logger('custom_views_filters')->warning('No alias found in arguments');
+            return;
+        }
+
+
+        $path = $alias_manager->getPathByAlias('/' . $institution_name, $current_language);
+
+        if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
+
+            $institution_id = (int) $matches[1];
+
+
+
+
+
+            $query_to_execute = \Drupal::entityQuery('node')
+                ->condition('type', 'resources_and_services')
+                ->condition('field_rs_institution', $institution_id)
+                ->accessCheck(TRUE) // ← 🔹 SOLUCIÓN AQUÍ
+                ->range(0, 1);
+
+
+            $resource_ids = $query_to_execute->execute();
+
+            if (!empty($resource_ids)) {
+                $resources = \Drupal::entityTypeManager()
+                    ->getStorage('node')
+                    ->loadMultiple($resource_ids);
+
+                $resource = reset($resources);
+                //dump('Resource encontrado:', $resource->label());
+            } else {
+                //dump('No se encontraron Resources and Services para esta institución.');
+            }
+
+            if ($resource && $resource->hasTranslation($current_language)) {
+                $resource = $resource->getTranslation($current_language);
+            }
+            //dump('Resource en el idioma actual:', $resource->label());
+
+
+
+
+
+
+            // 🔹 Modificar la consulta reemplazando el alias con el ID
+            $where_conditions = &$query->where;
+
+            //dump($where_conditions);
+
+            foreach ($where_conditions as &$condition_group) {
+
+                foreach ($condition_group['conditions'] as &$condition) {
+                    if (isset($condition['field']) && strpos($condition['field'], 'node_field_data.nid') !== false) {
+                        \Drupal::logger('custom_views_filters')->notice('Replacing :node_field_data_nid with ' . $resource->id());
+                        //dump('dentro if isset');
+                        // Modificar el valor del parámetro SQL
+                        $condition['value'][':node_field_data_nid'] = $resource->id();
+                        //dump($condition['value'][':node_field_data_nid']);
+                    }
+
+                }
+            }
+        }
+
+
     }
 }

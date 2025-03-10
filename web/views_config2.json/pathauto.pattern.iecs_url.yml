@@ -1,0 +1,22 @@
+uuid: 1ef13b74-caaf-441b-8791-5ca0faaddaf9
+langcode: es
+status: true
+dependencies:
+  module:
+    - node
+id: iecs_url
+label: 'IECs url'
+type: 'canonical_entities:node'
+pattern: '[node:field_iec_programme:entity:field_programme_institution]/[node:field_iec_programme:entity]/[node:title]'
+selection_criteria:
+  3ab1c2bc-0e02-47b0-b8e5-7dbff672b6f4:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 3ab1c2bc-0e02-47b0-b8e5-7dbff672b6f4
+    context_mapping:
+      node: node
+    bundles:
+      individual_educational_component: individual_educational_component
+selection_logic: and
+weight: -5
+relationships: {  }

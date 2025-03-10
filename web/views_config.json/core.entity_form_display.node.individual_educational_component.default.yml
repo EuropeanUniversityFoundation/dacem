@@ -1,0 +1,226 @@
+uuid: ac9d52ea-7f82-494d-a7ed-27c99b7034ef
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.individual_educational_component.body
+    - field.field.node.individual_educational_component.field_iec_code
+    - field.field.node.individual_educational_component.field_iec_contents
+    - field.field.node.individual_educational_component.field_iec_credits
+    - field.field.node.individual_educational_component.field_iec_description
+    - field.field.node.individual_educational_component.field_iec_evaluation
+    - field.field.node.individual_educational_component.field_iec_instructors
+    - field.field.node.individual_educational_component.field_iec_language
+    - field.field.node.individual_educational_component.field_iec_learning_outcomes
+    - field.field.node.individual_educational_component.field_iec_modality
+    - field.field.node.individual_educational_component.field_iec_planned_activities
+    - field.field.node.individual_educational_component.field_iec_programme
+    - field.field.node.individual_educational_component.field_iec_recommendations
+    - field.field.node.individual_educational_component.field_iec_requirements
+    - field.field.node.individual_educational_component.field_iec_term
+    - field.field.node.individual_educational_component.field_iec_type
+    - field.field.node.individual_educational_component.field_iec_year
+    - node.type.individual_educational_component
+  module:
+    - path
+    - text
+id: node.individual_educational_component.default
+targetEntityType: node
+bundle: individual_educational_component
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 121
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_iec_code:
+    type: string_textfield
+    weight: 122
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_contents:
+    type: text_textarea
+    weight: 126
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_credits:
+    type: number
+    weight: 123
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_description:
+    type: text_textarea
+    weight: 129
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_evaluation:
+    type: text_textarea
+    weight: 127
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_instructors:
+    type: text_textarea
+    weight: 128
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_language:
+    type: string_textfield
+    weight: 130
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_learning_outcomes:
+    type: text_textarea
+    weight: 131
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_modality:
+    type: options_select
+    weight: 134
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_iec_planned_activities:
+    type: text_textarea
+    weight: 132
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_programme:
+    type: entity_reference_autocomplete
+    weight: 124
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_recommendations:
+    type: text_textarea
+    weight: 133
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_requirements:
+    type: text_textarea
+    weight: 125
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_iec_term:
+    type: options_select
+    weight: 137
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_iec_type:
+    type: options_select
+    weight: 135
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_iec_year:
+    type: options_select
+    weight: 136
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 15
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

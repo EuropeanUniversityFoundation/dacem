@@ -1,0 +1,380 @@
+uuid: 717e555c-eafe-47ad-8059-bf8ef3907ffd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.programme.body
+    - field.field.node.programme.field_academic_year
+    - field.field.node.programme.field_competencies
+    - field.field.node.programme.field_coordinator
+    - field.field.node.programme.field_credits
+    - field.field.node.programme.field_email
+    - field.field.node.programme.field_isced_f
+    - field.field.node.programme.field_main_objective
+    - field.field.node.programme.field_professional_practices
+    - field.field.node.programme.field_programme_area
+    - field.field.node.programme.field_programme_description
+    - field.field.node.programme.field_programme_institution
+    - field.field.node.programme.field_programme_phone
+    - field.field.node.programme.field_programme_qualification
+    - node.type.programme
+  module:
+    - layout_builder
+    - options
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          19518af8-bd8d-4936-a844-4a0ff60b60ba:
+            uuid: 19518af8-bd8d-4936-a844-4a0ff60b60ba
+            region: content
+            configuration:
+              id: 'extra_field_block:node:programme:links'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 0
+            additional: {  }
+          c1d11422-45a4-4b12-a1a2-34c75b6f90ec:
+            uuid: c1d11422-45a4-4b12-a1a2-34c75b6f90ec
+            region: content
+            configuration:
+              id: 'field_block:node:programme:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          85c75891-91a1-48fd-bed0-e4ec034b57aa:
+            uuid: 85c75891-91a1-48fd-bed0-e4ec034b57aa
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_academic_year'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          5e64c588-2e82-4994-9196-8632430d7425:
+            uuid: 5e64c588-2e82-4994-9196-8632430d7425
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_competencies'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          a69ac1f7-16ae-40b0-93ba-c40cc151553a:
+            uuid: a69ac1f7-16ae-40b0-93ba-c40cc151553a
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_coordinator'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          68065866-a123-4e09-9c44-93d1f315f236:
+            uuid: 68065866-a123-4e09-9c44-93d1f315f236
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_credits'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: number_integer
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+          6e0e33b3-175a-4d0e-8f02-f232e410fbf0:
+            uuid: 6e0e33b3-175a-4d0e-8f02-f232e410fbf0
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_email'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+          406cf4a1-ba7d-4484-ada0-403a2d459bd6:
+            uuid: 406cf4a1-ba7d-4484-ada0-403a2d459bd6
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_description'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 7
+            additional: {  }
+          28c9ae5e-58d8-46c4-915f-ae10c68f4652:
+            uuid: 28c9ae5e-58d8-46c4-915f-ae10c68f4652
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_phone'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 8
+            additional: {  }
+          3d35c24f-79de-4f54-885f-82bbefb63da2:
+            uuid: 3d35c24f-79de-4f54-885f-82bbefb63da2
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_main_objective'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 9
+            additional: {  }
+          fa5869a6-7d58-434c-8206-6170ab9611ce:
+            uuid: fa5869a6-7d58-434c-8206-6170ab9611ce
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_isced_f'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 10
+            additional: {  }
+          e01102df-c428-4c21-aab2-69c41b94e76f:
+            uuid: e01102df-c428-4c21-aab2-69c41b94e76f
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_institution'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 11
+            additional: {  }
+          354a9ce3-9244-455d-961f-d63dd8871293:
+            uuid: 354a9ce3-9244-455d-961f-d63dd8871293
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_qualification'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 12
+            additional: {  }
+          0558ec92-a2e2-4763-8d2c-1bd050a1dee7:
+            uuid: 0558ec92-a2e2-4763-8d2c-1bd050a1dee7
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_professional_practices'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 13
+            additional: {  }
+          38181c90-faa6-43fa-81ad-21f225fa76d6:
+            uuid: 38181c90-faa6-43fa-81ad-21f225fa76d6
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_area'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 14
+            additional: {  }
+        third_party_settings: {  }
+id: node.programme.default
+targetEntityType: node
+bundle: programme
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_academic_year:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_competencies:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_coordinator:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_credits:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_email:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_isced_f:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_main_objective:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_professional_practices:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_programme_area:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_programme_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_programme_institution:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_programme_phone:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_programme_qualification:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

@@ -1,0 +1,40 @@
+uuid: 9c82825d-eedf-4ca7-8ab3-fc02a512d5c8
+langcode: es
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+    - filter.format.restricted_html
+  module:
+    - comment
+    - content_translation
+    - file
+    - filter
+    - media
+    - node
+    - search
+    - system
+_core:
+  default_config_hash: cFrlqjtkTfvY3RGccjJkPf1SGIfJ942IrxTLWAO4mgA
+id: authenticated
+label: 'Authenticated user'
+weight: 1
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access content overview'
+  - 'administer account settings'
+  - 'administer users'
+  - 'cancel account'
+  - 'change own username'
+  - 'delete own files'
+  - 'post comments'
+  - 'search content'
+  - 'select account cancellation method'
+  - 'skip comment approval'
+  - 'translate editable entities'
+  - 'use text format basic_html'
+  - 'use text format restricted_html'
+  - 'view media'
+  - 'view user email addresses'

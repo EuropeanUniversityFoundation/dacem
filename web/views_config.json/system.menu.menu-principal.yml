@@ -1,0 +1,8 @@
+uuid: 7b3468f1-b3e7-451d-a293-9ab61d67b637
+langcode: es
+status: true
+dependencies: {  }
+id: menu-principal
+label: 'Menú universidades'
+description: ''
+locked: false

@@ -1,0 +1,36 @@
+uuid: ef7d86db-668b-4d11-abca-0e40adc40caa
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_programme_area
+field_name: field_programme_area
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: arts_and_humanities
+      label: 'Arts and Humanities'
+    -
+      value: sciences
+      label: Sciences
+    -
+      value: health_sciences
+      label: 'Health Sciences'
+    -
+      value: social_and_legal_sciences
+      label: 'Social and Legal Sciences'
+    -
+      value: engineering_and_architecture
+      label: 'Engineering and Architecture'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

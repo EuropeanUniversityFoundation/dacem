@@ -1,0 +1,20 @@
+uuid: 09bb77ba-61c8-4256-b9c7-7c02389b6e68
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - node
+id: node.field_campus_picture
+field_name: field_campus_picture
+entity_type: node
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,19 @@
+uuid: c2cc587e-91fc-4e77-9a3a-16b9f1f47d9c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rs_language_courses
+    - node.type.resources_and_services
+id: node.resources_and_services.field_rs_language_courses
+field_name: field_rs_language_courses
+entity_type: node
+bundle: resources_and_services
+label: 'Language Courses'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

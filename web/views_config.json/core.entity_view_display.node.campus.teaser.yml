@@ -1,0 +1,43 @@
+uuid: c9e7f41d-dc93-466d-ac58-da1f00c56df7
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.campus.body
+    - field.field.node.campus.field_campus_contact_details
+    - field.field.node.campus.field_campus_description
+    - field.field.node.campus.field_campus_gps_coordinates
+    - field.field.node.campus.field_campus_institution
+    - field.field.node.campus.field_campus_location
+    - field.field.node.campus.field_campus_picture
+    - node.type.campus
+  module:
+    - text
+    - user
+id: node.campus.teaser
+targetEntityType: node
+bundle: campus
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_campus_contact_details: true
+  field_campus_description: true
+  field_campus_gps_coordinates: true
+  field_campus_institution: true
+  field_campus_location: true
+  field_campus_picture: true
+  langcode: true

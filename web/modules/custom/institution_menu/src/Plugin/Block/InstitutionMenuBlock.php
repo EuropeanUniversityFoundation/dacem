@@ -425,13 +425,14 @@ class InstitutionMenuBlock extends BlockBase
 
 
             // Genera la URL con el idioma activo.
-            $rs_url = Url::fromRoute('view.resources_and_services.page_1', [
+            /*$rs_url = Url::fromRoute('view.resources_and_services.page_1', [
                 'arg_0' => $institution->id(),
             ], [
                 'language' => \Drupal::languageManager()->getLanguage($current_language),
-            ])->toString();
+            ])->toString();*/
 
-
+            $rs_url = $language_prefix . '/resources-and-services' . $institution_alias;
+            
 
 
 

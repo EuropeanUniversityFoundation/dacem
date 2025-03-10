@@ -1,0 +1,21 @@
+uuid: 965a1499-9004-4a40-8380-23681ce1bfd2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_area
+    - node.type.programme
+  module:
+    - options
+id: node.programme.field_programme_area
+field_name: field_programme_area
+entity_type: node
+bundle: programme
+label: Area
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

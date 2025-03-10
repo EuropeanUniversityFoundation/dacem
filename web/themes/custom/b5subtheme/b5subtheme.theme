@@ -33,6 +33,43 @@ function b5subtheme_preprocess_block(&$variables)
   // Your custom preprocess code for blocks.
 }
 
+
+
+
+
+
+function getEntityFromAlias($alias, $langcode = NULL)
+{
+  // Obtener el servicio de alias
+  $alias_manager = \Drupal::service('path_alias.manager');
+
+  // Obtener el path interno a partir del alias en el idioma solicitado
+  $internal_path = $alias_manager->getPathByAlias('/' . $alias, $langcode);
+
+  if (preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
+    $nid = (int) $matches[1];
+
+    // Cargar y retornar el nodo
+    $node = Node::load($nid);
+
+    // Si hay un idioma definido y el nodo tiene traducción, cargarla
+    if ($langcode && $node->hasTranslation($langcode)) {
+      return $node->getTranslation($langcode);
+    }
+
+    return $node;
+  }
+
+  return NULL;
+}
+
+
+
+
+
+
+
+
 /**
  * Implements hook_preprocess_HOOK() for page templates.
  */
@@ -41,54 +78,7 @@ function b5subtheme_preprocess_page(&$variables)
 
 
 
-  // Verifica si estamos en la ruta deseada.
-  /*if (\Drupal::routeMatch()->getRouteName() === 'view.general_information.page_1') {
-    // Obtén el idioma actual.
-    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-    dump($current_language);
-    // Obtén el nodo pasado como argumento a la vista.
-    $arg_0 = \Drupal::routeMatch()->getParameter('arg_0');
-    if ($arg_0 && is_numeric($arg_0)) {
-    
-      $node = \Drupal\node\Entity\Node::load($arg_0);
-
-      if ($node && $node->hasTranslation($current_language)) {
-        dump('dentro if');
-      
-        // Carga la traducción activa del nodo.
-        $translated_node = $node->getTranslation($current_language);
-        dump($translated_node);
-        // Pasa el nodo traducido a las plantillas Twig.
-        //dump($translated_node);
-        $variables['university'] = $translated_node;
-        
-        // Obtener los campus asociados a la universidad.
-        $campuses = \Drupal::entityTypeManager()
-          ->getStorage('node')
-          ->loadByProperties([
-            'type' => 'campus', // Asegúrate de que 'campus' sea el tipo de contenido.
-            'field_campus_institution' => $translated_node->id(),
-          ]);
-
-          
-        // Traducir los campus al idioma actual.
-        $translated_campuses = [];
-        foreach ($campuses as $campus) {
-          if ($campus->hasTranslation($current_language)) {
-            $translated_campuses[] = $campus->getTranslation($current_language);
-          } else {
-            $translated_campuses[] = $campus;
-          }
-        }
-
-        // Verifica si hay campus disponibles.
-        $variables['campuses'] = !empty($translated_campuses) ? $translated_campuses : NULL;
-
-
-      }
-    }
-  }*/
-
+  
 
 
 
@@ -164,28 +154,28 @@ function b5subtheme_preprocess_views_view(&$variables)
 
   if ($variables['view']->id() == 'main_page') {
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-    $translated_institution=null;
+    $translated_institution = null;
     foreach ($variables['view']->result as $key => $row) {
       $institution = $row->_entity;
 
-      
+
       if ($institution->hasTranslation($current_language)) {
-            
+
         // Si la asignatura tiene traducción al idioma actual.
         $translated_institution = $institution->getTranslation($current_language);
         //$row->custom_url = $translated_subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
 
 
         $translated_url = $translated_institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
-       
+
         // Extraer el idioma desde la URL original
         //$language_prefix = '/' . \Drupal::languageManager()->getCurrentLanguage()->getId();
 
         // Eliminar el prefijo del idioma si ya está presente en la URL original
-        if (strpos($translated_url, '/'.$current_language) === 0) {
-          
-          $translated_url = substr($translated_url, strlen('/'.$current_language));
-      
+        if (strpos($translated_url, '/' . $current_language) === 0) {
+
+          $translated_url = substr($translated_url, strlen('/' . $current_language));
+
         }
         //dump($current_language . '/catalogue' . $translated_url);
         // Construir la nueva URL con el formato correcto
@@ -198,14 +188,14 @@ function b5subtheme_preprocess_views_view(&$variables)
 
         //$row->custom_url = $subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
         $translated_url = $institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
-        
+
         // Extraer el idioma desde la URL original
-        $language_prefix =  \Drupal::languageManager()->getCurrentLanguage()->getId();
-       
+        $language_prefix = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
         // Eliminar el prefijo del idioma si ya está presente en la URL original
         if (strpos($translated_url, '/' . $original_language) === 0) {
-          
-          $translated_url = substr($translated_url, strlen('/'.$original_language));
+
+          $translated_url = substr($translated_url, strlen('/' . $original_language));
         }
 
         // Construir la nueva URL con el formato correcto
@@ -213,12 +203,12 @@ function b5subtheme_preprocess_views_view(&$variables)
 
         $variables['view']->result[$key]->_entity = $institution;
       }
-    
-        // Asignar la universidad traducida y la URL personalizada
-        
-    
+
+      // Asignar la universidad traducida y la URL personalizada
+
+
     }
-}
+  }
 
 
 
@@ -294,9 +284,9 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
   if ($variables['view']->id() === 'programme_information') {
-    
+
     foreach ($variables['view']->result as &$row) {
-      
+
       // Asegúrate de que estamos procesando asignaturas relacionadas.
       if (!empty($row->_relationship_entities['reverse__node__field_iec_programme'])) {
 
@@ -304,27 +294,27 @@ function b5subtheme_preprocess_views_view(&$variables)
 
         if ($iec instanceof Node) {
 
-          
+
 
           $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
           if ($iec->hasTranslation($current_language)) {
-            
+
             // Si la asignatura tiene traducción al idioma actual.
             $translated_iec = $iec->getTranslation($current_language);
             //$row->custom_url = $translated_subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
 
 
             $translated_url = $translated_iec->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
-           
+
             // Extraer el idioma desde la URL original
             //$language_prefix = '/' . \Drupal::languageManager()->getCurrentLanguage()->getId();
 
             // Eliminar el prefijo del idioma si ya está presente en la URL original
-            if (strpos($translated_url, '/'.$current_language) === 0) {
-              
-              $translated_url = substr($translated_url, strlen('/'.$current_language));
-          
+            if (strpos($translated_url, '/' . $current_language) === 0) {
+
+              $translated_url = substr($translated_url, strlen('/' . $current_language));
+
             }
             //dump($current_language . '/catalogue' . $translated_url);
             // Construir la nueva URL con el formato correcto
@@ -336,14 +326,14 @@ function b5subtheme_preprocess_views_view(&$variables)
             $original_language = $iec->language()->getId();
             //$row->custom_url = $subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
             $translated_url = $translated_iec->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
-            
+
             // Extraer el idioma desde la URL original
-            $language_prefix =  \Drupal::languageManager()->getCurrentLanguage()->getId();
-           
+            $language_prefix = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
             // Eliminar el prefijo del idioma si ya está presente en la URL original
             if (strpos($translated_url, '/' . $original_language) === 0) {
-              
-              $translated_url = substr($translated_url, strlen('/'.$original_language));
+
+              $translated_url = substr($translated_url, strlen('/' . $original_language));
             }
 
             // Construir la nueva URL con el formato correcto
@@ -361,6 +351,58 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
 
+// Verifica si estamos en la ruta deseada.
+if (\Drupal::routeMatch()->getRouteName() === 'view.general_information.page_1') {
+  // Obtén el idioma actual.
+  $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+  // Obtén el nodo pasado como argumento a la vista.
+  $arg_0 = \Drupal::routeMatch()->getParameter('arg_0');
+
+  if ($arg_0 && is_numeric($arg_0)) {
+
+    $node = \Drupal\node\Entity\Node::load($arg_0);
+  } else {
+
+    $node = getEntityFromAlias($arg_0, $current_language);
+  }
+
+
+  if ($node && $node->hasTranslation($current_language)) {
+
+    // Carga la traducción activa del nodo.
+    $translated_node = $node->getTranslation($current_language);
+    // Pasa el nodo traducido a las plantillas Twig.
+    //dump($translated_node);
+    $variables['university'] = $translated_node;
+
+    // Obtener los campus asociados a la universidad.
+    $campuses = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadByProperties([
+        'type' => 'campus', // Asegúrate de que 'campus' sea el tipo de contenido.
+        'field_campus_institution' => $translated_node->id(),
+      ]);
+      
+
+    // Traducir los campus al idioma actual.
+    $translated_campuses = [];
+    foreach ($campuses as $campus) {
+      if ($campus->hasTranslation($current_language)) {
+        $translated_campuses[] = $campus->getTranslation($current_language);
+      } else {
+        $translated_campuses[] = $campus;
+      }
+    }
+    // Verifica si hay campus disponibles.
+
+
+    
+
+
+  }
+  $variables['campuses'] = !empty($translated_campuses) ? array_values($translated_campuses) : NULL;
+
+}
 
 
 

@@ -1,0 +1,57 @@
+uuid: c57dc053-73e1-4667-a52e-ccb7df5f9699
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.programme.body
+    - field.field.node.programme.field_academic_year
+    - field.field.node.programme.field_competencies
+    - field.field.node.programme.field_coordinator
+    - field.field.node.programme.field_credits
+    - field.field.node.programme.field_email
+    - field.field.node.programme.field_isced_f
+    - field.field.node.programme.field_main_objective
+    - field.field.node.programme.field_professional_practices
+    - field.field.node.programme.field_programme_area
+    - field.field.node.programme.field_programme_description
+    - field.field.node.programme.field_programme_institution
+    - field.field.node.programme.field_programme_phone
+    - field.field.node.programme.field_programme_qualification
+    - node.type.programme
+  module:
+    - text
+    - user
+id: node.programme.teaser
+targetEntityType: node
+bundle: programme
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_academic_year: true
+  field_competencies: true
+  field_coordinator: true
+  field_credits: true
+  field_email: true
+  field_isced_f: true
+  field_main_objective: true
+  field_professional_practices: true
+  field_programme_area: true
+  field_programme_description: true
+  field_programme_institution: true
+  field_programme_phone: true
+  field_programme_qualification: true
+  langcode: true

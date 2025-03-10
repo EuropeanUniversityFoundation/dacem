@@ -1,0 +1,19 @@
+uuid: bd50e927-5fa8-4a03-ab26-3676b80561af
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ou_gps_coordinates
+    - node.type.organizational_unit
+id: node.organizational_unit.field_ou_gps_coordinates
+field_name: field_ou_gps_coordinates
+entity_type: node
+bundle: organizational_unit
+label: GPS-Coordinates
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

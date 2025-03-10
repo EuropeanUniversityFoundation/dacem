@@ -1,36 +1,5 @@
 {#
 
-<h1> VIIIIIISTAAAAA DE RESOURCES AND SERVICEEEEES </h1>
-
-
-{#{dump(view.result)}}
-{#
-{% for row in view.result %}
-
-<!-- entity sera unha entidad de tipo recursos e servicios -->
-{% set entity = row._entity %}
-
-
-
-<h2>COST OF LIVING </h2>
-{{entity.field_rs_cost_of_living.value|striptags}}
-<h2>CULTURAL EVENT CITY CALENDAR</h2>
-
-<h2>FINANCIAL SUPPORT FOR STUDENTS</h2>
-
-<h2>HOUSING</h2>
-
-<h2>INSURANCE</h2>
-
-<h2>lANGUAGE COURSES</h2>
-
-
-{% endfor %}
-#}
-
-{#% set entity = view.result[0]._entity %}
-
-{#{{dump(entity)}}
 
 {# Obtener el idioma actual basado en la URL, NO en la interfaz #}
 {#{% set current_current_language = entity.get('langcode').value %}#}
@@ -83,4 +52,172 @@
 
 #}
 
-<h3>Web under development</h3>
+{% set current_language = view.result[0].node_field_data_langcode %}
+
+
+
+{% set rs = view.result[0]._entity %}
+{% if rs.hasTranslation(current_language) %}
+	{% set rs = rs.getTranslation(current_language) %}
+{% else %}
+	{% set rs = rs %}
+{% endif %}
+
+
+
+
+
+
+{% set university = view.result[0]._relationship_entities.field_rs_institution %}
+{#{dump(view.result[0])}#}
+
+
+{% set university_primary_color = university.field_primary_color[0].color %}
+{% set university_text_color = university.field_text_color[0].color %}
+{% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
+
+
+<style>:root
+{
+	--university_primary_color: {{university_primary_color}}
+	;
+	--university_text_color: {{university_text_color}}
+	;
+	--university_emphasis_text_color: {{university_emphasis_text_color}}
+	;
+}</style>
+
+
+{#% for field in rs.fields %}
+    {{dump(field)}}
+{% endfor %#}
+
+<div class="image-banner">
+  <img src="/themes/custom/b5subtheme/images/institutional-info.jpg" alt="Descripción de la imagen" class="img-fluid">
+</div>
+
+<div class="my-custom-container">
+<div class="col-lg-7 col-md-12 col-sm-12">
+    
+
+    {% if rs.field_rs_cost_of_living.value is not empty %}
+    <div class="programme-section" id="cost-of-living" style="text-align: justify;">
+        <h3>Cost of Living</h3>
+        {{ rs.field_rs_cost_of_living.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_cultural_event_city_calend.value is not empty %}
+    <div class="programme-section" id="cultural-events" style="text-align: justify;">
+        <h3>Cultural Event City Calendar</h3>
+        {{ rs.field_cultural_event_city_calend.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_financial_support_for_stud.value is not empty %}
+    <div class="programme-section" id="financial-support" style="text-align: justify;">
+        <h3>Financial Support for Students</h3>
+        {{ rs.field_financial_support_for_stud.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_rs_housing.value is not empty %}
+    <div class="programme-section" id="housing" style="text-align: justify;">
+        <h3>Housing</h3>
+        {{ rs.field_rs_housing.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_rs_insurance.value is not empty %}
+    <div class="programme-section" id="insurance" style="text-align: justify;">
+        <h3>Insurance</h3>
+        {{ rs.field_rs_insurance.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_internation_mobility_possi.value is not empty %}
+    <div class="programme-section" id="mobility-possibilities" style="text-align: justify;">
+        <h3>International Mobility Possibilities</h3>
+        {{ rs.field_internation_mobility_possi.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_rs_language_courses.value is not empty %}
+    <div class="programme-section" id="language-courses" style="text-align: justify;">
+        <h3>Language Courses</h3>
+        {{ rs.field_rs_language_courses.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_rs_learning_facilities.value is not empty %}
+    <div class="programme-section" id="learning-facilities" style="text-align: justify;">
+        <h3>Learning Facilities</h3>
+        {{ rs.field_rs_learning_facilities.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_rs_meals.value is not empty %}
+    <div class="programme-section" id="meals" style="text-align: justify;">
+        <h3>Meals</h3>
+        {{ rs.field_rs_meals.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_rs_medical_facilities.value is not empty %}
+    <div class="programme-section" id="medical-facilities" style="text-align: justify;">
+        <h3>Medical Facilities</h3>
+        {{ rs.field_rs_medical_facilities.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_practical_information_for.value is not empty %}
+    <div class="programme-section" id="practical-information" style="text-align: justify;">
+        <h3>Practical Information for Incoming Mobile Students</h3>
+        {{ rs.field_practical_information_for.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_rs_special_facilities.value is not empty %}
+    <div class="programme-section" id="special-facilities" style="text-align: justify;">
+        <h3>Special Facilities</h3>
+        {{ rs.field_rs_special_facilities.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_sport_and_leisure_faciliti.value is not empty %}
+    <div class="programme-section" id="sport-leisure" style="text-align: justify;">
+        <h3>Sport and Leisure Facilities</h3>
+        {{ rs.field_sport_and_leisure_faciliti.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_rs_students_affairs_office.value is not empty %}
+    <div class="programme-section" id="students-affairs-office" style="text-align: justify;">
+        <h3>Students Affairs Office</h3>
+        {{ rs.field_rs_students_affairs_office.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_rs_students_associations.value is not empty %}
+    <div class="programme-section" id="students-associations" style="text-align: justify;">
+        <h3>Students Associations</h3>
+        {{ rs.field_rs_students_associations.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_rs_transportation.value is not empty %}
+    <div class="programme-section" id="transportation" style="text-align: justify;">
+        <h3>Transportation</h3>
+        {{ rs.field_rs_transportation.value|raw }}
+    </div>
+    {% endif %}
+
+    {% if rs.field_work_placement_possibiliti.value is not empty %}
+    <div class="programme-section" id="work-placement" style="text-align: justify;">
+        <h3>Work Placement Possibilities</h3>
+        {{ rs.field_work_placement_possibiliti.value|raw }}
+    </div>
+    {% endif %}
+
+</div>
+</div>

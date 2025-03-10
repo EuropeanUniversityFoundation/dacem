@@ -1,0 +1,99 @@
+uuid: f83a9b1d-0475-4deb-9fe5-28367f1e4340
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.organizational_unit.body
+    - field.field.node.organizational_unit.field_ou_campus
+    - field.field.node.organizational_unit.field_ou_contacts
+    - field.field.node.organizational_unit.field_ou_description
+    - field.field.node.organizational_unit.field_ou_gps_coordinates
+    - field.field.node.organizational_unit.field_ou_institution
+    - field.field.node.organizational_unit.field_ou_picture
+    - field.field.node.organizational_unit.field_ou_type
+    - field.field.node.organizational_unit.field_ou_webs
+    - node.type.organizational_unit
+  module:
+    - text
+    - user
+id: node.organizational_unit.default
+targetEntityType: node
+bundle: organizational_unit
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_ou_campus:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_ou_contacts:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_ou_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_ou_gps_coordinates:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_ou_institution:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_ou_picture:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_ou_type:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_ou_webs:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

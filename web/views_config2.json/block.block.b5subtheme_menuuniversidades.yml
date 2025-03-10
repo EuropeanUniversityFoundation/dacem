@@ -1,0 +1,25 @@
+uuid: ddb0fe20-86b4-472c-afb8-10edf82f7e44
+langcode: es
+status: false
+dependencies:
+  config:
+    - system.menu.menu-principal
+  module:
+    - system
+  theme:
+    - b5subtheme
+id: b5subtheme_menuuniversidades
+theme: b5subtheme
+region: nav_branding
+weight: 0
+provider: null
+plugin: 'system_menu_block:menu-principal'
+settings:
+  id: 'system_menu_block:menu-principal'
+  label: 'Menú universidades'
+  label_display: visible
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

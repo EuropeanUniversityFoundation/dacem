@@ -1,0 +1,20 @@
+uuid: 5d61ff69-4bf3-47de-b093-5e08ad321fe8
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_isced_f
+field_name: field_isced_f
+entity_type: node
+type: text
+settings:
+  max_length: 255
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
