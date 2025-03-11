@@ -414,6 +414,51 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.general_information.page_1')
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $variables['current_language'] = $current_language;
 
+    $arg_0 = \Drupal::routeMatch()->getParameter('arg_0');
+    if ($arg_0 && is_numeric($arg_0)) {
+
+      $node = \Drupal\node\Entity\Node::load($arg_0);
+    } else {
+  
+      $node = getEntityFromAlias($arg_0, $current_language);
+    }
+  
+  
+    if ($node && $node->hasTranslation($current_language)) {
+  
+      // Carga la traducción activa del nodo.
+      $translated_node = $node->getTranslation($current_language);
+      // Pasa el nodo traducido a las plantillas Twig.
+      //dump($translated_node);
+      $variables['university'] = $translated_node;
+  
+      // Obtener los campus asociados a la universidad.
+      $campuses = \Drupal::entityTypeManager()
+        ->getStorage('node')
+        ->loadByProperties([
+          'type' => 'campus', // Asegúrate de que 'campus' sea el tipo de contenido.
+          'field_campus_institution' => $translated_node->id(),
+        ]);
+        
+  
+      // Traducir los campus al idioma actual.
+      $translated_campuses = [];
+      foreach ($campuses as $campus) {
+        if ($campus->hasTranslation($current_language)) {
+          $translated_campuses[] = $campus->getTranslation($current_language);
+        } else {
+          $translated_campuses[] = $campus;
+        }
+      }
+      // Verifica si hay campus disponibles.
+  
+     
+      
+  
+  
+    }
+    $variables['campuses'] = !empty($translated_campuses) ? array_values($translated_campuses) : NULL;
+
   }
 
 }

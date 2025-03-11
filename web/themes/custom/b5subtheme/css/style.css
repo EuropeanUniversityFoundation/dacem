@@ -13586,10 +13586,6 @@ p {
 }
 
 
-.programme-section {
-  text-align: left !important;
-}
-
 
 
 
@@ -14347,4 +14343,131 @@ RESOURCES AND SERVICES
   width: 100%;
   height: auto;
   display: block;
+}
+
+
+.rs-section {
+  margin-left: 5%;
+}
+
+.rs-section p{
+  margin-left: 5%;
+}
+
+
+
+/* ----- Estilos generales para rs-navbar ----- */
+#rs-navbar {
+  background: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  display: flex;
+  justify-content: center; /* Centra el contenido */
+  align-items: center;
+  padding: 10px 0;
+}
+
+/* ----- Asegurar que el contenedor no ocupe todo el ancho ----- */
+#rs-navbar .container {
+  max-width: 800px; /* Ajusta el ancho máximo según lo necesites */
+  width: 100%;
+}
+
+/* ----- Estilos del menú en desktop ----- */
+#rs-navbar .nav-tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: none;
+  flex-wrap: nowrap;
+}
+
+#rs-navbar .nav-item {
+  flex-grow: 1; /* Hace que todos los elementos ocupen el mismo espacio */
+  text-align: center;
+  white-space: nowrap; /* Evita que los títulos largos salten de línea */
+}
+
+/* ----- Estilos de los enlaces de la navbar ----- */
+#rs-navbar .nav-tabs .nav-item .nav-link {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 10px 15px;
+  color: black !important; /* 🔹 Color negro por defecto */
+  border-radius: 5px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+
+
+/* ----- Efecto hover (fondo negro, texto blanco) ----- */
+#rs-navbar .nav-tabs .nav-item .nav-link:hover,
+#rs-navbar .nav-tabs .nav-item .nav-link.active {
+  background: black;
+  color: white !important;
+}
+
+/* ----- Estilos para el menú desplegable en móvil ----- */
+#rs-navbar .dropdown-menu {
+  text-align: center;
+  background: white;
+  border: 1px solid #ccc;
+}
+
+/* ----- Enlaces dentro del menú desplegable en móvil ----- */
+#rs-navbar .dropdown-item {
+  font-size: 1rem;
+  font-weight: bold;
+  color: black !important;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Efecto hover en el menú desplegable (móvil) */
+#rs-navbar .dropdown-item:hover {
+  background: black;
+  color: white !important;
+}
+
+/* ----- RESPONSIVE: Ocultar menú de desktop en móvil y viceversa ----- */
+@media (max-width: 991px) { /* Ajustes para pantallas pequeñas */
+  #rs-navbar .nav-tabs {
+      display: none; /* Oculta la navbar de desktop en móvil */
+  }
+  
+  #rs-navbar .dropdown {
+      display: block; /* Muestra el menú desplegable */
+  }
+}
+
+@media (min-width: 992px) {
+  #rs-navbar .dropdown {
+      display: none; /* Oculta el dropdown en pantallas grandes */
+  }
+}
+
+
+.rs-campuses-section .card-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 🔹 Limita a 3 líneas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 4.5em; /* 🔹 Ajusta la altura máxima */
+  font-size: 0.9rem;
+  color: #555;
+}
+
+
+.rs-campuses-section .card {
+  background-color: #f8f9fa; /* 🔹 Un gris claro elegante */
+  border: 1px solid #ddd; /* 🔹 Borde sutil */
+  border-radius: 10px; /* 🔹 Esquinas redondeadas */
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* 🔹 Sombra ligera */
+
+  max-width: 350px; /* 🔹 Ajusta el ancho máximo de cada tarjeta */
+  height: 100%; /* 🔹 Mantiene la altura automática */
+  margin: auto; /* 🔹 Centra las tarjetas */
+}
+
+.rs-campuses-section{
+  margin-bottom: 7%;
 }
