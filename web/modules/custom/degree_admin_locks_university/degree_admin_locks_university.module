@@ -8,7 +8,7 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
     
     //dump($form_state);
     // Verificamos que estamos en el formulario de edición de una entidad de tipo carrera.
-  if ($form_id === 'node_carrera_edit_form') {
+  if ($form_id === 'node_programme_edit_form') {
 
     if (isset($form['uid'])) {
       // Hacer que el campo de autor sea visible y editable.
@@ -25,7 +25,7 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
     ////\Drupal::messenger()->addMessage('HOOK de degree_admin_locks_university_entity_form_alter222');
 
     // Solo aplicamos esto si el campo de universidad está presente en el formulario.
-    if (isset($form['field_universidad'])) {
+    if (isset($form['field_programme_insitution'])) {
         
       // Obtener el usuario actual.
       $current_user = \Drupal::currentUser();
@@ -48,15 +48,15 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
           foreach ($roles as $role) {
             if ($role->id() === 'universitytypegroup-degree_admin' || $role->id() === 'universitytypegroup-university_a') {
               // Desactivar el campo de universidad para Degree Admin.
-              $form['field_universidad']['#disabled'] = TRUE;
+              $form['field_programme_insitution']['#disabled'] = TRUE;
               ////\Drupal::messenger()->addMessage('El campo Universidad está desactivado para Degree Admin.');
               break 2; // Salir de ambos bucles.
             }
           }
             /*
-            $form['field_universidad']['widget'][0]['target_id']['#default_value'] = $entity;
-            $form['field_universidad']['widget'][0]['target_id']['#options'] = [$entity->id() => $entity->label()];
-            $form['field_universidad']['widget'][0]['target_id']['#disabled'] = TRUE;
+            $form['field_programme_insitution']['widget'][0]['target_id']['#default_value'] = $entity;
+            $form['field_programme_insitution']['widget'][0]['target_id']['#options'] = [$entity->id() => $entity->label()];
+            $form['field_programme_insitution']['widget'][0]['target_id']['#disabled'] = TRUE;
             */
 
           
@@ -65,7 +65,7 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
     }
   }
 
-  if ($form_id === 'node_asignatura_edit_form') {
+  if ($form_id === 'node_individual_educational_component_edit_form') {
     // Obtener el nodo actual que se está editando.
     $node = $form_state->getFormObject()->getEntity();
 
@@ -82,7 +82,7 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
     ////\Drupal::messenger()->addMessage('HOOK de degree_admin_locks_university_entity_form_alter222');
 
     // Solo aplicamos esto si el campo de universidad está presente en el formulario.
-    if (isset($form['field_carrera'])) {
+    if (isset($form['field_iec_programme'])) {
         
       // Obtener el usuario actual.
       $current_user = \Drupal::currentUser();
@@ -105,15 +105,15 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
           //foreach ($roles as $role) {
             //if ($role->id() === 'universitytypegroup-subject_admi') {
               // Desactivar el campo de universidad para Degree Admin.
-              $form['field_carrera']['#disabled'] = TRUE;
+              $form['field_iec_programme']['#disabled'] = TRUE;
               ////\Drupal::messenger()->addMessage('El campo Degree está desactivado para Degree Admin.');
               //break 2; // Salir de ambos bucles.
             //}
           //}
             /*
-            $form['field_universidad']['widget'][0]['target_id']['#default_value'] = $entity;
-            $form['field_universidad']['widget'][0]['target_id']['#options'] = [$entity->id() => $entity->label()];
-            $form['field_universidad']['widget'][0]['target_id']['#disabled'] = TRUE;
+            $form['field_programme_insitution']['widget'][0]['target_id']['#default_value'] = $entity;
+            $form['field_programme_insitution']['widget'][0]['target_id']['#options'] = [$entity->id() => $entity->label()];
+            $form['field_programme_insitution']['widget'][0]['target_id']['#disabled'] = TRUE;
             */
 
           

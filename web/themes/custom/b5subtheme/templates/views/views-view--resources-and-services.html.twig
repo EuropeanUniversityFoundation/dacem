@@ -1,6 +1,5 @@
 {% set current_language = view.result[0].node_field_data_langcode %}
 
-{{dump(campuses)}}
 
 {% set rs = view.result[0]._entity %}
 {% if rs.hasTranslation(current_language) %}
@@ -62,7 +61,7 @@
 					<a class="dropdown-item fw-bold" href="#university-life">{{ 'University life'|t }}</a>
 				</li>
 				<li>
-					<a class="dropdown-item fw-bold" href="#extra-academic-activities">{{ 'Extra-academic activites'|t }}</a>
+					<a class="dropdown-item fw-bold" href="#extra-academic-activities">{{ 'Extra-academic activities'|t }}</a>
 				</li>
 			</ul>
 		</div>
@@ -156,7 +155,7 @@
 
 
 
-<div class="col-lg-9 col-md-12 col-sm-12">
+<div class="col-lg-12 col-md-12 col-sm-12">
 
 	<div id="student-affairs" class="mb-5">
 		<h3>STUDENT AFFAIRS</h3>

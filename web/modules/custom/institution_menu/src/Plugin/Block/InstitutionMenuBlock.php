@@ -56,8 +56,6 @@ class InstitutionMenuBlock extends BlockBase
     {
 
         $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-        //dump('institutio-menu');
-
 
         // Imagen y menú desplegable de usuario
         $current_user = \Drupal::currentUser();
@@ -173,28 +171,39 @@ class InstitutionMenuBlock extends BlockBase
         //dump($current_node_aux->bundle());
 
 
-
+        //dump(\Drupal::routeMatch()->getParameters());
         $current_route = \Drupal::routeMatch()->getRouteName();
-        $current_page='';
+        //dump($current_route);
+        $current_page = '';
 
-            if ($current_route === 'view.general_information.page_1') {
-                $current_page='general-information';
-                // Obtén el ID de la universidad desde el argumento de la URL.
-                $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
-                $institution = \Drupal\node\Entity\Node::load($institution_id);
-            } elseif ($current_route === 'view.institution_catalogue.page_1') {
-                $current_page='catalogue';
-                // Si la ruta es de la vista, obtén la universidad desde el argumento.
-                $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
-                if ($institution_id) {
-                    $institution = \Drupal\node\Entity\Node::load($institution_id);
-                }
-            } elseif ($current_route === 'view.resources_and_services.page_1') {
-                $current_page='resources-and-services';
-                $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+
+        //Volvese obter institution_id. Creo que se pode quitar de eiqui.
+        if ($current_route === 'view.general_information.page_1') {
+            $current_page = 'general-information';
+            // Obtén el ID de la universidad desde el argumento de la URL.
+            $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+            $institution = \Drupal\node\Entity\Node::load($institution_id);
+        } elseif ($current_route === 'view.institution_catalogue.page_1') {
+            $current_page = 'catalogue';
+            // Si la ruta es de la vista, obtén la universidad desde el argumento.
+            $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+            if ($institution_id) {
                 $institution = \Drupal\node\Entity\Node::load($institution_id);
             }
+        } elseif ($current_route === 'view.resources_and_services.page_1') {
+            $current_page = 'resources-and-services';
+            $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+            $institution = \Drupal\node\Entity\Node::load($institution_id);
+        } elseif ($current_route === 'view.programme_information.page_1') {
+            $current_page = 'catalogue';
+            // Si la ruta es de la vista, obtén la universidad desde el argumento.
+            $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+        } elseif ($current_route === 'view.iec_information.page_1') {
+            $current_page = 'catalogue';
+            // Si la ruta es de la vista, obtén la universidad desde el argumento.
+            $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
 
+        }
 
         /*
         if (!is_numeric($institution_id)) {
@@ -247,10 +256,12 @@ class InstitutionMenuBlock extends BlockBase
 
 
         if ($current_node_aux instanceof NodeInterface) {
+
+
             ////dump($current_institution);
             //dump('if node interface');
 
-            
+
 
             $node_type = $current_node_aux->bundle();
             //dump('if node interface');
@@ -317,7 +328,7 @@ class InstitutionMenuBlock extends BlockBase
             }
 
 
-
+            /*
             if ($institution instanceof NodeInterface && $institution->hasField('field_primary_color') && !$institution->get('field_primary_color')->isEmpty()) {
 
                 $color_value = $institution->get('field_primary_color')->value;
@@ -325,7 +336,7 @@ class InstitutionMenuBlock extends BlockBase
             } else {
 
             }
-
+            */
 
 
             // Obtener el idioma actual
@@ -365,7 +376,6 @@ class InstitutionMenuBlock extends BlockBase
                 // Obtener el alias de la institución en el idioma actual
                 //$institution_alias = $alias_manager->getAliasByPath('/node/' . $current_institution->id(), $language->getId());
                 //dump($institution_alias);
-                // Obtener el prefijo de idioma actual (ejemplo: "/en" o "/es")
                 $language_prefix = '/' . $language->getId();
 
                 // Asegurar que el alias no contenga el prefijo del idioma duplicado
@@ -377,6 +387,7 @@ class InstitutionMenuBlock extends BlockBase
                 //$url = Url::fromRoute('<current>', [], ['language' => $language]);
                 //$url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
                 $url = '';
+                //dump($current_page);
                 if ($current_node_aux->hasTranslation($language->getId())) {
                     $url = '/' . $langcode . '/' . $current_page . $alias_manager->getAliasByPath('/node/' . $current_node_aux->id(), $language->getId());
                 } else {
@@ -432,7 +443,7 @@ class InstitutionMenuBlock extends BlockBase
             ])->toString();*/
 
             $rs_url = $language_prefix . '/resources-and-services' . $institution_alias;
-            
+
 
 
 
@@ -459,15 +470,24 @@ class InstitutionMenuBlock extends BlockBase
     <ul class="dropdown-menu" aria-labelledby="institutionDropdown">';
 
             foreach ($institutions as $institution) {
-                // Obtener la traducción de la universidad en el idioma actual, o en su idioma original si no está traducida
-                $translated_institution = $entity_repository->getTranslationFromContext($institution, $current_language);
-                $institution_title = $translated_institution->getTitle();
+                // Verificar si la institución tiene traducción al idioma actual
+                if ($institution->hasTranslation($current_language)) {
+                    $translated_institution = $institution->getTranslation($current_language);
+                    $used_language = $current_language; // Se usa la traducción en el idioma seleccionado
+                } else {
+                    $translated_institution = $institution->getTranslation('en'); // Usar la traducción en inglés
+                    $used_language = 'en'; // Se usa inglés como fallback
+                }
 
-                // Generar la URL de la universidad en el idioma actual
-                $institution_url = $translated_institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
+                $institution_title = $translated_institution->getTitle();
+                $institution_alias = $alias_manager->getAliasByPath('/node/' . $translated_institution->id(), $used_language);
+
+                // Generar la URL con el idioma correcto
+                $institution_url = '/' . $used_language . '/general-information' . $institution_alias;
 
                 $institution_options .= '<li><a class="dropdown-item" href="' . $institution_url . '">' . $institution_title . '</a></li>';
             }
+
 
             $institution_options .= '</ul></div>';
 

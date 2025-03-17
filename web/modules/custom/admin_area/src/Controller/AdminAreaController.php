@@ -60,16 +60,16 @@ class AdminAreaController extends ControllerBase
       foreach ($roles as $role) {
         switch ($role->id()) {
           case 'universitytypegroup-university_a':
-            $data = $this->getUniversityAdminData($group, $user_id);
+            $data = $this->getInstitutionAdminData($group, $user_id);
             break 2;
 
           case 'universitytypegroup-degree_admin':
 
-            $data = $this->getDegreeAdminData($group, $user_id);
+            $data = $this->getProgrammeAdminData($group, $user_id);
             break 2;
 
           case 'universitytypegroup-subject_admi':
-            $data = $this->getSubjectAdminData($group, $user_id);
+            $data = $this->getIECAdminData($group, $user_id);
             break 2;
         }
       }
@@ -85,15 +85,17 @@ class AdminAreaController extends ControllerBase
   /**
    *****************************************
    * *****************************************
-   * Obtiene los datos para University Admin.
+   * Obtiene los datos para Institution Admin.
    * *****************************************
    * *****************************************
    */
-  protected function getUniversityAdminData(Group $group, $user_id)
+  protected function getInstitutionAdminData(Group $group, $user_id)
   {
     // Intentar obtener la universidad del usuario.
-    $university = $this->getUniversityAuthoredByUser($user_id) ?: $this->getSingleUniversityInGroup($group);
+    $university = $this->getInstitutionAuthoredByUser($user_id) ?: $this->getSingleInstitutionInGroup($group);
     $group_id = $this->getGroupIdsByEntity($university->id());
+    
+
     if (!$university) {
       return [];
     }
@@ -109,7 +111,7 @@ class AdminAreaController extends ControllerBase
         'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
           'node' => $university->id(),
         ])->toString(),
-        'create_degree_link' => $this->getGroupEntityCreationUrl($group_id, 'carrera', parent_entity: $university),
+        'create_degree_link' => $this->getGroupEntityCreationUrl($group_id, 'programme', parent_entity: $university),
 
       ],
 
@@ -125,12 +127,13 @@ class AdminAreaController extends ControllerBase
 
     // Obtener carreras asociadas.
     $degrees = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-      'type' => 'carrera',
-      'field_universidad' => $university->id(),
+      'type' => 'programme',
+      'field_programme_institution' => $university->id(),
     ]);
 
     foreach ($degrees as $degree) {
       $group_id = $this->getGroupIdsByEntity($degree->id());
+      \Drupal::logger('custom_module')->notice('Degree: ' . $degree->label() . ', con id ' . $degree->id() . '. Group id es ' . $group_id);
       $degree_data = [
         'title' => $degree->label(),
         'link' => $degree->toUrl()->toString(),
@@ -143,15 +146,15 @@ class AdminAreaController extends ControllerBase
         'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
           'node' => $degree->id(),
         ])->toString(),
-        'create_subject_link' => $this->getGroupEntityCreationUrl($group_id, 'asignatura', $degree),
+        'create_subject_link' => $this->getGroupEntityCreationUrl($group_id, 'individual_educational_component', $degree),
         'subjects' => [],
       ];
 
 
       // Obtener asignaturas asociadas a la carrera.
       $subjects = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-        'type' => 'asignatura',
-        'field_carrera' => $degree->id(),
+        'type' => 'individual_educational_component',
+        'field_iec_programme' => $degree->id(),
       ]);
 
       foreach ($subjects as $subject) {
@@ -200,7 +203,7 @@ class AdminAreaController extends ControllerBase
           case 'universitytypegroup-university_a':
             // Obtener carreras creadas por este usuario.
             $universities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-              'type' => 'universidad',
+              'type' => 'institution',
               'uid' => $user->id(),
             ]);
             foreach ($universities as $university) {
@@ -215,7 +218,7 @@ class AdminAreaController extends ControllerBase
           case 'universitytypegroup-degree_admin':
             // Obtener carreras creadas por este usuario.
             $carreras = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-              'type' => 'carrera',
+              'type' => 'programme',
               'uid' => $user->id(),
             ]);
             foreach ($carreras as $carrera) {
@@ -229,14 +232,14 @@ class AdminAreaController extends ControllerBase
           case 'universitytypegroup-subject_admi':
             // Obtener asignaturas creadas por este usuario.
             $subjects = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-              'type' => 'asignatura',
+              'type' => 'individual_educational_component',
               'uid' => $user->id(),
             ]);
             foreach ($subjects as $subject) {
               // Obtener la carrera asociada.
-              $degree = $subject->get('field_carrera')->entity;
+              $degree = $subject->get('field_iec_programme')->entity;
               $entities[] = [
-                'title' => $subject->label() . ' (' . ($degree ? $degree->label() : 'No Degree') . ')',
+                'title' => $subject->label() . ' (' . ($degree ? $degree->label() : 'No Programme') . ')',
                 'link' => $subject->toUrl()->toString(),
               ];
             }
@@ -285,13 +288,13 @@ class AdminAreaController extends ControllerBase
   /**
    * *****************************************
    * *****************************************
-   * Obtiene los datos para Degree Admin.
+   * Obtiene los datos para Programme Admin.
    * *****************************************
    * *****************************************
    */
-  protected function getDegreeAdminData(Group $group, $user_id)
+  protected function getProgrammeAdminData(Group $group, $user_id)
   {
-    $degrees = $this->getDegreeAuthoredByUser($user_id);
+    $degrees = $this->getProgrammeAuthoredByUser($user_id);
     //dump($degrees);
     if (!$degrees) {
       return [];
@@ -306,7 +309,7 @@ class AdminAreaController extends ControllerBase
 
       if ($count == 0) {
 
-        $university_id = $degree->get('field_universidad')->target_id;
+        $university_id = $degree->get('field_programme_institution')->target_id;
 
         // Cargar la universidad por su ID.
         $university = \Drupal::entityTypeManager()->getStorage('node')->load($university_id);
@@ -337,15 +340,15 @@ class AdminAreaController extends ControllerBase
           'node' => $degree->id(),
         ])->toString(),
 
-        'create_subject_link' => $this->getGroupEntityCreationUrl($group_id, 'asignatura', $degree),
+        'create_subject_link' => $this->getGroupEntityCreationUrl($group_id, 'individual_educational_component', $degree),
         'subjects' => [],
       ];
 
 
       // Obtener asignaturas asociadas a la carrera.
       $subjects = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-        'type' => 'asignatura',
-        'field_carrera' => $degree->id(),
+        'type' => 'individual_educational_component',
+        'field_iec_programme' => $degree->id(),
       ]);
 
       foreach ($subjects as $subject) {
@@ -381,15 +384,15 @@ class AdminAreaController extends ControllerBase
   /**
    * *****************************************
    * *****************************************
-   * Obtiene los datos para Subject Admin.
+   * Obtiene los datos para IEC Admin.
    * *****************************************
    * *****************************************
    */
-  protected function getSubjectAdminData(Group $group, $user_id)
+  protected function getIECAdminData(Group $group, $user_id)
   {
 
     // Obtener asignaturas de las que el usuario es autor.
-    $subjects = $this->getSubjectAuthoredByUser($user_id);
+    $subjects = $this->getIECAuthoredByUser($user_id);
 
     if (empty($subjects)) {
       return [];
@@ -408,7 +411,7 @@ class AdminAreaController extends ControllerBase
 
 
       // Obtener el ID de la carrera asociada a la asignatura.
-      $degree_id = $subject->get('field_carrera')->target_id;
+      $degree_id = $subject->get('field_iec_programme')->target_id;
 
       // Cargar la carrera.
       $degree = \Drupal::entityTypeManager()->getStorage('node')->load($degree_id);
@@ -417,7 +420,7 @@ class AdminAreaController extends ControllerBase
 
         if ($count == 0) {
 
-          $university_id = $degree->get('field_universidad')->target_id;
+          $university_id = $degree->get('field_programme_institution')->target_id;
 
           // Cargar la universidad por su ID.
           $university = \Drupal::entityTypeManager()->getStorage('node')->load($university_id);
@@ -476,10 +479,10 @@ class AdminAreaController extends ControllerBase
   /**
    * Obtiene la universidad de la que el usuario actual es autor.
    */
-  protected function getUniversityAuthoredByUser($user_id)
+  protected function getInstitutionAuthoredByUser($user_id)
   {
     $universities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-      'type' => 'universidad',
+      'type' => 'institution',
       'uid' => $user_id,
     ]);
     return !empty($universities) ? reset($universities) : NULL;
@@ -488,10 +491,10 @@ class AdminAreaController extends ControllerBase
   /**
    * Obtiene la única universidad en el grupo.
    */
-  protected function getSingleUniversityInGroup(Group $group)
+  protected function getSingleInstitutionInGroup(Group $group)
   {
     foreach ($group->getContent() as $content) {
-      if ($content->getEntity()->bundle() === 'universidad') {
+      if ($content->getEntity()->bundle() === 'institution') {
         return $content->getEntity();
       }
     }
@@ -499,11 +502,11 @@ class AdminAreaController extends ControllerBase
   }
 
 
-  protected function getDegreeAuthoredByUser($user_id)
+  protected function getProgrammeAuthoredByUser($user_id)
   {
 
     $degrees = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-      'type' => 'carrera',
+      'type' => 'programme',
       'uid' => $user_id,
     ]);
     //dump("getdegreebyuser");
@@ -511,10 +514,10 @@ class AdminAreaController extends ControllerBase
     return !empty($degrees) ? $degrees : [];
   }
 
-  protected function getSubjectAuthoredByUser($user_id)
+  protected function getIECAuthoredByUser($user_id)
   {
     $subjects = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-      'type' => 'asignatura',
+      'type' => 'individual_educational_component',
       'uid' => $user_id,
     ]);
 
@@ -533,6 +536,7 @@ class AdminAreaController extends ControllerBase
    */
   function getGroupIdsByEntity($nid)
   {
+    //\Drupal::logger('custom_module')->notice('Dentro de getGroupsByEntityID, nid es ' . $nid);
     $query = \Drupal::database()->select('group_relationship_field_data', 'gr');
     $query->innerjoin('groups_field_data', 'gfd', 'gr.gid = gfd.id');
     $query->condition('gr.entity_id', $nid);
@@ -572,22 +576,22 @@ class AdminAreaController extends ControllerBase
   protected function getGroupEntityCreationUrl($group_id, $entity_type, $parent_entity)
   {
     // Generar la ruta para crear la entidad dentro del grupo.
-
-    if ($entity_type == 'asignatura') {
+    \Drupal::logger('custom_module')->notice('Dentro de getGroupsByEntityID, ENTITY TYPE  ' . $entity_type);
+    if ($entity_type == 'individual_educational_component') {
       return Url::fromRoute('entity.group_relationship.create_form', [
         'group' => $group_id,
         'plugin_id' => 'group_node:' . $entity_type,
       ], [
-        'query' => ['field_carrera' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
+        'query' => ['field_iec_programme' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
       ])->toString();
 
-    } else if ($entity_type == 'carrera') {
+    } else if ($entity_type == 'programme') {
 
       return Url::fromRoute('entity.group_relationship.create_form', [
         'group' => $group_id,
         'plugin_id' => 'group_node:' . $entity_type,
       ], [
-        'query' => ['field_universidad' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
+        'query' => ['field_programme_institution' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
       ])->toString();
     } else {
       return 0;

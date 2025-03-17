@@ -3,6 +3,7 @@ use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupContent;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\group\Entity\GroupRelationship;
 
 
 
@@ -15,36 +16,36 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
 
 
   // Casos para carreras.
-  if ($form_id === 'node_carrera_form') {
+  if ($form_id === 'node_programme_form') {
     // Determinar la operación actual.
     $operation = $form_state->getFormObject()->getOperation();
     if ($operation === 'default') {
-      _alter_create_carrera_form($form, $form_state);
+      _alter_edit_programme_form($form, $form_state);
     } elseif ($operation === 'edit') {
-      _alter_edit_carrera_form($form, $form_state);
+      _alter_edit_programme_form($form, $form_state);
     }
   }
 
   // Casos para asignaturas.
-  if ($form_id === 'node_asignatura_form') {
+  if ($form_id === 'node_individual_educational_component_form') {
     // Determinar la operación actual.
     $operation = $form_state->getFormObject()->getOperation();
     if ($operation === 'default') {
-      _alter_create_asignatura_form($form, $form_state);
+      _alter_edit_individual_educational_component_form($form, $form_state);
     } elseif ($operation === 'edit') {
-      _alter_edit_asignatura_form($form, $form_state);
+      _alter_edit_individual_educational_component_form($form, $form_state);
     }
   }
 
 
   // Casos para asignaturas.
-  if ($form_id === 'node_asignatura_form') {
+  if ($form_id === 'node_individual_educational_component_form') {
     // Determinar la operación actual.
     $operation = $form_state->getFormObject()->getOperation();
     if ($operation === 'default') {
-      _alter_create_asignatura_form($form, $form_state);
+      _alter_edit_individual_educational_component_form($form, $form_state);
     } elseif ($operation === 'edit') {
-      _alter_edit_asignatura_form($form, $form_state);
+      _alter_edit_individual_educational_component_form($form, $form_state);
     }
   }
 }
@@ -52,7 +53,7 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
 /**
  * Altera el formulario al crear una carrera.
  */
-function _alter_create_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
+function _alter_create_programme_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
 {
   //\Drupal::messenger()->addMessage('Hook add entity to group alter create carrera form ****************************');
 
@@ -61,9 +62,9 @@ function _alter_create_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface
 
 
 
-  if (isset($form['field_universidad'])) {
+  if (isset($form['field_programme_institution'])) {
     // Obtener el ID de la carrera desde la URL (si está presente).
-    $universidad_id = \Drupal::request()->query->get('field_universidad');
+    $universidad_id = \Drupal::request()->query->get('field_programme_institution');
 
     if (isset($form['uid'])) {
 
@@ -74,10 +75,10 @@ function _alter_create_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface
     // Si hay un ID de carrera en la URL, usarlo como valor predeterminado.
     if ($universidad_id) {
       $universidad = \Drupal::entityTypeManager()->getStorage('node')->load($universidad_id);
-      if ($universidad_id && $universidad->bundle() === 'universidad') {
+      if ($universidad_id && $universidad->bundle() === 'institution') {
         // Preseleccionar la carrera y deshabilitar el campo.
-        $form['field_universidad']['widget'][0]['target_id']['#default_value'] = $universidad;
-        $form['field_universidad']['widget'][0]['target_id']['#disabled'] = TRUE; // Deshabilitar el campo.
+        $form['field_programme_institution']['widget'][0]['target_id']['#default_value'] = $universidad;
+        $form['field_programme_institution']['widget'][0]['target_id']['#disabled'] = TRUE; // Deshabilitar el campo.
 
         //\Drupal::messenger()->addMessage(t('Universidad preseleccionada: @name', ['@name' => $universidad->label()]));
         return; // Salir, ya que la carrera fue configurada correctamente.
@@ -92,12 +93,12 @@ function _alter_create_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface
 /**
  * Altera el formulario al editar una carrera.
  */
-function _alter_edit_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
+function _alter_edit_programme_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
 {
   $node = $form_state->getFormObject()->getEntity();
 
-  if ($node->hasField('field_universidad') && !$node->get('field_universidad')->isEmpty()) {
-    $university = $node->get('field_universidad')->entity;
+  if ($node->hasField('field_programme_institution') && !$node->get('field_programme_institution')->isEmpty()) {
+    $university = $node->get('field_programme_institution')->entity;
 
     if ($university) {
       //\Drupal::messenger()->addMessage('Universidad encontrada: ' . $university->label());
@@ -116,9 +117,9 @@ function _alter_edit_carrera_form(&$form, \Drupal\Core\Form\FormStateInterface $
 /**
  * Altera el formulario al crear una asignatura.
  */
-function _alter_create_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
+function _alter_create_individual_educational_component_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
 {
-  // Verificar si el campo field_carrera existe en el formulario.
+  // Verificar si el campo field_iec_programme existe en el formulario.
   //\Drupal::messenger()->addMessage(t('El campo de asdfasdfasdffaasdsdfautor esasdfasdfasdtasdfasdfasdfá habasdfasdfilitado.'));
   if (isset($form['uid'])) {
     // Hacer que el campo de autor sea visible y editable.
@@ -129,18 +130,18 @@ function _alter_create_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterf
 
     //\Drupal::messenger()->addMessage(t('El campo de autor está habilitado.'));
   }
-  if (isset($form['field_carrera'])) {
+  if (isset($form['field_iec_programme'])) {
     // Obtener el ID de la carrera desde la URL (si está presente).
-    $carrera_id = \Drupal::request()->query->get('field_carrera');
+    $carrera_id = \Drupal::request()->query->get('field_iec_programme');
 
 
     // Si hay un ID de carrera en la URL, usarlo como valor predeterminado.
     if ($carrera_id) {
       $carrera = \Drupal::entityTypeManager()->getStorage('node')->load($carrera_id);
-      if ($carrera && $carrera->bundle() === 'carrera') {
+      if ($carrera && $carrera->bundle() === 'programme') {
         // Preseleccionar la carrera y deshabilitar el campo.
-        $form['field_carrera']['widget'][0]['target_id']['#default_value'] = $carrera;
-        $form['field_carrera']['widget'][0]['target_id']['#disabled'] = TRUE; // Deshabilitar el campo.
+        $form['field_iec_programme']['widget'][0]['target_id']['#default_value'] = $carrera;
+        $form['field_iec_programme']['widget'][0]['target_id']['#disabled'] = TRUE; // Deshabilitar el campo.
         //\Drupal::messenger()->addMessage(t('Carrera preseleccionada: @name', ['@name' => $carrera->label()]));
         return; // Salir, ya que la carrera fue configurada correctamente.
       }
@@ -162,7 +163,7 @@ function _alter_create_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterf
 /**
  * Altera el formulario al editar una asignatura.
  */
-function _alter_edit_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
+function _alter_edit_individual_educational_component_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
 {
 
   $node = $form_state->getFormObject()->getEntity();
@@ -177,11 +178,11 @@ function _alter_edit_asignatura_form(&$form, \Drupal\Core\Form\FormStateInterfac
     //\Drupal::messenger()->addMessage(t('El campo de autor está habilitado.'));
   }
 
-  if ($node->hasField('field_carrera') && !$node->get('field_carrera')->isEmpty()) {
-    $degree = $node->get('field_carrera')->entity;
+  if ($node->hasField('field_iec_programme') && !$node->get('field_iec_programme')->isEmpty()) {
+    $degree = $node->get('field_iec_programme')->entity;
 
     if ($degree) {
-      $university = $degree->get('field_universidad')->entity;
+      $university = $degree->get('field_programme_institution')->entity;
       if ($university) {
         $user_options = _get_group_users_by_role($university, 'universitytypegroup-subject_admi');
 
@@ -276,8 +277,8 @@ function _get_group_from_context()
 
 
 /**
- * Implements hook_form_alter() to restrict the 'universidad' field in group content creation
- * and restrict the 'carrera' field for assignment creation.
+ * Implements hook_form_alter() to restrict the 'institution' field in group content creation
+ * and restrict the 'programme' field for assignment creation.
  */
 function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
 {
@@ -302,19 +303,19 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
 
 
     // Verificar si estamos editando una carrera o una asignatura.
-    if ($form_id === 'node_carrera_edit_form' || $form_id === 'node_asignatura_edit_form') {
+    if ($form_id === 'node_programme_edit_form' || $form_id === 'node_individual_educational_component_edit_form') {
       // Obtener el nodo actual (carrera o asignatura).
       $node = $form_state->getFormObject()->getEntity();
       $university = null;
       $degree = null;
 
       // Comprobar si el nodo tiene un campo que referencia a la universidad.
-      if ($node->hasField('field_universidad') && !$node->get('field_universidad')->isEmpty()) {
+      if ($node->hasField('field_programme_institution') && !$node->get('field_programme_institution')->isEmpty()) {
         // Obtener la entidad Universidad referenciada.
-        $university = $node->get('field_universidad')->entity;
-      } else if ($node->hasField('field_carrera') && !$node->get('field_carrera')->isEmpty()) {
-        $degree = $node->get('field_carrera')->entity;
-        $university = $degree->get('field_universidad')->entity;
+        $university = $node->get('field_programme_institution')->entity;
+      } else if ($node->hasField('field_iec_programme') && !$node->get('field_iec_programme')->isEmpty()) {
+        $degree = $node->get('field_iec_programme')->entity;
+        $university = $degree->get('field_programme_institution')->entity;
       }
 
       if ($university) {
@@ -338,14 +339,14 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
               $role = $member->getRoles();
               $user_role = reset($role); // Obtener el primer (y único) rol del array.
               //\Drupal::messenger()->addMessage('Rol de usuario ' . $user_role->id());
-              if ($form_id === 'node_carrera_edit_form') {
+              if ($form_id === 'node_programme_edit_form') {
                 //\Drupal::messenger()->addMessage('Estamos en form de nodo carrera ');
                 if ($user_role->id() == 'universitytypegroup-degree_admin') {
                   $user_options[$user->id()] = $user->getDisplayName();
                   //\Drupal::messenger()->addMessage('É degree admin ');
                 }
 
-              } else if ($form_id === 'node_asignatura_edit_form') {
+              } else if ($form_id === 'node_individual_educational_component_edit_form') {
                 //\Drupal::messenger()->addMessage('Estamos en if de nodo asginatura ');
                 if ($user_role->id() == 'universitytypegroup-subject_admi') {
                   $user_options[$user->id()] = $user->getDisplayName();
@@ -404,7 +405,7 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
 
 
     // Caso 1: Crear Carrera (Restricción de universidad).
-    if ($form_id !== 'node_asignatura_form') {
+    if ($form_id !== 'node_individual_educational_component_form') {
       return;
     }
 
@@ -423,19 +424,19 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
       // Filtrar las carreras que pertenecen al usuario actual.
       foreach ($relationships as $relationship) {
         $entity = $relationship->getEntity();
-        if ($entity && $entity->bundle() === 'carrera' && $entity->getOwnerId() === $current_user->id()) {
+        if ($entity && $entity->bundle() === 'programme' && $entity->getOwnerId() === $current_user->id()) {
           $carrera_options[$entity->id()] = $entity->label();
         }
       }
 
-      // Si se encontraron carreras y existe el campo `field_carrera`.
-      if (!empty($carrera_options) && isset($form['field_carrera'])) {
+      // Si se encontraron carreras y existe el campo `field_iec_programme`.
+      if (!empty($carrera_options) && isset($form['field_iec_programme'])) {
         // Mensaje de depuración para verificar las opciones encontradas.
 
 
         // Configurar el campo como una lista desplegable.
         $default_value = key($carrera_options); // Obtener la primera carrera como valor predeterminado.
-        $form['field_carrera']['widget'][0]['target_id'] = [
+        $form['field_iec_programme']['widget'][0]['target_id'] = [
           '#type' => 'select',
           '#title' => t('Select a career'),
           '#options' => $carrera_options,
@@ -450,7 +451,7 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
   }
 
   // Caso 2: Crear Asignatura (Restricción de carrera).
-  elseif ($form_id === 'node_asignatura_form') {
+  elseif ($form_id === 'node_individual_educational_component_form') {
     //\Drupal::messenger()->addMessage(t('Creando asignatura.'));
 
     // Obtener el grupo desde la URL.
@@ -466,18 +467,18 @@ function add_entity_to_group_form_alter2(&$form, \Drupal\Core\Form\FormStateInte
         $entity = $relationship->getEntity();
 
         // Verificar si la entidad es del tipo "carrera" y si el usuario es el propietario.
-        if ($entity && $entity->bundle() == 'carrera' && $entity->getOwnerId() == $current_user->id()) {
+        if ($entity && $entity->bundle() == 'programme' && $entity->getOwnerId() == $current_user->id()) {
           // Añadir la carrera a las opciones disponibles.
           $carrera_options[$entity->id()] = $entity->label();
         }
       }
 
-      // Verificar si hay opciones disponibles y si el campo field_carrera está en el formulario.
-      if (!empty($carrera_options) && isset($form['field_carrera'])) {
+      // Verificar si hay opciones disponibles y si el campo field_iec_programme está en el formulario.
+      if (!empty($carrera_options) && isset($form['field_iec_programme'])) {
         //\Drupal::messenger()->addMessage(t('Carreras disponibles: ' . implode(', ', $carrera_options)));
 
-        // Configurar el campo field_carrera como lista desplegable.
-        $form['field_carrera']['widget'][0]['target_id'] = [
+        // Configurar el campo field_iec_programme como lista desplegable.
+        $form['field_iec_programme']['widget'][0]['target_id'] = [
           '#type' => 'select',
           '#options' => $carrera_options,
           '#default_value' => key($carrera_options), // Selecciona la primera carrera por defecto.

@@ -16,7 +16,7 @@
 {#{% set current_current_language = view.result[0].node_field_data_langcode %}#}
 
 {% set current_language = view.result[0].node_field_data_langcode %}
-{{dump(view.result)}}
+
 
 {# Verificar si la entidad tiene una traducción en el idioma de la URL #}
 	{% if entity.hasTranslation(current_language) %}

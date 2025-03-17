@@ -24,7 +24,7 @@ function admin_area_entity_access(\Drupal\Core\Entity\EntityInterface $entity, $
   }
 
   // Verifica que es una asignatura.
-  if ($entity->bundle() === 'asignatura') {
+  if ($entity->bundle() === 'individual_educational_component') {
     // Carga los grupos del usuario.
     $groups = \Drupal::service('group.membership_loader')->loadByUser($account);
 
