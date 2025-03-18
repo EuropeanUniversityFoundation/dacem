@@ -76,12 +76,12 @@ en:
 
 
 #SUBJECT
-  PRESENTATION: 'PRESENTATION'
+  DESCRIPTION: 'DESCRIPTION'
   Period: 'Period'
   Requirements: 'Requirements'
   Language: 'Language'
   INSTRUCTORS: 'INSTRUCTORS'
-  SUBJECT CONTENT: 'SUBJECT CONTENT'
+  IEC CONTENTS: 'SUBJECT CONTENTS'
   LEARNING OUTCOMES: 'LEARNING OUTCOMES'
   RECOMMENDED READINGS AND TOOLS: 'RECOMMENDED READINGS AND TOOLS'
   PLANNED ACTIVITIES: 'PLANNED ACTIVITIES'
@@ -169,12 +169,12 @@ es:
 
 
   #ASIGNATURA
-  PRESENTATION: 'PRESENTACIÓN'
+  DESCRIPTION: 'PRESENTACIÓN'
   Period: 'Cuatrimestre'
   Requirements: 'Requisitos'
   Language: 'Idioma'
   INSTRUCTORS: 'PROFESORES'
-  SUBJECT CONTENT: 'CONTENIDO DE LA ASIGNATURA'
+  IEC CONTENTS: 'CONTENIDO DE LA ASIGNATURA'
   LEARNING OUTCOMES: 'RESULTADOS DE APRENDIZAJE'
   RECOMMENDED READINGS AND TOOLS: 'LECTURAS Y HERRAMIENTAS RECOMENDADAS'
   PLANNED ACTIVITIES: 'ACTIVIDADES PLANIFICADAS'
@@ -250,7 +250,7 @@ fr: # Francés
   4º Course: '4º Cours'
 
   #SUJET
-  PRESENTATION: 'PRÉSENTATION'
+  DESCRIPTION: 'PRÉSENTATION'
   Period: 'Période'
   Requirements: 'Exigences'
   Language: 'Langue'
@@ -330,7 +330,7 @@ pt-pt: # Portugués
   4º Course: '4º Ano'
 
   #DISCIPLINA
-  PRESENTATION: 'APRESENTAÇÃO'
+  DESCRIPTION: 'APRESENTAÇÃO'
   Period: 'Período'
   Requirements: 'Requisitos'
   Language: 'Idioma'
@@ -413,7 +413,7 @@ el: # Griego
   4º Course: '4º Έτος'
 
   #ΜΑΘΗΜΑ
-  PRESENTATION: 'ΠΑΡΟΥΣΙΑΣΗ'
+  DESCRIPTION: 'ΠΑΡΟΥΣΙΑΣΗ'
   Period: 'Περίοδος'
   Requirements: 'Απαιτήσεις'
   Language: 'Γλώσσα'
@@ -493,7 +493,7 @@ cs: # Checo
   4º Course: '4. Kurz'
 
   #PŘEDMĚT
-  PRESENTATION: 'PREZENTACE'
+  DESCRIPTION: 'PREZENTACE'
   Period: 'Období'
   Requirements: 'Požadavky'
   Language: 'Jazyk'
@@ -576,7 +576,7 @@ sl: # Esloveno
   4º Course: '4º Tečaj'
 
   #PREDMET
-  PRESENTATION: 'PREDSTAVITEV'
+  DESCRIPTION: 'PREDSTAVITEV'
   Period: 'Obdobje'
   Requirements: 'Zahteve'
   Language: 'Jezik'
@@ -656,7 +656,7 @@ hu: # Húngaro
   4º Course: '4. Év'
 
   #TANTÁRGY
-  PRESENTATION: 'BEMUTATÁS'
+  DESCRIPTION: 'BEMUTATÁS'
   Period: 'Időszak'
   Requirements: 'Követelmények'
   Language: 'Nyelv'
@@ -738,7 +738,7 @@ et: # Estonio
   4º Course: '4º Kursus'
 
   #AINE
-  PRESENTATION: 'ESITLUS'
+  DESCRIPTION: 'ESITLUS'
   Period: 'Periood'
   Requirements: 'Nõuded'
   Language: 'Keel'
@@ -818,7 +818,7 @@ gl: # Gallego
   4º Course: '4º Curso'
 
   #ASIGNATURA
-  PRESENTATION: 'PRESENTACIÓN'
+  DESCRIPTION: 'PRESENTACIÓN'
   Period: 'Período'
   Requirements: 'Requisitos'
   Language: 'Idioma'

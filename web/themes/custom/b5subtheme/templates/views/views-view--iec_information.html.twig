@@ -2,6 +2,7 @@
 {% set current_language = view.result[0].node_field_data_langcode %}
 
 
+
 {# Acceder a la asignatura actual #}
 {% set iec = view.result[0]._entity %}
 {% if iec.hasTranslation(current_language) %}
@@ -88,7 +89,7 @@
 		<div class="col-lg-7 col-md-12 col-sm-12">
 			<div class="programme-section" id="general-information" style="text-align: justify;">
 				<!--<h3>{{ translations[current_language]['PRESENTATION'] }}</h3>-->
-                <h3>DESCRIPTION</h3>
+                <h3>{{ translations[current_language]['DESCRIPTION'] }}</h3>
 				{{ translated_iec.field_iec_description.value|raw }}
 			</div>
 		</div>
@@ -162,7 +163,7 @@
 			</div>
 			<div class="programme-section" id="competencies" style="text-align: justify;">
 				<!--<h3>{{ translations[current_language]['SUBJECT CONTENT'] }}</h3>-->
-                <h3>IEC CONTENTS</h3>
+                <h3>{{ translations[current_language]['IEC CONTENTS'] }}</h3>
 				{{ translated_iec.field_iec_contents.value|raw }}
 			</div>
 			<div class="programme-section" id="competencies" style="text-align: justify;">

@@ -156,6 +156,7 @@ function b5subtheme_preprocess_views_view(&$variables)
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $translated_institution = null;
     foreach ($variables['view']->result as $key => $row) {
+     
       $institution = $row->_entity;
 
 
@@ -461,3 +462,5 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.general_information.page_1')
   }
 
 }
+
+

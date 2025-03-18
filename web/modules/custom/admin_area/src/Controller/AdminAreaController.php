@@ -94,7 +94,7 @@ class AdminAreaController extends ControllerBase
     // Intentar obtener la universidad del usuario.
     $university = $this->getInstitutionAuthoredByUser($user_id) ?: $this->getSingleInstitutionInGroup($group);
     $group_id = $this->getGroupIdsByEntity($university->id());
-    
+
 
     if (!$university) {
       return [];
@@ -103,7 +103,7 @@ class AdminAreaController extends ControllerBase
     $data = [
       'university' => [
         'name' => $university->label(),
-        'link' => $university->toUrl()->toString(),
+        'link' => $this->getCatalogueUrl($university),
         'edit_link' => $university->toUrl('edit-form', [
           'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
         ])->toString(),
@@ -136,7 +136,7 @@ class AdminAreaController extends ControllerBase
       \Drupal::logger('custom_module')->notice('Degree: ' . $degree->label() . ', con id ' . $degree->id() . '. Group id es ' . $group_id);
       $degree_data = [
         'title' => $degree->label(),
-        'link' => $degree->toUrl()->toString(),
+        'link' => $this->getCatalogueUrl($degree),
         'edit_link' => $degree->toUrl('edit-form', [
           'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
         ])->toString(),
@@ -160,7 +160,7 @@ class AdminAreaController extends ControllerBase
       foreach ($subjects as $subject) {
         $degree_data['subjects'][] = [
           'title' => $subject->label(),
-          'link' => $subject->toUrl()->toString(),
+          'link' => $this->getCatalogueUrl($subject),
           'edit_link' => $subject->toUrl('edit-form', [
             'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
           ])->toString(),
@@ -170,10 +170,10 @@ class AdminAreaController extends ControllerBase
           'translation_link' => Url::fromRoute('entity.node.content_translation_overview', [
             'node' => $subject->id(),
           ])->toString(),
-          
 
-          
-         
+
+
+
         ];
       }
 
@@ -183,8 +183,51 @@ class AdminAreaController extends ControllerBase
     }
     $data['role'] = 'universitytypegroup-university_a';
     //dump($data);
+
+
+
+    // Obtener Resources and Services asociado a la universidad
+    $resources_services = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+      'type' => 'resources_and_services',
+      'field_rs_institution' => $university->id(),
+    ]);
+
+    // Verificar si hay una entidad existente
+    if (!empty($resources_services)) {
+      // Tomar el primer elemento si hay varios (debería haber solo uno)
+      $resources_services_entity = reset($resources_services);
+
+      $data['resources_services'] = [
+        'exists' => true,
+        'edit_link' => $resources_services_entity->toUrl('edit-form', [
+          'query' => ['destination' => '/my-area'],
+        ])->toString(),
+      ];
+    } else {
+      // No existe Resources and Services, generar el enlace de creación
+      $data['resources_services'] = [
+        'exists' => false,
+        'create_link' => $this->getGroupEntityCreationUrl($group_id, 'resources_and_services', parent_entity: $university),
+         
+      ];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return $data;
   }
+
   protected function getUsersGroup(Group $group)
   {
     $group_members = [];
@@ -209,7 +252,7 @@ class AdminAreaController extends ControllerBase
             foreach ($universities as $university) {
               $entities[] = [
                 'title' => $university->label(),
-                'link' => $university->toUrl()->toString(),
+                'link' => $this->getCatalogueUrl($university),
               ];
             }
             break;
@@ -224,7 +267,7 @@ class AdminAreaController extends ControllerBase
             foreach ($carreras as $carrera) {
               $entities[] = [
                 'title' => $carrera->label(),
-                'link' => $carrera->toUrl()->toString(),
+                'link' => $this->getCatalogueUrl($carrera),
               ];
             }
             break;
@@ -240,7 +283,7 @@ class AdminAreaController extends ControllerBase
               $degree = $subject->get('field_iec_programme')->entity;
               $entities[] = [
                 'title' => $subject->label() . ' (' . ($degree ? $degree->label() : 'No Programme') . ')',
-                'link' => $subject->toUrl()->toString(),
+                'link' => $this->getCatalogueUrl($subject),
               ];
             }
             break;
@@ -264,11 +307,11 @@ class AdminAreaController extends ControllerBase
         }, $roles),
         'edit_link' => $user->toUrl('edit-form', [
           'query' => ['destination' => '/my-area'], // Redirigir a /my-area después de editar.
-      ])->toString(),
-      
+        ])->toString(),
 
-        
-        
+
+
+
 
 
         'delete_link' => Url::fromRoute('entity.user.cancel_form', [
@@ -318,7 +361,7 @@ class AdminAreaController extends ControllerBase
         if ($university) {
           // Obtener el nombre de la universidad.
           $university_name = $university->label();
-          $university_link = $university->toUrl()->toString();
+          $university_link = $this->getCatalogueUrl($university);
           //dump($university_name);
         }
 
@@ -328,7 +371,7 @@ class AdminAreaController extends ControllerBase
 
       $degree_data = [
         'title' => $degree->label(),
-        'link' => $degree->toUrl()->toString(),
+        'link' => $this->getCatalogueUrl($degree),
         'edit_link' => $degree->toUrl('edit-form', [
           'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
         ])->toString(),
@@ -354,7 +397,7 @@ class AdminAreaController extends ControllerBase
       foreach ($subjects as $subject) {
         $degree_data['subjects'][] = [
           'title' => $subject->label(),
-          'link' => $subject->toUrl()->toString(),
+          'link' => $this->getCatalogueUrl($subject),
           'edit_link' => $subject->toUrl('edit-form', [
             'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
           ])->toString(),
@@ -429,7 +472,7 @@ class AdminAreaController extends ControllerBase
           if ($university) {
             // Obtener el nombre de la universidad.
             $university_name = $university->label();
-            $university_link = $university->toUrl()->toString();
+            $university_link = $this->getCatalogueUrl($university);
             //dump($university_name);
           }
           $data['university'] = [
@@ -447,7 +490,7 @@ class AdminAreaController extends ControllerBase
         if (!isset($data['subjects_by_degree'][$degree_id])) {
           $data['subjects_by_degree'][$degree_id] = [
             'degree_title' => $degree->label(),
-            'degree_link' => $degree->toUrl()->toString(),
+            'degree_link' => $this->getCatalogueUrl(entity: $degree),
             'subjects' => [],
           ];
         }
@@ -455,7 +498,7 @@ class AdminAreaController extends ControllerBase
         // Añadir la asignatura a la carrera correspondiente.
         $data['subjects_by_degree'][$degree_id]['subjects'][] = [
           'title' => $subject->label(),
-          'link' => $subject->toUrl()->toString(),
+          'link' => $this->getCatalogueUrl($subject),
           'edit_link' => $subject->toUrl('edit-form', [
             'query' => ['destination' => '/my-area'], // Aquí defines la página a la que redirigir.
           ])->toString(),
@@ -593,6 +636,17 @@ class AdminAreaController extends ControllerBase
       ], [
         'query' => ['field_programme_institution' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
       ])->toString();
+
+    } else if ($entity_type == 'resources_and_services' ){
+      
+      //Formar enlace de creaccioooooon para rs.
+      return Url::fromRoute('entity.group_relationship.create_form', [
+        'group' => $group_id,
+        'plugin_id' => 'group_node:' . $entity_type,
+      ], [
+        'query' => ['field_rs_institution' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
+      ])->toString();
+
     } else {
       return 0;
     }
@@ -605,41 +659,67 @@ class AdminAreaController extends ControllerBase
 
 
   /**
- * Genera el enlace de traducción para un nodo.
- *
- * @param \Drupal\node\Entity\Node $node
- *   El nodo para el que se generará el enlace de traducción.
- *
- * @return string
- *   La URL del enlace de traducción o una cadena vacía si no es válido.
- */
+   * Genera el enlace de traducción para un nodo.
+   *
+   * @param \Drupal\node\Entity\Node $node
+   *   El nodo para el que se generará el enlace de traducción.
+   *
+   * @return string
+   *   La URL del enlace de traducción o una cadena vacía si no es válido.
+   */
 
-protected function getTranslationLink($entity) {
-  // Verifica si la entidad es un nodo.
-  if (!$entity instanceof \Drupal\node\Entity\Node) {
-    \Drupal::logger('admin_area')->warning('La entidad proporcionada no es un nodo.');
-    return '';
-  }
-
-  // Obtén el idioma actual.
-  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
-
-  // Verifica si existe traducción en el idioma actual.
-  if (!$entity->hasTranslation($langcode)) {
-    // Si no existe traducción, verifica el idioma predeterminado.
-    $default_langcode = \Drupal::languageManager()->getDefaultLanguage()->getId();
-    if (!$entity->hasTranslation($default_langcode)) {
-      // No existe una traducción base, devuelve un enlace vacío o mensaje.
+  protected function getTranslationLink($entity)
+  {
+    // Verifica si la entidad es un nodo.
+    if (!$entity instanceof \Drupal\node\Entity\Node) {
+      \Drupal::logger('admin_area')->warning('La entidad proporcionada no es un nodo.');
       return '';
     }
-  }
-  
 
-  // Genera el enlace de traducción.
-  return Url::fromRoute('entity.node.content_translation_overview', [
-    'node' => $entity->id(),
-  ])->toString();
+    // Obtén el idioma actual.
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+    // Verifica si existe traducción en el idioma actual.
+    if (!$entity->hasTranslation($langcode)) {
+      // Si no existe traducción, verifica el idioma predeterminado.
+      $default_langcode = \Drupal::languageManager()->getDefaultLanguage()->getId();
+      if (!$entity->hasTranslation($default_langcode)) {
+        // No existe una traducción base, devuelve un enlace vacío o mensaje.
+        return '';
+      }
+    }
+
+
+    // Genera el enlace de traducción.
+    return Url::fromRoute('entity.node.content_translation_overview', [
+      'node' => $entity->id(),
+    ])->toString();
+  }
+
+
+/**
+ * Modifies the URL of an entity to include "/en/catalogue/".
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The entity whose URL needs to be modified.
+ *
+ * @return string
+ *   The modified URL.
+ */
+function getCatalogueUrl(\Drupal\Core\Entity\EntityInterface $entity) {
+  // Obtener la URL original (ej: "/en/university-vigo/...")
+  $original_url = $entity->toUrl()->toString();
+
+  // Eliminar el prefijo del idioma "/en" si está presente al inicio
+  $clean_alias = preg_replace('|^/en/|', '', $original_url);
+
+  // Construir la nueva URL con "/en/catalogue/"
+  $modified_url = '/en/catalogue/' . $clean_alias;
+
+  return $modified_url;
 }
+
+
 
 
 
