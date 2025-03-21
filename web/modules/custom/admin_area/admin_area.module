@@ -60,8 +60,19 @@ function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
   //\Drupal::logger('admin_area')->info('Interceptado formulario con ID: @form_id', ['@form_id' => $form_id]);
 
 
-  
-  if($form_id != 'views_exposed_form' && $form_id != 'search_block_form'){
+
+
+
+  // Comprobar si estamos en un formulario de vista expuesta.
+  if ($form_id == 'views_exposed_form') {
+    \Drupal::logger('admin_area')->info('Estamos en formulario de view exposed form');
+
+    // Imprimir la estructura completa del formulario en el log.
+    \Drupal::logger('admin_area')->info('<pre>@form</pre>', ['@form' => print_r($form, TRUE)]);
+  }
+
+
+    if($form_id != 'views_exposed_form' && $form_id != 'search_block_form'){
     \Drupal::logger('admin_area_2')->info('Interceptado formulario con ID: @form_id', ['@form_id' => $form_id]);
   }
   
@@ -87,6 +98,40 @@ function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
       \Drupal::logger('admin_area')->error('No se pudo cargar el nodo para el formulario de traducción.');
     }
   }
+
+
+
+  $entity_types = ['programme', 'institution', 'resources_and_services', 'individual_educational_component'];
+
+  // Verifica si el formulario pertenece a la creación o edición de estas entidades.
+  foreach ($entity_types as $type) {
+    if ($form_id === "node_{$type}_form" || $form_id === "node_{$type}_edit_form" || $form_id == 'create_user_in_group_form') {
+
+      // Obtener la URL de la página anterior.
+      $request = \Drupal::requestStack()->getCurrentRequest();
+      $referer = $request->headers->get('referer');
+
+      // Si no hay referer, redirigir a /my-area por defecto.
+      $cancel_url = $referer ?: '/my-area';
+
+      // Agregar un botón "Cancel".
+      $form['actions']['cancel'] = [
+        '#type' => 'button',
+        '#value' => t('Cancel'),
+        '#attributes' => ['onclick' => 'window.location.href="' . $cancel_url . '"; return false;'],
+      ];
+
+
+    
+
+      break; // Salir del bucle una vez que se encuentra un tipo coincidente.
+    }
+  }
+
+
+
+
+
 }
 
 
@@ -99,4 +144,32 @@ function admin_area_redirect_after_translation(&$form,  \Drupal\Core\Form\FormSt
   \Drupal::logger('admin_area')->error('Mensaje de redireccioooon');
   // Redirigir a /my-area después de guardar la traducción.
   $form_state->setRedirect('admin_area.my_area');
+}
+
+
+
+/**
+ * Implements hook_page_top().
+ */
+function admin_area_page_top(array &$page_top) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  if ($route_name == 'entity.node.content_translation_overview') {
+
+    // Crear el botón "Go to My Area".
+    $url = \Drupal\Core\Url::fromUserInput('/my-area');
+
+    $button = [
+      '#type' => 'link',
+      '#title' => t('Go to My Area'),
+      '#url' => $url,
+      '#attributes' => [
+        'class' => ['btn', 'btn-primary', 'mb-3'],
+        'style' => 'margin-bottom: 10px;',
+      ],
+    ];
+
+    // Añadir el botón al array renderizable de la página.
+    $page_top['go_to_my_area_button'] = $button;
+  }
 }

@@ -155,10 +155,11 @@ function b5subtheme_preprocess_views_view(&$variables)
   if ($variables['view']->id() == 'main_page') {
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $translated_institution = null;
+    
     foreach ($variables['view']->result as $key => $row) {
      
       $institution = $row->_entity;
-
+     
 
       if ($institution->hasTranslation($current_language)) {
 

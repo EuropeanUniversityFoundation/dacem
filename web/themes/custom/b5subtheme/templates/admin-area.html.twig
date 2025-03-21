@@ -34,9 +34,9 @@
 
 			<!-- Botones exclusivos para University Admin -->
 			{% if data.role == 'universitytypegroup-university_a' %}
-				<a href="{{ data.university.edit_link }}" class="btn btn-primary">Edit University</a>
-				<a href="{{ data.university.create_degree_link }}" class="btn btn-success btn-sm">Create Degree</a>
-				<a href="{{ data.university.translation_link }}" class="btn btn-warning btn-sm">Language</a>
+				<a href="{{ data.university.edit_link }}" class="btn btn-primary">Edit Institution</a>
+				<a href="{{ data.university.create_degree_link }}" class="btn btn-success btn-sm">Create Programme</a>
+				<!-- <a href="{{ data.university.translation_link }}" class="btn btn-warning btn-sm">Language</a> -->
 				{% if data.resources_services.exists %}
 					<a href="{{ data.resources_services.edit_link }}" class="btn btn-warning">Edit RS</a>
 				{% else %}
@@ -56,14 +56,14 @@
 						</div>
 						<div>
 							<a href="{{ degree.edit_link }}" class="btn btn-secondary btn-sm">Edit</a>
-							<a href="{{ degree.translation_link }}" class="btn btn-warning btn-sm">Language</a>
+							<!-- <a href="{{ degree.translation_link }}" class="btn btn-warning btn-sm">Language</a> -->
 
 							<a href="{{ degree.delete_link }}" class="btn btn-danger btn-sm">Delete</a>
 							{% if data.role != 'universitytypegroup-subject_admi' %}
-								<a href="{{ degree.create_subject_link }}" class="btn btn-success btn-sm">Create Subject</a>
+								<a href="{{ degree.create_subject_link }}" class="btn btn-success btn-sm">Create IEC</a>
 							{% endif %}
 							<button class="btn btn-link btn-sm toggle-subjects" data-bs-toggle="collapse" data-bs-target="#subjects-degree-{{ loop.index }}" aria-expanded="false" aria-controls="subjects-degree-{{ loop.index }}">
-								Show Subjects
+								Show IECs
 							</button>
 						</div>
 					</div>
@@ -71,7 +71,7 @@
 						<table class="table table-bordered">
 							<thead>
 								<tr>
-									<th>Subject</th>
+									<th>IEC</th>
 									<th>Actions</th>
 								</tr>
 							</thead>
@@ -83,7 +83,7 @@
 										</td>
 										<td>
 											<a href="{{ subject.edit_link }}" class="btn btn-secondary btn-sm">Edit</a>
-											<a href="{{ subject.translation_link }}" class="btn btn-warning btn-sm">Language</a>
+											<!-- <a href="{{ subject.translation_link }}" class="btn btn-warning btn-sm">Language</a> -->
 
 											<a href="{{ subject.delete_link }}" class="btn btn-danger btn-sm">Delete</a>
 										</td>
@@ -109,7 +109,7 @@
 								</div>
 								<div>
 									<button class="btn btn-link btn-sm toggle-subjects" data-bs-toggle="collapse" data-bs-target="#subjects-degree-{{ loop.index }}" aria-expanded="false" aria-controls="subjects-degree-{{ loop.index }}">
-										Show Subjects
+										Show IECs
 									</button>
 								</div>
 							</div>
@@ -129,7 +129,7 @@
 												</td>
 												<td>
 													<a href="{{ subject.edit_link }}" class="btn btn-secondary btn-sm">Edit</a>
-													<a href="{{ subject.translation_link }}" class="btn btn-warning btn-sm">Language</a>
+													<!-- <a href="{{ subject.translation_link }}" class="btn btn-warning btn-sm">Language</a> -->
 													<a href="{{ subject.delete_link }}" class="btn btn-danger btn-sm">Delete</a>
 												</td>
 											</tr>
@@ -161,7 +161,8 @@
 					</div>
 				</div>
 
-				<div id="group-members" class="collapse mt-2">
+				<div id="group-members" class="mt-2 show">
+
 					<table class="table table-bordered">
 						<thead>
 							<tr>
