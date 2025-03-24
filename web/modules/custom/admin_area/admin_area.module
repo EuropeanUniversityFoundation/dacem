@@ -68,7 +68,7 @@ function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
     \Drupal::logger('admin_area')->info('Estamos en formulario de view exposed form');
 
     // Imprimir la estructura completa del formulario en el log.
-    \Drupal::logger('admin_area')->info('<pre>@form</pre>', ['@form' => print_r($form, TRUE)]);
+    //\Drupal::logger('admin_area')->info('<pre>@form</pre>', ['@form' => print_r($form, TRUE)]);
   }
 
 

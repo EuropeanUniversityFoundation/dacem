@@ -213,16 +213,17 @@
 		<div class="scrollspy-example" data-bs-spy="scroll" data-bs-target="#programme-navbar" data-bs-root-margin="0px 0px -60%" tabindex="0">
 
 			<div class="row">
-				<div class="col-12 col-xl-7">
+				<div class="col-12 col-xl-6">
 					<div class="programme-section" id="general-information" style="text-align: justify;">
-						<h2>{{ translations[current_language]['Presentation']|upper }}</h2>
+						<h3>{{ translations[current_language]['Presentation']|upper }}</h3>
 						{{ translated_entity.field_programme_description.value|raw }}
 					</div>
 				</div>
 
-				<div class="col-12 col-xl-5">
+				<div class="col-12 col-xl-6 degree-sidebar-wrapper">
+
 					<div class="degree-sidebar bg-light p-3">
-						<h3>{{ translations[current_language]['General Data']  }}</h3>
+						<h3>{{ translations[current_language]['General Data'] | upper  }}</h3>
 						<div class="row">
 							<div class="col-md-6">
 								<strong>{{ translations[current_language]['Academic Course']  }}:</strong>
@@ -267,7 +268,7 @@
 								{{ translations[current_language][translated_entity.field_professional_practices.value]}}
 							</div>
 						</div>
-						<h3 class="mt-4">{{translations[current_language]['Coordination'] }}</h3>
+						<h3 class="mt-4">{{translations[current_language]['Coordination'] | upper }}</h3>
 						{{ translated_entity.field_coordinator.value }}
 						<br>
 						<i class="fa fa-phone"></i>
@@ -277,7 +278,24 @@
 						<i class="fa fa-envelope"></i>
 						{{ translated_entity.field_email.value }}
 
+
 					</div>
+					<div class="information-footer p-2">
+						<div class="d-flex justify-content-between align-items-center">
+							<div>
+								<i class="fas fa-share-square custom-icon me-2"></i>
+
+								<span class="text-white">Original Source:
+								</span>
+								<a href="#" class="guia-docente-link">www.example.com</a>
+							</div>
+							<div>
+								<span>Updated 12-05-2024</span>
+							</div>
+						</div>
+					</div>
+
+
 				</div>
 
 
@@ -286,21 +304,21 @@
 
 			<div class="col-lg-7 col-md-12 col-sm-12">
 				<div class="programme-section" id="main-objective" style="text-align: justify;">
-					<h2>{{ translations[current_language]['Main Objective']|upper }}</h2>
+					<h3>{{ translations[current_language]['Main Objective']|upper }}</h3>
 					{{ translated_entity.field_main_objective.value|raw }}
 				</div>
 				<div class="programme-section" id="competencies" style="text-align: justify;">
-					<h2>{{ translations[current_language]['Competencies']|upper }}</h2>
+					<h3>{{ translations[current_language]['Competencies']|upper }}</h3>
 					{{ translated_entity.field_competencies.value|raw }}
 				</div>
 				<div class="programme-section" id="qualification" style="text-align: justify;">
-					<h2>{{ translations[current_language]['Qualification']|upper }}</h2>
+					<h3>{{ translations[current_language]['Qualification']|upper }}</h3>
 					{{ translated_entity.field_programme_qualification.value|raw }}
 				</div>
 
 
 				<div class="programme-section" id="structure" style="text-align: justify;">
-					<h2>{{ translations[current_language]['Structure and Distribution of credits']|upper }}</h2>
+					<h3>{{ translations[current_language]['Structure and Distribution of credits']|upper }}</h3>
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -344,7 +362,7 @@
 
 
 				<div class="programme-section" id="iecs" style="text-align: justify;">
-					<h2>{{ translations[current_language]['Subjects']|upper }}</h2>
+					<h3>{{ translations[current_language]['Subjects']|upper }}</h3>
 					{{ 'The following tables show all the iecs that make up the Study Plan with reference to the 2023-24 academic year'|t }}:
 
 					<!-- Contenedor de	 los botones de los cursos -->

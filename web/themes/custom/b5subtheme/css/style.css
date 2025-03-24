@@ -12987,7 +12987,16 @@ code {
   border: 1px solid #ddd; /* Borde gris */
   padding: 20px; /* Espaciado interno */
   border-radius: 5px; /* Bordes redondeados */
+
 }
+
+@media (min-width: 1200px) { /* Aplicar solo a pantallas XL o mayores */
+  .degree-sidebar-wrapper {
+      width: 45% !important; /* Cambiamos el ancho del contenedor sin tocar el degree-sidebar */
+  }
+}
+
+
 
 .degree-sidebar h3 {
   font-size: 1.25rem; /* Tamaño de fuente */
@@ -13577,10 +13586,10 @@ code {
 }
 
 
-p {
+.programe-section p {
   text-align: justify;
   hyphens: auto; /* Permitir división automática de palabras */
-  max-width: 600px; /* Ajustar el ancho máximo para mejorar la distribución */
+  max-width: 1200px; /* Ajustar el ancho máximo para mejorar la distribución */
   word-spacing: 0.05em; /* Ajustar espaciado entre palabras */
   text-align-last: left; /* Dejar la última línea alineada a la izquierda */
 }
@@ -14224,13 +14233,11 @@ VIEW IEC INFORMATION
 }
 
 
-.programme-section {
-  text-align: left !important;
-}
+
 
 
 .programme-page .programme-header {
-  padding: 20px 0;
+  padding: 30px 0;
   width: 100%;
   background-color: var(--university_primary_color);
   position: sticky;
@@ -14470,4 +14477,56 @@ RESOURCES AND SERVICES
 
 .rs-campuses-section{
   margin-bottom: 7%;
+}
+
+
+.information-original-source {
+  background-color: black;
+  color: var(--university_primary_color);
+ 
+}
+
+
+
+
+.information-footer {
+  background-color: #111;
+  color: white;
+  font-size: 0.9rem;
+}
+
+/* Texto en blanco */
+.information-footer .text-white {
+  color: white;
+}
+
+/* Enlace con el color que desees */
+.information-footer .guia-docente-link {
+  color: var(--university_primary_color); /* Cambia este color al que prefieras */
+  text-decoration: none;
+}
+
+/* Cambia el color al pasar el ratón */
+.information-footer .guia-docente-link:hover {
+  text-decoration: underline;
+}
+
+.custom-icon {
+  color: var(--university_primary_color);
+}
+
+.programme-section h3{
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.degree-sidebar h3{
+  font-size: 26px;
+  font-weight: 700;
+
+}
+
+.programme-sidebar h3{
+  font-size: 26px;
+  font-weight: 700;
 }

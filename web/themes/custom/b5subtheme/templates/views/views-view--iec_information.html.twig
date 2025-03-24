@@ -54,7 +54,10 @@
 } %}<div class="programme-page">
 <div class="sticky-nav">
 	{% if translated_programme and translated_programme.id %}
-		<a href="{{ path('entity.node.canonical', {'node': translated_programme.id}) }}" class="programme-header-link">
+    {% set original_url = path('entity.node.canonical', {'node': translated_programme.id}) %}
+    {% set language_prefix = '/' ~ current_language ~ '/' %}
+    {% set modified_url = original_url|replace({(language_prefix): language_prefix ~ 'catalogue/'}) %}
+    <a href="{{ modified_url }}" class="programme-header-link">
 			<div class="programme-header">
 				<div class="container-fluid">
 					<h1 class="programme-title">
@@ -86,7 +89,7 @@
 </div></div><div class="container-fluid">
 <div class="my-custom-container">
 	<div class="row">
-		<div class="col-lg-7 col-md-12 col-sm-12">
+		<div class="col-lg-6 col-md-12 col-sm-12">
 			<div class="programme-section" id="general-information" style="text-align: justify;">
 				<!--<h3>{{ translations[current_language]['PRESENTATION'] }}</h3>-->
                 <h3>{{ translations[current_language]['DESCRIPTION'] }}</h3>
@@ -94,9 +97,9 @@
 			</div>
 		</div>
 
-		<div class="col-lg-5 col-md-12 mt-4 mt-lg-0">
+		<div class="col-lg-6 col-md-12 mt-4 degree-sidebar-wrapper mt-lg-0">
 			<div class="programme-sidebar bg-light p-3">
-				<h3>{{ translations[current_language]['General Data'] }}</h3>
+				<h3>{{ translations[current_language]['General Data'] | upper}}</h3>
 				<div class="row">
 					<div class="col-md-6">
 						<strong>{{ translations[current_language]['Academic Course'] }}:</strong>
@@ -141,7 +144,7 @@
 						{{ translated_iec.field_iec_language.value|capitalize }}
 					</div>
 				</div>
-				<h3 class="mt-4">{{ translations[current_language]['Coordination'] }}</h3>
+				<h3 class="mt-4">{{ translations[current_language]['Coordination'] | upper}}</h3>
 				<p>{{ translated_iec.field_iec_coordinator.value }}</p>
 				<p>
 					<i class="fa fa-phone"></i>
@@ -152,6 +155,21 @@
 					{{ translated_iec.field_iec_email.value }}
 				</p>
 			</div>
+
+			<div class="information-footer p-2">
+						<div class="d-flex justify-content-between align-items-center">
+							<div>
+								<i class="fas fa-share-square custom-icon me-2"></i>
+
+								<span class="text-white">Original Source:
+								</span>
+								<a href="#" class="guia-docente-link">www.example.com</a>
+							</div>
+							<div>
+								<span>Updated 12-05-2024</span>
+							</div>
+						</div>
+					</div>
 		</div>
 	</div>
 
