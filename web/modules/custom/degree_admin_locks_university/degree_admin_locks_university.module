@@ -25,7 +25,7 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
     ////\Drupal::messenger()->addMessage('HOOK de degree_admin_locks_university_entity_form_alter222');
 
     // Solo aplicamos esto si el campo de universidad está presente en el formulario.
-    if (isset($form['field_programme_insitution'])) {
+    if (isset($form['field_programme_institution'])) {
         
       // Obtener el usuario actual.
       $current_user = \Drupal::currentUser();
@@ -48,7 +48,7 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
           foreach ($roles as $role) {
             if ($role->id() === 'universitytypegroup-degree_admin' || $role->id() === 'universitytypegroup-university_a') {
               // Desactivar el campo de universidad para Degree Admin.
-              $form['field_programme_insitution']['#disabled'] = TRUE;
+              $form['field_programme_institution']['#disabled'] = TRUE;
               ////\Drupal::messenger()->addMessage('El campo Universidad está desactivado para Degree Admin.');
               break 2; // Salir de ambos bucles.
             }
