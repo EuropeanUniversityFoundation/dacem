@@ -1,5 +1,3 @@
-
-
 {{ attach_library('b5subtheme/university_carousel') }}
 
 {% set current_language = view.result[0].node_field_data_langcode %}
@@ -36,94 +34,98 @@
 						{% endif %}
 						<!-- Tarjeta de la universidad -->
 						<div class="col-12 col-md-4">
-						
+
 							<a href="/{{ row.custom_url }}" class="card h-100">
-	
-									{% set media_entity = row._entity.field_picture.entity %}
 
-									{% set file_entity = media_entity.field_media_image.entity %}
-									{% if file_entity is not empty %}
-										<div>
-											<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ row._entity.title.value }}">
-										</div>
-									{% endif %}
-									<div class="card-body ">
-										<h5 class="card-title">{{ row._entity.title.value }}</h5>
-										<p class="card-text-country">{{ row._entity.field_country.value }}</p>
-										<p class="card-text truncate-text">{{ row._entity.field_information.value }}</p>
+								{% set file = row._entity.field_institution_picture.entity %}
+
+
+								{% if file %}
+									{% set uri = file.getFileUri() %}
+									{% set image_url = file_url(uri) %}
+									<div>
+										<img src="{{ image_url }}" alt="{{ row._entity.title.value }}">
 									</div>
-								
+								{% endif %}
+
+
 							
-							</a>
-						</div>
-						{% if loop.index0 % 3 == 2 or loop.last %}
-						</div>
+							<div class="card-body ">
+								<h5 class="card-title">{{ row._entity.title.value }}</h5>
+								<p class="card-text-country">{{ row._entity.field_country.value }}</p>
+								<p class="card-text truncate-text">{{ row._entity.field_information.value }}</p>
+							</div>
+
+
+						</a>
 					</div>
-				{% endif %}
-			{% endfor %}
-		</div>
-
-		<!-- Controles del carrusel -->
-		<!-- Controles del carrusel con flechas personalizadas -->
-		<button class="carousel-control-prev custom-prev" type="button" data-bs-target="#universityCarousel" data-bs-slide="prev">
-			<span aria-hidden="true" class="custom-arrow">
-				<i class="fas fa-chevron-left"></i>
-				<!-- Icono FontAwesome -->
-			</span>
-			<span class="visually-hidden">Previous</span>
-		</button>
-		<button class="carousel-control-next custom-next" type="button" data-bs-target="#universityCarousel" data-bs-slide="next">
-			<span aria-hidden="true" class="custom-arrow">
-				<i class="fas fa-chevron-right"></i>
-				<!-- Icono FontAwesome -->
-			</span>
-			<span class="visually-hidden">Next</span>
-		</button>
+					{% if loop.index0 % 3 == 2 or loop.last %}
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
 	</div>
 
-	<div class="row map-and-explore">
-		<div class="col-12 col-xl-7">
-			<img src="/themes/custom/b5subtheme/images/mapa-universidades.png" alt="Map" class="univerties-map" style="padding-top: 1%;">
-		</div>
-		<div class="col-12 col-xl-5" style="justify-content">
-			<h2>EXPLORE OUR UNIVERSITIES</h2>
-
-			<p>Find a new place to continue your studies, meet new people and learn a new language. Before this, you should:</p>
-
-			<ul>
-				<li>
-					Find which
-					<strong>universities</strong>
-					are
-					<strong>available</strong>
-					from your home university at your local international office.
-				</li>
-				<li>
-					Ensure the
-					<strong>courses</strong>
-					align with your degree, are taught in a language you understand, and fit your academic
-					<strong>calendar</strong>.
-				</li>
-				<li>
-					Assess
-					<strong>accommodation</strong>,
-					<strong>transportation</strong>, and daily
-					<strong>expenses</strong>.
-				</li>
-				<li>
-					Research the local culture,
-					<strong>student life</strong>, and opportunities for personal and
-					<strong>professional growth</strong>.
-				</li>
-				<li>
-					Check healthcare coverage,
-					<strong>safety</strong>, and housing availability.
-				</li>
-			</ul>
-
-			<p style="text-align: center; font-size: 18px; font-weight: bold; color: #000;">Don't miss the opportunity!</p>
-		</div>
-
-
-	</div>
+	<!-- Controles del carrusel -->
+	<!-- Controles del carrusel con flechas personalizadas -->
+	<button class="carousel-control-prev custom-prev" type="button" data-bs-target="#universityCarousel" data-bs-slide="prev">
+		<span aria-hidden="true" class="custom-arrow">
+			<i class="fas fa-chevron-left"></i>
+			<!-- Icono FontAwesome -->
+		</span>
+		<span class="visually-hidden">Previous</span>
+	</button>
+	<button class="carousel-control-next custom-next" type="button" data-bs-target="#universityCarousel" data-bs-slide="next">
+		<span aria-hidden="true" class="custom-arrow">
+			<i class="fas fa-chevron-right"></i>
+			<!-- Icono FontAwesome -->
+		</span>
+		<span class="visually-hidden">Next</span>
+	</button>
 </div>
+
+<div class="row map-and-explore">
+	<div class="col-12 col-xl-7">
+		<img src="/themes/custom/b5subtheme/images/mapa-universidades.png" alt="Map" class="univerties-map" style="padding-top: 1%;">
+	</div>
+	<div class="col-12 col-xl-5" style="justify-content">
+		<h2>EXPLORE OUR UNIVERSITIES</h2>
+
+		<p>Find a new place to continue your studies, meet new people and learn a new language. Before this, you should:</p>
+
+		<ul>
+			<li>
+				Find which
+				<strong>universities</strong>
+				are
+				<strong>available</strong>
+				from your home university at your local international office.
+			</li>
+			<li>
+				Ensure the
+				<strong>courses</strong>
+				align with your degree, are taught in a language you understand, and fit your academic
+				<strong>calendar</strong>.
+			</li>
+			<li>
+				Assess
+				<strong>accommodation</strong>,
+				<strong>transportation</strong>, and daily
+				<strong>expenses</strong>.
+			</li>
+			<li>
+				Research the local culture,
+				<strong>student life</strong>, and opportunities for personal and
+				<strong>professional growth</strong>.
+			</li>
+			<li>
+				Check healthcare coverage,
+				<strong>safety</strong>, and housing availability.
+			</li>
+		</ul>
+
+		<p style="text-align: center; font-size: 18px; font-weight: bold; color: #000;">Don't miss the opportunity!</p>
+	</div>
+
+
+</div></div>

@@ -241,7 +241,7 @@
 							</div>
 							<div class="col-md-6">
 								<strong>{{ translations[current_language]['Modality'] }}:</strong>
-								{{ translations[current_language][translated_entity.field_modalidad.value]|default(translated_entity.field_modalidad.value)|capitalize }}
+								{{ translations[current_language][translated_entity.field_modality.value]|default(translated_entity.field_modality.value)|capitalize }}
 							</div>
 						</div>
 						<div class="row mt-2">
@@ -253,13 +253,13 @@
 						<div class="row mt-2">
 							<div class="col-md-12">
 								<strong>{{ translations[current_language]['Qualification Level']  }}:</strong>
-								{{ translated_entity.field_nivel_de_cualificacion.value }}
+								{{ translated_entity.qualification_level.value }}
 							</div>
 						</div>
 						<div class="row mt-2">
 							<div class="col-md-12">
 								<strong>{{ translations[current_language]['Study Modality']  }}:</strong>
-								{{ translated_entity.field_modalidad_de_estudio.value }}
+								{{ translated_entity.study_modality.value }}
 							</div>
 						</div>
 						<div class="row mt-2">

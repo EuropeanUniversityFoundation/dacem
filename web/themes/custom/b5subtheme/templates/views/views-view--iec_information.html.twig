@@ -113,11 +113,11 @@
 				<div class="row mt-2">
 					<div class="col-md-6">
 						<strong>{{ translations[current_language]['Course'] }}:</strong>
-						{{ cuatrimestres_curso[translated_iec.field_iec_year.value] }}
+						{{ translated_iec.field_iec_year.value }}
 					</div>
 					<div class="col-md-6">
 						<strong>{{ translations[current_language]['Period'] }}:</strong>
-						{{ cuatrimestres_curso[translated_iec.field_iec_term.value] }}
+						{{ translated_iec.field_iec_term.value }}
 					</div>
 				</div>
 				<div class="row mt-2">
@@ -135,7 +135,7 @@
 				<div class="row mt-2">
 					<div class="col-md-12">
 						<strong>{{ translations[current_language]['Requirements'] }}:</strong>
-						{{ translated_iec.field_iec_requirements.value }}
+						{{ translated_iec.field_iec_requirements.value | raw}}
 					</div>
 				</div>
 				<div class="row mt-2">

@@ -27,18 +27,17 @@
 <div class="university-menu-block">
 {{ page.header }}</div>#}
 <div class="university-banner">
-{% if institution.field_picture is not empty %}
-	{% set media_entity = institution.field_picture.entity %}
-	{% if media_entity is not empty %}
-		{% set file_entity = media_entity.field_media_image.entity %}
-		{% if file_entity is not empty %}
-			<div class="university-photo">
-				<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ institution.title.value }} " class="university-img">
-			</div>
-		{% endif %}
-	{% endif %}
-{% else %}
-	<p>No hay imagen disponible.</p>
+{% if institution.field_institution_picture is not empty %}
+	{% if institution.field_institution_picture is not empty %}
+  {% set file = institution.field_institution_picture.entity %}
+  {% if file %}
+    {% set uri = file.getFileUri() %}
+    {% set image_url = file_url(uri) %}
+	<div class='university-photo'>
+    <img src="{{ image_url }}" alt="University Logo" class="university-img" />
+	</div>
+  {% endif %}
+{% endif %}
 {% endif %}</div>
 
 <div class="container-fluid">
@@ -198,7 +197,7 @@
 				<!-- Registration Procedures -->
 				{% if institution.field_admission_registration is not empty %}
 					<h3 style="font-weight: bold;">REGISTRATION PROCEDURES</h3>
-					<p>{{ institution.field_admission_registration.value }}</p>
+					<p>{{ institution.field_admission_registration.value | raw}}</p>
 				{% endif %}
 			</div>
 
