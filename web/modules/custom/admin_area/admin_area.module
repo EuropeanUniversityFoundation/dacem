@@ -169,7 +169,29 @@ function admin_area_page_top(array &$page_top) {
       ],
     ];
 
+    // Obtener la URL de la página anterior.
+    $request = \Drupal::requestStack()->getCurrentRequest();
+    $referer = $request->headers->get('referer');
+
+    // Si no hay referer, redirigir a /my-area por defecto.
+    $cancel_url = $referer ?: '/my-area';
+
+    // Agregar un botón "Cancel".
+    $button_cancel = [
+      '#type' => 'button',
+      '#value' => t('Cancel'),
+      '#attributes' => ['onclick' => 'window.location.href="' . $cancel_url . '"; return false;',
+      'class' => ['btn', 'btn-secondary', 'mb-3'],
+      'style' => 'margin-bottom: 10px;', 'color'],
+    ];
+
+
+    
+
     // Añadir el botón al array renderizable de la página.
     $page_top['go_to_my_area_button'] = $button;
+    $page_top['cancel'] = $button_cancel;
   }
 }
+
+

@@ -35,10 +35,15 @@
 	;
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
-}</style>{#% for field in rs.fields %}
-	    {{dump(field)}}
-	{% endfor %#}<div class="image-banner">
-<img src="/themes/custom/b5subtheme/images/institutional-info.jpg" alt="Descripción de la imagen" class="img-fluid"></div><div class="sticky-nav">
+}</style><div class="sticky-nav">
+
+<div class="rs-header">
+	<div class="container-fluid container-fluid-programme-band ">
+		<h1 class="programme-title">RESOURCES AND SERVICES</h1>
+	</div>
+</div>
+
+
 <nav id="rs-navbar" class="rs-nav navbar navbar-expand-lg bg-white">
 	<div
 		class="my-custom-constainer">
@@ -85,64 +90,103 @@
 			</li>
 		</ul>
 	</div>
-</nav></div><div class="my-custom-container">
-
-
-
-
-
-
-
-
+</nav></div><div>
 
 
 <div class="rs-campuses-section">
-    {% if campuses %}
-        <h3 class="text-center">CAMPUS</h3> <!-- 🔹 Título centrado -->
-        
-        <div class="container"> <!-- 🔹 Contenedor para limitar el ancho -->
-            <div class="row row-cols-1 row-cols-md-3 g-4 mt-4 justify-content-center">
-                {% for campus in campuses %}
-                    <div class="col">
-                        <div class="card h-100 shadow-sm">
-                            <!-- Nombre del Campus -->
-                            <div class="card-header text-center">
-                                <h5 class="card-title fw-bold">{{ campus.label }}</h5>
-                            </div>
+	{% if campuses %}
+		<h3 class="text-center">CAMPUS</h3>
+		<!-- 🔹 Título centrado -->
 
-                            <!-- Imagen del Campus -->
-                            {% if campus.field_campus_picture is not empty %}
-                                {% set media_entity = campus.field_campus_picture.entity %}
-                                {% if media_entity is not empty %}
-                                    {% set file_entity = media_entity.field_media_image.entity %}
-                                    {% if file_entity is not empty %}
-                                        <img src="{{ file_url(file_entity.uri.value) }}" class="card-img-right img-fluid" alt="{{ campus.title.value }}">
-                                    {% endif %}
-                                {% endif %}
-                            {% endif %}
+		<div
+			class="container">
+			<!-- 🔹 Contenedor para limitar el ancho -->
+			<div class="row row-cols-1 row-cols-md-3 g-4 mt-4 justify-content-center">
+				{% for campus in campuses %}
+					<div class="col">
+						<div
+							class="card h-100 shadow-sm">
+							<!-- Nombre del Campus -->
+							<div class="card-header text-center">
+								<h5 class="card-title fw-bold">{{ campus.label }}</h5>
+							</div>
 
-                            <div class="card-body">
-                                <!-- Descripción del Campus -->
-                                {% if campus.field_campus_description %}
-                                    <p class="card-text">{{ campus.field_campus_description.value|striptags }}</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
+							<!-- Imagen del Campus -->
+							{% if campus.field_campus_picture is not empty %}
+								{% set media_entity = campus.field_campus_picture.entity %}
+								{% if media_entity is not empty %}
+									{% set file_entity = media_entity.field_media_image.entity %}
+									{% if file_entity is not empty %}
+										<img src="{{ file_url(file_entity.uri.value) }}" class="card-img-right img-fluid" alt="{{ campus.title.value }}">
+									{% endif %}
+								{% endif %}
+							{% endif %}
+
+							<div
+								class="card-body">
+								<!-- Descripción del Campus -->
+								{% if campus.field_campus_description %}
+									<p class="card-text">{{ campus.field_campus_description.value|striptags }}</p>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
 </div>
 
 
 
 
+<div class="students-affairs-section">
+
+	<div class="image-banner">
+		<img src="/themes/custom/b5subtheme/images/university_life.jpg" alt="Descripción de la imagen" class="img-fluid"></div>
+
+	<div class="my-custom-container">
+		<div class="row mb-5">
+			{% if rs.field_rs_students_affairs_office.value is not empty %}
+				<div class="col-12">
+
+					<h2>Students Affairs Office</h2>
+					<div class="facility-text">
+						{{ rs.field_rs_students_affairs_office.value|raw }}
+					</div>
+
+				</div>
+			{% endif %}
+		</div>
 
 
+		<div class="row">
+			{% if rs.field_financial_support_for_stud.value is not empty %}
+				<div class="col-md-6 mb-4">
+
+					<h2>Financial Support for Students</h2>
+					<div class="facility-text">
+						{{ rs.field_financial_support_for_stud.value|raw }}
+					</div>
+
+				</div>
+			{% endif %}
+
+			{% if rs.field_rs_insurance.value is not empty %}
+				<div class="col-md-6 mb-4">
+
+					<h2>Insurance</h2>
+					<div class="facility-text">
+						{{ rs.field_rs_insurance.value|raw }}
+					</div>
+
+				</div>
+			{% endif %}
 
 
-
+		</div>
+	</div>
+</div>
 
 
 
@@ -157,157 +201,162 @@
 
 <div class="col-lg-12 col-md-12 col-sm-12">
 
-	<div id="student-affairs" class="mb-5">
-		<h3>STUDENT AFFAIRS</h3>
-		{% if rs.field_rs_students_affairs_office.value is not empty %}
-			<div class="rs-section" id="students-affairs-office" style="text-align: justify;">
-				<h4>Students Affairs Office</h4>
-				{{ rs.field_rs_students_affairs_office.value|raw }}
+
+	<div id="facilities" class="facilities-section mb-5">
+	<div class="image-banner">
+		<img src="/themes/custom/b5subtheme/images/facilities.jpg" alt="Descripción de la imagen" class="img-fluid"></div>
+		<div class="my-custom-container">
+			<h3>FACILITIES</h3>
+
+			<div class="row mb-4">
+				{% if rs.field_rs_medical_facilities.value is not empty %}
+					<div class="col-md-6 mb-4">
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-hospital-alt"></i>
+							</div>
+							<h4>Medical Facilities</h4>
+							<div class="facility-text">
+								{{ rs.field_rs_medical_facilities.value|raw }}
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+				{% if rs.field_rs_learning_facilities.value is not empty %}
+					<div class="col-md-6 mb-4">
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-graduation-cap"></i>
+							</div>
+							<h4>Learning Facilities</h4>
+							<div class="facility-text">
+								{{ rs.field_rs_learning_facilities.value|raw }}
+							</div>
+						</div>
+					</div>
+				{% endif %}
 			</div>
-		{% endif %}
 
-		{% if rs.field_financial_support_for_stud.value is not empty %}
-			<div class="rs-section" id="financial-support" style="text-align: justify;">
-				<h4>Financial Support for Students</h4>
-				{{ rs.field_financial_support_for_stud.value|raw }}
+			<div class="row">
+				{% if rs.field_sport_and_leisure_faciliti.value is not empty %}
+					<div class="col-md-6 mb-4">
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-dumbbell"></i>
+							</div>
+							<h4>Sport and Leisure Facilities</h4>
+							<div class="facility-text">
+								{{ rs.field_sport_and_leisure_faciliti.value|raw }}
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+				{% if rs.field_rs_special_facilities.value is not empty %}
+					<div class="col-md-6 mb-4">
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-star"></i>
+							</div>
+							<h4>Special Facilities</h4>
+							<div class="facility-text">
+								{{ rs.field_rs_special_facilities.value|raw }}
+							</div>
+						</div>
+					</div>
+				{% endif %}
 			</div>
-		{% endif %}
 
-		{% if rs.field_rs_insurance.value is not empty %}
-			<div class="rs-section" id="insurance" style="text-align: justify;">
-				<h4>Insurance</h4>
-				{{ rs.field_rs_insurance.value|raw }}
-			</div>
-		{% endif %}
-
-
+		</div>
 	</div>
 
 
-	<div id="students-mobility" class="mb-5">
-		<h3>STUDENTS MOBILITY</h3>
-		{% if rs.field_internation_mobility_possi.value is not empty %}
-			<div class="rs-section" id="mobility-possibilities" style="text-align: justify;">
-				<h4>International Mobility Possibilities</h4>
-				{{ rs.field_internation_mobility_possi.value|raw }}
-			</div>
-		{% endif %}
-
-		{% if rs.field_practical_information_for.value is not empty %}
-			<div class="rs-section" id="practical-information" style="text-align: justify;">
-				<h4>Practical Information for Incoming Mobile Students</h4>
-				{{ rs.field_practical_information_for.value|raw }}
-			</div>
-		{% endif %}
+</div>
 
 
-	</div>
+<div class="mobility-section">
+	<div class="image-banner">
+		<img src="/themes/custom/b5subtheme/images/students_mobility_6.jpg" alt="Descripción de la imagen" class="img-fluid"></div>
+
+	<div class="my-custom-container">
+
+		<div class="row">
+
+			{% if rs.field_practical_information_for.value is not empty %}
+				<div class="col-md-6 mb-4">
+
+					<h2>Practical Information For Incoming Mobile Students</h2>
+					<div class="facility-text">
+						{{ rs.field_practical_information_for.value|raw }}
+					</div>
+
+				</div>
+			{% endif %}
+
+			{% if rs.field_internation_mobility_possi.value is not empty %}
+				<div class="col-md-6 mb-4">
+
+					<h2>International Mobility Possibilities</h2>
+					<div class="facility-text">
+						{{ rs.field_internation_mobility_possi.value|raw }}
+					</div>
+
+				</div>
+			{% endif %}
 
 
-	<div id="facilities" class="mb-5">
-		<h3>FACILITIES</h3>
-
-		{% if rs.field_rs_medical_facilities.value is not empty %}
-			<div class="rs-section" id="medical-facilities" style="text-align: justify;">
-				<h4>Medical Facilities</h4>
-				{{ rs.field_rs_medical_facilities.value|raw }}
-			</div>
-		{% endif %}
-
-		{% if rs.field_rs_learning_facilities.value is not empty %}
-			<div class="rs-section" id="learning-facilities" style="text-align: justify;">
-				<h4>Learning Facilities</h4>
-				{{ rs.field_rs_learning_facilities.value|raw }}
-			</div>
-		{% endif %}
-
-		{% if rs.field_sport_and_leisure_faciliti.value is not empty %}
-			<div class="rs-section" id="sport-leisure" style="text-align: justify;">
-				<h4>Sport and Leisure Facilities</h4>
-				{{ rs.field_sport_and_leisure_faciliti.value|raw }}
-			</div>
-		{% endif %}
-
-		{% if rs.field_rs_special_facilities.value is not empty %}
-			<div class="rs-section" id="special-facilities" style="text-align: justify;">
-				<h4>Special Facilities</h4>
-				{{ rs.field_rs_special_facilities.value|raw }}
-			</div>
-		{% endif %}
+		</div>
 
 
 	</div>
+</div>
 
 
-	<div id="university-life" class="mb-5">
-		<h3>UNIVERSITY LIFE</h3>
+<div class="university-life-section">
 
-		{% if rs.field_rs_housing.value is not empty %}
-			<div class="rs-section" id="housing" style="text-align: justify;">
-				<h4>Housing</h4>
-				{{ rs.field_rs_housing.value|raw }}
-			</div>
-		{% endif %}
+	<div class="image-banner">
+		<img src="/themes/custom/b5subtheme/images/university_life.jpg" alt="Descripción de la imagen" class="img-fluid"></div>
 
-		{% if rs.field_rs_cost_of_living.value is not empty %}
-			<div class="rs-section" id="cost-of-living" style="text-align: justify;">
-				<h4>Cost of Living</h4>
-				{{ rs.field_rs_cost_of_living.value|raw }}
-			</div>
-		{% endif %}
+	<div class="my-custom-container">
+		<div class="row mb-5">
+			{% if rs.field_rs_cost_of_living.value is not empty %}
+				<div class="col-12">
 
-		{% if rs.field_rs_transportation.value is not empty %}
-			<div class="rs-section" id="transportation" style="text-align: justify;">
-				<h4>Transportation</h4>
-				{{ rs.field_rs_transportation.value|raw }}
-			</div>
-		{% endif %}
+					<h2>Cost of Living</h2>
+					<div class="facility-text">
+						{{ rs.field_rs_cost_of_living.value|raw }}
+					</div>
 
-		{% if rs.field_rs_meals.value is not empty %}
-			<div class="rs-section" id="meals" style="text-align: justify;">
-				<h4>Meals</h4>
-				{{ rs.field_rs_meals.value|raw }}
-			</div>
-		{% endif %}
+				</div>
+			{% endif %}
+		</div>
 
 
+		<div class="row">
+			{% if rs.field_rs_transportation.value is not empty %}
+				<div class="col-md-6 mb-4">
+
+					<h2>Transport</h2>
+					<div class="facility-text">
+						{{ rs.field_rs_transportation.value|raw }}
+					</div>
+
+				</div>
+			{% endif %}
+
+			{% if rs.field_rs_meals.value is not empty %}
+				<div class="col-md-6 mb-4">
+
+					<h2>Meals</h2>
+					<div class="facility-text">
+						{{ rs.field_rs_meals.value|raw }}
+					</div>
+
+				</div>
+			{% endif %}
+
+
+		</div>
 	</div>
-
-
-	<div id="extra-academic-activities" class="mb-5">
-		<h3>EXTRA ACADEMIC ACTIVITIES</h3>
-
-		{% if rs.field_rs_language_courses.value is not empty %}
-			<div class="rs-section" id="language-courses" style="text-align: justify;">
-				<h4>Language Courses</h4>
-				{{ rs.field_rs_language_courses.value|raw }}
-			</div>
-		{% endif %}
-
-		{% if rs.field_work_placement_possibiliti.value is not empty %}
-			<div class="rs-section" id="work-placement" style="text-align: justify;">
-				<h4>Work Placement Possibilities</h4>
-				{{ rs.field_work_placement_possibiliti.value|raw }}
-			</div>
-		{% endif %}
-
-		{% if rs.field_rs_students_associations.value is not empty %}
-			<div class="rs-section" id="students-associations" style="text-align: justify;">
-				<h4>Students Associations</h4>
-				{{ rs.field_rs_students_associations.value|raw }}
-			</div>
-		{% endif %}
-
-
-		{% if rs.field_cultural_event_city_calend.value is not empty %}
-			<div class="rs-section" id="cultural-events" style="text-align: justify;">
-				<h4>Cultural Event City Calendar</h4>
-				{{ rs.field_cultural_event_city_calend.value|raw }}
-			</div>
-		{% endif %}
-
-
-	</div>
-
-
-</div></div>
+</div>
