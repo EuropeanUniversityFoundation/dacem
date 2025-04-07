@@ -14626,3 +14626,37 @@ RESOURCES AND SERVICES
   font-family: sans-serif;
   letter-spacing: -1px;
 }
+
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #5c6670;
+  color: white;
+  padding: 0.7rem 0.9rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  text-align: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  background-color: #444;
+}
+
+
+
+
+
+
+
+
+
