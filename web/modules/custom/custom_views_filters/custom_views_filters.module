@@ -90,17 +90,22 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
         if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
 
             $entity_id = (int) $matches[1];
+            dump('id ' . $entity_id . ' nombre ' . $entity_name);
 
 
             $query_to_execute=null;
 
             if($view->current_display == 'page_1'){
+                
+               
                 $query_to_execute = \Drupal::entityQuery('node')
                 ->condition('type', 'resources_and_services')
                 ->condition('field_rs_institution', $entity_id)
+                ->notExists('field_rs_campus')
                 ->accessCheck(TRUE) // ← 🔹 SOLUCIÓN AQUÍ
                 ->range(0, 1);
             }else if ($view->current_display == 'page_2'){
+                
                 $query_to_execute = \Drupal::entityQuery('node')
                 ->condition('type', 'resources_and_services')
                 ->condition('field_rs_campus', $entity_id)
@@ -108,8 +113,12 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
                 ->range(0, 1);
             }
 
+            dump($query_to_execute);
 
+            dump('resourceeees');
             $resource_ids = $query_to_execute->execute();
+            dump($resource_ids);
+            dump('resourceeeees');
 
             if (!empty($resource_ids)) {
                 $resources = \Drupal::entityTypeManager()
@@ -119,7 +128,7 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
                 $resource = reset($resources);
                 //dump('Resource encontrado:', $resource->label());
             } else {
-                //dump('No se encontraron Resources and Services para esta institución.');
+                dump('No se encontraron Resources and Services para esta institución.');
             }
 
             if ($resource && $resource->hasTranslation($current_language)) {
@@ -128,8 +137,7 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
             //dump('Resource en el idioma actual:', $resource->label());
 
 
-
-
+       
 
 
             // 🔹 Modificar la consulta reemplazando el alias con el ID

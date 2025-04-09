@@ -3,7 +3,8 @@
 
 {% set rs = view.result[0]._entity %}
 
-{{dump(institution_rs)}}
+{{dump(view.result[0])}}
+{{dump(rs_mode)}}
 
 {% if rs.hasTranslation(current_language) %}
 	{% set rs = rs.getTranslation(current_language) %}
@@ -111,35 +112,31 @@
 	{% if campuses %}
 		<h3 class="text-center mb-4">CAMPUS</h3>
 		<div class="container">
-  <div class="d-flex flex-wrap gap-3 justify-content-center">
-    {% for campus in campuses %}
-      {% set is_university = campus.label == 'University' %}
-      {% set url = path('entity.node.canonical', {'node': campus.id()}) %}
+			<div class="d-flex flex-wrap gap-3 justify-content-center">
+				{% for campus in campuses %}
+					{% set is_university = campus.label == 'University' %}
+					{% set url = path('entity.node.canonical', {'node': campus.id()}) %}
 
-      <a href="{{ url }}" class="campus-card d-flex align-items-center text-decoration-none"
-         style="min-width: 250px; max-width: 300px; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.3); background-color: #111;">
-        
-        {% if campus.field_campus_picture is not empty %}
-          {% set media_entity = campus.field_campus_picture.entity %}
-          {% if media_entity is not empty %}
-            {% set file_entity = media_entity.field_media_image.entity %}
-            {% if file_entity is not empty %}
-              <img src="{{ file_url(file_entity.uri.value) }}"
-                   alt="{{ campus.label }}"
-                   style="width: 80px; height: 80px; object-fit: cover;">
-            {% endif %}
-          {% endif %}
-        {% endif %}
+					<a href="{{ url }}" class="campus-card d-flex align-items-center text-decoration-none" style="min-width: 250px; max-width: 300px; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.3); background-color: #111;">
 
-        <div class="d-flex align-items-center justify-content-center px-3 py-2
-          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}"
-          style="flex: 1; height: 80px; font-weight: bold;">
-          {{ campus.label }}
-        </div>
-      </a>
-    {% endfor %}
-  </div>
-</div>
+						{% if campus.field_campus_picture is not empty %}
+							{% set media_entity = campus.field_campus_picture.entity %}
+							{% if media_entity is not empty %}
+								{% set file_entity = media_entity.field_media_image.entity %}
+								{% if file_entity is not empty %}
+									<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.label }}" style="width: 80px; height: 80px; object-fit: cover;">
+								{% endif %}
+							{% endif %}
+						{% endif %}
+
+						<div class="d-flex align-items-center justify-content-center px-3 py-2
+														          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}" style="flex: 1; height: 80px; font-weight: bold;">
+							{{ campus.label }}
+						</div>
+					</a>
+				{% endfor %}
+			</div>
+		</div>
 
 
 	{% endif %}
@@ -148,50 +145,87 @@
 
 <div class="students-affairs-section">
 
+
 	<div class="image-banner">
 		<img src="/themes/custom/b5subtheme/images/university_life.jpg" alt="Descripción de la imagen" class="img-fluid"></div>
 
 	<div class="my-custom-container">
 		<div class="row mb-5">
-			{% if rs.field_rs_students_affairs_office.value is not empty %}
-				<div class="col-12">
-
-					<h2>Students Affairs Office</h2>
-					<div class="facility-text">
-						{{ rs.field_rs_students_affairs_office.value|raw }}
+			{% if rs_mode == 'campus' %}
+				{% if rs_fallback_data.field_rs_students_affairs_office.rendered %}
+					<div class="col-12">
+						<h2>Students Affairs Office</h2>
+						<div class="facility-text">
+							{{ rs_fallback_data.field_rs_students_affairs_office.rendered|raw }}
+							{% if rs_fallback_data.field_rs_students_affairs_office.source == 'institution' %}
+								<small class="text-muted">* Information provided by the institution</small>
+							{% endif %}
+						</div>
 					</div>
+				{% endif %}
+			{% else %}
+			{{dump('ola')}}
+			{{dump(rs)}}
+				{% if rs.field_rs_students_affairs_office.value is not empty %}
 
-				</div>
+					
+					<div class="col-12">
+						<h2>Students Affairs Office</h2>
+						<div class="facility-text">
+							{{ rs.field_rs_students_affairs_office.value|raw }}
+						</div>
+					</div>
+				{% endif %}
 			{% endif %}
 		</div>
-
 
 		<div class="row">
-			{% if rs.field_financial_support_for_stud.value is not empty %}
-				<div class="col-md-6 mb-4">
-
-					<h2>Financial Support for Students</h2>
-					<div class="facility-text">
-						{{ rs.field_financial_support_for_stud.value|raw }}
+			{% if rs_mode == 'campus' %}
+				{% if rs_fallback_data.field_financial_support_for_stud.rendered %}
+					<div class="col-md-6 mb-4">
+						<h2>Financial Support for Students</h2>
+						<div class="facility-text">
+							{{ rs_fallback_data.field_financial_support_for_stud.rendered|raw }}
+							{% if rs_fallback_data.field_financial_support_for_stud.source == 'institution' %}
+								<small class="text-muted">* Information provided by the institution</small>
+							{% endif %}
+						</div>
 					</div>
+				{% endif %}
 
-				</div>
-			{% endif %}
-
-			{% if rs.field_rs_insurance.value is not empty %}
-				<div class="col-md-6 mb-4">
-
-					<h2>Insurance</h2>
-					<div class="facility-text">
-						{{ rs.field_rs_insurance.value|raw }}
+				{% if rs_fallback_data.field_rs_insurance.rendered %}
+					<div class="col-md-6 mb-4">
+						<h2>Insurance</h2>
+						<div class="facility-text">
+							{{ rs_fallback_data.field_rs_insurance.rendered|raw }}
+							{% if rs_fallback_data.field_rs_insurance.source == 'institution' %}
+								<small class="text-muted">* Information provided by the institution</small>
+							{% endif %}
+						</div>
 					</div>
+				{% endif %}
+			{% else %}
+				{% if rs.field_financial_support_for_stud.value is not empty %}
+					<div class="col-md-6 mb-4">
+						<h2>Financial Support for Students</h2>
+						<div class="facility-text">
+							{{ rs.field_financial_support_for_stud.value|raw }}
+						</div>
+					</div>
+				{% endif %}
 
-				</div>
+				{% if rs.field_rs_insurance.value is not empty %}
+					<div class="col-md-6 mb-4">
+						<h2>Insurance</h2>
+						<div class="facility-text">
+							{{ rs.field_rs_insurance.value|raw }}
+						</div>
+					</div>
+				{% endif %}
 			{% endif %}
-
-
 		</div>
 	</div>
+
 </div>
 
 
