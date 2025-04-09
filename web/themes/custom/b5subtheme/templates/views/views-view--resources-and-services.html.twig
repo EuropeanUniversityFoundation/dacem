@@ -2,6 +2,9 @@
 
 
 {% set rs = view.result[0]._entity %}
+
+{{dump(institution_rs)}}
+
 {% if rs.hasTranslation(current_language) %}
 	{% set rs = rs.getTranslation(current_language) %}
 {% else %}

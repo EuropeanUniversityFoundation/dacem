@@ -69,8 +69,15 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
             }
         }
     } else if ($view->id() === 'resources_and_services') {
+        //dump($view->current_display);
         $args = $view->args;
-        $institution_name = $args[0];
+        $entity_name = '';
+        if($view->current_display == 'page_1'){
+            $entity_name = $args[0];
+        }else if ($view->current_display == 'page_2'){
+            $entity_name = $args[1];
+        }
+
 
         if (empty($args[0])) {
             \Drupal::logger('custom_views_filters')->warning('No alias found in arguments');
@@ -78,21 +85,28 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
         }
 
 
-        $path = $alias_manager->getPathByAlias('/' . $institution_name, $current_language);
+        $path = $alias_manager->getPathByAlias('/' . $entity_name, $current_language);
 
         if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
 
-            $institution_id = (int) $matches[1];
+            $entity_id = (int) $matches[1];
 
 
+            $query_to_execute=null;
 
-
-
-            $query_to_execute = \Drupal::entityQuery('node')
+            if($view->current_display == 'page_1'){
+                $query_to_execute = \Drupal::entityQuery('node')
                 ->condition('type', 'resources_and_services')
-                ->condition('field_rs_institution', $institution_id)
+                ->condition('field_rs_institution', $entity_id)
                 ->accessCheck(TRUE) // ← 🔹 SOLUCIÓN AQUÍ
                 ->range(0, 1);
+            }else if ($view->current_display == 'page_2'){
+                $query_to_execute = \Drupal::entityQuery('node')
+                ->condition('type', 'resources_and_services')
+                ->condition('field_rs_campus', $entity_id)
+                ->accessCheck(TRUE) // ← 🔹 SOLUCIÓN AQUÍ
+                ->range(0, 1);
+            }
 
 
             $resource_ids = $query_to_execute->execute();
