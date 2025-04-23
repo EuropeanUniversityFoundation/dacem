@@ -190,9 +190,11 @@ class InstitutionMenuBlock extends BlockBase
             if ($institution_id) {
                 $institution = \Drupal\node\Entity\Node::load($institution_id);
             }
-        } elseif ($current_route === 'view.resources_and_services.page_1') {
+        } elseif ($current_route === 'view.resources_and_services.page_1' || $current_route === 'view.resources_and_services.page_2') {
+   
             $current_page = 'resources-and-services';
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+         
             $institution = \Drupal\node\Entity\Node::load($institution_id);
         } elseif ($current_route === 'view.programme_information.page_1') {
             $current_page = 'catalogue';
@@ -256,7 +258,7 @@ class InstitutionMenuBlock extends BlockBase
 
 
         if ($current_node_aux instanceof NodeInterface) {
-
+            
 
             ////dump($current_institution);
             //dump('if node interface');
@@ -265,14 +267,17 @@ class InstitutionMenuBlock extends BlockBase
 
             $node_type = $current_node_aux->bundle();
             //dump('if node interface');
-            //dump($node_type);
+        
 
             $institution = null;
 
             if ($node_type == 'institution') {
-                //dump('node type insitution');
+            
                 $institution = $current_node_aux;
-            } elseif ($node_type == 'programme') {
+            }else if($node_type == 'campus'){ 
+                $institution = $current_node_aux->get('field_campus_institution')->entity;
+            
+        }elseif ($node_type == 'programme') {
                 $institution = $current_node_aux->get('field_programme_institution')->entity;
             } elseif ($node_type == 'individual_educational_component') {
                 $programme = $current_node_aux->get('field_iec_programme')->entity;
@@ -302,6 +307,7 @@ class InstitutionMenuBlock extends BlockBase
                 }
             } elseif ($current_route === 'view.resources_and_services.page_1') {
                 $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+                   
                 $institution = \Drupal\node\Entity\Node::load($institution_id);
             }
 

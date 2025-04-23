@@ -14656,6 +14656,22 @@ RESOURCES AND SERVICES
 
 
 
+.image-banner-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.rs-section-image-text  {
+  position: absolute;
+  bottom: 0; /* o bottom: 0; si quieres al ras */
+  padding-left: 12%;
+  
+  color: white;
+  font-size: clamp(1.5rem, 3vw, 3rem); /* responsivo */
+  font-weight: bold;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
+
 
 
 
