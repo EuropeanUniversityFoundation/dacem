@@ -3,8 +3,10 @@
 
 {% set rs = view.result[0]._entity %}
 
-{{dump(view.result[0])}}
-{{dump(rs_mode)}}
+
+
+{#{dump(view.result[0])}}
+{#{dump(rs_mode)}}
 
 {% if rs.hasTranslation(current_language) %}
 	{% set rs = rs.getTranslation(current_language) %}
@@ -115,9 +117,8 @@
 			<div class="d-flex flex-wrap gap-3 justify-content-center">
 				{% for campus in campuses %}
 					{% set is_university = campus.label == 'University' %}
-					{% set url = path('entity.node.canonical', {'node': campus.id()}) %}
-
-					<a href="{{ url }}" class="campus-card d-flex align-items-center text-decoration-none" style="min-width: 250px; max-width: 300px; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.3); background-color: #111;">
+					
+					<a href="{{ campus.custom_url }}" class="campus-card d-flex align-items-center text-decoration-none" style="min-width: 250px; max-width: 300px; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.3); background-color: #111;">
 
 						{% if campus.field_campus_picture is not empty %}
 							{% set media_entity = campus.field_campus_picture.entity %}
@@ -146,8 +147,7 @@
 <div class="students-affairs-section">
 
 
-	<div class="image-banner">
-		<img src="/themes/custom/b5subtheme/images/university_life.jpg" alt="Descripción de la imagen" class="img-fluid"></div>
+	
 
 	<div class="my-custom-container">
 		<div class="row mb-5">
@@ -164,8 +164,7 @@
 					</div>
 				{% endif %}
 			{% else %}
-			{{dump('ola')}}
-			{{dump(rs)}}
+			
 				{% if rs.field_rs_students_affairs_office.value is not empty %}
 
 					

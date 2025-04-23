@@ -414,12 +414,6 @@ function b5subtheme_preprocess_views_view(&$variables)
   if ($variables['view']->id() == 'resources_and_services') {
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $variables['current_language'] = $current_language;
-
-
-
-  dump('dump de .theme');
-  dump($variables['view']->current_display);
-  dump($variables['view']->result);
   
 
     $arg_0 = \Drupal::routeMatch()->getParameter('arg_0');
@@ -452,22 +446,37 @@ function b5subtheme_preprocess_views_view(&$variables)
 
       // Traducir los campus al idioma actual.
       $translated_campuses = [];
-      foreach ($campuses as $campus) {
+      /*foreach ($campuses as $campus) {
         if ($campus->hasTranslation($current_language)) {
           $translated_campuses[] = $campus->getTranslation($current_language);
         } else {
           $translated_campuses[] = $campus;
         }
-      }
+      }*/
       // Verifica si hay campus disponibles.
 
+      $path_alias_manager = \Drupal::service('path_alias.manager');
+
+      foreach ($campuses as $campus) {
+        $translated = $campus->hasTranslation($current_language) ? $campus->getTranslation($current_language) : $campus;
+      
+        $internal_path = '/node/' . $translated->id();
+        $alias = $path_alias_manager->getAliasByPath($internal_path, $current_language);
+      
+        // Prepende el idioma
+        $lang_prefix = $current_language;
+        $translated->custom_url = '/' . $lang_prefix . '/resources-and-services' .  $alias;
+      
+        $translated_campuses[] = $translated;
+      }
+      
 
 
       //En caso de que sexa rs de campuso o que estamos vendo
       if ($variables['view']->current_display == 'page_2') {
         
 
-
+        
 
         $query = \Drupal::entityQuery('node')
           ->condition('type', 'resources_and_services')
@@ -508,6 +517,7 @@ function b5subtheme_preprocess_views_view(&$variables)
 
         // Obtenemos el nodo actual (que es un RS de campus porque estamos en page_2)
         $current_rs_node = $variables['view']->result[0]->_entity ?? null;
+
 
         $rs_fallback_data = [];
 
