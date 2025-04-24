@@ -14577,6 +14577,15 @@ RESOURCES AND SERVICES
 
 
 
+/*
+.rs-header {
+  padding: 30px 0;
+  width: 100%;
+  background-color: var(--university_primary_color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}*/
 
 .rs-header {
   padding: 30px 0;
@@ -14585,6 +14594,10 @@ RESOURCES AND SERVICES
   position: sticky;
   top: 0;
   z-index: 1000;
+  height: 75px;
+  align-items: center;
+  display: flex;
+
 }
 
 .mobility-section h3{
@@ -14674,5 +14687,59 @@ RESOURCES AND SERVICES
 
 
 
+.container-campuses-rs{
+  height: 185px;
+  background-color: black !important;
+}
+
+.campuses-row-rs {
+  /*padding: 45px 0;*/
+  height: 100%;
+  align-items: center !important;
+}
 
 
+.campus-card-rs {
+  
+  width: 300px;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background-color: #111;
+  transition: transform 0.s ease;
+}
+
+.campus-card-rs:hover {
+  transform: scale(1.07); /* agranda un 10% */
+  z-index: 2; /* opcional: para que sobresalga sobre otros */
+  background-color: var(--university_primary_color);
+}
+
+
+.campus-card-rs-img {
+
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+
+}
+
+.campus-card-rs-name{
+  
+  flex: 1;
+  height: 100px;
+ 
+}
+
+.campus-card-rs-name h5{
+  font-size: 20px;
+  font-weight: 500 !important;
+  font-family: Sans;
+}
+
+
+
+.nav-link-rs-menu{
+  font-size: 16px !important;
+  font-weight: 400 !important;
+} 

@@ -4,15 +4,14 @@
 {% set rs = view.result[0]._entity %}
 
 
-
 {#{dump(view.result[0])}}
-{#{dump(rs_mode)}}
+{#{dump(rs_mode)}#}
 
 {% if rs.hasTranslation(current_language) %}
 	{% set rs = rs.getTranslation(current_language) %}
 {% else %}
 	{% set rs = rs %}
-{% endif %#}
+{% endif %}
 
 
 {% set university = view.result[0]._relationship_entities.field_rs_institution %}
@@ -82,7 +81,7 @@
 		<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
 			<li class="nav-item">
-				<a class="nav-link mx-2 fw-bold" data-bs-toggle="collapse" href="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
+				<a class="nav-link nav-link-rs-menu mx-2 fw-bold" data-bs-toggle="collapse" href="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
 					<img src="/path/to/icon.jpg" alt="Campus" class="me-2" style="height: 24px;">
 					{{ 'Select Campus'|t }}
 					<i class="fas fa-chevron-down ms-1"></i>
@@ -91,53 +90,53 @@
 
 
 			<li class="nav-item">
-				<a class="nav-link mx-2 fw-bold" href="#student-affairs">{{ menu_titles.student_affairs }}</a>
+				<a class="nav-link nav-link-rs-menu mx-2 fw-bold" href="#student-affairs">{{ menu_titles.student_affairs }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link mx-2 fw-bold" href="#students-mobility">{{ menu_titles.students_mobility }}</a>
+				<a class="nav-link nav-link-rs-menu  mx-2 fw-bold" href="#students-mobility">{{ menu_titles.students_mobility }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link mx-2 fw-bold" href="#facilities">{{ menu_titles.facilities }}</a>
+				<a class="nav-link nav-link-rs-menu  mx-2 fw-bold" href="#facilities">{{ menu_titles.facilities }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link mx-2 fw-bold" href="#university-life">{{ menu_titles.university_life }}</a>
+				<a class="nav-link nav-link-rs-menu  mx-2 fw-bold" href="#university-life">{{ menu_titles.university_life }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link mx-2 fw-bold" href="#extra-academic-activities">{{ menu_titles.extra_academic_activities }}</a>
+				<a class="nav-link nav-link-rs-menu  mx-2 fw-bold" href="#extra-academic-activities">{{ menu_titles.extra_academic_activities }}</a>
 			</li>
 		</ul>
 
 	</div>
 </nav></div><div>
 
-<div class="collapse bg-dark text-white py-4" id="campusCollapse">
+<div class="collapse bg-dark text-white container-campuses-rs" id="campusCollapse" >
 	{% if campuses %}
-		<h3 class="text-center mb-4">CAMPUS</h3>
-		<div class="container">
-			<div class="d-flex flex-wrap gap-3 justify-content-center">
+		
+		
+			<div class="d-flex flex-wrap gap-3 justify-content-center campuses-row-rs">
 				{% for campus in campuses %}
 					{% set is_university = campus.label == 'University' %}
 					
-					<a href="{{ campus.custom_url }}" class="campus-card d-flex align-items-center text-decoration-none" style="min-width: 250px; max-width: 300px; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.3); background-color: #111;">
+					<a href="{{ campus.custom_url }}" class="campus-card-rs d-flex align-items-center text-decoration-none">
 
 						{% if campus.field_campus_picture is not empty %}
 							{% set media_entity = campus.field_campus_picture.entity %}
 							{% if media_entity is not empty %}
 								{% set file_entity = media_entity.field_media_image.entity %}
 								{% if file_entity is not empty %}
-									<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.label }}" style="width: 80px; height: 80px; object-fit: cover;">
+									<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.label }}" class="campus-card-rs-img" >
 								{% endif %}
 							{% endif %}
 						{% endif %}
 
-						<div class="d-flex align-items-center justify-content-center px-3 py-2
-														          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}" style="flex: 1; height: 80px; font-weight: bold;">
-							{{ campus.label }}
+						<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
+														          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
+							<h5>{{ campus.label }}</h5>
 						</div>
 					</a>
 				{% endfor %}
 			</div>
-		</div>
+		
 
 
 	{% endif %}
