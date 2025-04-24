@@ -32,10 +32,10 @@
 {% set university = translated_entity %}
 #}
 
-{% set institution_primary_color = institution.field_primary_color[0].color %}
+{% set institution_primary_color = entity.field_primary_color[0].color %}
 
-{% set institution_text_color = institution.field_text_color[0].color %}
-{% set institution_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
+{% set institution_text_color = entity.field_text_color[0].color %}
+{% set institution_emphasis_text_color = entity.field_emphasis_text_color[0].color %}
 
 
 
@@ -129,7 +129,9 @@
 	;
 	--university_emphasis_text_color: {{institution_emphasis_text_color}}
 	;
-}</style><div
+}</style>
+
+<div
 class="container-fluid">
 <!-- Menú superior de la universidad -->
 

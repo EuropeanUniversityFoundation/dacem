@@ -12,7 +12,7 @@
 	{% set rs = rs.getTranslation(current_language) %}
 {% else %}
 	{% set rs = rs %}
-{% endif %}
+{% endif %#}
 
 
 {% set university = view.result[0]._relationship_entities.field_rs_institution %}
@@ -231,7 +231,7 @@
 <div class="col-lg-12 col-md-12 col-sm-12">
 
 
-	<div id="facilities" class="facilities-section mb-5">
+	<div id="facilities" class="facilities-section mb-0">
 		<div class="image-banner">
 			<img src="/themes/custom/b5subtheme/images/facilities.jpg" alt="Descripción de la imagen" class="img-fluid">
 			<div class="rs-section-image-text">Facilities</div>

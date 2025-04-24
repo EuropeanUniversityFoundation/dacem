@@ -34,9 +34,9 @@
 {% endif %}
 
 {# Obtener colores de la universidad #}
-{% set university_primary_color = translated_institution.field_primary_color[0].color %}
-{% set university_text_color = translated_institution.field_text_color[0].color %}
-{% set university_emphasis_text_color = translated_institution.field_emphasis_text_color[0].color %}
+{% set university_primary_color = institution.field_primary_color[0].color %}
+{% set university_text_color = institution.field_text_color[0].color %}
+{% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
 
 <style>:root
 {
