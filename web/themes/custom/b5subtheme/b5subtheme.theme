@@ -414,7 +414,7 @@ function b5subtheme_preprocess_views_view(&$variables)
   if ($variables['view']->id() == 'resources_and_services') {
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $variables['current_language'] = $current_language;
-  
+
 
     $arg_0 = \Drupal::routeMatch()->getParameter('arg_0');
 
@@ -433,6 +433,19 @@ function b5subtheme_preprocess_views_view(&$variables)
       $translated_node = $node->getTranslation($current_language);
       // Pasa el nodo traducido a las plantillas Twig.
       //dump($translated_node);
+
+
+      $path_alias_manager = \Drupal::service('path_alias.manager');
+
+
+      $internal_path = '/node/' . $translated_node->id();
+      $alias = $path_alias_manager->getAliasByPath($internal_path, $current_language);
+
+      // Prepende el idioma
+      $lang_prefix = $current_language;
+      $translated_node->custom_url = '/' . $lang_prefix . '/resources-and-services' . $alias;
+
+
       $variables['university'] = $translated_node;
 
       // Obtener los campus asociados a la universidad.
@@ -455,28 +468,54 @@ function b5subtheme_preprocess_views_view(&$variables)
       }*/
       // Verifica si hay campus disponibles.
 
-      $path_alias_manager = \Drupal::service('path_alias.manager');
+
 
       foreach ($campuses as $campus) {
         $translated = $campus->hasTranslation($current_language) ? $campus->getTranslation($current_language) : $campus;
-      
+
         $internal_path = '/node/' . $translated->id();
-        $alias = $path_alias_manager->getAliasByPath($internal_path, $current_language);
-      
+        if($translated->hasTranslation($current_language)){
+          $alias = $path_alias_manager->getAliasByPath($internal_path, $current_language);
+        }else{
+          $alias = $path_alias_manager->getAliasByPath($internal_path, 'en');
+        }
+        
+        dump($alias);
         // Prepende el idioma
-        $lang_prefix = $current_language;
-        $translated->custom_url = '/' . $lang_prefix . '/resources-and-services' .  $alias;
-      
+        //dump($campus->id());
+        
+        
+        $rs_campus_nodes = \Drupal::entityTypeManager()
+        ->getStorage('node')
+        ->loadByProperties([
+          'type' => 'resources_and_services', 
+          'field_rs_campus' => $campus->id(),
+        ]);
+
+        $rs_campus = reset($rs_campus_nodes);
+
+        $lang_prefix='';
+        if ($rs_campus && $rs_campus->hasTranslation($current_language)){
+          //dump('entramos if');
+          $lang_prefix=$current_language;
+        }else{
+          $lang_prefix='en';
+          $alias = $path_alias_manager->getAliasByPath($internal_path, 'en');
+        }
+
+        
+
+        //$lang_prefix = $current_language;
+        $translated->custom_url = '/' . $lang_prefix . '/resources-and-services' . $alias;
+    
         $translated_campuses[] = $translated;
       }
-      
+
 
 
       //En caso de que sexa rs de campuso o que estamos vendo
       if ($variables['view']->current_display == 'page_2') {
-        
 
-        
 
         $query = \Drupal::entityQuery('node')
           ->condition('type', 'resources_and_services')
@@ -559,18 +598,22 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
 
-      }else{
+      } else {
         $variables['rs_mode'] = 'institution'; // útil en Twig para saber en qué modo estamos
       }
 
 
-      
+
 
     }
+    dump($translated_campuses);
     $variables['campuses'] = !empty($translated_campuses) ? array_values($translated_campuses) : NULL;
 
   }
 
 }
+
+
+
 
 

@@ -3,6 +3,7 @@
 use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\Sql;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\node\Entity\Node;
 
 /**
  * Implements hook_views_query_alter().
@@ -166,3 +167,29 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
 
     }
 }
+
+
+/**
+ * Implements hook_entity_insert().
+ */
+function custom_views_filters_entity_insert(\Drupal\Core\Entity\EntityInterface $entity) {
+
+    \Drupal::logger('b5subtheme')->notice('Hook entity insert');
+  
+    // Asegúrate de que sea un nodo de tipo 'campus'
+    if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'campus') {
+      
+      // Crear el nodo de Resources and Services asociado al campus
+      $rs_node = Node::create([
+        'type' => 'resources_and_services',
+        'title' => 'Resources and Services for ' . $entity->label(),
+        'field_rs_campus' => ['target_id' => $entity->id()],
+        'field_rs_institution' => ['target_id' => $entity->get('field_campus_institution')->target_id],
+        'langcode' => $entity->language()->getId(),
+        'status' => 1,
+      ]);
+  
+      $rs_node->save();
+    }
+  }
+  

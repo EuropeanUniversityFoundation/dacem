@@ -4,6 +4,7 @@
 {% set rs = view.result[0]._entity %}
 
 
+{% set university = view.result[0]._relationship_entities.field_rs_institution %}
 {#{dump(view.result[0])}}
 {#{dump(rs_mode)}#}
 
@@ -14,7 +15,6 @@
 {% endif %}
 
 
-{% set university = view.result[0]._relationship_entities.field_rs_institution %}
 {#{dump(view.result[0])}#}
 
 
@@ -82,7 +82,7 @@
 
 			<li class="nav-item">
 				<a class="nav-link nav-link-rs-menu mx-2 fw-bold" data-bs-toggle="collapse" href="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
-					<img src="/path/to/icon.jpg" alt="Campus" class="me-2" style="height: 24px;">
+					<img src="/path/to/icon.jpg" alt="" class="me-2" style="height: 24px;">
 					{{ 'Select Campus'|t }}
 					<i class="fas fa-chevron-down ms-1"></i>
 				</a>
@@ -109,34 +109,55 @@
 	</div>
 </nav></div><div>
 
-<div class="collapse bg-dark text-white container-campuses-rs" id="campusCollapse" >
-	{% if campuses %}
-		
-		
-			<div class="d-flex flex-wrap gap-3 justify-content-center campuses-row-rs">
-				{% for campus in campuses %}
-					{% set is_university = campus.label == 'University' %}
-					
-					<a href="{{ campus.custom_url }}" class="campus-card-rs d-flex align-items-center text-decoration-none">
+<div class="collapse bg-dark text-white container-campuses-rs" id="campusCollapse">
 
-						{% if campus.field_campus_picture is not empty %}
-							{% set media_entity = campus.field_campus_picture.entity %}
-							{% if media_entity is not empty %}
-								{% set file_entity = media_entity.field_media_image.entity %}
-								{% if file_entity is not empty %}
-									<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.label }}" class="campus-card-rs-img" >
-								{% endif %}
+	{% if campuses %}
+
+
+		<div class="d-flex flex-wrap gap-3 justify-content-center campuses-row-rs">
+
+
+			<a href="{{ university.custom_url }}" class="campus-card-rs d-flex align-items-center text-decoration-none">
+
+				{% if university.field_logo is not empty %}
+					{% set media_entity = university.field_logo.entity %}
+					{% if media_entity is not empty %}
+						{% set file_entity = media_entity.field_media_image.entity %}
+						{% if file_entity is not empty %}
+							<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ university.label }}" class="campus-card-rs-img">
+						{% endif %}
+					{% endif %}
+				{% endif %}
+
+				<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
+																																          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
+					<h5>{{ university.label }}</h5>
+				</div>
+			</a>
+
+
+			{% for campus in campuses %}
+				{% set is_university = campus.label == 'University' %}
+
+				<a href="{{ campus.custom_url }}" class="campus-card-rs d-flex align-items-center text-decoration-none">
+
+					{% if campus.field_campus_picture is not empty %}
+						{% set media_entity = campus.field_campus_picture.entity %}
+						{% if media_entity is not empty %}
+							{% set file_entity = media_entity.field_media_image.entity %}
+							{% if file_entity is not empty %}
+								<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.label }}" class="campus-card-rs-img">
 							{% endif %}
 						{% endif %}
+					{% endif %}
 
-						<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
-														          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
-							<h5>{{ campus.label }}</h5>
-						</div>
-					</a>
-				{% endfor %}
-			</div>
-		
+					<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
+																																			          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
+						<h5>{{ campus.label }}</h5>
+					</div>
+				</a>
+			{% endfor %}
+		</div>
 
 
 	{% endif %}
@@ -145,8 +166,6 @@
 
 <div class="students-affairs-section">
 
-
-	
 
 	<div class="my-custom-container">
 		<div class="row mb-5">
@@ -163,10 +182,10 @@
 					</div>
 				{% endif %}
 			{% else %}
-			
+
 				{% if rs.field_rs_students_affairs_office.value is not empty %}
 
-					
+
 					<div class="col-12">
 						<h2>Students Affairs Office</h2>
 						<div class="facility-text">
@@ -309,22 +328,40 @@
 	<div class="image-banner">
 		<img src="/themes/custom/b5subtheme/images/students_mobility_6.jpg" alt="Descripción de la imagen" class="img-fluid">
 		<div class="rs-section-image-text">Student's Mobility</div>
-		</div>
+	</div>
 
 	<div class="my-custom-container">
 
 		<div class="row">
 
-			{% if rs.field_practical_information_for.value is not empty %}
-				<div class="col-md-6 mb-4">
 
-					<h2>Practical Information For Incoming Mobile Students</h2>
-					<div class="facility-text">
-						{{ rs.field_practical_information_for.value|raw }}
+			{% if rs_mode == 'campus' %}
+				{% if rs_fallback_data.field_practical_information_for.rendered %}
+					<div class="col-md-6 mb-4">
+						<h2>Practical Information For Incoming Mobile Students</h2>
+						<div class="facility-text">
+							{{ rs_fallback_data.field_practical_information_for.rendered|raw }}
+							{% if rs_fallback_data.field_practical_information_for.source == 'institution' %}
+								<small class="text-muted">* Information provided by the institution</small>
+							{% endif %}
+						</div>
 					</div>
+				{% endif %}
+			{% else %}
 
-				</div>
+				{% if rs.field_practical_information_for.value is not empty %}
+
+
+					<div class="col-md-6 mb-4">
+						<h2>Practical Information For Incoming Mobile Students</h2>
+						<div class="facility-text">
+							{{ rs.field_practical_information_for.value|raw }}
+						</div>
+
+					</div>
+				{% endif %}
 			{% endif %}
+
 
 			{% if rs.field_internation_mobility_possi.value is not empty %}
 				<div class="col-md-6 mb-4">
@@ -350,7 +387,7 @@
 	<div class="image-banner">
 		<img src="/themes/custom/b5subtheme/images/university_life.jpg" alt="Descripción de la imagen" class="img-fluid">
 		<div class="rs-section-image-text">University Life</div>
-		</div>
+	</div>
 
 	<div class="my-custom-container">
 		<div class="row mb-5">

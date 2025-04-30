@@ -14705,15 +14705,22 @@ RESOURCES AND SERVICES
   border-radius: 0;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  background-color: #111;
-  transition: transform 0.s ease;
+  background-color: white;
+  transition: transform 0.4s ease;
+  
 }
 
 .campus-card-rs:hover {
   transform: scale(1.07); /* agranda un 10% */
   z-index: 2; /* opcional: para que sobresalga sobre otros */
-  background-color: var(--university_primary_color);
+ 
 }
+
+.campus-card-rs:hover .campus-card-rs-name {
+  background-color: var(--university_primary_color) !important;
+  color: #fff;
+}
+
 
 
 .campus-card-rs-img {
@@ -14728,6 +14735,7 @@ RESOURCES AND SERVICES
   
   flex: 1;
   height: 100px;
+  transition: background-color 0.3s ease;
  
 }
 
