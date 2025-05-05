@@ -7,7 +7,9 @@ use Drupal\group\Entity\Group;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
+use Drupal\group\Entity\GroupType;
 use Drupal\group\Entity\GroupContent;
+use Drupal\Group\Relation\GroupRelationTypeManager;
 
 
 /**
@@ -91,6 +93,13 @@ class AdminAreaController extends ControllerBase
    */
   protected function getInstitutionAdminData(Group $group, $user_id)
   {
+    
+    
+
+
+
+
+
     // Intentar obtener la universidad del usuario.
     $university = $this->getInstitutionAuthoredByUser($user_id) ?: $this->getSingleInstitutionInGroup($group);
     $group_id = $this->getGroupIdsByEntity($university->id());
@@ -112,7 +121,7 @@ class AdminAreaController extends ControllerBase
           'node' => $university->id(),
         ])->toString(),
         'create_degree_link' => $this->getGroupEntityCreationUrl($group_id, 'programme', parent_entity: $university),
-
+        'create_campus_link' => $this->getGroupEntityCreationUrl($group_id, 'campus', parent_entity: $university),
       ],
 
       'degrees' => [],
@@ -211,6 +220,51 @@ class AdminAreaController extends ControllerBase
          
       ];
     }
+
+
+   
+
+
+
+    $campuses = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+      'type' => 'campus',
+      'field_campus_institution' => $university->id(),
+    ]);
+
+    
+
+    $data['campuses'] = [];
+
+    foreach ($campuses as $campus) {
+      \Drupal::logger('custom_module')->notice('Campus: ' . $campus->label() . ', con id ' . $campus->id() . '. Group id es ' . $group_id);
+    
+      // Buscar el nodo de Resources and Services para este campus
+      $campus_rs = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+        'type' => 'resources_and_services',
+        'field_rs_campus' => $campus->id(),
+      ]);
+    
+      $campus_rs_node = reset($campus_rs); // asumimos que hay solo uno
+    
+      $data['campuses'][] = [
+        'title' => $campus->label(),
+        'link' => $campus->toUrl()->toString(),
+        'edit_link' => $campus->toUrl('edit-form', [
+          'query' => ['destination' => '/my-area'],
+        ])->toString(),
+        'delete_link' => $campus->toUrl('delete-form', [
+          'query' => ['destination' => '/my-area'],
+        ])->toString(),
+        'edit_rs_link' => $campus_rs_node->toUrl('edit-form', [
+          'query' => ['destination' => '/my-area'],
+        ])->toString(),
+      ];
+    }
+    
+
+
+
+    
 
 
 
@@ -646,6 +700,16 @@ class AdminAreaController extends ControllerBase
       ], [
         'query' => ['field_rs_institution' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
       ])->toString();
+
+    }else if($entity_type == 'campus'){
+      //Formar enlace de creaccioooooon para rs.
+      return Url::fromRoute('entity.group_relationship.create_form', [
+        'group' => $group_id,
+        'plugin_id' => 'group_node:' . $entity_type,
+      ], [
+        'query' => ['field_campus_institution' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
+      ])->toString();
+
 
     } else {
       return 0;

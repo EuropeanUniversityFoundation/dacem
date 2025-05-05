@@ -145,6 +145,40 @@
 				{% endif %}
 			</div>
 		{% endif %}
+
+
+		{% if data.role == 'universitytypegroup-university_a' and data.campuses is not empty %}
+			<div class="ms-3 mt-5">
+				<div class="d-flex align-items-center mb-2">
+					<h3 class="mb-0 me-2">Campuses</h3>
+					<a href="{{ data.university.create_campus_link }}" class="btn btn-success btn-sm">Create Campus</a>
+				</div>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Campus</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for campus in data.campuses %}
+							<tr>
+								<td>
+									<a href="{{ campus.link }}" target="_blank">{{ campus.title }}</a>
+								</td>
+								<td>
+									<a href="{{ campus.edit_link }}" class="btn btn-secondary btn-sm">Edit</a>
+									<a href="{{ campus.delete_link }}" class="btn btn-danger btn-sm">Delete</a>
+									<a href="{{ campus.edit_rs_link }}" class="btn btn-warning btn-sm">Edit RS</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endif %}
+
+
 	</div>
 
 	<!-- Tab de usuarios -->
@@ -202,4 +236,6 @@
 			</div>
 		</div>
 	{% endif %}
+
+
 </div>
