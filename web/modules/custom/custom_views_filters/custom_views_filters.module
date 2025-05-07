@@ -216,4 +216,83 @@ function custom_views_filters_entity_insert(EntityInterface $entity) {
       }
     }
   }
+
+
+
+
+
+  /**
+   * Implements hook_entity_predelete().
+   */
+  function custom_views_filters_entity_predelete(\Drupal\Core\Entity\EntityInterface $entity) {
+    // Solo actuar si es un nodo tipo campus
+    if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'campus') {
+      $campus_id = $entity->id();
+  
+      // Buscar nodo de tipo 'resources_and_services' asociado a ese campus
+      $rs_nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+        'type' => 'resources_and_services',
+        'field_rs_campus' => $campus_id,
+      ]);
+  
+      foreach ($rs_nodes as $rs_node) {
+        $rs_node->delete();
+        \Drupal::logger('custom_views_filters')->notice('Eliminado RS asociado al campus con ID ' . $campus_id);
+      }
+    }
+  }
+
+
+
+
+
+  /**
+   * Implements hook_entity_translation_insert().
+   */
+
+   /*
+  function custom_views_filters_entity_translation_insert(EntityInterface $entity) {
+    if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'campus') {
+      $langcode = $entity->language()->getId();
+      $campus_id = $entity->id();
+  
+      // Buscar el nodo RS relacionado con el campus.
+      $rs_nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+        'type' => 'resources_and_services',
+        'field_rs_campus' => $campus_id,
+      ]);
+  
+      $rs_node = reset($rs_nodes);
+  
+      if ($rs_node && !$rs_node->hasTranslation($langcode)) {
+        $campus_label = $entity->label();
+  
+        // Añadir traducción
+        $translation = $rs_node->addTranslation($langcode);
+        $translation->setTitle('RS ' . $campus_label . ' ' . strtoupper($langcode));
+  
+        // Copiar solo los campos traducibles y de contenido
+        $source_langcode = $rs_node->language()->getId();
+        $source_translation = $rs_node->getTranslation($source_langcode);
+  
+        foreach ($source_translation->getFields() as $field_name => $field) {
+          if (
+            $field->getFieldDefinition()->isTranslatable() &&
+            !$field->getFieldDefinition()->isComputed() &&
+            !$field->isEmpty()
+          ) {
+            // Copiar el valor del campo
+            $translation->set($field_name, $field->getValue());
+          }
+        }
+  
+        // Guardar con la nueva traducción
+        $rs_node->save();
+  
+        \Drupal::logger('custom_views_filters')->notice("Created RS translation for '{$campus_label}' in {$langcode}");
+      }
+    }
+  }
+
+  */
   

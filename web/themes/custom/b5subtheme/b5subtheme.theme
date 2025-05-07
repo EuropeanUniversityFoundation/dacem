@@ -132,7 +132,7 @@ function b5subtheme_preprocess_views_view(&$variables)
   $language_manager = \Drupal::service('language_manager');
   $variables['language_manager'] = $language_manager;
 
-  //dump($variables['view']->id());
+  ////dump($variables['view']->id());
 
   $path = \Drupal::theme()->getActiveTheme()->getPath() . '/translations/translations.yml';
 
@@ -179,7 +179,7 @@ function b5subtheme_preprocess_views_view(&$variables)
           $translated_url = substr($translated_url, strlen('/' . $current_language));
 
         }
-        //dump($current_language . '/catalogue' . $translated_url);
+        ////dump($current_language . '/catalogue' . $translated_url);
         // Construir la nueva URL con el formato correcto
         $row->custom_url = $current_language . '/general-information' . $translated_url;
         $variables['view']->result[$key]->_entity = $translated_institution;
@@ -260,7 +260,7 @@ function b5subtheme_preprocess_views_view(&$variables)
           $area = $carrera_translated->get('field_programme_area')->value ?? 'undefined';
           \Drupal::logger('custom_log')->notice('Area--> ' . $area);
 
-          //dump('/catalogue' . $carrera_translated->toUrl()->toString());
+          ////dump('/catalogue' . $carrera_translated->toUrl()->toString());
           $grouped_carreras[$area][] = [
             'title' => $carrera_translated->getTitle(),
             'url' => $url,
@@ -317,7 +317,7 @@ function b5subtheme_preprocess_views_view(&$variables)
               $translated_url = substr($translated_url, strlen('/' . $current_language));
 
             }
-            //dump($current_language . '/catalogue' . $translated_url);
+            ////dump($current_language . '/catalogue' . $translated_url);
             // Construir la nueva URL con el formato correcto
             $row->custom_url = $current_language . '/catalogue' . $translated_url;
 
@@ -373,7 +373,7 @@ function b5subtheme_preprocess_views_view(&$variables)
       // Carga la traducción activa del nodo.
       $translated_node = $node->getTranslation($current_language);
       // Pasa el nodo traducido a las plantillas Twig.
-      //dump($translated_node);
+      ////dump($translated_node);
       $variables['university'] = $translated_node;
 
       // Obtener los campus asociados a la universidad.
@@ -432,7 +432,7 @@ function b5subtheme_preprocess_views_view(&$variables)
       // Carga la traducción activa del nodo.
       $translated_node = $node->getTranslation($current_language);
       // Pasa el nodo traducido a las plantillas Twig.
-      //dump($translated_node);
+      ////dump($translated_node);
 
 
       $path_alias_manager = \Drupal::service('path_alias.manager');
@@ -480,9 +480,9 @@ function b5subtheme_preprocess_views_view(&$variables)
           $alias = $path_alias_manager->getAliasByPath($internal_path, 'en');
         }
         
-        dump($alias);
+        //dump($alias);
         // Prepende el idioma
-        //dump($campus->id());
+        ////dump($campus->id());
         
         
         $rs_campus_nodes = \Drupal::entityTypeManager()
@@ -496,7 +496,7 @@ function b5subtheme_preprocess_views_view(&$variables)
 
         $lang_prefix='';
         if ($rs_campus && $rs_campus->hasTranslation($current_language)){
-          //dump('entramos if');
+          ////dump('entramos if');
           $lang_prefix=$current_language;
         }else{
           $lang_prefix='en';
@@ -515,6 +515,7 @@ function b5subtheme_preprocess_views_view(&$variables)
 
       //En caso de que sexa rs de campuso o que estamos vendo
       if ($variables['view']->current_display == 'page_2') {
+        
 
 
         $query = \Drupal::entityQuery('node')
@@ -530,7 +531,14 @@ function b5subtheme_preprocess_views_view(&$variables)
         if (!empty($nids)) {
           $nid = reset($nids);
           $institution_rs = \Drupal\node\Entity\Node::load($nid);
+
+          if ($current_language && $node->hasTranslation($current_language)) {
+            $institution_rs = $institution_rs->getTranslation($current_language);
+          }
         }
+
+      
+        //dump($institution_rs);
 
 
         // Pasamos la entidad RS de la institución a Twig
@@ -606,7 +614,7 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
     }
-    dump($translated_campuses);
+    
     $variables['campuses'] = !empty($translated_campuses) ? array_values($translated_campuses) : NULL;
 
   }

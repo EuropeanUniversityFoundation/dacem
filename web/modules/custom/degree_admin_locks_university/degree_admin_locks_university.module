@@ -122,8 +122,48 @@ function degree_admin_locks_university_form_alter(&$form, \Drupal\Core\Form\Form
     }
   }
 
+  if ($form_id === 'node_campus_form') {
+    $operation = $form_state->getFormObject()->getOperation();
+    if ($operation === 'default') {
+      _preset_campus_institution_field($form);
+    }
+  }
+
 
 
 
 }
 
+
+
+
+
+function _preset_campus_institution_field(&$form) {
+  $current_user = \Drupal::currentUser();
+
+  // Obtener los grupos donde el usuario es University Admin
+  $memberships = \Drupal::service('group.membership_loader')->loadByUser($current_user);
+
+  foreach ($memberships as $membership) {
+    $group = $membership->getGroup();
+    $roles = $membership->getRoles();
+
+    // Si es universitytypegroup y tiene el rol adecuado
+    foreach ($roles as $role) {
+      if ($role->id() === 'universitytypegroup-university_a') {
+
+        // Buscar la institución asociada al grupo
+        $relationships = $group->getRelationships();
+        foreach ($relationships as $relationship) {
+          $entity = $relationship->getEntity();
+          if ($entity->bundle() === 'institution') {
+            // Establecer el valor por defecto y bloquear la edición
+            $form['field_campus_institution']['widget'][0]['target_id']['#default_value'] = $entity;
+            $form['field_campus_institution']['widget'][0]['target_id']['#disabled'] = TRUE;
+            return;
+          }
+        }
+      }
+    }
+  }
+}
