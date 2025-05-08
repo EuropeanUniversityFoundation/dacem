@@ -13,6 +13,7 @@ global-scripts:
     js/catalogue_buttons.js: {}
     js/degree_menu_scroll.js: {}
     js/campus-selection.js: {}
+    js/rs_submenu_scroll.js: {}
     
   dependencies:
     - core/jquery

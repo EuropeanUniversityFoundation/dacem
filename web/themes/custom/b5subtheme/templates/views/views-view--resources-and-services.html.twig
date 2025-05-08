@@ -1,3 +1,5 @@
+{{ attach_library('b5subtheme/rs_submenu_scroll') }}
+
 {% set current_language = view.result[0].node_field_data_langcode %}
 
 {#{dump(view)}#}
@@ -65,10 +67,10 @@
 					<a class="dropdown-item fw-bold" href="#student-affairs">{{ 'Student affairs'|t }}</a>
 				</li>
 				<li>
-					<a class="dropdown-item fw-bold" href="#students-mobility">{{ 'Students mobility'|t }}</a>
+					<a class="dropdown-item fw-bold" href="#facilities">{{ 'Facilities'|t }}</a>
 				</li>
 				<li>
-					<a class="dropdown-item fw-bold" href="#facilities">{{ 'Facilities'|t }}</a>
+					<a class="dropdown-item fw-bold" href="#students-mobility">{{ 'Students mobility'|t }}</a>
 				</li>
 				<li>
 					<a class="dropdown-item fw-bold" href="#university-life">{{ 'University life'|t }}</a>
@@ -84,7 +86,7 @@
 		<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
 			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu mx-2 fw-bold" data-bs-toggle="collapse" href="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
+				<a class="nav-link nav-link-rs-menu fw-bold" data-bs-toggle="collapse" href="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
 					<img src="/path/to/icon.jpg" alt="" class="me-2" style="height: 24px;">
 					{{ 'Select Campus'|t }}
 					<i class="fas fa-chevron-down ms-1"></i>
@@ -93,19 +95,19 @@
 
 
 			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu mx-2 fw-bold" href="#student-affairs">{{ menu_titles.student_affairs }}</a>
+				<a class="nav-link nav-link-rs-menu fw-bold" href="#student-affairs">{{ menu_titles.student_affairs }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu  mx-2 fw-bold" href="#students-mobility">{{ menu_titles.students_mobility }}</a>
+				<a class="nav-link nav-link-rs-menu  fw-bold" href="#facilities">{{ menu_titles.facilities }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu  mx-2 fw-bold" href="#facilities">{{ menu_titles.facilities }}</a>
+				<a class="nav-link nav-link-rs-menu  fw-bold" href="#students-mobility">{{ menu_titles.students_mobility }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu  mx-2 fw-bold" href="#university-life">{{ menu_titles.university_life }}</a>
+				<a class="nav-link nav-link-rs-menu  fw-bold" href="#university-life">{{ menu_titles.university_life }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu  mx-2 fw-bold" href="#extra-academic-activities">{{ menu_titles.extra_academic_activities }}</a>
+				<a class="nav-link nav-link-rs-menu fw-bold" href="#extra-academic-activities">{{ menu_titles.extra_academic_activities }}</a>
 			</li>
 		</ul>
 
@@ -167,7 +169,7 @@
 </div>
 
 
-<div class="students-affairs-section" id="student-affairs">
+<div class="rs-section students-affairs-section" id="student-affairs">
 
 
 	<div class="my-custom-container">
@@ -249,7 +251,7 @@
 </div>
 
 <div class="col-lg-12 col-md-12 col-sm-12">
-	<div id="facilities" class="facilities-section mb-0">
+	<div class="rs-section facilities-section mb-0" id="facilities">
 		<div class="image-banner">
 			<img src="/themes/custom/b5subtheme/images/facilities.jpg" alt="Facilities" class="img-fluid">
 			<div class="rs-section-image-text">Facilities</div>
@@ -392,7 +394,7 @@
 </div>
 
 
-<div class="mobility-section" id="students-mobility">
+<div class="rs-section mobility-section" id="students-mobility">
 	<div class="image-banner">
 		<img src="/themes/custom/b5subtheme/images/students_mobility_6.jpg" alt="Student's Mobility" class="img-fluid">
 		<div class="rs-section-image-text">Student's Mobility</div>
@@ -446,7 +448,7 @@
 	</div>
 </div>
 
-<div class="university-life-section"id="university-life">
+<div class="rs-section university-life-section"id="university-life">
 	<div class="image-banner">
 		<img src="/themes/custom/b5subtheme/images/university_life.jpg" alt="University Life" class="img-fluid">
 		<div class="rs-section-image-text">University Life</div>

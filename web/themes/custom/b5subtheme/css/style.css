@@ -14353,14 +14353,6 @@ RESOURCES AND SERVICES
 }
 
 
-.rs-section {
-  margin-left: 5%;
-}
-
-.rs-section p{
-  margin-left: 5%;
-}
-
 
 
 /* ----- Estilos generales para rs-navbar ----- */
@@ -14370,7 +14362,7 @@ RESOURCES AND SERVICES
   display: flex;
   justify-content: center; /* Centra el contenido */
   align-items: center;
-  padding: 10px 0;
+  padding: 0 !important;
 }
 
 /* ----- Asegurar que el contenedor no ocupe todo el ancho ----- */
@@ -14751,3 +14743,43 @@ RESOURCES AND SERVICES
   font-size: 16px !important;
   font-weight: 400 !important;
 } 
+
+
+
+.rs-nav {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.rs-nav .navbar {
+  padding: 0 !important;
+}
+
+.rs-nav .nav-item {
+  flex: 1;
+  text-align: center;
+}
+
+.rs-nav .nav-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 12px 0;
+  font-weight: bold;
+  color: #000;
+  border: 0 !important;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.rs-nav .nav-link:hover,
+.rs-nav .nav-link.active {
+  background-color: black;
+  color: white;
+}
+
+.rs-nav .nav-tabs .nav-link{
+  border: 0 !important;
+  border-radius: 0 !important;
+}
