@@ -14783,3 +14783,27 @@ RESOURCES AND SERVICES
   border: 0 !important;
   border-radius: 0 !important;
 }
+
+
+
+#campusCollapse {
+  transition: none !important; /* evita scroll suave */
+  scroll-margin-top: 0px;      /* evita que salte al colapsarse */
+}
+
+
+/* Aumenta la duración de la transición del collapse */
+#campusCollapse .collapse {
+  transition: height 0.5s ease;
+}
+
+
+
+
+.rs-campus-title h1{
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 34px;
+  font-family: sans-serif;
+  letter-spacing: -1px;
+}

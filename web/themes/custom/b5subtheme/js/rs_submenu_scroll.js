@@ -56,4 +56,16 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const collapseElement = document.getElementById('campusCollapse');
+  
+    collapseElement.addEventListener('show.bs.collapse', function () {
+      const scrollY = window.scrollY;
+      setTimeout(() => {
+        window.scrollTo({ top: scrollY });
+      }, 10); // Tiempo suficiente para evitar salto visual
+    });
+  });
   

@@ -45,9 +45,8 @@
 	;
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
-}</style><div class="sticky-nav">
-
-<div class="rs-header">
+}</style>
+<div class="sticky-nav"> <div class="rs-header">
 	<div class="container-fluid container-fluid-programme-band ">
 		<h1 class="programme-title">RESOURCES AND SERVICES</h1>
 	</div>
@@ -86,7 +85,7 @@
 		<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
 			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu fw-bold" data-bs-toggle="collapse" href="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
+				<a class="nav-link nav-link-rs-menu fw-bold" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
 					<img src="/path/to/icon.jpg" alt="" class="me-2" style="height: 24px;">
 					{{ 'Select Campus'|t }}
 					<i class="fas fa-chevron-down ms-1"></i>
@@ -135,7 +134,7 @@
 				{% endif %}
 
 				<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
-																																          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
+																																						          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
 					<h5>{{ university.label }}</h5>
 				</div>
 			</a>
@@ -157,7 +156,7 @@
 					{% endif %}
 
 					<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
-																																			          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
+																																										          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
 						<h5>{{ campus.label }}</h5>
 					</div>
 				</a>
@@ -167,6 +166,11 @@
 
 	{% endif %}
 </div>
+{% if rs_campus_title %}
+	<div class="rs-campus-title d-flex justify-content-center my-4">
+		<h1 class="text-center">{{ rs_campus_title }}</h1>
+	</div>
+{% endif %}
 
 
 <div class="rs-section students-affairs-section" id="student-affairs">
@@ -182,6 +186,8 @@
 							{{ rs_fallback_data.field_rs_students_affairs_office.rendered|raw }}
 							{% if rs_fallback_data.field_rs_students_affairs_office.source == 'institution' %}
 								<small class="text-muted">* Information provided by the institution</small>
+							{% else %}
+								<small class="text-muted">* Only for this campus</small>
 							{% endif %}
 						</div>
 					</div>
@@ -210,6 +216,8 @@
 							{{ rs_fallback_data.field_financial_support_for_stud.rendered|raw }}
 							{% if rs_fallback_data.field_financial_support_for_stud.source == 'institution' %}
 								<small class="text-muted">* Information provided by the institution</small>
+							{% else %}
+								<small class="text-muted">* Only for this campus</small>
 							{% endif %}
 						</div>
 					</div>
@@ -222,6 +230,8 @@
 							{{ rs_fallback_data.field_rs_insurance.rendered|raw }}
 							{% if rs_fallback_data.field_rs_insurance.source == 'institution' %}
 								<small class="text-muted">* Information provided by the institution</small>
+							{% else %}
+								<small class="text-muted">* Only for this campus</small>
 							{% endif %}
 						</div>
 					</div>
@@ -270,7 +280,9 @@
 								<div class="facility-text">
 									{{ rs_fallback_data.field_rs_medical_facilities.rendered|raw }}
 									{% if rs_fallback_data.field_rs_medical_facilities.source == 'institution' %}
-										<small class="text-muted">* Information provided by the institution</small>
+										<small class="text-warning">* Information provided by the institution</small>
+									{% else %}
+										<small class="text-warning">* Only for this campus</small>
 									{% endif %}
 								</div>
 							</div>
@@ -287,7 +299,9 @@
 								<div class="facility-text">
 									{{ rs_fallback_data.field_rs_learning_facilities.rendered|raw }}
 									{% if rs_fallback_data.field_rs_learning_facilities.source == 'institution' %}
-										<small class="text-muted">* Information provided by the institution</small>
+										<small class="text-warning">* Information provided by the institution</small>
+									{% else %}
+										<small class="text-warning">* Only for this campus</small>
 									{% endif %}
 								</div>
 							</div>
@@ -336,7 +350,9 @@
 								<div class="facility-text">
 									{{ rs_fallback_data.field_sport_and_leisure_faciliti.rendered|raw }}
 									{% if rs_fallback_data.field_sport_and_leisure_faciliti.source == 'institution' %}
-										<small class="text-muted">* Information provided by the institution</small>
+										<small class="text-warning">* Information provided by the institution</small>
+									{% else %}
+										<small class="text-warning">* Only for this campus</small>
 									{% endif %}
 								</div>
 							</div>
@@ -353,7 +369,9 @@
 								<div class="facility-text">
 									{{ rs_fallback_data.field_rs_special_facilities.rendered|raw }}
 									{% if rs_fallback_data.field_rs_special_facilities.source == 'institution' %}
-										<small class="text-muted">* Information provided by the institution</small>
+										<small class="text-warning">* Information provided by the institution</small>
+									{% else %}
+										<small class="text-warning">* Only for this campus</small>
 									{% endif %}
 								</div>
 							</div>
@@ -410,6 +428,8 @@
 							{{ rs_fallback_data.field_practical_information_for.rendered|raw }}
 							{% if rs_fallback_data.field_practical_information_for.source == 'institution' %}
 								<small class="text-muted">* Information provided by the institution</small>
+							{% else %}
+								<small class="text-muted">* Only for this campus</small>
 							{% endif %}
 						</div>
 					</div>
@@ -421,6 +441,8 @@
 							{{ rs_fallback_data.field_internation_mobility_possi.rendered|raw }}
 							{% if rs_fallback_data.field_internation_mobility_possi.source == 'institution' %}
 								<small class="text-muted">* Information provided by the institution</small>
+							{% else %}
+								<small class="text-muted">* Only for this campus</small>
 							{% endif %}
 						</div>
 					</div>
@@ -448,7 +470,7 @@
 	</div>
 </div>
 
-<div class="rs-section university-life-section"id="university-life">
+<div class="rs-section university-life-section" id="university-life">
 	<div class="image-banner">
 		<img src="/themes/custom/b5subtheme/images/university_life.jpg" alt="University Life" class="img-fluid">
 		<div class="rs-section-image-text">University Life</div>
@@ -464,6 +486,8 @@
 							{{ rs_fallback_data.field_rs_cost_of_living.rendered|raw }}
 							{% if rs_fallback_data.field_rs_cost_of_living.source == 'institution' %}
 								<small class="text-muted">* Information provided by the institution</small>
+							{% else %}
+								<small class="text-muted">* Only for this campus</small>
 							{% endif %}
 						</div>
 					</div>
@@ -489,6 +513,8 @@
 							{{ rs_fallback_data.field_rs_transportation.rendered|raw }}
 							{% if rs_fallback_data.field_rs_transportation.source == 'institution' %}
 								<small class="text-muted">* Information provided by the institution</small>
+							{% else %}
+								<small class="text-muted">* Only for this campus</small>
 							{% endif %}
 						</div>
 					</div>
@@ -501,6 +527,8 @@
 							{{ rs_fallback_data.field_rs_meals.rendered|raw }}
 							{% if rs_fallback_data.field_rs_meals.source == 'institution' %}
 								<small class="text-muted">* Information provided by the institution</small>
+							{% else %}
+								<small class="text-muted">* Only for this campus</small>
 							{% endif %}
 						</div>
 					</div>

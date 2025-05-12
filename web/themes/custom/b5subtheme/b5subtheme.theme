@@ -565,6 +565,16 @@ function b5subtheme_preprocess_views_view(&$variables)
         // Obtenemos el nodo actual (que es un RS de campus porque estamos en page_2)
         $current_rs_node = $variables['view']->result[0]->_entity ?? null;
 
+        if ($current_rs_node && $current_rs_node->hasField('field_rs_campus') && !$current_rs_node->get('field_rs_campus')->isEmpty()) {
+          $campus = $current_rs_node->get('field_rs_campus')->entity;
+          if ($campus && $campus->hasTranslation($current_language)) {
+            $campus = $campus->getTranslation($current_language);
+          }
+          $variables['rs_campus_title'] = $campus->label();
+          
+        }
+        
+
 
         $rs_fallback_data = [];
 
