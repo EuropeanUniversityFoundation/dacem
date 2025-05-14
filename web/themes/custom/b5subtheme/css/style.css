@@ -13024,6 +13024,13 @@ code {
   overflow: auto;
 }
 
+.my-custom-container-2 {
+  padding-left: 20%; /* Ajusta según tus necesidades */
+  padding-right: 20%; /* Ajusta según tus necesidades */
+  margin-top: 50px;
+  overflow: auto;
+}
+
 
 
 .university-menu-block {
@@ -14552,7 +14559,7 @@ RESOURCES AND SERVICES
 }
 
 .facility-icon {
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: var(--university_primary_color);
   margin-bottom: 1rem;
 }
@@ -14562,6 +14569,7 @@ RESOURCES AND SERVICES
 }
 
 .facility-box h4 {
+  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
   color: var(--university_primary_color);
@@ -14603,6 +14611,7 @@ RESOURCES AND SERVICES
   line-height: 34px;
   font-family: sans-serif;
   letter-spacing: -1px;
+  color: black;
 }
 
 
@@ -14617,6 +14626,7 @@ RESOURCES AND SERVICES
   line-height: 34px;
   font-family: sans-serif;
   letter-spacing: -1px;
+  color: black;
 }
 
 .students-affairs-section h3{
@@ -14630,6 +14640,7 @@ RESOURCES AND SERVICES
   line-height: 34px;
   font-family: sans-serif;
   letter-spacing: -1px;
+  color: black;
 }
 
 .back-to-top {
@@ -14672,8 +14683,8 @@ RESOURCES AND SERVICES
   padding-left: 12%;
   
   color: white;
-  font-size: clamp(1.5rem, 3vw, 3rem); /* responsivo */
-  font-weight: bold;
+  font-size: 55px; /* responsivo */
+  font-weight: 900;
   text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
 }
 
@@ -14788,6 +14799,7 @@ RESOURCES AND SERVICES
 
 #campusCollapse {
   transition: none !important; /* evita scroll suave */
+  /*transition: height 0.5s ease;
   scroll-margin-top: 0px;      /* evita que salte al colapsarse */
 }
 
