@@ -4,12 +4,16 @@ namespace Drupal\admin_area\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\group\Entity\Group;
+use Drupal\Tests\Core\StackMiddleware\FalseContentResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
 use Drupal\group\Entity\GroupType;
 use Drupal\group\Entity\GroupContent;
 use Drupal\Group\Relation\GroupRelationTypeManager;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Link;
+use Drupal\Core\Render\Markup;
 
 
 /**
@@ -17,6 +21,140 @@ use Drupal\Group\Relation\GroupRelationTypeManager;
  */
 class AdminAreaController extends ControllerBase
 {
+
+  private function hasGroupRole($role_id) {
+    
+    $user_id = $this->currentUser->id();
+    // Cargar los grupos del usuario.
+    $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
+    // Variable para almacenar los datos que se mostrarán.
+    $data = [];
+
+    foreach ($user_groups as $membership) {
+      $group = $membership->getGroup();
+      $roles = $membership->getRoles();
+      foreach ($roles as $role) {
+        if ($role->id() === $role_id) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+
+  
+  public function institutionPage() {
+    if (!$this->hasGroupRole('universitytypegroup-university_a')) {
+      return [
+        '#markup' => $this->t('Access denied.'),
+      ];
+    }
+  
+    return [
+      '#markup' => $this->t('Institution content will go here.'),
+    ];
+  }
+  
+    public function campusPage() {
+      return ['#markup' => $this->t('Campus content will go here.')];
+    }
+  
+    public function resourcesPage() {
+      return ['#markup' => $this->t('Resources and Services content will go here.')];
+    }
+  
+    public function programmePage() {
+      $user = $this->currentUser();
+      $is_university_admin = $this->hasGroupRole('universitytypegroup-university_a');
+    
+      // Fetch programmes
+      $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery();
+      $query->condition('status', 1);
+      $query->condition('type', 'programme');
+      $query->accessCheck(FALSE);
+    
+      if (!$is_university_admin) {
+        $query->condition('uid', $user->id());
+      }
+    
+      $nids = $query->execute();
+      $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+    
+      $rows = [];
+    
+      foreach ($nodes as $node) {
+        $operations = [
+          '#type' => 'operations',
+          '#links' => [],
+        ];
+    
+        if ($node->access('update')) {
+          $operations['#links']['edit'] = [
+            'title' => $this->t('Edit'),
+            'url' => Url::fromRoute('entity.node.edit_form', ['node' => $node->id()]),
+          ];
+        }
+    
+        if ($node->access('delete')) {
+          $operations['#links']['delete'] = [
+            'title' => $this->t('Delete'),
+            'url' => Url::fromRoute('entity.node.delete_form', ['node' => $node->id()]),
+          ];
+        }
+    
+        $rows[] = [
+          'data' => [
+            ['data' => ['#markup' => $node->label()]],
+            ['data' => $operations],
+          ],
+        ];
+      }
+    
+      $build = [];
+    
+      // Acción local: botón para añadir
+      if ($is_university_admin) {
+        $build['actions'] = [
+          '#type' => 'container',
+          '#attributes' => ['style' => 'margin: 1rem;'],
+          'add' => [
+            '#type' => 'link',
+            '#title' => $this->t('+ Add programme'),
+            '#url' => Url::fromRoute('node.add', ['node_type' => 'programme']),
+            '#attributes' => [
+              'class' => ['button', 'button--primary'],
+              'style' => 'border-radius: 0; padding: 0.75rem 1rem;',
+            ],
+          ],
+        ];
+      }
+    
+      $build['table'] = [
+        '#type' => 'table',
+        '#header' => [$this->t('Title'), $this->t('Operations')],
+        '#rows' => $rows,
+        '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
+        '#empty' => $this->t('No programmes found.'),
+      ];
+    
+
+      $build['#attached']['library'][] = 'core/drupal.dialog.ajax'; // si usas AJAX
+$build['#attributes']['style'] = 'margin: 2rem;';
+
+      return $build;
+    }
+    
+    
+  
+    public function iecPage() {
+      return ['#markup' => $this->t('IEC content will go here.')];
+    }
+  
+  
+
+
+
   /**
    * El usuario actual.
    *

@@ -1,0 +1,48 @@
+admin_area.admin_menu:
+  title: 'Content'
+  description: 'Custom admin menu for managing entities'
+  parent: system.admin
+  menu_name: admin
+  route_name: <none>
+  weight: 10
+
+
+admin_area.institution_link:
+  title: 'Institution'
+  description: 'Manage institutions'
+  parent: admin_area.admin_menu
+  route_name: admin_area.institution_page
+  menu_name: admin
+  weight: 0
+
+admin_area.campus_link:
+  title: 'Campus'
+  description: 'Manage campuses'
+  parent: admin_area.admin_menu
+  route_name: admin_area.campus_page
+  menu_name: admin
+  weight: 1
+
+admin_area.resources_link:
+  title: 'Resources and Services'
+  description: 'Manage RS'
+  parent: admin_area.admin_menu
+  route_name: admin_area.resources_page
+  menu_name: admin
+  weight: 2
+
+admin_area.programme_link:
+  title: 'Programme'
+  description: 'Manage programmes'
+  parent: admin_area.admin_menu
+  route_name: admin_area.programme_page
+  menu_name: admin
+  weight: 3
+
+admin_area.iec_link:
+  title: 'IEC'
+  description: 'Manage IEC'
+  parent: admin_area.admin_menu
+  route_name: admin_area.iec_page
+  menu_name: admin
+  weight: 4
