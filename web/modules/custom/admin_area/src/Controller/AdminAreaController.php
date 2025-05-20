@@ -24,8 +24,9 @@ use Drupal\Core\Render\Markup;
 class AdminAreaController extends ControllerBase
 {
 
-  private function hasGroupRole($role_id) {
-    
+  private function hasGroupRole($role_id)
+  {
+
     $user_id = $this->currentUser->id();
     // Cargar los grupos del usuario.
     $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
@@ -45,402 +46,465 @@ class AdminAreaController extends ControllerBase
   }
 
 
-  
-public function institutionPage() {
-  if (!$this->hasGroupRole('universitytypegroup-subject_admi')) {
-    return [
-      '#markup' => $this->t('Access denied.'),
-    ];
-  }
-  $user_id = $this->currentUser->id();
 
-  // Obtener los grupos del usuario y los datos del grupo
-  $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
-  $data = [];
+  public function institutionPage()
+  {
+    if (!$this->hasGroupRole('universitytypegroup-university_a')) {
+      return [
+        '#markup' => $this->t('Access denied.'),
+      ];
+    }
+    $user_id = $this->currentUser->id();
 
-  foreach ($user_groups as $membership) {
-    $group = $membership->getGroup();
-    $roles = $membership->getRoles();
+    // Obtener los grupos del usuario y los datos del grupo
+    $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
+    $data = [];
 
-    foreach ($roles as $role) {
-      switch ($role->id()) {
-        case 'universitytypegroup-university_a':
-          $data = $this->getInstitutionAdminData($group, $user_id);
-          break 2;
+    foreach ($user_groups as $membership) {
+      $group = $membership->getGroup();
+      $roles = $membership->getRoles();
 
-        case 'universitytypegroup-degree_admin':
-          $data = $this->getProgrammeAdminData($group, $user_id);
-          break 2;
+      foreach ($roles as $role) {
+        switch ($role->id()) {
+          case 'universitytypegroup-university_a':
+            $data = $this->getInstitutionAdminData($group, $user_id);
+            break 2;
 
-        case 'universitytypegroup-subject_admi':
-          $data = $this->getIECAdminData($group, $user_id);
-          break 2;
+          case 'universitytypegroup-degree_admin':
+            $data = $this->getProgrammeAdminData($group, $user_id);
+            break 2;
+
+          case 'universitytypegroup-subject_admi':
+            $data = $this->getIECAdminData($group, $user_id);
+            break 2;
+        }
       }
     }
-  }
 
-  $header = [
-    $this->t('University'),
-    $this->t('Operations'),
-  ];
-
-  $rows = [];
-
-  if (!empty($data['university']['name'])) {
-    $operations = [
-      '#type' => 'operations',
-      '#links' => [],
+    $header = [
+      $this->t('University'),
+      $this->t('Operations'),
     ];
 
-    if (!empty($data['university']['edit_link'])) {
-      $operations['#links']['edit'] = [
-        'title' => $this->t('Edit'),
-        'url' => Url::fromUri('internal:' . $data['university']['edit_link']),
-      ];
-    }
+    $rows = [];
 
-    if (!empty($data['university']['translation_link'])) {
-      $operations['#links']['translate'] = [
-        'title' => $this->t('Translate'),
-        'url' => Url::fromUri('internal:' . $data['university']['translation_link']),
-      ];
-    }
-
-    $rows[] = [
-      'data' => [
-        ['data' => ['#markup' => $data['university']['name']]],
-        ['data' => $operations],
-      ],
-    ];
-  }
-
-  return [
-    '#type' => 'table',
-    '#header' => $header,
-    '#rows' => $rows,
-    '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
-    '#empty' => $this->t('No university found.'),
-    '#prefix' => '<div style="margin: 2rem;">',
-    '#suffix' => '</div>',
-  ];
-}
-
-
-public function campusPage() {
-  if (!$this->hasGroupRole('universitytypegroup-subject_admi')) {
-    return [
-      '#markup' => $this->t('Access denied.'),
-    ];
-  }
-  $user_id = $this->currentUser->id();
-
-  // Obtener los grupos del usuario y los datos según el rol
-  $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
-  $data = [];
-
-  foreach ($user_groups as $membership) {
-    $group = $membership->getGroup();
-    $roles = $membership->getRoles();
-
-    foreach ($roles as $role) {
-      switch ($role->id()) {
-        case 'universitytypegroup-university_a':
-          $data = $this->getInstitutionAdminData($group, $user_id);
-          break 2;
-
-        case 'universitytypegroup-degree_admin':
-          $data = $this->getProgrammeAdminData($group, $user_id);
-          break 2;
-
-        case 'universitytypegroup-subject_admi':
-          $data = $this->getIECAdminData($group, $user_id);
-          break 2;
-      }
-    }
-  }
-
-  // Preparar la tabla con los campuses
-  $header = [
-    $this->t('Campus'),
-    $this->t('Operations'),
-  ];
-
-  $rows = [];
-
-  foreach ($data['campuses'] ?? [] as $campus) {
-    $operations = [
-      '#type' => 'operations',
-      '#links' => [],
-    ];
-
-    if (!empty($campus['edit_link'])) {
-      $operations['#links']['edit'] = [
-        'title' => $this->t('Edit'),
-        'url' => Url::fromUri('internal:' . $campus['edit_link']),
-      ];
-    }
-
-    if (!empty($campus['delete_link'])) {
-      $operations['#links']['delete'] = [
-        'title' => $this->t('Delete'),
-        'url' => Url::fromUri('internal:' . $campus['delete_link']),
-      ];
-    }
-
-    if (!empty($campus['translation_link'])) {
-      $operations['#links']['translate'] = [
-        'title' => $this->t('Translate'),
-        'url' => Url::fromUri('internal:' . $campus['translation_link']),
-      ];
-    }
-
-    $rows[] = [
-      'data' => [
-        ['data' => ['#markup' => $campus['title']]],
-        ['data' => $operations],
-      ],
-    ];
-  }
-
-  return [
-    '#type' => 'table',
-    '#header' => $header,
-    '#rows' => $rows,
-    '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
-    '#empty' => $this->t('No campuses found.'),
-    '#prefix' => '<div style="margin: 2rem;">',
-    '#suffix' => '</div>',
-  ];
-}
-
-
-
-  
-
-public function resourcesPage() {
-  $user_id = $this->currentUser->id();
-
-  if (!$this->hasGroupRole('universitytypegroup-subject_admi')) {
-    return [
-      '#markup' => $this->t('Access denied.'),
-    ];
-  }
-  // Obtener grupos y datos según rol
-  $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
-  $data = [];
-
-  foreach ($user_groups as $membership) {
-    $group = $membership->getGroup();
-    $roles = $membership->getRoles();
-
-
-    
-
-
-    foreach ($roles as $role) {
-      switch ($role->id()) {
-        case 'universitytypegroup-university_a':
-          $data = $this->getInstitutionAdminData($group, $user_id);
-          break 2;
-
-        case 'universitytypegroup-degree_admin':
-          $data = $this->getProgrammeAdminData($group, $user_id);
-          break 2;
-
-        case 'universitytypegroup-subject_admi':
-          $data = $this->getIECAdminData($group, $user_id);
-          break 2;
-      }
-    }
-  }
-
-  $header = [
-    $this->t('Resource / Service'),
-    $this->t('Operations'),
-  ];
-
-  $rows = [];
-
-  // RS de la universidad
-  if (!empty($data['resources_services']['exists']) && !empty($data['resources_services']['rs_label'])) {
-    $operations = [
-      '#type' => 'operations',
-      '#links' => [],
-    ];
-
-    if (!empty($data['resources_services']['edit_link'])) {
-      $operations['#links']['edit'] = [
-        'title' => $this->t('Edit'),
-        'url' => Url::fromUri('internal:' . $data['resources_services']['edit_link']),
-      ];
-    }
-
-    $rows[] = [
-      'data' => [
-        ['data' => ['#markup' => $data['resources_services']['rs_label']]],
-        ['data' => $operations],
-      ],
-    ];
-  }
-
-  // RS de cada campus
-  foreach ($data['campuses'] ?? [] as $campus) {
-    if (!empty($campus['rs_label'])) {
+    if (!empty($data['university']['name'])) {
       $operations = [
         '#type' => 'operations',
         '#links' => [],
       ];
 
-      if (!empty($campus['edit_rs_link'])) {
+      if (!empty($data['university']['edit_link'])) {
         $operations['#links']['edit'] = [
           'title' => $this->t('Edit'),
-          'url' => Url::fromUri('internal:' . $campus['edit_rs_link']),
+          'url' => Url::fromUri('internal:' . $data['university']['edit_link']),
+        ];
+      }
+
+      if (!empty($data['university']['translation_link'])) {
+        $operations['#links']['translate'] = [
+          'title' => $this->t('Translate'),
+          'url' => Url::fromUri('internal:' . $data['university']['translation_link']),
         ];
       }
 
       $rows[] = [
         'data' => [
-          ['data' => ['#markup' => $campus['rs_label']]],
+          ['data' => ['#markup' => $data['university']['name']]],
           ['data' => $operations],
         ],
       ];
     }
+
+    return [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
+      '#empty' => $this->t('No university found.'),
+      '#prefix' => '<div style="margin: 2rem;">',
+      '#suffix' => '</div>',
+    ];
   }
 
-  return [
-    '#type' => 'table',
-    '#header' => $header,
-    '#rows' => $rows,
-    '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
-    '#empty' => $this->t('No resources or services found.'),
-    '#prefix' => '<div style="margin: 2rem;">',
-    '#suffix' => '</div>',
-  ];
-}
 
-  
-    public function programmePage() {
+  public function campusPage()
+  {
+    if (!$this->hasGroupRole('universitytypegroup-university_a')) {
+      return [
+        '#markup' => $this->t('Access denied.'),
+      ];
+    }
+    $user_id = $this->currentUser->id();
 
-      if ($this->hasGroupRole('universitytypegroup-subject_admi')) {
-        return [
-          '#markup' => $this->t('Access denied.'),
+    // Obtener los grupos del usuario y los datos según el rol
+    $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
+    $data = [];
+    $group_id = null;
+
+    foreach ($user_groups as $membership) {
+     
+      $group = $membership->getGroup();
+      $roles = $membership->getRoles();
+      $group_id=$group;
+
+      foreach ($roles as $role) {
+        switch ($role->id()) {
+          case 'universitytypegroup-university_a':
+            $data = $this->getInstitutionAdminData($group, $user_id);
+            break 2;
+
+          case 'universitytypegroup-degree_admin':
+            $data = $this->getProgrammeAdminData($group, $user_id);
+            break 2;
+
+          case 'universitytypegroup-subject_admi':
+            $data = $this->getIECAdminData($group, $user_id);
+            break 2;
+        }
+      }
+    }
+
+    // Preparar la tabla con los campuses
+    $header = [
+      $this->t('Campus'),
+      $this->t('Operations'),
+    ];
+
+    $university = $data['university'];
+    $rows = [];
+    
+   
+    foreach ($data['campuses'] ?? [] as $campus) {
+      $operations = [
+        '#type' => 'operations',
+        '#links' => [],
+        '#attributes' => [
+          'style' => 'min-width: 80px; max-width: 80px;',
+        ],
+        
+      ];
+
+      if (!empty($campus['edit_link'])) {
+        $operations['#links']['edit'] = [
+          'title' => $this->t('Edit'),
+          'url' => Url::fromUri('internal:' . $campus['edit_link']),
         ];
       }
 
-
-      $user = $this->currentUser();
-      $is_university_admin = $this->hasGroupRole('universitytypegroup-university_a');
-    
-      // Fetch programmes
-      $query = \Drupal::entityTypeManager()->getStorage('node')->getQuery();
-      $query->condition('status', 1);
-      $query->condition('type', 'programme');
-      $query->accessCheck(FALSE);
-    
-      if (!$is_university_admin) {
-        $query->condition('uid', $user->id());
+      if (!empty($campus['delete_link'])) {
+        $operations['#links']['delete'] = [
+          'title' => $this->t('Delete'),
+          'url' => Url::fromUri('internal:' . $campus['delete_link']),
+        ];
       }
+
+      if (!empty($campus['translation_link'])) {
+        $operations['#links']['translate'] = [
+          'title' => $this->t('Translate'),
+          'url' => Url::fromUri('internal:' . $campus['translation_link']),
+        ];
+      }
+
+      $rows[] = [
+        'data' => [
+          ['data' => ['#markup' => $campus['title']]],
+          ['data' => $operations],
+        ],
+      ];
+    }
+
+    $add_button = [
+      '#type' => 'container',
+      '#attributes' => ['style' => 'margin: 1rem;'],
+      'add' => [
+        '#type' => 'link',
+        '#title' => $this->t('+ Add Campus'),
+        '#url' => Url::fromUri('internal:' . $data['university']['create_campus_link']),
+        '#attributes' => [
+          'class' => ['button', 'button--primary'],
+          'style' => 'border-radius: 0; padding: 0.75rem 1rem;',
+        ],
+      ],
+    ];
     
-      $nids = $query->execute();
-      $nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+
+
+    return [
+      'actions' => $add_button,
+      'table' => [
+        '#type' => 'table',
+        '#header' => $header,
+        '#rows' => $rows,
+        '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
+        '#empty' => $this->t('No campuses found.'),
+        '#prefix' => '<div style="margin: 2rem;">',
+        '#suffix' => '</div>',
+      ],
+    ];
     
-      $rows = [];
-    
-      foreach ($nodes as $node) {
+  }
+
+
+
+
+
+  public function resourcesPage()
+  {
+    $user_id = $this->currentUser->id();
+
+    if (!$this->hasGroupRole('universitytypegroup-university_a')) {
+      return [
+        '#markup' => $this->t('Access denied.'),
+      ];
+    }
+    // Obtener grupos y datos según rol
+    $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
+    $data = [];
+
+    foreach ($user_groups as $membership) {
+      $group = $membership->getGroup();
+      $roles = $membership->getRoles();
+
+
+
+
+
+      foreach ($roles as $role) {
+        switch ($role->id()) {
+          case 'universitytypegroup-university_a':
+            $data = $this->getInstitutionAdminData($group, $user_id);
+            break 2;
+
+          case 'universitytypegroup-degree_admin':
+            $data = $this->getProgrammeAdminData($group, $user_id);
+            break 2;
+
+          case 'universitytypegroup-subject_admi':
+            $data = $this->getIECAdminData($group, $user_id);
+            break 2;
+        }
+      }
+    }
+
+    $header = [
+      $this->t('Resource / Service'),
+      $this->t('Operations'),
+    ];
+
+    $rows = [];
+
+    // RS de la universidad
+    if (!empty($data['resources_services']['exists']) && !empty($data['resources_services']['rs_label'])) {
+      $operations = [
+        '#type' => 'operations',
+        '#links' => [],
+      ];
+
+      if (!empty($data['resources_services']['edit_link'])) {
+        $operations['#links']['edit'] = [
+          'title' => $this->t('Edit'),
+          'url' => Url::fromUri('internal:' . $data['resources_services']['edit_link']),
+        ];
+      }
+
+      $rows[] = [
+        'data' => [
+          ['data' => ['#markup' => $data['resources_services']['rs_label']]],
+          ['data' => $operations],
+        ],
+      ];
+    }
+
+    // RS de cada campus
+    foreach ($data['campuses'] ?? [] as $campus) {
+      if (!empty($campus['rs_label'])) {
         $operations = [
           '#type' => 'operations',
           '#links' => [],
         ];
-    
-        if ($node->access('update')) {
+
+        if (!empty($campus['edit_rs_link'])) {
           $operations['#links']['edit'] = [
             'title' => $this->t('Edit'),
-            'url' => Url::fromRoute('entity.node.edit_form', ['node' => $node->id()]),
+            'url' => Url::fromUri('internal:' . $campus['edit_rs_link']),
           ];
         }
-    
-        if ($node->access('delete')) {
-          $operations['#links']['delete'] = [
-            'title' => $this->t('Delete'),
-            'url' => Url::fromRoute('entity.node.delete_form', ['node' => $node->id()]),
-          ];
-        }
-    
+
         $rows[] = [
           'data' => [
-            ['data' => ['#markup' => $node->label()]],
+            ['data' => ['#markup' => $campus['rs_label']]],
             ['data' => $operations],
           ],
         ];
       }
-    
-      $build = [];
-    
-      // Acción local: botón para añadir
-      if ($is_university_admin) {
-        $build['actions'] = [
-          '#type' => 'container',
-          '#attributes' => ['style' => 'margin: 1rem;'],
-          'add' => [
-            '#type' => 'link',
-            '#title' => $this->t('+ Add programme'),
-            '#url' => Url::fromRoute('node.add', ['node_type' => 'programme']),
-            '#attributes' => [
-              'class' => ['button', 'button--primary'],
-              'style' => 'border-radius: 0; padding: 0.75rem 1rem;',
-            ],
-          ],
-        ];
-      }
-    
-      $build['table'] = [
-        '#type' => 'table',
-        '#header' => [$this->t('Title'), $this->t('Operations')],
-        '#rows' => $rows,
-        '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
-        '#empty' => $this->t('No programmes found.'),
-      ];
-    
-
-      $build['#attached']['library'][] = 'core/drupal.dialog.ajax'; // si usas AJAX
-      $build['#attributes']['style'] = 'margin: 2rem;';
-
-      return $build;
     }
-    
-    
 
-    public function iecPage() {
-      $user_id = $this->currentUser->id();
-    
-      // Cargar los grupos del usuario.
-      $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
-    
-      $data = [];
-    
-      foreach ($user_groups as $membership) {
-        $group = $membership->getGroup();
-        $roles = $membership->getRoles();
-    
-        foreach ($roles as $role) {
-          switch ($role->id()) {
-            case 'universitytypegroup-university_a':
-              $data = $this->getInstitutionAdminData($group, $user_id);
-              break 2;
-    
-            case 'universitytypegroup-degree_admin':
-              $data = $this->getProgrammeAdminData($group, $user_id);
-              break 2;
-    
-            case 'universitytypegroup-subject_admi':
-              $data = $this->getIECAdminData($group, $user_id);
-              break 2;
-          }
+    return [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
+      '#empty' => $this->t('No resources or services found.'),
+      '#prefix' => '<div style="margin: 2rem;">',
+      '#suffix' => '</div>',
+    ];
+  }
+
+ 
+
+  public function programmePage() {
+    $user_id = $this->currentUser->id();
+  
+    $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
+    $data = [];
+    $is_university_admin = false;
+  
+    foreach ($user_groups as $membership) {
+      $group = $membership->getGroup();
+      $roles = $membership->getRoles();
+  
+      foreach ($roles as $role) {
+        if ($role->id() === 'universitytypegroup-university_a') {
+          $is_university_admin = true;
+          $data = $this->getInstitutionAdminData($group, $user_id);
+          break 2;
         }
       }
-    
-      // Aplanar subjects
+    }
+  
+    $rows = [];
+    foreach ($data['degrees'] ?? [] as $degree) {
+      $operations = [
+        '#type' => 'operations',
+        '#links' => [],
+        '#attributes' => [
+          'style' => 'min-width: 80px; max-width: 80px;',
+        ],
+        
+        
+      ];
+  
+      if (!empty($degree['edit_link'])) {
+        $operations['#links']['edit'] = [
+          'title' => $this->t('Edit'),
+          'url' => Url::fromUri('internal:' . $degree['edit_link']),
+        ];
+      }
+  
+      if (!empty($degree['delete_link'])) {
+        $operations['#links']['delete'] = [
+          'title' => $this->t('Delete'),
+          'url' => Url::fromUri('internal:' . $degree['delete_link']),
+        ];
+      }
+  
+      if (!empty($degree['translation_link'])) {
+        $operations['#links']['translate'] = [
+          'title' => $this->t('Translate'),
+          'url' => Url::fromUri('internal:' . $degree['translation_link']),
+        ];
+      }
+  
+      $rows[] = [
+        'data' => [
+          ['data' => ['#markup' => $degree['title']]],
+          ['data' => $operations],
+        ],
+      ];
+    }
+  
+    $header = [
+      $this->t('Programme'),
+      $this->t('Operations'),
+    ];
+  
+    $build = [];
+  
+    if ($is_university_admin) {
+      $build['actions'] = [
+        '#type' => 'container',
+        '#attributes' => ['style' => 'margin: 1rem 0.75rem;'],
+        'add' => [
+          '#type' => 'link',
+          '#title' => $this->t('+ Add Programme'),
+          '#url' => Url::fromUri('internal:' . $data['university']['create_degree_link']),
+          '#attributes' => [
+            'class' => ['button', 'button--primary'],
+            'style' => 'border-radius: 0; padding: 0.75rem 1rem;',
+          ],
+        ],
+      ];
+    }
+  
+    $build['table'] = [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
+      '#empty' => $this->t('No programmes found.'),
+      '#prefix' => '<div style="margin: 2rem;">',
+      '#suffix' => '</div>',
+    ];
+  
+    return $build;
+  }
+  
+
+
+  public function iecPage()
+  {
+    $user_id = $this->currentUser->id();
+
+    // Cargar los grupos del usuario.
+    $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
+
+    $data = [];
+    $user_role = '';
+
+    foreach ($user_groups as $membership) {
+      $group = $membership->getGroup();
+      $roles = $membership->getRoles();
+
+      foreach ($roles as $role) {
+        switch ($role->id()) {
+          case 'universitytypegroup-university_a':
+            $data = $this->getInstitutionAdminData($group, $user_id);
+            $user_role = 'universitytypegroup-university_a';
+            break 2;
+
+          case 'universitytypegroup-degree_admin':
+            $data = $this->getProgrammeAdminData($group, $user_id);
+            $user_role = 'universitytypegroup-degree_admin';
+            break 2;
+
+          case 'universitytypegroup-subject_admi':
+            $data = $this->getIECAdminData($group, $user_id);
+            $user_role = 'universitytypegroup-subject_admi';
+            break 2;
+        }
+      }
+    }
+
+    // Aplanar subjects
+    if ($user_role == 'universitytypegroup-subject_admi') {
+
+
       $rows = [];
+      foreach ($data['subjects_by_degree'] ?? [] as $degree) {
+        $programme_name = $degree['degree_title'] ?? '';
+        foreach ($degree['subjects'] ?? [] as $subject) {
+          $rows[] = [
+            'subject_title' => $subject['title'],
+            'programme_title' => $programme_name,
+            'edit_link' => $subject['edit_link'] ?? '',
+            'delete_link' => $subject['delete_link'] ?? '',
+            'translation_link' => $subject['translation_link'] ?? '',
+          ];
+        }
+      }
+    } else if ($user_role == 'universitytypegroup-university_a' || $user_role == 'universitytypegroup-degree_admin') {
+
       foreach ($data['degrees'] ?? [] as $degree) {
         $programme_name = $degree['title'];
         foreach ($degree['subjects'] ?? [] as $subject) {
@@ -453,87 +517,90 @@ public function resourcesPage() {
           ];
         }
       }
-    
-      // Ordenar si hay parámetro en la URL
-      $request = \Drupal::request();
-      $order = $request->query->get('order') ?? 'subject';
-    
-      if ($order === 'subject') {
-        usort($rows, fn($a, $b) => strcasecmp($a['subject_title'], $b['subject_title']));
-      } elseif ($order === 'programme') {
-        usort($rows, fn($a, $b) => strcasecmp($a['programme_title'], $b['programme_title']));
-      }
-    
-      // Enlaces de ordenación
-      $base_url = Url::fromRoute('<current>')->toString();
-      $header = [
-        [
-          'data' => Link::fromTextAndUrl(
-            $this->t('Subject'),
-            Url::fromRoute('<current>', [], ['query' => ['order' => 'subject']])
-          )->toRenderable(),
-        ],
-        [
-          'data' => Link::fromTextAndUrl(
-            $this->t('Programme'),
-            Url::fromRoute('<current>', [], ['query' => ['order' => 'programme']])
-          )->toRenderable(),
-        ],
-        $this->t('Operations'),
+    }
+
+
+    // Ordenar si hay parámetro en la URL
+    $request = \Drupal::request();
+    $order = $request->query->get('order') ?? 'subject';
+
+    if ($order === 'subject') {
+      usort($rows, fn($a, $b) => strcasecmp($a['subject_title'], $b['subject_title']));
+    } elseif ($order === 'programme') {
+      usort($rows, fn($a, $b) => strcasecmp($a['programme_title'], $b['programme_title']));
+    }
+
+    // Enlaces de ordenación
+    $base_url = Url::fromRoute('<current>')->toString();
+    $header = [
+      [
+        'data' => Link::fromTextAndUrl(
+          $this->t('Subject'),
+          Url::fromRoute('<current>', [], ['query' => ['order' => 'subject']])
+        )->toRenderable(),
+      ],
+      [
+        'data' => Link::fromTextAndUrl(
+          $this->t('Programme'),
+          Url::fromRoute('<current>', [], ['query' => ['order' => 'programme']])
+        )->toRenderable(),
+      ],
+      $this->t('Operations'),
+    ];
+
+
+    // Construcción de la tabla
+    $table_rows = [];
+    foreach ($rows as $row) {
+      $operations = [
+        '#type' => 'operations',
+        '#links' => [],
       ];
-      
-    
-      // Construcción de la tabla
-      $table_rows = [];
-      foreach ($rows as $row) {
-        $operations = [
-          '#type' => 'operations',
-          '#links' => [],
-        ];
-    
-        if (!empty($row['edit_link'])) {
-          $operations['#links']['edit'] = [
-            'title' => $this->t('Edit'),
-            'url' => Url::fromUri('internal:' . $row['edit_link']),
-          ];
-        }
-    
-        if (!empty($row['delete_link'])) {
-          $operations['#links']['delete'] = [
-            'title' => $this->t('Delete'),
-            'url' => Url::fromUri('internal:' . $row['delete_link']),
-          ];
-        }
-    
-        if (!empty($row['translation_link'])) {
-          $operations['#links']['translate'] = [
-            'title' => $this->t('Translate'),
-            'url' => Url::fromUri('internal:' . $row['translation_link']),
-          ];
-        }
-    
-        $table_rows[] = [
-          'data' => [
-            ['data' => ['#markup' => $row['subject_title']]],
-            ['data' => ['#markup' => $row['programme_title']]],
-            ['data' => $operations],
-          ],
+
+      if (!empty($row['edit_link'])) {
+        $operations['#links']['edit'] = [
+          'title' => $this->t('Edit'),
+          'url' => Url::fromUri('internal:' . $row['edit_link']),
         ];
       }
-    
-      return [
-        '#type' => 'table',
-        '#header' => $header,
-        '#rows' => $table_rows,
-        '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
-        '#empty' => $this->t('No subjects found.'),
-        '#prefix' => '<div style="margin: 2rem;">',
-        '#suffix' => '</div>',
+
+      if (!empty($row['delete_link'])) {
+        $operations['#links']['delete'] = [
+          'title' => $this->t('Delete'),
+          'url' => Url::fromUri('internal:' . $row['delete_link']),
+        ];
+      }
+
+      if (!empty($row['translation_link'])) {
+        $operations['#links']['translate'] = [
+          'title' => $this->t('Translate'),
+          'url' => Url::fromUri('internal:' . $row['translation_link']),
+        ];
+      }
+
+      $table_rows[] = [
+        'data' => [
+          ['data' => ['#markup' => $row['subject_title']]],
+          ['data' => ['#markup' => $row['programme_title']]],
+          ['data' => $operations],
+        ],
       ];
     }
+
     
-  
-  
+    return [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $table_rows,
+      '#attributes' => ['class' => ['responsive-enabled', 'views-ui-table']],
+      '#empty' => $this->t('No subjects found.'),
+      '#prefix' => '<div style="margin: 2rem;">',
+      '#suffix' => '</div>',
+    ];
+  }
+
+
+
 
 
 
@@ -613,7 +680,7 @@ public function resourcesPage() {
    */
   protected function getInstitutionAdminData(Group $group, $user_id)
   {
-    
+
 
 
 
@@ -738,12 +805,12 @@ public function resourcesPage() {
       $data['resources_services'] = [
         'exists' => false,
         'create_link' => $this->getGroupEntityCreationUrl($group_id, 'resources_and_services', parent_entity: $university),
-         
+
       ];
     }
 
 
-   
+
 
 
 
@@ -752,22 +819,22 @@ public function resourcesPage() {
       'field_campus_institution' => $university->id(),
     ]);
 
-    
+
 
     $data['campuses'] = [];
 
     foreach ($campuses as $campus) {
       \Drupal::logger('custom_module')->notice('Campus: ' . $campus->label() . ', con id ' . $campus->id() . '. Group id es ' . $group_id);
-    
+
       // Buscar el nodo de Resources and Services para este campus
       $campus_rs = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
         'type' => 'resources_and_services',
         'field_rs_campus' => $campus->id(),
       ]);
-    
+
       $campus_rs_node = reset($campus_rs); // asumimos que hay solo uno
       //dump($campus_rs_node->label());
-    
+
       $data['campuses'][] = [
         'title' => $campus->label(),
         'link' => $campus->toUrl()->toString(),
@@ -783,7 +850,7 @@ public function resourcesPage() {
         'rs_label' => $campus_rs_node->label(),
       ];
     }
-    
+
 
     return $data;
   }
@@ -1198,8 +1265,8 @@ public function resourcesPage() {
         'query' => ['field_programme_institution' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
       ])->toString();
 
-    } else if ($entity_type == 'resources_and_services' ){
-      
+    } else if ($entity_type == 'resources_and_services') {
+
       //Formar enlace de creaccioooooon para rs.
       return Url::fromRoute('entity.group_relationship.create_form', [
         'group' => $group_id,
@@ -1208,7 +1275,7 @@ public function resourcesPage() {
         'query' => ['field_rs_institution' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
       ])->toString();
 
-    }else if($entity_type == 'campus'){
+    } else if ($entity_type == 'campus') {
       //Formar enlace de creaccioooooon para rs.
       return Url::fromRoute('entity.group_relationship.create_form', [
         'group' => $group_id,
@@ -1268,27 +1335,28 @@ public function resourcesPage() {
   }
 
 
-/**
- * Modifies the URL of an entity to include "/en/catalogue/".
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
- *   The entity whose URL needs to be modified.
- *
- * @return string
- *   The modified URL.
- */
-function getCatalogueUrl(\Drupal\Core\Entity\EntityInterface $entity) {
-  // Obtener la URL original (ej: "/en/university-vigo/...")
-  $original_url = $entity->toUrl()->toString();
+  /**
+   * Modifies the URL of an entity to include "/en/catalogue/".
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity whose URL needs to be modified.
+   *
+   * @return string
+   *   The modified URL.
+   */
+  function getCatalogueUrl(\Drupal\Core\Entity\EntityInterface $entity)
+  {
+    // Obtener la URL original (ej: "/en/university-vigo/...")
+    $original_url = $entity->toUrl()->toString();
 
-  // Eliminar el prefijo del idioma "/en" si está presente al inicio
-  $clean_alias = preg_replace('|^/en/|', '', $original_url);
+    // Eliminar el prefijo del idioma "/en" si está presente al inicio
+    $clean_alias = preg_replace('|^/en/|', '', $original_url);
 
-  // Construir la nueva URL con "/en/catalogue/"
-  $modified_url = '/en/catalogue/' . $clean_alias;
+    // Construir la nueva URL con "/en/catalogue/"
+    $modified_url = '/en/catalogue/' . $clean_alias;
 
-  return $modified_url;
-}
+    return $modified_url;
+  }
 
 
 
