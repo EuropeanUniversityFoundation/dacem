@@ -635,3 +635,11 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
 
+/* Implements hook_theme_registry_alter().
+ */
+function b5subtheme_theme_registry_alter(&$theme_registry) {
+  \Drupal::service('twig.loader.filesystem')->addPath(
+    DRUPAL_ROOT . '/modules/custom/dacem_footer/templates',
+    'dacem_footer'
+  );
+}

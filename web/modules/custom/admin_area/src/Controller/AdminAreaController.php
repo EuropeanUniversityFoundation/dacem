@@ -143,10 +143,10 @@ class AdminAreaController extends ControllerBase
     $group_id = null;
 
     foreach ($user_groups as $membership) {
-     
+
       $group = $membership->getGroup();
       $roles = $membership->getRoles();
-      $group_id=$group;
+      $group_id = $group;
 
       foreach ($roles as $role) {
         switch ($role->id()) {
@@ -173,8 +173,8 @@ class AdminAreaController extends ControllerBase
 
     $university = $data['university'];
     $rows = [];
-    
-   
+
+
     foreach ($data['campuses'] ?? [] as $campus) {
       $operations = [
         '#type' => 'operations',
@@ -182,7 +182,7 @@ class AdminAreaController extends ControllerBase
         '#attributes' => [
           'style' => 'min-width: 80px; max-width: 80px;',
         ],
-        
+
       ];
 
       if (!empty($campus['edit_link'])) {
@@ -227,7 +227,7 @@ class AdminAreaController extends ControllerBase
         ],
       ],
     ];
-    
+
 
 
     return [
@@ -242,7 +242,7 @@ class AdminAreaController extends ControllerBase
         '#suffix' => '</div>',
       ],
     ];
-    
+
   }
 
 
@@ -351,19 +351,20 @@ class AdminAreaController extends ControllerBase
     ];
   }
 
- 
 
-  public function programmePage() {
+
+  public function programmePage()
+  {
     $user_id = $this->currentUser->id();
-  
+
     $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
     $data = [];
     $is_university_admin = false;
-  
+
     foreach ($user_groups as $membership) {
       $group = $membership->getGroup();
       $roles = $membership->getRoles();
-  
+
       foreach ($roles as $role) {
         if ($role->id() === 'universitytypegroup-university_a') {
           $is_university_admin = true;
@@ -372,7 +373,7 @@ class AdminAreaController extends ControllerBase
         }
       }
     }
-  
+
     $rows = [];
     foreach ($data['degrees'] ?? [] as $degree) {
       $operations = [
@@ -381,46 +382,69 @@ class AdminAreaController extends ControllerBase
         '#attributes' => [
           'style' => 'min-width: 80px; max-width: 80px;',
         ],
-        
-        
+
+
       ];
-  
+
       if (!empty($degree['edit_link'])) {
         $operations['#links']['edit'] = [
           'title' => $this->t('Edit'),
           'url' => Url::fromUri('internal:' . $degree['edit_link']),
         ];
       }
-  
+
       if (!empty($degree['delete_link'])) {
         $operations['#links']['delete'] = [
           'title' => $this->t('Delete'),
           'url' => Url::fromUri('internal:' . $degree['delete_link']),
         ];
       }
-  
+
       if (!empty($degree['translation_link'])) {
         $operations['#links']['translate'] = [
           'title' => $this->t('Translate'),
           'url' => Url::fromUri('internal:' . $degree['translation_link']),
         ];
       }
-  
+
+      $add_iec_button = [];
+      if (!empty($degree['create_subject_link'])) {
+        $add_iec_button = [
+          '#type' => 'link',
+          '#title' => $this->t('+ Add IEC'),
+          '#url' => Url::fromUri('internal:' . $degree['create_subject_link']),
+          '#attributes' => [
+            'class' => ['button', 'button--small', 'button--primary'],
+            'style' => 'margin-left: 0; border-radius: 0;',
+          ],
+        ];
+      }
+
+
+
       $rows[] = [
         'data' => [
           ['data' => ['#markup' => $degree['title']]],
-          ['data' => $operations],
+          [
+            'data' => [
+              '#type' => 'container',
+              '#attributes' => ['style' => 'display: flex; align-items: center; gap: 0.5rem;'],
+              'ops' => $operations,
+              'add_iec' => $add_iec_button,
+            ]
+          ],
         ],
       ];
+
     }
-  
+
     $header = [
       $this->t('Programme'),
       $this->t('Operations'),
     ];
-  
+
     $build = [];
-  
+
     if ($is_university_admin) {
       $build['actions'] = [
         '#type' => 'container',
@@ -436,7 +460,7 @@ class AdminAreaController extends ControllerBase
         ],
       ];
     }
-  
+
     $build['table'] = [
       '#type' => 'table',
       '#header' => $header,
@@ -446,10 +470,10 @@ class AdminAreaController extends ControllerBase
       '#prefix' => '<div style="margin: 2rem;">',
       '#suffix' => '</div>',
     ];
-  
+
     return $build;
   }
-  
+
 
 
   public function iecPage()
@@ -587,7 +611,7 @@ class AdminAreaController extends ControllerBase
       ];
     }
 
-    
+
     return [
       '#type' => 'table',
       '#header' => $header,
