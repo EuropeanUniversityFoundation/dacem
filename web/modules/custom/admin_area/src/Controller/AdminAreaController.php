@@ -288,7 +288,7 @@ class AdminAreaController extends ControllerBase
     }
 
     $header = [
-      $this->t('Resource / Service'),
+      $this->t('Resource and Services'),
       $this->t('Operations'),
     ];
 
@@ -324,6 +324,7 @@ class AdminAreaController extends ControllerBase
           '#links' => [],
         ];
 
+
         if (!empty($campus['edit_rs_link'])) {
           $operations['#links']['edit'] = [
             'title' => $this->t('Edit'),
@@ -357,6 +358,12 @@ class AdminAreaController extends ControllerBase
   {
     $user_id = $this->currentUser->id();
 
+    if ($this->hasGroupRole('universitytypegroup-subject_admi')) {
+      return [
+        '#markup' => $this->t('Access denied.'),
+      ];
+    }
+
     $user_groups = \Drupal::service('group.membership_loader')->loadByUser($this->currentUser);
     $data = [];
     $is_university_admin = false;
@@ -371,6 +378,11 @@ class AdminAreaController extends ControllerBase
           $data = $this->getInstitutionAdminData($group, $user_id);
           break 2;
         }
+        if ($role->id() === 'universitytypegroup-degree_admin') {
+          $data = $this->getProgrammeAdminData($group, $user_id);
+          break 2;
+        }
+        
       }
     }
 
@@ -446,6 +458,7 @@ class AdminAreaController extends ControllerBase
     $build = [];
 
     if ($is_university_admin) {
+      
       $build['actions'] = [
         '#type' => 'container',
         '#attributes' => ['style' => 'margin: 1rem 0.75rem;'],

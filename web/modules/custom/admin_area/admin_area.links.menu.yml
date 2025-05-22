@@ -16,7 +16,7 @@ admin_area.institution_link:
   weight: 0
 
 admin_area.campus_link:
-  title: 'Campus'
+  title: 'Campuses'
   description: 'Manage campuses'
   parent: admin_area.admin_menu
   route_name: admin_area.campus_page
@@ -32,7 +32,7 @@ admin_area.resources_link:
   weight: 2
 
 admin_area.programme_link:
-  title: 'Programme'
+  title: 'Programmes'
   description: 'Manage programmes'
   parent: admin_area.admin_menu
   route_name: admin_area.programme_page
@@ -40,7 +40,7 @@ admin_area.programme_link:
   weight: 3
 
 admin_area.iec_link:
-  title: 'IEC'
+  title: 'IECs'
   description: 'Manage IEC'
   parent: admin_area.admin_menu
   route_name: admin_area.iec_page
