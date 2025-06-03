@@ -1,0 +1,99 @@
+{# dacem-footer-block.html.twig #}
+{# Nombre del nodo #}
+
+	{% if institution %}
+	{% set university_primary_color = institution.field_primary_color[0].color %}
+{% else %}
+	{% set university_primary_color = 'red' %}
+{% endif %}
+
+
+<br><br><br><br>
+<div class="dacem-footer-feedback py-5 text-white" style="background-color: {{university_primary_color}};">
+	<div class="container">
+		<div
+			class="row">
+			<!-- Título -->
+			<div class="col-md-6">
+				<h2 class="fw-bold" style="color: black; font-size: 32px;">Found Something Wrong?</h2>
+				<h2 class="fw-bold" style="font-size: 46px;">Give Us Feedback</h2>
+			</div>
+
+			<!-- Formulario -->
+			<div class="col-md-6">
+				<form>
+					<div class="row">
+						<div class="col-6 mb-3">
+							<label for="footer-name" class="form-label" style="color: black; font-size:16px;">NAME</label>
+							<input type="text" id="footer-name" class="form-control" placeholder="Name">
+						</div>
+						<div class="col-6 mb-3">
+							<label for="footer-email" class="form-label" style="color: black; font-size:16px;">EMAIL</label>
+							<input type="email" id="footer-email" class="form-control" placeholder="Email">
+						</div>
+						<div class="col-12 mb-3">
+							<label for="footer-message" class="form-label" style="color: black; font-size:16px;">YOUR MESSAGE</label>
+							<textarea id="footer-message" class="form-control" rows="3" placeholder="Message"></textarea>
+						</div>
+						<div class="col-12 text-end">
+							<button type="submit" class="btn btn-dark px-4">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Parte inferior del footer con enlaces, logos y aviso legal -->
+<div class="footer-middle py-5 bg-white">
+	<div class="container">
+		<div class="row text-center text-md-start">
+			<div class="col-md-4 mb-4 mb-md-0">
+				<img src="/themes/custom/b5subtheme/images/logo_dacem.png" alt="DACEM logo" class="mb-3" style="max-width: 300px;">
+			</div>
+			<div class="col-md-4 mb-4 mb-md-0">
+				<h6 class="fw-bold">Links</h6>
+				<ul class="list-unstyled small">
+					<li>
+						<a href="#" class="text-decoration-none text-dark">About DACEM</a>
+					</li>
+					<li>
+						<a href="#" class="text-decoration-none text-dark">EU Programme</a>
+					</li>
+					<li>
+						<a href="#" class="text-decoration-none text-dark">Academic calendar</a>
+					</li>
+					<li>
+						<a href="#" class="text-decoration-none text-dark">Volunteering</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-4">
+				{% if institution.field_logo.entity.field_media_image.entity.uri.value is defined %}
+					<img src="{{ file_url(institution.field_logo.entity.field_media_image.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="max-width: 200px;">
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="footer-bottom text-white py-3" style="background-color: #4b535a;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-9 text-center text-md-start">
+        <p class="small mb-0">
+          Co-financed by the European Union. The opinions and views expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Education and Culture Executive Agency (EACEA). Neither the European Union nor the granting authority can be held responsible for them.
+        </p>
+      </div>
+      <div class="col-md-3 text-center text-md-end mt-3 mt-md-0">
+        <img src="/themes/custom/b5subtheme/images/ue-logo-footer.png" alt="Co-funded by the European Union" style="max-height: 40px;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-bottom text-center py-3" style="background-color: black; color: #989898">
+	<p class="small mb-0">Copyright © 2025 - Designed by DACEM</p>
+</div>
