@@ -4,3 +4,19 @@
  * @file
  * DACEM Footer module.
  */
+
+
+/**
+ * Implements hook_theme().
+ */
+function dacem_footer_theme($existing, $type, $theme, $path) {
+    return [
+      'dacem_footer_block' => [
+        'variables' => [
+          'institution' => NULL,
+        ],
+        'template' => 'dacem-footer-block',
+      ],
+    ];
+  }
+  

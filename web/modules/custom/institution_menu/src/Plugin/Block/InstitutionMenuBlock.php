@@ -56,6 +56,7 @@ class InstitutionMenuBlock extends BlockBase
     {
 
         $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+       
 
         // Imagen y menú desplegable de usuario
         $current_user = \Drupal::currentUser();
@@ -166,6 +167,7 @@ class InstitutionMenuBlock extends BlockBase
         $current_path = \Drupal::service('path.current')->getPath();
         ////dump($current_path);
         $current_path_aux = preg_replace('#^/[^/]+/#', '/', $current_path);
+      
         ////dump($current_path_aux);
         $current_node_aux = $this->getNodeFromAlias($current_path_aux, $current_language);
         ////dump($current_node_aux->bundle());
@@ -266,6 +268,7 @@ class InstitutionMenuBlock extends BlockBase
 
 
             $node_type = $current_node_aux->bundle();
+            
             ////dump('if node interface');
         
 
@@ -503,6 +506,7 @@ class InstitutionMenuBlock extends BlockBase
 
             $build = [
                 '#markup' => $this->t('
+                <div class="sticky-nav">
               <nav class="navbar navbar-expand-lg university-navbar" style="margin: 0; padding: 0;">
                   <div class="container-fluid">
 
@@ -555,7 +559,8 @@ class InstitutionMenuBlock extends BlockBase
                           </div>
                       </div>
                   </div>
-              </nav>',
+              </nav>
+              </div>',
                     [
                         '@logo_dacem_url' => $logo_dacem_url,
                         '@logo_url' => $logo_url,
