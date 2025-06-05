@@ -16,6 +16,8 @@ use Drupal\Group\Relation\GroupRelationTypeManager;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Link;
 use Drupal\Core\Render\Markup;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 /**
@@ -23,6 +25,161 @@ use Drupal\Core\Render\Markup;
  */
 class AdminAreaController extends ControllerBase
 {
+
+
+  /**
+   * Entry point for entity-based admin area pages.
+   */
+  public function myEntityPage(string $entity_type) {
+    $current_user = $this->currentUser();
+    $user = \Drupal\user\Entity\User::load($current_user->id());
+  
+    $memberships = \Drupal::service('group.membership_loader')->loadByUser($user);
+  
+    if (empty($memberships) || !is_array($memberships)) {
+      throw new AccessDeniedHttpException('User is not a member of any group.');
+    }
+  
+    $membership = reset($memberships);
+    $group = $membership->getGroup();
+    $role = $this->getGroupRoleId($group, $user->id());
+    // Definimos las rutas según tipo y rol
+    $route_maps = [
+      'programme' => [
+        'university_admin' => 'view.admin_programmes.page_1',
+        'programme_admin'  => 'view.admin_programmes.page_2',
+        // IEC Admin NO debe acceder
+      ],
+      'iec' => [
+        'university_admin' => 'view.iec_admin_display.page_1',
+        'programme_admin'  => 'view.iec_programme_display.page_1',
+        'iec_admin'        => 'view.iec_user_display.page_1',
+      ],
+      'campus' => [
+        'university_admin' => 'view.campus_admin_display.page_1',
+      ],
+      'rs' => [
+        'university_admin' => 'view.rs_admin_display.page_1',
+      ],
+      'institution' => [
+        'university_admin' => 'view.institution_admin_display.page_1',
+      ],
+    ];
+
+    // Comprobar que ese tipo está soportado
+    if (!isset($route_maps[$entity_type])) {
+      throw new AccessDeniedHttpException('Entity type not supported.');
+    }
+
+    // Comprobar si el rol tiene acceso
+    if (!isset($route_maps[$entity_type][$role])) {
+      throw new AccessDeniedHttpException('Access denied for your role.');
+    }
+
+    // Redirigir a la ruta correspondiente
+    $route_name = $route_maps[$entity_type][$role];
+    return new RedirectResponse(Url::fromRoute($route_name)->toString());
+  }
+
+  /**
+   * Devuelve el rol del usuario dentro del grupo.
+   */
+  private function getGroupRoleId($group, $user_id): ?string {
+    $membership = \Drupal::service('group.membership_loader')->load($group, \Drupal\user\Entity\User::load($user_id));
+  
+    if (!$membership) {
+      return null;
+    }
+  
+    $roles = $membership->getRoles(); // ESTA es la forma correcta
+    foreach ($roles as $role) {
+      $id = $role->id();
+      switch ($id) {
+        case 'universitytypegroup-university_a':
+          return 'university_admin';
+        case 'universitytypegroup-degree_admin':
+          return 'programme_admin';
+        case 'universitytypegroup-subject_admi':
+          return 'iec_admin';
+      }
+    }
+  
+    return null;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   private function hasGroupRole($role_id)
   {
@@ -43,6 +200,13 @@ class AdminAreaController extends ControllerBase
       }
     }
     return false;
+  }
+
+
+
+  public function myProgrammesPage()
+  {
+
   }
 
 
@@ -486,6 +650,9 @@ class AdminAreaController extends ControllerBase
 
     return $build;
   }
+
+
+
 
 
 

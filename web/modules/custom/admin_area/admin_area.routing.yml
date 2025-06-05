@@ -7,43 +7,15 @@ admin_area.my_area:
     _permission: 'access content'
 
 
-admin_area.institution_page:
-  path: '/admin/my-area/institution'
+
+
+
+
+admin_area.my_entity_page:
+  path: '/admin/my-area/{entity_type}'
   defaults:
-    _controller: '\Drupal\admin_area\Controller\AdminAreaController::institutionPage'
-    _title: 'Institution'
+    _controller: '\Drupal\admin_area\Controller\AdminAreaController::myEntityPage'
+    _title: 'My Area'
   requirements:
     _permission: 'access content'
-
-admin_area.campus_page:
-  path: '/admin/my-area/campus'
-  defaults:
-    _controller: '\Drupal\admin_area\Controller\AdminAreaController::campusPage'
-    _title: 'Campus'
-  requirements:
-    _permission: 'access content'
-
-admin_area.resources_page:
-  path: '/admin/my-area/resources'
-  defaults:
-    _controller: '\Drupal\admin_area\Controller\AdminAreaController::resourcesPage'
-    _title: 'Resources and Services'
-  requirements:
-    _permission: 'access content'
-
-admin_area.programme_page:
-  path: '/admin/my-area/programme'
-  defaults:
-    _controller: '\Drupal\admin_area\Controller\AdminAreaController::programmePage'
-    _title: 'Programme'
-  requirements:
-    _permission: 'access content'
-
-admin_area.iec_page:
-  path: '/admin/my-area/iec'
-  defaults:
-    _controller: '\Drupal\admin_area\Controller\AdminAreaController::iecPage'
-    _title: 'IEC'
-  requirements:
-    _permission: 'access content'
-
+    entity_type: '[a-z_]+'

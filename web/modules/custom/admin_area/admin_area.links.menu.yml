@@ -7,42 +7,52 @@ admin_area.admin_menu:
   weight: 10
 
 
-admin_area.institution_link:
-  title: 'Institution'
-  description: 'Manage institutions'
-  parent: admin_area.admin_menu
-  route_name: admin_area.institution_page
-  menu_name: admin
-  weight: 0
 
-admin_area.campus_link:
-  title: 'Campuses'
-  description: 'Manage campuses'
-  parent: admin_area.admin_menu
-  route_name: admin_area.campus_page
-  menu_name: admin
-  weight: 1
 
-admin_area.resources_link:
-  title: 'Resources and Services'
-  description: 'Manage RS'
-  parent: admin_area.admin_menu
-  route_name: admin_area.resources_page
-  menu_name: admin
-  weight: 2
 
-admin_area.programme_link:
-  title: 'Programmes'
-  description: 'Manage programmes'
-  parent: admin_area.admin_menu
-  route_name: admin_area.programme_page
-  menu_name: admin
-  weight: 3
 
-admin_area.iec_link:
-  title: 'IECs'
-  description: 'Manage IEC'
+
+admin_area.my_programmes_link:
+  title: 'My Programmes'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'programme'
   parent: admin_area.admin_menu
-  route_name: admin_area.iec_page
   menu_name: admin
-  weight: 4
+  weight: 5
+
+admin_area.my_iec_link:
+  title: 'My IECs'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'iec'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 6
+
+admin_area.my_rs_link:
+  title: 'My Resources and Services'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'rs'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 7
+
+admin_area.my_campus_link:
+  title: 'My Campus'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'campus'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 8
+
+admin_area.my_institution_link:
+  title: 'My Institution'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'institution'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 9
