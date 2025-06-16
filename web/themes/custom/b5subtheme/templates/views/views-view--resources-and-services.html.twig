@@ -7,6 +7,7 @@
 {#{dump(rs)}#}
 
 {% set university = view.result[0]._relationship_entities.field_rs_institution %}
+
 {#{dump(view.result[0])}}
 {#{dump(rs_mode)}#}
 
@@ -21,7 +22,7 @@
 
 
 {% set university_primary_color = university.field_primary_color[0].color %}
-{#{dump(university)}#}
+
 {#{dump(university_primary_color)}#}
 {% set university_text_color = university.field_text_color[0].color %}
 
@@ -46,7 +47,8 @@
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
 }</style>
-<div class="sticky-nav"> <div class="rs-header">
+<!--Por eiqui class="sticky-nav"-->
+<div class=""> <div class="rs-header">
 	<div class="container-fluid container-fluid-programme-band ">
 		<h1 class="rs-title">RESOURCES AND SERVICES</h1>
 	</div>
@@ -111,7 +113,7 @@
 		</ul>
 
 	</div>
-</nav></div><div>
+</nav></div>
 
 <div class="collapse bg-dark text-white container-campuses-rs" id="campusCollapse">
 

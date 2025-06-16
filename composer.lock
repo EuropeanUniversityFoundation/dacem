@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae3fec047e2cfeb4b6acd5f47d1962bb",
+    "content-hash": "e8da623df92838e2d6f1029d7ffa3047",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3728,6 +3728,129 @@
                 }
             ],
             "time": "2024-12-27T00:36:43+00:00"
+        },
+        {
+            "name": "euf/ewp_core",
+            "version": "1.0.0-rc4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/ewp_core.git",
+                "reference": "854c82f1e6d3ab7c919cd37b4f7ea32d7c476682"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/ewp_core/euf-ewp_core-854c82f1e6d3ab7c919cd37b4f7ea32d7c476682-zip-b97c86.zip",
+                "reference": "854c82f1e6d3ab7c919cd37b4f7ea32d7c476682",
+                "shasum": "45f2117029578ab9bbe9d482cfd0b90d101c5475"
+            },
+            "require": {
+                "toobo/bcp47": "^1.0"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Implements EWP Common Datatypes as field types and provides related utilities.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/ewp_core",
+            "keywords": [
+                "Drupal",
+                "Erasmus Without Paper",
+                "Field type"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/ewp_core/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/ewp_core"
+            },
+            "time": "2025-06-04T16:43:26+00:00"
+        },
+        {
+            "name": "euf/ewp_flexible_address",
+            "version": "1.0.0-beta8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/ewp_flexible_address.git",
+                "reference": "cd0772ea1e814f8eaf335a75bbec2aefa5e9ea61"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/ewp_flexible_address/euf-ewp_flexible_address-cd0772ea1e814f8eaf335a75bbec2aefa5e9ea61-zip-c1b6a3.zip",
+                "reference": "cd0772ea1e814f8eaf335a75bbec2aefa5e9ea61",
+                "shasum": "30a0a121a20d6c2176f48a95a4c3a96ceb1c77a5"
+            },
+            "require": {
+                "euf/ewp_core": "^1.0@beta"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Implements EWP Flexible Address Type as a field type.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/ewp_flexible_address",
+            "keywords": [
+                "Drupal",
+                "Erasmus Without Paper",
+                "Field type"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/ewp_flexible_address/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/ewp_flexible_address"
+            },
+            "time": "2025-03-04T17:26:20+00:00"
+        },
+        {
+            "name": "euf/ewp_phone_number",
+            "version": "1.0.0-beta6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/ewp_phone_number.git",
+                "reference": "67c73103f5199134a7bec8a8a5ef63036e4ad977"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/ewp_phone_number/euf-ewp_phone_number-67c73103f5199134a7bec8a8a5ef63036e4ad977-zip-62bd56.zip",
+                "reference": "67c73103f5199134a7bec8a8a5ef63036e4ad977",
+                "shasum": "bdbebb1648c70beafd1ed0549dbeba01764ed7ab"
+            },
+            "require": {
+                "euf/ewp_core": "^1.0@beta"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Implements EWP Phone Number Type as a field type.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/ewp_phone_number",
+            "keywords": [
+                "Drupal",
+                "Erasmus Without Paper",
+                "Field type"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/ewp_phone_number/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/ewp_phone_number"
+            },
+            "time": "2025-03-04T17:26:59+00:00"
         },
         {
             "name": "grasmash/expander",
@@ -8258,6 +8381,80 @@
             "time": "2025-01-07T09:44:41+00:00"
         },
         {
+            "name": "toobo/bcp47",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Toobo/bcp47.git",
+                "reference": "3f29f625a1aabbe11679855befd0ea30b9160737"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Toobo/bcp47/zipball/3f29f625a1aabbe11679855befd0ea30b9160737",
+                "reference": "3f29f625a1aabbe11679855befd0ea30b9160737",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 8.3 < 8.5",
+                "wikimedia/bcp-47-code": "^1|^2"
+            },
+            "require-dev": {
+                "inpsyde/php-coding-standards": "^2@dev",
+                "phpcompatibility/php-compatibility": "dev-develop as 9.3.6",
+                "phpunit/phpunit": "^10.5.37",
+                "vimeo/psalm": "^5.26.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Toobo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Giuseppe Mazzapica",
+                    "email": "giuseppe.mazzapica@gmail.com",
+                    "homepage": "https://gmazzap.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP utility functions to validate and normalize IETF BCP 47 language tag.",
+            "homepage": "https://github.com/Toobo/bcp47/",
+            "keywords": [
+                "BCP-47",
+                "bcp 47",
+                "bcp47",
+                "html lang",
+                "html lang attribute",
+                "html language",
+                "ietf",
+                "ietf bcp 47",
+                "ietf bcp-47",
+                "ietf bcp47",
+                "ietf language",
+                "ietf language tag",
+                "ietf tag",
+                "lang",
+                "language",
+                "language tag",
+                "locale"
+            ],
+            "support": {
+                "issues": "https://github.com/Toobo/bcp47/issues",
+                "source": "https://github.com/Toobo/bcp47/tree/1.0.0"
+            },
+            "time": "2024-10-22T13:19:22+00:00"
+        },
+        {
             "name": "twig/twig",
             "version": "v3.19.0",
             "source": {
@@ -8382,15 +8579,69 @@
                 "source": "https://github.com/webflo/drupal-finder/tree/1.3.1"
             },
             "time": "2024-06-28T13:45:36+00:00"
+        },
+        {
+            "name": "wikimedia/bcp-47-code",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wikimedia/mediawiki-libs-Bcp47Code.git",
+                "reference": "bface192672b0c743152d0b838475c139ba0a1e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wikimedia/mediawiki-libs-Bcp47Code/zipball/bface192672b0c743152d0b838475c139ba0a1e0",
+                "reference": "bface192672b0c743152d0b838475c139ba0a1e0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.3"
+            },
+            "require-dev": {
+                "mediawiki/mediawiki-codesniffer": "45.0.0",
+                "mediawiki/mediawiki-phan-config": "0.14.0",
+                "mediawiki/minus-x": "1.1.3",
+                "ockcyp/covers-validator": "1.6.0",
+                "php-parallel-lint/php-console-highlighter": "1.0.0",
+                "php-parallel-lint/php-parallel-lint": "1.4.0",
+                "phpunit/phpunit": "9.6.16",
+                "wikimedia/update-history": "1.0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Wikimedia\\Bcp47Code\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "C. Scott Ananian",
+                    "email": "cananian@wikimedia.org",
+                    "homepage": "https://cscott.net"
+                }
+            ],
+            "description": "Simple interface representing languages which have a BCP 47 code",
+            "homepage": "https://www.mediawiki.org/wiki/Bcp47Code",
+            "support": {
+                "source": "https://github.com/wikimedia/mediawiki-libs-Bcp47Code/tree/v2.0.1"
+            },
+            "time": "2024-11-09T06:09:54+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "stability-flags": {
         "drupal/locale_download": 5,
         "drupal/login_destination": 10,
-        "drupal/og": 15
+        "drupal/og": 15,
+        "euf/ewp_core": 5,
+        "euf/ewp_flexible_address": 10,
+        "euf/ewp_phone_number": 10
     },
     "prefer-stable": true,
     "prefer-lowest": false,

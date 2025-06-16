@@ -51,18 +51,18 @@ class AdminAreaController extends ControllerBase
         // IEC Admin NO debe acceder
       ],
       'iec' => [
-        'university_admin' => 'view.iec_admin_display.page_1',
-        'programme_admin'  => 'view.iec_programme_display.page_1',
-        'iec_admin'        => 'view.iec_user_display.page_1',
+        'university_admin' => 'view.admin_iecs.page_1',
+        'programme_admin'  => 'view.admin_iecs.page_2',
+        'iec_admin'        => 'view.admin_iecs.page_3',
       ],
       'campus' => [
-        'university_admin' => 'view.campus_admin_display.page_1',
+        'university_admin' => 'view.admin_campuses.page_1',
       ],
       'rs' => [
-        'university_admin' => 'view.rs_admin_display.page_1',
+        'university_admin' => 'view.admin_rs.page_1',
       ],
       'institution' => [
-        'university_admin' => 'view.institution_admin_display.page_1',
+        'university_admin' => 'view.admin_institution.page_1',
       ],
     ];
 
@@ -869,9 +869,9 @@ class AdminAreaController extends ControllerBase
     }
 
     return [
-      '#theme' => 'admin-area',
-      '#title' => $this->t('Admin Area'),
-      '#data' => $data,
+      //'#theme' => 'admin-area',
+      //'#title' => $this->t('Admin Area'),
+      //'#data' => $data,
     ];
   }
 

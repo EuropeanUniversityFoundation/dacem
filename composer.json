@@ -12,6 +12,10 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "composer",
+            "url": "https://packages.uni-foundation.eu"
         }
     ],
     "require": {
@@ -43,12 +47,15 @@
         "drupal/user_redirect": "^2.0",
         "drupal/views_alias_filter": "^1.0",
         "drush/drush": "^12.5",
+        "euf/ewp_core": "^1.0@rc",
+        "euf/ewp_flexible_address": "1.0.0-beta8",
+        "euf/ewp_phone_number": "1.0.0-beta6",
         "phpoffice/phpspreadsheet": "^3.3"
     },
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true,
     "config": {
         "allow-plugins": {

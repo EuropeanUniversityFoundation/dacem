@@ -19,7 +19,7 @@ admin_area.my_programmes_link:
     entity_type: 'programme'
   parent: admin_area.admin_menu
   menu_name: admin
-  weight: 5
+  weight: 8
 
 admin_area.my_iec_link:
   title: 'My IECs'
@@ -28,7 +28,7 @@ admin_area.my_iec_link:
     entity_type: 'iec'
   parent: admin_area.admin_menu
   menu_name: admin
-  weight: 6
+  weight: 9
 
 admin_area.my_rs_link:
   title: 'My Resources and Services'
@@ -40,13 +40,13 @@ admin_area.my_rs_link:
   weight: 7
 
 admin_area.my_campus_link:
-  title: 'My Campus'
+  title: 'My Campuses'
   route_name: admin_area.my_entity_page
   route_parameters:
     entity_type: 'campus'
   parent: admin_area.admin_menu
   menu_name: admin
-  weight: 8
+  weight: 6
 
 admin_area.my_institution_link:
   title: 'My Institution'
@@ -55,4 +55,4 @@ admin_area.my_institution_link:
     entity_type: 'institution'
   parent: admin_area.admin_menu
   menu_name: admin
-  weight: 9
+  weight: 5
