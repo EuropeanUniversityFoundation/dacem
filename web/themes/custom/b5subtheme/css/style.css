@@ -14863,3 +14863,25 @@ body.h-100 {
 
 
 
+/* Asegura que los submenús se superpongan correctamente */
+.toolbar-menu.claro-toolbar-menu li ul {
+  position: absolute;
+  z-index: 3000000 !important;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* Activa la visibilidad del submenú cuando se pasa el ratón */
+.toolbar-menu.claro-toolbar-menu li.menu-item--expanded:hover > ul {
+  display: block;
+}
+
+/* Oculta por defecto */
+.toolbar-menu.claro-toolbar-menu li ul {
+  display: none;
+}
+
+
+.sticky-nav{
+  z-index: 500 !important;
+}

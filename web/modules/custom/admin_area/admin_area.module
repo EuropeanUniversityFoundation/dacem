@@ -57,7 +57,7 @@ function admin_area_entity_access(\Drupal\Core\Entity\EntityInterface $entity, $
  /* Implementación de hook_form_alter().
  */
 
-/*
+
 function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   //\Drupal::logger('admin_area')->info('Interceptado formulario con ID: @form_id', ['@form_id' => $form_id]);
 
@@ -136,17 +136,70 @@ function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
 
 
 }
-*/
 
 
 
 /**
  * Callback para redirigir después de guardar una traducción.
  */
-function admin_area_redirect_after_translation(&$form,  \Drupal\Core\Form\FormStateInterface $form_state) {
-  \Drupal::logger('admin_area')->error('Mensaje de redireccioooon');
-  // Redirigir a /my-area después de guardar la traducción.
-  $form_state->setRedirect('admin_area.my_area');
+function admin_area_redirect_after_translation(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  $node = $form_state->getFormObject()->getEntity();
+  $current_user = \Drupal::currentUser();
+  $user = \Drupal\user\Entity\User::load($current_user->id());
+
+  if ($node && $user) {
+    $memberships = \Drupal::service('group.membership_loader')->loadByUser($user);
+    if (!empty($memberships)) {
+      $group = reset($memberships)->getGroup();
+
+      // Obtener tipo de entidad y rol del grupo
+      $entity_type = $node->bundle(); // 'programme', 'iec', etc.
+      $role = null;
+      $membership = \Drupal::service('group.membership_loader')->load($group, $user);
+      if ($membership) {
+        foreach ($membership->getRoles() as $r) {
+          switch ($r->id()) {
+            case 'universitytypegroup-university_a':
+              $role = 'university_admin'; break;
+            case 'universitytypegroup-degree_admin':
+              $role = 'programme_admin'; break;
+            case 'universitytypegroup-subject_admi':
+              $role = 'iec_admin'; break;
+          }
+        }
+      }
+
+      // Mapear ruta
+      $route_maps = [
+        'programme' => [
+          'university_admin' => 'view.admin_programmes.page_1',
+          'programme_admin'  => 'view.admin_programmes.page_2',
+        ],
+        'iec' => [
+          'university_admin' => 'view.admin_iecs.page_1',
+          'programme_admin'  => 'view.admin_iecs.page_2',
+          'iec_admin'        => 'view.admin_iecs.page_3',
+        ],
+        'campus' => [
+          'university_admin' => 'view.admin_campuses.page_1',
+        ],
+        'rs' => [
+          'university_admin' => 'view.admin_rs.page_1',
+        ],
+        'institution' => [
+          'university_admin' => 'view.admin_institution.page_1',
+        ],
+      ];
+
+      if (isset($route_maps[$entity_type][$role])) {
+        $form_state->setRedirect($route_maps[$entity_type][$role]);
+        return;
+      }
+    }
+  }
+
+  // Redirección por defecto si no encuentra grupo o rol
+  $form_state->setRedirect('<front>');
 }
 
 
@@ -159,6 +212,7 @@ function admin_area_page_top(array &$page_top) {
 
   if ($route_name == 'entity.node.content_translation_overview') {
 
+    /*
     // Crear el botón "Go to My Area".
     $url = \Drupal\Core\Url::fromUserInput('/my-area');
 
@@ -194,7 +248,10 @@ function admin_area_page_top(array &$page_top) {
     // Añadir el botón al array renderizable de la página.
     $page_top['go_to_my_area_button'] = $button;
     $page_top['cancel'] = $button_cancel;
-  }
+  
+  */
+    }
+    
 }
 
 
@@ -277,3 +334,5 @@ function admin_area_form_node_campus_form_alter(array &$form, \Drupal\Core\Form\
     }
   }
 }
+
+
