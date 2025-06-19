@@ -42,6 +42,8 @@
 	<div
 		class="university-details">
 
+		<h1 style="font-weight: bold;">{{institution.title.value}}</h1>
+
 		<!-- Mostrar el país (no traducible) -->
 		{% if institution.field_country.value is not empty %}
 			<h5 style="color: red;">{{ institution.field_country.value }}</h5>
@@ -87,40 +89,47 @@
 
 			<!-- Parte derecha con logo y contacto -->
 			<div class="col-12 col-lg-4 ">
-				<br><br>
-				<div
-					class="degree-sidebar bg-light p-4 h-100">
-					<!-- Logo (field_logo como media) -->
-					<div class="d-flex justify-content-center">
-						{% if institution.field_logo.entity.field_media_image.entity.uri.value is defined %}
-							<img src="{{ file_url(institution.field_logo.entity.field_media_image.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="width: 90%;">
-						{% endif %}
-					</div>
-					<!-- Dirección -->
-					<div class="d-flex align-items-start mb-3">
-						<i class="fas fa-map-marker-alt me-2 mt-1"></i>
-						<p class="mb-0">
-							Avenida de la Universidad, s/n<br>
-							36004, Pontevedra,
-							<strong>España</strong>
-						</p>
-					</div>
+	<br><br>
+	<div class="degree-sidebar bg-light p-4 h-100">
 
-					<!-- Teléfono -->
-					<div class="d-flex align-items-start mb-3">
-						<i class="fas fa-phone-alt me-2 mt-1"></i>
-						<p class="mb-0">+34 886 459 687</p>
-					</div>
+		<!-- Logo (field_logo como media) -->
+		<div class="d-flex justify-content-center">
+			{% if institution.field_logo.entity.field_media_image.entity.uri.value is defined %}
+				<img src="{{ file_url(institution.field_logo.entity.field_media_image.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="width: 90%;">
+			{% endif %}
+		</div>
 
-					<!-- Web -->
-					<div class="d-flex align-items-start mb-3">
-						<i class="fas fa-globe me-2 mt-1"></i>
-						<p class="mb-0">
-							<a href="https://www.uvigo.es" target="_blank">www.uvigo.es</a>
-						</p>
-					</div>
-				</div>
+		<!-- Dirección -->
+		{% if institution.field_institution_address.value is defined and institution.field_institution_address.value %}
+			<div class="d-flex align-items-start mb-3">
+				<i class="fas fa-map-marker-alt me-2 mt-1"></i>
+				<p class="mb-0">{{ institution.field_institution_address.value }}</p>
 			</div>
+		{% endif %}
+
+		<!-- Teléfono -->
+		{% if institution.field_institution_phone.value is defined and institution.field_institution_phone.value %}
+			<div class="d-flex align-items-start mb-3">
+				<i class="fas fa-phone-alt me-2 mt-1"></i>
+				<p class="mb-0">{{ institution.field_institution_phone.value }}</p>
+			</div>
+		{% endif %}
+
+		<!-- Web -->
+		{% if institution.field_institution_webpage.uri is defined and institution.field_institution_webpage.uri %}
+			<div class="d-flex align-items-start mb-3">
+				<i class="fas fa-globe me-2 mt-1"></i>
+				<p class="mb-0">
+					<a href="{{ institution.field_institution_webpage.uri }}" target="_blank">
+						{{ institution.field_institution_webpage.title ?: institution.field_institution_webpage.uri }}
+					</a>
+				</p>
+			</div>
+		{% endif %}
+
+	</div>
+</div>
+
 		</div>
 
 

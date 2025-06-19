@@ -115,14 +115,18 @@ function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
       $referer = $request->headers->get('referer');
 
       // Si no hay referer, redirigir a /my-area por defecto.
-      //$cancel_url = $referer ?: '/my-area';
-      $cancel_url = '/my-area';
+      $cancel_url = $referer ?: '/';
+      
       // Agregar un botón "Cancel".
       $form['actions']['cancel'] = [
         '#type' => 'button',
         '#value' => t('Cancel'),
         '#attributes' => ['onclick' => 'window.location.href="' . $cancel_url . '"; return false;'],
       ];
+
+      if (isset($form['actions']['preview'])) {
+        unset($form['actions']['preview']);
+      }
 
 
     
