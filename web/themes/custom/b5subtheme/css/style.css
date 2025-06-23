@@ -12889,7 +12889,11 @@ code {
 .container-fluid-programme-band{
   overflow: auto !important;
   width: 100% !important;
+  
+
 }
+
+
 
 
 .programme-page .programme-title-logo {
@@ -14884,4 +14888,53 @@ body.h-100 {
 
 .sticky-nav{
   z-index: 500 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.container-fluid-ou-band{
+  overflow: auto !important;
+  width: 100% !important;
+  background-color: var(--university_primary_color);
+
+}
+
+
+.ou-title{
+  color:#000;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-size: clamp(10px, 2vw, 27px); /* Mínimo 16px, adaptable con vw, máximo 24px */
+  color: #fff;
+  padding-left: 12%;
+  padding-right: 12%;
+  font-weight: 1000;
+}
+
+.organizational-unit-header {
+  padding: 20px 0;
+  width: 100%;
+  background-color: var(--university_primary_color);
+  /*position: sticky;*/
+  top: 0;
+  z-index: 1000;
+}
+
+
+.ou-item:hover{
+  cursor: pointer;
 }
