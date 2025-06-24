@@ -292,12 +292,44 @@ class="organizational-units-section container my-5">
 		</div>
 
 		<!-- Filtros -->
-		<div class="d-flex gap-2 mb-3">
-			<button class="btn btn-dark btn-sm">Campus</button>
-			<button class="btn btn-danger btn-sm">A - Z</button>
-			<button class="btn btn-dark btn-sm">Type</button>
-			<button class="btn btn-dark btn-sm">Knowledge Area</button>
-		</div>
+		<!-- Filtros -->
+<div class="d-flex gap-2 mb-3 flex-wrap">
+
+  <!-- Type -->
+  <div class="dropdown">
+    <button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Type
+    </button>
+    <ul class="dropdown-menu" id="filter-type">
+      <li><a class="dropdown-item" href="#" data-type="">All</a></li>
+      <li><a class="dropdown-item" href="#" data-type="Department">Department</a></li>
+      <li><a class="dropdown-item" href="#" data-type="Faculty">Faculty</a></li>
+      <li><a class="dropdown-item" href="#" data-type="School">School</a></li>
+      <!-- Añade aquí tus tipos reales -->
+    </ul>
+  </div>
+
+  <!-- Knowledge Area -->
+  <div class="dropdown">
+    <button id="area-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Knowledge Area
+    </button>
+    <ul class="dropdown-menu" id="filter-area">
+      <li><a class="dropdown-item" href="#" data-area="">All</a></li>
+      <li><a class="dropdown-item" href="#" data-area="arts_and_humanities">Arts and Humanities</a></li>
+      <li><a class="dropdown-item" href="#" data-area="engineering_and_architecture">Engineering and Architecture</a></li>
+      <li><a class="dropdown-item" href="#" data-area="health_sciences"> Health Sciences</a></li>
+	  <li><a class="dropdown-item" href="#" data-area="sciences">Sciences</a></li>
+      <li><a class="dropdown-item" href="#" data-area="social_and_legal_sciences">Social and Legal Sciences</a></li>
+      <!-- Añade aquí tus áreas reales -->
+    </ul>
+  </div>
+
+  <!-- Otros botones -->
+  <button class="btn btn-dark btn-sm">Campus</button>
+  <button class="btn btn-danger btn-sm">A - Z</button>
+</div>
+
 
 		<!-- Lista de Organizational Units -->
 		<div id="ou-list">
@@ -307,7 +339,7 @@ class="organizational-units-section container my-5">
 				{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_institution'] %}
 
 				<div
-					class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ organizational_unit.field_ou_gps.value }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" onclick="loadOUDetails(this)">
+					class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ organizational_unit.field_ou_gps.value }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" onclick="loadOUDetails(this)">
 					<!-- Título de la unidad organizativa -->
 					<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
 
@@ -333,7 +365,10 @@ class="organizational-units-section container my-5">
 			<!-- Aquí se rellenará dinámicamente con JS -->
 		</div>
 	</div>
-</div></div><script>
+</div></div>
+
+
+<script>
 function loadOUDetails(el) {
 const title = el.dataset.ouTitle || '';
 const type = el.dataset.ouType || '';
@@ -407,6 +442,60 @@ document.getElementById('ou-search').addEventListener('input', function () {
     }
   });
 });
+
+
+let currentType = '';
+let currentArea = '';
+// Cambiar texto del botón TYPE
+const typeButton = document.getElementById('type-filter-button');
+const areaButton = document.getElementById('area-filter-button');
+
+document.querySelectorAll('#filter-type .dropdown-item').forEach(item => {
+  item.addEventListener('click', function (e) {
+    e.preventDefault();
+    currentType = this.dataset.type;
+    typeButton.textContent = currentType ? `Type: ${this.textContent}` : 'Type';
+    filterOUList();
+  });
+});
+
+document.querySelectorAll('#filter-area .dropdown-item').forEach(item => {
+  item.addEventListener('click', function (e) {
+    e.preventDefault();
+    currentArea = this.dataset.area;
+    areaButton.textContent = currentArea ? `Knowledge Area: ${this.textContent}` : 'Knowledge Area';
+    filterOUList();
+  });
+});
+
+
+// Filtro general (combina búsqueda + tipo + área)
+function filterOUList() {
+  const query = document.getElementById('ou-search').value.toLowerCase();
+  const items = document.querySelectorAll('#ou-list .ou-item');
+
+  //console.log(items);
+
+  items.forEach(item => {
+    const title = item.dataset.ouTitle?.toLowerCase() || '';
+    const type = item.dataset.ouType || '';
+    const area = item.dataset.ouArea || '';	
+
+    const matchText = title.includes(query);
+    const matchType = !currentType || type === currentType.toLowerCase();
+    const matchArea = !currentArea || area === currentArea.toLowerCase();
+
+    if (matchText && matchType && matchArea) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+// Búsqueda con combinación de filtros
+document.getElementById('ou-search').addEventListener('input', filterOUList);
+
 
 
 </script>
