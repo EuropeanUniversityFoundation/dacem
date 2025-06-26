@@ -12,7 +12,6 @@
 
 {% endif %}
 
-{{dump(view.result)}}
 
 <style>:root
 {
@@ -155,52 +154,51 @@
 				<!-- Mapa -->
 				<div class="col-lg-7 col-12 mb-4 mb-lg-0">
 					<div class="map-wrapper" style="height: 600px;">
-						<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">
+						<!--<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">-->
+						{{ drupal_block('views_block:map_view-block_2') }}
 					</div>
+					
 				</div>
 
 				<!-- Tarjetas -->
 				<div class="col-lg-5 col-12">
-					{% if campuses is not empty %}
-						{% for campus in campuses %}
-							<a href="#" class="text-decoration-none text-reset">
-								<div class="card mb-3 shadow-sm border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
+  {% if campuses is not empty %}
+    <div style="max-height: 400px; overflow-y: auto;">
+      {% for campus in campuses %}
+        <a href="#" class="text-decoration-none text-reset">
+          <div class="card mb-3 shadow-sm border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
+            <div class="row g-0">
+              <!-- Imagen -->
+              <div class="col-3" style="height: 123.65px">
+                {% if campus.field_campus_picture is not empty %}
+                  {% set media_entity = campus.field_campus_picture.entity %}
+                  {% if media_entity is not empty %}
+                    {% set file_entity = media_entity.field_media_image.entity %}
+                    {% if file_entity is not empty %}
+                      <img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.title.value }}" class="img-fluid rounded-0 h-100 object-fit-cover">
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+              </div>
+              <!-- Texto -->
+              <div class="col-9">
+                <div class="card-body p-2">
+                  <h5 class="card-title mb-1 text-start">{{ campus.title.value }}</h5>
+                  {% if campus.field_campus_location is not empty %}
+                    <p class="mb-1 text-muted small text-start">{{ campus.field_campus_location.value }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No campuses available for this university.</p>
+  {% endif %}
+</div>
 
-									<div
-										class="row g-0">
-										<!-- Imagen -->
-										<div class="col-3" style="height: 123.65px">
-											{% if campus.field_campus_picture is not empty %}
-												{% set media_entity = campus.field_campus_picture.entity %}
-												{% if media_entity is not empty %}
-													{% set file_entity = media_entity.field_media_image.entity %}
-													{% if file_entity is not empty %}
-														<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.title.value }}" class="img-fluid rounded-0 h-100 object-fit-cover">
-													{% endif %}
-												{% endif %}
-											{% endif %}
-										</div>
-
-										<!-- Texto -->
-										<div class="col-9">
-											<div class="card-body p-2">
-												<h5 class="card-title mb-1 text-start">{{ campus.title.value }}</h5>
-												{% if campus.field_campus_location is not empty %}
-													<p class="mb-1 text-muted small text-start">{{ campus.field_campus_location.value }}</p>
-												{% endif %}
-												{#% if campus.field_campus_description is not empty %}
-																																			                    <p class="mb-0 small text-secondary">{{ campus.field_campus_description.value|truncate(150, true, '...') }}</p>
-																																			                  {% endif %#}
-											</div>
-										</div>
-									</div>
-								</a>
-							</div>
-						{% endfor %}
-					{% else %}
-						<p>No campuses available for this university.</p>
-					{% endif %}
-				</div>
 			</div>
 		</div>
 
@@ -333,6 +331,11 @@ class="organizational-units-section container my-5">
 
 		<!-- Lista de Organizational Units -->
 		<div id="ou-list">
+			<nav>
+  <ul class="pagination justify-content-center mt-4" id="pagination-controls">
+    <!-- Se rellenará con JS -->
+  </ul>
+</nav>
 			{% for row in view.result %}
 				{% set ou = row._entity %}
 
@@ -355,6 +358,7 @@ class="organizational-units-section container my-5">
 				<p>No Organizational Units found.</p>
 			{% endfor %}
 		</div>
+
 
 	</div>
 
@@ -495,6 +499,81 @@ function filterOUList() {
 
 // Búsqueda con combinación de filtros
 document.getElementById('ou-search').addEventListener('input', filterOUList);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const items = document.querySelectorAll("#ou-list .ou-item");
+  const itemsPerPage = 2;
+  let currentPage = 1;
+
+  function showPage(page) {
+    const start = (page - 1) * itemsPerPage;
+    const end = page * itemsPerPage;
+
+    items.forEach((item, index) => {
+      item.style.display = (index >= start && index < end) ? '' : 'none';
+    });
+
+    renderPagination(page);
+  }
+
+  function renderPagination(activePage) {
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+    const pagination = document.getElementById("pagination-controls");
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+      const li = document.createElement("li");
+      li.className = "page-item" + (i === activePage ? " active" : "");
+      li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+      li.addEventListener("click", function (e) {
+        e.preventDefault();
+        currentPage = i;
+        showPage(currentPage);
+      });
+      pagination.appendChild(li);
+    }
+  }
+
+  if (items.length > 0) {
+    showPage(currentPage);
+  }
+});
+
 
 
 
