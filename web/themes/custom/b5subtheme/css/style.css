@@ -13793,14 +13793,14 @@ PARA PÁXINA DE GENERAL INFORMATION
 }
 
 .authority-item {
-  flex: 1 1 calc(25% - 20px); /* 4 elementos por fila, ajusta según sea necesario */
-  max-width: 200px; /* Ajusta el tamaño máximo */
+  flex: 1 1 calc(33.33333333% - 20px); /* 4 elementos por fila, ajusta según sea necesario */
+  max-width: 400px; /* Ajusta el tamaño máximo */
   text-align: center;
 }
 
 .authority-photo {
-  width: 150px;
-  height: 150px;
+  width: 250px;
+  height: 250px;
   margin: 0 auto;
   overflow: hidden;
   border-radius: 50%; /* Hace la imagen circular */
@@ -13817,16 +13817,6 @@ PARA PÁXINA DE GENERAL INFORMATION
   margin-top: 10px;
 }
 
-.authority-info h3 {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.authority-info p {
-  font-size: 0.9rem;
-  color: #666;
-}
-
 
 
 .university-img {
@@ -13836,7 +13826,16 @@ PARA PÁXINA DE GENERAL INFORMATION
   
 }
 
+.authority-icons .authority-icon{
+  color: var(--university_primary_color);
+}
 
+/*
+.authority-icons .authority-icon:hover{
+  background-color: var(--university_primary_color);
+  color: var(--university_emphasis_text_color);
+} 
+*/
 
 
 
@@ -14938,3 +14937,15 @@ body.h-100 {
 .ou-item:hover{
   cursor: pointer;
 }
+
+.ou-item.selected {
+  background-color: black !important;
+  color:white; /* Opcional: cambia el texto también */
+  
+}
+
+.ou-item.selected .out-type{
+  color: white !important;
+}
+
+

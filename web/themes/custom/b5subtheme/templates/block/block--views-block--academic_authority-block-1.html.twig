@@ -1,27 +1,41 @@
+{{ attach_library('b5subtheme/fontawesome') }}
+
 
 <div class="academic-authorities">
 	<h2>ACADEMIC AUTHORITIES</h2>
 	<div class="container-fluid">
 		<div class="my-custom-container">
-    <div class="authorities-grid">
-			{% for row in content['#view'].result %}
-				<div class="authority-item">
+			<div class="authorities-grid">
+				{% for row in content['#view'].result %}
+					<div class="authority-item">
 
-					{% set media_entity = row._entity.field_ac_photo.entity %}
+						{% set media_entity = row._entity.field_ac_photo.entity %}
 
-					{% set file_entity = media_entity.field_media_image.entity %}
-					{% if file_entity is not empty %}
-						<div class="authority-photo">
-							<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ row._entity.title.value }}">
+						{% set file_entity = media_entity.field_media_image.entity %}
+						{% if file_entity is not empty %}
+							<div class="authority-photo">
+								<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ row._entity.title.value }}">
+							</div>
+						{% endif %}
+						<div class="authority-info">
+							<h4>{{ row._entity.title.value }}</h4>
+							<p>{{ row._entity.field_role.value | upper}}</p>
+							<div class="authority-icons mt-2">
+								<a href="#" class=" authority-icon me-3">
+									<i class="fas fa-globe fa-lg"></i>
+								</a>
+								<a href="#" class=" authority-icon me-3">
+									<i class="fab fa-instagram fa-lg"></i>
+								</a>
+								<a href="#" class="authority-icon ">
+									<i class="fab fa-linkedin fa-lg"></i>
+								</a>
+							</div>
+
 						</div>
-					{% endif %}
-					<div class="authority-info">
-						<h3>{{ row._entity.title.value }}</h3>
-						<p>{{ row._entity.field_role.value }}</p>
 					</div>
-				</div>
-			{% endfor %}
-      </div>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
 </div>
