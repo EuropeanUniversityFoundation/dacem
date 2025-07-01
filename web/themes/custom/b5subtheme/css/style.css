@@ -13781,7 +13781,7 @@ PARA PÁXINA DE GENERAL INFORMATION
 
 .academic-authorities {
   text-align: center;
-  padding: 20px;
+  /*padding: 20px;*/
   
 }
 
@@ -13804,7 +13804,7 @@ PARA PÁXINA DE GENERAL INFORMATION
   margin: 0 auto;
   overflow: hidden;
   border-radius: 50%; /* Hace la imagen circular */
-  border: 3px solid #ccc; /* Opcional: Añade un borde */
+  border: 0; /* Opcional: Añade un borde */
 }
 
 .authority-photo img {

@@ -1,14 +1,18 @@
 {{ attach_library('b5subtheme/fontawesome') }}
 
 
-<div class="academic-authorities">
+<div class="academic-authorities bg-light mt-5 mb-5" id='academic-authorities'>
+	<br>
 	<h2>ACADEMIC AUTHORITIES</h2>
+	<br>
+	<br>
 	<div class="container-fluid">
-		<div class="my-custom-container">
+		<div class='my-custom-container-2'>
+		
 			<div class="authorities-grid">
 				{% for row in content['#view'].result %}
 					<div class="authority-item">
-
+							
 						{% set media_entity = row._entity.field_ac_photo.entity %}
 
 						{% set file_entity = media_entity.field_media_image.entity %}
@@ -37,5 +41,7 @@
 				{% endfor %}
 			</div>
 		</div>
+		
 	</div>
+	<br>
 </div>

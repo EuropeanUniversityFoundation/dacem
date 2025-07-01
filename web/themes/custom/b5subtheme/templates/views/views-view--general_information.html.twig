@@ -22,195 +22,195 @@
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
 }</style>{#
-						<div class="university-menu-block">
-						{{ page.header }}</div>#}<div class="university-banner">
-{% if institution.field_institution_picture is not empty %}
-	{% if institution.field_institution_picture is not empty %}
-		{% set file = institution.field_institution_picture.entity %}
-		{% if file %}
-			{% set uri = file.getFileUri() %}
-			{% set image_url = file_url(uri) %}
-			<div class='university-photo'>
-				<img src="{{ image_url }}" alt="University Logo" class="university-img"/>
-			</div>
-		{% endif %}
-	{% endif %}
-{% endif %}</div><div class="container-fluid">
-
-<div class="my-custom-container-2">
-
-
-	<div class="university-details">
-
-		<h1 style="font-weight: bold;">{{institution.title.value}}</h1>
-
-		<!-- Mostrar el país (no traducible) -->
-		{% if institution.field_country.value is not empty %}
-			<h5 style="color: red;">{{ institution.field_country.value }}</h5>
-		{% else %}
-			<p>
-				<strong>País:</strong>
-				No disponible</p>
-		{% endif %}
-
-		<!-- Mostrar la información -->
-		{% set current_language = institution.langcode.value %}
-
-		<div
-			class="row">
-			<!-- Parte izquierda con información de la universidad -->
-			<div class="col-12 col-lg-8">
-				{% if institution.field_information.value is not empty %}
-					<br><br>
-					<div class="university-info">
-						<p>{{ institution.field_information.value }}</p>
-					</div>
-				{% else %}
-					<p>
-						<strong>Information:</strong>
-						Not available</p>
-				{% endif %}
-
-				<!-- Academic Terms debajo de la info -->
-				<div class="mt-4">
-					<h5>
-						<strong>Academic Calendar</strong>
-					</h5>
-
-					<ul class="mb-0">
-						<li>Summer (June - August)</li>
-						<li>Fall Semester (September – January)</li>
-						<li>Spring Semester (March – August)</li>
-						<li>Calendar Year (March – January)</li>
-						<li>Full Year (September – August)</li>
-					</ul>
-				</div>
-			</div>
-
-			<!-- Parte derecha con logo y contacto -->
-			<div class="col-12 col-lg-4 ">
-				<br><br>
-				<div
-					class="degree-sidebar bg-light p-4 h-100">
-
-					<!-- Logo (field_logo como media) -->
-					<div class="d-flex justify-content-center">
-						{% if institution.field_logo.entity.field_media_image.entity.uri.value is defined %}
-							<img src="{{ file_url(institution.field_logo.entity.field_media_image.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="width: 90%;">
-						{% endif %}
-					</div>
-
-					<!-- Dirección -->
-					{% if institution.field_institution_address.value is defined and institution.field_institution_address.value %}
-						<div class="d-flex align-items-start mb-3">
-							<i class="fas fa-map-marker-alt me-2 mt-1"></i>
-							<p class="mb-0">{{ institution.field_institution_address.value }}</p>
-						</div>
-					{% endif %}
-
-					<!-- Teléfono -->
-					{% if institution.field_institution_phone.value is defined and institution.field_institution_phone.value %}
-						<div class="d-flex align-items-start mb-3">
-							<i class="fas fa-phone-alt me-2 mt-1"></i>
-							<p class="mb-0">{{ institution.field_institution_phone.value }}</p>
-						</div>
-					{% endif %}
-
-					<!-- Web -->
-					{% if institution.field_institution_webpage.uri is defined and institution.field_institution_webpage.uri %}
-						<div class="d-flex align-items-start mb-3">
-							<i class="fas fa-globe me-2 mt-1"></i>
-							<p class="mb-0">
-								<a href="{{ institution.field_institution_webpage.uri }}" target="_blank">
-									{{ institution.field_institution_webpage.title ?: institution.field_institution_webpage.uri }}
-								</a>
-							</p>
-						</div>
-					{% endif %}
-
-				</div>
-			</div>
-
-		</div>
-
-
-		<br><br><br>
-
-		{{drupal_block('views_block:academic_authority-block_1')}}
-
-		<div
-			class="campus-section container my-5">
-			<!-- Título -->
-			<div class="row mb-4">
-				<div class="col-12 text-center">
-					<h2 class="fw-bold">Campus</h2>
-					<p>
-						Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam...
-					</p>
-				</div>
-			</div>
-
-			<!-- Contenido: Mapa + Tarjetas -->
-			<div
-				class="row">
-				<!-- Mapa -->
-				<div class="col-lg-7 col-12 mb-4 mb-lg-0">
-					<div class="map-wrapper" style="height: 600px;">
-						<!--<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">-->
-						{{ drupal_block('views_block:map_view-block_2') }}
-					</div>
-					
-				</div>
-
-				<!-- Tarjetas -->
-				<div class="col-lg-5 col-12">
-  {% if campuses is not empty %}
-    <div style="max-height: 400px; overflow-y: auto;">
-      {% for campus in campuses %}
-        <a href="#" class="text-decoration-none text-reset">
-          <div class="card mb-3 shadow-sm border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
-            <div class="row g-0">
-              <!-- Imagen -->
-              <div class="col-3" style="height: 123.65px">
-                {% if campus.field_campus_picture is not empty %}
-                  {% set media_entity = campus.field_campus_picture.entity %}
-                  {% if media_entity is not empty %}
-                    {% set file_entity = media_entity.field_media_image.entity %}
-                    {% if file_entity is not empty %}
-                      <img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.title.value }}" class="img-fluid rounded-0 h-100 object-fit-cover">
-                    {% endif %}
-                  {% endif %}
-                {% endif %}
-              </div>
-              <!-- Texto -->
-              <div class="col-9">
-                <div class="card-body p-2">
-                  <h5 class="card-title mb-1 text-start">{{ campus.title.value }}</h5>
-                  {% if campus.field_campus_location is not empty %}
-                    <p class="mb-1 text-muted small text-start">{{ campus.field_campus_location.value }}</p>
-                  {% endif %}
-                </div>
-              </div>
-            </div>
-          </div>
-        </a>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>No campuses available for this university.</p>
-  {% endif %}
+									<div class="university-menu-block">
+									{{ page.header }}</div>#}<div class="">
+<div class="rs-header">
+	<div class="container-fluid container-fluid-programme-band ">
+		<h1 class="rs-title">INSTITUTIONAL INFORMATION</h1>
+	</div>
 </div>
 
-			</div>
+<nav id="rs-navbar" class="rs-nav navbar navbar-expand-lg bg-black">
+	<div
+		class="my-custom-constainer">
+		<!-- Menú desplegable para pantallas pequeñas -->
+		<div class="dropdown d-lg-none w-100">
+			<button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				{{ 'Student affairs'|t }}
+			</button>
+			<ul class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
+				<li>
+					<a class="dropdown-item fw-bold" href="#description">{{ 'Description'|t }}</a>
+				</li>
+				<li>
+					<a class="dropdown-item fw-bold" href="#academic-authorities">{{ 'Academic authorities'|t }}</a>
+				</li>
+				<li>
+					<a class="dropdown-item fw-bold" href="#admission">{{ 'Admission'|t }}</a>
+				</li>
+				<li>
+					<a class="dropdown-item fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
+				</li>
+				<li>
+					<a class="dropdown-item fw-bold" href="#organizational-units">{{ 'Organizational Units'|t }}</a>
+				</li>
+			</ul>
 		</div>
 
+		<!-- Menú de pestañas visible en pantallas grandes -->
+		<!-- Menú de pestañas visible en pantallas grandes -->
+		<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
+
+			<li class="nav-item">
+				<a class="nav-link nav-link-rs-menu fw-bold" href="#description">{{ 'Description'|t }}</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link nav-link-rs-menu  fw-bold" href="#academic-authorities">{{ 'Academic authorities'|t }}</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link nav-link-rs-menu  fw-bold" href="#admission">{{ 'Admission'|t }}</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link nav-link-rs-menu  fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Organizational Units'|t }}</a>
+			</li>
+		</ul>
+
+	</div>
+</nav>
+
+
+<div class="university-banner">
+	{% if institution.field_institution_picture is not empty %}
+		{% if institution.field_institution_picture is not empty %}
+			{% set file = institution.field_institution_picture.entity %}
+			{% if file %}
+				{% set uri = file.getFileUri() %}
+				{% set image_url = file_url(uri) %}
+				<div class='university-photo'>
+					<img src="{{ image_url }}" alt="University Logo" class="university-img"/>
+				</div>
+			{% endif %}
+		{% endif %}
+	{% endif %}
+</div>
+<div class="container-fluid">
+
+	<div class="my-custom-container-2">
+
+
+		<div class="university-details">
+
+			<h1 style="font-weight: bold;">{{institution.title.value}}</h1>
+
+			<!-- Mostrar el país (no traducible) -->
+			{% if institution.field_country.value is not empty %}
+				<h5 style="color: red;">{{ institution.field_country.value }}</h5>
+			{% else %}
+				<p>
+					<strong>País:</strong>
+					No disponible</p>
+			{% endif %}
+
+			<!-- Mostrar la información -->
+			{% set current_language = institution.langcode.value %}
+
+			<div
+				class="row" id="description">
+				<!-- Parte izquierda con información de la universidad -->
+				<div class="col-12 col-lg-8">
+					{% if institution.field_information.value is not empty %}
+						<br><br>
+						<div class="university-info">
+							<p>{{ institution.field_information.value }}</p>
+						</div>
+					{% else %}
+						<p>
+							<strong>Information:</strong>
+							Not available</p>
+					{% endif %}
+
+					<!-- Academic Terms debajo de la info -->
+					<div class="mt-4">
+						<h5>
+							<strong>Academic Calendar</strong>
+						</h5>
+
+						<ul class="mb-0">
+							<li>Summer (June - August)</li>
+							<li>Fall Semester (September – January)</li>
+							<li>Spring Semester (March – August)</li>
+							<li>Calendar Year (March – January)</li>
+							<li>Full Year (September – August)</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Parte derecha con logo y contacto -->
+				<div class="col-12 col-lg-4 ">
+					<br><br>
+					<div
+						class="degree-sidebar bg-light p-4 h-100">
+
+						<!-- Logo (field_logo como media) -->
+						<div class="d-flex justify-content-center">
+							{% if institution.field_logo.entity.field_media_image.entity.uri.value is defined %}
+								<img src="{{ file_url(institution.field_logo.entity.field_media_image.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="width: 90%;">
+							{% endif %}
+						</div>
+
+						<!-- Dirección -->
+						{% if institution.field_institution_address.value is defined and institution.field_institution_address.value %}
+							<div class="d-flex align-items-start mb-3">
+								<i class="fas fa-map-marker-alt me-2 mt-1"></i>
+								<p class="mb-0">{{ institution.field_institution_address.value }}</p>
+							</div>
+						{% endif %}
+
+						<!-- Teléfono -->
+						{% if institution.field_institution_phone.value is defined and institution.field_institution_phone.value %}
+							<div class="d-flex align-items-start mb-3">
+								<i class="fas fa-phone-alt me-2 mt-1"></i>
+								<p class="mb-0">{{ institution.field_institution_phone.value }}</p>
+							</div>
+						{% endif %}
+
+						<!-- Web -->
+						{% if institution.field_institution_webpage.uri is defined and institution.field_institution_webpage.uri %}
+							<div class="d-flex align-items-start mb-3">
+								<i class="fas fa-globe me-2 mt-1"></i>
+								<p class="mb-0">
+									<a href="{{ institution.field_institution_webpage.uri }}" target="_blank">
+										{{ institution.field_institution_webpage.title ?: institution.field_institution_webpage.uri }}
+									</a>
+								</p>
+							</div>
+						{% endif %}
+
+					</div>
+				</div>
+
+			</div>
+
+
+			<br><br><br>
+		</div>
+	</div>
+
+	{{drupal_block('views_block:academic_authority-block_1')}}
+
+	<br><br><br>
+	<div class='my-custom-container-2'>
 		<div
-			class="admission-section">
+			class="admission-section" id='admission'>
 			<!-- Título principal centrado -->
 			<div class="flex-row campus-title">
 				<h2>ADMISSION</h2>
 			</div>
+			<br><br>
 
 
 			<!-- Descripción general -->
@@ -248,171 +248,252 @@
 				<p>{{ institution.field_admission_registration.value | raw}}</p>
 			{% endif %}
 		</div>
-
-
 	</div>
 
-	{# Donde quieras que aparezca el bloque generado por la otra vista 
-		<div class="mt-4">
-		  {{ bloque_campus }}
-		</div>
-		#}
-
-
-	<br><br><br>
-
-
-</div></div><div class="organizational-unit-header">
-
-<div class="container-fluid container-fluid-ou-band ">
-	<h1 class="ou-title">ORGANIZATIONAL UNITS</h1>
-</div></div><!-- ORGANIZATIONAL UNITS SECTION --><div
-class="organizational-units-section container my-5">
-<!-- Título -->
-<div class="row mb-4">
-	<div class="col-12 text-center">
-		<h2 class="fw-bold">Organizational Units</h2>
-		<p>
-			Here you can find all the organizational units associated with this institution.
-		</p>
-	</div>
-</div>
-
-<div
-	class="row">
-	<!-- Columna izquierda: buscador y lista -->
-	<div
-		class="col-lg-6">
-		<!-- Buscador -->
-		<div class="input-group mb-3">
-			<input type="text" class="form-control" placeholder="Type here to search" id="ou-search">
-			<button class="btn btn-outline-secondary" type="button" id="search-btn">
-				<i class="fas fa-search"></i>
-			</button>
-		</div>
-
-		<!-- Filtros -->
-		<!-- Filtros -->
-<div class="d-flex gap-2 mb-3 flex-wrap">
-
-  <!-- Type -->
-  <div class="dropdown">
-    <button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Type
-    </button>
-    <ul class="dropdown-menu" id="filter-type">
-      <li><a class="dropdown-item" href="#" data-type="">All</a></li>
-      <li><a class="dropdown-item" href="#" data-type="Department">Department</a></li>
-      <li><a class="dropdown-item" href="#" data-type="Faculty">Faculty</a></li>
-      <li><a class="dropdown-item" href="#" data-type="School">School</a></li>
-      <!-- Añade aquí tus tipos reales -->
-    </ul>
-  </div>
-
-  <!-- Knowledge Area -->
-  <div class="dropdown">
-    <button id="area-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Knowledge Area
-    </button>
-    <ul class="dropdown-menu" id="filter-area">
-      <li><a class="dropdown-item" href="#" data-area="">All</a></li>
-      <li><a class="dropdown-item" href="#" data-area="arts_and_humanities">Arts and Humanities</a></li>
-      <li><a class="dropdown-item" href="#" data-area="engineering_and_architecture">Engineering and Architecture</a></li>
-      <li><a class="dropdown-item" href="#" data-area="health_sciences"> Health Sciences</a></li>
-	  <li><a class="dropdown-item" href="#" data-area="sciences">Sciences</a></li>
-      <li><a class="dropdown-item" href="#" data-area="social_and_legal_sciences">Social and Legal Sciences</a></li>
-      <!-- Añade aquí tus áreas reales -->
-    </ul>
-  </div>
-
-  <!-- Otros botones -->
- <!-- Campus -->
-<div class="dropdown">
-  <button id="campus-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Campus
-  </button>
-  <ul class="dropdown-menu" id="filter-campus">
-    <li><a class="dropdown-item" href="#" data-campus="">All</a></li>
-    {% for campus in campuses %}
-      <li>
-        <a class="dropdown-item" href="#" data-campus="{{ campus.title.value|lower|replace({' ': '_'}) }}">
-          {{ campus.title.value }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
-</div>
-  <button class="btn btn-danger btn-sm">A - Z</button>
-</div>
-
-
-		<!-- Lista de Organizational Units -->
-		<div id="ou-list">
-			<nav>
-  <ul class="pagination justify-content-center mt-4" id="pagination-controls">
-    <!-- Se rellenará con JS -->
-  </ul>
-</nav>
-			{% for row in view.result %}
-				{% set ou = row._entity %}
-
-				{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_institution'] %}
-				<div
-					class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ organizational_unit.field_ou_gps.value }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus="{{ organizational_unit.field_ou_campus.entity.label|lower|replace({' ': '_'}) }}" onclick="loadOUDetails(this)">
-					<!-- Título de la unidad organizativa -->
-					<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
-
-					<!-- Tipo de la unidad organizativa -->
-					<p class="mb-0 small ou-type">
-						{% if organizational_unit.field_ou_type.value is defined %}
-							{{ organizational_unit.field_ou_type.value }}
-						{% endif %}
-						 &nbsp;·&nbsp;
-						{% if organizational_unit.field_ou_campus.value is defined %}
-							<strong>{{ organizational_unit.field_ou_campus.entity.label  }}</strong>
-						{% endif %}
+	<br><br>
+	<div class='bg-light'>
+		<br>
+		<div
+			class="campus-section container my-5" id='campuses'>
+			<!-- Título -->
+			<div class="row mb-4">
+				<div class="col-12 text-center">
+					<h2 class="fw-bold">Campuses</h2>
+					<p>
+						Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam...
 					</p>
 				</div>
+			</div>
 
-			{% else %}
-				<p>No Organizational Units found.</p>
-			{% endfor %}
+			<!-- Contenido: Mapa + Tarjetas -->
+			<div
+				class="row">
+				<!-- Mapa -->
+				<div class="col-lg-7 col-12 mb-4 mb-lg-0">
+					<div
+						class="map-wrapper" style="height: 600px;">
+						<!--<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">-->
+						{{ drupal_block('views_block:map_view-block_2') }}
+					</div>
+
+				</div>
+
+				<!-- Tarjetas -->
+				<div class="col-lg-5 col-12">
+					{% if campuses is not empty %}
+						<div style="max-height: 400px; overflow-y: auto;">
+							{% for campus in campuses %}
+								<a href="#" class="text-decoration-none text-reset">
+									<div class="card mb-3 shadow-sm border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
+										<div
+											class="row g-0">
+											<!-- Imagen -->
+											<div class="col-3" style="height: 123.65px">
+												{% if campus.field_campus_picture is not empty %}
+													{% set media_entity = campus.field_campus_picture.entity %}
+													{% if media_entity is not empty %}
+														{% set file_entity = media_entity.field_media_image.entity %}
+														{% if file_entity is not empty %}
+															<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.title.value }}" class="img-fluid rounded-0 h-100 object-fit-cover">
+														{% endif %}
+													{% endif %}
+												{% endif %}
+											</div>
+											<!-- Texto -->
+											<div class="col-9">
+												<div class="card-body p-2">
+													<h5 class="card-title mb-1 text-start">{{ campus.title.value }}</h5>
+													{% if campus.field_campus_location is not empty %}
+														<p class="mb-1 text-muted small text-start">{{ campus.field_campus_location.value }}</p>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+									</div>
+								</a>
+							{% endfor %}
+						</div>
+					{% else %}
+						<p>No campuses available for this university.</p>
+					{% endif %}
+				</div>
+
+			</div>
 		</div>
-
-
 	</div>
 
-	<!-- Columna derecha: detalle dinámico -->
-	<div class="col-lg-6">
-		<div id="ou-details" class="border p-4 bg-light h-100 shadow-sm">
-			<p class="text-muted">Click on an Organizational Unit to see its details.</p>
-			<!-- Aquí se rellenará dinámicamente con JS -->
-		</div>
+	<br>
+
+
+</div>
+
+{# Donde quieras que aparezca el bloque generado por la otra vista 
+				<div class="mt-4">
+				  {{ bloque_campus }}
+				</div>
+				#}
+
+
+<br><br><br></div></div><div class="organizational-unit-header" id='organizational-units'><div class="container-fluid container-fluid-ou-band ">
+<h1 class="ou-title">ORGANIZATIONAL UNITS</h1></div></div><!-- ORGANIZATIONAL UNITS SECTION --><div class="organizational-units-section container my-5"><!-- Título --><div class="row mb-4">
+<div class="col-12 text-center">
+	<h2 class="fw-bold">Organizational Units</h2>
+	<p>
+		Here you can find all the organizational units associated with this institution.
+	</p>
+</div></div><div
+class="row">
+<!-- Columna izquierda: buscador y lista -->
+<div
+	class="col-lg-6">
+	<!-- Buscador -->
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" placeholder="Type here to search" id="ou-search">
+		<button class="btn btn-outline-secondary" type="button" id="search-btn">
+			<i class="fas fa-search"></i>
+		</button>
 	</div>
-</div></div>
+
+	<!-- Filtros -->
+	<!-- Filtros -->
+	<div
+		class="d-flex gap-2 mb-3 flex-wrap">
+
+		<!-- Type -->
+		<div class="dropdown">
+			<button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Type
+			</button>
+			<ul class="dropdown-menu" id="filter-type">
+				<li>
+					<a class="dropdown-item" href="#" data-type="">All</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#" data-type="Department">Department</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#" data-type="Faculty">Faculty</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#" data-type="School">School</a>
+				</li>
+				<!-- Añade aquí tus tipos reales -->
+			</ul>
+		</div>
+
+		<!-- Knowledge Area -->
+		<div class="dropdown">
+			<button id="area-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Knowledge Area
+			</button>
+			<ul class="dropdown-menu" id="filter-area">
+				<li>
+					<a class="dropdown-item" href="#" data-area="">All</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#" data-area="arts_and_humanities">Arts and Humanities</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#" data-area="engineering_and_architecture">Engineering and Architecture</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#" data-area="health_sciences">
+						Health Sciences</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#" data-area="sciences">Sciences</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#" data-area="social_and_legal_sciences">Social and Legal Sciences</a>
+				</li>
+				<!-- Añade aquí tus áreas reales -->
+			</ul>
+		</div>
+
+		<!-- Otros botones -->
+		<!-- Campus -->
+		<div class="dropdown">
+			<button id="campus-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Campus
+			</button>
+			<ul class="dropdown-menu" id="filter-campus">
+				<li>
+					<a class="dropdown-item" href="#" data-campus="">All</a>
+				</li>
+				{% for campus in campuses %}
+					<li>
+						<a class="dropdown-item" href="#" data-campus="{{ campus.title.value|lower|replace({' ': '_'}) }}">
+							{{ campus.title.value }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<button class="btn btn-danger btn-sm">A - Z</button>
+	</div>
 
 
-<script>
-function loadOUDetails(el) {
-  // ❌ Elimina la clase 'selected' de todos
-  document.querySelectorAll('.ou-item').forEach(item => {
-    item.classList.remove('selected');
-  });
+	<!-- Lista de Organizational Units -->
+	<div id="ou-list">
+		<nav>
+			<ul
+				class="pagination justify-content-center mt-4" id="pagination-controls"><!-- Se rellenará con JS -->
+			</ul>
+		</nav>
+		{% for row in view.result %}
+			{% set ou = row._entity %}
 
-  // ✅ Añade la clase al seleccionado
-  el.classList.add('selected');
+			{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_institution'] %}
+			<div
+				class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ organizational_unit.field_ou_gps.value }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus="{{ organizational_unit.field_ou_campus.entity.label|lower|replace({' ': '_'}) }}" onclick="loadOUDetails(this)">
+				<!-- Título de la unidad organizativa -->
+				<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
 
-  // ⚙️ Tu código para mostrar los detalles
-  const title = el.dataset.ouTitle || '';
-  const type = el.dataset.ouType || '';
-  const description = el.dataset.ouDescription || '';
-  const address = el.dataset.ouAddress || '';
-  const gps = el.dataset.ouGps || '';
-  const web = el.dataset.ouWeb || '';
-  const webLabel = el.dataset.ouWebLabel || web;
-  const email = el.dataset.ouEmail || '';
+				<!-- Tipo de la unidad organizativa -->
+				<p class="mb-0 small ou-type">
+					{% if organizational_unit.field_ou_type.value is defined %}
+						{{ organizational_unit.field_ou_type.value }}
+					{% endif %}
+					&nbsp;·&nbsp;
+					{% if organizational_unit.field_ou_campus.value is defined %}
+						<strong>{{ organizational_unit.field_ou_campus.entity.label  }}</strong>
+					{% endif %}
+				</p>
+			</div>
 
-  const html = `
+		{% else %}
+			<p>No Organizational Units found.</p>
+		{% endfor %}
+	</div>
+
+
+</div>
+
+<!-- Columna derecha: detalle dinámico -->
+<div class="col-lg-6">
+	<div id="ou-details" class="border p-4 bg-light h-100 shadow-sm">
+		<p class="text-muted">Click on an Organizational Unit to see its details.</p>
+		<!-- Aquí se rellenará dinámicamente con JS -->
+	</div>
+</div></div></div><script>function loadOUDetails(el) { // ❌ Elimina la clase 'selected' de todos
+document.querySelectorAll('.ou-item').forEach(item => {
+item.classList.remove('selected');
+});
+
+// ✅ Añade la clase al seleccionado
+el.classList.add('selected');
+
+// ⚙️ Tu código para mostrar los detalles
+const title = el.dataset.ouTitle || '';
+const type = el.dataset.ouType || '';
+const description = el.dataset.ouDescription || '';
+const address = el.dataset.ouAddress || '';
+const gps = el.dataset.ouGps || '';
+const web = el.dataset.ouWeb || '';
+const webLabel = el.dataset.ouWebLabel || web;
+const email = el.dataset.ouEmail || '';
+
+const html = `
     <!-- Imagen fija -->
     <div class="mb-3 text-center">
       <img src="/themes/custom/b5subtheme/images/ou-default.png" alt="Organizational Unit" class="img-fluid rounded shadow" style="max-height: 600px; object-fit: cover;">
@@ -450,43 +531,38 @@ function loadOUDetails(el) {
     </div>
   `;
 
-  document.getElementById('ou-details').innerHTML = html;
+document.getElementById('ou-details').innerHTML = html;
 }
 
 let currentCampus = '';
 
 document.querySelectorAll('#filter-campus .dropdown-item').forEach(item => {
-  item.addEventListener('click', function (e) {
-    e.preventDefault();
-    currentCampus = this.dataset.campus;
-    document.getElementById('campus-filter-button').textContent = currentCampus ? `Campus: ${this.textContent}` : 'Campus';
-    filterOUList();
-  });
+item.addEventListener('click', function (e) {
+e.preventDefault();
+currentCampus = this.dataset.campus;
+document.getElementById('campus-filter-button').textContent = currentCampus ? `Campus: ${
+this.textContent
+}` : 'Campus';
+filterOUList();
 });
-
-
-
-
-
-
-
+});
 
 
 // 🔍 Buscador en tiempo real
 document.getElementById('ou-search').addEventListener('input', function () {
-  const query = this.value.toLowerCase();
-  const items = document.querySelectorAll('#ou-list .ou-item');
+const query = this.value.toLowerCase();
+const items = document.querySelectorAll('#ou-list .ou-item');
 
-  items.forEach(item => {
-    const title = item.dataset.ouTitle?.toLowerCase() || '';
-    const type = item.dataset.ouType?.toLowerCase() || '';
+items.forEach(item => {
+const title = item.dataset.ouTitle ?. toLowerCase() || '';
+const type = item.dataset.ouType ?. toLowerCase() || '';
 
-    if (title.includes(query) || type.includes(query)) {
-      item.style.display = '';
-    } else {
-      item.style.display = 'none';
-    }
-  });
+if (title.includes(query) || type.includes(query)) {
+item.style.display = '';
+} else {
+item.style.display = 'none';
+}
+});
 });
 
 
@@ -497,46 +573,50 @@ const typeButton = document.getElementById('type-filter-button');
 const areaButton = document.getElementById('area-filter-button');
 
 document.querySelectorAll('#filter-type .dropdown-item').forEach(item => {
-  item.addEventListener('click', function (e) {
-    e.preventDefault();
-    currentType = this.dataset.type;
-    typeButton.textContent = currentType ? `Type: ${this.textContent}` : 'Type';
-    filterOUList();
-  });
+item.addEventListener('click', function (e) {
+e.preventDefault();
+currentType = this.dataset.type;
+typeButton.textContent = currentType ? `Type: ${
+this.textContent
+}` : 'Type';
+filterOUList();
+});
 });
 
 document.querySelectorAll('#filter-area .dropdown-item').forEach(item => {
-  item.addEventListener('click', function (e) {
-    e.preventDefault();
-    currentArea = this.dataset.area;
-    areaButton.textContent = currentArea ? `Knowledge Area: ${this.textContent}` : 'Knowledge Area';
-    filterOUList();
-  });
+item.addEventListener('click', function (e) {
+e.preventDefault();
+currentArea = this.dataset.area;
+areaButton.textContent = currentArea ? `Knowledge Area: ${
+this.textContent
+}` : 'Knowledge Area';
+filterOUList();
+});
 });
 
 
 // Filtro general (combina búsqueda + tipo + área)
 function filterOUList() {
-  const query = document.getElementById('ou-search').value.toLowerCase();
-  const items = document.querySelectorAll('#ou-list .ou-item');
+const query = document.getElementById('ou-search').value.toLowerCase();
+const items = document.querySelectorAll('#ou-list .ou-item');
 
-  items.forEach(item => {
-    const title = item.dataset.ouTitle?.toLowerCase() || '';
-    const type = item.dataset.ouType?.toLowerCase() || '';
-    const area = item.dataset.ouArea?.toLowerCase() || '';
-    const campus = item.dataset.ouCampus?.toLowerCase() || '';
+items.forEach(item => {
+const title = item.dataset.ouTitle ?. toLowerCase() || '';
+const type = item.dataset.ouType ?. toLowerCase() || '';
+const area = item.dataset.ouArea ?. toLowerCase() || '';
+const campus = item.dataset.ouCampus ?. toLowerCase() || '';
 
-    const matchText = title.includes(query);
-    const matchType = !currentType || type === currentType.toLowerCase();
-    const matchArea = !currentArea || area === currentArea.toLowerCase();
-    const matchCampus = !currentCampus || campus === currentCampus.toLowerCase();
+const matchText = title.includes(query);
+const matchType = ! currentType || type === currentType.toLowerCase();
+const matchArea = ! currentArea || area === currentArea.toLowerCase();
+const matchCampus = ! currentCampus || campus === currentCampus.toLowerCase();
 
-    if (matchText && matchType && matchArea && matchCampus) {
-      item.style.display = '';
-    } else {
-      item.style.display = 'none';
-    }
-  });
+if (matchText && matchType && matchArea && matchCampus) {
+item.style.display = '';
+} else {
+item.style.display = 'none';
+}
+});
 }
 
 
@@ -544,80 +624,43 @@ function filterOUList() {
 document.getElementById('ou-search').addEventListener('input', filterOUList);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
-  const items = document.querySelectorAll("#ou-list .ou-item");
-  const itemsPerPage = 2;
-  let currentPage = 1;
+const items = document.querySelectorAll("#ou-list .ou-item");
+const itemsPerPage = 2;
+let currentPage = 1;
 
-  function showPage(page) {
-    const start = (page - 1) * itemsPerPage;
-    const end = page * itemsPerPage;
+function showPage(page) {
+const start = (page - 1) * itemsPerPage;
+const end = page * itemsPerPage;
 
-    items.forEach((item, index) => {
-      item.style.display = (index >= start && index < end) ? '' : 'none';
-    });
-
-    renderPagination(page);
-  }
-
-  function renderPagination(activePage) {
-    const totalPages = Math.ceil(items.length / itemsPerPage);
-    const pagination = document.getElementById("pagination-controls");
-    pagination.innerHTML = '';
-
-    for (let i = 1; i <= totalPages; i++) {
-      const li = document.createElement("li");
-      li.className = "page-item" + (i === activePage ? " active" : "");
-      li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-      li.addEventListener("click", function (e) {
-        e.preventDefault();
-        currentPage = i;
-        showPage(currentPage);
-      });
-      pagination.appendChild(li);
-    }
-  }
-
-  if (items.length > 0) {
-    showPage(currentPage);
-  }
+items.forEach((item, index) => {
+item.style.display = (index >= start && index < end) ? '' : 'none';
 });
 
+renderPagination(page);
+}
 
+function renderPagination(activePage) {
+const totalPages = Math.ceil(items.length / itemsPerPage);
+const pagination = document.getElementById("pagination-controls");
+pagination.innerHTML = '';
 
+for (let i = 1; i <= totalPages; i++) {
+const li = document.createElement("li");
+li.className = "page-item" + (
+i === activePage ? " active" : ""
+);
+li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+li.addEventListener("click", function (e) {
+e.preventDefault();
+currentPage = i;
+showPage(currentPage);
+});
+pagination.appendChild(li);
+}
+}
 
-</script>
+if (items.length > 0) {
+showPage(currentPage);
+}
+});</script>
