@@ -445,7 +445,7 @@ class="row">
 
 			{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_institution'] %}
 			<div
-				class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ organizational_unit.field_ou_gps.value }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus="{{ organizational_unit.field_ou_campus.entity.label|lower|replace({' ': '_'}) }}" onclick="loadOUDetails(this)">
+				class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ organizational_unit.field_ou_gps.value }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus="{{ organizational_unit.field_ou_campus.entity.label }}" onclick="loadOUDetails(this)">
 				<!-- Título de la unidad organizativa -->
 				<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
 
@@ -492,6 +492,8 @@ const gps = el.dataset.ouGps || '';
 const web = el.dataset.ouWeb || '';
 const webLabel = el.dataset.ouWebLabel || web;
 const email = el.dataset.ouEmail || '';
+const campus = el.dataset.ouCampus || '';
+// Formatear campus (eliminar guiones bajos y capitalizar palabras)
 
 const html = `
     <!-- Imagen fija -->
@@ -500,7 +502,17 @@ const html = `
     </div>
 
     <h3 class="fw-bold">${title}</h3>
-    <span class="badge bg-dark me-2">${type}</span>
+
+<div class="ou-tag-bar text-white mb-3">
+    <span class="ou-type">${type.toUpperCase()}</span>
+    <span class="ou-campus">${campus}</span>
+  </div>
+	
+
+	
+   
+
+
 
     <div class="mt-3">${description}</div>
 
@@ -526,8 +538,8 @@ const html = `
       <p class="mb-0">${email}</p>
     </div>
 
-    <div class="mt-3">
-      <button class="btn btn-dark">See more</button>
+    <div class="mt-3 text-center">
+      <button class="btn btn-dark see-more-ou-button">See more</button>
     </div>
   `;
 
