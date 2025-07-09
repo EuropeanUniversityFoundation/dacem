@@ -44,6 +44,7 @@ class AdminAreaController extends ControllerBase
     $group = $membership->getGroup();
     $role = $this->getGroupRoleId($group, $user->id());
     // Definimos las rutas según tipo y rol
+    \Drupal::logger('admin_area')->info( $role . ' ' );
     $route_maps = [
       'programme' => [
         'university_admin' => 'view.admin_programmes.page_1',
@@ -64,6 +65,9 @@ class AdminAreaController extends ControllerBase
       'institution' => [
         'university_admin' => 'view.admin_institution.page_1',
       ],
+      'organizational_unit' => [
+        'university_admin' => 'view.admin_organizational_units.page_1',
+      ],
     ];
 
     // Comprobar que ese tipo está soportado
@@ -78,6 +82,7 @@ class AdminAreaController extends ControllerBase
 
     // Redirigir a la ruta correspondiente
     $route_name = $route_maps[$entity_type][$role];
+    \Drupal::logger('admin_area')->info('Redirigimos a ' . $route_name);
     return new RedirectResponse(Url::fromRoute($route_name)->toString());
   }
 

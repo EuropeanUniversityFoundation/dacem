@@ -193,6 +193,9 @@ function admin_area_redirect_after_translation(array &$form, \Drupal\Core\Form\F
         'institution' => [
           'university_admin' => 'view.admin_institution.page_1',
         ],
+        'organizational_unit' => [
+          'university_admin' => 'view.admin_organizational_units.page_1',
+        ],
       ];
 
       if (isset($route_maps[$entity_type][$role])) {

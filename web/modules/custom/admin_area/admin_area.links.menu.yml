@@ -6,20 +6,7 @@ admin_area.admin_menu:
   route_name: <none>
   weight: 10
 
-
-
-
-
-
-
-admin_area.my_programmes_link:
-  title: 'My Programmes'
-  route_name: admin_area.my_entity_page
-  route_parameters:
-    entity_type: 'programme'
-  parent: admin_area.admin_menu
-  menu_name: admin
-  weight: 8
+  
 
 admin_area.my_iec_link:
   title: 'My IECs'
@@ -28,7 +15,26 @@ admin_area.my_iec_link:
     entity_type: 'iec'
   parent: admin_area.admin_menu
   menu_name: admin
+  weight: 10
+
+admin_area.my_programmes_link:
+  title: 'My Programmes'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'programme'
+  parent: admin_area.admin_menu
+  menu_name: admin
   weight: 9
+
+admin_area.my_organizational_unit_link:
+  title: 'My Organizational Units'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'organizational_unit'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 8
+
 
 admin_area.my_rs_link:
   title: 'My Resources and Services'
@@ -56,3 +62,13 @@ admin_area.my_institution_link:
   parent: admin_area.admin_menu
   menu_name: admin
   weight: 5
+
+admin_area.my_users_link:
+  title: 'Users'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'users'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 4
+

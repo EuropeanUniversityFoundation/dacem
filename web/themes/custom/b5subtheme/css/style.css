@@ -14955,6 +14955,7 @@ body.h-100 {
   
 }
 
+
 .ou-tag-bar {
   display: inline-flex;
   border-radius: 0;
@@ -14972,4 +14973,16 @@ body.h-100 {
 .ou-tag-bar .ou-campus {
   background-color: var(--university_primary_color); /* Rojo Bootstrap */
   padding: 0.4em 0.75em;
+}
+
+.university-navbar{
+  line-height: 0 !important;
+}
+
+.right-buttons-university-menu{
+  line-height: var(--bs-body-line-height);
+}
+
+.institution-dropdown{
+  line-height: var(--bs-body-line-height);
 }
