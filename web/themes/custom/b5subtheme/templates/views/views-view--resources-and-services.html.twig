@@ -125,15 +125,10 @@
 
 			<a href="{{ university.custom_url }}" class="campus-card-rs d-flex align-items-center text-decoration-none">
 
-				{% if university.field_logo is not empty %}
-					{% set media_entity = university.field_logo.entity %}
-					{% if media_entity is not empty %}
-						{% set file_entity = media_entity.field_media_image.entity %}
-						{% if file_entity is not empty %}
-							<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ university.label }}" class="campus-card-rs-img">
-						{% endif %}
-					{% endif %}
-				{% endif %}
+				{% if university.field_logo is not empty and university.field_logo.entity.uri.value is defined %}
+    <img src="{{ file_url(university.field_logo.entity.uri.value) }}" alt="{{ university.label }}" class="campus-card-rs-img">
+{% endif %}
+
 
 				<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
 																																						          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">

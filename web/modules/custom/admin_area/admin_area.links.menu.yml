@@ -6,7 +6,19 @@ admin_area.admin_menu:
   route_name: <none>
   weight: 10
 
-  
+
+
+
+
+admin_area.my_academic_authorities_link:
+  title: 'My Academic Authorities'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'academic_authority'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 11
+
 
 admin_area.my_iec_link:
   title: 'My IECs'

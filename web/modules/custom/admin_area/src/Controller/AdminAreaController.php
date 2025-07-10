@@ -68,6 +68,12 @@ class AdminAreaController extends ControllerBase
       'organizational_unit' => [
         'university_admin' => 'view.admin_organizational_units.page_1',
       ],
+      'users' => [
+        'university_admin' => 'view.admin_users.page_1',
+      ],
+      'academic_authority' => [
+        'university_admin' => 'view.admin_academic_authorities.page_1',
+      ],
     ];
 
     // Comprobar que ese tipo está soportado

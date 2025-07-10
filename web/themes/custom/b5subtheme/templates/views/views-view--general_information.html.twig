@@ -22,8 +22,8 @@
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
 }</style>{#
-									<div class="university-menu-block">
-									{{ page.header }}</div>#}<div class="">
+										<div class="university-menu-block">
+										{{ page.header }}</div>#}<div class="">
 <div class="rs-header">
 	<div class="container-fluid container-fluid-programme-band ">
 		<h1 class="rs-title">INSTITUTIONAL INFORMATION</h1>
@@ -101,9 +101,6 @@
 
 	<div class="my-custom-container-2">
 
-	
-
-
 
 		<div class="university-details">
 
@@ -160,9 +157,10 @@
 
 						<!-- Logo (field_logo como media) -->
 						<div class="d-flex justify-content-center">
-							{% if institution.field_logo.entity.field_media_image.entity.uri.value is defined %}
-								<img src="{{ file_url(institution.field_logo.entity.field_media_image.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="width: 90%;">
+							{% if institution.field_logo.entity.uri.value is defined %}
+								<img src="{{ file_url(institution.field_logo.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="width: 90%;">
 							{% endif %}
+
 						</div>
 
 						<!-- Dirección -->
@@ -204,7 +202,7 @@
 	</div>
 
 	{{drupal_block('views_block:academic_authority-block_1')}}
-	
+
 
 	<br><br><br>
 	<div class='my-custom-container-2'>
@@ -508,7 +506,9 @@ const html = `
     <h3 class="fw-bold">${title}</h3>
 
 <div class="ou-tag-bar text-white mb-3">
-    <span class="ou-type">${type.toUpperCase()}</span>
+    <span class="ou-type">${
+type.toUpperCase()
+}</span>
     <span class="ou-campus">${campus}</span>
   </div>
 	

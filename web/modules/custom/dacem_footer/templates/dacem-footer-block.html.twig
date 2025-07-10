@@ -70,9 +70,11 @@
 				</ul>
 			</div>
 			<div class="col-md-4">
-				{% if institution.field_logo.entity.field_media_image.entity.uri.value is defined %}
-					<img src="{{ file_url(institution.field_logo.entity.field_media_image.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="max-width: 200px;">
+
+				{% if institution.field_logo.entity.uri.value is defined %}
+					<img src="{{ file_url(institution.field_logo.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="max-width: 200px;">
 				{% endif %}
+
 
 			</div>
 		</div>
@@ -80,18 +82,18 @@
 </div>
 
 <div class="footer-bottom text-white py-3" style="background-color: #4b535a;">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-9 text-center text-md-start">
-        <p class="small mb-0">
-          Co-financed by the European Union. The opinions and views expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Education and Culture Executive Agency (EACEA). Neither the European Union nor the granting authority can be held responsible for them.
-        </p>
-      </div>
-      <div class="col-md-3 text-center text-md-end mt-3 mt-md-0">
-        <img src="/themes/custom/b5subtheme/images/ue-logo-footer.png" alt="Co-funded by the European Union" style="max-height: 40px;">
-      </div>
-    </div>
-  </div>
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md-9 text-center text-md-start">
+				<p class="small mb-0">
+					Co-financed by the European Union. The opinions and views expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Education and Culture Executive Agency (EACEA). Neither the European Union nor the granting authority can be held responsible for them.
+				</p>
+			</div>
+			<div class="col-md-3 text-center text-md-end mt-3 mt-md-0">
+				<img src="/themes/custom/b5subtheme/images/ue-logo-footer.png" alt="Co-funded by the European Union" style="max-height: 40px;">
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="footer-bottom text-center py-3" style="background-color: black; color: #989898">
