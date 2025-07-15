@@ -19,3 +19,12 @@ admin_area.my_entity_page:
   requirements:
     _permission: 'access content'
     entity_type: '[a-z_]+'
+
+
+admin_area.redirect_create_user:
+  path: '/my-create-user'
+  defaults:
+    _controller: '\Drupal\admin_area\Controller\AdminAreaController::redirectToCreateUserForm'
+    _title: 'Redirect to Create User Form'
+  requirements:
+    _permission: 'access content'

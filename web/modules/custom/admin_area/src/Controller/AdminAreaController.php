@@ -71,6 +71,9 @@ class AdminAreaController extends ControllerBase
       'users' => [
         'university_admin' => 'view.admin_users.page_1',
       ],
+      'users_content' => [
+        'university_admin' => 'view.admin_users.page_2',
+      ],
       'academic_authority' => [
         'university_admin' => 'view.admin_academic_authorities.page_1',
       ],
@@ -118,6 +121,29 @@ class AdminAreaController extends ControllerBase
     return null;
   }
   
+
+
+
+public function redirectToCreateUserForm() {
+  $current_user = $this->currentUser();
+  $user = \Drupal\user\Entity\User::load($current_user->id());
+
+  $memberships = \Drupal::service('group.membership_loader')->loadByUser($user);
+  if (empty($memberships)) {
+    throw new AccessDeniedHttpException('User is not part of any group.');
+  }
+
+  $membership = reset($memberships);
+  $group = $membership->getGroup();
+
+  $url = Url::fromRoute('create_user_group.create_user_form', [
+    'group' => $group->id(),
+  ], [
+    'query' => ['destination' => '/admin/admin-users'],
+  ]);
+
+  return new RedirectResponse($url->toString());
+}
 
 
 

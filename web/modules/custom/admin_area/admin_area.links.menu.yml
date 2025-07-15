@@ -75,12 +75,40 @@ admin_area.my_institution_link:
   menu_name: admin
   weight: 5
 
+
+
 admin_area.my_users_link:
   title: 'Users'
-  route_name: admin_area.my_entity_page
-  route_parameters:
-    entity_type: 'users'
+  route_name: <none> # No tiene ruta, sirve solo como contenedor
   parent: admin_area.admin_menu
   menu_name: admin
   weight: 4
 
+
+# Listado sin contenido
+admin_area.my_users_no_content_link:
+  title: 'List users (no content)'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'users'
+  parent: admin_area.my_users_link
+  menu_name: admin
+  weight: 1
+
+# Listado con contenido
+admin_area.my_users_with_content_link:
+  title: 'List users (with content)'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'users_content'
+  parent: admin_area.my_users_link
+  menu_name: admin
+  weight: 2
+
+# Subentrada: Crear usuario
+admin_area.create_user_link:
+  title: 'Create user'
+  route_name: admin_area.redirect_create_user
+  parent: admin_area.my_users_link
+  menu_name: admin
+  weight: 3
