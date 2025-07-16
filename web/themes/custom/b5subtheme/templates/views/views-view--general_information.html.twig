@@ -340,6 +340,7 @@
 <h1 class="ou-title">ORGANIZATIONAL UNITS</h1></div></div><!-- ORGANIZATIONAL UNITS SECTION --><div class="organizational-units-section container my-5"><!-- Título --><div class="row mb-4">
 <div class="col-12 text-center">
 	<h2 class="fw-bold">Organizational Units</h2>
+	{{dump(view.result)}}
 	<p>
 		Here you can find all the organizational units associated with this institution.
 	</p>
@@ -447,7 +448,7 @@ class="row">
 
 			{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_institution'] %}
 			<div
-				class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ organizational_unit.field_ou_gps.value }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus="{{ organizational_unit.field_ou_campus.entity.label }}" onclick="loadOUDetails(this)">
+				class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ organizational_unit.field_ou_gps.value }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus="{{ organizational_unit.field_ou_campus.entity.label|lower|replace({' ': '_'}) }}" onclick="loadOUDetails(this)">
 				<!-- Título de la unidad organizativa -->
 				<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
 
