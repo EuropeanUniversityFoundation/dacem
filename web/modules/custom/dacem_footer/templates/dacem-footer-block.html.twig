@@ -2,7 +2,8 @@
 {# Nombre del nodo #}
 
 	{% if institution %}
-	{% set university_primary_color = institution.field_primary_color[0].color %}
+	{% set university_primary_color = primary_color %}
+
 {% else %}
 	{% set university_primary_color = 'red' %}
 {% endif %}

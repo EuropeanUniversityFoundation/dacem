@@ -9,6 +9,8 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 
+use Drupal\Core\Language\LanguageInterface;
+
 /**
  * Provides the DACEM footer block.
  *
@@ -38,28 +40,28 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
     );
   }
 
-  protected function getNodeFromAlias($alias, $langcode = NULL)
-    {
-        $alias_manager = \Drupal::service('path_alias.manager');
+  protected function getNodeFromAlias($alias, $langcode = NULL) {
+  $alias_manager = \Drupal::service('path_alias.manager');
+  $internal_path = $alias_manager->getPathByAlias($alias, $langcode);
 
-        // Obtener el path interno en el idioma deseado
-        $internal_path = $alias_manager->getPathByAlias($alias, $langcode);
-        
+  if (preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
+    $node = \Drupal\node\Entity\Node::load((int) $matches[1]);
 
-        if (preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
-          
-            $node = \Drupal\node\Entity\Node::load((int) $matches[1]);
-
-            // Verificar si hay una traducción disponible y cargarla
-            if ($langcode && $node->hasTranslation($langcode)) {
-                return $node->getTranslation($langcode);
-            }
-
-            return $node;
-        }
-
-        return NULL;
+    $translated = $node;
+    if ($langcode && $node->hasTranslation($langcode)) {
+      $translated = $node->getTranslation($langcode);
     }
+
+    // Devuelve ambas
+    return [
+      'original' => $node,
+      'translated' => $translated,
+    ];
+  }
+
+  return NULL;
+}
+
     
   public function build() {
     \Drupal::logger('dacem_footer')->notice('Footer block ejecutado');
@@ -69,13 +71,26 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
 
     
     $institution_alias = \Drupal::routeMatch()->getParameter('arg_0');
-    $institution=$this->getNodeFromAlias('/' . $institution_alias, 'en');
-    // Obtener datos de la universidad (color, logo)
+
+// Obtener el idioma actual
+$langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+$institution_alias = $this->routeMatch->getParameter('arg_0');
+$node_data = $this->getNodeFromAlias('/' . $institution_alias, $langcode);
+
+$institution = $node_data ? $node_data['translated'] : NULL;
+$original = $node_data ? $node_data['original'] : NULL;
+
+$primary_color = 'red';
+
+if ($original && $original->hasField('field_primary_color') && !$original->get('field_primary_color')->isEmpty()) {
+  $primary_color = $original->get('field_primary_color')->first()->color;
+}
    
 
     return [
       '#theme' => 'dacem_footer_block',
       '#institution' => $institution,
+      '#primary_color' => $primary_color,
     ];
     
   }

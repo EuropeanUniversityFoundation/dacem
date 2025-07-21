@@ -6,13 +6,14 @@
 {% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
 
 {% set current_language = view.result[0].node_field_data_langcode %}
+{{dump(current_language)}}
 
 {% if institution.hasTranslation(current_language) %}
 	{% set institution = institution.getTranslation(current_language) %}
 
 {% endif %}
 
-
+{{dump(view.result)}}
 <style>:root
 {
 	--university_primary_color: {{university_primary_color}}
@@ -22,8 +23,8 @@
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
 }</style>{#
-										<div class="university-menu-block">
-										{{ page.header }}</div>#}<div class="">
+											<div class="university-menu-block">
+											{{ page.header }}</div>#}<div class="">
 <div class="rs-header">
 	<div class="container-fluid container-fluid-programme-band ">
 		<h1 class="rs-title">INSTITUTIONAL INFORMATION</h1>
@@ -424,13 +425,18 @@ class="row">
 					<a class="dropdown-item" href="#" data-campus="">All</a>
 				</li>
 				{% for campus in campuses %}
+					{% set campus_label = campus.label %}
+					{% if campus.hasTranslation(language.getId()) %}
+						{% set campus_label = campus.getTranslation(language.getId()).label %}
+					{% endif %}
 					<li>
-						<a class="dropdown-item" href="#" data-campus="{{ campus.title.value|lower|replace({' ': '_'}) }}">
-							{{ campus.title.value }}
+						<a class="dropdown-item" href="#" data-campus="{{ campus.id() }}">
+							{{ campus_label }}
 						</a>
 					</li>
 				{% endfor %}
 			</ul>
+
 		</div>
 		<button class="btn btn-danger btn-sm">A - Z</button>
 	</div>
@@ -447,8 +453,21 @@ class="row">
 			{% set ou = row._entity %}
 
 			{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_institution'] %}
+
+			{% if organizational_unit.hasTranslation(current_language) %}
+				{% set organizational_unit = organizational_unit.getTranslation(current_language) %}
+			{% endif %}
+
+			{% set campus_entity = organizational_unit.field_ou_campus.entity %}
+			{% set campus_label = campus_entity.label %}
+			{% if campus_entity.hasTranslation(current_language) %}
+				{% set campus_label = campus_entity.getTranslation(current_language).label %}
+			{% endif %}
+
+
 			<div
-				class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ organizational_unit.field_ou_gps.value }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus="{{ organizational_unit.field_ou_campus.entity.label|lower|replace({' ': '_'}) }}" onclick="loadOUDetails(this)">
+				class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ organizational_unit.field_ou_gps.value }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id() }}" data-ou-campus-label="{{ campus_label }}" onclick="loadOUDetails(this)">
+
 				<!-- Título de la unidad organizativa -->
 				<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
 
@@ -458,9 +477,9 @@ class="row">
 						{{ organizational_unit.field_ou_type.value }}
 					{% endif %}
 					&nbsp;·&nbsp;
-					{% if organizational_unit.field_ou_campus.value is defined %}
-						<strong>{{ organizational_unit.field_ou_campus.entity.label  }}</strong>
-					{% endif %}
+
+					<strong>{{ campus_label }}</strong>
+
 				</p>
 			</div>
 
@@ -495,7 +514,8 @@ const gps = el.dataset.ouGps || '';
 const web = el.dataset.ouWeb || '';
 const webLabel = el.dataset.ouWebLabel || web;
 const email = el.dataset.ouEmail || '';
-const campus = el.dataset.ouCampus || '';
+const campus = el.dataset.ouCampusLabel || '';
+
 // Formatear campus (eliminar guiones bajos y capitalizar palabras)
 
 const html = `
@@ -621,12 +641,14 @@ items.forEach(item => {
 const title = item.dataset.ouTitle ?. toLowerCase() || '';
 const type = item.dataset.ouType ?. toLowerCase() || '';
 const area = item.dataset.ouArea ?. toLowerCase() || '';
-const campus = item.dataset.ouCampus ?. toLowerCase() || '';
+const campus = item.dataset.ouCampusId || '';
+console.log(campus);
 
 const matchText = title.includes(query);
 const matchType = ! currentType || type === currentType.toLowerCase();
 const matchArea = ! currentArea || area === currentArea.toLowerCase();
-const matchCampus = ! currentCampus || campus === currentCampus.toLowerCase();
+const matchCampus = ! currentCampus || campus === currentCampus;
+
 
 if (matchText && matchType && matchArea && matchCampus) {
 item.style.display = '';

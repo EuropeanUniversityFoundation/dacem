@@ -14,6 +14,7 @@ function dacem_footer_theme($existing, $type, $theme, $path) {
       'dacem_footer_block' => [
         'variables' => [
           'institution' => NULL,
+          'primary_color' => NULL,
         ],
         'template' => 'dacem-footer-block',
       ],
