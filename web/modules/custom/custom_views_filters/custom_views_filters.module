@@ -21,12 +21,11 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $alias_manager = \Drupal::service('path_alias.manager');
 
-    // Solo alteramos la consulta de la vista 'institution_catalogue'
     if ($view->id() === 'institution_catalogue' || $view->id() === 'iec_information' || $view->id() === 'general_information' || $view->id() === 'programme_information') {
-        ////dump('ola');
+      
         \Drupal::logger('custom_views_filters')->notice('Altering query for institution_catalogue');
 
-        // 🔹 Obtener el argumento actual de la vista (el alias de la universidad)
+        // 🔹Get the argument of the view (the instituion alias)
         $args = $view->args;
         $alias_name = '';
 
@@ -35,16 +34,12 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
             return;
         }
         if ($view->id() == 'institution_catalogue' || $view->id() == 'general_information') {
-            $alias_name = $args[0]; // Ejemplo: "university-vigo"
+            $alias_name = $args[0]; 
         } else if ($view->id() == 'iec_information') {
-            $alias_name = $args[0] . '/' . $args[1] . '/' . $args[2]; // Ejemplo: "university-vigo"
+            $alias_name = $args[0] . '/' . $args[1] . '/' . $args[2];
         } else if ($view->id() == 'programme_information') {
             $alias_name = $args[0] . '/' . $args[1];
         }
-
-        ////dump($alias_name);
-
-        // 🔹 Obtener el ID del nodo a partir del alias
 
         $path = $alias_manager->getPathByAlias('/' . $alias_name, $current_language);
         ////dump($path);
@@ -53,8 +48,6 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
         if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
 
             $node_id = (int) $matches[1];
-
-            // 🔹 Modificar la consulta reemplazando el alias con el ID
             $where_conditions = &$query->where;
 
             ////dump($where_conditions);
@@ -64,8 +57,7 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
                 foreach ($condition_group['conditions'] as &$condition) {
                     if (isset($condition['field']) && strpos($condition['field'], 'node_field_data.nid') !== false) {
                         \Drupal::logger('custom_views_filters')->notice('Replacing :node_field_data_nid with ' . $node_id);
-                        ////dump('dentro if isset');
-                        // Modificar el valor del parámetro SQL
+                    
                         $condition['value'][':node_field_data_nid'] = $node_id;
                         ////dump($condition['value'][':node_field_data_nid']);
                     }
@@ -74,7 +66,6 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
             }
         }
     } else if ($view->id() === 'resources_and_services') {
-        ////dump($view->current_display);
         
         $args = $view->args;
         $entity_name = '';
@@ -99,8 +90,6 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
 
 
             $entity_id = (int) $matches[1];
-            //dump('id ' . $entity_id . ' nombre ' . $entity_name);
-
 
             $query_to_execute=null;
 
@@ -123,10 +112,8 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
 
             //dump($query_to_execute);
 
-            //dump('resourceeees');
             $resource_ids = $query_to_execute->execute();
-            //dump($resource_ids);
-            //dump('resourceeeees');
+            
 
             if (!empty($resource_ids)) {
                 $resources = \Drupal::entityTypeManager()
@@ -148,7 +135,7 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
        
 
 
-            // 🔹 Modificar la consulta reemplazando el alias con el ID
+            // 🔹 Modify the query replacing the alias with the ID
             $where_conditions = &$query->where;
 
             ////dump($where_conditions);
@@ -159,7 +146,7 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
                     if (isset($condition['field']) && strpos($condition['field'], 'node_field_data.nid') !== false) {
                         \Drupal::logger('custom_views_filters')->notice('Replacing :node_field_data_nid with ' . $resource->id());
                         ////dump('dentro if isset');
-                        // Modificar el valor del parámetro SQL
+                        // Modify the value of the sql parameter
                         $condition['value'][':node_field_data_nid'] = $resource->id();
                         ////dump($condition['value'][':node_field_data_nid']);
                     }
@@ -180,10 +167,10 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
  * Implements hook_entity_insert().
  */
 function custom_views_filters_entity_insert(EntityInterface $entity) {
-    // Solo actuar si se crea un campus
+    // Only if a campus is created
     if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'campus') {
   
-      // Crear el nodo Resources and Services
+      // Create node Resources and Services
       $rs_node = Node::create([
         'type' => 'resources_and_services',
         'title' => 'Resources and Services for ' . $entity->label(),
@@ -194,20 +181,18 @@ function custom_views_filters_entity_insert(EntityInterface $entity) {
       ]);
       $rs_node->save();
   
-      // Ignorar si el usuario es 'prueba'
+    
       $current_user = \Drupal::currentUser();
       if ($current_user->getAccountName() === 'prueba') {
         return;
       }
   
-      // Obtener los grupos a los que pertenece
       $memberships = \Drupal::service('group.membership_loader')->loadByUser($current_user);
   
       foreach ($memberships as $membership) {
         $group = $membership->getGroup();
   
         if ($group->bundle() === 'universitytypegroup') {
-          // Asegúrate de usar el plugin correcto Y la entidad correcta
           $group->addRelationship($rs_node, 'group_node:resources_and_services');
   
           \Drupal::logger('custom_views_filters')->notice('RS añadido al grupo ' . $group->id());
@@ -225,11 +210,11 @@ function custom_views_filters_entity_insert(EntityInterface $entity) {
    * Implements hook_entity_predelete().
    */
   function custom_views_filters_entity_predelete(\Drupal\Core\Entity\EntityInterface $entity) {
-    // Solo actuar si es un nodo tipo campus
+    // Only if node type is a campus
     if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'campus') {
       $campus_id = $entity->id();
   
-      // Buscar nodo de tipo 'resources_and_services' asociado a ese campus
+      // Find node type 'resources_and_services' associated to this campus.
       $rs_nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
         'type' => 'resources_and_services',
         'field_rs_campus' => $campus_id,
@@ -237,7 +222,7 @@ function custom_views_filters_entity_insert(EntityInterface $entity) {
   
       foreach ($rs_nodes as $rs_node) {
         $rs_node->delete();
-        \Drupal::logger('custom_views_filters')->notice('Eliminado RS asociado al campus con ID ' . $campus_id);
+        \Drupal::logger('custom_views_filters')->notice('Removed RS associated to campus with ID ' . $campus_id);
       }
     }
   }
@@ -246,53 +231,4 @@ function custom_views_filters_entity_insert(EntityInterface $entity) {
 
 
 
-  /**
-   * Implements hook_entity_translation_insert().
-   */
-
-   /*
-  function custom_views_filters_entity_translation_insert(EntityInterface $entity) {
-    if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'campus') {
-      $langcode = $entity->language()->getId();
-      $campus_id = $entity->id();
-  
-      // Buscar el nodo RS relacionado con el campus.
-      $rs_nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-        'type' => 'resources_and_services',
-        'field_rs_campus' => $campus_id,
-      ]);
-  
-      $rs_node = reset($rs_nodes);
-  
-      if ($rs_node && !$rs_node->hasTranslation($langcode)) {
-        $campus_label = $entity->label();
-  
-        // Añadir traducción
-        $translation = $rs_node->addTranslation($langcode);
-        $translation->setTitle('RS ' . $campus_label . ' ' . strtoupper($langcode));
-  
-        // Copiar solo los campos traducibles y de contenido
-        $source_langcode = $rs_node->language()->getId();
-        $source_translation = $rs_node->getTranslation($source_langcode);
-  
-        foreach ($source_translation->getFields() as $field_name => $field) {
-          if (
-            $field->getFieldDefinition()->isTranslatable() &&
-            !$field->getFieldDefinition()->isComputed() &&
-            !$field->isEmpty()
-          ) {
-            // Copiar el valor del campo
-            $translation->set($field_name, $field->getValue());
-          }
-        }
-  
-        // Guardar con la nueva traducción
-        $rs_node->save();
-  
-        \Drupal::logger('custom_views_filters')->notice("Created RS translation for '{$campus_label}' in {$langcode}");
-      }
-    }
-  }
-
-  */
   

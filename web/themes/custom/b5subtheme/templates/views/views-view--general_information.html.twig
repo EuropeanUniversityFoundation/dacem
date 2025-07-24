@@ -6,14 +6,12 @@
 {% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
 
 {% set current_language = view.result[0].node_field_data_langcode %}
-{{dump(current_language)}}
 
 {% if institution.hasTranslation(current_language) %}
 	{% set institution = institution.getTranslation(current_language) %}
 
 {% endif %}
 
-{{dump(view.result)}}
 <style>:root
 {
 	--university_primary_color: {{university_primary_color}}
@@ -341,7 +339,7 @@
 <h1 class="ou-title">ORGANIZATIONAL UNITS</h1></div></div><!-- ORGANIZATIONAL UNITS SECTION --><div class="organizational-units-section container my-5"><!-- Título --><div class="row mb-4">
 <div class="col-12 text-center">
 	<h2 class="fw-bold">Organizational Units</h2>
-	{{dump(view.result)}}
+	
 	<p>
 		Here you can find all the organizational units associated with this institution.
 	</p>

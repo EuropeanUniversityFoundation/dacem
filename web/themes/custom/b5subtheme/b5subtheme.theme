@@ -289,7 +289,7 @@ function b5subtheme_preprocess_views_view(&$variables)
 
     foreach ($variables['view']->result as &$row) {
 
-      // Asegúrate de que estamos procesando asignaturas relacionadas.
+      // Accedemos a la relacion
       if (!empty($row->_relationship_entities['reverse__node__field_iec_programme'])) {
 
         $iec = $row->_relationship_entities['reverse__node__field_iec_programme'];
@@ -619,7 +619,7 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
       } else {
-        $variables['rs_mode'] = 'institution'; // útil en Twig para saber en qué modo estamos
+        $variables['rs_mode'] = 'institution'; // Para saber en que modo estamos.
       }
 
 

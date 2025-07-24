@@ -33,54 +33,54 @@ class DacemMenuBlock extends BlockBase
     //dump($route_name);
     // Lista de rutas donde el bloque debe aparecer.
     $allowed_routes = [
-      'view.main_page.page_1', // Reemplaza con la ruta real de la vista.
-      'admin_area.my_area',   // Otra vista donde quieres mostrar el bloque.
-      'about',
+      'view.main_page.page_1', 
+      //'admin_area.my_area',   
+      //'about',
     ];
 
-    // Mostrar el bloque solo si la ruta actual está en la lista permitida.
+  
     if (!in_array($route_name, $allowed_routes)) {
-      //dump('ola');
-      return []; // No renderizar el bloque.
+      return []; 
     }
 
-    // Ruta del logo del menú.
+    // Route to logo 
     $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
     $logo_url = base_path() . $theme_path . '/images/logo-dacem.jpg';
 
-    // Obtener el idioma actual y las opciones de cambio de idioma.
+ 
     $language_manager = \Drupal::service('language_manager');
     $languages = $language_manager->getLanguages();
     $switch_links = [];
 
-    // Obtener el idioma actual
+    
     $language_manager = \Drupal::service('language_manager');
     //$current_language = $language_manager->getCurrentLanguage()->getId();
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
     $language_options = '';
     $flags = [
-      'en' => '🇬🇧', // Inglés
-      'es' => '🇪🇸', // Español
-      'pt-pt' => '🇵🇹', // Portugués
-      'fr' => '🇫🇷', // Francés
-      'el' => '🇬🇷', // Griego
-      'cs' => '🇨🇿', // Checo
-      'sl' => '🇸🇮', // Esloveno
-      'hu' => '🇭🇺', // Húngaro
-      'et' => '🇪🇪', // Estonio
-      'gl' => '🇪🇸', // Gallego
+      'en' => '🇬🇧',
+      'es' => '🇪🇸', 
+      'pt-pt' => '🇵🇹', 
+      'fr' => '🇫🇷', 
+      'el' => '🇬🇷',
+      'cs' => '🇨🇿',
+      'sl' => '🇸🇮', 
+      'hu' => '🇭🇺', 
+      'et' => '🇪🇪', 
+      'gl' => '🇪🇸', 
     ];
 
     foreach ($languages as $language) {
       $langcode = $language->getId();
-      $abbreviation = strtoupper($langcode); // Convertir el código del idioma a mayúsculas
+      $abbreviation = strtoupper($langcode); 
 
       //$url = Url::fromRoute('<current>', [], ['language' => $language]);
       $url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
 
-      $flag = $flags[$langcode] ?? ''; // Asegurarse de tener un icono
+      $flag = $flags[$langcode] ?? '';
 
+      //Language menu
       $language_options .= '
             <li>
               <a class="dropdown-item" href="' . $url . '">' . $flag . ' ' . $abbreviation . '</a>
@@ -88,7 +88,7 @@ class DacemMenuBlock extends BlockBase
 
     }
 
-    // Obtener el usuario actual
+    // Obtain the current user to display their profile picture
     $current_user = \Drupal::currentUser();
     $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
 
@@ -97,7 +97,7 @@ class DacemMenuBlock extends BlockBase
       //dump($current_user->id());      // Cargar la entidad del usuario
       $user = User::load($current_user->id());
 
-      // Verificar si tiene una foto de perfil
+      // Verify if has profile picture
       if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
         $file = File::load($user->get('user_picture')->target_id);
         if ($file) {
@@ -105,12 +105,12 @@ class DacemMenuBlock extends BlockBase
         }
       }
 
-      // Si no hay imagen, asignar una imagen predeterminada
+      // If no image, set default image
       if (!$profile_picture_url) {
         $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
       }
 
-      // Generar el HTML de la imagen
+      
       $profile_html = '
       <div class="user-profile-container dropdown ms-3">
           <a href="#" id="userProfileDropdown" class="dropdown-toggle user-profile-link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -124,7 +124,7 @@ class DacemMenuBlock extends BlockBase
       </div>';
 
     } else {
-      // Si el usuario es anónimo, no se renderiza la imagen
+      // If the user is annonymous, dont render the image
       $profile_html = '';
     }
 
@@ -168,8 +168,7 @@ class DacemMenuBlock extends BlockBase
             </nav>',
         [
           '@menu_image_url' => $logo_url,
-          '@url_es' => $switch_links['es'] ?? '#',
-          '@url_en' => $switch_links['en'] ?? '#',
+          
         ]
       ),
     ];

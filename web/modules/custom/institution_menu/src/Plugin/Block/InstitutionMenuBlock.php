@@ -153,7 +153,7 @@ class InstitutionMenuBlock extends BlockBase
                 'UNIVERSITY LIFE' => 'ΦΟΙΤΗΤΙΚΗ ΖΩΗ',
             ],
 
-            // Agrega otros idiomas si es necesario
+            
         ];
 
 
@@ -187,7 +187,6 @@ class InstitutionMenuBlock extends BlockBase
             $institution = \Drupal\node\Entity\Node::load($institution_id);
         } elseif ($current_route === 'view.institution_catalogue.page_1') {
             $current_page = 'catalogue';
-            // Si la ruta es de la vista, obtén la universidad desde el argumento.
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
             if ($institution_id) {
                 $institution = \Drupal\node\Entity\Node::load($institution_id);
@@ -200,11 +199,11 @@ class InstitutionMenuBlock extends BlockBase
             $institution = \Drupal\node\Entity\Node::load($institution_id);
         } elseif ($current_route === 'view.programme_information.page_1') {
             $current_page = 'catalogue';
-            // Si la ruta es de la vista, obtén la universidad desde el argumento.
+
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
         } elseif ($current_route === 'view.iec_information.page_1') {
             $current_page = 'catalogue';
-            // Si la ruta es de la vista, obtén la universidad desde el argumento.
+           
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
 
         }
@@ -263,13 +262,8 @@ class InstitutionMenuBlock extends BlockBase
             
 
             //////dump($current_institution);
-            ////dump('if node interface');
-
-
 
             $node_type = $current_node_aux->bundle();
-            
-            ////dump('if node interface');
         
 
             $institution = null;
@@ -321,8 +315,6 @@ class InstitutionMenuBlock extends BlockBase
         if (!empty($institution)) {
 
             ////dump('if not empty institution');
-
-
             $logo_url = '';
             $logo_dacem_url = '/themes/custom/b5subtheme/images/logo_dacem.png';
 
@@ -375,12 +367,6 @@ class InstitutionMenuBlock extends BlockBase
             ];
 
             foreach ($languages as $language) {
-
-
-                //dump($current_page);
-                //dump($current_path_aux);
-                //dump($current_path);
-
 
                 $alias_manager = \Drupal::service('path_alias.manager');
 
@@ -456,17 +442,9 @@ class InstitutionMenuBlock extends BlockBase
             $rs_url = $language_prefix . '/resources-and-services' . $institution_alias;
 
 
-
-
-
-
-
-
             $institutions = \Drupal::entityTypeManager()
                 ->getStorage('node')
                 ->loadByProperties(['type' => 'institution']);
-
-
 
             $entity_repository = \Drupal::service('entity.repository');
 
