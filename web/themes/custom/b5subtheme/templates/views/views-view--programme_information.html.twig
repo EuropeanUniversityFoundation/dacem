@@ -110,10 +110,10 @@
 	{% else %}
 	<!--<pre>Condition not met for Course ID: "{{ course_id }}" and Credit Type: "{{ credit_type }}"</pre>-->
 {% endif %}{% endfor %}<div class="programme-page">
-<div class="sticky-nav">
-	<div class="programme-header">
+
+	<div class="rs-header">
 		<div class="container-fluid container-fluid-programme-band ">
-			<h1 class="programme-title">{{ translated_entity.title.value|raw }}</h1>
+			<h1 class="rs-title">{{ translated_entity.title.value|raw }}</h1>
 		</div>
 	</div>
 
@@ -183,7 +183,7 @@
 			</ul>
 		</div>
 	</nav>
-</div>
+
 
 {#
 {% if translated_entity.field_degree_pdf %}
@@ -207,7 +207,7 @@
 
 
 <div class="container-fluid">
-	<div class="my-custom-container">
+	<div class="my-custom-container-2">
 
 
 		<div class="scrollspy-example" data-bs-spy="scroll" data-bs-target="#programme-navbar" data-bs-root-margin="0px 0px -60%" tabindex="0">

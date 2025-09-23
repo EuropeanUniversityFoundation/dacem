@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Añadir evento de clic a cada enlace del menú (pantallas grandes)
+  /*
   navLinks.forEach(link => {
     link.addEventListener('click', function () {
       console.log('Clicked link:', this.textContent); // Debugging
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Actualizar el texto del botón cuando se selecciona una sección
       updateDropdownButton(this.textContent);
     });
-  });
+  });*/
 
   // Añadir evento de clic a los elementos del menú desplegable (pantallas pequeñas)
   dropdownItems.forEach(item => {

@@ -1,0 +1,288 @@
+{% set organizational_unit = view.result[0]._entity %}
+
+{% set current_language = view.result[0].node_field_data_langcode %}
+
+{% if organizational_unit.hasTranslation(current_language) %}
+	{% set organizational_unit = organizational_unit.getTranslation(current_language) %}
+
+{% endif %}
+
+{% set institution = view.result[0]._relationship_entities['field_ou_institution'] %}
+{% set campus = view.result[0]._relationship_entities['field_ou_campus'] %}
+{#{dump(campus)}#}
+
+{% set university_primary_color = institution.field_primary_color[0].color %}
+{% set university_text_color = institution.field_text_color[0].color %}
+{% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
+
+
+<style>:root
+{
+	--university_primary_color: {{university_primary_color}}
+	;
+	--university_text_color: {{university_text_color}}
+	;
+	--university_emphasis_text_color: {{university_emphasis_text_color}}
+	;
+}</style><div class="rs-header">
+<div class="container-fluid container-fluid-programme-band ">
+	<h1 class="rs-title">Organizational Unit</h1>
+</div></div><div class="my-custom-container-2">
+
+<h2 class="text-uppercase fw-bold mb-3">{{ organizational_unit.title.value }}</h2>
+<div class="d-flex mb-3">
+  {% if organizational_unit.field_ou_type.value is defined %}
+    <span class="ou-tag px-3 py-1"
+          style="background-color: black; color: #fff; border-radius: 0;">
+      {{ organizational_unit.field_ou_type.value }}
+    </span>
+  {% endif %}
+
+  {% if campus.title.value is defined %}
+    <span class="ou-tag px-3 py-1"
+          style="background-color: {{ university_primary_color }}; color: {{ university_emphasis_text_color }}; border: 2px solid {{ university_primary_color }}; border-radius: 0;">
+      {{ campus.title.value }}
+    </span>
+  {% endif %}
+</div>
+
+<br>
+
+<div class="row">
+	<div class="col-lg-6">
+
+
+		{{organizational_unit.field_ou_description.value | raw}}
+
+		<br><br>
+
+		{% set list_academic_authorities = [] %}
+    {% if view.result[0]._relationship_entities['reverse__node__field_aa_organizational_unit'] %}
+		{#{dump(view.result)}}{{dump(campus.field_campus_description.value)}#}
+		<h4 class="mb-4 fw-bold">{{ translations[current_language]['Academic Authorities'] }}</h4>
+		<div class="vstack gap-3 mb-5">
+			{% for row in view.result %}
+				{% set authority = row._relationship_entities['reverse__node__field_aa_organizational_unit'] %}
+				{% if  authority.id not in list_academic_authorities %}
+					{% set list_academic_authorities = list_academic_authorities|merge([authority.id]) %}
+
+					{% if authority %}
+
+						{% set media = authority.field_ac_photo.entity ?? null %}
+						{% set image = media ? media.uri.value : null %}
+						{#{dump(image)}#}
+						{% set role = authority.field_organizational_unit_role.value ?? '' %}
+						{% set name = authority.title.value %}
+
+						<div class="d-flex align-items-center gap-3">
+							{% if image %}
+								<img src="{{ file_url(image) }}" alt="{{ name }}" class="rounded-circle" style="width:64px; height:64px; object-fit:cover;">
+							{% endif %}
+
+							<div>
+								<div class="fw-semibold">{{ name }}</div>
+								{% if role %}
+									<div class="text-muted text-uppercase small">{{ role }}</div>
+								{% endif %}
+							</div>
+						</div>
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+		</div>
+    {% endif %}
+	</div>
+	<div
+		class="col-lg-6">
+
+		{# Imagen de la OU, si existe, si no fallback #}
+		<div class="mb-0 text-center">
+			{% if organizational_unit.field_ou_image.entity is defined and organizational_unit.field_ou_image.entity %}
+				{% set image = organizational_unit.field_ou_image.entity.uri.value %}
+				<img src="{{ file_url(image) }}" alt="{{ organizational_unit.label }}" class="img-fluid w-100" style="max-height: 350px; object-fit: cover;">
+			{% else %}
+				<img src="/themes/custom/b5subtheme/images/ou-default.png" alt="Organizational Unit" class="img-fluid w-100" style="max-height: 350px; object-fit: cover;">
+			{% endif %}
+		</div>
+
+		{# Caja negra con datos de contacto #}
+		<div
+			class="bg-black text-white pt-4 pb-4 ps-4 pe-4">
+
+			{# Dirección si en el futuro la añades #}
+			{% if organizational_unit.field_ou_address.value is defined and organizational_unit.field_ou_address.value %}
+				<div class="d-flex align-items-start mb-3">
+					<i class="fas fa-map-marker-alt me-2 mt-1"></i>
+					<p class="mb-0">{{ organizational_unit.field_ou_address.value }}</p>
+				</div>
+			{% endif %}
+
+			{% if organizational_unit.field_ou_map.value is defined and organizational_unit.field_ou_map.value %}
+      {% set point = organizational_unit.field_ou_map.value %}
+        
+
+          {% if point %}
+            {% set coords = point|replace({'POINT(':'','POINT (':'', ')':''})|trim|split(' ') %}
+            
+          {% endif %}
+				<div class="d-flex align-items-start mb-3">
+					<i class="fas fa-location-arrow me-2 mt-1"></i>
+					<p class="mb-0">{{ coords[1] }}, {{ coords[0] }}</p>
+				</div>
+			{% endif %}
+
+			{% if organizational_unit.field_ou_webs.value is defined and organizational_unit.field_ou_webs.value %}
+				<div class="d-flex align-items-start mb-3">
+					<i class="fas fa-globe me-2 mt-1"></i>
+					<p class="mb-0">
+						<a href="{{ organizational_unit.field_ou_webs.value }}" target="_blank" class="text-white text-decoration-underline">
+							{{ organizational_unit.field_ou_webs.value }}
+						</a>
+					</p>
+				</div>
+			{% endif %}
+
+			{% if organizational_unit.field_ou_contacts.value is defined and organizational_unit.field_ou_contacts.value %}
+				<div class="d-flex align-items-start mb-3">
+					<i class="fas fa-envelope me-2 mt-1"></i>
+					<p class="mb-0">{{ organizational_unit.field_ou_contacts.value }}</p>
+				</div>
+			{% endif %}
+
+		</div>
+    <div class="map-wrapper" style="">
+			{{ drupal_view('map_view', 'block_4', organizational_unit.id) }}
+		</div>
+
+	</div>
+
+
+</div></div></div>
+{% if area_meta|length > 0 %}
+<div class='bg-light'><div
+class='my-custom-container-2'>
+{# =========================
+   Construcción de grupos
+   ========================= #}
+<div class="accordion" id="accordionOUPanelsStayOpen">
+<h3 class="fw-bold text-center mb-4 mt-5">{{ translations[current_language]['Programmes'] }}</h3>
+  {% for area_key, meta in area_meta %}
+    {% set B = programmes_by_area[area_key]['B']|default([]) %}
+    {% set M = programmes_by_area[area_key]['M']|default([]) %}
+    {% set D = programmes_by_area[area_key]['PhD']|default([]) %}
+
+    {% set ordered = B|merge(M)|merge(D) %}
+    {% set total = ordered|length %}
+
+    {% if total > 0 %}
+      {% set cid = 'ou-acc-' ~ loop.index ~ '-' ~ area_key|replace({' ':'-'}) %}
+       {% set expanded = (area_meta|length == 1) %}
+
+      <div class="accordion-item mb-2">
+        <h2 class="accordion-header" id="{{ cid }}-head">
+          <button class="accordion-button {{ expanded ? '' : 'collapsed' }}"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#{{ cid }}-body"
+                  aria-expanded="false"
+                  aria-controls="{{ cid }}-body">
+            {% if meta.icon is defined and meta.icon %}
+              <i class="{{ meta.icon }}"></i>
+            {% endif %}
+            <span class="fw-semibold">{{ meta.label|default(area_key)|upper }}</span>
+            <span class="ms-auto small fw-bold">
+              B {{ B|length }} · M {{ M|length }} · PhD {{ D|length }}
+            </span>
+          </button>
+        </h2>
+
+        <div id="{{ cid }}-body"
+             class="accordion-collapse collapse {{ expanded ? 'show' : '' }}"
+             aria-labelledby="{{ cid }}-head">
+          <div class="accordion-body">
+
+            {% set cols = total > 18 ? 3 : 2 %}
+            {% set per_col = (total / cols)|round(0, 'ceil') %}
+
+            <div class="row g-4">
+              {% for c in 0..(cols-1) %}
+                {% set slice = ordered|slice(c*per_col, per_col) %}
+                {% if slice|length %}
+                  <div class="col-md-{{ 12 // cols }}">
+                    <ul class="list-unstyled mb-0">
+                      {% for p in slice %}
+                        {% set lvl_raw = p.level_code|default(p.level|default('')) %}
+                        {% set lvl = lvl_raw|lower %}
+
+                        {% if lvl starts with 'b' %}
+                          {% set prefix = 'B' %}
+                        {% elseif lvl starts with 'm' %}
+                          {% set prefix = 'M' %}
+                        {% else %}
+                          {% set prefix = 'PhD' %}
+                        {% endif %}
+
+                        <li class="mb-2">
+                          {% if prefix == 'B' %}
+                            <span class="fw-bold me-1 text-dark">{{ prefix }}</span>
+                          {% else %}
+                            <span class="fw-bold me-1" style="color: var(--university_primary_color)">{{ prefix }}</span>
+                          {% endif %}
+                          &middot;
+
+                          {% if p.programme_url is defined and p.programme_url %}
+                            <a href="{{ p.programme_url }}" class="text-reset text-decoration-none ms-1">{{ p.label }}</a>
+                          {% else %}
+                            <span class="ms-1">{{ p.label }}</span>
+                          {% endif %}
+
+                          {% if p.interuniversity is defined and p.interuniversity %}
+                            <em class="text-danger ms-2">Interuniversity</em>
+                          {% endif %}
+
+                          {% if p.ects is defined and p.ects %}
+                            <span class="text-muted ms-2">{{ p.ects }} ECTS</span>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+</div></div></div>
+{% endif %}
+
+
+
+<script>
+(function () {
+  // Congela el scroll cuando se muestra/oculta un panel de acordeón
+  const keepScroll = () => {
+    const y = window.scrollY;
+    // reestablece inmediatamente (sin animación)
+    window.requestAnimationFrame(() => window.scrollTo(0, y));
+  };
+
+  // Escucha eventos de Bootstrap 5
+  document.querySelectorAll('.accordion .collapse').forEach(el => {
+    el.addEventListener('shown.bs.collapse', keepScroll);
+    el.addEventListener('hidden.bs.collapse', keepScroll);
+  });
+
+  // Por si algún trigger es <a href="#…">, anula el salto
+  document.querySelectorAll('.accordion [data-bs-toggle="collapse"]').forEach(tr => {
+    if (tr.tagName === 'A') {
+      tr.addEventListener('click', e => e.preventDefault());
+    }
+  });
+})();
+</script>

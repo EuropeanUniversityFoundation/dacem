@@ -57,10 +57,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
   
         // Desliza automáticamente hacia el contenido mostrado
-        collapsible.scrollIntoView({
+        //DESCOMENTAR SI QUEREMOS QUE SE DESPLACE
+        /*collapsible.scrollIntoView({
           behavior: 'smooth', // Desplazamiento suave
           block: 'start', // Alinea al inicio del contenedor
-        });
+        });*/
       });
     });
   });

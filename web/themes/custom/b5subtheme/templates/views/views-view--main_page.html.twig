@@ -52,8 +52,9 @@
 							
 							<div class="card-body ">
 								<h5 class="card-title">{{ row._entity.title.value }}</h5>
-								<p class="card-text-country">{{ row._entity.field_country.value }}</p>
-								<p class="card-text truncate-text">{{ row._entity.field_information.value }}</p>
+								<p class="card-text-country">{{ row._country_name }}</p>
+								
+								<p class="card-text truncate-text">{{ row._entity.field_information.processed | striptags }}</p>
 							</div>
 
 
@@ -86,7 +87,9 @@
 
 <div class="row map-and-explore">
 	<div class="col-12 col-xl-7">
-		<img src="/themes/custom/b5subtheme/images/mapa-universidades.png" alt="Map" class="univerties-map" style="padding-top: 1%;">
+		<div class="map-wrapper" style="min-height: 300px;">
+			{{ drupal_view('map_view', 'block_5') }}
+		</div>
 	</div>
 	<div class="col-12 col-xl-5" style="justify-content">
 		<h2>EXPLORE OUR UNIVERSITIES</h2>

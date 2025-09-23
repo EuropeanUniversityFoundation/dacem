@@ -56,7 +56,7 @@ class InstitutionMenuBlock extends BlockBase
     {
 
         $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-       
+
 
         // Imagen y menú desplegable de usuario
         $current_user = \Drupal::currentUser();
@@ -153,7 +153,7 @@ class InstitutionMenuBlock extends BlockBase
                 'UNIVERSITY LIFE' => 'ΦΟΙΤΗΤΙΚΗ ΖΩΗ',
             ],
 
-            
+
         ];
 
 
@@ -162,12 +162,13 @@ class InstitutionMenuBlock extends BlockBase
 
         $build = [];
         $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+
         ////dump(\Drupal::routeMatch()->getParameters());
 
         $current_path = \Drupal::service('path.current')->getPath();
         ////dump($current_path);
         $current_path_aux = preg_replace('#^/[^/]+/#', '/', $current_path);
-      
+
         ////dump($current_path_aux);
         $current_node_aux = $this->getNodeFromAlias($current_path_aux, $current_language);
         ////dump($current_node_aux->bundle());
@@ -192,10 +193,10 @@ class InstitutionMenuBlock extends BlockBase
                 $institution = \Drupal\node\Entity\Node::load($institution_id);
             }
         } elseif ($current_route === 'view.resources_and_services.page_1' || $current_route === 'view.resources_and_services.page_2') {
-   
+
             $current_page = 'resources-and-services';
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
-         
+
             $institution = \Drupal\node\Entity\Node::load($institution_id);
         } elseif ($current_route === 'view.programme_information.page_1') {
             $current_page = 'catalogue';
@@ -203,28 +204,44 @@ class InstitutionMenuBlock extends BlockBase
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
         } elseif ($current_route === 'view.iec_information.page_1') {
             $current_page = 'catalogue';
-           
+
+            $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+
+        } elseif ($current_route === 'view.campus_information.page_1') {
+            $current_page = 'campus-information';
+
+            $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+
+        } elseif ($current_route === 'view.organizational_unit_information.page_1') {
+            $current_page = 'organizational-unit-information';
+
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
 
         }
 
+
+
+
+
+        //dump($current_page);
+
         /*
         if (!is_numeric($institution_id)) {
-            
+
             $url_aux = null;
 
             if(\Drupal::routeMatch()->getParameter('arg_2') != null){
                 $url_aux = '/'. $current_language . '/' . \Drupal::routeMatch()->getParameter('arg_0') . '/' . \Drupal::routeMatch()->getParameter('arg_1') . '/' .\Drupal::routeMatch()->getParameter('arg_2');
-    
+
             }else if(\Drupal::routeMatch()->getParameter('arg_1') != null){
                 ////dump('asñdkfjañslkdfjañsdklfj');
                 $url_aux = '/'. $current_language . '/' . \Drupal::routeMatch()->getParameter('arg_0') . '/' . \Drupal::routeMatch()->getParameter('arg_1');
-    
-                
+
+
             }else if(\Drupal::routeMatch()->getParameter('arg_0') != null){
                 $url_aux = '/'. $current_language . '/' . \Drupal::routeMatch()->getParameter('arg_0');
-    
-    
+
+
             }
             ////dump('url_aux auuuux');
             ////dump($url_aux);
@@ -233,7 +250,7 @@ class InstitutionMenuBlock extends BlockBase
             // Obtiene la ruta interna asociada al alias
             $path = \Drupal::service('path_alias.manager')->getPathByAlias('/' . $institution_id, $current_language);
 
-        
+
             // Verifica si la ruta interna es de tipo nodo (/node/{nid})
             if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
                 $institution_id = $matches[1]; // Obtiene el ID del nodo
@@ -242,7 +259,7 @@ class InstitutionMenuBlock extends BlockBase
                 ////dump("No se encontró un nodo para el alias: " . $institution_id);
                 return [];
             }
-            
+
             //$current_institution = \Drupal::routeMatch()->getParameter('node');
             $current_institution = \Drupal\node\Entity\Node::load($institution_id);
             //////dump($current_institution);
@@ -259,22 +276,23 @@ class InstitutionMenuBlock extends BlockBase
 
 
         if ($current_node_aux instanceof NodeInterface) {
-            
 
             //////dump($current_institution);
 
             $node_type = $current_node_aux->bundle();
-        
 
             $institution = null;
 
             if ($node_type == 'institution') {
-            
+
                 $institution = $current_node_aux;
-            }else if($node_type == 'campus'){ 
+            } else if ($node_type == 'campus') {
                 $institution = $current_node_aux->get('field_campus_institution')->entity;
-            
-        }elseif ($node_type == 'programme') {
+
+            } else if ($node_type == 'organizational_unit') {
+                $institution = $current_node_aux->get('field_ou_institution')->entity;
+
+            } elseif ($node_type == 'programme') {
                 $institution = $current_node_aux->get('field_programme_institution')->entity;
             } elseif ($node_type == 'individual_educational_component') {
                 $programme = $current_node_aux->get('field_iec_programme')->entity;
@@ -304,7 +322,7 @@ class InstitutionMenuBlock extends BlockBase
                 }
             } elseif ($current_route === 'view.resources_and_services.page_1') {
                 $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
-                   
+
                 $institution = \Drupal\node\Entity\Node::load($institution_id);
             }
 
@@ -316,7 +334,7 @@ class InstitutionMenuBlock extends BlockBase
 
             ////dump('if not empty institution');
             $logo_url = '';
-            $logo_dacem_url = '/themes/custom/b5subtheme/images/logo_dacem.png';
+            $logo_dacem_url = '/themes/custom/b5subtheme/images/dacem-imago.png';
 
             if (!$institution->get('field_logo')->isEmpty()) {
                 $media = $institution->get('field_logo')->entity;
@@ -368,6 +386,7 @@ class InstitutionMenuBlock extends BlockBase
 
             foreach ($languages as $language) {
 
+
                 $alias_manager = \Drupal::service('path_alias.manager');
 
                 // Obtener el alias de la institución en el idioma actual
@@ -418,6 +437,7 @@ class InstitutionMenuBlock extends BlockBase
             // Obtener el alias de la institución en el idioma actual
             $institution_alias = $alias_manager->getAliasByPath('/node/' . $institution->id(), $current_language);
 
+            //dump($institution_alias);
             // Obtener el prefijo de idioma actual (ejemplo: "/en" o "/es")
             $language_prefix = '/' . $current_language;
 
@@ -480,65 +500,73 @@ class InstitutionMenuBlock extends BlockBase
 
             $institution_options .= '</ul></div>';
 
+            // Decide qué enlace va activo según $current_page.
+            $gi_active = (!in_array($current_page, ['catalogue', 'resources-and-services'])) ? ' active ' : '';
+            $cat_active = ($current_page === 'catalogue') ? ' active ' : '';
+            $rs_active = ($current_page === 'resources-and-services') ? ' active ' : '';
 
+            // Por accesibilidad, aria-current="page" en el activo.
+            $gi_aria = $gi_active ? ' aria-current="page"' : '';
+            $cat_aria = $cat_active ? ' aria-current="page"' : '';
+            $rs_aria = $rs_active ? ' aria-current="page"' : '';
 
             $build = [
                 '#markup' => $this->t('
-                <div class="sticky-nav">
-              <nav class="navbar navbar-expand-lg university-navbar" style="margin: 0; padding: 0;">
-                  <div class="container-fluid">
+  <div class="sticky-nav">
+    <nav class="navbar navbar-expand-lg university-navbar" style="margin: 0; padding: 0;">
+      <div class="container-fluid">
 
-                  <!-- Logo -->
-                  <a class="navbar-brand" href="/main-page">
-                      <img src="@logo_dacem_url" alt="@dacem" class="university-logo d-inline-block align-text-top">
+        <!-- Logo -->
+        <a class="navbar-brand" href="/main-page">
+          <img src="@logo_dacem_url" alt="@dacem" class="university-logo d-inline-block align-text-top">
+        </a>
+
+        <!-- Dropdown de universidades -->
+        <div class="dropdown">
+          ' . $institution_options . '
+        </div>
+
+        <!-- Botón de colapso para móviles -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#universityNavbar" aria-controls="universityNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menú colapsable -->
+        <div class="collapse navbar-collapse" id="universityNavbar">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link' . $gi_active . '" href="' . $general_info_url . '"' . $gi_aria . '>' . $translations[$current_language]['INSTITUTIONAL INFORMATION'] . '</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link' . $cat_active . '" href="' . $catalogue_url . '"' . $cat_aria . '>' . $translations[$current_language]['CATALOGUE'] . '</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link' . $rs_active . '" href="' . $rs_url . '"' . $rs_aria . '>' . $translations[$current_language]['RESOURCES AND SERVICES'] . '</a>
+            </li>
+          </ul>
+
+          <!-- Botón personalizado -->
+          <div class="d-flex align-items-center right-buttons-university-menu">
+            <!-- Botones de idioma -->
+            <div class="language-buttons" style="position: relative; z-index: 1050;">
+              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle no-hover-bg" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    ' . strtoupper($current_language) . ' ' . $flags[$current_language] . '
                   </a>
-
-
-                  <!-- Dropdown de universidades -->
-                  <div class="dropdown">
-                      ' . $institution_options . '
-                  </div>
-                      
-                      <!-- Botón de colapso para móviles -->
-                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#universityNavbar" aria-controls="universityNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                          <span class="navbar-toggler-icon"></span>
-                      </button>
-                      
-                      <!-- Menú colapsable -->
-                      <div class="collapse navbar-collapse" id="universityNavbar">
-                          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                              <li class="nav-item">
-                                  <a class="nav-link" href="' . $general_info_url . '">' . $translations[$current_language]['INSTITUTIONAL INFORMATION'] . '</a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="' . $catalogue_url . '">' . $translations[$current_language]['CATALOGUE'] . '</a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" href="' . $rs_url . '">' . $translations[$current_language]['RESOURCES AND SERVICES'] . '</a>
-                              </li>
-                          </ul>
-                          
-                          <!-- Botón personalizado -->
-                          <div class="d-flex align-items-center right-buttons-university-menu">
-                              <!-- Botones de idioma -->
-                              <div class="language-buttons" style="position: relative; z-index: 1050;">
-                                  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                                      <li class="nav-item dropdown">
-                                          <a class="nav-link dropdown-toggle no-hover-bg" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            ' . strtoupper($current_language) . ' ' . $flags[$current_language] . '
-                                          </a>
-                                          <ul class="dropdown-menu" style="z-index: 1051;" aria-labelledby="languageDropdown">
-                                            ' . $language_options . '
-                                          </ul>
-                                      </li>
-                                  </ul>
-                              </div>
-                              ' . $profile_html . '
-                          </div>
-                      </div>
-                  </div>
-              </nav>
-              </div>',
+                  <ul class="dropdown-menu" style="z-index: 1051;" aria-labelledby="languageDropdown">
+                    ' . $language_options . '
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            ' . $profile_html . '
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>',
                     [
                         '@logo_dacem_url' => $logo_dacem_url,
                         '@logo_url' => $logo_url,

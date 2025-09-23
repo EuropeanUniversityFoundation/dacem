@@ -12877,15 +12877,6 @@ code {
   font-weight: 1000;
 }
 
- .programme-page .programme-header {
-  padding: 20px 0;
-  width: 100%;
-  background-color: var(--university_primary_color);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
 .container-fluid-programme-band{
   overflow: auto !important;
   width: 100% !important;
@@ -13454,10 +13445,7 @@ code {
 
 
 
-.university-navbar{
-  padding: 0px;
-  /*background-color: white;*/
-}
+
 
 .sticky-nav{
   box-shadow: none !important;
@@ -13468,13 +13456,13 @@ code {
 .university-navbar .navbar-brand img {
   width: auto; /* Mantiene la proporción del logo */
   height: auto; /* Mantiene la proporción del logo */
-  max-height: 100px; /* Tamaño grande por defecto para pantallas grandes */
+  max-height: 80px; /* Tamaño grande por defecto para pantallas grandes */
 }
 
 /* Estilos para la alineación de los elementos del navbar */
 .university-navbar .navbar-nav {
   list-style: none; /* Remueve estilos de lista */
-  height: 100px ; /* Hace que el contenedor del menú también ocupe toda la altura */
+  height: 80px ; /* Hace que el contenedor del menú también ocupe toda la altura */
   
   
 }
@@ -13497,6 +13485,14 @@ code {
   color: var(--university_emphasis_text_color); /* Color de texto al pasar el ratón */
   height: 100%; /* Asegura que el fondo ocupe toda la altura */
 }
+
+/* Activo: mismo estilo que hover */
+.university-navbar .nav-link.active {
+  background-color: var(--university_primary_color);
+  color: var(--university_emphasis_text_color);
+  height: 100%; /* Igual que en hover */
+}
+
 
 
 
@@ -14101,9 +14097,7 @@ a.card.h-100 {
 
 
 
-.block-dacem-menu-block{
-  width: 100%;
-}
+
 
 
 .user-profile-circle {
@@ -14163,11 +14157,7 @@ a.card.h-100 {
 }
 
 
-.right-buttons-university-menu {
 
-  padding-right: 30px;
-
-}
 
 /******
 
@@ -14196,8 +14186,9 @@ VIEW IEC INFORMATION
 }
 
 
-.programme-page .programme-header {
-  padding: 20px 0;
+
+.programme-header {
+  padding: 15px 0;
   width: 100%;
   background-color: var(--university_primary_color);
   position: sticky;
@@ -14217,10 +14208,9 @@ VIEW IEC INFORMATION
 
 
 
-
 .iec-header {
   position: -webkit-sticky; /* Safari */
-  position: sticky;
+
   top: 0; /* Ajusta este valor para que no se superponga a .sticky-nav */
   z-index: 999; /* Un poco menos que .sticky-nav */
   background-color: black; /* Cambia según sea necesario */
@@ -14239,7 +14229,7 @@ VIEW IEC INFORMATION
 .programme-page .iec-header {
   padding: 0.5% 0;
   width: 100%;
-  padding-left: 12%;
+  
   
 }
 
@@ -14247,14 +14237,6 @@ VIEW IEC INFORMATION
 
 
 
-.programme-page .programme-header {
-  padding: 30px 0;
-  width: 100%;
-  background-color: var(--university_primary_color);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
 
 
 
@@ -14342,11 +14324,25 @@ INSTITUTION MENU
 
 #block-b5subtheme-institutionmenublock{
   width: 100%;
-  padding-left: 10%; /* Ajusta según tus necesidades */
-  padding-right: 12%; /* Ajusta según tus necesidades */
+  padding-left: 15%; /* Ajusta según tus necesidades */
+  padding-right: 16.2%; /* Ajusta según tus necesidades */
   padding-bottom: 0 !important;
   margin-bottom: 0 !important;
+  max-height: 80px;
 }
+
+
+
+#block-b5subtheme-dacemmenublock-2{
+  width: 100%;
+  padding-left: 15%; /* Ajusta según tus necesidades */
+  padding-right: 16.2%; /* Ajusta según tus necesidades */
+  padding-bottom: 3px !important;
+  margin-bottom: 5px !important;
+  max-height: 80px;
+}
+
+
 
 
 
@@ -14683,7 +14679,7 @@ RESOURCES AND SERVICES
 .rs-section-image-text  {
   position: absolute;
   bottom: 0; /* o bottom: 0; si quieres al ras */
-  padding-left: 20%;
+  padding-left: 16%;
   
   color: white;
   font-size: 55px; /* responsivo */
@@ -14842,8 +14838,8 @@ RESOURCES AND SERVICES
   white-space: nowrap;
   font-size: clamp(10px, 2vw, 27px); /* Mínimo 16px, adaptable con vw, máximo 24px */
   color: #fff;
-  padding-left: 20%;
-  padding-right: 20%;
+  padding-left: 16.2%;
+  padding-right: 16.2%;
   font-weight: 1000;
 }
 
@@ -14980,9 +14976,18 @@ body.h-100 {
 }
 
 .right-buttons-university-menu{
+  padding-right: 30px;
   line-height: var(--bs-body-line-height);
 }
 
 .institution-dropdown{
   line-height: var(--bs-body-line-height);
 }
+
+
+
+
+
+
+
+

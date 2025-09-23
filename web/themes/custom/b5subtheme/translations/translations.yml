@@ -89,7 +89,13 @@ en:
   in_person: 'In person'
 
 
-
+###CAMPUS INFORMATION
+  Academic Authorities : 'Academic Authorities'
+  Programmes: 'Programmes'
+  Organizational Units: 'Organizational Units'
+  Type here to search: 'Type here to search'
+  Click on an Organizational Unit to see its details. : 'Click on an Organizational Unit to see its details.'
+  See more: 'See more'
 
 
 
@@ -181,6 +187,16 @@ es:
   EVALUATION METHODS AND CRITERIA: 'MÉTODOS Y CRITERIOS DE EVALUACIÓN'
   in_person: 'Presencial'
 
+  Academic Authorities: 'Autoridades Académicas'
+  Programmes: 'Programas'
+  Organizational Units: 'Unidades Organizativas'
+  Type here to search: 'Escribe aquí para buscar'
+  Click on an Organizational Unit to see its details. : 'Haz click en una Unidad Organizativa para ver sus detalles'
+  See more: 'Ver más'
+
+
+
+
 
 fr: # Francés
 
@@ -262,6 +278,14 @@ fr: # Francés
   EVALUATION METHODS AND CRITERIA: 'MÉTHODES ET CRITÈRES D’ÉVALUATION'
   in_person: 'En présentiel'
 
+  Academic Authorities: 'Autorités académiques'
+  Programmes: 'Programmes'
+  Organizational Units: 'Unités organisationnelles'
+  Type here to search: 'Tapez ici pour rechercher'
+  Click on an Organizational Unit to see its details. : 'Cliquez sur une Unité organisationnelle pour voir ses détails'
+  See more: 'Voir plus'
+
+
 pt-pt: # Portugués
 
   #Pesquisa e Filtros da Universidade
@@ -341,6 +365,15 @@ pt-pt: # Portugués
   PLANNED ACTIVITIES: 'ATIVIDADES PLANEJADAS'
   EVALUATION METHODS AND CRITERIA: 'MÉTODOS E CRITÉRIOS DE AVALIAÇÃO'
   in_person: 'Presencial'
+
+
+  Academic Authorities: 'Autoridades Académicas'
+  Programmes: 'Programas'
+  Organizational Units: 'Unidades Organizacionais'
+  Type here to search: 'Escreva aqui para pesquisar'
+  Click on an Organizational Unit to see its details. : 'Clique numa Unidade Organizacional para ver os seus detalhes'
+  See more: 'Ver mais'
+
 
 
 
@@ -425,6 +458,14 @@ el: # Griego
   EVALUATION METHODS AND CRITERIA: 'ΜΕΘΟΔΟΙ ΚΑΙ ΚΡΙΤΗΡΙΑ ΑΞΙΟΛΟΓΗΣΗΣ'
   in_person: 'Δια ζώσης'
 
+  Academic Authorities: 'Ακαδημαϊκές αρχές'
+  Programmes: 'Προγράμματα'
+  Organizational Units: 'Οργανωτικές μονάδες'
+  Type here to search: 'Πληκτρολογήστε εδώ για αναζήτηση'
+  Click on an Organizational Unit to see its details. : 'Κάντε κλικ σε μια Οργανωτική Μονάδα για να δείτε τις λεπτομέρειες της'
+  See more: 'Δείτε περισσότερα'
+
+
 cs: # Checo
 
   #Pohled na univerzitu, filtry a vyhledávání
@@ -504,6 +545,14 @@ cs: # Checo
   PLANNED ACTIVITIES: 'PLÁNOVANÉ AKTIVITY'
   EVALUATION METHODS AND CRITERIA: 'METODY A KRITÉRIA HODNOCENÍ'
   in_person: 'Přítomný'
+
+  Academic Authorities: 'Akademické orgány'
+  Programmes: 'Programy'
+  Organizational Units: 'Organizační jednotky'
+  Type here to search: 'Pište sem pro vyhledávání'
+  Click on an Organizational Unit to see its details. : 'Klikněte na organizační jednotku pro zobrazení detailů'
+  See more: 'Zobrazit více'
+
 
 
 
@@ -588,6 +637,15 @@ sl: # Esloveno
   EVALUATION METHODS AND CRITERIA: 'METODE IN KRITERIJI VREDNOTENJA'
   in_person: 'Osebno'
 
+
+  Academic Authorities: 'Akademske oblasti'
+  Programmes: 'Programi'
+  Organizational Units: 'Organizacijske enote'
+  Type here to search: 'Vnesite tukaj za iskanje'
+  Click on an Organizational Unit to see its details. : 'Kliknite na organizacijsko enoto za ogled podrobnosti'
+  See more: 'Poglej več'
+
+
 hu: # Húngaro
 
   #Egyetemi nézet, szűrők és keresés
@@ -667,6 +725,14 @@ hu: # Húngaro
   PLANNED ACTIVITIES: 'TERVEZETT TEVÉKENYSÉGEK'
   EVALUATION METHODS AND CRITERIA: 'ÉRTÉKELÉSI MÓDSZEREK ÉS KRITÉRIUMOK'
   in_person: 'Személyes'
+
+  Academic Authorities: 'Akadémiai hatóságok'
+  Programmes: 'Programok'
+  Organizational Units: 'Szervezeti egységek'
+  Type here to search: 'Írjon ide a kereséshez'
+  Click on an Organizational Unit to see its details. : 'Kattintson egy szervezeti egységre a részletek megtekintéséhez'
+  See more: 'Továbbiak'
+
 
 
 
@@ -749,6 +815,14 @@ et: # Estonio
   PLANNED ACTIVITIES: 'PLANEERITUD TEGEVUSED'
   EVALUATION METHODS AND CRITERIA: 'HINDAMISMEETODID JA KRITEERIUMID'
   in_person: 'Kohapeal'
+
+  Academic Authorities: 'Akadeemilised võimud'
+  Programmes: 'Programmid'
+  Organizational Units: 'Organisatsiooniüksused'
+  Type here to search: 'Sisesta siia otsinguks'
+  Click on an Organizational Unit to see its details. : 'Klõpsa organisatsiooniüksusel, et näha selle üksikasju'
+  See more: 'Vaata veel'
+
 
 gl: # Gallego
 

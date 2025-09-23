@@ -45,7 +45,7 @@ class DacemMenuBlock extends BlockBase
 
     // Route to logo 
     $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
-    $logo_url = base_path() . $theme_path . '/images/logo-dacem.jpg';
+    $logo_url = base_path() . $theme_path . '/images/dacem-imago.png';
 
  
     $language_manager = \Drupal::service('language_manager');
@@ -147,7 +147,7 @@ class DacemMenuBlock extends BlockBase
                           <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('INSTITUTIONS') . '</a></li>
                           <li class="nav-item dacem-menu-item"><a class="nav-link" href="/contact">' . $this->t('CONTACT') . '</a></li>
                       </ul>
-                      <div class="d-flex ms-lg-2 language-buttons-dacem-menu">
+                      <div class="d-flex ms-lg-2 right-buttons-university-menu">
                           <!-- Menú -->
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                               <li class="nav-item dropdown">

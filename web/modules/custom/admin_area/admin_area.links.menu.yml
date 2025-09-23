@@ -96,14 +96,14 @@ admin_area.my_users_no_content_link:
   weight: 1
 
 # Listado con contenido
-admin_area.my_users_with_content_link:
-  title: 'List users (with content)'
-  route_name: admin_area.my_entity_page
-  route_parameters:
-    entity_type: 'users_content'
-  parent: admin_area.my_users_link
-  menu_name: admin
-  weight: 2
+#admin_area.my_users_with_content_link:
+  #title: 'List users (with content)'
+  #route_name: admin_area.my_entity_page
+  #route_parameters:
+    #entity_type: 'users_content'
+  #parent: admin_area.my_users_link
+  #menu_name: admin
+  #weight: 2
 
 # Subentrada: Crear usuario
 admin_area.create_user_link:
