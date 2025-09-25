@@ -18,8 +18,6 @@
 {% endif %}
 
 
-
-
 <style>:root
 {
 	--university_primary_color: {{university_primary_color}}
@@ -29,13 +27,18 @@
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
 }</style>{#
-												<div class="university-menu-block">
-												{{ page.header }}</div>#}<div class="">
-<div class="rs-header">
-	<div class="container-fluid container-fluid-programme-band ">
+														<div class="university-menu-block">
+														{{ page.header }}</div>#}
+
+
+<div class="rs-header ">
+	<div class="my-custom-container-2">
+	<div class="page-band">
 		<h1 class="rs-title">INSTITUTIONAL INFORMATION</h1>
 	</div>
+	</div>	
 </div>
+
 
 <nav id="rs-navbar" class="rs-nav navbar navbar-expand-lg bg-black">
 	<div
@@ -105,459 +108,471 @@
 	{% endif %}
 </div>
 <div class="container-fluid">
+	<div class="section-container">
+		<div class="my-custom-container-2">
 
-	<div class="my-custom-container-2">
+			<div class="spacer"></div>
+			<div class="university-details">
 
+				<h1 class="section-title" >{{institution.title.value}}</h1>
 
-		<div class="university-details">
+				<!-- Mostrar el país (no traducible) -->
+				{% if country_name %}
+					<h5 style="color: red;">{{country_name}}</h5>
+				{% else %}
+					<p>
+						<strong>País:</strong>
+						No disponible</p>
+				{% endif %}
 
-			<h1 style="font-weight: bold;">{{institution.title.value}}</h1>
+				<!-- Mostrar la información -->
+				{% set current_language = institution.langcode.value %}
 
-			<!-- Mostrar el país (no traducible) -->
-			{% if country_name %}
-				<h5 style="color: red;">{{country_name}}</h5>
-			{% else %}
-				<p>
-					<strong>País:</strong>
-					No disponible</p>
-			{% endif %}
-
-			<!-- Mostrar la información -->
-			{% set current_language = institution.langcode.value %}
-
-			<div
-				class="row" id="description">
-				<!-- Parte izquierda con información de la universidad -->
-				<div class="col-12 col-lg-8">
-					{% if institution.field_information.value is not empty %}
-						<br><br>
-						<div class="university-info">
-							<p>{{ institution.field_information.value | raw}}</p>
-						</div>
-					{% else %}
-						<p>
-							<strong>Information:</strong>
-							Not available</p>
-					{% endif %}
-
-					{#{dump(institution.field_institution_map[0].lon)}#}
-
-
-					<!-- Academic Terms debajo de la info -->
-					<div class="mt-4">
-						{% if institution.field_academic_calendar.value is defined and institution.field_academic_calendar.value %}
-							<h5>
-								<strong>Academic Calendar</strong>
-							</h5>
-							{{institution.field_academic_calendar.value | raw}}
+				<div
+					class="row" id="description">
+					<!-- Parte izquierda con información de la universidad -->
+					<div class="col-12 col-lg-8">
+						{% if institution.field_information.value is not empty %}
+							
+							<div class="university-info">
+								<p>{{ institution.field_information.value | raw}}</p>
+							</div>
+						{% else %}
+							<p>
+								<strong>Information:</strong>
+								Not available</p>
 						{% endif %}
+
+						{#{dump(institution.field_institution_map[0].lon)}#}
+
+
+						<!-- Academic Terms debajo de la info -->
+						<div class="mt-4">
+							{% if institution.field_academic_calendar.value is defined and institution.field_academic_calendar.value %}
+								
+								<h4 class="subsection-title">Academic Calendar</h4>
+								
+								{{institution.field_academic_calendar.value | raw}}
+							{% endif %}
+						</div>
 					</div>
-				</div>
 
-				<!-- Parte derecha con logo y contacto -->
-				<div class="col-12 col-lg-4 ">
-					<br><br>
-					<div
-						class="degree-sidebar bg-light p-4 h-100">
+					<!-- Parte derecha con logo y contacto -->
+					<div class="col-12 col-lg-4 ">
+						
+						<div
+							class="degree-sidebar bg-light p-4 h-100">
 
-						<!-- Logo (field_logo como media) -->
-						<div class="d-flex justify-content-center">
-							{% if institution.field_logo.entity.uri.value is defined %}
-								<img src="{{ file_url(institution.field_logo.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="width: 90%;">
+							<!-- Logo (field_logo como media) -->
+							<div class="d-flex justify-content-center">
+								{% if institution.field_logo.entity.uri.value is defined %}
+									<img src="{{ file_url(institution.field_logo.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="width: 90%;">
+								{% endif %}
+
+							</div>
+
+							<!-- Dirección -->
+							{% if institution.field_institution_address.value is defined and institution.field_institution_address.value %}
+								<div class="d-flex align-items-start mb-3">
+									<i class="fas fa-map-marker-alt me-2 mt-1"></i>
+									<p class="mb-0">{{ institution.field_institution_address.value }}</p>
+								</div>
+							{% endif %}
+
+							<!-- Teléfono -->
+							{% if institution.field_institution_phone.value is defined and institution.field_institution_phone.value %}
+								<div class="d-flex align-items-start mb-3">
+									<i class="fas fa-phone-alt me-2 mt-1"></i>
+									<p class="mb-0">{{ institution.field_institution_phone.value }}</p>
+								</div>
+							{% endif %}
+
+							<!-- Web -->
+							{% if institution.field_institution_webpage.uri is defined and institution.field_institution_webpage.uri %}
+								<div class="d-flex align-items-start mb-3">
+									<i class="fas fa-globe me-2 mt-1"></i>
+									<p class="mb-0">
+										<a href="{{ institution.field_institution_webpage.uri }}" target="_blank">
+											{{ institution.field_institution_webpage.title ?: institution.field_institution_webpage.uri }}
+										</a>
+									</p>
+								</div>
 							{% endif %}
 
 						</div>
-
-						<!-- Dirección -->
-						{% if institution.field_institution_address.value is defined and institution.field_institution_address.value %}
-							<div class="d-flex align-items-start mb-3">
-								<i class="fas fa-map-marker-alt me-2 mt-1"></i>
-								<p class="mb-0">{{ institution.field_institution_address.value }}</p>
-							</div>
-						{% endif %}
-
-						<!-- Teléfono -->
-						{% if institution.field_institution_phone.value is defined and institution.field_institution_phone.value %}
-							<div class="d-flex align-items-start mb-3">
-								<i class="fas fa-phone-alt me-2 mt-1"></i>
-								<p class="mb-0">{{ institution.field_institution_phone.value }}</p>
-							</div>
-						{% endif %}
-
-						<!-- Web -->
-						{% if institution.field_institution_webpage.uri is defined and institution.field_institution_webpage.uri %}
-							<div class="d-flex align-items-start mb-3">
-								<i class="fas fa-globe me-2 mt-1"></i>
-								<p class="mb-0">
-									<a href="{{ institution.field_institution_webpage.uri }}" target="_blank">
-										{{ institution.field_institution_webpage.title ?: institution.field_institution_webpage.uri }}
-									</a>
-								</p>
-							</div>
-						{% endif %}
-
 					</div>
+
 				</div>
 
+
+				
 			</div>
 
-
-			<br><br><br>
 		</div>
 	</div>
+
 
 	{{drupal_block('views_block:academic_authority-block_1')}}
 
+	<div class="section-container">
+		<div class='my-custom-container-2'>
+		
+			<div
+				class="admission-section" id='admission'>
+				<!-- Título principal centrado -->
+		
+					<h2 class="section-title text-center">Admission</h2>
 
-	<div class='my-custom-container-2'>
-		<div
-			class="admission-section" id='admission'>
-			<!-- Título principal centrado -->
-			<div class="flex-row campus-title">
-				<h2 style="font-weight: bold;">ADMISSION</h2>
-			</div>
-			<br><br>
 
-
-			<!-- Descripción general -->
-			{% if institution.field_admission_description is not empty %}
-				<h3 style="font-weight: bold;">DESCRIPTION</h3>
-				<p>{{ institution.field_admission_description.value | raw}}</p>
-			{% endif %}
-
-			<!-- Main Requirements -->
-			{% if institution.field_main_requirements is not empty %}
-				<h3 style="font-weight: bold;">MAIN REQUIREMENTS</h3>
-				<p>{{ institution.field_main_requirements.value }}</p>
-			{% endif %}
-
-			<!-- Language Policy -->
-			{% if institution.field_admission_language_policy is not empty %}
-				<h3 style="font-weight: bold;">LANGUAGE POLICY</h3>
-				<p>{{ institution.field_admission_language_policy.value | raw}}</p>
-
-				<!-- Subapartado: Languages -->
-				{% if institution.field_admission_languages is not empty %}
-					<h4 style="font-weight: bold; margin-left: 20px;">LANGUAGES</h4>
-					<ul style="margin-left: 20px;">
-						{% for language in institution.field_admission_languages %}
-							<li>{{ language.value }}</li>
-						{% endfor %}
-					</ul>
+				<!-- Descripción general -->
+				{% if institution.field_admission_description is not empty %}
+					<h3 class="subsection-title">Description</h3>
+					<p>{{ institution.field_admission_description.value | raw}}</p>
 				{% endif %}
 
-			{% endif %}
+				<!-- Main Requirements -->
+				{% if institution.field_main_requirements is not empty %}
+					<h3 class="subsection-title">Main Requirements</h3>
+					<p>{{ institution.field_main_requirements.value }}</p>
+				{% endif %}
 
-			<!-- Registration Procedures -->
-			{% if institution.field_admission_registration is not empty %}
-				<h3 style="font-weight: bold;">REGISTRATION PROCEDURES</h3>
-				<p>{{ institution.field_admission_registration.value | raw}}</p>
+				<!-- Language Policy -->
+				{% if institution.field_admission_language_policy is not empty %}
+					<h3 class="subsection-title">Language Policy</h3>
+					<p>{{ institution.field_admission_language_policy.value | raw}}</p>
+
+					<!-- Subapartado: Languages -->
+					{% if institution.field_admission_languages is not empty %}
+						<h4 class="subsection-title">Language</h4>
+						<ul style="margin-left: 20px;">
+							{% for language in institution.field_admission_languages %}
+								<li>{{ language.value }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+
+				{% endif %}
+
+				<!-- Registration Procedures -->
+				{% if institution.field_admission_registration is not empty %}
+					<h3 class="subsection-title">Registration Procedures</h3>
+					<p>{{ institution.field_admission_registration.value | raw}}</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<div class="section-container">
+		<div class='my-custom-container-2'>
+			{% if institution. 	field_ects_credit_allocation_pol is not empty %}
+				
+					<h2 class="section-title text-center">ECTS Allocation Policy</h2>
+				
+				<p>{{ institution. 	field_ects_credit_allocation_pol.value|raw }}</p>
+
+
 			{% endif %}
 		</div>
 	</div>
 
-	<div class='my-custom-container-2'>
-		{% if institution. 	field_ects_credit_allocation_pol is not empty %}
-			<div class="flex-row campus-title">
-				<h2 style="font-weight: bold;">ECTS ALLOCATION POLICY</h2>
-			</div>
-			<p>{{ institution. 	field_ects_credit_allocation_pol.value|raw }}</p>
 
-
-		{% endif %}
-	</div>
-
-	<br><br>
 	{% if campuses is not empty %}
-		<div class='bg-light'>
-			<br>
-			<div
-				class="campus-section container my-5" id='campuses'>
-				<!-- Título -->
-				<div class="row mb-4">
-					<div class="col-12 text-center">
-						<h2 class="fw-bold">Campuses</h2>
 
-						{% if institution.field_general_campus_description is not empty  %}
-							<p>
-								{{institution.field_general_campus_description.value | raw}}
-							</p>
-						{% endif %}
+
+		<div
+			class='section-container section-bg-grey' id="campuses">
+
+			<div class="my-custom-container-2">
+
+			<!-- Título -->
+			<div class="row mb-4">
+				<div class="col-12 text-center">
+					<h2 class="section-title text-center">Campuses</h2>
+					
+
+					{% if institution.field_general_campus_description is not empty  %}
+						<p>
+							{{institution.field_general_campus_description.value | raw}}
+						</p>
+					{% endif %}
+				</div>
+			</div>
+
+			<!-- Contenido: Mapa + Tarjetas -->
+			<div
+				class="row">
+				<!-- Mapa -->
+				<div class="col-lg-7 col-12 mb-4 mb-lg-0">
+					<div
+						class="map-wrapper" >
+						<!--<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">-->
+						{{ drupal_block('views_block:map_view-block_2') }}
 					</div>
+
 				</div>
 
-				<!-- Contenido: Mapa + Tarjetas -->
-				<div
-					class="row">
-					<!-- Mapa -->
-					<div class="col-lg-7 col-12 mb-4 mb-lg-0">
-						<div
-							class="map-wrapper" style="height: 600px;">
-							<!--<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">-->
-							{{ drupal_block('views_block:map_view-block_2') }}
-						</div>
+				<!-- Tarjetas -->
+				<div class="col-lg-5 col-12">
 
-					</div>
-
-					<!-- Tarjetas -->
-					<div class="col-lg-5 col-12">
-
-						<div style="max-height: 400px; overflow-y: auto;">
-							{% for campus in campuses %}
-								{% set campus_path = path('entity.node.canonical', {'node': campus.id}) %}
-								{% set parts = campus_path|trim('/')|split('/') %}
+					<div style="max-height: 400px; overflow-y: auto;">
+						{% for campus in campuses %}
+							{% set campus_path = path('entity.node.canonical', {'node': campus.id}) %}
+							{% set parts = campus_path|trim('/')|split('/') %}
 
 
-								{# Últimos 2 segmentos son institution y campus #}
-								{% set campus_alias = parts|last %}
-								{% set institution_alias = parts[parts|length - 2] %}
+							{# Últimos 2 segmentos son institution y campus #}
+							{% set campus_alias = parts|last %}
+							{% set institution_alias = parts[parts|length - 2] %}
 
-								<a href="{{ path('view.campus_information.page_1', { 'arg_0': institution_alias, 'arg_1': campus_alias }) }}" class="text-decoration-none text-reset">
+							<a href="{{ path('view.campus_information.page_1', { 'arg_0': institution_alias, 'arg_1': campus_alias }) }}" class="text-decoration-none text-reset">
 
-									<div class="card mb-3 shadow-sm border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
-										<div
-											class="row g-0">
-											<!-- Imagen -->
-											<div class="col-3" style="height: 123.65px">
-												{% if campus.field_campus_picture is not empty %}
-													{% set media_entity = campus.field_campus_picture.entity %}
-													{% if media_entity is not empty %}
-														{% set file_entity = media_entity.field_media_image.entity %}
-														{% if file_entity is not empty %}
-															<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.title.value }}" class="img-fluid rounded-0 h-100 object-fit-cover">
-														{% endif %}
+								<div class="card mb-3 shadow-sm border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
+									<div
+										class="row g-0">
+										<!-- Imagen -->
+										<div class="col-3" style="height: 123.65px">
+											{% if campus.field_campus_picture is not empty %}
+												{% set media_entity = campus.field_campus_picture.entity %}
+												{% if media_entity is not empty %}
+													{% set file_entity = media_entity.field_media_image.entity %}
+													{% if file_entity is not empty %}
+														<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.title.value }}" class="img-fluid rounded-0 h-100 object-fit-cover">
 													{% endif %}
 												{% endif %}
-											</div>
-											<!-- Texto -->
-											<div class="col-9">
-												<div class="card-body p-2">
-													<h5 class="card-title mb-1 text-start">{{ campus.title.value }}</h5>
-													{% if campus.field_campus_location is not empty %}
-														<p class="mb-1 text-muted small text-start">{{ campus.field_campus_location.value }}</p>
-													{% endif %}
-												</div>
+											{% endif %}
+										</div>
+										<!-- Texto -->
+										<div class="col-9">
+											<div class="card-body p-2">
+												<h5 class="card-title mb-1 text-start">{{ campus.title.value }}</h5>
+												{% if campus.field_campus_location is not empty %}
+													<p class="mb-1 text-muted small text-start">{{ campus.field_campus_location.value }}</p>
+												{% endif %}
 											</div>
 										</div>
 									</div>
-								</a>
-							{% endfor %}
-						</div>
-
-
+								</div>
+							</a>
+						{% endfor %}
 					</div>
 
+
 				</div>
+
 			</div>
-		</div>
-	{% endif %}
-
-	<br>
-
 
 </div>
-
-{# Donde quieras que aparezca el bloque generado por la otra vista 
-				<div class="mt-4">
-				  {{ bloque_campus }}
-				</div>
-				#}
-
-
-<br><br><br></div></div>{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}<div class="organizational-unit-header" id='organizational-units'>
-<div class="container-fluid container-fluid-ou-band ">
-	<h1 class="ou-title">ORGANIZATIONAL UNITS</h1>
-</div></div><!-- ORGANIZATIONAL UNITS SECTION --><div class="organizational-units-section container my-5"><!-- Título --><div class="row mb-4">
-	<div class="col-12 text-center">
-		<h2 class="fw-bold">Organizational Units</h2>
-
-		{% if institution.field_general_ou_description is not empty %}
-
-			<p>
-				{{institution.field_general_ou_description.value | raw}}
-			</p>
-
 		{% endif %}
+
+
 	</div>
-</div>
-<div
-	class="row">
-	<!-- Columna izquierda: buscador y lista -->
+
+	{# Donde quieras que aparezca el bloque generado por la otra vista 
+						<div class="mt-4">
+						  {{ bloque_campus }}
+						</div>
+						#}
+
+
+</div></div>{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}
+<div  class="section-container" id='organizational-units'>
+<div class="my-custom-container-2">
+
+
+	
+<!-- ORGANIZATIONAL UNITS SECTION --><!-- Título --><div class="row mb-4">
+		<div class="col-12">
+			<h2 class="section-title text-center">Organizational Units</h2>
+
+			{% if institution.field_general_ou_description is not empty %}
+
+				<p>
+					{{institution.field_general_ou_description.value | raw}}
+				</p>
+
+			{% endif %}
+		</div>
+	</div>
 	<div
-		class="col-lg-6">
-		<!-- Buscador -->
-		<div class="input-group mb-3">
-			<input type="text" class="form-control" placeholder="Type here to search" id="ou-search">
-			<button class="btn btn-outline-secondary" type="button" id="search-btn">
-				<i class="fas fa-search"></i>
-			</button>
-		</div>
-
-		<!-- Filtros -->
-		<!-- Filtros -->
+		class="row">
+		<!-- Columna izquierda: buscador y lista -->
 		<div
-			class="d-flex gap-2 mb-3 flex-wrap">
-
-			<!-- Type -->
-			<div class="dropdown">
-				<button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Type
+			class="col-lg-6">
+			<!-- Buscador -->
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Type here to search" id="ou-search">
+				<button class="btn btn-outline-secondary" type="button" id="search-btn">
+					<i class="fas fa-search"></i>
 				</button>
-				<ul class="dropdown-menu" id="filter-type">
-					<li>
-						<a class="dropdown-item" href="#" data-type="">All</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#" data-type="Department">Department</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#" data-type="Faculty">Faculty</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#" data-type="School">School</a>
-					</li>
-					<!-- Añade aquí tus tipos reales -->
-				</ul>
 			</div>
 
-			<!-- Knowledge Area -->
-			<div class="dropdown">
-				<button id="area-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Knowledge Area
-				</button>
-				<ul class="dropdown-menu" id="filter-area">
-					<li>
-						<a class="dropdown-item" href="#" data-area="">All</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#" data-area="arts_and_humanities">Arts and Humanities</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#" data-area="engineering_and_architecture">Engineering and Architecture</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#" data-area="health_sciences">
-							Health Sciences</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#" data-area="sciences">Sciences</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#" data-area="social_and_legal_sciences">Social and Legal Sciences</a>
-					</li>
-					<!-- Añade aquí tus áreas reales -->
-				</ul>
-			</div>
+			<!-- Filtros -->
+			<!-- Filtros -->
+			<div
+				class="d-flex gap-2 mb-3 flex-wrap">
 
-			<!-- Otros botones -->
-			<!-- Campus -->
-			<div class="dropdown">
-				<button id="campus-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Campus
-				</button>
-				<ul class="dropdown-menu" id="filter-campus">
-					<li>
-						<a class="dropdown-item" href="#" data-campus="">All</a>
-					</li>
-					{% for campus in campuses %}
-						{% set campus_label = campus.label %}
-						{% if campus.hasTranslation(language.getId()) %}
-							{% set campus_label = campus.getTranslation(language.getId()).label %}
-						{% endif %}
+				<!-- Type -->
+				<div class="dropdown">
+					<button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Type
+					</button>
+					<ul class="dropdown-menu" id="filter-type">
 						<li>
-							<a class="dropdown-item" href="#" data-campus="{{ campus.id() }}">
-								{{ campus_label }}
-							</a>
+							<a class="dropdown-item" href="#" data-type="">All</a>
 						</li>
-					{% endfor %}
-				</ul>
+						<li>
+							<a class="dropdown-item" href="#" data-type="Department">Department</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#" data-type="Faculty">Faculty</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#" data-type="School">School</a>
+						</li>
+						<!-- Añade aquí tus tipos reales -->
+					</ul>
+				</div>
 
+				<!-- Knowledge Area -->
+				<div class="dropdown">
+					<button id="area-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Knowledge Area
+					</button>
+					<ul class="dropdown-menu" id="filter-area">
+						<li>
+							<a class="dropdown-item" href="#" data-area="">All</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#" data-area="arts_and_humanities">Arts and Humanities</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#" data-area="engineering_and_architecture">Engineering and Architecture</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#" data-area="health_sciences">
+								Health Sciences</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#" data-area="sciences">Sciences</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#" data-area="social_and_legal_sciences">Social and Legal Sciences</a>
+						</li>
+						<!-- Añade aquí tus áreas reales -->
+					</ul>
+				</div>
+
+				<!-- Otros botones -->
+				<!-- Campus -->
+				<div class="dropdown">
+					<button id="campus-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Campus
+					</button>
+					<ul class="dropdown-menu" id="filter-campus">
+						<li>
+							<a class="dropdown-item" href="#" data-campus="">All</a>
+						</li>
+						{% for campus in campuses %}
+							{% set campus_label = campus.label %}
+							{% if campus.hasTranslation(language.getId()) %}
+								{% set campus_label = campus.getTranslation(language.getId()).label %}
+							{% endif %}
+							<li>
+								<a class="dropdown-item" href="#" data-campus="{{ campus.id() }}">
+									{{ campus_label }}
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+
+				</div>
+				<button class="btn btn-danger btn-sm">A - Z</button>
 			</div>
-			<button class="btn btn-danger btn-sm">A - Z</button>
-		</div>
 
 
-		<!-- Lista de Organizational Units -->
-		<div id="ou-list">
-			<nav>
-				<ul
-					class="pagination justify-content-center mt-4" id="pagination-controls"><!-- Se rellenará con JS -->
-				</ul>
-			</nav>
+			<!-- Lista de Organizational Units -->
+			<div id="ou-list">
+				<nav>
+					<ul
+						class="pagination justify-content-center mt-4" id="pagination-controls"><!-- Se rellenará con JS -->
+					</ul>
+				</nav>
 
-			{% for row in view.result %}
-				{% set ou = row._entity %}
+				{% for row in view.result %}
+					{% set ou = row._entity %}
 
-				{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_institution'] %}
-				{% if organizational_unit %}
-					{% if organizational_unit.hasTranslation(current_language) %}
-						{% set organizational_unit = organizational_unit.getTranslation(current_language) %}
-					{% endif %}
+					{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_institution'] %}
+					{% if organizational_unit %}
+						{% if organizational_unit.hasTranslation(current_language) %}
+							{% set organizational_unit = organizational_unit.getTranslation(current_language) %}
+						{% endif %}
 
-					{% set campus_entity = organizational_unit.field_ou_campus.entity %}
-					{% set campus_label = campus_entity.label %}
-					{% if campus_entity.hasTranslation(current_language) %}
-						{% set campus_label = campus_entity.getTranslation(current_language).label %}
-					{% endif %}
+						{% set campus_entity = organizational_unit.field_ou_campus.entity %}
+						{% set campus_label = campus_entity.label %}
+						{% if campus_entity.hasTranslation(current_language) %}
+							{% set campus_label = campus_entity.getTranslation(current_language).label %}
+						{% endif %}
 
-					{# URL de la página de info de la OU (usa alias) #}
-					{% set ou_path = path('entity.node.canonical', {'node': organizational_unit.id()}) %}
-					{% set parts = ou_path|trim('/')|split('/') %}
-					{% set ou_alias = parts|last %}
-					{% set institution_alias = parts[parts|length - 2] %}
-					{% set ou_info_url = path('view.organizational_unit_information.page_1', {
+						{# URL de la página de info de la OU (usa alias) #}
+						{% set ou_path = path('entity.node.canonical', {'node': organizational_unit.id()}) %}
+						{% set parts = ou_path|trim('/')|split('/') %}
+						{% set ou_alias = parts|last %}
+						{% set institution_alias = parts[parts|length - 2] %}
+						{% set ou_info_url = path('view.organizational_unit_information.page_1', {
 				'arg_0': institution_alias,
 				'arg_1': ou_alias
 				}) %}
 
 
-					{% set coords_ou = '' %}
+						{% set coords_ou = '' %}
 
-					{% if organizational_unit.field_ou_map.value is defined and organizational_unit.field_ou_map.value %}
-						{% set point  = organizational_unit.field_ou_map.value %}
-						{# WKT -> "POINT (lon lat)" #}
-						{% set coords = point|replace({'POINT(':'','POINT (':'', ')':''})|trim|split(' ') %}
-						{% set lon = coords[0]|default('') %}
-						{% set lat = coords[1]|default('') %}
-						{% set coords_ou = lat ~ ', ' ~ lon %}
+						{% if organizational_unit.field_ou_map.value is defined and organizational_unit.field_ou_map.value %}
+							{% set point  = organizational_unit.field_ou_map.value %}
+							{# WKT -> "POINT (lon lat)" #}
+							{% set coords = point|replace({'POINT(':'','POINT (':'', ')':''})|trim|split(' ') %}
+							{% set lon = coords[0]|default('') %}
+							{% set lat = coords[1]|default('') %}
+							{% set coords_ou = lat ~ ', ' ~ lon %}
+						{% endif %}
+
+
+						<div
+							class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ coords_ou }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id() }}" data-ou-campus-label="{{ campus_label }}" data-ou-url="{{ ou_info_url }}" onclick="loadOUDetails(this)">
+
+							<!-- Título de la unidad organizativa -->
+							<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
+
+							<!-- Tipo de la unidad organizativa -->
+							<p class="mb-0 small ou-type">
+								{% if organizational_unit.field_ou_type.value is defined %}
+									{{ organizational_unit.field_ou_type.value }}
+								{% endif %}
+								&nbsp;·&nbsp;
+
+								<strong>{{ campus_label }}</strong>
+
+							</p>
+						</div>
 					{% endif %}
 
+				{% else %}
+					<p>No Organizational Units found.</p>
+				{% endfor %}
+			</div>
 
-					<div
-						class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ coords_ou }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id() }}" data-ou-campus-label="{{ campus_label }}" data-ou-url="{{ ou_info_url }}" onclick="loadOUDetails(this)">
 
-						<!-- Título de la unidad organizativa -->
-						<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
-
-						<!-- Tipo de la unidad organizativa -->
-						<p class="mb-0 small ou-type">
-							{% if organizational_unit.field_ou_type.value is defined %}
-								{{ organizational_unit.field_ou_type.value }}
-							{% endif %}
-							&nbsp;·&nbsp;
-
-							<strong>{{ campus_label }}</strong>
-
-						</p>
-					</div>
-				{% endif %}
-
-			{% else %}
-				<p>No Organizational Units found.</p>
-			{% endfor %}
 		</div>
 
-
-	</div>
-
-	<!-- Columna derecha: detalle dinámico -->
-	<div class="col-lg-6">
-		<div id="ou-details" class="border p-4 bg-light h-100 shadow-sm">
-			<p class="text-muted">Click on an Organizational Unit to see its details.</p>
-			<!-- Aquí se rellenará dinámicamente con JS -->
+		<!-- Columna derecha: detalle dinámico -->
+		<div class="col-lg-6">
+			<div id="ou-details" class="border p-4 bg-light h-100 shadow-sm">
+				<p class="text-muted">Click on an Organizational Unit to see its details.</p>
+				<!-- Aquí se rellenará dinámicamente con JS -->
+			</div>
 		</div>
 	</div>
-</div></div>{% endif %}<script>function loadOUDetails(el) { // ❌ Elimina la clase 'selected' de todos
+</div>{% endif %}
+</div><script>
+function loadOUDetails(el) { // ❌ Elimina la clase 'selected' de todos
 document.querySelectorAll('.ou-item').forEach(item => {
 item.classList.remove('selected');
 });

@@ -111,11 +111,15 @@
 	<!--<pre>Condition not met for Course ID: "{{ course_id }}" and Credit Type: "{{ credit_type }}"</pre>-->
 {% endif %}{% endfor %}<div class="programme-page">
 
-	<div class="rs-header">
-		<div class="container-fluid container-fluid-programme-band ">
-			<h1 class="rs-title">{{ translated_entity.title.value|raw }}</h1>
-		</div>
+	
+
+	<div class="rs-header ">
+	<div class="my-custom-container-2">
+	<div class="page-band">
+		<h1 class="rs-title">{{ translated_entity.title.value|raw }}</h1>
 	</div>
+	</div>	
+</div>
 
 	<nav id="programme-navbar" class="programme-nav" style="background-color: white;" data-bs-spy="scroll" data-bs-target="#programme-navbar" data-bs-offset="0">
 		<div

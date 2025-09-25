@@ -3,15 +3,10 @@
 
 {% if content['#view'].result|length > 1 %}
 
-<div class="academic-authorities bg-light mt-5 mb-5" id='academic-authorities'>
-	<br>
-	<h2 style="font-weight: bold;">ACADEMIC AUTHORITIES</h2>
 
-	
-
-
-	<div class="container-fluid">
-		<div class='my-custom-container-2'>
+		<div class="section-container section-bg-grey">
+		<div class='text-center my-custom-container-2  section-bg-grey' id='academic-authorities'>
+			<h2 class="section-title">Academic Authorities</h2>
 
 			<div class="authorities-grid">
 				{% for row in content['#view'].result %}
@@ -25,7 +20,7 @@
 						<div class="authority-info">
 							<h4>{{ row._entity.title.value }}</h4>
 							{% if row._entity.field_institution_role is not empty %}
-							<p>{{ row._entity.field_institution_role.value | upper}}</p>
+								<p>{{ row._entity.field_institution_role.value | upper}}</p>
 							{% endif %}
 							<div class="authority-icons mt-2">
 								<a href="#" class="authority-icon me-3">
@@ -44,9 +39,11 @@
 				{% endfor %}
 			</div>
 		</div>
+		</div>
+	
+	
 
-	</div>
-	<br>
-</div>
+
+	<div class="spacer"></div>
 
 {% endif %}

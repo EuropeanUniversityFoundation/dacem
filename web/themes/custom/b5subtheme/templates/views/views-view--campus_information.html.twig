@@ -30,12 +30,19 @@
 	;
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
-}</style><div class="rs-header">
-<div class="container-fluid container-fluid-programme-band ">
-	<h1 class="rs-title">CAMPUSES</h1>
-</div></div><div class="my-custom-container-2">
+}</style><div class="rs-header ">
+	<div class="my-custom-container-2">
+	<div class="page-band">
+		<h1 class="rs-title">CAMPUSES</h1>
+	</div>
+	</div>	
+</div>
 
-<h2 class="text-uppercase fw-bold mb-3">{{ campus.title.value }}</h2>
+
+<div class="section-container">
+<div class="my-custom-container-2">
+
+<h1 class="section-title mb-3">{{ campus.title.value }}</h1>
 
 
 
@@ -64,13 +71,13 @@
 
 		{{campus.field_campus_description.value | raw}}
 
-		<br><br>
+		
     {% if view.result[0]._relationship_entities['reverse__node__field_aa_campus'] %}
 		{% set list_academic_authorities = [] %}
 
 		{#{dump(view.result)}}{{dump(campus.field_campus_description.value)}#}
-		<h4 class="mb-4 fw-bold">{{ translations[current_language]['Academic Authorities'] }}</h4>
-    
+		<h3 class="subsection-title">{{ translations[current_language]['Academic Authorities'] }}</h3>
+    <br>
 
 		<div class="vstack gap-3 mb-5">
 			{% for row in view.result %}
@@ -104,6 +111,7 @@
 		</div>
     {% endif %}
 	</div>
+  
 	<div class="col-lg-6">
 		<div class="map-wrapper" style="min-height: 300px;">
 			{{ drupal_view('map_view', 'block_3', campus.id) }}
@@ -140,12 +148,15 @@
 
 	</div>
 
+</div>
+</div></div><!--<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">-->
 
-</div></div><!--<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">--><div class='bg-light'>
+
+<div class='section-container section-bg-grey'>
 
 {% if area_meta|length > 0 %}
-<div class='my-custom-container-2 pb-5'>
-	<h3 class="fw-bold text-center mb-4 mt-5">{{ translations[current_language]['Programmes'] }}</h3>
+<div class='my-custom-container-2'>
+	<h2 class="section-title text-center">{{ translations[current_language]['Programmes'] }}</h3>
 
 <div class="accordion" id="accordionPanelsStayOpenExample">
   {% for area_key, meta in area_meta %}
@@ -244,6 +255,8 @@
 {% endif %}
 </div>
 </div>
+</div>
+<div class="section-container">
 <div class='my-custom-container-2'><div class='text-align-center'>
 
 
@@ -256,8 +269,9 @@
 
 
 {% if view.result[0]._relationship_entities['reverse__node__field_ou_campus'] %}
-<h3 class="fw-bold text-center mb-4 mt-2">{{translations[current_language]['Organizational Units']}}</h3></div><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br><br>
+<h2 class="section-title text-center">{{translations[current_language]['Organizational Units']}}</h2></div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
+<br><br>
 <div class="map-wrapper mb-5" style="">
 			{{ drupal_view('map_view', 'block_6', campus.id) }}
 </div>
@@ -443,7 +457,7 @@ class="row">
 
 {% endif %}
 
-
+</div>
 
 
 

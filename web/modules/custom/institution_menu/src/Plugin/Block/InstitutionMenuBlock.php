@@ -80,7 +80,7 @@ class InstitutionMenuBlock extends BlockBase
 
             // Generar el HTML de la imagen
             $profile_html = '
-    <div class="user-profile-container dropdown ms-3">
+    <div class="user-profile-container dropdown ms-1">
         <a href="#" id="userProfileDropdown" class="dropdown-toggle user-profile-link" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="' . $profile_picture_url . '" alt="Profile Picture" class="user-profile-circle">
         </a>
@@ -513,7 +513,7 @@ class InstitutionMenuBlock extends BlockBase
             $build = [
                 '#markup' => $this->t('
   <div class="sticky-nav">
-    <nav class="navbar navbar-expand-lg university-navbar" style="margin: 0; padding: 0;">
+    <nav class="navbar navbar-expand-lg university-navbar main-menu-text" style="margin: 0; padding: 0;">
       <div class="container-fluid">
 
         <!-- Logo -->
