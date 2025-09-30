@@ -48,12 +48,14 @@
 	;
 }</style>
 <!--Por eiqui class="sticky-nav"-->
-<div class=""> <div class="rs-header">
-	<div class="container-fluid container-fluid-programme-band ">
+
+<div class="rs-header ">
+	<div class="my-custom-container-2">
+	<div class="page-band">
 		<h1 class="rs-title">RESOURCES AND SERVICES</h1>
 	</div>
+	</div>	
 </div>
-
 
 <nav id="rs-navbar" class="rs-nav navbar navbar-expand-lg bg-black">
 	<div
@@ -143,14 +145,16 @@
 				<a href="{{ campus.custom_url }}" class="campus-card-rs d-flex align-items-center text-decoration-none">
 
 					{% if campus.field_campus_picture is not empty %}
-						{% set media_entity = campus.field_campus_picture.entity %}
-						{% if media_entity is not empty %}
-							{% set file_entity = media_entity.field_media_image.entity %}
-							{% if file_entity is not empty %}
-								<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.label }}" class="campus-card-rs-img">
-							{% endif %}
-						{% endif %}
-					{% endif %}
+  <img 
+    src="{{ file_url(campus.field_campus_picture.entity.fileuri) }}" 
+    alt="{{ campus.label }}" 
+    class="campus-card-rs-img">
+{% endif %}
+
+
+
+
+					
 
 					<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
 																																										          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
@@ -169,7 +173,7 @@
 	</div>
 {% endif %}
 
-
+<br><br>
 <div class="rs-section students-affairs-section" id="student-affairs">
 
 
@@ -178,7 +182,7 @@
 			{% if rs_mode == 'campus' %}
 				{% if rs_fallback_data.field_rs_students_affairs_office.rendered %}
 					<div class="col-12">
-						<h2>Students Affairs Office</h2>
+						<h1 class="section-title">Students Affairs Office</h1>
 						<div class="facility-text">
 							{{ rs_fallback_data.field_rs_students_affairs_office.rendered|raw }}
 							{% if rs_fallback_data.field_rs_students_affairs_office.source == 'institution' %}
@@ -195,7 +199,7 @@
 
 
 					<div class="col-12">
-						<h2>Students Affairs Office</h2>
+						<h1 class="section-title">Students Affairs Office</h1>
 						<div class="facility-text">
 							{{ rs.field_rs_students_affairs_office.value|raw }}
 						</div>
@@ -208,7 +212,7 @@
 			{% if rs_mode == 'campus' %}
 				{% if rs_fallback_data.field_financial_support_for_stud.rendered %}
 					<div class="col-md-6 mb-4">
-						<h2>Financial Support for Students</h2>
+						<h1 class="section-title">Financial Support for Students</h1>
 						<div class="facility-text">
 							{{ rs_fallback_data.field_financial_support_for_stud.rendered|raw }}
 							{% if rs_fallback_data.field_financial_support_for_stud.source == 'institution' %}
@@ -222,7 +226,7 @@
 
 				{% if rs_fallback_data.field_rs_insurance.rendered %}
 					<div class="col-md-6 mb-4">
-						<h2>Insurance</h2>
+						<h1 class="section-title">Insurance</h1>
 						<div class="facility-text">
 							{{ rs_fallback_data.field_rs_insurance.rendered|raw }}
 							{% if rs_fallback_data.field_rs_insurance.source == 'institution' %}
@@ -236,7 +240,7 @@
 			{% else %}
 				{% if rs.field_financial_support_for_stud.value is not empty %}
 					<div class="col-md-6 mb-4">
-						<h2>Financial Support for Students</h2>
+						<h1 class="section-title">Financial Support for Students</h1>
 						<div class="facility-text">
 							{{ rs.field_financial_support_for_stud.value|raw }}
 						</div>
@@ -245,7 +249,7 @@
 
 				{% if rs.field_rs_insurance.value is not empty %}
 					<div class="col-md-6 mb-4">
-						<h2>Insurance</h2>
+						<h1 class="section-title">Insurance</h1>
 						<div class="facility-text">
 							{{ rs.field_rs_insurance.value|raw }}
 						</div>
@@ -420,7 +424,7 @@
 			{% if rs_mode == 'campus' %}
 				{% if rs_fallback_data.field_practical_information_for.rendered %}
 					<div class="col-md-6 mb-4">
-						<h2>Practical Information For Incoming Mobile Students</h2>
+						<h1 class="section-title">Practical Information For Incoming Mobile Students</h1>
 						<div class="facility-text">
 							{{ rs_fallback_data.field_practical_information_for.rendered|raw }}
 							{% if rs_fallback_data.field_practical_information_for.source == 'institution' %}
@@ -433,7 +437,7 @@
 				{% endif %}
 				{% if rs_fallback_data.field_internation_mobility_possi.rendered %}
 					<div class="col-md-6 mb-4">
-						<h2>International Mobility Possibilities</h2>
+						<h1 class="section-title">International Mobility Possibilities</h1>
 						<div class="facility-text">
 							{{ rs_fallback_data.field_internation_mobility_possi.rendered|raw }}
 							{% if rs_fallback_data.field_internation_mobility_possi.source == 'institution' %}
@@ -447,7 +451,7 @@
 			{% else %}
 				{% if rs.field_practical_information_for.value is not empty %}
 					<div class="col-md-6 mb-4">
-						<h2>Practical Information For Incoming Mobile Students</h2>
+						<h1 class="section-title">Practical Information For Incoming Mobile Students</h1>
 						<div class="facility-text">
 							{{ rs.field_practical_information_for.value|raw }}
 						</div>
@@ -456,7 +460,7 @@
 
 				{% if rs.field_internation_mobility_possi.value is not empty %}
 					<div class="col-md-6 mb-4">
-						<h2>International Mobility Possibilities</h2>
+						<h1 class="section-title">International Mobility Possibilities</h1>
 						<div class="facility-text">
 							{{ rs.field_internation_mobility_possi.value|raw }}
 						</div>
@@ -478,7 +482,7 @@
 			{% if rs_mode == 'campus' %}
 				{% if rs_fallback_data.field_rs_cost_of_living.rendered %}
 					<div class="col-12">
-						<h2>Cost of Living</h2>
+						<h1 class="section-title">Cost of Living</h1>
 						<div class="facility-text">
 							{{ rs_fallback_data.field_rs_cost_of_living.rendered|raw }}
 							{% if rs_fallback_data.field_rs_cost_of_living.source == 'institution' %}
@@ -492,7 +496,7 @@
 			{% else %}
 				{% if rs.field_rs_cost_of_living.value is not empty %}
 					<div class="col-12">
-						<h2>Cost of Living</h2>
+						<h1 class="section-title">Cost of Living</h1>
 						<div class="facility-text">
 							{{ rs.field_rs_cost_of_living.value|raw }}
 						</div>
@@ -505,7 +509,7 @@
 			{% if rs_mode == 'campus' %}
 				{% if rs_fallback_data.field_rs_transportation.rendered %}
 					<div class="col-md-6 mb-4">
-						<h2>Transport</h2>
+						<h1 class="section-title">Transport</h1>
 						<div class="facility-text">
 							{{ rs_fallback_data.field_rs_transportation.rendered|raw }}
 							{% if rs_fallback_data.field_rs_transportation.source == 'institution' %}
@@ -519,7 +523,7 @@
 
 				{% if rs_fallback_data.field_rs_meals.rendered %}
 					<div class="col-md-6 mb-4">
-						<h2>Meals</h2>
+						<h1 class="section-title">Meals</h1>
 						<div class="facility-text">
 							{{ rs_fallback_data.field_rs_meals.rendered|raw }}
 							{% if rs_fallback_data.field_rs_meals.source == 'institution' %}
@@ -533,7 +537,7 @@
 			{% else %}
 				{% if rs.field_rs_transportation.value is not empty %}
 					<div class="col-md-6 mb-4">
-						<h2>Transport</h2>
+						<h1 class="section-title">Transport</h1>
 						<div class="facility-text">
 							{{ rs.field_rs_transportation.value|raw }}
 						</div>
@@ -542,7 +546,7 @@
 
 				{% if rs.field_rs_meals.value is not empty %}
 					<div class="col-md-6 mb-4">
-						<h2>Meals</h2>
+						<h1 class="section-title">Meals</h1>
 						<div class="facility-text">
 							{{ rs.field_rs_meals.value|raw }}
 						</div>

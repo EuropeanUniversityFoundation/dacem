@@ -48,6 +48,12 @@ function add_entity_to_group_form_alter(&$form, \Drupal\Core\Form\FormStateInter
       _alter_edit_individual_educational_component_form($form, $form_state);
     }
   }
+
+
+
+
+
+
 }
 
 /**
@@ -196,6 +202,22 @@ function _alter_edit_individual_educational_component_form(&$form, \Drupal\Core\
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Obtiene usuarios de un grupo con un rol específico.

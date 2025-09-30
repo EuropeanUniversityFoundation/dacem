@@ -1,7 +1,7 @@
 {{ attach_library('b5subtheme/fontawesome') }}
 
 
-{% if content['#view'].result|length > 1 %}
+{% if content['#view'].result|length > 0 %}
 
 
 		<div class="section-container section-bg-grey">
@@ -20,7 +20,7 @@
 						<div class="authority-info">
 							<h4>{{ row._entity.title.value }}</h4>
 							{% if row._entity.field_institution_role is not empty %}
-								<p>{{ row._entity.field_institution_role.value | upper}}</p>
+								<p class="text-center">{{ row._entity.field_institution_role.value | upper}}</p>
 							{% endif %}
 							<div class="authority-icons mt-2">
 								<a href="#" class="authority-icon me-3">

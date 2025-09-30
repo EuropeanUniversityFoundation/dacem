@@ -349,3 +349,22 @@ function admin_area_form_node_campus_form_alter(array &$form, \Drupal\Core\Form\
 }
 
 
+
+
+function admin_area_form_node_organizational_unit_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $institution_id = \Drupal::request()->query->get('field_ou_institution');
+
+  if ($institution_id && is_numeric($institution_id)) {
+    $institution = Node::load($institution_id);
+
+    if ($institution && $institution->bundle() === 'institution') {
+      // Esta es la forma correcta con entity_autocomplete
+      $form['field_ou_institution']['widget'][0]['target_id']['#default_value'] = $institution;
+
+      // Bloquearlo para que no sea editable
+      $form['field_ou_institution']['widget'][0]['target_id']['#disabled'] = TRUE;
+    }
+  }
+}
+
+

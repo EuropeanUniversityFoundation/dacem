@@ -8,6 +8,10 @@ use Drupal\node\Entity\Node;
 use Drupal\group\Entity\GroupContent;
 use Drupal\Core\Entity\EntityInterface;
 
+  use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+
 
 /**
  * Implements hook_views_query_alter().
@@ -313,3 +317,527 @@ function custom_views_filters_entity_insert(EntityInterface $entity) {
 
 
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Academic Authority create/edit form alter.
+ */
+function custom_views_filters_form_node_academic_authority_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  $node = $form_state->getFormObject()->getEntity();
+  if (!$node || $node->bundle() !== 'academic_authority') {
+    return;
+  }
+
+  // 1) Obtener el grupo desde la ruta /group/{group}/content/create/...
+  $route_match = \Drupal::routeMatch();
+  $group_param = $route_match->getParameter('group');
+  $group = NULL;
+  if (is_object($group_param)) {
+    $group = $group_param;
+  }
+  elseif (is_numeric($group_param)) {
+    $group = \Drupal::entityTypeManager()->getStorage('group')->load((int) $group_param);
+  }
+  if (!$group) {
+    // Fuera de contexto de grupo, no forzamos nada.
+    return;
+  }
+
+  // 2) Obtener INSTITUTION del grupo vía group_relationship.
+  //    Plugin id para nodos "institution": group_node:institution
+  $gr_storage = \Drupal::entityTypeManager()->getStorage('group_relationship');
+
+  $inst_rels = $gr_storage->loadByProperties([
+    'gid'       => $group->id(),
+    'plugin_id' => 'group_node:institution',
+  ]);
+
+  $institution_options = [];
+  $institution_nid = NULL;
+
+  foreach ($inst_rels as $rel) {
+    // Compatibilidad: Group v3 expone métodos diferentes según versión,
+    // intentamos ambos de forma segura.
+    $entity = NULL;
+    if (method_exists($rel, 'getEntity')) {
+      $entity = $rel->getEntity();
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
+      $entity = $rel->getContentEntity();
+    }
+    if ($entity && $entity->bundle() === 'institution') {
+      $institution_options[$entity->id()] = $entity->label();
+      $institution_nid = $entity->id();
+    }
+  }
+
+  // 3) Obtener CAMPUS del grupo (plugin group_node:campus).
+  $campus_rels = $gr_storage->loadByProperties([
+    'gid'       => $group->id(),
+    'plugin_id' => 'group_node:campus',
+  ]);
+
+  $campus_options = [];
+  foreach ($campus_rels as $rel) {
+    $campus = NULL;
+    if (method_exists($rel, 'getEntity')) {
+      $campus = $rel->getEntity();
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
+      $campus = $rel->getContentEntity();
+    }
+    if ($campus && $campus->bundle() === 'campus') {
+      // Si quieres filtrar solo los campus que referencian a ESA institution (opcional):
+      if ($institution_nid && $campus->hasField('field_campus_institution') && !$campus->get('field_campus_institution')->isEmpty()) {
+        $ref = (int) $campus->get('field_campus_institution')->target_id;
+        if ($ref !== (int) $institution_nid) {
+          continue;
+        }
+      }
+      $campus_options[$campus->id()] = $campus->label();
+    }
+  }
+
+
+
+  //Obter Org Units do grupo
+
+  $org_unit_rels = $gr_storage->loadByProperties([
+    'gid'       => $group->id(),
+    'plugin_id' => 'group_node:organizational_unit',
+  ]);
+
+  $org_unit_options = [];
+  foreach ($org_unit_rels as $rel) {
+    $organizational_unit = NULL;
+    if (method_exists($rel, 'getEntity')) {
+      $organizational_unit = $rel->getEntity();
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
+      $organizational_unit = $rel->getContentEntity();
+    }
+    if ($organizational_unit && $organizational_unit->bundle() === 'organizational_unit') {
+      // Si quieres filtrar solo los campus que referencian a ESA institution (opcional):
+      if ($institution_nid && $organizational_unit->hasField('field_ou_institution') && !$organizational_unit->get('field_ou_institution')->isEmpty()) {
+        $ref = (int) $organizational_unit->get('field_ou_institution')->target_id;
+        if ($ref !== (int) $institution_nid) {
+          continue;
+        }
+      }
+      $org_unit_options[$organizational_unit->id()] = $organizational_unit->label();
+    }
+  }
+
+
+
+$langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+if (class_exists(\Collator::class)) {
+  $coll = new \Collator($langcode);
+  uasort($campus_options, function ($a, $b) use ($coll) {
+    return $coll->compare((string) $a, (string) $b);
+  });
+  uasort($org_unit_options, function ($a, $b) use ($coll) {
+    return $coll->compare((string) $a, (string) $b);
+  });
+}
+
+
+
+
+
+  // 4) Forzar los widgets a <select> con las opciones calculadas
+
+// === Institution: forzar opciones filtradas en el select ===
+if (isset($form['field_aa_institution']['widget'][0]['target_id'])) {
+  $el =& $form['field_aa_institution']['widget'][0]['target_id'];
+
+  $el['#type'] = 'select';
+  $el['#multiple'] = FALSE;
+  $el['#size'] = 1;
+
+  // 👇 Solo campus del grupo (y si quieres, filtrados por la institution del grupo)
+  $el['#options'] = $institution_options;
+  $el['#empty_option'] = t('- None -');
+  $el['#empty_value'] = '_none';
+  $el['#required'] = FALSE;
+  
+
+  unset($el['#selection_handler'], $el['#selection_settings'], $el['#autocomplete_route_name']);
+
+  $el['#element_validate'][]  = 'custom_views_filters_er_select_empty_to_null';
+}
+
+// === Campus: forzar opciones filtradas en el select ===
+if (isset($form['field_aa_campus']['widget'][0]['target_id'])) {
+  $el =& $form['field_aa_campus']['widget'][0]['target_id'];
+
+  $el['#type'] = 'select';
+  $el['#multiple'] = FALSE;
+  $el['#size'] = 1;
+
+  // 👇 Solo campus del grupo (y si quieres, filtrados por la institution del grupo)
+  $el['#options'] = $campus_options;
+  $el['#empty_option'] = t('- None -');
+  $el['#empty_value'] = '_none';
+  $el['#required'] = FALSE;
+  
+
+  unset($el['#selection_handler'], $el['#selection_settings'], $el['#autocomplete_route_name']);
+
+  $el['#element_validate'][]  = 'custom_views_filters_er_select_empty_to_null';
+}
+
+
+// === Organizational Unit: forzar opciones filtradas en el select ===
+if (isset($form['field_aa_organizational_unit']['widget'][0]['target_id'])) {
+  $el =& $form['field_aa_organizational_unit']['widget'][0]['target_id'];
+
+  $el['#type'] = 'select';
+  $el['#multiple'] = FALSE;
+  $el['#size'] = 1;
+
+  // 👇 Solo campus del grupo (y si quieres, filtrados por la institution del grupo)
+  $el['#options'] = $org_unit_options;
+  $el['#empty_option'] = t('- None -');
+  $el['#empty_value'] = '_none';
+  $el['#required'] = FALSE;
+  
+
+  unset($el['#selection_handler'], $el['#selection_settings'], $el['#autocomplete_route_name']);
+
+  $el['#element_validate'][]  = 'custom_views_filters_er_select_empty_to_null';
+}
+
+
+
+
+}
+
+
+
+
+
+
+
+function custom_views_filters_form_node_organizational_unit_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  $node = $form_state->getFormObject()->getEntity();
+  if (!$node || $node->bundle() !== 'organizational_unit') {
+    return;
+  }
+
+  // 1) Obtener el grupo desde la ruta /group/{group}/content/create/...
+  $route_match = \Drupal::routeMatch();
+  $group_param = $route_match->getParameter('group');
+  $group = NULL;
+  if (is_object($group_param)) {
+    $group = $group_param;
+  }
+  elseif (is_numeric($group_param)) {
+    $group = \Drupal::entityTypeManager()->getStorage('group')->load((int) $group_param);
+  }
+  if (!$group) {
+    // Fuera de contexto de grupo, no forzamos nada.
+    return;
+  }
+
+  // 2) Obtener INSTITUTION del grupo vía group_relationship.
+  //    Plugin id para nodos "institution": group_node:institution
+  $gr_storage = \Drupal::entityTypeManager()->getStorage('group_relationship');
+
+  $inst_rels = $gr_storage->loadByProperties([
+    'gid'       => $group->id(),
+    'plugin_id' => 'group_node:institution',
+  ]);
+
+  $institution_options = [];
+  $institution_nid = NULL;
+
+  foreach ($inst_rels as $rel) {
+    // Compatibilidad: Group v3 expone métodos diferentes según versión,
+    // intentamos ambos de forma segura.
+    $entity = NULL;
+    if (method_exists($rel, 'getEntity')) {
+      $entity = $rel->getEntity();
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
+      $entity = $rel->getContentEntity();
+    }
+    if ($entity && $entity->bundle() === 'institution') {
+      $institution_options[$entity->id()] = $entity->label();
+      $institution_nid = $entity->id();
+    }
+  }
+
+  // 3) Obtener CAMPUS del grupo (plugin group_node:campus).
+  $campus_rels = $gr_storage->loadByProperties([
+    'gid'       => $group->id(),
+    'plugin_id' => 'group_node:campus',
+  ]);
+
+  $campus_options = [];
+  foreach ($campus_rels as $rel) {
+    $campus = NULL;
+    if (method_exists($rel, 'getEntity')) {
+      $campus = $rel->getEntity();
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
+      $campus = $rel->getContentEntity();
+    }
+    if ($campus && $campus->bundle() === 'campus') {
+      // Si quieres filtrar solo los campus que referencian a ESA institution (opcional):
+      if ($institution_nid && $campus->hasField('field_campus_institution') && !$campus->get('field_campus_institution')->isEmpty()) {
+        $ref = (int) $campus->get('field_campus_institution')->target_id;
+        if ($ref !== (int) $institution_nid) {
+          continue;
+        }
+      }
+      $campus_options[$campus->id()] = $campus->label();
+    }
+  }
+
+
+
+
+
+    // === Campus: forzar opciones filtradas en el select ===
+  if (isset($form['field_ou_campus']['widget'][0]['target_id'])) {
+    $el =& $form['field_ou_campus']['widget'][0]['target_id'];
+
+    $el['#type'] = 'select';
+    $el['#multiple'] = FALSE;
+    $el['#size'] = 1;
+
+    // 👇 Solo campus del grupo (y si quieres, filtrados por la institution del grupo)
+    $el['#options'] = $campus_options;
+    $el['#empty_option'] = t('- None -');
+    $el['#empty_value'] = '_none';
+    $el['#required'] = FALSE;
+    
+
+    unset($el['#selection_handler'], $el['#selection_settings'], $el['#autocomplete_route_name']);
+
+    $el['#element_validate'][]  = 'custom_views_filters_er_select_empty_to_null';
+  }
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+/**
+ * Academic Authority create/edit form alter.
+ */
+function custom_views_filters_form_node_programme_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  $node = $form_state->getFormObject()->getEntity();
+  if (!$node || $node->bundle() !== 'programme') {
+    return;
+  }
+
+  // 1) Obtener el grupo desde la ruta /group/{group}/content/create/...
+  $route_match = \Drupal::routeMatch();
+  $group_param = $route_match->getParameter('group');
+  $group = NULL;
+  if (is_object($group_param)) {
+    $group = $group_param;
+  }
+  elseif (is_numeric($group_param)) {
+    $group = \Drupal::entityTypeManager()->getStorage('group')->load((int) $group_param);
+  }
+  if (!$group) {
+    // Fuera de contexto de grupo, no forzamos nada.
+    return;
+  }
+
+  // 2) Obtener INSTITUTION del grupo vía group_relationship.
+  //    Plugin id para nodos "institution": group_node:institution
+  $gr_storage = \Drupal::entityTypeManager()->getStorage('group_relationship');
+
+  $inst_rels = $gr_storage->loadByProperties([
+    'gid'       => $group->id(),
+    'plugin_id' => 'group_node:institution',
+  ]);
+
+  $institution_options = [];
+  $institution_nid = NULL;
+
+  foreach ($inst_rels as $rel) {
+    // Compatibilidad: Group v3 expone métodos diferentes según versión,
+    // intentamos ambos de forma segura.
+    $entity = NULL;
+    if (method_exists($rel, 'getEntity')) {
+      $entity = $rel->getEntity();
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
+      $entity = $rel->getContentEntity();
+    }
+    if ($entity && $entity->bundle() === 'institution') {
+      $institution_options[$entity->id()] = $entity->label();
+      $institution_nid = $entity->id();
+    }
+  }
+
+  // 3) Obtener CAMPUS del grupo (plugin group_node:campus).
+  $campus_rels = $gr_storage->loadByProperties([
+    'gid'       => $group->id(),
+    'plugin_id' => 'group_node:campus',
+  ]);
+
+  //Obter Org Units do grupo
+
+  $org_unit_rels = $gr_storage->loadByProperties([
+    'gid'       => $group->id(),
+    'plugin_id' => 'group_node:organizational_unit',
+  ]);
+
+  $org_unit_options = [];
+  foreach ($org_unit_rels as $rel) {
+    $organizational_unit = NULL;
+    if (method_exists($rel, 'getEntity')) {
+      $organizational_unit = $rel->getEntity();
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
+      $organizational_unit = $rel->getContentEntity();
+    }
+    if ($organizational_unit && $organizational_unit->bundle() === 'organizational_unit') {
+      // Si quieres filtrar solo los campus que referencian a ESA institution (opcional):
+      if ($institution_nid && $organizational_unit->hasField('field_ou_institution') && !$organizational_unit->get('field_ou_institution')->isEmpty()) {
+        $ref = (int) $organizational_unit->get('field_ou_institution')->target_id;
+        if ($ref !== (int) $institution_nid) {
+          continue;
+        }
+      }
+      $org_unit_options[$organizational_unit->id()] = $organizational_unit->label();
+    }
+  }
+
+
+
+$langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+if (class_exists(\Collator::class)) {
+  $coll = new \Collator($langcode);
+  
+  uasort($org_unit_options, function ($a, $b) use ($coll) {
+    return $coll->compare((string) $a, (string) $b);
+  });
+}
+
+
+// === Organizational Unit: forzar opciones filtradas en el select ===
+if (isset($form['field_programme_ou']['widget'][0]['target_id'])) {
+  $el =& $form['field_programme_ou']['widget'][0]['target_id'];
+
+  $el['#type'] = 'select';
+  $el['#multiple'] = FALSE;
+  $el['#size'] = 1;
+
+  // 👇 Solo campus del grupo (y si quieres, filtrados por la institution del grupo)
+  $el['#options'] = $org_unit_options;
+  $el['#empty_option'] = t('- None -');
+  $el['#empty_value'] = '_none';
+  $el['#required'] = TRUE;
+  
+
+  unset($el['#selection_handler'], $el['#selection_settings'], $el['#autocomplete_route_name']);
+
+  $el['#element_validate'][]  = 'custom_views_filters_er_select_empty_to_null';
+}
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Convierte el valor vacío del select de entity reference a NULL.
+ * Se ejecuta en el elemento 'target_id' antes de la validación del campo.
+ */
+function custom_views_filters_er_select_empty_to_null(array &$element, FormStateInterface $form_state, array &$form) {
+  // Los padres apuntan exactamente a field_aa_campus][0][target_id]
+  $parents = $element['#parents']; // ['field_aa_campus', 0, 'target_id']
+  $value = $form_state->getValue($parents);
+
+  if ($value === '' || $value === '_none' || $value === 0 || $value === '0') {
+    // El entity reference espera NULL para "vacío"
+    $form_state->setValue($parents, NULL);
+  }
+}

@@ -328,18 +328,16 @@
 								<div class="card mb-3 shadow-sm border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
 									<div
 										class="row g-0">
-										<!-- Imagen -->
+																				<!-- Imagen -->
 										<div class="col-3" style="height: 123.65px">
-											{% if campus.field_campus_picture is not empty %}
-												{% set media_entity = campus.field_campus_picture.entity %}
-												{% if media_entity is not empty %}
-													{% set file_entity = media_entity.field_media_image.entity %}
-													{% if file_entity is not empty %}
-														<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ campus.title.value }}" class="img-fluid rounded-0 h-100 object-fit-cover">
-													{% endif %}
-												{% endif %}
-											{% endif %}
+										{% if campus.field_campus_picture is not empty %}
+											<img 
+											src="{{ file_url(campus.field_campus_picture.entity.fileuri) }}" 
+											alt="{{ campus.title.value }}" 
+											class="img-fluid rounded-0 h-100 object-fit-cover">
+										{% endif %}
 										</div>
+
 										<!-- Texto -->
 										<div class="col-9">
 											<div class="card-body p-2">
