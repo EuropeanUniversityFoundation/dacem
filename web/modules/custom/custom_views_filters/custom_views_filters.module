@@ -825,8 +825,6 @@ if (isset($form['field_programme_ou']['widget'][0]['target_id'])) {
 
 
 
-
-
 /**
  * Convierte el valor vacío del select de entity reference a NULL.
  * Se ejecuta en el elemento 'target_id' antes de la validación del campo.
@@ -841,3 +839,50 @@ function custom_views_filters_er_select_empty_to_null(array &$element, FormState
     $form_state->setValue($parents, NULL);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function custom_views_filters_entity_operation_alter(array &$operations, \Drupal\Core\Entity\EntityInterface $entity) {
+  // Solo para nodos.
+ 
+
+  if ($entity->getEntityTypeId() !== 'node') {
+    return;
+  }
+
+  // Por ejemplo, solo para el tipo 'programme' (opcional).
+  // if ($entity->bundle() !== 'programme') {
+  //   return;
+  // }
+
+  // Limitar a una vista concreta (opcional).
+  $route_match = \Drupal::routeMatch();
+  $route_name = $route_match->getRouteName();
+  
+
+  // Sustituye por el ID de tu vista y display (page_1, block_1, etc).
+  $views_to_block = in_array($route_name, [
+    'view.admin_rs.page_1',
+    
+  ]);
+
+  if (!$views_to_block) {
+    return;
+  }
+
+  // Eliminar el enlace "Delete".
+  unset($operations['delete']);
+}
+

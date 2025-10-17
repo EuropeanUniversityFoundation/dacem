@@ -173,8 +173,7 @@
 	</div>
 {% endif %}
 
-<br><br>
-<div class="rs-section students-affairs-section" id="student-affairs">
+<div class="section-container students-affairs-section" id="student-affairs">
 
 
 	<div class="my-custom-container-2">
@@ -262,14 +261,21 @@
 </div>
 
 <div class="col-lg-12 col-md-12 col-sm-12">
-	<div class="rs-section facilities-section mb-0" id="facilities">
-		<div class="image-banner">
-			<img src="/themes/custom/b5subtheme/images/facilities_1.png" alt="Facilities" class="img-fluid">
+	<div class="bg-black text-white mb-0" id="facilities">
+		
+		<div class="image-banner image-banner--bottom">
+		<img src="/themes/custom/b5subtheme/images/facilities_1.png" alt="Facilities" class="img-fluid">
+		
+		<div class="section-container">
+			<div class="my-custom-container-2">
 			<div class="rs-section-image-text">Facilities</div>
+			</div>
+		</div>
 		</div>
 
+		<div class="section-container">
 		<div class="my-custom-container-2">
-			<div class="row mb-4">
+			<div class="row">
 				{% if rs_mode == 'campus' %}
 					{% if rs_fallback_data.field_rs_medical_facilities.rendered %}
 						<div class="col-md-6 mb-4">
@@ -277,7 +283,7 @@
 								<div class="facility-icon">
 									<i class="fas fa-hospital-alt"></i>
 								</div>
-								<h4>Medical Facilities</h4>
+								<h3>Medical Facilities</h3>
 								<div class="facility-text">
 									{{ rs_fallback_data.field_rs_medical_facilities.rendered|raw }}
 									{% if rs_fallback_data.field_rs_medical_facilities.source == 'institution' %}
@@ -296,7 +302,7 @@
 								<div class="facility-icon">
 									<i class="fas fa-graduation-cap"></i>
 								</div>
-								<h4>Learning Facilities</h4>
+								<h3>Learning Facilities</h3>
 								<div class="facility-text">
 									{{ rs_fallback_data.field_rs_learning_facilities.rendered|raw }}
 									{% if rs_fallback_data.field_rs_learning_facilities.source == 'institution' %}
@@ -315,7 +321,7 @@
 								<div class="facility-icon">
 									<i class="fas fa-hospital-alt"></i>
 								</div>
-								<h4>Medical Facilities</h4>
+								<h3>Medical Facilities</h3>
 								<div class="facility-text">
 									{{ rs.field_rs_medical_facilities.value|raw }}
 								</div>
@@ -329,7 +335,7 @@
 								<div class="facility-icon">
 									<i class="fas fa-graduation-cap"></i>
 								</div>
-								<h4>Learning Facilities</h4>
+								<h3>Learning Facilities</h3>
 								<div class="facility-text">
 									{{ rs.field_rs_learning_facilities.value|raw }}
 								</div>
@@ -347,7 +353,7 @@
 								<div class="facility-icon">
 									<i class="fas fa-dumbbell"></i>
 								</div>
-								<h4>Sport and Leisure Facilities</h4>
+								<h3>Sport and Leisure Facilities</h3>
 								<div class="facility-text">
 									{{ rs_fallback_data.field_sport_and_leisure_faciliti.rendered|raw }}
 									{% if rs_fallback_data.field_sport_and_leisure_faciliti.source == 'institution' %}
@@ -366,7 +372,7 @@
 								<div class="facility-icon">
 									<i class="fas fa-star"></i>
 								</div>
-								<h4>Special Facilities</h4>
+								<h3>Special Facilities</h3>
 								<div class="facility-text">
 									{{ rs_fallback_data.field_rs_special_facilities.rendered|raw }}
 									{% if rs_fallback_data.field_rs_special_facilities.source == 'institution' %}
@@ -385,7 +391,7 @@
 								<div class="facility-icon">
 									<i class="fas fa-dumbbell"></i>
 								</div>
-								<h4>Sport and Leisure Facilities</h4>
+								<h3>Sport and Leisure Facilities</h3>
 								<div class="facility-text">
 									{{ rs.field_sport_and_leisure_faciliti.value|raw }}
 								</div>
@@ -399,7 +405,7 @@
 								<div class="facility-icon">
 									<i class="fas fa-star"></i>
 								</div>
-								<h4>Special Facilities</h4>
+								<h3>Special Facilities</h3>
 								<div class="facility-text">
 									{{ rs.field_rs_special_facilities.value|raw }}
 								</div>
@@ -409,16 +415,30 @@
 				{% endif %}
 			</div>
 		</div>
+		</div>
+
 	</div>
 </div>
 
 
-<div class="rs-section mobility-section" id="students-mobility">
+<div class="" id="students-mobility">
 	<div class="image-banner">
+
+		
+
+
+
 		<img src="/themes/custom/b5subtheme/images/mobility_1.jpg" alt="Student's Mobility" class="img-fluid">
-		<div class="rs-section-image-text">Student's Mobility</div>
+		
+			<div class="section-container">
+			<div class="my-custom-container-2">
+			<div class="rs-section-image-text">Student's Mobility</div>
+			</div>
+			</div>
+
 	</div>
 
+	<div class="section-container">
 	<div class="my-custom-container-2">
 		<div class="row">
 			{% if rs_mode == 'campus' %}
@@ -469,14 +489,21 @@
 			{% endif %}
 		</div>
 	</div>
+	</div>
 </div>
 
-<div class="rs-section university-life-section" id="university-life">
+<div class="" id="university-life">
 	<div class="image-banner">
 		<img src="/themes/custom/b5subtheme/images/university_life_2.png" alt="University Life" class="img-fluid">
-		<div class="rs-section-image-text">University Life</div>
+		<div class="section-container">
+			<div class="my-custom-container-2">
+			<div class="rs-section-image-text">University Life</div>
+			</div>
+			</div>
+
 	</div>
 
+	<div class="section-container">
 	<div class="my-custom-container-2">
 		<div class="row mb-5">
 			{% if rs_mode == 'campus' %}
@@ -554,6 +581,7 @@
 				{% endif %}
 			{% endif %}
 		</div>
+	</div>
 	</div>
 </div>
 

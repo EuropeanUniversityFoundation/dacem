@@ -107,6 +107,10 @@
 		{% endif %}
 	{% endif %}
 </div>
+
+
+
+
 <div class="container-fluid">
 	<div class="section-container">
 		<div class="my-custom-container-2">
@@ -131,7 +135,7 @@
 				<div
 					class="row" id="description">
 					<!-- Parte izquierda con información de la universidad -->
-					<div class="col-12 col-lg-8">
+					<div class="col-12 col-lg-8 order-2 order-lg-1">
 						{% if institution.field_information.value is not empty %}
 							
 							<div class="university-info">
@@ -158,7 +162,7 @@
 					</div>
 
 					<!-- Parte derecha con logo y contacto -->
-					<div class="col-12 col-lg-4 ">
+					<div class="col-12 col-lg-4 order-1 order-lg-2">
 						
 						<div
 							class="degree-sidebar bg-light p-4 h-100">
@@ -166,11 +170,11 @@
 							<!-- Logo (field_logo como media) -->
 							<div class="d-flex justify-content-center">
 								{% if institution.field_logo.entity.uri.value is defined %}
-									<img src="{{ file_url(institution.field_logo.entity.uri.value) }}" alt="{{ institution.label() }} logo" style="width: 90%;">
+									<img src="{{ file_url(institution.field_logo.entity.uri.value) }}" alt="{{ institution.label() }} logo" class="institution-logo">
 								{% endif %}
 
 							</div>
-
+						<div class="institution-card-information">
 							<!-- Dirección -->
 							{% if institution.field_institution_address.value is defined and institution.field_institution_address.value %}
 								<div class="d-flex align-items-start mb-3">
@@ -187,6 +191,13 @@
 								</div>
 							{% endif %}
 
+							{% if institution.field_institution_email.value is defined and institution.field_institution_email.value %}
+								<div class="d-flex align-items-start mb-3">
+									<i class="fas fa-envelope me-2 mt-1"></i>
+									<p class="mb-0">{{ institution.field_institution_email.value }}</p>
+								</div>
+							{% endif %}
+
 							<!-- Web -->
 							{% if institution.field_institution_webpage.uri is defined and institution.field_institution_webpage.uri %}
 								<div class="d-flex align-items-start mb-3">
@@ -198,6 +209,7 @@
 									</p>
 								</div>
 							{% endif %}
+						</div>
 
 						</div>
 					</div>
@@ -243,7 +255,7 @@
 
 					<!-- Subapartado: Languages -->
 					{% if institution.field_admission_languages is not empty %}
-						<h4 class="subsection-title">Language</h4>
+						<h4 class="subsection-title">Admission Languages</h4>
 						<ul style="margin-left: 20px;">
 							{% for language in institution.field_admission_languages %}
 								<li>{{ language.value }}</li>
@@ -261,6 +273,7 @@
 			</div>
 		</div>
 	</div>
+	<div class="section-margin-negative"></div>
 	<div class="section-container">
 		<div class='my-custom-container-2'>
 			{% if institution. 	field_ects_credit_allocation_pol is not empty %}
@@ -313,7 +326,7 @@
 				<!-- Tarjetas -->
 				<div class="col-lg-5 col-12">
 
-					<div style="max-height: 400px; overflow-y: auto;">
+					<div style="max-height: 500px; overflow-y: auto;">
 						{% for campus in campuses %}
 							{% set campus_path = path('entity.node.canonical', {'node': campus.id}) %}
 							{% set parts = campus_path|trim('/')|split('/') %}
@@ -325,7 +338,7 @@
 
 							<a href="{{ path('view.campus_information.page_1', { 'arg_0': institution_alias, 'arg_1': campus_alias }) }}" class="text-decoration-none text-reset">
 
-								<div class="card mb-3 shadow-sm border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
+								<div class="card shadow-none mb-3 border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
 									<div
 										class="row g-0">
 																				<!-- Imagen -->
@@ -397,20 +410,20 @@
 			class="col-lg-6">
 			<!-- Buscador -->
 			<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="Type here to search" id="ou-search">
-				<button class="btn btn-outline-secondary" type="button" id="search-btn">
-					<i class="fas fa-search"></i>
+				<input type="text" class="form-control bg-light border-0" placeholder="Type here to search" id="ou-search">
+				<button class="btn btn-outline-secondary pe-4 ps-4 bg-black" type="button" id="search-btn">
+					<i class="fas fa-search" style="color: white;"></i>
 				</button>
 			</div>
 
 			<!-- Filtros -->
 			<!-- Filtros -->
 			<div
-				class="d-flex gap-2 mb-3 flex-wrap">
+				class="custom-btn-group-filter-ou d-flex gap-10 mb-3 flex-wrap">
 
 				<!-- Type -->
 				<div class="dropdown">
-					<button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Type
 					</button>
 					<ul class="dropdown-menu" id="filter-type">
@@ -432,7 +445,7 @@
 
 				<!-- Knowledge Area -->
 				<div class="dropdown">
-					<button id="area-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<button id="area-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Knowledge Area
 					</button>
 					<ul class="dropdown-menu" id="filter-area">
@@ -462,7 +475,7 @@
 				<!-- Otros botones -->
 				<!-- Campus -->
 				<div class="dropdown">
-					<button id="campus-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<button id="campus-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Campus
 					</button>
 					<ul class="dropdown-menu" id="filter-campus">
@@ -483,7 +496,7 @@
 					</ul>
 
 				</div>
-				<button class="btn btn-danger btn-sm">A - Z</button>
+				
 			</div>
 
 
@@ -534,7 +547,7 @@
 
 
 						<div
-							class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ coords_ou }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id() }}" data-ou-campus-label="{{ campus_label }}" data-ou-url="{{ ou_info_url }}" onclick="loadOUDetails(this)">
+							class="ou-item p-3 mb-3 bg-light" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ coords_ou }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id() }}" data-ou-campus-label="{{ campus_label }}" data-ou-url="{{ ou_info_url }}" onclick="loadOUDetails(this)">
 
 							<!-- Título de la unidad organizativa -->
 							<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
@@ -562,7 +575,7 @@
 
 		<!-- Columna derecha: detalle dinámico -->
 		<div class="col-lg-6">
-			<div id="ou-details" class="border p-4 bg-light h-100 shadow-sm">
+			<div id="ou-details" class="bg-light h-100">
 				<p class="text-muted">Click on an Organizational Unit to see its details.</p>
 				<!-- Aquí se rellenará dinámicamente con JS -->
 			</div>
@@ -570,210 +583,202 @@
 	</div>
 </div>{% endif %}
 </div><script>
-function loadOUDetails(el) { // ❌ Elimina la clase 'selected' de todos
-document.querySelectorAll('.ou-item').forEach(item => {
-item.classList.remove('selected');
-});
+/* ==========================================================
+   (keep) DETAILS PANE: highlight selected item and show data
+   ========================================================== */
+function loadOUDetails(el) {
+  document.querySelectorAll('.ou-item').forEach(item => item.classList.remove('selected'));
+  el.classList.add('selected');
 
-// ✅ Añade la clase al seleccionado
-el.classList.add('selected');
+  const title       = el.dataset.ouTitle || '';
+  const type        = el.dataset.ouType || '';
+  const description = el.dataset.ouDescription || '';
+  const address     = el.dataset.ouAddress || '';
+  const gps         = el.dataset.ouGps || '';
+  const web         = el.dataset.ouWeb || '';
+  const webLabel    = el.dataset.ouWebLabel || web;
+  const email       = el.dataset.ouEmail || '';
+  const campus      = el.dataset.ouCampusLabel || '';
+  const url         = el.dataset.ouUrl || '#';
 
-// ⚙️ Tu código para mostrar los detalles
-const title = el.dataset.ouTitle || '';
-const type = el.dataset.ouType || '';
-const description = el.dataset.ouDescription || '';
-const address = el.dataset.ouAddress || '';
-const gps = el.dataset.ouGps || '';
-const web = el.dataset.ouWeb || '';
-const webLabel = el.dataset.ouWebLabel || web;
-const email = el.dataset.ouEmail || '';
-const campus = el.dataset.ouCampusLabel || '';
-const url = el.dataset.ouUrl || '#';
-
-// Formatear campus (eliminar guiones bajos y capitalizar palabras)
-
-const html = `
-    <!-- Imagen fija -->
+  const html = `
     <div class="mb-3 text-center">
-      <img src="/themes/custom/b5subtheme/images/ou-default.png" alt="Organizational Unit" class="img-fluid rounded shadow" style="max-height: 600px; object-fit: cover;">
+      <img src="/themes/custom/b5subtheme/images/ou-default.png" 
+           alt="Organizational Unit" 
+           class="img-fluid" 
+           style="max-height: 600px; object-fit: cover;">
     </div>
 
-    <h3 class="fw-bold">${title}</h3>
+    <div class="p-4">
+      <h4 class="fw-bold">${title}</h4>
 
-<div class="ou-tag-bar text-white mb-3">
-    <span class="ou-type">${
-type.toUpperCase()
-}</span>
-    <span class="ou-campus">${campus}</span>
-  </div>
-	
+      <div class="ou-tag-bar text-white mb-3">
+        <span class="ou-type">${(type || '').toUpperCase()}</span>
+        <span class="ou-campus">${campus}</span>
+      </div>
 
-	
-   
+      <div class="mt-3">${description}</div>
 
+      <div class="d-flex align-items-start mt-3 mb-2">
+        <i class="fas fa-map-marker-alt me-2 mt-1"></i>
+        <p class="mb-0">${address}</p>
+      </div>
 
+      <div class="d-flex align-items-start mb-2">
+        <i class="fas fa-location-arrow me-2 mt-1"></i>
+        <p class="mb-0">${gps}</p>
+      </div>
 
-    <div class="mt-3">${description}</div>
+      <div class="d-flex align-items-start mb-2">
+        <i class="fas fa-globe me-2 mt-1"></i>
+        <p class="mb-0">
+          <a href="${web}" target="_blank" rel="noopener">${webLabel}</a>
+        </p>
+      </div>
 
-    <div class="d-flex align-items-start mt-3 mb-2">
-      <i class="fas fa-map-marker-alt me-2 mt-1"></i>
-      <p class="mb-0">${address}</p>
+      <div class="d-flex align-items-start mb-2">
+        <i class="fas fa-envelope me-2 mt-1"></i>
+        <p class="mb-0">${email}</p>
+      </div>
+
+      <div class="mt-5 text-center">
+        <a class="btn btn-dark see-more-ou-button" href="${url}">See more</a>
+      </div>
     </div>
-
-    <div class="d-flex align-items-start mb-2">
-      <i class="fas fa-location-arrow me-2 mt-1"></i>
-      <p class="mb-0">${gps}</p>
-    </div>
-
-    <div class="d-flex align-items-start mb-2">
-      <i class="fas fa-globe me-2 mt-1"></i>
-      <p class="mb-0">
-        <a href="${web}" target="_blank">${webLabel}</a>
-      </p>
-    </div>
-
-    <div class="d-flex align-items-start mb-2">
-      <i class="fas fa-envelope me-2 mt-1"></i>
-      <p class="mb-0">${email}</p>
-    </div>
-
-    <div class="mt-3 text-center">
-    <a class="btn btn-dark see-more-ou-button" href="${url}">See more</a>
-  </div>
   `;
 
-document.getElementById('ou-details').innerHTML = html;
+  document.getElementById('ou-details').innerHTML = html;
 }
+
+/* ==========================================================
+   FILTERS + SEARCH (refactor)
+   ========================================================== */
 
 let currentCampus = '';
+let currentType   = '';
+let currentArea   = '';
 
-document.querySelectorAll('#filter-campus .dropdown-item').forEach(item => {
-item.addEventListener('click', function (e) {
-e.preventDefault();
-currentCampus = this.dataset.campus;
-document.getElementById('campus-filter-button').textContent = currentCampus ? `Campus: ${
-this.textContent
-}` : 'Campus';
-filterOUList();
-});
-});
+const campusButton = document.getElementById('campus-filter-button');
+const typeButton   = document.getElementById('type-filter-button');
+const areaButton   = document.getElementById('area-filter-button');
+const searchInput  = document.getElementById('ou-search');
 
+/** Helper: update button label and color based on active state */
+function setButton(buttonEl, hasValue, selectedLabel, defaultLabel) {
+  const active = !!hasValue;
+  buttonEl.textContent = active ? (selectedLabel || '').trim() : defaultLabel;
 
-// 🔍 Buscador en tiempo real
-document.getElementById('ou-search').addEventListener('input', function () {
-const query = this.value.toLowerCase();
-const items = document.querySelectorAll('#ou-list .ou-item');
-
-items.forEach(item => {
-const title = item.dataset.ouTitle ?. toLowerCase() || '';
-const type = item.dataset.ouType ?. toLowerCase() || '';
-
-if (title.includes(query) || type.includes(query)) {
-item.style.display = '';
-} else {
-item.style.display = 'none';
+  // Aplicar color dinámico si está activo
+  if (active) {
+    buttonEl.style.backgroundColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--university_primary_color');
+    buttonEl.style.color = '#fff';
+    buttonEl.style.borderColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--university_primary_color');
+  } else {
+    buttonEl.style.backgroundColor = '';
+    buttonEl.style.color = '';
+    buttonEl.style.borderColor = '';
+  }
 }
-});
-});
 
+/** Apply combined filters (text + type + area + campus) */
+function filterOUList() {
+  const query = (searchInput?.value || '').toLowerCase();
+  const items = document.querySelectorAll('#ou-list .ou-item');
 
-let currentType = '';
-let currentArea = '';
-// Cambiar texto del botón TYPE
-const typeButton = document.getElementById('type-filter-button');
-const areaButton = document.getElementById('area-filter-button');
+  items.forEach(item => {
+    const title  = item.dataset.ouTitle?.toLowerCase() || '';
+    const type   = item.dataset.ouType?.toLowerCase() || '';
+    const area   = item.dataset.ouArea?.toLowerCase() || '';
+    const campus = item.dataset.ouCampusId || '';
+
+    const matchText   = !query || title.includes(query) || type.includes(query);
+    const matchType   = !currentType || type === currentType.toLowerCase();
+    const matchArea   = !currentArea || area === currentArea.toLowerCase();
+    const matchCampus = !currentCampus || campus === currentCampus;
+
+    item.style.display = (matchText && matchType && matchArea && matchCampus) ? '' : 'none';
+  });
+}
+
+/* ----- Dropdown handlers (Campus / Type / Area) ----- */
+document.querySelectorAll('#filter-campus .dropdown-item').forEach(item => {
+  item.addEventListener('click', function (e) {
+    e.preventDefault();
+    currentCampus = this.dataset.campus || '';
+    setButton(campusButton, currentCampus, this.textContent, 'Campus');
+    filterOUList();
+  });
+});
 
 document.querySelectorAll('#filter-type .dropdown-item').forEach(item => {
-item.addEventListener('click', function (e) {
-e.preventDefault();
-currentType = this.dataset.type;
-typeButton.textContent = currentType ? `Type: ${
-this.textContent
-}` : 'Type';
-filterOUList();
-});
+  item.addEventListener('click', function (e) {
+    e.preventDefault();
+    currentType = this.dataset.type || '';
+    setButton(typeButton, currentType, this.textContent, 'Type');
+    filterOUList();
+  });
 });
 
 document.querySelectorAll('#filter-area .dropdown-item').forEach(item => {
-item.addEventListener('click', function (e) {
-e.preventDefault();
-currentArea = this.dataset.area;
-areaButton.textContent = currentArea ? `Knowledge Area: ${
-this.textContent
-}` : 'Knowledge Area';
-filterOUList();
-});
+  item.addEventListener('click', function (e) {
+    e.preventDefault();
+    currentArea = this.dataset.area || '';
+    setButton(areaButton, currentArea, this.textContent, 'Knowledge Area');
+    filterOUList();
+  });
 });
 
+/* ----- Live search (single listener) ----- */
+searchInput.addEventListener('input', filterOUList);
 
-// Filtro general (combina búsqueda + tipo + área)
-function filterOUList() {
-const query = document.getElementById('ou-search').value.toLowerCase();
-const items = document.querySelectorAll('#ou-list .ou-item');
+/* ----- Initial visual state for buttons ----- */
+setButton(campusButton, '', '', 'Campus');
+setButton(typeButton,   '', '', 'Type');
+setButton(areaButton,   '', '', 'Knowledge Area');
 
-items.forEach(item => {
-const title = item.dataset.ouTitle ?. toLowerCase() || '';
-const type = item.dataset.ouType ?. toLowerCase() || '';
-const area = item.dataset.ouArea ?. toLowerCase() || '';
-const campus = item.dataset.ouCampusId || '';
-console.log(campus);
+/* ==========================================================
+   SIMPLE PAGINATION (unchanged)
+   ========================================================== */
+document.addEventListener('DOMContentLoaded', function () {
+  const items = document.querySelectorAll('#ou-list .ou-item');
+  const itemsPerPage = 10;
+  let currentPage = 1;
 
-const matchText = title.includes(query);
-const matchType = ! currentType || type === currentType.toLowerCase();
-const matchArea = ! currentArea || area === currentArea.toLowerCase();
-const matchCampus = ! currentCampus || campus === currentCampus;
+  function showPage(page) {
+    const start = (page - 1) * itemsPerPage;
+    const end   = page * itemsPerPage;
 
+    items.forEach((item, index) => {
+      item.style.display = (index >= start && index < end) ? '' : 'none';
+    });
 
-if (matchText && matchType && matchArea && matchCampus) {
-item.style.display = '';
-} else {
-item.style.display = 'none';
-}
+    renderPagination(page);
+  }
+
+  function renderPagination(activePage) {
+    const totalPages = Math.ceil(items.length / itemsPerPage) || 1;
+    const pagination = document.getElementById('pagination-controls');
+    if (!pagination) return;
+
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+      const li = document.createElement('li');
+      li.className = 'page-item' + (i === activePage ? ' active' : '');
+      li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+      li.addEventListener('click', function (e) {
+        e.preventDefault();
+        currentPage = i;
+        showPage(currentPage);
+      });
+      pagination.appendChild(li);
+    }
+  }
+
+  if (items.length > 0) {
+    showPage(currentPage);
+  }
 });
-}
-
-
-// Búsqueda con combinación de filtros
-document.getElementById('ou-search').addEventListener('input', filterOUList);
-
-
-document.addEventListener("DOMContentLoaded", function () {
-const items = document.querySelectorAll("#ou-list .ou-item");
-const itemsPerPage = 2;
-let currentPage = 1;
-
-function showPage(page) {
-const start = (page - 1) * itemsPerPage;
-const end = page * itemsPerPage;
-
-items.forEach((item, index) => {
-item.style.display = (index >= start && index < end) ? '' : 'none';
-});
-
-renderPagination(page);
-}
-
-function renderPagination(activePage) {
-const totalPages = Math.ceil(items.length / itemsPerPage);
-const pagination = document.getElementById("pagination-controls");
-pagination.innerHTML = '';
-
-for (let i = 1; i <= totalPages; i++) {
-const li = document.createElement("li");
-li.className = "page-item" + (
-i === activePage ? " active" : ""
-);
-li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-li.addEventListener("click", function (e) {
-e.preventDefault();
-currentPage = i;
-showPage(currentPage);
-});
-pagination.appendChild(li);
-}
-}
-
-if (items.length > 0) {
-showPage(currentPage);
-}
-});</script>
+</script>

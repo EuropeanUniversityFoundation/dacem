@@ -96,12 +96,12 @@ function b5subtheme_preprocess_page(&$variables)
     $translations = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($path));
 
     // Verifica si las traducciones se están cargando correctamente.
-    \Drupal::logger('b5subtheme')->notice('Translations loaded: <pre>@translations</pre>', ['@translations' => print_r($translations, TRUE)]);
+    //\Drupal::logger('b5subtheme')->notice('Translations loaded: <pre>@translations</pre>', ['@translations' => print_r($translations, TRUE)]);
 
     // Pasar las traducciones al contexto de Twig.
     $variables['translations'] = $translations;
   } else {
-    \Drupal::logger('b5subtheme')->error('Translations file not found at path: @path', ['@path' => $path]);
+    //\Drupal::logger('b5subtheme')->error('Translations file not found at path: @path', ['@path' => $path]);
   }
 
 }
@@ -144,12 +144,12 @@ function b5subtheme_preprocess_views_view(&$variables)
     $translations = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($path));
 
     // Verifica si las traducciones se están cargando correctamente.
-    \Drupal::logger('b5subtheme')->notice('Translations loaded: <pre>@translations</pre>', ['@translations' => print_r($translations, TRUE)]);
+    //\Drupal::logger('b5subtheme')->notice('Translations loaded: <pre>@translations</pre>', ['@translations' => print_r($translations, TRUE)]);
 
     // Pasar las traducciones al contexto de Twig.
     $variables['translations'] = $translations;
   } else {
-    \Drupal::logger('b5subtheme')->error('Translations file not found at path: @path', ['@path' => $path]);
+    //\Drupal::logger('b5subtheme')->error('Translations file not found at path: @path', ['@path' => $path]);
   }
 
 
@@ -275,7 +275,7 @@ function b5subtheme_preprocess_views_view(&$variables)
         if ($carrera_translated && $carrera_translated->id()) {
           // Obtén el área para agrupar las carreras.
           $area = $carrera_translated->get('field_programme_area')->value ?? 'undefined';
-          \Drupal::logger('custom_log')->notice('Area--> ' . $area);
+          //\Drupal::logger('custom_log')->notice('Area--> ' . $area);
 
           ////dump('/catalogue' . $carrera_translated->toUrl()->toString());
           $grouped_carreras[$area][] = [
@@ -978,4 +978,6 @@ function b5subtheme_theme_registry_alter(&$theme_registry)
     'dacem_footer'
   );
 }
+
+
 

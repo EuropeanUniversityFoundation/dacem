@@ -3,7 +3,7 @@ en:
 
 
   #University View Search and Filters
-  DEGREES: 'DEGREES'
+  PROGRAMMES: 'PROGRAMMES'
   SUBJECTS: 'SUBJECTS'
   CATALOGUE: 'CATALOGUE'
   LANGUAGE: 'LANGUAGE'
@@ -76,16 +76,16 @@ en:
 
 
 #SUBJECT
-  DESCRIPTION: 'DESCRIPTION'
+  Description: 'Description'
   Period: 'Period'
   Requirements: 'Requirements'
   Language: 'Language'
-  INSTRUCTORS: 'INSTRUCTORS'
-  IEC CONTENTS: 'SUBJECT CONTENTS'
-  LEARNING OUTCOMES: 'LEARNING OUTCOMES'
-  RECOMMENDED READINGS AND TOOLS: 'RECOMMENDED READINGS AND TOOLS'
-  PLANNED ACTIVITIES: 'PLANNED ACTIVITIES'
-  EVALUATION METHODS AND CRITERIA: 'EVALUATION METHODS AND CRITERIA'
+  Instructors: 'Instructors'
+  Iec Contents: 'Iec Contents'
+  Learning Outcomes: 'Learning Outcomes'
+  Recommended Readings and Tools: 'Recommended Readings and Tools'
+  Planned Activities: 'Planned Activities'
+  Evaluation Methods and Criteria: 'Evaluation Methods and Criteria'
   in_person: 'In person'
 
 
@@ -106,7 +106,7 @@ es:
 
 
   #Vista Universidad Filtros e Búsqueda
-  DEGREES: 'CARRERAS'
+  PROGRAMMES: 'CARRERAS'
   SUBJECTS: 'ASIGNATURAS'
   CATALOGUE: 'CATÁLOGO'
   LANGUAGE: 'IDIOMA'
@@ -175,16 +175,16 @@ es:
 
 
   #ASIGNATURA
-  DESCRIPTION: 'PRESENTACIÓN'
+  Description: 'PRESENTACIÓN'
   Period: 'Cuatrimestre'
   Requirements: 'Requisitos'
   Language: 'Idioma'
-  INSTRUCTORS: 'PROFESORES'
-  IEC CONTENTS: 'CONTENIDO DE LA ASIGNATURA'
-  LEARNING OUTCOMES: 'RESULTADOS DE APRENDIZAJE'
-  RECOMMENDED READINGS AND TOOLS: 'LECTURAS Y HERRAMIENTAS RECOMENDADAS'
-  PLANNED ACTIVITIES: 'ACTIVIDADES PLANIFICADAS'
-  EVALUATION METHODS AND CRITERIA: 'MÉTODOS Y CRITERIOS DE EVALUACIÓN'
+  Instructors: 'PROFESORES'
+  Iec Contents: 'CONTENIDO DE LA ASIGNATURA'
+  Learning Outcomes: 'RESULTADOS DE APRENDIZAJE'
+  Recommended Readings and Tools: 'LECTURAS Y HERRAMIENTAS RECOMENDADAS'
+  Planned Activities: 'ACTIVIDADES PLANIFICADAS'
+  Evaluation Methods and Criteria: 'MÉTODOS Y CRITERIOS DE EVALUACIÓN'
   in_person: 'Presencial'
 
   Academic Authorities: 'Autoridades Académicas'
@@ -201,7 +201,7 @@ es:
 fr: # Francés
 
   #Vue Université Filtres et Recherche
-  DEGREES: 'DIPLÔMES'
+  PROGRAMMES: 'DIPLÔMES'
   SUBJECTS: 'SUJETS'
   CATALOGUE: 'CATALOGUE'
   LANGUAGE: 'LANGUE'
@@ -266,16 +266,16 @@ fr: # Francés
   4º Course: '4º Cours'
 
   #SUJET
-  DESCRIPTION: 'PRÉSENTATION'
+  Description: 'PRÉSENTATION'
   Period: 'Période'
   Requirements: 'Exigences'
   Language: 'Langue'
-  INSTRUCTORS: 'ENSEIGNANTS'
+  Instructors: 'ENSEIGNANTS'
   SUBJECT CONTENT: 'CONTENU DU SUJET'
-  LEARNING OUTCOMES: 'RÉSULTATS D’APPRENTISSAGE'
-  RECOMMENDED READINGS AND TOOLS: 'LECTURES ET OUTILS RECOMMANDÉS'
-  PLANNED ACTIVITIES: 'ACTIVITÉS PLANIFIÉES'
-  EVALUATION METHODS AND CRITERIA: 'MÉTHODES ET CRITÈRES D’ÉVALUATION'
+  Learning Outcomes: 'RÉSULTATS D’APPRENTISSAGE'
+  Recommended Readings and Tools: 'LECTURES ET OUTILS RECOMMANDÉS'
+  Planned Activities: 'ACTIVITÉS PLANIFIÉES'
+  Evaluation Methods and Criteria: 'MÉTHODES ET CRITÈRES D’ÉVALUATION'
   in_person: 'En présentiel'
 
   Academic Authorities: 'Autorités académiques'
@@ -289,7 +289,7 @@ fr: # Francés
 pt-pt: # Portugués
 
   #Pesquisa e Filtros da Universidade
-  DEGREES: 'GRAUS'
+  PROGRAMMES: 'GRAUS'
   SUBJECTS: 'DISCIPLINAS'
   CATALOGUE: 'CATÁLOGO'
   LANGUAGE: 'IDIOMA'
@@ -354,16 +354,16 @@ pt-pt: # Portugués
   4º Course: '4º Ano'
 
   #DISCIPLINA
-  DESCRIPTION: 'APRESENTAÇÃO'
+  Description: 'APRESENTAÇÃO'
   Period: 'Período'
   Requirements: 'Requisitos'
   Language: 'Idioma'
-  INSTRUCTORS: 'PROFESSORES'
+  Instructors: 'PROFESSORES'
   SUBJECT CONTENT: 'CONTEÚDO DA DISCIPLINA'
-  LEARNING OUTCOMES: 'RESULTADOS DE APRENDIZAGEM'
-  RECOMMENDED READINGS AND TOOLS: 'LEITURAS E FERRAMENTAS RECOMENDADAS'
-  PLANNED ACTIVITIES: 'ATIVIDADES PLANEJADAS'
-  EVALUATION METHODS AND CRITERIA: 'MÉTODOS E CRITÉRIOS DE AVALIAÇÃO'
+  Learning Outcomes: 'RESULTADOS DE APRENDIZAGEM'
+  Recommended Readings and Tools: 'LEITURAS E FERRAMENTAS RECOMENDADAS'
+  Planned Activities: 'ATIVIDADES PLANEJADAS'
+  Evaluation Methods and Criteria: 'MÉTODOS E CRITÉRIOS DE AVALIAÇÃO'
   in_person: 'Presencial'
 
 
@@ -381,7 +381,7 @@ pt-pt: # Portugués
 el: # Griego
 
   #Προβολή Πανεπιστημίου, Φίλτρα και Αναζήτηση
-  DEGREES: 'ΠΤΥΧΙΑ'
+  PROGRAMMES: 'ΠΤΥΧΙΑ'
   SUBJECTS: 'ΜΑΘΗΜΑΤΑ'
   CATALOGUE: 'ΚΑΤΑΛΟΓΟΣ'
   LANGUAGE: 'ΓΛΩΣΣΑ'
@@ -446,16 +446,16 @@ el: # Griego
   4º Course: '4º Έτος'
 
   #ΜΑΘΗΜΑ
-  DESCRIPTION: 'ΠΑΡΟΥΣΙΑΣΗ'
+  Description: 'ΠΑΡΟΥΣΙΑΣΗ'
   Period: 'Περίοδος'
   Requirements: 'Απαιτήσεις'
   Language: 'Γλώσσα'
-  INSTRUCTORS: 'ΔΙΔΑΣΚΟΝΤΕΣ'
+  Instructors: 'ΔΙΔΑΣΚΟΝΤΕΣ'
   SUBJECT CONTENT: 'ΠΕΡΙΕΧΟΜΕΝΟ ΜΑΘΗΜΑΤΟΣ'
-  LEARNING OUTCOMES: 'ΜΑΘΗΣΙΑΚΑ ΑΠΟΤΕΛΕΣΜΑΤΑ'
-  RECOMMENDED READINGS AND TOOLS: 'ΠΡΟΤΕΙΝΟΜΕΝΑ ΒΙΒΛΙΑ ΚΑΙ ΕΡΓΑΛΕΙΑ'
-  PLANNED ACTIVITIES: 'ΠΡΟΓΡΑΜΜΑΤΙΣΜΕΝΕΣ ΔΡΑΣΤΗΡΙΟΤΗΤΕΣ'
-  EVALUATION METHODS AND CRITERIA: 'ΜΕΘΟΔΟΙ ΚΑΙ ΚΡΙΤΗΡΙΑ ΑΞΙΟΛΟΓΗΣΗΣ'
+  Learning Outcomes: 'ΜΑΘΗΣΙΑΚΑ ΑΠΟΤΕΛΕΣΜΑΤΑ'
+  Recommended Readings and Tools: 'ΠΡΟΤΕΙΝΟΜΕΝΑ ΒΙΒΛΙΑ ΚΑΙ ΕΡΓΑΛΕΙΑ'
+  Planned Activities: 'ΠΡΟΓΡΑΜΜΑΤΙΣΜΕΝΕΣ ΔΡΑΣΤΗΡΙΟΤΗΤΕΣ'
+  Evaluation Methods and Criteria: 'ΜΕΘΟΔΟΙ ΚΑΙ ΚΡΙΤΗΡΙΑ ΑΞΙΟΛΟΓΗΣΗΣ'
   in_person: 'Δια ζώσης'
 
   Academic Authorities: 'Ακαδημαϊκές αρχές'
@@ -469,7 +469,7 @@ el: # Griego
 cs: # Checo
 
   #Pohled na univerzitu, filtry a vyhledávání
-  DEGREES: 'STUPNĚ'
+  PROGRAMMES: 'STUPNĚ'
   SUBJECTS: 'PŘEDMĚTY'
   CATALOGUE: 'KATALOG'
   LANGUAGE: 'JAZYK'
@@ -534,16 +534,16 @@ cs: # Checo
   4º Course: '4. Kurz'
 
   #PŘEDMĚT
-  DESCRIPTION: 'PREZENTACE'
+  Description: 'PREZENTACE'
   Period: 'Období'
   Requirements: 'Požadavky'
   Language: 'Jazyk'
-  INSTRUCTORS: 'INSTRUKTOŘI'
+  Instructors: 'INSTRUKTOŘI'
   SUBJECT CONTENT: 'OBSAH PŘEDMĚTU'
-  LEARNING OUTCOMES: 'VÝSLEDKY UČENÍ'
-  RECOMMENDED READINGS AND TOOLS: 'DOPORUČENÁ ČTENÍ A NÁSTROJE'
-  PLANNED ACTIVITIES: 'PLÁNOVANÉ AKTIVITY'
-  EVALUATION METHODS AND CRITERIA: 'METODY A KRITÉRIA HODNOCENÍ'
+  Learning Outcomes: 'VÝSLEDKY UČENÍ'
+  Recommended Readings and Tools: 'DOPORUČENÁ ČTENÍ A NÁSTROJE'
+  Planned Activities: 'PLÁNOVANÉ AKTIVITY'
+  Evaluation Methods and Criteria: 'METODY A KRITÉRIA HODNOCENÍ'
   in_person: 'Přítomný'
 
   Academic Authorities: 'Akademické orgány'
@@ -560,7 +560,7 @@ cs: # Checo
 sl: # Esloveno
 
   #Pogled na univerzo, filtri in iskanje
-  DEGREES: 'STOPNJE'
+  PROGRAMMES: 'STOPNJE'
   SUBJECTS: 'PREDMETI'
   CATALOGUE: 'KATALOG'
   LANGUAGE: 'JEZIK'
@@ -625,16 +625,16 @@ sl: # Esloveno
   4º Course: '4º Tečaj'
 
   #PREDMET
-  DESCRIPTION: 'PREDSTAVITEV'
+  Description: 'PREDSTAVITEV'
   Period: 'Obdobje'
   Requirements: 'Zahteve'
   Language: 'Jezik'
-  INSTRUCTORS: 'INŠTRUKTORJI'
+  Instructors: 'INŠTRUKTORJI'
   SUBJECT CONTENT: 'VSEBINA PREDMETA'
-  LEARNING OUTCOMES: 'UČNI IZIDI'
-  RECOMMENDED READINGS AND TOOLS: 'PRIPOROČENO GRADIVO IN ORODJA'
-  PLANNED ACTIVITIES: 'NAČRTOVANE AKTIVNOSTI'
-  EVALUATION METHODS AND CRITERIA: 'METODE IN KRITERIJI VREDNOTENJA'
+  Learning Outcomes: 'UČNI IZIDI'
+  Recommended Readings and Tools: 'PRIPOROČENO GRADIVO IN ORODJA'
+  Planned Activities: 'NAČRTOVANE AKTIVNOSTI'
+  Evaluation Methods and Criteria: 'METODE IN KRITERIJI VREDNOTENJA'
   in_person: 'Osebno'
 
 
@@ -649,7 +649,7 @@ sl: # Esloveno
 hu: # Húngaro
 
   #Egyetemi nézet, szűrők és keresés
-  DEGREES: 'FOKOZATOK'
+  PROGRAMMES: 'FOKOZATOK'
   SUBJECTS: 'TANTÁRGYAK'
   CATALOGUE: 'KATALÓGUS'
   LANGUAGE: 'NYELV'
@@ -714,16 +714,16 @@ hu: # Húngaro
   4º Course: '4. Év'
 
   #TANTÁRGY
-  DESCRIPTION: 'BEMUTATÁS'
+  Description: 'BEMUTATÁS'
   Period: 'Időszak'
   Requirements: 'Követelmények'
   Language: 'Nyelv'
-  INSTRUCTORS: 'OKTATÓK'
+  Instructors: 'OKTATÓK'
   SUBJECT CONTENT: 'TANTÁRGY TARTALMA'
-  LEARNING OUTCOMES: 'TANULÁSI EREDMÉNYEK'
-  RECOMMENDED READINGS AND TOOLS: 'AJÁNLOTT OLVASMÁNYOK ÉS ESZKÖZÖK'
-  PLANNED ACTIVITIES: 'TERVEZETT TEVÉKENYSÉGEK'
-  EVALUATION METHODS AND CRITERIA: 'ÉRTÉKELÉSI MÓDSZEREK ÉS KRITÉRIUMOK'
+  Learning Outcomes: 'TANULÁSI EREDMÉNYEK'
+  Recommended Readings and Tools: 'AJÁNLOTT OLVASMÁNYOK ÉS ESZKÖZÖK'
+  Planned Activities: 'TERVEZETT TEVÉKENYSÉGEK'
+  Evaluation Methods and Criteria: 'ÉRTÉKELÉSI MÓDSZEREK ÉS KRITÉRIUMOK'
   in_person: 'Személyes'
 
   Academic Authorities: 'Akadémiai hatóságok'
@@ -739,7 +739,7 @@ hu: # Húngaro
 et: # Estonio
 
   #Ülikooli vaade, filtrid ja otsing
-  DEGREES: 'KRAADID'
+  PROGRAMMES: 'KRAADID'
   SUBJECTS: 'AINED'
   CATALOGUE: 'KATALOOG'
   LANGUAGE: 'KEEL'
@@ -804,16 +804,16 @@ et: # Estonio
   4º Course: '4º Kursus'
 
   #AINE
-  DESCRIPTION: 'ESITLUS'
+  Description: 'ESITLUS'
   Period: 'Periood'
   Requirements: 'Nõuded'
   Language: 'Keel'
-  INSTRUCTORS: 'ÕPETAJAD'
+  Instructors: 'ÕPETAJAD'
   SUBJECT CONTENT: 'AINE SISU'
-  LEARNING OUTCOMES: 'ÕPIVÄLJUNDID'
-  RECOMMENDED READINGS AND TOOLS: 'SOOVITATUD LUGEMIS- JA TÖÖRIISTAD'
-  PLANNED ACTIVITIES: 'PLANEERITUD TEGEVUSED'
-  EVALUATION METHODS AND CRITERIA: 'HINDAMISMEETODID JA KRITEERIUMID'
+  Learning Outcomes: 'ÕPIVÄLJUNDID'
+  Recommended Readings and Tools: 'SOOVITATUD LUGEMIS- JA TÖÖRIISTAD'
+  Planned Activities: 'PLANEERITUD TEGEVUSED'
+  Evaluation Methods and Criteria: 'HINDAMISMEETODID JA KRITEERIUMID'
   in_person: 'Kohapeal'
 
   Academic Authorities: 'Akadeemilised võimud'
@@ -827,7 +827,7 @@ et: # Estonio
 gl: # Gallego
 
   #Vista da universidade, filtros e busca
-  DEGREES: 'TITULACIÓNS'
+  PROGRAMMES: 'TITULACIÓNS'
   SUBJECTS: 'ASIGNATURAS'
   CATALOGUE: 'CATÁLOGO'
   LANGUAGE: 'IDIOMA'
@@ -892,16 +892,16 @@ gl: # Gallego
   4º Course: '4º Curso'
 
   #ASIGNATURA
-  DESCRIPTION: 'PRESENTACIÓN'
+  Description: 'PRESENTACIÓN'
   Period: 'Período'
   Requirements: 'Requisitos'
   Language: 'Idioma'
-  INSTRUCTORS: 'DOCENTES'
+  Instructors: 'DOCENTES'
   SUBJECT CONTENT: 'CONTIDO DA ASIGNATURA'
-  LEARNING OUTCOMES: 'RESULTADOS DE APRENDIZAXE'
-  RECOMMENDED READINGS AND TOOLS: 'LECTURAS E FERRAMENTAS RECOMENDADAS'
-  PLANNED ACTIVITIES: 'ACTIVIDADES PLANIFICADAS'
-  EVALUATION METHODS AND CRITERIA: 'MÉTODOS E CRITERIOS DE AVALIACIÓN'
+  Learning Outcomes: 'RESULTADOS DE APRENDIZAXE'
+  Recommended Readings and Tools: 'LECTURAS E FERRAMENTAS RECOMENDADAS'
+  Planned Activities: 'ACTIVIDADES PLANIFICADAS'
+  Evaluation Methods and Criteria: 'MÉTODOS E CRITERIOS DE AVALIACIÓN'
   in_person: 'Presencial'
 
 

@@ -3,7 +3,6 @@
 {% set campus = view.result[0]._entity %}
 {% set institution = view.result[0]._relationship_entities['field_campus_institution'] %}
 {#{dump(campus)}#}
-
 {% set current_language = view.result[0].node_field_data_langcode %}
 
 {% if campus.hasTranslation(current_language) %}
@@ -278,184 +277,169 @@
 			{{ drupal_view('map_view', 'block_6', campus.id) }}
 </div>
 
-<div
-class="row">
-<!-- Columna izquierda: buscador y lista -->
-<div
-	class="col-lg-6">
-	<!-- Buscador -->
-	<div class="input-group mb-3">
-		<input type="text" class="form-control" placeholder="Type here to search" id="ou-search">
-		<button class="btn btn-outline-secondary" type="button" id="search-btn">
-			<i class="fas fa-search"></i>
-		</button>
-	</div>
+<div class="row">
+  <!-- Columna izquierda: buscador y lista -->
+  <div class="col-lg-6">
+    <!-- Buscador -->
+    <div class="input-group mb-3">
+      <input type="text" class="form-control bg-light border-0" placeholder="Type here to search" id="ou-search">
+      <button class="btn btn-outline-secondary pe-4 ps-4 bg-black" type="button" id="search-btn">
+        <i class="fas fa-search" style="color: white;"></i>
+      </button>
+    </div>
 
-	<!-- Filtros -->
-	<!-- Filtros -->
-	<div
-		class="d-flex gap-2 mb-3 flex-wrap">
+    <!-- Filtros -->
+    <div class="custom-btn-group-filter-ou d-flex gap-10 mb-3 flex-wrap">
+      <!-- Type -->
+      <div class="dropdown">
+        <button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Type
+        </button>
+        <ul class="dropdown-menu" id="filter-type">
+          <li><a class="dropdown-item" href="#" data-type="">All</a></li>
+          <li><a class="dropdown-item" href="#" data-type="Department">Department</a></li>
+          <li><a class="dropdown-item" href="#" data-type="Faculty">Faculty</a></li>
+          <li><a class="dropdown-item" href="#" data-type="School">School</a></li>
+          <!-- Añade aquí tus tipos reales -->
+        </ul>
+      </div>
 
-		<!-- Type -->
-		<div class="dropdown">
-			<button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				Type
-			</button>
-			<ul class="dropdown-menu" id="filter-type">
-				<li>
-					<a class="dropdown-item" href="#" data-type="">All</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#" data-type="Department">Department</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#" data-type="Faculty">Faculty</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#" data-type="School">School</a>
-				</li>
-				<!-- Añade aquí tus tipos reales -->
-			</ul>
-		</div>
+      <!-- Knowledge Area -->
+      <div class="dropdown">
+        <button id="area-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Knowledge Area
+        </button>
+        <ul class="dropdown-menu" id="filter-area">
+          <li><a class="dropdown-item" href="#" data-area="">All</a></li>
+          <li><a class="dropdown-item" href="#" data-area="arts_and_humanities">Arts and Humanities</a></li>
+          <li><a class="dropdown-item" href="#" data-area="engineering_and_architecture">Engineering and Architecture</a></li>
+          <li><a class="dropdown-item" href="#" data-area="health_sciences">Health Sciences</a></li>
+          <li><a class="dropdown-item" href="#" data-area="sciences">Sciences</a></li>
+          <li><a class="dropdown-item" href="#" data-area="social_and_legal_sciences">Social and Legal Sciences</a></li>
+          <!-- Añade aquí tus áreas reales -->
+        </ul>
+      </div>
 
-		<!-- Knowledge Area -->
-		<div class="dropdown">
-			<button id="area-filter-button" class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				Knowledge Area
-			</button>
-			<ul class="dropdown-menu" id="filter-area">
-				<li>
-					<a class="dropdown-item" href="#" data-area="">All</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#" data-area="arts_and_humanities">Arts and Humanities</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#" data-area="engineering_and_architecture">Engineering and Architecture</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#" data-area="health_sciences">
-						Health Sciences</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#" data-area="sciences">Sciences</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#" data-area="social_and_legal_sciences">Social and Legal Sciences</a>
-				</li>
-				<!-- Añade aquí tus áreas reales -->
-			</ul>
-		</div>
+      <!-- Campus -->
+      <div class="dropdown">
+        <button id="campus-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Campus
+        </button>
+        <ul class="dropdown-menu" id="filter-campus">
+          <li><a class="dropdown-item" href="#" data-campus="">All</a></li>
+          {% for campus in campuses %}
+            {% set campus_label = campus.label %}
+            {% if campus.hasTranslation(language.getId()) %}
+              {% set campus_label = campus.getTranslation(language.getId()).label %}
+            {% endif %}
+            <li>
+              <a class="dropdown-item" href="#" data-campus="{{ campus.id() }}">
+                {{ campus_label }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
 
-		<!-- Otros botones -->
-		<!-- Campus -->
-		
-		<button class="btn btn-danger btn-sm">A - Z</button>
-	</div>
+    <!-- Lista de Organizational Units -->
+    <div id="ou-list">
+      <nav>
+        <ul class="pagination justify-content-center mt-4" id="pagination-controls"><!-- Se rellenará con JS --></ul>
+      </nav>
 
+      {% set list_ous = [] %}
+      {% set list_ous = list_ous|merge([organizational_unit.id]) %}
 
-	<!-- Lista de Organizational Units -->
-	<div id="ou-list">
+      {% for row in view.result %}
+        {% set ou = row._entity %}
+        {% set organizational_unit = row._relationship_entities['reverse__node__field_ou_campus'] %}
 
+        {% if organizational_unit.id not in list_ous %}
+          {% set list_ous = list_ous|merge([organizational_unit.id]) %}
 
-		{% set list_ous = [] %}
+          {% if organizational_unit.hasTranslation(current_language) %}
+            {% set organizational_unit = organizational_unit.getTranslation(current_language) %}
+          {% endif %}
 
-		{% set list_ous = list_ous|merge([organizational_unit.id]) %}
+          {% set campus_entity = organizational_unit.field_ou_campus.entity %}
+          {% set campus_label = campus_entity.label %}
+          {% if campus_entity.hasTranslation(current_language) %}
+            {% set campus_label = campus_entity.getTranslation(current_language).label %}
+          {% endif %}
 
-		<nav>
-			<ul
-				class="pagination justify-content-center mt-4" id="pagination-controls"><!-- Se rellenará con JS -->
-			</ul>
-		</nav>
-		{% for row in view.result %}
-			{% set ou = row._entity %}
+          {% if organizational_unit.hasTranslation(current_language) %}
+            {% set ou_for_path = organizational_unit.getTranslation(current_language) %}
+            {% set lang_for_path = current_language %}
+          {% else %}
+            {% set ou_for_path = organizational_unit.getTranslation('en') %}
+            {% set lang_for_path = 'en' %}
+          {% endif %}
 
-			{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_campus'] %}
-			{% if organizational_unit.id not in list_ous %}
-				{% set list_ous = list_ous|merge([organizational_unit.id]) %}
+          {# Alias canónico de la OU en el idioma correcto #}
+          {% set ou_path = path('entity.node.canonical', {'node': ou_for_path.id()}, {'langcode': lang_for_path}) %}
+          {% set parts = ou_path|trim('/')|split('/') %}
+          {% set ou_alias = parts|last %}
+          {% set institution_alias = parts[parts|length - 2] %}
 
-				{% if organizational_unit.hasTranslation(current_language) %}
-					{% set organizational_unit = organizational_unit.getTranslation(current_language) %}
-				{% endif %}
+          {# Enlace final a la vista #}
+          {% set ou_info_url = path('view.organizational_unit_information.page_1', {
+            'arg_0': institution_alias,
+            'arg_1': ou_alias
+          }, {'langcode': lang_for_path}) %}
 
-				{% set campus_entity = organizational_unit.field_ou_campus.entity %}
-				{% set campus_label = campus_entity.label %}
-				{% if campus_entity.hasTranslation(current_language) %}
-					{% set campus_label = campus_entity.getTranslation(current_language).label %}
-				{% endif %}
+          {% set coords_ou = '' %}
+          {% if organizational_unit.field_ou_map.value is defined and organizational_unit.field_ou_map.value %}
+            {% set point  = organizational_unit.field_ou_map.value %}
+            {# WKT -> "POINT (lon lat)" #}
+            {% set coords = point|replace({'POINT(':'','POINT (':'', ')':''})|trim|split(' ') %}
+            {% set lon = coords[0]|default('') %}
+            {% set lat = coords[1]|default('') %}
+            {% set coords_ou = lat ~ ', ' ~ lon %}
+          {% endif %}
 
-				
-{% if organizational_unit.hasTranslation(current_language) %}
-  {% set ou_for_path = organizational_unit.getTranslation(current_language) %}
-  {% set lang_for_path = current_language %}
-{% else %}
-  {% set ou_for_path = organizational_unit.getTranslation('en') %}
-  {% set lang_for_path = 'en' %}
-{% endif %}
+          <div
+            class="ou-item p-3 mb-3 bg-light"
+            data-ou-title="{{ organizational_unit.title.value }}"
+            data-ou-type="{{ organizational_unit.field_ou_type.value }}"
+            data-ou-area="{{ organizational_unit.field_ou_area.value }}"
+            data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}"
+            data-ou-address="{{ organizational_unit.field_ou_address.value }}"
+            data-ou-gps="{{ coords_ou }}"
+            data-ou-web="{{ organizational_unit.field_ou_webs.uri }}"
+            data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}"
+            data-ou-email="{{ organizational_unit.field_ou_contacts.value }}"
+            data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id() }}"
+            data-ou-campus-label="{{ campus_label }}"
+            data-ou-url="{{ ou_info_url }}"
+            onclick="loadOUDetails(this)"
+          >
+            <!-- Título de la unidad organizativa -->
+            <h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
 
-{# Alias canónico de la OU en el idioma correcto #}
-{% set ou_path = path('entity.node.canonical', {'node': ou_for_path.id()}, {'langcode': lang_for_path}) %}
+            <!-- Tipo de la unidad organizativa -->
+            <p class="mb-0 small ou-type">
+              {% if organizational_unit.field_ou_type.value is defined %}
+                {{ organizational_unit.field_ou_type.value }}
+              {% endif %}
+              &nbsp;·&nbsp;
+              <strong>{{ campus_label }}</strong>
+            </p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
 
-{% set parts = ou_path|trim('/')|split('/') %}
-{% set ou_alias = parts|last %}
-{% set institution_alias = parts[parts|length - 2] %}
-
-{# Enlace final a la vista #}
-{% set ou_info_url = path('view.organizational_unit_information.page_1', {
-  'arg_0': institution_alias,
-  'arg_1': ou_alias
-}, {'langcode': lang_for_path}) %}
-
-{% set coords_ou = '' %}
-
-{% if organizational_unit.field_ou_map.value is defined and organizational_unit.field_ou_map.value %}
-  {% set point  = organizational_unit.field_ou_map.value %}
-  {# WKT -> "POINT (lon lat)" #}
-  {% set coords = point|replace({'POINT(':'','POINT (':'', ')':''})|trim|split(' ') %}
-  {% set lon = coords[0]|default('') %}
-  {% set lat = coords[1]|default('') %}
-  {% set coords_ou = lat ~ ', ' ~ lon %}
-{% endif %}
-
-
-
-
-
-
-
-
-				<div
-					class="ou-item border p-3 mb-2 bg-white shadow-sm" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ coords_ou }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id() }}" data-ou-campus-label="{{ campus_label }}" data-ou-url="{{ ou_info_url }}" onclick="loadOUDetails(this)">
-
-					<!-- Título de la unidad organizativa -->
-					<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
-
-					<!-- Tipo de la unidad organizativa -->
-					<p class="mb-0 small ou-type">
-						{% if organizational_unit.field_ou_type.value is defined %}
-							{{ organizational_unit.field_ou_type.value }}
-						{% endif %}
-						&nbsp;·&nbsp;
-
-						<strong>{{ campus_label }}</strong>
-
-					</p>
-				</div>
-
-			{% endif %}
-		{% endfor %}
-	</div>
-
-
+  <!-- Columna derecha: detalle dinámico -->
+  <div class="col-lg-6">
+    <div id="ou-details" class="bg-light h-100">
+      <p class="text-muted">{{ translations[current_language]['Click on an Organizational Unit to see its details.'] }}</p>
+      <!-- Aquí se rellenará dinámicamente con JS -->
+    </div>
+  </div>
 </div>
-
-<!-- Columna derecha: detalle dinámico -->
-<div class="col-lg-6">
-	<div id="ou-details" class="border p-4 bg-light h-100 shadow-sm">
-		<p class="text-muted">{{translations[current_language]['Click on an Organizational Unit to see its details.']}}</p>
-		<!-- Aquí se rellenará dinámicamente con JS -->
-	</div>
-</div></div></div></div>
+</div></div></div>
 
 {% endif %}
 
@@ -476,231 +460,238 @@ class="row">
 {#SCRIPTS#}{#SCRIPTS#}
 {#SCRIPTS#}{#SCRIPTS#}
 {#SCRIPTS#}{#SCRIPTS#}
-<script>function loadOUDetails(el) { // ❌ Elimina la clase 'selected' de todos
-document.querySelectorAll('.ou-item').forEach(item => {
-item.classList.remove('selected');
-});
+<script>
+// =======================
+// DETALLES (misma lógica) + estilos como en el JS base
+// =======================
+function loadOUDetails(el) {
+  // Quitar seleccionado previo
+  document.querySelectorAll('.ou-item').forEach(item => item.classList.remove('selected'));
+  // Seleccionar actual
+  el.classList.add('selected');
 
-// ✅ Añade la clase al seleccionado
-el.classList.add('selected');
+  // Datos
+  const title       = el.dataset.ouTitle || '';
+  const type        = el.dataset.ouType || '';
+  const description = el.dataset.ouDescription || '';
+  const address     = el.dataset.ouAddress || '';
+  const gps         = el.dataset.ouGps || '';
+  const web         = el.dataset.ouWeb || '';
+  const webLabel    = el.dataset.ouWebLabel || web;
+  const email       = el.dataset.ouEmail || '';
+  const campus      = el.dataset.ouCampusLabel || '';
+  const url         = el.dataset.ouUrl || '#';
 
-// ⚙️ Tu código para mostrar los detalles
-const title = el.dataset.ouTitle || '';
-const type = el.dataset.ouType || '';
-const description = el.dataset.ouDescription || '';
-const address = el.dataset.ouAddress || '';
-const gps = el.dataset.ouGps || '';
-const web = el.dataset.ouWeb || '';
-const webLabel = el.dataset.ouWebLabel || web;
-const email = el.dataset.ouEmail || '';
-const campus = el.dataset.ouCampusLabel || '';
-const url = el.dataset.ouUrl || '#';
-
-
-// Formatear campus (eliminar guiones bajos y capitalizar palabras)
-
-const html = `
-    <!-- Imagen fija -->
+  // Plantilla (misma estética que el primer JS: img sin rounded/shadow, wrapper .p-4 y <h4>)
+  const html = `
     <div class="mb-3 text-center">
-      <img src="/themes/custom/b5subtheme/images/ou-default.png" alt="Organizational Unit" class="img-fluid rounded shadow" style="max-height: 600px; object-fit: cover;">
+      <img src="/themes/custom/b5subtheme/images/ou-default.png"
+           alt="Organizational Unit"
+           class="img-fluid"
+           style="max-height: 600px; object-fit: cover;">
     </div>
 
-    <h3 class="fw-bold">${title}</h3>
+    <div class="p-4">
+      <h4 class="fw-bold">${title}</h4>
 
-<div class="ou-tag-bar text-white mb-3">
-    <span class="ou-type">${
-type.toUpperCase()
-}</span>
-    <span class="ou-campus">${campus}</span>
-  </div>
-	
+      <div class="ou-tag-bar text-white mb-3">
+        <span class="ou-type">${(type || '').toUpperCase()}</span>
+        <span class="ou-campus">${campus}</span>
+      </div>
 
-	
-   
+      <div class="mt-3">${description}</div>
 
+      <div class="d-flex align-items-start mt-3 mb-2">
+        <i class="fas fa-map-marker-alt me-2 mt-1"></i>
+        <p class="mb-0">${address}</p>
+      </div>
 
+      <div class="d-flex align-items-start mb-2">
+        <i class="fas fa-location-arrow me-2 mt-1"></i>
+        <p class="mb-0">${gps}</p>
+      </div>
 
-    <div class="mt-3">${description}</div>
+      <div class="d-flex align-items-start mb-2">
+        <i class="fas fa-globe me-2 mt-1"></i>
+        <p class="mb-0">
+          <a href="${web}" target="_blank" rel="noopener">${webLabel}</a>
+        </p>
+      </div>
 
-    <div class="d-flex align-items-start mt-3 mb-2">
-      <i class="fas fa-map-marker-alt me-2 mt-1"></i>
-      <p class="mb-0">${address}</p>
+      <div class="d-flex align-items-start mb-2">
+        <i class="fas fa-envelope me-2 mt-1"></i>
+        <p class="mb-0">${email}</p>
+      </div>
+
+      <div class="mt-5 text-center">
+        <a class="btn btn-dark see-more-ou-button" href="${url}">{{translations[current_language]['See more']}}</a>
+      </div>
     </div>
-
-    <div class="d-flex align-items-start mb-2">
-      <i class="fas fa-location-arrow me-2 mt-1"></i>
-      <p class="mb-0">${gps}</p>
-    </div>
-
-    <div class="d-flex align-items-start mb-2">
-      <i class="fas fa-globe me-2 mt-1"></i>
-      <p class="mb-0">
-        <a href="${web}" target="_blank">${webLabel}</a>
-      </p>
-    </div>
-
-    <div class="d-flex align-items-start mb-2">
-      <i class="fas fa-envelope me-2 mt-1"></i>
-      <p class="mb-0">${email}</p>
-    </div>
-
-     <div class="mt-3 text-center">
-    <a class="btn btn-dark see-more-ou-button" href="${url}">{{translations[current_language]['See more']}}</a>
-  </div>
   `;
-
-document.getElementById('ou-details').innerHTML = html;
+  document.getElementById('ou-details').innerHTML = html;
 }
 
+// =======================
+// FILTROS + BUSCADOR (mismo funcionamiento)
+// Añadimos SOLO estética: texto del botón = etiqueta elegida (sin prefijo)
+// y color activo con --university_primary_color
+// =======================
 let currentCampus = '';
-
-document.querySelectorAll('#filter-campus .dropdown-item').forEach(item => {
-item.addEventListener('click', function (e) {
-e.preventDefault();
-currentCampus = this.dataset.campus;
-document.getElementById('campus-filter-button').textContent = currentCampus ? `Campus: ${
-this.textContent
-}` : 'Campus';
-filterOUList();
-});
-});
-
-
-// 🔍 Buscador en tiempo real
-document.getElementById('ou-search').addEventListener('input', function () {
-const query = this.value.toLowerCase();
-const items = document.querySelectorAll('#ou-list .ou-item');
-
-items.forEach(item => {
-const title = item.dataset.ouTitle ?. toLowerCase() || '';
-const type = item.dataset.ouType ?. toLowerCase() || '';
-
-if (title.includes(query) || type.includes(query)) {
-item.style.display = '';
-} else {
-item.style.display = 'none';
-}
-});
-});
-
-
 let currentType = '';
 let currentArea = '';
-// Cambiar texto del botón TYPE
-const typeButton = document.getElementById('type-filter-button');
-const areaButton = document.getElementById('area-filter-button');
 
-document.querySelectorAll('#filter-type .dropdown-item').forEach(item => {
-item.addEventListener('click', function (e) {
-e.preventDefault();
-currentType = this.dataset.type;
-typeButton.textContent = currentType ? `Type: ${
-this.textContent
-}` : 'Type';
-filterOUList();
+// Botones (respetamos clases existentes)
+const campusButton = document.getElementById('campus-filter-button');
+const typeButton   = document.getElementById('type-filter-button');
+const areaButton   = document.getElementById('area-filter-button');
+
+// Helper para aplicar/quitar color activo sin cambiar clases
+function setActiveButtonStyle(btn, active) {
+  const root = getComputedStyle(document.documentElement);
+  const uniColor = root.getPropertyValue('--university_primary_color') || '';
+  if (active) {
+    btn.style.backgroundColor = uniColor;
+    btn.style.borderColor = uniColor;
+    btn.style.color = '#fff';
+  } else {
+    btn.style.backgroundColor = '';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+  }
+}
+
+// CAMPUS
+document.querySelectorAll('#filter-campus .dropdown-item').forEach(item => {
+  item.addEventListener('click', function (e) {
+    e.preventDefault();
+    currentCampus = this.dataset.campus || '';
+    // Texto = solo etiqueta elegida; si vacío, vuelve al label por defecto
+    campusButton.textContent = currentCampus ? this.textContent.trim() : 'Campus';
+    // Estilo activo
+    setActiveButtonStyle(campusButton, !!currentCampus);
+    filterOUList();
+  });
 });
+
+// 🔍 Buscador en tiempo real (mismo comportamiento)
+document.getElementById('ou-search').addEventListener('input', function () {
+  const query = this.value.toLowerCase();
+  const items = document.querySelectorAll('#ou-list .ou-item');
+
+  items.forEach(item => {
+    const title = item.dataset.ouTitle?.toLowerCase() || '';
+    const type  = item.dataset.ouType?.toLowerCase() || '';
+    item.style.display = (title.includes(query) || type.includes(query)) ? '' : 'none';
+  });
+});
+
+// TYPE y AREA
+document.querySelectorAll('#filter-type .dropdown-item').forEach(item => {
+  item.addEventListener('click', function (e) {
+    e.preventDefault();
+    currentType = this.dataset.type || '';
+    typeButton.textContent = currentType ? this.textContent.trim() : 'Type';
+    setActiveButtonStyle(typeButton, !!currentType);
+    filterOUList();
+  });
 });
 
 document.querySelectorAll('#filter-area .dropdown-item').forEach(item => {
-item.addEventListener('click', function (e) {
-e.preventDefault();
-currentArea = this.dataset.area;
-areaButton.textContent = currentArea ? `Knowledge Area: ${
-this.textContent
-}` : 'Knowledge Area';
-filterOUList();
-});
+  item.addEventListener('click', function (e) {
+    e.preventDefault();
+    currentArea = this.dataset.area || '';
+    areaButton.textContent = currentArea ? this.textContent.trim() : 'Knowledge Area';
+    setActiveButtonStyle(areaButton, !!currentArea);
+    filterOUList();
+  });
 });
 
-
-// Filtro general (combina búsqueda + tipo + área)
+// Filtro general (combina búsqueda + tipo + área + campus) — sin cambios de lógica
 function filterOUList() {
-const query = document.getElementById('ou-search').value.toLowerCase();
-const items = document.querySelectorAll('#ou-list .ou-item');
+  const query = document.getElementById('ou-search').value.toLowerCase();
+  const items = document.querySelectorAll('#ou-list .ou-item');
 
-items.forEach(item => {
-const title = item.dataset.ouTitle ?. toLowerCase() || '';
-const type = item.dataset.ouType ?. toLowerCase() || '';
-const area = item.dataset.ouArea ?. toLowerCase() || '';
-const campus = item.dataset.ouCampusId || '';
-console.log(campus);
+  items.forEach(item => {
+    const title  = item.dataset.ouTitle?.toLowerCase() || '';
+    const type   = item.dataset.ouType?.toLowerCase() || '';
+    const area   = item.dataset.ouArea?.toLowerCase() || '';
+    const campus = item.dataset.ouCampusId || '';
 
-const matchText = title.includes(query);
-const matchType = ! currentType || type === currentType.toLowerCase();
-const matchArea = ! currentArea || area === currentArea.toLowerCase();
-const matchCampus = ! currentCampus || campus === currentCampus;
+    const matchText   = title.includes(query);
+    const matchType   = !currentType || type === currentType.toLowerCase();
+    const matchArea   = !currentArea || area === currentArea.toLowerCase();
+    const matchCampus = !currentCampus || campus === currentCampus;
 
-
-if (matchText && matchType && matchArea && matchCampus) {
-item.style.display = '';
-} else {
-item.style.display = 'none';
-}
-});
+    item.style.display = (matchText && matchType && matchArea && matchCampus) ? '' : 'none';
+  });
 }
 
-
-// Búsqueda con combinación de filtros
+// Duplicado de listener de búsqueda (lo mantenemos tal cual para no tocar funcionamiento)
 document.getElementById('ou-search').addEventListener('input', filterOUList);
 
-
+// =======================
+// PAGINACIÓN (mismo funcionamiento; itemsPerPage=2 como enviaste)
+// =======================
 document.addEventListener("DOMContentLoaded", function () {
-const items = document.querySelectorAll("#ou-list .ou-item");
-const itemsPerPage = 2;
-let currentPage = 1;
+  const items = document.querySelectorAll("#ou-list .ou-item");
+  const itemsPerPage = 2;
+  let currentPage = 1;
 
-function showPage(page) {
-const start = (page - 1) * itemsPerPage;
-const end = page * itemsPerPage;
+  function showPage(page) {
+    const start = (page - 1) * itemsPerPage;
+    const end   = page * itemsPerPage;
 
-items.forEach((item, index) => {
-item.style.display = (index >= start && index < end) ? '' : 'none';
+    items.forEach((item, index) => {
+      item.style.display = (index >= start && index < end) ? '' : 'none';
+    });
+
+    renderPagination(page);
+  }
+
+  function renderPagination(activePage) {
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+    const pagination = document.getElementById("pagination-controls");
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+      const li = document.createElement("li");
+      li.className = "page-item" + (i === activePage ? " active" : "");
+      li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+      li.addEventListener("click", function (e) {
+        e.preventDefault();
+        currentPage = i;
+        showPage(currentPage);
+      });
+      pagination.appendChild(li);
+    }
+  }
+
+  if (items.length > 0) {
+    showPage(currentPage);
+  }
+
+  // Estado inicial de botones (sin color activo)
+  setActiveButtonStyle(campusButton, false);
+  setActiveButtonStyle(typeButton,   false);
+  setActiveButtonStyle(areaButton,   false);
 });
+</script>
 
-renderPagination(page);
-}
-
-function renderPagination(activePage) {
-const totalPages = Math.ceil(items.length / itemsPerPage);
-const pagination = document.getElementById("pagination-controls");
-pagination.innerHTML = '';
-
-for (let i = 1; i <= totalPages; i++) {
-const li = document.createElement("li");
-li.className = "page-item" + (
-i === activePage ? " active" : ""
-);
-li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-li.addEventListener("click", function (e) {
-e.preventDefault();
-currentPage = i;
-showPage(currentPage);
-});
-pagination.appendChild(li);
-}
-}
-
-if (items.length > 0) {
-showPage(currentPage);
-}
-});</script>
-
-
-
-
+<!-- ===================== -->
+<!-- JS PROGRAMMES (estilos solo; misma lógica) -->
+<!-- ===================== -->
 <script>
-
 (function () {
-  const $ = (sel, ctx=document) => ctx.querySelector(sel);
+  const $  = (sel, ctx=document) => ctx.querySelector(sel);
   const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
 
-  const input   = $('#programmeSearch');
-  const btn     = $('#programmeSearchBtn');
-  const menuArea  = $('#filter-programme-area');
-  const btnArea   = $('#programme-area-filter-button');
-  const menuLevel = $('#filter-level');
-  const btnLevel  = $('#level-filter-button');
-  const btnAZ   = document.querySelector('.btn.btn-danger.btn-sm');
+  const input    = $('#programmeSearch');
+  const btn      = $('#programmeSearchBtn');
+  const menuArea = $('#filter-programme-area');
+  const btnArea  = $('#programme-area-filter-button');
+  const menuLevel= $('#filter-level');
+  const btnLevel = $('#level-filter-button');
+  const btnAZ    = document.querySelector('.btn.btn-danger.btn-sm');
 
   const norm = s => (s||'').toString().trim().toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -755,28 +746,69 @@ showPage(currentPage);
     });
   }
 
+  // ===== Estética de botones de filtro (sin tocar clases / lógica) =====
+  function setActiveBtnStyle(btn, active) {
+    const uniColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--university_primary_color') || '';
+    if (!btn) return;
+    if (active) {
+      btn.textContent = btn.textContent.trim(); // ya se actualiza más abajo con el label elegido
+      btn.style.backgroundColor = uniColor;
+      btn.style.borderColor = uniColor;
+      btn.style.color = '#fff';
+    } else {
+      btn.style.backgroundColor = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }
+  }
+
   let t;
-  input.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { state.q = norm(input.value); applyFilter(); }, 120); });
-  btn.addEventListener('click', e => { e.preventDefault(); state.q = norm(input.value); applyFilter(); });
+  if (input) {
+    input.addEventListener('input', () => {
+      clearTimeout(t);
+      t = setTimeout(() => { state.q = norm(input.value); applyFilter(); }, 120);
+    });
+  }
+  if (btn) {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      state.q = norm(input ? input.value : '');
+      applyFilter();
+    });
+  }
 
-  menuArea.addEventListener('click', e => {
-    const a = e.target.closest('a[data-programme-area]');
-    if (!a) return;
-    e.preventDefault();
-    state.area = a.dataset.programmeArea ? slug(a.dataset.programmeArea) : '';
-    btnArea.textContent = state.area ? a.textContent.trim() : 'Knowledge Area';
-    applyFilter();
-  });
+  if (menuArea && btnArea) {
+    menuArea.addEventListener('click', e => {
+      const a = e.target.closest('a[data-programme-area]');
+      if (!a) return;
+      e.preventDefault();
+      state.area = a.dataset.programmeArea ? slug(a.dataset.programmeArea) : '';
+      // Solo el nombre de la opción
+      btnArea.textContent = state.area ? a.textContent.trim() : 'Knowledge Area';
+      setActiveBtnStyle(btnArea, !!state.area);
+      applyFilter();
+    });
+    // estado inicial
+    setActiveBtnStyle(btnArea, false);
+  }
 
-  menuLevel.addEventListener('click', e => {
-    const a = e.target.closest('a[data-type]');
-    if (!a) return;
-    e.preventDefault();
-    state.level = a.dataset.type ? slug(a.dataset.type) : '';
-    btnLevel.textContent = state.level ? a.textContent.trim() : 'Level';
-    applyFilter();
-  });
+  if (menuLevel && btnLevel) {
+    menuLevel.addEventListener('click', e => {
+      const a = e.target.closest('a[data-type]');
+      if (!a) return;
+      e.preventDefault();
+      state.level = a.dataset.type ? slug(a.dataset.type) : '';
+      // Solo el nombre de la opción
+      btnLevel.textContent = state.level ? a.textContent.trim() : 'Level';
+      setActiveBtnStyle(btnLevel, !!state.level);
+      applyFilter();
+    });
+    // estado inicial
+    setActiveBtnStyle(btnLevel, false);
+  }
 
+  // Botón A-Z: dejamos su comportamiento/clases tal cual (rojo)
   if (btnAZ) {
     btnAZ.addEventListener('click', e => {
       e.preventDefault();
@@ -787,27 +819,21 @@ showPage(currentPage);
     });
   }
 })();
-
 </script>
 
-
-
 <script>
+// Mantener scroll en acordeón (sin cambios de lógica)
 (function () {
-  // Congela el scroll cuando se muestra/oculta un panel de acordeón
   const keepScroll = () => {
     const y = window.scrollY;
-    // reestablece inmediatamente (sin animación)
     window.requestAnimationFrame(() => window.scrollTo(0, y));
   };
 
-  // Escucha eventos de Bootstrap 5
   document.querySelectorAll('.accordion .collapse').forEach(el => {
     el.addEventListener('shown.bs.collapse', keepScroll);
     el.addEventListener('hidden.bs.collapse', keepScroll);
   });
 
-  // Por si algún trigger es <a href="#…">, anula el salto
   document.querySelectorAll('.accordion [data-bs-toggle="collapse"]').forEach(tr => {
     if (tr.tagName === 'A') {
       tr.addEventListener('click', e => e.preventDefault());

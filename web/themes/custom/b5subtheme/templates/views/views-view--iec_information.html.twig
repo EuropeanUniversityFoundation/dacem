@@ -56,13 +56,13 @@
 	{% set language_prefix = '/' ~ current_language ~ '/' %}
 	{% set modified_url = original_url|replace({(language_prefix): language_prefix ~ 'catalogue/'}) %}
 	<a href="{{ modified_url }}" class="programme-header-link">
-		<div class="rs-header">
-			<div class="container-fluid">
-				<h1 class="rs-title">
-					{{ translated_programme.title.value|raw }}
-				</h1>
-			</div>
-		</div>
+		<div class="rs-header ">
+	<div class="my-custom-container-2">
+	<div class="page-band">
+		<h1 class="rs-title">{{ translated_programme.title.value|raw }}</h1>
+	</div>
+	</div>
+	</div>	
 	</a>
 {% else %}
 	<div class="programme-header-link">
@@ -75,133 +75,130 @@
 		</div>
 	</div>
 {% endif %}
-<div class="iec-header">
-	<div
-		class="container-fluid">
-		<!--<h5>{{ translations[current_language]['Subject'] }}</h5>-->
-		<div class='rs-title'>
-		<h5>IEC</h5>
-		<h2 >
-			{{ translated_iec.label|upper }}
-		</h2>
-		</div>
+<div class="rs-header bg-black">
+	<div class="my-custom-container-2">
+	<div class="page-band">
+		<h1 class="rs-title">{{ translated_iec.label|upper }}</h1>
 	</div>
-</div></div><div class="container-fluid">
+	</div>	
+	
+	</div></div><div class="section-container">
 <div class="my-custom-container-2">
 	<div class="row">
-		<div class="col-lg-6 col-md-12 col-sm-12">
+		<div class="col-sm-12 col-md-12 col-xl-8 order-2 order-xl-1">
 			<div
 				class="programme-section" id="general-information" style="text-align: justify;">
-				<!--<h3>{{ translations[current_language]['PRESENTATION'] }}</h3>-->
-				<h3>{{ translations[current_language]['DESCRIPTION'] }}</h3>
+				<!--<h3 class="subsection-title">{{ translations[current_language]['Presentation'] }}</h3>-->
+				<h3 class="subsection-title mt-0">{{ translations[current_language]['Description'] }}</h3>
 				{{ translated_iec.field_iec_description.value|raw }}
 			</div>
-		</div>
+		
 
-		<div class="col-lg-6 col-md-12 mt-4 degree-sidebar-wrapper mt-lg-0">
-			<div class="programme-sidebar bg-light p-3">
-				<h3>{{ translations[current_language]['General Data'] | upper}}</h3>
-				<div class="row">
-					<div class="col-md-6">
-						<strong>{{ translations[current_language]['Academic Course'] }}:</strong>
-						23/24
-					</div>
-					<div class="col-md-6">
-						<strong>{{ translations[current_language]['Type'] }}:</strong>
-						{{translations[current_language][translated_iec.field_iec_type.value]|capitalize}}
-					</div>
-				</div>
-				<div class="row mt-2">
-					<div class="col-md-6">
-						<strong>{{ translations[current_language]['Course'] }}:</strong>
-						{{ translated_iec.field_iec_year.value }}
-					</div>
-					<div class="col-md-6">
-						<strong>{{ translations[current_language]['Period'] }}:</strong>
-						{{ translated_iec.field_iec_term.value }}
-					</div>
-				</div>
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<strong>{{ translations[current_language]['ECTS Credits'] }}:</strong>
-						{{ translated_iec.field_iec_credits.value }}
-					</div>
-				</div>
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<strong>{{ translations[current_language]['Modality'] }}:</strong>
-						{{translations[current_language][translated_iec.field_iec_modality.value] }}
-					</div>
-				</div>
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<strong>{{ translations[current_language]['Requirements'] }}:</strong>
-						{{ translated_iec.field_iec_requirements.value | raw}}
-					</div>
-				</div>
-				<div class="row mt-2">
-					<div class="col-md-12">
-						<strong>{{ translations[current_language]['Language'] }}:</strong>
-						{{ translated_iec.field_iec_language.value }}
-					</div>
-				</div>
-				<h3 class="mt-4">{{ translations[current_language]['Coordination'] | upper}}</h3>
-				<p>{{ translated_iec.field_iec_coordinator.value }}</p>
-				<p>
-					<i class="fa fa-phone"></i>
-					{{ translated_iec.field_iec_phone.value }}
-				</p>
-				<p>
-					<i class="fa fa-envelope"></i>
-					{{ translated_iec.field_iec_email.value }}
-				</p>
-			</div>
+		
+	
 
-			<div class="information-footer p-2">
-				<div class="d-flex justify-content-between align-items-center">
-					<div>
-						<i class="fas fa-share-square custom-icon me-2"></i>
-
-						<span class="text-white">Original Source:
-						</span>
-						<a href="#" class="guia-docente-link">www.example.com</a>
-					</div>
-					<div>
-						<span>Updated 12-05-2024</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-lg-7 col-md-12 col-sm-12">
+	
+		
 			<div class="programme-section" id="main-objective" style="text-align: justify;">
-				<h3>{{ translations[current_language]['INSTRUCTORS'] }}</h3>
+				<h3 class="subsection-title">{{ translations[current_language]['Instructors'] }}</h3>
 				{{ translated_iec.field_iec_instructors.value|raw }}
 			</div>
 			<div
 				class="programme-section" id="competencies" style="text-align: justify;">
-				<!--<h3>{{ translations[current_language]['SUBJECT CONTENT'] }}</h3>-->
-				<h3>{{ translations[current_language]['IEC CONTENTS'] }}</h3>
+				<!--<h3 class="subsection-title">{{ translations[current_language]['SUBJECT CONTENT'] }}</h3>-->
+				<h3 class="subsection-title">{{ translations[current_language]['Iec Contents'] }}</h3>
 				{{ translated_iec.field_iec_contents.value|raw }}
 			</div>
 			<div class="programme-section" id="competencies" style="text-align: justify;">
-				<h3>{{ translations[current_language]['LEARNING OUTCOMES'] }}</h3>
+				<h3 class="subsection-title">{{ translations[current_language]['Learning Outcomes'] }}</h3>
 				{{ translated_iec.field_iec_learning_outcomes.value|raw }}
 			</div>
 			<div class="programme-section" id="competencies" style="text-align: justify;">
-				<h3>{{ translations[current_language]['RECOMMENDED READINGS AND TOOLS'] }}</h3>
+				<h3 class="subsection-title">{{ translations[current_language]['Recommended Readings and Tools'] }}</h3>
 				{{ translated_iec.field_iec_recommendations.value|raw }}
 			</div>
 			<div class="programme-section" id="competencies" style="text-align: justify;">
-				<h3>{{ translations[current_language]['PLANNED ACTIVITIES'] }}</h3>
+				<h3 class="subsection-title">{{ translations[current_language]['Planned Activities'] }}</h3>
 				{{ translated_iec.field_iec_planned_activities.value|raw }}
 			</div>
 			<div class="programme-section" id="competencies" style="text-align: justify;">
-				<h3>{{ translations[current_language]['EVALUATION METHODS AND CRITERIA'] }}</h3>
+				<h3 class="subsection-title">{{ translations[current_language]['Evaluation Methods and Criteria'] }}</h3>
 				{{ translated_iec.field_iec_evaluation.value|raw }}
 			</div>
-		</div>
-	</div>
+
+			</div>
+		
+	
+<div class="col-sm-12 col-md-12 col-xl-4 degree-sidebar-wrapper order-1 order-xl-2">
+  <div class="degree-sidebar bg-light">
+    <div class="row g-3 mx-0">
+
+      <!-- Columna 1: General Data -->
+      <div class="col-12 col-md-6 col-xl-12">
+        <h3 class="subsection-title m-0 mb-3">
+          {{ translations[current_language]['General Data']}}
+        </h3>
+
+        <div class="degree-info-item mb-2">
+          <strong>{{ translations[current_language]['Academic Course'] }}:</strong>
+          23/24
+        </div>
+
+        <div class="degree-info-item mb-2">
+          <strong>{{ translations[current_language]['Type'] }}:</strong>
+          {{ translations[current_language][translated_iec.field_iec_type.value]|capitalize }}
+        </div>
+
+        <div class="degree-info-item mb-2">
+          <strong>{{ translations[current_language]['Course'] }}:</strong>
+          {{ translated_iec.field_iec_year.value }}
+        </div>
+
+        <div class="degree-info-item mb-2">
+          <strong>{{ translations[current_language]['Period'] }}:</strong>
+          {{ translated_iec.field_iec_term.value }}
+        </div>
+
+        <div class="degree-info-item mb-2">
+          <strong>{{ translations[current_language]['ECTS Credits'] }}:</strong>
+          {{ translated_iec.field_iec_credits.value }}
+        </div>
+
+        <div class="degree-info-item mb-2">
+          <strong>{{ translations[current_language]['Modality'] }}:</strong>
+          {{ translations[current_language][translated_iec.field_iec_modality.value] }}
+        </div>
+
+        <div class="degree-info-item mb-2">
+          <strong>{{ translations[current_language]['Requirements'] }}:</strong>
+          {{ translated_iec.field_iec_requirements.value | raw }}
+        </div>
+
+        <div class="degree-info-item mb-2">
+          <strong>{{ translations[current_language]['Language'] }}:</strong>
+          {{ translated_iec.field_iec_language.value }}
+        </div>
+      </div>
+
+      <!-- Columna 2: Coordination -->
+      <div class="col-12 col-md-6 col-xl-12">
+        <h3 class="mt-4 mt-md-0 mt-xl-4">{{ translations[current_language]['Coordination']}}</h3>
+
+        <div class="degree-info-item mb-1">{{ translated_iec.field_iec_coordinator.value }}</div>
+
+        <div class="degree-info-item mb-1">
+          <i class="fa fa-phone"></i> {{ translated_iec.field_iec_phone.value }}
+        </div>
+
+        <div class="degree-info-item mb-1">
+          <i class="fa fa-envelope"></i> {{ translated_iec.field_iec_email.value }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
 </div></div></div>

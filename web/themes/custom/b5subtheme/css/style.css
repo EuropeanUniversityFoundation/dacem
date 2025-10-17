@@ -44,7 +44,8 @@
   --bs-info-rgb: 13, 202, 240;
   --bs-warning-rgb: 255, 193, 7;
   --bs-danger-rgb: 220, 53, 69;
-  --bs-light-rgb: 248, 249, 250;
+  /*--bs-light-rgb: 248, 249, 250;*/
+  --bs-light-rgb: 246, 246, 246;
   --bs-dark-rgb: 33, 37, 41;
   --bs-primary-text-emphasis: #052c65;
   --bs-secondary-text-emphasis: #2b2f32;
@@ -107,7 +108,8 @@
   --bs-border-style: solid;
   --bs-border-color: #dee2e6;
   --bs-border-color-translucent: rgba(0, 0, 0, 0.175);
-  --bs-border-radius: 0.375rem;
+  /*--bs-border-radius: 0.375rem;*/
+  --bs-border-radius: 0;
   --bs-border-radius-sm: 0.25rem;
   --bs-border-radius-lg: 0.5rem;
   --bs-border-radius-xl: 1rem;
@@ -128,7 +130,7 @@
 
 
   --global-side-padding: 75px;
-  --global-site-width: 1300px;
+  --global-site-width: 1200px;
 
 
 }
@@ -1885,6 +1887,7 @@ progress {
 }
 .table > thead {
   vertical-align: bottom;
+
 }
 
 .table-group-divider {
@@ -12981,24 +12984,40 @@ code {
 
 
 
+.institution-logo {
+  max-height: 200px; /* límite de altura */
+  width: auto;       /* ancho se ajusta automáticamente */
+  height: auto;      /* mantiene la proporción */
+  object-fit: contain; /* opcional: asegura que se vea completa dentro del espacio */
+}
 
-
+.institution-card-information{
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+}
 
 
 
 .degree-sidebar {
   background-color: #373535; /* Gris claro */
-  border: 1px solid #ddd; /* Borde gris */
-  padding: 20px; /* Espaciado interno */
-  border-radius: 5px; /* Bordes redondeados */
+  /*border: 1px solid #ddd;*/ /* Borde gris */
+  padding: 40px; /* Espaciado interno */
+  /*border-radius: 5px; *//* Bordes redondeados */
+  margin-left: 0px;
+  margin-bottom: 45px;
 
 }
 
-@media (min-width: 1200px) { /* Aplicar solo a pantallas XL o mayores */
-  .degree-sidebar-wrapper {
-      width: 45% !important; /* Cambiamos el ancho del contenedor sin tocar el degree-sidebar */
+@media (max-width: 992px) {
+  .degree-sidebar {
+    margin-left: 0px;  
   }
 }
+
+
 
 
 
@@ -13109,9 +13128,10 @@ code {
 
 */
 .custom-btn-group .btn {
-  margin-right: 5%;
+  /*margin-right: 5%;*/
   white-space: nowrap;
   border-radius: 0;
+  border-width:2px;
   padding: 10px 20px;
 }
 
@@ -13153,18 +13173,18 @@ code {
 
 
 
+
+/*
 .sticky-nav {
-  position: -webkit-sticky; /* Safari */
+  position: -webkit-sticky; 
   position: sticky;
   top: 0;
-  z-index: 1000; /* Asegura que el menú se superponga sobre otros contenidos */
-  background-color: white; /* Asegúrate de que tenga un fondo para que no sea transparente */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Opcional: añade una sombra para que destaque */
+  z-index: 1000; /* Asegura que el menú se superponga sobre otros contenidos 
+  background-color: white; /* Asegúrate de que tenga un fondo para que no sea transparente 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Opcional: añade una sombra para que destaque 
 }
 
-
-
-
+*/
 
 
 
@@ -13451,10 +13471,11 @@ code {
 
 
 
-
+/*
 .sticky-nav{
   box-shadow: none !important;
 }
+  */
 
 
 /* Estilos básicos para el logo en el navbar de la universidad en todas las pantallas */
@@ -13880,7 +13901,7 @@ VISTA DE LISTA DE UNIVERSIDADES
 
 /* Cuerpo de la tarjeta (centrado) */
 .card-body {
-  padding: 20px;
+  padding: 16px !important;
 }
 
 /* Título de la universidad */
@@ -13987,6 +14008,11 @@ VISTA DE LISTA DE UNIVERSIDADES
   height: 100%;
   object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
 }
+
+.image-banner--bottom img {
+  object-position: bottom;
+}
+
 
 /* Texto centrado en la imagen */
 .overlay-text {
@@ -14297,10 +14323,14 @@ INSTITUTION MENU
 
 #block-b5subtheme-institutionmenublock{
   width: 100%;
-  padding-left: 15%; /* Ajusta según tus necesidades */
-  padding-right: 16.2%; /* Ajusta según tus necesidades */
+  
   padding-bottom: 0 !important;
   margin-bottom: 0 !important;
+  max-width: var(--global-site-width);
+  margin: 0 auto;
+  /*position: fixed;
+  top: 0;
+  z-index: 5000;*/
   
 }
 
@@ -14503,6 +14533,16 @@ RESOURCES AND SERVICES
   font-weight: 700;
 }
 
+.programme-section{
+padding-right: 25px;
+}
+
+
+@media (max-width: 1200px) {
+  .programme-section {
+    padding-right: 0px; /* Coloca todo en formato vertical */
+  }
+}
 
 
 
@@ -14527,7 +14567,7 @@ RESOURCES AND SERVICES
 
 .facility-box {
   background-color: transparent;
-  padding: 1rem 1rem 2rem;
+  padding: 1rem 1rem 2rem 1rem;
   border-radius: 12px;
 }
 
@@ -14541,13 +14581,30 @@ RESOURCES AND SERVICES
   text-align: justify;
 }
 
-.facility-box h4 {
-  font-size: 2rem;
+.facility-box h3 {
+  
   font-weight: bold;
   margin-bottom: 1rem;
   color: var(--university_primary_color);
 }
 
+
+.tilted-image-container {
+  overflow: hidden;          /* Evita que se vean bordes que sobresalgan */
+  transform: perspective(800px) rotateX(5deg); /* Inclinación hacia atrás */
+  transform-origin: center center;  /* Centro como punto de rotación */
+}
+
+.tilted-image {
+  width: 100%;
+  height: auto;
+  transform: scale(1.05); /* Corrige un poco el recorte visual */
+  transition: transform 0.5s ease;
+}
+
+.tilted-image-container:hover .tilted-image {
+  transform: scale(1.08); /* Pequeño zoom al pasar el ratón (opcional) */
+}
 
 
 /*
@@ -14561,6 +14618,7 @@ RESOURCES AND SERVICES
 }*/
 
 .rs-header {
+  
   padding: 0px var(--global-side-padding);
   /*width: 100%;*/
   background-color: var(--university_primary_color);
@@ -14569,6 +14627,7 @@ RESOURCES AND SERVICES
   z-index: 1000;
   height: 45px;
   align-content: center;
+  /*margin-top: 20px;*/
   
 
 }
@@ -14650,15 +14709,19 @@ RESOURCES AND SERVICES
 }
 
 .rs-section-image-text  {
+  
   position: absolute;
   bottom: 0; /* o bottom: 0; si quieres al ras */
-  padding-left: 16%;
+  /*padding-left: 16%;*/
   
   color: white;
   font-size: 55px; /* responsivo */
   font-weight: 900;
   text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+
+  
 }
+
 
 
 
@@ -14805,7 +14868,6 @@ RESOURCES AND SERVICES
 
 
 
-
 .section-container{
   padding: 75px var(--global-side-padding);
 }
@@ -14942,8 +15004,9 @@ body.h-100 {
 
 .see-more-ou-button{
   border-radius: 0;
-  padding: 10px 30px;
-  
+  padding: 10px 45px;
+  font-weight: bold;
+
 }
 
 
@@ -14954,11 +15017,13 @@ body.h-100 {
   font-size: 0.95rem;
   font-weight: 600;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  align-items: center;
+  height: 25px;
 }
 
 .ou-tag-bar .ou-type {
   background-color: #343a40; /* Gris oscuro */
-  padding: 0.4em 0.75em;
+  padding: 0.3em 0.75em;
 }
 
 .ou-tag-bar .ou-campus {
@@ -15030,7 +15095,8 @@ h3.subsection-title{
   font-size: 26px;
   font-weight: bold;
   margin-top: 45px;
-  margin-bottom: 0px !important;
+  margin-bottom: 10px !important;
+
 }
 
 h4.subsection-title{
@@ -15049,3 +15115,43 @@ p{
    text-align: justify;
   text-justify: inter-word;
 }
+
+
+
+/*Axustar flex botóns asignaturas curso, flex/inline-flex*/
+
+.btn-group-adjustment{
+  display: flex;
+}
+
+.btn-whithout-border-radius{
+  border-radius: 0;
+}
+
+
+
+
+.custom-btn-group-filter-ou .btn {
+  /*margin-right: 5%;*/
+  white-space: nowrap;
+  border-radius: 0;
+  border-width:2px;
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+
+.dropdown-item.active{
+  
+  background-color: var(--university_primary_color) !important;
+}
+
+#ou-search{
+  padding: 15px;
+}
+
+
+.section-margin-negative{
+  margin-top: -80px;
+}
+

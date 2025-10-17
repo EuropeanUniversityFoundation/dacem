@@ -512,7 +512,7 @@ class InstitutionMenuBlock extends BlockBase
 
             $build = [
                 '#markup' => $this->t('
-  <div class="sticky-nav">
+
     <nav class="navbar navbar-expand-lg university-navbar main-menu-text" style="margin: 0; padding: 0;">
       <div class="container-fluid">
 
@@ -566,6 +566,7 @@ class InstitutionMenuBlock extends BlockBase
         </div>
       </div>
     </nav>
+    
   </div>',
                     [
                         '@logo_dacem_url' => $logo_dacem_url,
