@@ -7,6 +7,9 @@
 
 {% endif %}
 
+{{dump(view.result)}}
+
+
 {% set institution = view.result[0]._relationship_entities['field_ou_institution'] %}
 {% set campus = view.result[0]._relationship_entities['field_ou_campus'] %}
 {#{dump(campus)}#}
@@ -268,6 +271,53 @@ class='my-custom-container-2'>
 
 </div></div></div>
 {% endif %}
+
+
+
+
+
+
+
+
+
+
+<div class="col-lg-6">
+
+
+		{{organizational_unit.field_ou_description.value | raw}}
+
+		<br><br>
+
+		{% set list_subous = [] %}
+    {% if view.result[0]._relationship_entities['reverse__node__field_parent_organizational_unit'] %}
+		{#{dump(view.result)}}{{dump(campus.field_campus_description.value)}#}
+		<h4>Sub-Organizational Units</h4>
+		<div class="vstack gap-3 mb-5">
+			{% for row in view.result %}
+				{% set ou = row._relationship_entities['reverse__node__field_parent_organizational_unit'] %}
+				{% if  ou.id not in list_subous %}
+					{% set list_subous = list_subous|merge([ou.id]) %}
+
+					{% if ou %}
+            {{ou.title.value}}
+						{{ou.field_ou_description.value | raw}}
+            
+
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+		</div>
+    {% endif %}
+	</div>
+</div>
+
+
+
+
+
+
+
+
 
 
 

@@ -13008,6 +13008,7 @@ code {
   /*border-radius: 5px; *//* Bordes redondeados */
   margin-left: 0px;
   margin-bottom: 45px;
+  
 
 }
 
@@ -14687,8 +14688,8 @@ padding-right: 25px;
   text-align: center;
   z-index: 1000;
   transition: opacity 0.3s ease;
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0.5;
+  /*pointer-events: none;*/
 }
 
 .back-to-top.show {
@@ -14698,6 +14699,7 @@ padding-right: 25px;
 
 .back-to-top:hover {
   background-color: #444;
+  opacity: 0.75;
 }
 
 
@@ -15155,3 +15157,50 @@ p{
   margin-top: -80px;
 }
 
+
+
+
+
+
+
+
+
+/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
+/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
+/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
+/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
+/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
+/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
+/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
+/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
+/* Fila */
+
+
+/* Contenedor general ya lo tienes; estilos de tarjeta: */
+.prog-card{
+  display:grid;
+  grid-template-columns: 80px 1fr;   /* logo | contenido */
+  gap: 16px;
+  align-items:center;
+  background:#fff;
+  border-radius:8px;
+  padding:16px 20px;
+  margin-bottom:16px;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+
+.prog-card__media{
+  width:80px; height:80px;
+  display:flex; align-items:center; justify-content:center;
+}
+.prog-card__media img{
+  max-width:100%; max-height:100%; object-fit:contain;
+  filter: none;
+}
+.prog-card__placeholder{
+  width:64px; height:64px; background:#eee; border-radius:6px;
+}
+
+.prog-card__title{ margin:0; font-size:1.05rem; font-weight:700; line-height:1.25; }
+.prog-card__title a{ color:#222; text-decoration:none; }
+.prog-card__title a:hover{ text-decoration:underline; }

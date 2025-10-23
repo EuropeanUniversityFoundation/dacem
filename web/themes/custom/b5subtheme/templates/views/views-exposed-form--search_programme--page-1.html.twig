@@ -1,0 +1,37 @@
+{# Filtros en fila como dropdowns Bootstrap #}
+<form{{ attributes.addClass() }}>
+
+    <div class="custom-btn-group-filter-ou d-flex gap-10 mb-3 flex-wrap">
+
+        {# === TUS FILTROS (con las claves que viste en dump) === #}
+        <div class="dropdown">
+            <button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+				Knowledge Area
+			</button>
+            <div class="dropdown-menu p-3 filter-menu">
+            {{ form.programme_area }}
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+				Level
+			</button>
+            <div class="dropdown-menu p-3 filter-menu">
+            {{ form.programme_level }}
+            </div>
+        </div>
+        {# === FIN TUS FILTROS === #}
+
+        {# Botón Apply a la derecha (si no usas autosubmit) #}
+        {% if form.actions is defined %}
+            <div class="ms-auto">
+            {{ form.actions }}
+            </div>
+        {% endif %}
+
+        {# Imprescindible: ocultos/tokens #}
+        {{ children }}
+
+    </div>
+</form>
