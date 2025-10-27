@@ -21,6 +21,18 @@
             {{ form.programme_level }}
             </div>
         </div>
+
+        <div class="dropdown">
+            <button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+				Destination
+			</button>
+            <div class="dropdown-menu p-3 filter-menu">
+            {{ form.field_institution_country_value }}
+            </div>
+        </div>
+
+
+
         {# === FIN TUS FILTROS === #}
 
         {# Botón Apply a la derecha (si no usas autosubmit) #}

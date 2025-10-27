@@ -34,6 +34,7 @@ class DacemMenuBlock extends BlockBase
     // Lista de rutas donde el bloque debe aparecer.
     $allowed_routes = [
       'view.main_page.page_1', 
+      'view.search_programme.page_1',
       //'admin_area.my_area',   
       //'about',
     ];

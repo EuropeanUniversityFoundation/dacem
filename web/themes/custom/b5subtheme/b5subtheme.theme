@@ -954,6 +954,16 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
 
+  if ($variables['view']->id() === 'search_programme') {
+    $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
+    // Cargar lista de países traducida al idioma de contenido actual.
+    $country_repo = \Drupal::service('address.country_repository');
+    // Array tipo ['ES' => 'Spain', 'FR' => 'France', ...] traducido.
+    $variables['country_list'] = $country_repo->getList($langcode);
+  }
+
+
 
 
 

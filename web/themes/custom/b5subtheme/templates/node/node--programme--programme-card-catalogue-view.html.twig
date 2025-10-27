@@ -1,0 +1,66 @@
+{# Tarjeta Bootstrap como la que ya usas #}
+{# Asume: 
+   - campo de relación institución: field_programme_institution
+   - logo institución: field_logo
+   - nivel: field_programme_level (valores: bachelor/master/phd)
+   - créditos: field_credits
+   - área: field_programme_area (clave tipo 'arts_and_humanities'…)
+   - country_list ya disponible (preprocess de la vista o global)
+#}
+
+{% set programme = node %}
+{% set institution = programme.field_programme_institution.entity ?? null %}
+{% set logo_uri = institution and institution.field_logo.entity is defined ? institution.field_logo.entity.fileuri : null %}
+{% set level_code = {
+  'bachelor':'B',
+  'master':'M',
+  'phd':'PhD'
+}[programme.field_programme_level.value|lower]|default(programme.field_programme_level.value|slice(0,1)|upper) %}
+{% set ects = programme.field_credits.value ?? null %}
+{% set area_key = programme.field_programme_area.value ?? null %}
+{% set area_label = programme_area_labels[area_key]|default(area_key) %}
+{% set country_code = institution and institution.field_institution_country.value ? institution.field_institution_country.value : null %}
+{% set country_name = country_code ? (country_list[country_code]|default(country_code)) : null %}
+
+<a href="{{ path('entity.node.canonical', {'node': programme.id}) }}" class="text-decoration-none text-reset">
+  <div class="card shadow-none mb-3 border-0 rounded-0" style="height:123.65px;cursor:pointer;">
+    <div class="row g-0">
+      <!-- Logo -->
+      <div class="col-3" style="height:123.65px;">
+        {% if logo_uri %}
+          <img src="{{ file_url(logo_uri) }}" alt="{{ institution ? institution.label : '' }}" class="img-fluid rounded-0 h-100 object-fit-contain p-2">
+        {% else %}
+          <div class="bg-light d-flex align-items-center justify-content-center h-100">
+            <span class="text-muted small">No logo</span>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Texto -->
+      <div class="col-9">
+        <div class="card-body p-2">
+          <h5 class="card-title mb-1 text-start">{{ programme.label }}</h5>
+
+          <div class="programme-meta d-flex align-items-center mb-2">
+            {% if level_code %}<strong>{{ level_code }}</strong>{% endif %}
+            {% if ects %}<span class="mx-2">·</span><span class="fst-italic">{{ ects }} ECTS</span>{% endif %}
+            {% if area_label %}<span class="mx-2">·</span><span>{{ area_label }}</span>{% endif %}
+          </div>
+
+          <div class="ou-tag-bar">
+            {% if institution and institution.title.value is defined %}
+              <span class="ou-tag px-3 py-1" style="background-color:#F44743;color:#fff;border-radius:0;">
+                {{ institution.title.value }}
+              </span>
+            {% endif %}
+            {% if country_name %}
+              <span class="ou-tag px-3 py-1" style="background-color:black;color:white;border:2px solid black;border-radius:0;">
+                {{ country_name }}
+              </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</a>
