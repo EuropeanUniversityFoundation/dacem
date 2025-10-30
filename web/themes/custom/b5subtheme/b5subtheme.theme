@@ -955,12 +955,153 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
   if ($variables['view']->id() === 'search_programme') {
+    // Idioma de contenido actual.
     $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
-    // Cargar lista de países traducida al idioma de contenido actual.
-    $country_repo = \Drupal::service('address.country_repository');
-    // Array tipo ['ES' => 'Spain', 'FR' => 'France', ...] traducido.
-    $variables['country_list'] = $country_repo->getList($langcode);
+    // Países traducidos (Address).
+    $variables['country_list'] = \Drupal::service('address.country_repository')->getList($langcode);
+
+    // Etiquetas "bonitas" para programme_area por idioma (ajusta si quieres cargar de config).
+    $map = [
+      'es' => [
+        'arts_and_humanities' => 'Artes y Humanidades',
+        'sciences' => 'Ciencias',
+        'health_sciences' => 'Ciencias de la Salud',
+        'social_and_legal_sciences' => 'Ciencias Sociales y Jurídicas',
+        'engineering_and_architecture' => 'Ingeniería y Arquitectura',
+      ],
+      'en' => [
+        'arts_and_humanities' => 'Arts and Humanities',
+        'sciences' => 'Sciences',
+        'health_sciences' => 'Health Sciences',
+        'social_and_legal_sciences' => 'Social and Legal Sciences',
+        'engineering_and_architecture' => 'Engineering and Architecture',
+      ],
+      'fr' => [
+        'arts_and_humanities' => 'Arts et Humanités',
+        'sciences' => 'Sciences',
+        'health_sciences' => 'Sciences de la Santé',
+        'social_and_legal_sciences' => 'Sciences Sociales et Juridiques',
+        'engineering_and_architecture' => 'Ingénierie et Architecture',
+      ],
+      'pt-pt' => [
+        'arts_and_humanities' => 'Artes e Humanidades',
+        'sciences' => 'Ciências',
+        'health_sciences' => 'Ciências da Saúde',
+        'social_and_legal_sciences' => 'Ciências Sociais e Jurídicas',
+        'engineering_and_architecture' => 'Engenharia e Arquitetura',
+      ],
+      'gl' => [
+        'arts_and_humanities' => 'Artes e Humanidades',
+        'sciences' => 'sciences',
+        'health_sciences' => 'sciences da Saúde',
+        'social_and_legal_sciences' => 'sciences Sociais e Xurídicas',
+        'engineering_and_architecture' => 'Enxeñería e Arquitectura',
+      ],
+      'hu' => [
+        'arts_and_humanities' => 'Művészetek és Bölcsészettudományok',
+        'sciences' => 'Tudományok',
+        'health_sciences' => 'Egészségtudományok',
+        'social_and_legal_sciences' => 'Társadalmi és Jogtudományok',
+        'engineering_and_architecture' => 'Mérnöki és Építészeti Tudományok',
+      ],
+      'sl' => [
+        'arts_and_humanities' => 'Umetnost in Humanistika',
+        'sciences' => 'Znanost',
+        'health_sciences' => 'Zdravstvene vede',
+        'social_and_legal_sciences' => 'Družbene in Pravne Znanosti',
+        'engineering_and_architecture' => 'Inženiring in Arhitektura',
+      ],
+      'et' => [
+        'arts_and_humanities' => 'Kunst ja Humanitaarteadused',
+        'sciences' => 'Teadused',
+        'health_sciences' => 'Tervishoiuteadused',
+        'social_and_legal_sciences' => 'Sotsiaal- ja Õigusteadused',
+        'engineering_and_architecture' => 'Inseneriteadus ja Arhitektuur',
+      ],
+      'el' => [
+        'arts_and_humanities' => 'Τέχνες και Ανθρωπιστικές Επιστήμες',
+        'sciences' => 'Επιστήμες',
+        'health_sciences' => 'Επιστήμες Υγείας',
+        'social_and_legal_sciences' => 'Κοινωνικές και Νομικές Επιστήμες',
+        'engineering_and_architecture' => 'Μηχανική και Αρχιτεκτονική',
+      ],
+    ];
+    $variables['programme_area_labels'] = $map[$langcode] ?? $map['en'];
+
+
+
+
+
+
+
+
+
+foreach ($variables['view']->result as $row) {
+  $programme = $row->_entity ?? NULL;
+  if (!$programme) {
+    continue;
+  }
+
+  // Idioma (si no hay traducción al actual, cae a 'en').
+  $lang_for_url = $programme->hasTranslation($langcode) ? $langcode : 'en';
+  $language = \Drupal::languageManager()->getLanguage($lang_for_url);
+  $programme_t = $programme->hasTranslation($lang_for_url) ? $programme->getTranslation($lang_for_url) : $programme;
+
+  // Institution del programme.
+  if (
+    !$programme->hasField('field_programme_institution') ||
+    $programme->get('field_programme_institution')->isEmpty()
+  ) {
+    continue;
+  }
+  $inst = $programme->get('field_programme_institution')->entity;
+  if ($inst && $inst->hasTranslation($lang_for_url)) {
+    $inst = $inst->getTranslation($lang_for_url);
+  }
+
+  // Aliases (último segmento de la URL canónica traducida).
+  $prog_canonical = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $programme_t->id()], ['language' => $language])->toString();
+  $inst_canonical = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $inst->id()], ['language' => $language])->toString();
+
+  $programme_alias   = basename(trim($prog_canonical, '/'));
+  $institution_alias = basename(trim($inst_canonical, '/'));
+
+  // /lang/alias_institution/catalogue/alias_programme_actual
+  $row->programme_url = '/' . $lang_for_url . '/catalogue/' . $institution_alias . '/' . $programme_alias;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   }
 
 
@@ -991,3 +1132,22 @@ function b5subtheme_theme_registry_alter(&$theme_registry)
 
 
 
+use Drupal\Core\Form\FormStateInterface;
+
+function b5subtheme_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  $view = $form_state->getBuildInfo()['callback_object']->view ?? NULL;
+  if ($view && $view->id() === 'search_programme') {
+    // En el form
+    $form['#attributes']['data-disable-refocus'] = 'true';
+    // En todos los hijos del form (inputs/selects)
+    array_walk_recursive($form, function (&$value, $key) {
+      if ($key === '#attributes') {
+        $value['data-disable-refocus'] = 'true';
+      }
+    });
+    // En el botón submit, por si acaso
+    if (isset($form['actions']['submit'])) {
+      $form['actions']['submit']['#attributes']['data-disable-refocus'] = 'true';
+    }
+  }
+}

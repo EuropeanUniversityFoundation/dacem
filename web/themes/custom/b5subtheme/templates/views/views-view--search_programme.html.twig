@@ -1,3 +1,9 @@
+{{ attach_library('b5subtheme/search-programme-sort') }}
+
+{{dump(view.result)}}
+
+<div class="negative-margin-search-page">
+
 {# 👉 MANTÉN el wrapper de Views: AJAX necesita este div con data-view-dom-id #}
 <div{{ attributes.addClass('catalogue-view') }}>
 
@@ -90,15 +96,15 @@
             <h2 class="section-title" style="color:white">Catalogue</h2>
           </div>
           <div class="col-auto">
-            <button class="btn btn-primary bg-black">Select Home Programme</button>
+            <button class="btn btn-primary bg-black border-0 disabled">Select Home Programme</button>
           </div>
         </div>
 
         <div class="row">
           <div class="col-12">
             <div class="input-group mb-3">
-              <input type="text" class="form-control bg-light border-0" placeholder="Type here to search" id="ou-search">
-              <button class="btn btn-outline-secondary pe-4 ps-4 bg-black" type="button" id="search-btn">
+              <input type="text" class="form-control bg-light border-0" placeholder="DISABLED" id="programme-search">
+              <button class="btn btn-outline-secondary pe-4 ps-4 bg-black disabled" type="button" id="search-btn">
                 <i class="fas fa-search" style="color: white;"></i>
               </button>
             </div>
@@ -125,26 +131,36 @@
             SORT
           </h3>
 
-          <div class="group-search-sort-buttons w-100">
-            <button class="btn btn-dark btn-sm btn-whithout-border-radius">A - Z</button>
-            <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0">Knowledge Area</button>
-            <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0">Level</button>
-            <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0">Country</button>
-          </div>
+            <div class="group-search-sort-buttons w-100">
+            <button class="btn btn-dark btn-sm btn-whithout-border-radius js-sort disabled"
+                    data-sort-by="title" data-sort-order="ASC">A - Z</button>
+
+            <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled"
+                    data-sort-by="field_programme_area" data-sort-order="ASC">Knowledge Area</button>
+
+            <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled"
+                    data-sort-by="field_programme_level" data-sort-order="ASC">Level</button>
+
+            <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sor disabled"
+                    data-sort-by="field_institution_country" data-sort-order="ASC">Country</button>
+            </div>
+
+
         </div>
 
-        <div class="col-lg-10 ps-5">
+        <div class="col-lg-10 ps-5" id="programme-list">
           {# Puedes seguir con tu loop propio: AJAX reemplaza todo el wrapper #}
           {% if view.result is not empty %}
             {% for row in view.result %}
+            
               {% set programme = row._entity %}
               {% set institution = programme.field_programme_institution.entity ?? null %}
               {% set logo_uri = null %}
               {% if institution and institution.field_logo.entity is defined %}
                 {% set logo_uri = institution.field_logo.entity.fileuri %}
               {% endif %}
-
-              <a href="{{ path('entity.node.canonical', {'node': programme.id}) }}" class="text-decoration-none text-reset">
+              <div class="programme-item">
+              <a href="{{ row.programme_url }}" class="text-decoration-none text-reset" target="_blank">
                 <div class="card shadow-none mb-3 border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
                   <div class="row g-0">
                     <!-- Imagen (logo institución) -->
@@ -205,6 +221,7 @@
                   </div>
                 </div>
               </a>
+              </div>
             {% endfor %}
           {% else %}
             <p class="empty">{{ empty }}</p>
@@ -220,3 +237,60 @@
   {# (opcional) attachments/feeds si los usas #}
   {{ attachment_after }}
 </div>
+</div>
+
+
+
+<script>
+(function () {
+  const norm = s => (s||'').toString().trim();
+
+  const searchInput = document.getElementById('programme-search');
+  const searchBtn   = document.getElementById('search-btn');
+  if (!searchInput) return;
+
+  const wrapper = document.querySelector('[data-view-dom-id]');
+  if (!wrapper) return;
+  const form = wrapper.querySelector('form[id^="views-exposed-form-"]');
+  if (!form) return;
+
+  function resetPageParam() {
+    let pageField = form.querySelector('input[name="page"]');
+    if (!pageField) {
+      pageField = document.createElement('input');
+      pageField.type = 'hidden';
+      pageField.name = 'page';
+      form.appendChild(pageField);
+    }
+    pageField.value = 0;
+  }
+
+  function submitSearch() {
+    const val = norm(searchInput.value);
+
+    // 1) Pon el valor en TODOS los combine existentes
+    form.querySelectorAll('input[name="combine"]').forEach(el => { el.value = val; });
+
+    // 2) Inyecta un hidden al FINAL del form (último gana en la querystring)
+    let injected = form.querySelector('input[name="combine"][data-injected="1"]');
+    if (!injected) {
+      injected = document.createElement('input');
+      injected.type = 'hidden';
+      injected.name = 'combine';
+      injected.setAttribute('data-injected', '1');
+      form.appendChild(injected); // al final
+    }
+    injected.value = val;
+
+    resetPageParam();
+    form.submit();
+  }
+
+  // Mantén sincronizado si ya había valor del exposed al cargar
+  const firstCombine = wrapper.querySelector('input[name="combine"]');
+  if (firstCombine && !searchInput.value) searchInput.value = firstCombine.value || '';
+
+  searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitSearch(); }});
+  if (searchBtn) searchBtn.addEventListener('click', (e) => { e.preventDefault(); submitSearch(); });
+})();
+</script>

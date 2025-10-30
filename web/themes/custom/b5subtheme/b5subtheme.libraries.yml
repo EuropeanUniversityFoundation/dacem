@@ -27,3 +27,13 @@ university_carousel:
     js/university-carousel.js: {}
   dependencies:
     - core/jquery
+
+
+search-programme-sort:
+  js:
+    js/search-programme-sort.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.ajax
+    - core/jquery
+    - core/once

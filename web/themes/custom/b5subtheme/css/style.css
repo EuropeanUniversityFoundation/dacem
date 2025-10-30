@@ -15218,3 +15218,138 @@ p{
   height: 55px;
   font-weight: bold;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ====== TABLAS UNIFICADAS EN TODA LA PÁGINA (dentro de .programme-section) ====== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 0;                 /* barra pegada */
+}
+
+/* Celdas: sin bordes (pisamos Bootstrap), compactación moderada */
+th,
+td {
+  padding: 0.6rem 0.75rem;
+  vertical-align: middle;
+  border: 0 !important;             /* quita bordes de .table .table-bordered */
+  text-align: center;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+/* Primera columna alineada a la izquierda */
+th:first-child,
+td:first-child {
+  text-align: left;
+}
+
+/* Cabecera: línea inferior marcada (pisamos Bootstrap si pone fondo) */
+thead th {
+  font-weight: 700;
+  border-bottom: 2px solid #eaecef !important;
+  background: transparent !important;
+}
+
+/* Filas alternas suaves */
+tbody tr:nth-child(odd) td {
+  background: #f7f7f7;
+}
+
+/* Fila de totales destacada */
+ tfoot td {
+  font-weight: 700;
+  border-top: 2px solid #eaecef !important;
+  background: #f7f7f7;
+}
+
+/* Si el editor envuelve la tabla en <p>, eliminamos márgenes para que no quede hueco */
+ p:has(> table) {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ====== SCROLL HORIZONTAL PEGADO (solo si hace falta y en pantallas pequeñas) ====== */
+@media (max-width: 991.98px) {
+  table {
+    display: block;                   /* la barra aparece en la propia tabla */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    min-width: 720px;                 /* fuerza scroll si no cabe */
+  }
+
+  /* Scrollbar discreta (opcional) */
+  table::-webkit-scrollbar { height: 6px; }
+  table::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
+  table::-webkit-scrollbar-thumb:hover { background: #999; }
+  table::-webkit-scrollbar-track { background: transparent; }
+}
+
+
+
+
+
+
+
+
+
+
+.page-link{
+  color:black;
+}
+
+
+.negative-margin-search-page{
+  margin-bottom: -2rem;
+}

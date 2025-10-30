@@ -27,154 +27,138 @@
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
 }</style>{#
-														<div class="university-menu-block">
-														{{ page.header }}</div>#}
-
-
-<div class="rs-header ">
-	<div class="my-custom-container-2">
+															<div class="university-menu-block">
+															{{ page.header }}</div>#}<div class="rs-header ">
+<div class="my-custom-container-2">
 	<div class="page-band">
 		<h1 class="rs-title">INSTITUTIONAL INFORMATION</h1>
 	</div>
-	</div>	
-</div>
-
-
-<nav id="rs-navbar" class="rs-nav navbar navbar-expand-lg bg-black">
-	<div
-		class="my-custom-constainer">
-		<!-- Menú desplegable para pantallas pequeñas -->
-		<div class="dropdown d-lg-none w-100">
-			<button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold bg-black border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				{{ 'Student affairs'|t }}
-			</button>
-			<ul class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
-				<li>
-					<a class="dropdown-item fw-bold" href="#description">{{ 'Description'|t }}</a>
-				</li>
-				<li>
-					<a class="dropdown-item fw-bold" href="#academic-authorities">{{ 'Academic authorities'|t }}</a>
-				</li>
-				<li>
-					<a class="dropdown-item fw-bold" href="#admission">{{ 'Admission'|t }}</a>
-				</li>
-				<li>
-					<a class="dropdown-item fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
-				</li>
-				<li>
-					<a class="dropdown-item fw-bold" href="#organizational-units">{{ 'Organizational Units'|t }}</a>
-				</li>
-			</ul>
-		</div>
-
-		<!-- Menú de pestañas visible en pantallas grandes -->
-		<!-- Menú de pestañas visible en pantallas grandes -->
-		<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
-
-
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu fw-bold" href="#description">{{ 'Description'|t }}</a>
+</div></div><nav id="rs-navbar" class="rs-nav navbar navbar-expand-lg bg-black">
+<div
+	class="my-custom-constainer">
+	<!-- Menú desplegable para pantallas pequeñas -->
+	<div class="dropdown d-lg-none w-100">
+		<button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold bg-black border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			{{ 'Student affairs'|t }}
+		</button>
+		<ul class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
+			<li>
+				<a class="dropdown-item fw-bold" href="#description">{{ 'Description'|t }}</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu  fw-bold" href="#academic-authorities">{{ 'Academic authorities'|t }}</a>
+			<li>
+				<a class="dropdown-item fw-bold" href="#academic-authorities">{{ 'Academic authorities'|t }}</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu  fw-bold" href="#admission">{{ 'Admission'|t }}</a>
+			<li>
+				<a class="dropdown-item fw-bold" href="#admission">{{ 'Admission'|t }}</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu  fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
+			<li>
+				<a class="dropdown-item fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Organizational Units'|t }}</a>
+			<li>
+				<a class="dropdown-item fw-bold" href="#organizational-units">{{ 'Organizational Units'|t }}</a>
 			</li>
 		</ul>
-
 	</div>
-</nav>
+
+	<!-- Menú de pestañas visible en pantallas grandes -->
+	<!-- Menú de pestañas visible en pantallas grandes -->
+	<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
 
-<div class="university-banner">
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu fw-bold" href="#description">{{ 'Description'|t }}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#academic-authorities">{{ 'Academic authorities'|t }}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#admission">{{ 'Admission'|t }}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Organizational Units'|t }}</a>
+		</li>
+	</ul>
+
+</div></nav><div class="university-banner">
+{% if institution.field_institution_picture is not empty %}
 	{% if institution.field_institution_picture is not empty %}
-		{% if institution.field_institution_picture is not empty %}
-			{% set file = institution.field_institution_picture.entity %}
-			{% if file %}
-				{% set uri = file.getFileUri() %}
-				{% set image_url = file_url(uri) %}
-				<div class='university-photo'>
-					<img src="{{ image_url }}" alt="University Logo" class="university-img"/>
-				</div>
-			{% endif %}
+		{% set file = institution.field_institution_picture.entity %}
+		{% if file %}
+			{% set uri = file.getFileUri() %}
+			{% set image_url = file_url(uri) %}
+			<div class='university-photo'>
+				<img src="{{ image_url }}" alt="University Logo" class="university-img"/>
+			</div>
 		{% endif %}
 	{% endif %}
-</div>
+{% endif %}</div><div class="container-fluid">
+<div class="section-container">
+	<div class="my-custom-container-2">
 
+		<div class="spacer"></div>
+		<div class="university-details">
 
+			<h1 class="section-title">{{institution.title.value}}</h1>
 
+			<!-- Mostrar el país (no traducible) -->
+			{% if country_name %}
+				<h5 style="color: red;">{{country_name}}</h5>
+			{% else %}
+				<p>
+					<strong>País:</strong>
+					No disponible</p>
+			{% endif %}
 
-<div class="container-fluid">
-	<div class="section-container">
-		<div class="my-custom-container-2">
+			<!-- Mostrar la información -->
+			{% set current_language = institution.langcode.value %}
 
-			<div class="spacer"></div>
-			<div class="university-details">
+			<div
+				class="row" id="description">
+				<!-- Parte izquierda con información de la universidad -->
+				<div class="col-12 col-lg-8 order-2 order-lg-1">
+					{% if institution.field_information.value is not empty %}
 
-				<h1 class="section-title" >{{institution.title.value}}</h1>
-
-				<!-- Mostrar el país (no traducible) -->
-				{% if country_name %}
-					<h5 style="color: red;">{{country_name}}</h5>
-				{% else %}
-					<p>
-						<strong>País:</strong>
-						No disponible</p>
-				{% endif %}
-
-				<!-- Mostrar la información -->
-				{% set current_language = institution.langcode.value %}
-
-				<div
-					class="row" id="description">
-					<!-- Parte izquierda con información de la universidad -->
-					<div class="col-12 col-lg-8 order-2 order-lg-1">
-						{% if institution.field_information.value is not empty %}
-							
-							<div class="university-info">
-								<p>{{ institution.field_information.value | raw}}</p>
-							</div>
-						{% else %}
-							<p>
-								<strong>Information:</strong>
-								Not available</p>
-						{% endif %}
-
-						{#{dump(institution.field_institution_map[0].lon)}#}
-
-
-						<!-- Academic Terms debajo de la info -->
-						<div class="mt-4">
-							{% if institution.field_academic_calendar.value is defined and institution.field_academic_calendar.value %}
-								
-								<h4 class="subsection-title">Academic Calendar</h4>
-								
-								{{institution.field_academic_calendar.value | raw}}
-							{% endif %}
+						<div class="university-info">
+							<p>{{ institution.field_information.value | raw}}</p>
 						</div>
+					{% else %}
+						<p>
+							<strong>Information:</strong>
+							Not available</p>
+					{% endif %}
+
+					{#{dump(institution.field_institution_map[0].lon)}#}
+
+
+					<!-- Academic Terms debajo de la info -->
+					<div class="mt-4">
+						{% if institution.field_academic_calendar.value is defined and institution.field_academic_calendar.value %}
+
+							<h4 class="subsection-title">Academic Calendar</h4>
+
+							{{institution.field_academic_calendar.value | raw}}
+						{% endif %}
 					</div>
+				</div>
 
-					<!-- Parte derecha con logo y contacto -->
-					<div class="col-12 col-lg-4 order-1 order-lg-2">
-						
+				<!-- Parte derecha con logo y contacto -->
+				<div class="col-12 col-lg-4 order-1 order-lg-2">
+
+					<div
+						class="degree-sidebar bg-light p-4">
+
+						<!-- Logo (field_logo como media) -->
+						<div class="d-flex justify-content-center">
+							{% if institution.field_logo.entity.uri.value is defined %}
+								<img src="{{ file_url(institution.field_logo.entity.uri.value) }}" alt="{{ institution.label() }} logo" class="institution-logo">
+							{% endif %}
+
+						</div>
 						<div
-							class="degree-sidebar bg-light p-4">
-
-							<!-- Logo (field_logo como media) -->
-							<div class="d-flex justify-content-center">
-								{% if institution.field_logo.entity.uri.value is defined %}
-									<img src="{{ file_url(institution.field_logo.entity.uri.value) }}" alt="{{ institution.label() }} logo" class="institution-logo">
-								{% endif %}
-
-							</div>
-						<div class="institution-card-information">
+							class="institution-card-information">
 							<!-- Dirección -->
 							{% if institution.field_institution_address.value is defined and institution.field_institution_address.value %}
 								<div class="d-flex align-items-start mb-3">
@@ -211,96 +195,117 @@
 							{% endif %}
 						</div>
 
-						</div>
 					</div>
-
 				</div>
 
-
-				
 			</div>
 
+
 		</div>
+
 	</div>
+</div>
 
 
-	{{drupal_block('views_block:academic_authority-block_1')}}
+{{drupal_block('views_block:academic_authority-block_1')}}
 
-	<div class="section-container">
-		<div class='my-custom-container-2'>
-		
-			<div
-				class="admission-section" id='admission'>
-				<!-- Título principal centrado -->
-		
-					<h2 class="section-title text-center">Admission</h2>
+<div class="section-container">
+	<div class='my-custom-container-2'>
+
+		<div
+			class="admission-section" id='admission'>
+			<!-- Título principal centrado -->
+
+			<h2 class="section-title text-center">Admission</h2>
 
 
-				<!-- Descripción general -->
-				{% if institution.field_admission_description is not empty %}
-					<h3 class="subsection-title">Description</h3>
-					<p>{{ institution.field_admission_description.value | raw}}</p>
+			<!-- Descripción general -->
+			{% if institution.field_admission_description is not empty %}
+				<h3 class="subsection-title">Description</h3>
+				<p>{{ institution.field_admission_description.value | raw}}</p>
+			{% endif %}
+
+			<!-- Main Requirements -->
+			{% if institution.field_main_requirements is not empty %}
+				<h3 class="subsection-title">Main Requirements</h3>
+				<p>{{ institution.field_main_requirements.value }}</p>
+			{% endif %}
+
+			<!-- Language Policy -->
+			{% if institution.field_admission_language_policy is not empty %}
+				<h3 class="subsection-title">Language Policy</h3>
+				<p>{{ institution.field_admission_language_policy.value | raw}}</p>
+
+				<!-- Subapartado: Languages -->
+				{% if institution.field_admission_languages is not empty %}
+					<h4 class="subsection-title">Admission Languages</h4>
+					<ul style="margin-left: 20px;">
+						{% for language in institution.field_admission_languages %}
+							<li>{{ language.value }}</li>
+						{% endfor %}
+					</ul>
 				{% endif %}
 
-				<!-- Main Requirements -->
-				{% if institution.field_main_requirements is not empty %}
-					<h3 class="subsection-title">Main Requirements</h3>
-					<p>{{ institution.field_main_requirements.value }}</p>
-				{% endif %}
+			{% endif %}
 
-				<!-- Language Policy -->
-				{% if institution.field_admission_language_policy is not empty %}
-					<h3 class="subsection-title">Language Policy</h3>
-					<p>{{ institution.field_admission_language_policy.value | raw}}</p>
-
-					<!-- Subapartado: Languages -->
-					{% if institution.field_admission_languages is not empty %}
-						<h4 class="subsection-title">Admission Languages</h4>
-						<ul style="margin-left: 20px;">
-							{% for language in institution.field_admission_languages %}
-								<li>{{ language.value }}</li>
-							{% endfor %}
-						</ul>
-					{% endif %}
-
-				{% endif %}
-
-				<!-- Registration Procedures -->
-				{% if institution.field_admission_registration is not empty %}
-					<h3 class="subsection-title">Registration Procedures</h3>
-					<p>{{ institution.field_admission_registration.value | raw}}</p>
-				{% endif %}
-			</div>
-		</div>
-	</div>
-	<div class="section-margin-negative"></div>
-	<div class="section-container">
-		<div class='my-custom-container-2'>
-			{% if institution. 	field_ects_credit_allocation_pol is not empty %}
-				
-					<h2 class="section-title text-center">ECTS Allocation Policy</h2>
-				
-				<p>{{ institution. 	field_ects_credit_allocation_pol.value|raw }}</p>
-
-
+			<!-- Registration Procedures -->
+			{% if institution.field_admission_registration is not empty %}
+				<h3 class="subsection-title">Registration Procedures</h3>
+				<p>{{ institution.field_admission_registration.value | raw}}</p>
 			{% endif %}
 		</div>
 	</div>
+</div>
+<div class="section-margin-negative"></div>
+<div class="section-container">
+	<div class='my-custom-container-2'>
+		{% if institution.field_ects_credit_allocation_pol is not empty %}
+
+			<h2 class="section-title text-center">ECTS Allocation Policy</h2>
+
+			<p>{{ institution.field_ects_credit_allocation_pol.value|raw }}</p>
 
 
-	{% if campuses is not empty %}
+		{% endif %}
+	</div>
+</div>
 
+
+<div class="section-margin-negative"></div>
+<div class="section-container">
+	<div class='my-custom-container-2'>
+		{% if institution.field_mobility is not empty %}
+
+			<h2 class="section-title text-center">Mobility</h2>
+
+			<p>{{ institution.field_mobility.value|raw }}</p>
+
+
+		{% endif %}
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+{% if campuses is not empty %}
+
+
+	<div class='section-container section-bg-grey' id="campuses">
 
 		<div
-			class='section-container section-bg-grey' id="campuses">
-
-			<div class="my-custom-container-2">
+			class="my-custom-container-2">
 
 			<!-- Título -->
 			<div class="row mb-4">
 				<div class="col-12">
 					<h2 class="section-title text-center">Campuses</h2>
-					
+
 
 					{% if institution.field_general_campus_description is not empty  %}
 						<p>
@@ -316,7 +321,7 @@
 				<!-- Mapa -->
 				<div class="col-lg-7 col-12 mb-4 mb-lg-0">
 					<div
-						class="map-wrapper" >
+						class="map-wrapper">
 						<!--<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">-->
 						{{ drupal_block('views_block:map_view-block_2') }}
 					</div>
@@ -341,14 +346,11 @@
 								<div class="card shadow-none mb-3 border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
 									<div
 										class="row g-0">
-																				<!-- Imagen -->
+										<!-- Imagen -->
 										<div class="col-3" style="height: 123.65px">
-										{% if campus.field_campus_picture is not empty %}
-											<img 
-											src="{{ file_url(campus.field_campus_picture.entity.fileuri) }}" 
-											alt="{{ campus.title.value }}" 
-											class="img-fluid rounded-0 h-100 object-fit-cover">
-										{% endif %}
+											{% if campus.field_campus_picture is not empty %}
+												<img src="{{ file_url(campus.field_campus_picture.entity.fileuri) }}" alt="{{ campus.title.value }}" class="img-fluid rounded-0 h-100 object-fit-cover">
+											{% endif %}
 										</div>
 
 										<!-- Texto -->
@@ -371,27 +373,22 @@
 
 			</div>
 
+		</div>
+	{% endif %}
+
+
 </div>
-		{% endif %}
 
-
-	</div>
-
-	{# Donde quieras que aparezca el bloque generado por la otra vista 
+{# Donde quieras que aparezca el bloque generado por la otra vista 
 						<div class="mt-4">
 						  {{ bloque_campus }}
 						</div>
-						#}
-
-
-</div></div>{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}
-<div  class="section-container" id='organizational-units'>
+						#}</div></div>{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}<div class="section-container" id='organizational-units'>
 <div class="my-custom-container-2">
 
 
-	
-<!-- ORGANIZATIONAL UNITS SECTION --><!-- Título --><div class="row mb-4">
-		<div class="col-12">
+	<!-- ORGANIZATIONAL UNITS SECTION --><!-- Título -->
+		<div class="row mb-4"> <div class="col-12">
 			<h2 class="section-title text-center">Organizational Units</h2>
 
 			{% if institution.field_general_ou_description is not empty %}
@@ -496,7 +493,7 @@
 					</ul>
 
 				</div>
-				
+
 			</div>
 
 
@@ -508,66 +505,92 @@
 					</ul>
 				</nav>
 
+				{# Define un path por defecto para la imagen de OU #}
+				{% set default_ou_image = '/themes/custom/b5subtheme/images/ou-default.png' %}
+
 				{% for row in view.result %}
 					{% set ou = row._entity %}
-
 					{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_institution'] %}
+
 					{% if organizational_unit %}
+						{# Traducción #}
 						{% if organizational_unit.hasTranslation(current_language) %}
 							{% set organizational_unit = organizational_unit.getTranslation(current_language) %}
 						{% endif %}
 
-						{% set campus_entity = organizational_unit.field_ou_campus.entity %}
-						{% set campus_label = campus_entity.label %}
-						{% if campus_entity.hasTranslation(current_language) %}
-							{% set campus_label = campus_entity.getTranslation(current_language).label %}
+						{# Campus y su etiqueta (con traducción) #}
+						{# Campus y su etiqueta (con traducción, si existe) #}
+						{% set campus_label = '' %}
+
+						{% if organizational_unit.hasField('field_ou_campus') 
+      and not organizational_unit.get('field_ou_campus').isEmpty() %}
+							{% set campus_entity = organizational_unit.field_ou_campus.entity %}
+							{% set campus_label = campus_entity.label %}
+							{% if campus_entity and campus_entity.hasTranslation(current_language) %}
+								{% set campus_label = campus_entity.getTranslation(current_language).label %}
+							{% endif %}
 						{% endif %}
 
-						{# URL de la página de info de la OU (usa alias) #}
+
+						{# URL "bonita" de la página de info de la OU #}
 						{% set ou_path = path('entity.node.canonical', {'node': organizational_unit.id()}) %}
 						{% set parts = ou_path|trim('/')|split('/') %}
 						{% set ou_alias = parts|last %}
 						{% set institution_alias = parts[parts|length - 2] %}
 						{% set ou_info_url = path('view.organizational_unit_information.page_1', {
-				'arg_0': institution_alias,
-				'arg_1': ou_alias
-				}) %}
+      'arg_0': institution_alias,
+      'arg_1': ou_alias
+    }) %}
 
-
+						{# Coordenadas desde WKT #}
 						{% set coords_ou = '' %}
-
 						{% if organizational_unit.field_ou_map.value is defined and organizational_unit.field_ou_map.value %}
 							{% set point  = organizational_unit.field_ou_map.value %}
-							{# WKT -> "POINT (lon lat)" #}
 							{% set coords = point|replace({'POINT(':'','POINT (':'', ')':''})|trim|split(' ') %}
 							{% set lon = coords[0]|default('') %}
 							{% set lat = coords[1]|default('') %}
 							{% set coords_ou = lat ~ ', ' ~ lon %}
 						{% endif %}
 
+						{# -------- IMAGEN --------
+						       Intenta sacar la URL de la imagen. Si no hay, queda vacío y el JS hará fallback. #}
+						{% set ou_image_url = '' %}
+						{% if organizational_unit.field_ou_picture is defined 
+          and organizational_unit.field_ou_picture.entity is not empty %}
+							{% set img_file = organizational_unit.field_ou_picture.entity %}
+							{# Opción A: URL directa del archivo #}
+							{% set ou_image_url = file_url(img_file.getFileUri()) %}
 
-						<div
-							class="ou-item p-3 mb-3 bg-light" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ coords_ou }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value }}" data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id() }}" data-ou-campus-label="{{ campus_label }}" data-ou-url="{{ ou_info_url }}" onclick="loadOUDetails(this)">
+						{# Opción B (recomendada): usar un estilo de imagen si tienes uno creado, p.ej. 'ou_detail' #}
+							{# {% set ou_image_url = image_style('ou_detail', img_file.getFileUri()) %} #}
+						{% endif %}
 
-							<!-- Título de la unidad organizativa -->
+						<div class="ou-item p-3 mb-3 bg-light" data-ou-title="{{ organizational_unit.title.value|e('html_attr') }}" data-ou-type="{{ organizational_unit.field_ou_type.value|default('')|e('html_attr') }}" data-ou-area="{{ organizational_unit.field_ou_area.value|default('')|e('html_attr') }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags|e('html_attr') }}" data-ou-address="{{ organizational_unit.field_ou_address.value|default('')|e('html_attr') }}" data-ou-gps="{{ coords_ou|e('html_attr') }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri|default('')|e('html_attr') }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title|default('')|e('html_attr') }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value|default('')|e('html_attr') }}" data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id()|e('html_attr') }}" data-ou-campus-label="{{ campus_label|e('html_attr') }}" data-ou-url="{{ ou_info_url|e('html_attr') }}" data-ou-image="{{ ou_image_url|e('html_attr') }}" onclick="loadOUDetails(this)">
+
 							<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
-
-							<!-- Tipo de la unidad organizativa -->
 							<p class="mb-0 small ou-type">
-								{% if organizational_unit.field_ou_type.value is defined %}
-									{{ organizational_unit.field_ou_type.value }}
+								{% set ou_type = organizational_unit.field_ou_type.value|default('') %}
+								{% set campus = campus_label|default('') %}
+
+								{% if ou_type %}
+									{{ ou_type }}
 								{% endif %}
-								&nbsp;·&nbsp;
 
-								<strong>{{ campus_label }}</strong>
+								{% if ou_type and campus %}
+									&nbsp;·&nbsp;
+								{% endif %}
 
+								{% if campus %}
+									<strong>{{ campus }}</strong>
+								{% endif %}
 							</p>
+
 						</div>
 					{% endif %}
-
 				{% else %}
 					<p>No Organizational Units found.</p>
 				{% endfor %}
+
 			</div>
 
 
@@ -576,45 +599,48 @@
 		<!-- Columna derecha: detalle dinámico -->
 		<div class="col-lg-6">
 			<div id="ou-details" class="bg-light h-100">
-				<p class="text-muted">Click on an Organizational Unit to see its details.</p>
+				<p class="text-muted text-center pt-5">Click on an Organizational Unit to see its details.</p>
 				<!-- Aquí se rellenará dinámicamente con JS -->
 			</div>
 		</div>
 	</div>
-</div>{% endif %}
-</div><script>
-/* ==========================================================
+</div>{% endif %}</div><script>/* ==========================================================
    (keep) DETAILS PANE: highlight selected item and show data
    ========================================================== */
 function loadOUDetails(el) {
-  document.querySelectorAll('.ou-item').forEach(item => item.classList.remove('selected'));
-  el.classList.add('selected');
+document.querySelectorAll('.ou-item').forEach(item => item.classList.remove('selected'));
+el.classList.add('selected');
 
-  const title       = el.dataset.ouTitle || '';
-  const type        = el.dataset.ouType || '';
-  const description = el.dataset.ouDescription || '';
-  const address     = el.dataset.ouAddress || '';
-  const gps         = el.dataset.ouGps || '';
-  const web         = el.dataset.ouWeb || '';
-  const webLabel    = el.dataset.ouWebLabel || web;
-  const email       = el.dataset.ouEmail || '';
-  const campus      = el.dataset.ouCampusLabel || '';
-  const url         = el.dataset.ouUrl || '#';
+const title = el.dataset.ouTitle || '';
+const type = el.dataset.ouType || '';
+const description = el.dataset.ouDescription || '';
+const address = el.dataset.ouAddress || '';
+const gps = el.dataset.ouGps || '';
+const web = el.dataset.ouWeb || '';
+const webLabel = el.dataset.ouWebLabel || web;
+const email = el.dataset.ouEmail || '';
+const campus = el.dataset.ouCampusLabel || '';
+const url = el.dataset.ouUrl || '#';
+const image = el.dataset.ouImage || '';
 
-  const html = `
+const imageSrc = image ? image : '/themes/custom/b5subtheme/images/ou-default.png';
+
+// ✅ Construir dinámicamente el span del campus solo si hay valor
+const campusHTML = campus ? `<span class="ou-campus">${campus}</span>` : '';
+
+const html = `
     <div class="mb-3 text-center">
-      <img src="/themes/custom/b5subtheme/images/ou-default.png" 
-           alt="Organizational Unit" 
-           class="img-fluid" 
-           style="max-height: 600px; object-fit: cover;">
+      <img src="${imageSrc}" alt="Organizational Unit" class="img-fluid" style="max-height: 600px; object-fit: cover;" loading="lazy">
     </div>
 
     <div class="p-4">
       <h4 class="fw-bold">${title}</h4>
 
       <div class="ou-tag-bar text-white mb-3">
-        <span class="ou-type">${(type || '').toUpperCase()}</span>
-        <span class="ou-campus">${campus}</span>
+        <span class="ou-type">${
+(type || '').toUpperCase()
+}</span>
+        ${campusHTML}
       </div>
 
       <div class="mt-3">${description}</div>
@@ -631,9 +657,7 @@ function loadOUDetails(el) {
 
       <div class="d-flex align-items-start mb-2">
         <i class="fas fa-globe me-2 mt-1"></i>
-        <p class="mb-0">
-          <a href="${web}" target="_blank" rel="noopener">${webLabel}</a>
-        </p>
+        <p class="mb-0"><a href="${web}" target="_blank" rel="noopener">${webLabel}</a></p>
       </div>
 
       <div class="d-flex align-items-start mb-2">
@@ -647,87 +671,86 @@ function loadOUDetails(el) {
     </div>
   `;
 
-  document.getElementById('ou-details').innerHTML = html;
+document.getElementById('ou-details').innerHTML = html;
 }
+
 
 /* ==========================================================
    FILTERS + SEARCH (refactor)
    ========================================================== */
 
 let currentCampus = '';
-let currentType   = '';
-let currentArea   = '';
+let currentType = '';
+let currentArea = '';
 
 const campusButton = document.getElementById('campus-filter-button');
-const typeButton   = document.getElementById('type-filter-button');
-const areaButton   = document.getElementById('area-filter-button');
-const searchInput  = document.getElementById('ou-search');
+const typeButton = document.getElementById('type-filter-button');
+const areaButton = document.getElementById('area-filter-button');
+const searchInput = document.getElementById('ou-search');
 
 /** Helper: update button label and color based on active state */
 function setButton(buttonEl, hasValue, selectedLabel, defaultLabel) {
-  const active = !!hasValue;
-  buttonEl.textContent = active ? (selectedLabel || '').trim() : defaultLabel;
+const active = !! hasValue;
+buttonEl.textContent = active ? (selectedLabel || '').trim() : defaultLabel;
 
-  // Aplicar color dinámico si está activo
-  if (active) {
-    buttonEl.style.backgroundColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--university_primary_color');
-    buttonEl.style.color = '#fff';
-    buttonEl.style.borderColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--university_primary_color');
-  } else {
-    buttonEl.style.backgroundColor = '';
-    buttonEl.style.color = '';
-    buttonEl.style.borderColor = '';
-  }
+// Aplicar color dinámico si está activo
+if (active) {
+buttonEl.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--university_primary_color');
+buttonEl.style.color = '#fff';
+buttonEl.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--university_primary_color');
+} else {
+buttonEl.style.backgroundColor = '';
+buttonEl.style.color = '';
+buttonEl.style.borderColor = '';
+}
 }
 
 /** Apply combined filters (text + type + area + campus) */
 function filterOUList() {
-  const query = (searchInput?.value || '').toLowerCase();
-  const items = document.querySelectorAll('#ou-list .ou-item');
+const query = (searchInput ?. value || '').toLowerCase();
+const items = document.querySelectorAll('#ou-list .ou-item');
 
-  items.forEach(item => {
-    const title  = item.dataset.ouTitle?.toLowerCase() || '';
-    const type   = item.dataset.ouType?.toLowerCase() || '';
-    const area   = item.dataset.ouArea?.toLowerCase() || '';
-    const campus = item.dataset.ouCampusId || '';
+items.forEach(item => {
+const title = item.dataset.ouTitle ?. toLowerCase() || '';
+const type = item.dataset.ouType ?. toLowerCase() || '';
+const area = item.dataset.ouArea ?. toLowerCase() || '';
+const campus = item.dataset.ouCampusId || '';
 
-    const matchText   = !query || title.includes(query) || type.includes(query);
-    const matchType   = !currentType || type === currentType.toLowerCase();
-    const matchArea   = !currentArea || area === currentArea.toLowerCase();
-    const matchCampus = !currentCampus || campus === currentCampus;
+const matchText = ! query || title.includes(query) || type.includes(query);
+const matchType = ! currentType || type === currentType.toLowerCase();
+const matchArea = ! currentArea || area === currentArea.toLowerCase();
+const matchCampus = ! currentCampus || campus === currentCampus;
 
-    item.style.display = (matchText && matchType && matchArea && matchCampus) ? '' : 'none';
-  });
+item.style.display = (matchText && matchType && matchArea && matchCampus) ? '' : 'none';
+});
 }
 
 /* ----- Dropdown handlers (Campus / Type / Area) ----- */
 document.querySelectorAll('#filter-campus .dropdown-item').forEach(item => {
-  item.addEventListener('click', function (e) {
-    e.preventDefault();
-    currentCampus = this.dataset.campus || '';
-    setButton(campusButton, currentCampus, this.textContent, 'Campus');
-    filterOUList();
-  });
+item.addEventListener('click', function (e) {
+e.preventDefault();
+currentCampus = this.dataset.campus || '';
+setButton(campusButton, currentCampus, this.textContent, 'Campus');
+filterOUList();
+});
 });
 
 document.querySelectorAll('#filter-type .dropdown-item').forEach(item => {
-  item.addEventListener('click', function (e) {
-    e.preventDefault();
-    currentType = this.dataset.type || '';
-    setButton(typeButton, currentType, this.textContent, 'Type');
-    filterOUList();
-  });
+item.addEventListener('click', function (e) {
+e.preventDefault();
+currentType = this.dataset.type || '';
+setButton(typeButton, currentType, this.textContent, 'Type');
+filterOUList();
+});
 });
 
 document.querySelectorAll('#filter-area .dropdown-item').forEach(item => {
-  item.addEventListener('click', function (e) {
-    e.preventDefault();
-    currentArea = this.dataset.area || '';
-    setButton(areaButton, currentArea, this.textContent, 'Knowledge Area');
-    filterOUList();
-  });
+item.addEventListener('click', function (e) {
+e.preventDefault();
+currentArea = this.dataset.area || '';
+setButton(areaButton, currentArea, this.textContent, 'Knowledge Area');
+filterOUList();
+});
 });
 
 /* ----- Live search (single listener) ----- */
@@ -735,50 +758,54 @@ searchInput.addEventListener('input', filterOUList);
 
 /* ----- Initial visual state for buttons ----- */
 setButton(campusButton, '', '', 'Campus');
-setButton(typeButton,   '', '', 'Type');
-setButton(areaButton,   '', '', 'Knowledge Area');
+setButton(typeButton, '', '', 'Type');
+setButton(areaButton, '', '', 'Knowledge Area');
 
 /* ==========================================================
    SIMPLE PAGINATION (unchanged)
    ========================================================== */
 document.addEventListener('DOMContentLoaded', function () {
-  const items = document.querySelectorAll('#ou-list .ou-item');
-  const itemsPerPage = 10;
-  let currentPage = 1;
+const items = document.querySelectorAll('#ou-list .ou-item');
+const itemsPerPage = 10;
+let currentPage = 1;
 
-  function showPage(page) {
-    const start = (page - 1) * itemsPerPage;
-    const end   = page * itemsPerPage;
+function showPage(page) {
+const start = (page - 1) * itemsPerPage;
+const end = page * itemsPerPage;
 
-    items.forEach((item, index) => {
-      item.style.display = (index >= start && index < end) ? '' : 'none';
-    });
-
-    renderPagination(page);
-  }
-
-  function renderPagination(activePage) {
-    const totalPages = Math.ceil(items.length / itemsPerPage) || 1;
-    const pagination = document.getElementById('pagination-controls');
-    if (!pagination) return;
-
-    pagination.innerHTML = '';
-
-    for (let i = 1; i <= totalPages; i++) {
-      const li = document.createElement('li');
-      li.className = 'page-item' + (i === activePage ? ' active' : '');
-      li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-      li.addEventListener('click', function (e) {
-        e.preventDefault();
-        currentPage = i;
-        showPage(currentPage);
-      });
-      pagination.appendChild(li);
-    }
-  }
-
-  if (items.length > 0) {
-    showPage(currentPage);
-  }
+items.forEach((item, index) => {
+item.style.display = (index >= start && index < end) ? '' : 'none';
 });
-</script>
+
+renderPagination(page);
+}
+
+function renderPagination(activePage) {
+const totalPages = Math.ceil(items.length / itemsPerPage) || 1;
+const pagination = document.getElementById('pagination-controls');
+if (! pagination) 
+return;
+
+
+pagination.innerHTML = '';
+
+for (let i = 1; i <= totalPages; i++) {
+const li = document.createElement('li');
+li.className = 'page-item' + (
+i === activePage ? ' active' : ''
+);
+li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+li.addEventListener('click', function (e) {
+e.preventDefault();
+currentPage = i;
+showPage(currentPage);
+});
+pagination.appendChild(li);
+}
+}
+
+if (items.length > 0) {
+showPage(currentPage);
+}
+});</script>
+
