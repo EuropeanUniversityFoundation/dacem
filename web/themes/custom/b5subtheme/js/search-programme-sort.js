@@ -59,3 +59,34 @@
     }
   };
 })(Drupal, once);
+
+
+
+(function (Drupal) {
+  const p = Drupal.AjaxCommands && Drupal.AjaxCommands.prototype;
+  if (p && p.viewsScrollTop) {
+    const orig = p.viewsScrollTop;
+    p.viewsScrollTop = function (ajax, response, status) {
+      try { return orig.call(this, ajax, response, status); }
+      catch (e) { console.warn('Views scroll skipped (no wrapper found)'); }
+    };
+  }
+})(Drupal);
+
+
+(function (Drupal) {
+  // Evita error "offset is undefined" en AJAX de Views.
+  const proto = Drupal.AjaxCommands && Drupal.AjaxCommands.prototype;
+  if (proto && proto.viewsScrollTop) {
+    const original = proto.viewsScrollTop;
+    proto.viewsScrollTop = function (ajax, response, status) {
+      try {
+        // Si el wrapper existe, ejecuta comportamiento normal.
+        return original.call(this, ajax, response, status);
+      } catch (e) {
+        // Si falla, no hace scroll (pero no lanza error).
+        console.warn('⚠️ Views scroll skipped: wrapper not found (safe bypass)');
+      }
+    };
+  }
+})(Drupal);

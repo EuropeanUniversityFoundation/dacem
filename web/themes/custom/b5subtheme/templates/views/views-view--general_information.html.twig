@@ -256,8 +256,9 @@
 		</div>
 	</div>
 </div>
-<div class="section-margin-negative"></div>
-<div class="section-container">
+
+<!--<div class="section-margin-negative"></div>-->
+<div class="section-container section-bg-grey">
 	<div class='my-custom-container-2'>
 		{% if institution.field_ects_credit_allocation_pol is not empty %}
 
@@ -271,7 +272,7 @@
 </div>
 
 
-<div class="section-margin-negative"></div>
+<!--<div class="section-margin-negative"></div>-->
 <div class="section-container">
 	<div class='my-custom-container-2'>
 		{% if institution.field_mobility is not empty %}
@@ -630,7 +631,7 @@ const campusHTML = campus ? `<span class="ou-campus">${campus}</span>` : '';
 
 const html = `
     <div class="mb-3 text-center">
-      <img src="${imageSrc}" alt="Organizational Unit" class="img-fluid" style="max-height: 600px; object-fit: cover;" loading="lazy">
+      <img src="${imageSrc}" alt="Organizational Unit" class="img-fluid w-100" style="max-height: 600px; object-fit: cover;" loading="lazy">
     </div>
 
     <div class="p-4">

@@ -1,10 +1,16 @@
-(function ($, Drupal) {
+(function (Drupal, once) {
   Drupal.behaviors.universityMenuBehavior = {
-    attach: function (context, settings) {
-      $('.mobile-menu-toggle', context).once('universityMenuBehavior').click(function () {
-        $('.navbar-collapse', context).collapse('toggle');
+    attach(context) {
+      const toggles = once('universityMenuBehavior', context.querySelectorAll('.mobile-menu-toggle'));
+      toggles.forEach((toggle) => {
+        toggle.addEventListener('click', () => {
+          const navbar = document.querySelector('.navbar-collapse');
+          if (navbar && bootstrap) {
+            const bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbar);
+            bsCollapse.toggle();
+          }
+        });
       });
     }
   };
-})(jQuery, Drupal);
-
+})(Drupal, once);

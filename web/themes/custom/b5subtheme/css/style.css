@@ -12986,7 +12986,7 @@ code {
 
 .institution-logo {
   max-height: 200px; /* límite de altura */
-  width: auto;       /* ancho se ajusta automáticamente */
+  width: 100%;       /* ancho se ajusta automáticamente */
   height: auto;      /* mantiene la proporción */
   object-fit: contain; /* opcional: asegura que se vea completa dentro del espacio */
 }

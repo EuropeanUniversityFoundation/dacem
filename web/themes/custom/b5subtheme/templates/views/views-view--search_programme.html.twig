@@ -154,6 +154,8 @@
             
               {% set programme = row._entity %}
               {% set institution = programme.field_programme_institution.entity ?? null %}
+              {% set university_primary_color = institution.field_primary_color[0].color %}
+
               {% set logo_uri = null %}
               {% if institution and institution.field_logo.entity is defined %}
                 {% set logo_uri = institution.field_logo.entity.fileuri %}
@@ -203,8 +205,13 @@
 
                         <!-- Línea inferior: institución y país -->
                         <div class="ou-tag-bar">
+                         
+                          {% set university_primary_color = institution.field_primary_color[0].color %}
+                          {% set university_text_color = institution.field_text_color[0].color %}
+                          {% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
                           {% if institution.title.value is defined %}
-                            <span class="ou-tag px-3 py-1" style="background-color: #F44743; color: #fff; border-radius: 0;">
+                            <!--<span class="ou-tag px-3 py-1" style="background-color: #F44743; color: #fff; border-radius: 0;">-->
+                              <span class="ou-tag px-3 py-1" style="background-color: {{university_primary_color}}; color: #fff; border-radius: 0;">
                               {{ institution.title.value }}
                             </span>
                           {% endif %}

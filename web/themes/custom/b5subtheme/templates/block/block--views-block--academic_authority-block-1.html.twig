@@ -12,11 +12,22 @@
 				{% for row in content['#view'].result %}
 					<div class="authority-item">
 						{% set file_entity = row._entity.field_ac_photo.entity %}
-						{% if file_entity is not empty %}
-							<div class="authority-photo">
-								<img src="{{ file_url(file_entity.uri.value) }}" alt="{{ row._entity.title.value }}">
-							</div>
+
+						<div class="authority-photo">
+						{% if file_entity and file_entity.uri %}
+							<img
+							src="{{ file_url(file_entity.uri.value) }}"
+							alt="{{ row._entity.title.value|default('') }}"
+							class="img-fluid"
+							>
+						{% else %}
+							<img
+							src="/themes/custom/b5subtheme/images/default-profile.jpg"
+							alt="{{ row._entity.title.value|default('') }}"
+							class="img-fluid"
+							>
 						{% endif %}
+						</div>
 						<div class="authority-info">
 							<h4>{{ row._entity.title.value }}</h4>
 							{% if row._entity.field_institution_role is not empty %}

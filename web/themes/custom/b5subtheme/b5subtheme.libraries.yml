@@ -19,14 +19,14 @@ global-scripts:
     js/rs_submenu_scroll.js: {}
     
   dependencies:
-    - core/jquery
+    #- core/jquery
 
 university_carousel:
   version: 1.x
   js:
     js/university-carousel.js: {}
   dependencies:
-    - core/jquery
+   # - core/jquery
 
 
 search-programme-sort:
@@ -35,5 +35,5 @@ search-programme-sort:
   dependencies:
     - core/drupal
     - core/drupal.ajax
-    - core/jquery
+    #- core/jquery
     - core/once

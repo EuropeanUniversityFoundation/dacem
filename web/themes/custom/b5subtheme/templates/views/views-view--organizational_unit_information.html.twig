@@ -73,23 +73,26 @@
 
 								{% set media = authority.field_ac_photo.entity ?? null %}
 								{% set image = media ? media.uri.value : null %}
-								{#{dump(image)}#}
-								{% set role = authority.field_organizational_unit_role.value ?? '' %}
+								{% set role = authority.field_campus_role.value ?? '' %}
 								{% set name = authority.title.value %}
 
 								<div class="d-flex align-items-center gap-3">
 									{% if image %}
-										<img src="{{ file_url(image) }}" alt="{{ name }}" class="rounded-circle" style="width:64px; height:64px; object-fit:cover;">
+									<img src="{{ file_url(image) }}" alt="{{ name }}" class="rounded-circle" style="width:64px; height:64px; object-fit:cover;">
+									{% else %}
+									<img src="/themes/custom/b5subtheme/images/default-profile.jpg" alt="{{ name }}" class="rounded-circle" style="width:64px; height:64px; object-fit:cover;">
 									{% endif %}
 
 									<div>
-										<div class="fw-semibold">{{ name }}</div>
-										{% if role %}
-											<div class="text-muted text-uppercase small">{{ role }}</div>
-										{% endif %}
+									<div class="fw-semibold">{{ name }}</div>
+									{% if role %}
+										<div class="text-muted text-uppercase small">{{ role }}</div>
+									{% endif %}
 									</div>
 								</div>
+
 							{% endif %}
+
 						{% endif %}
 					{% endfor %}
 				</div>
@@ -478,7 +481,7 @@ function loadOUDetails(el) {
 
   const html = `
     <div class="mb-3 text-center">
-      <img src="${imageSrc}" alt="Organizational Unit" class="img-fluid" style="max-height: 600px; object-fit: cover;" loading="lazy">
+      <img src="${imageSrc}" alt="Organizational Unit" class="img-fluid w-100" style="max-height: 600px; object-fit: cover;" loading="lazy">
     </div>
 
     <div class="p-4">

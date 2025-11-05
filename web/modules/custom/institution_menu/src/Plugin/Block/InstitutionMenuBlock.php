@@ -464,7 +464,7 @@ class InstitutionMenuBlock extends BlockBase
 
             $institutions = \Drupal::entityTypeManager()
                 ->getStorage('node')
-                ->loadByProperties(['type' => 'institution']);
+                ->loadByProperties(['type' => 'institution', 'status' => 1]);
 
             $entity_repository = \Drupal::service('entity.repository');
 

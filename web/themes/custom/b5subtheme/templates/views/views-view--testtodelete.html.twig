@@ -1,0 +1,18 @@
+<h1>Test to delete</h1>
+
+
+
+{% for result in view.result %}
+   <p>{{ result._entity.title.value }}<p>
+   {{ result._entity.field_competencies.value|raw }}
+   {{ result._entity.field_programme_description.value|raw }}
+
+   {{dump(result._entity.field_programme_institution.entity.title.value)}}
+   {{dump(result._entity.field_programme_institution.entity.field_information.value)}}
+   
+    
+
+{% endfor %}
+
+
+
