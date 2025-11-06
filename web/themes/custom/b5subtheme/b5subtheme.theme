@@ -593,6 +593,12 @@ function b5subtheme_preprocess_views_view(&$variables)
           'field_rs_cost_of_living',
           'field_rs_transportation',
           'field_rs_meals',
+
+          'field_rs_students_associations',
+          'field_work_placement_possibiliti',
+          'field_sport_clubs_programs',
+          'field_rs_language_courses',
+          'field_cultural_event_city_calend',
         ];
 
         // Obtenemos el nodo actual (que es un RS de campus porque estamos en page_2)
@@ -954,7 +960,7 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
 
-  if ($variables['view']->id() === 'search_programme') {
+  if ($variables['view']->id() === 'search_programme' || $variables['view']->id() === 'searcher') {
     // Idioma de contenido actual.
     $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 

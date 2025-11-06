@@ -4,7 +4,11 @@
 <div class="negative-margin-search-page">
 
 {# 👉 MANTÉN el wrapper de Views: AJAX necesita este div con data-view-dom-id #}
-<div{{ attributes.addClass('catalogue-view') }}>
+ <div class="view view-id-{{ view.id }} view-display-id-{{ view.current_display }}
+              js-view-dom-id-{{ view.dom_id }} view-dom-id-{{ view.dom_id }}"
+       data-view-dom-id="{{ view.dom_id }}">
+
+    <div{{ attributes.addClass('catalogue-view') }}>
 
   <!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
   <!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->

@@ -494,7 +494,7 @@
 
 <div class="" id="university-life">
 	<div class="image-banner">
-		<img src="/themes/custom/b5subtheme/images/university_life_2.png" alt="University Life" class="img-fluid">
+		<img src="/themes/custom/b5subtheme/images/university_life2.jpeg" alt="University Life" class="img-fluid">
 		<div class="section-container">
 			<div class="my-custom-container-2">
 			<div class="rs-section-image-text">University Life</div>
@@ -586,7 +586,144 @@
 </div>
 
 
+<!--- EXTRA ACADEMIC ACTIVITIEEEEEEES -->
+<!--- EXTRA ACADEMIC ACTIVITIEEEEEEES -->
+<!--- EXTRA ACADEMIC ACTIVITIEEEEEEES -->
+<!--- EXTRA ACADEMIC ACTIVITIEEEEEEES -->
 
+<div class="" id="extra-academic-activities">
+	<div class="image-banner">
+		<img src="/themes/custom/b5subtheme/images/campo_futbol.jpeg" alt="Extra-academic Activities" class="img-fluid">
+		<div class="section-container">
+			<div class="my-custom-container-2">
+			<div class="rs-section-image-text">Extra-academic Activities</div>
+			</div>
+			</div>
 
+	</div>
 
+	<div class="section-container">
+	<div class="my-custom-container-2">
+
+  {# ===== 1) Student Associations ===== #}
+  {% set sa_rendered = rs_fallback_data.field_rs_students_associations.rendered ?? '' %}
+  {% set sa_source   = rs_fallback_data.field_rs_students_associations.source   ?? '' %}
+  {% set sa_value    = rs.field_rs_students_associations.value                  ?? '' %}
+  {% set sa_has      = (rs_mode == 'campus' and sa_rendered) or (rs_mode != 'campus' and sa_value is not empty) %}
+
+  {% if sa_has %}
+    <div class="row mb-5">
+      <div class="col-12">
+        <h1 class="section-title">Student Associations</h1>
+        <div class="facility-text">
+          {% if rs_mode == 'campus' %}
+            {{ sa_rendered|raw }}
+            {% if sa_source == 'institution' %}
+              <small class="text-muted">* For the whole institution</small>
+            {% endif %}
+          {% else %}
+            {{ sa_value|raw }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {# ===== 2) Work placement possibilities ===== #}
+  {% set wp_rendered = rs_fallback_data.field_work_placement_possibiliti.rendered ?? '' %}
+  {% set wp_source   = rs_fallback_data.field_work_placement_possibiliti.source   ?? '' %}
+  {% set wp_value    = rs.field_work_placement_possibiliti.value                  ?? '' %}
+  {% set wp_has      = (rs_mode == 'campus' and wp_rendered) or (rs_mode != 'campus' and wp_value is not empty) %}
+
+  {% if wp_has %}
+    <div class="row mb-5">
+      <div class="col-12">
+        <h1 class="section-title">Work placement possibilities</h1>
+        <div class="facility-text">
+          {% if rs_mode == 'campus' %}
+            {{ wp_rendered|raw }}
+            {% if wp_source == 'institution' %}
+              <small class="text-muted">* For the whole institution</small>
+            {% endif %}
+          {% else %}
+            {{ wp_value|raw }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {# ===== 3) Sport clubs/programs ===== #}
+  {% set sp_rendered = rs_fallback_data.field_sport_clubs_programs.rendered ?? '' %}
+  {% set sp_source   = rs_fallback_data.field_sport_clubs_programs.source   ?? '' %}
+  {% set sp_value    = rs.field_sport_clubs_programs.value                  ?? '' %}
+  {% set sp_has      = (rs_mode == 'campus' and sp_rendered) or (rs_mode != 'campus' and sp_value is not empty) %}
+
+  {% if sp_has %}
+    <div class="row mb-5">
+      <div class="col-12">
+        <h1 class="section-title">Sport clubs/programs</h1>
+        <div class="facility-text">
+          {% if rs_mode == 'campus' %}
+            {{ sp_rendered|raw }}
+            {% if sp_source == 'institution' %}
+              <small class="text-muted">* For the whole institution</small>
+            {% endif %}
+          {% else %}
+            {{ sp_value|raw }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {# ===== 4) Language courses ===== #}
+  {% set lc_rendered = rs_fallback_data.field_rs_language_courses.rendered ?? '' %}
+  {% set lc_source   = rs_fallback_data.field_rs_language_courses.source   ?? '' %}
+  {% set lc_value    = rs.field_rs_language_courses.value                  ?? '' %}
+  {% set lc_has      = (rs_mode == 'campus' and lc_rendered) or (rs_mode != 'campus' and lc_value is not empty) %}
+
+  {% if lc_has %}
+    <div class="row mb-5">
+      <div class="col-12">
+        <h1 class="section-title">Language courses</h1>
+        <div class="facility-text">
+          {% if rs_mode == 'campus' %}
+            {{ lc_rendered|raw }}
+            {% if lc_source == 'institution' %}
+              <small class="text-muted">* For the whole institution</small>
+            {% endif %}
+          {% else %}
+            {{ lc_value|raw }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {# ===== 5) Events and culture ===== #}
+  {% set ec_rendered = rs_fallback_data.field_cultural_event_city_calend.rendered ?? '' %}
+  {% set ec_source   = rs_fallback_data.field_cultural_event_city_calend.source   ?? '' %}
+  {% set ec_value    = rs.field_cultural_event_city_calend.value                  ?? '' %}
+  {% set ec_has      = (rs_mode == 'campus' and ec_rendered) or (rs_mode != 'campus' and ec_value is not empty) %}
+
+  {% if ec_has %}
+    <div class="row mb-5">
+      <div class="col-12">
+        <h1 class="section-title">Events and culture</h1>
+        <div class="facility-text">
+          {% if rs_mode == 'campus' %}
+            {{ ec_rendered|raw }}
+            {% if ec_source == 'institution' %}
+              <small class="text-muted">* For the whole institution</small>
+            {% endif %}
+          {% else %}
+            {{ ec_value|raw }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</div>
 

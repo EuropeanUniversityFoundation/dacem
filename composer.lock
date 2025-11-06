@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "75b32a5f22013fc4baf6c33f57755274",
+    "content-hash": "2271edbd8bfc4c2b2ed6dfb8fea45009",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4731,6 +4731,85 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
+        },
+        {
+            "name": "euf/elm_vocabularies",
+            "version": "v0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/elm_vocabularies_php.git",
+                "reference": "c9f0ed21f86f189ccf3b651f63f1959c6c63749f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EuropeanUniversityFoundation/elm_vocabularies_php/zipball/c9f0ed21f86f189ccf3b651f63f1959c6c63749f",
+                "reference": "c9f0ed21f86f189ccf3b651f63f1959c6c63749f",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Elm\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu"
+                }
+            ],
+            "description": "PHP library providing ELM controlled vocabularies.",
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/elm_vocabularies_php/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/elm_vocabularies_php/tree/v0.0.1"
+            },
+            "time": "2025-06-25T13:37:52+00:00"
+        },
+        {
+            "name": "euf/elm_vocabulary_field",
+            "version": "1.0.0-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/elm_vocabulary_field.git",
+                "reference": "4d058576575c19e2a1ab382c345f48b349af9381"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/elm_vocabulary_field/euf-elm_vocabulary_field-4d058576575c19e2a1ab382c345f48b349af9381-zip-58f2fc.zip",
+                "reference": "4d058576575c19e2a1ab382c345f48b349af9381",
+                "shasum": "3b2a89c20e9db435678fdaeeadd43290d0d6ea6d"
+            },
+            "require": {
+                "euf/elm_vocabularies": "*"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Provides a field type for ELM controlled vocabularies.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/elm_vocabulary_field",
+            "keywords": [
+                "Drupal",
+                "Erasmus Without Paper",
+                "European Learning Model",
+                "Field type"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/elm_vocabulary_field/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/elm_vocabulary_field"
+            },
+            "time": "2025-09-04T15:04:22+00:00"
         },
         {
             "name": "euf/ewp_core",
@@ -10323,6 +10402,7 @@
         "drupal/og": 15,
         "drupal/openid_connect": 15,
         "drupal/views_field_view": 10,
+        "euf/elm_vocabulary_field": 15,
         "euf/ewp_core": 5,
         "euf/ewp_flexible_address": 10,
         "euf/ewp_phone_number": 10,

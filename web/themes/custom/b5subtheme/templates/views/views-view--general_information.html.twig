@@ -52,6 +52,12 @@
 				<a class="dropdown-item fw-bold" href="#admission">{{ 'Admission'|t }}</a>
 			</li>
 			<li>
+				<a class="dropdown-item fw-bold" href="#ects-allocation-policty">{{ 'ECTS Allocation Policity'|t }}</a>
+			</li>
+			<li>
+				<a class="dropdown-item fw-bold" href="#mobility">{{ 'Mobility'|t }}</a>
+			</li>
+			<li>
 				<a class="dropdown-item fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
 			</li>
 			<li>
@@ -73,6 +79,12 @@
 		</li>
 		<li class="nav-item">
 			<a class="nav-link nav-link-rs-menu  fw-bold" href="#admission">{{ 'Admission'|t }}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#ects-allocation-policy">{{ 'ECTS Allocation Policty'|t }}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#mobility">{{ 'Mobility'|t }}</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link nav-link-rs-menu  fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
@@ -259,7 +271,7 @@
 
 <!--<div class="section-margin-negative"></div>-->
 <div class="section-container section-bg-grey">
-	<div class='my-custom-container-2'>
+	<div class='my-custom-container-2' id='ects-allocation-policy'>
 		{% if institution.field_ects_credit_allocation_pol is not empty %}
 
 			<h2 class="section-title text-center">ECTS Allocation Policy</h2>
@@ -274,18 +286,66 @@
 
 <!--<div class="section-margin-negative"></div>-->
 <div class="section-container">
-	<div class='my-custom-container-2'>
-		{% if institution.field_mobility is not empty %}
+  <div class="my-custom-container-2" id="mobility">
 
-			<h2 class="section-title text-center">Mobility</h2>
+    {% set has_incoming = institution.field_mobility_incoming_students is not empty %}
+    {% set has_outgoing = institution.field_mobility_outgoing_students is not empty %}
 
-			<p>{{ institution.field_mobility.value|raw }}</p>
+    {% if has_incoming or has_outgoing %}
+      <h2 class="section-title text-center">Mobility</h2>
 
+      {# Nav tabs #}
+      {% if has_incoming and has_outgoing %}
+        <ul class="nav nav-tabs justify-content-center" id="mobilityTabs-{{ institution.id() }}" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active"
+                    id="tab-incoming-{{ institution.id() }}"
+                    data-bs-toggle="tab"
+                    data-bs-target="#pane-incoming-{{ institution.id() }}"
+                    type="button" role="tab"
+                    aria-controls="pane-incoming-{{ institution.id() }}"
+                    aria-selected="true">
+              Incoming students
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link"
+                    id="tab-outgoing-{{ institution.id() }}"
+                    data-bs-toggle="tab"
+                    data-bs-target="#pane-outgoing-{{ institution.id() }}"
+                    type="button" role="tab"
+                    aria-controls="pane-outgoing-{{ institution.id() }}"
+                    aria-selected="false">
+              Outgoing students
+            </button>
+          </li>
+        </ul>
+      {% endif %}
 
-		{% endif %}
-	</div>
+      {# Tab contents #}
+      <div class="tab-content pt-3" id="mobilityTabsContent-{{ institution.id() }}">
+        {% if has_incoming %}
+          <div class="tab-pane fade show active"
+               id="pane-incoming-{{ institution.id() }}"
+               role="tabpanel"
+               aria-labelledby="tab-incoming-{{ institution.id() }}">
+            {{ institution.field_mobility_incoming_students.value|raw }}
+          </div>
+        {% endif %}
+
+        {% if has_outgoing %}
+          <div class="tab-pane fade {{ has_incoming ? '' : 'show active' }}"
+               id="pane-outgoing-{{ institution.id() }}"
+               role="tabpanel"
+               aria-labelledby="tab-outgoing-{{ institution.id() }}">
+            {{ institution.field_mobility_outgoing_students.value|raw }}
+          </div>
+        {% endif %}
+      </div>
+
+    {% endif %}
+  </div>
 </div>
-
 
 
 
