@@ -5,6 +5,8 @@ use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
 use Drupal\views\Views;
 use Symfony\Component\Intl\Countries;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Component\Utility\Html;
 
 /**
  * @file
@@ -435,6 +437,94 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
     $variables['campuses'] = !empty($translated_campuses) ? array_values($translated_campuses) : NULL;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+/**
+ * Helper inline: mapea claves → etiquetas del vocabulario ELM.
+ * - Usa $lang (idioma actual) y hace fallback a 'en' y luego a la clave.
+ */
+$elm_labels = function (EntityInterface $entity, string $field_name, string $lang): array {
+  if (!$entity->hasField($field_name) || $entity->get($field_name)->isEmpty()) {
+    return [];
+  }
+
+  // ID del vocabulario configurado en el storage del field.
+  $vocabulary_id = $entity->getFieldDefinition($field_name)->getSetting('vocabulary');
+
+  /** @var \Drupal\elm_vocabulary_field\ControlledVocabularyProviderInterface $provider */
+  $provider = \Drupal::service('elm_vocabulary_field.provider');
+  $vocabulary = $provider->getVocabulary($vocabulary_id);
+
+  // Listas por idioma destino + fallback a EN.
+  $listLang = $vocabulary->getLabeledList($lang);
+  $listEn   = $vocabulary->getLabeledList('en');
+
+  $labels = [];
+  foreach ($entity->get($field_name) as $item) {
+    $key = $item->value;
+    $labels[] = $listLang[$key] ?? $listEn[$key] ?? $key;
+  }
+  return $labels;
+};
+
+/**
+ * 1) Etiquetas para la universidad (variable directa para Twig).
+ *    Usa SIEMPRE el idioma actual ($current_language) con fallback incluido.
+ */
+if (!empty($translated_node) && $translated_node->hasField('field_example_vocabularies')) {
+  $variables['institution_vocab_labels'] =
+    $elm_labels($translated_node, 'field_example_vocabularies', $current_language);
+
+  $variables['institution_vocab_labels_str'] =
+    implode(', ', $variables['institution_vocab_labels']);
+}
+
+/**
+ * 2) (Opcional) Etiquetas por cada row de la vista (si usas "result rows" en Twig).
+ *    Inyecta en cada fila _elm_vocab_labels y _elm_vocab_labels_str para usar en plantillas.
+ */
+if (!empty($variables['view']->result)) {
+  foreach ($variables['view']->result as $idx => $row) {
+    $entity = $row->_entity ?? NULL;
+    if ($entity instanceof EntityInterface && $entity->hasField('field_example_vocabularies')) {
+      $labels = $elm_labels($entity, 'field_example_vocabularies', $current_language);
+      $variables['view']->result[$idx]->_elm_vocab_labels = $labels;
+      $variables['view']->result[$idx]->_elm_vocab_labels_str = implode(', ', $labels);
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   }
 
@@ -1157,3 +1247,16 @@ function b5subtheme_form_views_exposed_form_alter(array &$form, FormStateInterfa
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

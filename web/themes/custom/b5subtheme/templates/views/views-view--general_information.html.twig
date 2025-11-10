@@ -46,13 +46,13 @@
 				<a class="dropdown-item fw-bold" href="#description">{{ 'Description'|t }}</a>
 			</li>
 			<li>
-				<a class="dropdown-item fw-bold" href="#academic-authorities">{{ 'Academic authorities'|t }}</a>
+				<a class="dropdown-item fw-bold" href="#academic-authorities">{{ 'Authorities'|t }}</a>
 			</li>
 			<li>
 				<a class="dropdown-item fw-bold" href="#admission">{{ 'Admission'|t }}</a>
 			</li>
 			<li>
-				<a class="dropdown-item fw-bold" href="#ects-allocation-policty">{{ 'ECTS Allocation Policity'|t }}</a>
+				<a class="dropdown-item fw-bold" href="#ects-allocation-policty">{{ 'ECTS Policies'|t }}</a>
 			</li>
 			<li>
 				<a class="dropdown-item fw-bold" href="#mobility">{{ 'Mobility'|t }}</a>
@@ -61,7 +61,7 @@
 				<a class="dropdown-item fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
 			</li>
 			<li>
-				<a class="dropdown-item fw-bold" href="#organizational-units">{{ 'Organizational Units'|t }}</a>
+				<a class="dropdown-item fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
 			</li>
 		</ul>
 	</div>
@@ -75,13 +75,13 @@
 			<a class="nav-link nav-link-rs-menu fw-bold" href="#description">{{ 'Description'|t }}</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link nav-link-rs-menu  fw-bold" href="#academic-authorities">{{ 'Academic authorities'|t }}</a>
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#academic-authorities">{{ 'Authorities'|t }}</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link nav-link-rs-menu  fw-bold" href="#admission">{{ 'Admission'|t }}</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link nav-link-rs-menu  fw-bold" href="#ects-allocation-policy">{{ 'ECTS Allocation Policty'|t }}</a>
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#ects-allocation-policy">{{ 'ECTS Policies'|t }}</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link nav-link-rs-menu  fw-bold" href="#mobility">{{ 'Mobility'|t }}</a>
@@ -90,9 +90,12 @@
 			<a class="nav-link nav-link-rs-menu  fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Organizational Units'|t }}</a>
+			<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
 		</li>
 	</ul>
+	{{ dump(institution_vocab_labels_str) }}
+
+{{dump(institution.field_example_vocabularies.value | render)}}
 
 </div></nav><div class="university-banner">
 {% if institution.field_institution_picture is not empty %}

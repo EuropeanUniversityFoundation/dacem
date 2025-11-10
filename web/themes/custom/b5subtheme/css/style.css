@@ -14004,6 +14004,11 @@ VISTA DE LISTA DE UNIVERSIDADES
   margin-bottom: 15px;
 }
 
+.image-banner-main-page{
+  height: 500px !important;
+  object-position: top !important;
+}
+
 .image-banner img {
   width: 100%;
   height: 100%;
