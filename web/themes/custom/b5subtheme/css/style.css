@@ -3102,8 +3102,10 @@ textarea.form-control-lg {
 
 .btn-dark {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #212529;
-  --bs-btn-border-color: #212529;
+  /*--bs-btn-bg: #212529;*/
+    --bs-btn-bg: #000;
+  /*--bs-btn-border-color: #212529;*/
+  --bs-btn-border-color: #000;
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #424649;
   --bs-btn-hover-border-color: #373b3e;
@@ -14125,7 +14127,7 @@ a.card.h-100 {
 
 
 .dacem-menu-item:hover {
-  background-color: red;
+  background-color: #ff4949;
 }
 
 .user-menu-item:hover{
@@ -15406,3 +15408,76 @@ tbody tr:nth-child(odd) td {
   
   margin-top: 25px;
 }
+
+
+
+
+.btn-search-filter-active{
+  background-color: #ff4949;
+  color: white;
+}
+
+
+/* /themes/custom/b5subtheme/css/custom.css */
+#views-exposed-form-search-programme-page-1 .form-actions input[type="submit"][id^="edit-submit"],
+#views-exposed-form-search-programme-page-1 .form-actions input[type="submit"][id^="edit-reset"] {
+  background-color: #000 !important;
+  border-color: #000 !important;
+  color: #fff !important;
+}
+
+#views-exposed-form-search-programme-page-1 .form-actions input[type="submit"][id^="edit-submit"]:hover,
+#views-exposed-form-search-programme-page-1 .form-actions input[type="submit"][id^="edit-reset"]:hover {
+  background-color: #222 !important;
+  border-color: #222 !important;
+  color: #fff !important;
+}
+
+
+
+
+
+
+
+.catalogue-hero{
+  position: relative;
+  /* quita cualquier overflow:hidden que tuvieras */
+  overflow: visible; 
+  background: url('/themes/custom/b5subtheme/images/facilities_1.png') center/cover no-repeat;
+}
+
+/* overlay por encima de la imagen */
+.catalogue-hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(180deg,
+    rgba(242,73,65,.95) 0%,   /* #f24941 */
+    rgba(98,21,15,.85) 100%  /* #62150f */
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* tu contenido por encima del overlay */
+.catalogue-hero > *{
+  position: relative;
+  z-index: 1;
+}
+
+/* asegurar que los dropdowns se muestran por encima */
+.catalogue-hero .catg__filters{ position: relative; z-index: 2; }
+.catalogue-hero .dropdown-menu{ z-index: 1050; } /* > overlay y acorde a Bootstrap */
+
+
+
+
+
+
+
+
+
+
+
+
+
+

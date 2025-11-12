@@ -90,40 +90,43 @@
   <!----><!----><!----><!---->
   <!----><!----><!----><!---->
 
-  <div class="bg-danger" style="height:300px;">
-    <div class="section-container">
-      <div class="my-custom-container-2">
+ <div class="catalogue-hero" style="height:300px;">
+  <div class="section-container">
+    <div class="my-custom-container-2">
 
-        <div class="row">
-          <div class="col-auto">
-            <h2 class="section-title" style="color:white">Catalogue</h2>
-          </div>
-          <div class="col-auto">
-            <button class="btn btn-primary bg-black border-0 disabled">Select Home Programme</button>
-          </div>
+      <div class="row">
+        <div class="col-auto">
+          <h1 class="section-title" style="color:white">Catalogue</h1>
         </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="input-group mb-3">
-              <input type="text" class="form-control bg-light border-0" placeholder="DISABLED" id="programme-search">
-              <button class="btn btn-outline-secondary pe-4 ps-4 bg-black disabled" type="button" id="search-btn">
-                <i class="fas fa-search" style="color: white;"></i>
-              </button>
-            </div>
-          </div>
+        <div class="col-auto">
+          <button class="btn btn-primary bg-black border-0 disabled">Select Home Programme</button>
         </div>
-
-        {# ⬇️ El EXPOSED debe ir dentro del wrapper para que AJAX lo gestione #}
-        {% if exposed %}
-          <div class="catg__filters">
-            {{ exposed }}
-          </div>
-        {% endif %}
-
       </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control bg-light border-0" placeholder="DISABLED" id="programme-search">
+            <button class="btn btn-outline-secondary pe-4 ps-4 bg-black disabled" type="button" id="search-btn">
+              <i class="fas fa-search" style="color: white;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {% if exposed %}
+        <div class="catg__filters">
+          {{ exposed }}
+        </div>
+      {% endif %}
     </div>
   </div>
+</div>
+
+
+
+
+
 
   <div class="section-container bg-light">
     <div class="my-custom-container-2">

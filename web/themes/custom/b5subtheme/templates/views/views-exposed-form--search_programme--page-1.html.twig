@@ -1,7 +1,34 @@
 <form{{ attributes.addAttribute('data-disable-refocus','true') }}>
+
+  {# helpers: está activo si el #value no está vacío, ni '_none', ni 'All' #}
+  {% set area_active =
+    form.programme_area is defined
+    and (
+      (form.programme_area['#value'] is iterable and form.programme_area['#value']|length > 0)
+      or (form.programme_area['#value']|default('') not in ['', '_none', 'All'])
+    )
+  %}
+  {% set level_active =
+    form.programme_level is defined
+    and (
+      (form.programme_level['#value'] is iterable and form.programme_level['#value']|length > 0)
+      or (form.programme_level['#value']|default('') not in ['', '_none', 'All'])
+    )
+  %}
+  {% set country_active =
+    form.field_institution_country_value is defined
+    and (
+      (form.field_institution_country_value['#value'] is iterable and form.field_institution_country_value['#value']|length > 0)
+      or (form.field_institution_country_value['#value']|default('') not in ['', '_none', 'All'])
+    )
+  %}
+
   <div class="custom-btn-group-filter-ou d-flex gap-10 mb-3 flex-wrap">
+
     <div class="dropdown">
-      <button class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+      <button
+        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ area_active ? 'btn-search-filter-active' : 'btn-dark' }}"
+        type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
         Knowledge Area
       </button>
       <div class="dropdown-menu p-3 filter-menu">
@@ -10,7 +37,9 @@
     </div>
 
     <div class="dropdown">
-      <button class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+      <button
+        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ level_active ? 'btn-search-filter-active' : 'btn-dark' }}"
+        type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
         Level
       </button>
       <div class="dropdown-menu p-3 filter-menu">
@@ -19,7 +48,9 @@
     </div>
 
     <div class="dropdown">
-      <button class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+      <button
+        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ country_active ? 'btn-search-filter-active' : 'btn-dark' }}"
+        type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
         Destination
       </button>
       <div class="dropdown-menu p-3 filter-menu">
@@ -34,7 +65,6 @@
     {% endif %}
   </div>
 
-  {# Ordenación expuesta: UNA sola vez y oculta #}
   {% if form.sort_by is defined and form.sort_order is defined %}
     <div class="visually-hidden">
       {{ form.sort_by }}
@@ -42,8 +72,8 @@
     </div>
   {% endif %}
 
-  {# ⬅️ AQUI: el filtro de texto expuesto, oculto pero presente en el DOM #}
   {% if form.combine is defined %}
+    {# si quieres que el botón cambie también por el texto buscado, crea otra variable como arriba usando form.combine['#value'] #}
     <div class="visually-hidden">
       {{ form.combine }}
     </div>

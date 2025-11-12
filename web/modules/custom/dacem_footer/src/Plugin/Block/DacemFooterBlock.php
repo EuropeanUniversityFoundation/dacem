@@ -67,7 +67,7 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
     \Drupal::logger('dacem_footer')->notice('Footer block ejecutado');
     $university = NULL;
     $logo_url = NULL;
-    $color = '#f44336'; // Default color (dacem color)
+    $color = '#ff4949'; // Default color (dacem color)
 
     
     $institution_alias = \Drupal::routeMatch()->getParameter('arg_0');
