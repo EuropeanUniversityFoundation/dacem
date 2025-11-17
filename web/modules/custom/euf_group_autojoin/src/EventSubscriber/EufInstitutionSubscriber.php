@@ -18,7 +18,7 @@ class EufInstitutionSubscriber implements EventSubscriberInterface {
   // Group bundle to attach users to.
   private const GROUP_TYPE      = 'universitytypegroup';
   // Group field (entity reference to HEI).
-  private const GROUP_HEI_FIELD = 'field_insititution_profile';
+  private const GROUP_HEI_FIELD = 'field_institution_profile';
   // User base field that stores the HEI reference.
   private const USER_HEI_FIELD  = 'user_institution';
 

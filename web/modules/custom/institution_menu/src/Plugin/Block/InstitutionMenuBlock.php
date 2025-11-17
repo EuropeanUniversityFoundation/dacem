@@ -513,7 +513,7 @@ class InstitutionMenuBlock extends BlockBase
             $build = [
                 '#markup' => $this->t('
 
-    <nav class="navbar navbar-expand-lg university-navbar main-menu-text" style="margin: 0; padding: 0;">
+    <nav class="navbar sticky-top navbar-expand-lg university-navbar main-menu-text" style="margin: 0; padding: 0;">
       <div class="container-fluid">
 
         <!-- Logo -->

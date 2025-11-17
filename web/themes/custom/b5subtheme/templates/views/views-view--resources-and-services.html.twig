@@ -46,684 +46,610 @@
 	;
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
-}</style>
-<!--Por eiqui class="sticky-nav"-->
-
-<div class="rs-header ">
-	<div class="my-custom-container-2">
+}</style><!--Por eiqui class="sticky-nav"--><div class="rs-header ">
+<div class="my-custom-container-2">
 	<div class="page-band">
 		<h1 class="rs-title">RESOURCES AND SERVICES</h1>
 	</div>
-	</div>	
-</div>
-
-<nav id="rs-navbar" class="rs-nav navbar navbar-expand-lg bg-black">
-	<div
-		class="my-custom-constainer">
-		<!-- Menú desplegable para pantallas pequeñas -->
-		<div class="dropdown d-lg-none w-100">
-			<button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				{{ 'Student affairs'|t }}
-			</button>
-			<ul class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
-				<li>
-					<a class="dropdown-item fw-bold" href="#student-affairs">{{ 'Student affairs'|t }}</a>
-				</li>
-				<li>
-					<a class="dropdown-item fw-bold" href="#facilities">{{ 'Facilities'|t }}</a>
-				</li>
-				<li>
-					<a class="dropdown-item fw-bold" href="#students-mobility">{{ 'Students mobility'|t }}</a>
-				</li>
-				<li>
-					<a class="dropdown-item fw-bold" href="#university-life">{{ 'University life'|t }}</a>
-				</li>
-				<li>
-					<a class="dropdown-item fw-bold" href="#extra-academic-activities">{{ 'Extra-academic activities'|t }}</a>
-				</li>
-			</ul>
-		</div>
-
-		<!-- Menú de pestañas visible en pantallas grandes -->
-		<!-- Menú de pestañas visible en pantallas grandes -->
-		<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
-
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu fw-bold" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
-					<img src="/path/to/icon.jpg" alt="" class="me-2" style="height: 24px;">
-					{{ 'Select Campus'|t }}
-					<i class="fas fa-chevron-down ms-1"></i>
-				</a>
+</div></div><nav id="fixed-navbar" class="fixed-navbar navbar-expand-lg bg-black">
+<div
+	class="my-custom-constainer">
+	<!-- Menú desplegable para pantallas pequeñas -->
+	<div class="dropdown d-lg-none w-100">
+		<button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			{{ 'Student affairs'|t }}
+		</button>
+		<ul class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
+			<li>
+				<a class="dropdown-item fw-bold" href="#student-affairs">{{ 'Student affairs'|t }}</a>
 			</li>
-
-
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu fw-bold" href="#student-affairs">{{ menu_titles.student_affairs }}</a>
+			<li>
+				<a class="dropdown-item fw-bold" href="#facilities">{{ 'Facilities'|t }}</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu  fw-bold" href="#facilities">{{ menu_titles.facilities }}</a>
+			<li>
+				<a class="dropdown-item fw-bold" href="#students-mobility">{{ 'Students mobility'|t }}</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu  fw-bold" href="#students-mobility">{{ menu_titles.students_mobility }}</a>
+			<li>
+				<a class="dropdown-item fw-bold" href="#university-life">{{ 'University life'|t }}</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu  fw-bold" href="#university-life">{{ menu_titles.university_life }}</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link nav-link-rs-menu fw-bold" href="#extra-academic-activities">{{ menu_titles.extra_academic_activities }}</a>
+			<li>
+				<a class="dropdown-item fw-bold" href="#extra-academic-activities">{{ 'Extra-academic activities'|t }}</a>
 			</li>
 		</ul>
-
 	</div>
-</nav></div>
 
-<div class="collapse bg-dark text-white container-campuses-rs" id="campusCollapse">
+	<!-- Menú de pestañas visible en pantallas grandes -->
+	<!-- Menú de pestañas visible en pantallas grandes -->
+	<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
-	{% if campuses %}
-
-
-		<div class="d-flex flex-wrap gap-3 justify-content-center campuses-row-rs">
-
-
-			<a href="{{ university.custom_url }}" class="campus-card-rs d-flex align-items-center text-decoration-none">
-
-				{% if university.field_logo is not empty and university.field_logo.entity.uri.value is defined %}
-    <img src="{{ file_url(university.field_logo.entity.uri.value) }}" alt="{{ university.label }}" class="campus-card-rs-img">
-{% endif %}
-
-
-				<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
-																																						          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
-					<h5>{{ university.label }}</h5>
-				</div>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu fw-bold" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
+				<img src="/path/to/icon.jpg" alt="" class="me-2" style="height: 24px;">
+				{{ 'Select Campus'|t }}
+				<i class="fas fa-chevron-down ms-1"></i>
 			</a>
+		</li>
 
 
-			{% for campus in campuses %}
-				{% set is_university = campus.label == 'University' %}
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu fw-bold" href="#student-affairs">{{ menu_titles.student_affairs }}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#facilities">{{ menu_titles.facilities }}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#students-mobility">{{ menu_titles.students_mobility }}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#university-life">{{ menu_titles.university_life }}</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu fw-bold" href="#extra-academic-activities">{{ menu_titles.extra_academic_activities }}</a>
+		</li>
+	</ul>
 
-				<a href="{{ campus.custom_url }}" class="campus-card-rs d-flex align-items-center text-decoration-none">
-
-					{% if campus.field_campus_picture is not empty %}
-  <img 
-    src="{{ file_url(campus.field_campus_picture.entity.fileuri) }}" 
-    alt="{{ campus.label }}" 
-    class="campus-card-rs-img">
-{% endif %}
+</div></nav><div class="collapse bg-dark text-white container-campuses-rs" id="campusCollapse">{% if campuses %}
 
 
+<div class="d-flex flex-wrap gap-3 justify-content-center campuses-row-rs">
 
 
-					
+	<a href="{{ university.custom_url }}" class="campus-card-rs d-flex align-items-center text-decoration-none">
 
-					<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
+		{% if university.field_logo is not empty and university.field_logo.entity.uri.value is defined %}
+			<img src="{{ file_url(university.field_logo.entity.uri.value) }}" alt="{{ university.label }}" class="campus-card-rs-img">
+		{% endif %}
+
+
+		<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
 																																										          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
-						<h5>{{ campus.label }}</h5>
-					</div>
-				</a>
-			{% endfor %}
+			<h5>{{ university.label }}</h5>
 		</div>
+	</a>
 
 
+	{% for campus in campuses %}
+		{% set is_university = campus.label == 'University' %}
+
+		<a href="{{ campus.custom_url }}" class="campus-card-rs d-flex align-items-center text-decoration-none">
+
+			{% if campus.field_campus_picture is not empty %}
+				<img src="{{ file_url(campus.field_campus_picture.entity.fileuri) }}" alt="{{ campus.label }}" class="campus-card-rs-img">
+			{% endif %}
+
+
+			<div class="d-flex campus-card-rs-name align-items-center justify-content-center px-3 py-2
+																																															          {% if is_university %} bg-danger text-white {% else %} bg-secondary text-white {% endif %}">
+				<h5>{{ campus.label }}</h5>
+			</div>
+		</a>
+	{% endfor %}
+</div>{% endif %}</div>{% if rs_campus_title %}<div class="rs-campus-title d-flex justify-content-center my-4">
+<h1 class="text-center">{{ rs_campus_title }}</h1></div>{% endif %}<div class="section-container students-affairs-section" id="student-affairs"><div class="my-custom-container-2">
+<div class="row mb-5">
+	{% if rs_mode == 'campus' %}
+		{% if rs_fallback_data.field_rs_students_affairs_office.rendered %}
+			<div class="col-12">
+				<h1 class="section-title">Students Affairs Office</h1>
+				<div class="facility-text">
+					{{ rs_fallback_data.field_rs_students_affairs_office.rendered|raw }}
+					{% if rs_fallback_data.field_rs_students_affairs_office.source == 'institution' %}
+						<small class="text-muted">* For the whole institution</small>
+					{% else %}
+						<small class="text-muted"></small>
+					{% endif %}
+				</div>
+			</div>
+		{% endif %}
+	{% else %}
+
+		{% if rs.field_rs_students_affairs_office.value is not empty %}
+
+
+			<div class="col-12">
+				<h1 class="section-title">Students Affairs Office</h1>
+				<div class="facility-text">
+					{{ rs.field_rs_students_affairs_office.value|raw }}
+				</div>
+			</div>
+		{% endif %}
 	{% endif %}
 </div>
-{% if rs_campus_title %}
-	<div class="rs-campus-title d-flex justify-content-center my-4">
-		<h1 class="text-center">{{ rs_campus_title }}</h1>
-	</div>
-{% endif %}
 
-<div class="section-container students-affairs-section" id="student-affairs">
-
-
-	<div class="my-custom-container-2">
-		<div class="row mb-5">
-			{% if rs_mode == 'campus' %}
-				{% if rs_fallback_data.field_rs_students_affairs_office.rendered %}
-					<div class="col-12">
-						<h1 class="section-title">Students Affairs Office</h1>
-						<div class="facility-text">
-							{{ rs_fallback_data.field_rs_students_affairs_office.rendered|raw }}
-							{% if rs_fallback_data.field_rs_students_affairs_office.source == 'institution' %}
-								<small class="text-muted">* For the whole institution</small>
-							{% else %}
-								<small class="text-muted"></small>
-							{% endif %}
-						</div>
-					</div>
-				{% endif %}
-			{% else %}
-
-				{% if rs.field_rs_students_affairs_office.value is not empty %}
-
-
-					<div class="col-12">
-						<h1 class="section-title">Students Affairs Office</h1>
-						<div class="facility-text">
-							{{ rs.field_rs_students_affairs_office.value|raw }}
-						</div>
-					</div>
-				{% endif %}
-			{% endif %}
-		</div>
-
-		<div class="row">
-			{% if rs_mode == 'campus' %}
-				{% if rs_fallback_data.field_financial_support_for_stud.rendered %}
-					<div class="col-md-6 mb-4">
-						<h1 class="section-title">Financial Support for Students</h1>
-						<div class="facility-text">
-							{{ rs_fallback_data.field_financial_support_for_stud.rendered|raw }}
-							{% if rs_fallback_data.field_financial_support_for_stud.source == 'institution' %}
-								<small class="text-muted">* For the whole institution</small>
-							{% else %}
-								<small class="text-muted"></small>
-							{% endif %}
-						</div>
-					</div>
-				{% endif %}
-
-				{% if rs_fallback_data.field_rs_insurance.rendered %}
-					<div class="col-md-6 mb-4">
-						<h1 class="section-title">Insurance</h1>
-						<div class="facility-text">
-							{{ rs_fallback_data.field_rs_insurance.rendered|raw }}
-							{% if rs_fallback_data.field_rs_insurance.source == 'institution' %}
-								<small class="text-muted">* For the whole institution</small>
-							{% else %}
-								<small class="text-muted"></small>
-							{% endif %}
-						</div>
-					</div>
-				{% endif %}
-			{% else %}
-				{% if rs.field_financial_support_for_stud.value is not empty %}
-					<div class="col-md-6 mb-4">
-						<h1 class="section-title">Financial Support for Students</h1>
-						<div class="facility-text">
-							{{ rs.field_financial_support_for_stud.value|raw }}
-						</div>
-					</div>
-				{% endif %}
-
-				{% if rs.field_rs_insurance.value is not empty %}
-					<div class="col-md-6 mb-4">
-						<h1 class="section-title">Insurance</h1>
-						<div class="facility-text">
-							{{ rs.field_rs_insurance.value|raw }}
-						</div>
-					</div>
-				{% endif %}
-			{% endif %}
-		</div>
-	</div>
-
-</div>
-
-<div class="col-lg-12 col-md-12 col-sm-12">
-	<div class="bg-black text-white mb-0" id="facilities">
-		
-		<div class="image-banner image-banner--bottom">
-		<img src="/themes/custom/b5subtheme/images/facilities5.jpeg" alt="Facilities" class="img-fluid">
-		
-		<div class="section-container">
-			<div class="my-custom-container-2">
-			<div class="rs-section-image-text">Facilities</div>
+<div class="row">
+	{% if rs_mode == 'campus' %}
+		{% if rs_fallback_data.field_financial_support_for_stud.rendered %}
+			<div class="col-md-6 mb-4">
+				<h1 class="section-title">Financial Support for Students</h1>
+				<div class="facility-text">
+					{{ rs_fallback_data.field_financial_support_for_stud.rendered|raw }}
+					{% if rs_fallback_data.field_financial_support_for_stud.source == 'institution' %}
+						<small class="text-muted">* For the whole institution</small>
+					{% else %}
+						<small class="text-muted"></small>
+					{% endif %}
+				</div>
 			</div>
-		</div>
-		</div>
+		{% endif %}
 
-		<div class="section-container">
+		{% if rs_fallback_data.field_rs_insurance.rendered %}
+			<div class="col-md-6 mb-4">
+				<h1 class="section-title">Insurance</h1>
+				<div class="facility-text">
+					{{ rs_fallback_data.field_rs_insurance.rendered|raw }}
+					{% if rs_fallback_data.field_rs_insurance.source == 'institution' %}
+						<small class="text-muted">* For the whole institution</small>
+					{% else %}
+						<small class="text-muted"></small>
+					{% endif %}
+				</div>
+			</div>
+		{% endif %}
+	{% else %}
+		{% if rs.field_financial_support_for_stud.value is not empty %}
+			<div class="col-md-6 mb-4">
+				<h1 class="section-title">Financial Support for Students</h1>
+				<div class="facility-text">
+					{{ rs.field_financial_support_for_stud.value|raw }}
+				</div>
+			</div>
+		{% endif %}
+
+		{% if rs.field_rs_insurance.value is not empty %}
+			<div class="col-md-6 mb-4">
+				<h1 class="section-title">Insurance</h1>
+				<div class="facility-text">
+					{{ rs.field_rs_insurance.value|raw }}
+				</div>
+			</div>
+		{% endif %}
+	{% endif %}
+</div></div></div><div class="col-lg-12 col-md-12 col-sm-12"><div class="bg-black text-white mb-0" id="facilities">
+
+<div class="image-banner image-banner--bottom">
+	<img src="/themes/custom/b5subtheme/images/facilities5.jpeg" alt="Facilities" class="img-fluid">
+
+	<div class="section-container">
 		<div class="my-custom-container-2">
-			<div class="row">
-				{% if rs_mode == 'campus' %}
-					{% if rs_fallback_data.field_rs_medical_facilities.rendered %}
-						<div class="col-md-6 mb-4">
-							<div class="facility-box">
-								<div class="facility-icon">
-									<i class="fas fa-hospital-alt"></i>
-								</div>
-								<h3>Medical Facilities</h3>
-								<div class="facility-text">
-									{{ rs_fallback_data.field_rs_medical_facilities.rendered|raw }}
-									{% if rs_fallback_data.field_rs_medical_facilities.source == 'institution' %}
-										<small class="text-warning">* For the whole institution</small>
-									{% else %}
-										<small class="text-warning"></small>
-									{% endif %}
-								</div>
-							</div>
-						</div>
-					{% endif %}
-
-					{% if rs_fallback_data.field_rs_learning_facilities.rendered %}
-						<div class="col-md-6 mb-4">
-							<div class="facility-box">
-								<div class="facility-icon">
-									<i class="fas fa-graduation-cap"></i>
-								</div>
-								<h3>Learning Facilities</h3>
-								<div class="facility-text">
-									{{ rs_fallback_data.field_rs_learning_facilities.rendered|raw }}
-									{% if rs_fallback_data.field_rs_learning_facilities.source == 'institution' %}
-										<small class="text-warning">* For the whole institution</small>
-									{% else %}
-										<small class="text-warning"></small>
-									{% endif %}
-								</div>
-							</div>
-						</div>
-					{% endif %}
-				{% else %}
-					{% if rs.field_rs_medical_facilities.value is not empty %}
-						<div class="col-md-6 mb-4">
-							<div class="facility-box">
-								<div class="facility-icon">
-									<i class="fas fa-hospital-alt"></i>
-								</div>
-								<h3>Medical Facilities</h3>
-								<div class="facility-text">
-									{{ rs.field_rs_medical_facilities.value|raw }}
-								</div>
-							</div>
-						</div>
-					{% endif %}
-
-					{% if rs.field_rs_learning_facilities.value is not empty %}
-						<div class="col-md-6 mb-4">
-							<div class="facility-box">
-								<div class="facility-icon">
-									<i class="fas fa-graduation-cap"></i>
-								</div>
-								<h3>Learning Facilities</h3>
-								<div class="facility-text">
-									{{ rs.field_rs_learning_facilities.value|raw }}
-								</div>
-							</div>
-						</div>
-					{% endif %}
-				{% endif %}
-			</div>
-
-			<div class="row">
-				{% if rs_mode == 'campus' %}
-					{% if rs_fallback_data.field_sport_and_leisure_faciliti.rendered %}
-						<div class="col-md-6 mb-4">
-							<div class="facility-box">
-								<div class="facility-icon">
-									<i class="fas fa-dumbbell"></i>
-								</div>
-								<h3>Sport and Leisure Facilities</h3>
-								<div class="facility-text">
-									{{ rs_fallback_data.field_sport_and_leisure_faciliti.rendered|raw }}
-									{% if rs_fallback_data.field_sport_and_leisure_faciliti.source == 'institution' %}
-										<small class="text-warning">* For the whole institution</small>
-									{% else %}
-										<small class="text-warning"></small>
-									{% endif %}
-								</div>
-							</div>
-						</div>
-					{% endif %}
-
-					{% if rs_fallback_data.field_rs_special_facilities.rendered %}
-						<div class="col-md-6 mb-4">
-							<div class="facility-box">
-								<div class="facility-icon">
-									<i class="fas fa-star"></i>
-								</div>
-								<h3>Special Facilities</h3>
-								<div class="facility-text">
-									{{ rs_fallback_data.field_rs_special_facilities.rendered|raw }}
-									{% if rs_fallback_data.field_rs_special_facilities.source == 'institution' %}
-										<small class="text-warning">* For the whole institution</small>
-									{% else %}
-										<small class="text-warning"></small>
-									{% endif %}
-								</div>
-							</div>
-						</div>
-					{% endif %}
-				{% else %}
-					{% if rs.field_sport_and_leisure_faciliti.value is not empty %}
-						<div class="col-md-6 mb-4">
-							<div class="facility-box">
-								<div class="facility-icon">
-									<i class="fas fa-dumbbell"></i>
-								</div>
-								<h3>Sport and Leisure Facilities</h3>
-								<div class="facility-text">
-									{{ rs.field_sport_and_leisure_faciliti.value|raw }}
-								</div>
-							</div>
-						</div>
-					{% endif %}
-
-					{% if rs.field_rs_special_facilities.value is not empty %}
-						<div class="col-md-6 mb-4">
-							<div class="facility-box">
-								<div class="facility-icon">
-									<i class="fas fa-star"></i>
-								</div>
-								<h3>Special Facilities</h3>
-								<div class="facility-text">
-									{{ rs.field_rs_special_facilities.value|raw }}
-								</div>
-							</div>
-						</div>
-					{% endif %}
-				{% endif %}
-			</div>
+			<div class="rs-section-image-text">Facilities</div>
 		</div>
-		</div>
-
 	</div>
 </div>
 
-
-<div class="" id="students-mobility">
-	<div class="image-banner">
-
-		
-
-
-
-		<img src="/themes/custom/b5subtheme/images/Mobility.jpg" alt="Student's Mobility" class="img-fluid">
-		
-			<div class="section-container">
-			<div class="my-custom-container-2">
-			<div class="rs-section-image-text">Student's Mobility</div>
-			</div>
-			</div>
-
-	</div>
-
-	<div class="section-container">
+<div class="section-container">
 	<div class="my-custom-container-2">
 		<div class="row">
 			{% if rs_mode == 'campus' %}
-				{% if rs_fallback_data.field_practical_information_for.rendered %}
+				{% if rs_fallback_data.field_rs_medical_facilities.rendered %}
 					<div class="col-md-6 mb-4">
-						<h1 class="section-title">Practical Information For Incoming Mobile Students</h1>
-						<div class="facility-text">
-							{{ rs_fallback_data.field_practical_information_for.rendered|raw }}
-							{% if rs_fallback_data.field_practical_information_for.source == 'institution' %}
-								<small class="text-muted">* For the whole institution</small>
-							{% else %}
-								<small class="text-muted"></small>
-							{% endif %}
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-hospital-alt"></i>
+							</div>
+							<h3>Medical Facilities</h3>
+							<div class="facility-text">
+								{{ rs_fallback_data.field_rs_medical_facilities.rendered|raw }}
+								{% if rs_fallback_data.field_rs_medical_facilities.source == 'institution' %}
+									<small class="text-warning">* For the whole institution</small>
+								{% else %}
+									<small class="text-warning"></small>
+								{% endif %}
+							</div>
 						</div>
 					</div>
 				{% endif %}
-				{% if rs_fallback_data.field_internation_mobility_possi.rendered %}
+
+				{% if rs_fallback_data.field_rs_learning_facilities.rendered %}
 					<div class="col-md-6 mb-4">
-						<h1 class="section-title">International Mobility Possibilities</h1>
-						<div class="facility-text">
-							{{ rs_fallback_data.field_internation_mobility_possi.rendered|raw }}
-							{% if rs_fallback_data.field_internation_mobility_possi.source == 'institution' %}
-								<small class="text-muted">* For the whole institution</small>
-							{% else %}
-								<small class="text-muted"></small>
-							{% endif %}
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-graduation-cap"></i>
+							</div>
+							<h3>Learning Facilities</h3>
+							<div class="facility-text">
+								{{ rs_fallback_data.field_rs_learning_facilities.rendered|raw }}
+								{% if rs_fallback_data.field_rs_learning_facilities.source == 'institution' %}
+									<small class="text-warning">* For the whole institution</small>
+								{% else %}
+									<small class="text-warning"></small>
+								{% endif %}
+							</div>
 						</div>
 					</div>
 				{% endif %}
 			{% else %}
-				{% if rs.field_practical_information_for.value is not empty %}
+				{% if rs.field_rs_medical_facilities.value is not empty %}
 					<div class="col-md-6 mb-4">
-						<h1 class="section-title">Practical Information For Incoming Mobile Students</h1>
-						<div class="facility-text">
-							{{ rs.field_practical_information_for.value|raw }}
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-hospital-alt"></i>
+							</div>
+							<h3>Medical Facilities</h3>
+							<div class="facility-text">
+								{{ rs.field_rs_medical_facilities.value|raw }}
+							</div>
 						</div>
 					</div>
 				{% endif %}
 
-				{% if rs.field_internation_mobility_possi.value is not empty %}
+				{% if rs.field_rs_learning_facilities.value is not empty %}
 					<div class="col-md-6 mb-4">
-						<h1 class="section-title">International Mobility Possibilities</h1>
-						<div class="facility-text">
-							{{ rs.field_internation_mobility_possi.value|raw }}
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-graduation-cap"></i>
+							</div>
+							<h3>Learning Facilities</h3>
+							<div class="facility-text">
+								{{ rs.field_rs_learning_facilities.value|raw }}
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			{% endif %}
+		</div>
+
+		<div class="row">
+			{% if rs_mode == 'campus' %}
+				{% if rs_fallback_data.field_sport_and_leisure_faciliti.rendered %}
+					<div class="col-md-6 mb-4">
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-dumbbell"></i>
+							</div>
+							<h3>Sport and Leisure Facilities</h3>
+							<div class="facility-text">
+								{{ rs_fallback_data.field_sport_and_leisure_faciliti.rendered|raw }}
+								{% if rs_fallback_data.field_sport_and_leisure_faciliti.source == 'institution' %}
+									<small class="text-warning">* For the whole institution</small>
+								{% else %}
+									<small class="text-warning"></small>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+				{% if rs_fallback_data.field_rs_special_facilities.rendered %}
+					<div class="col-md-6 mb-4">
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-star"></i>
+							</div>
+							<h3>Special Facilities</h3>
+							<div class="facility-text">
+								{{ rs_fallback_data.field_rs_special_facilities.rendered|raw }}
+								{% if rs_fallback_data.field_rs_special_facilities.source == 'institution' %}
+									<small class="text-warning">* For the whole institution</small>
+								{% else %}
+									<small class="text-warning"></small>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			{% else %}
+				{% if rs.field_sport_and_leisure_faciliti.value is not empty %}
+					<div class="col-md-6 mb-4">
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-dumbbell"></i>
+							</div>
+							<h3>Sport and Leisure Facilities</h3>
+							<div class="facility-text">
+								{{ rs.field_sport_and_leisure_faciliti.value|raw }}
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+				{% if rs.field_rs_special_facilities.value is not empty %}
+					<div class="col-md-6 mb-4">
+						<div class="facility-box">
+							<div class="facility-icon">
+								<i class="fas fa-star"></i>
+							</div>
+							<h3>Special Facilities</h3>
+							<div class="facility-text">
+								{{ rs.field_rs_special_facilities.value|raw }}
+							</div>
 						</div>
 					</div>
 				{% endif %}
 			{% endif %}
 		</div>
 	</div>
-	</div>
-</div>
+</div></div></div><div class="" id="students-mobility"><div class="image-banner">
 
-<div class="" id="university-life">
-	<div class="image-banner">
-		<img src="/themes/custom/b5subtheme/images/university_life2.jpeg" alt="University Life" class="img-fluid">
-		<div class="section-container">
-			<div class="my-custom-container-2">
-			<div class="rs-section-image-text">University Life</div>
-			</div>
-			</div>
 
-	</div>
+<img src="/themes/custom/b5subtheme/images/Mobility.jpg" alt="Student's Mobility" class="img-fluid">
 
-	<div class="section-container">
+<div class="section-container">
 	<div class="my-custom-container-2">
+		<div class="rs-section-image-text">Student's Mobility</div>
+	</div>
+</div></div><div class="section-container">
+<div class="my-custom-container-2">
+	<div class="row">
+		{% if rs_mode == 'campus' %}
+			{% if rs_fallback_data.field_practical_information_for.rendered %}
+				<div class="col-md-6 mb-4">
+					<h1 class="section-title">Practical Information For Incoming Mobile Students</h1>
+					<div class="facility-text">
+						{{ rs_fallback_data.field_practical_information_for.rendered|raw }}
+						{% if rs_fallback_data.field_practical_information_for.source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% else %}
+							<small class="text-muted"></small>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+			{% if rs_fallback_data.field_internation_mobility_possi.rendered %}
+				<div class="col-md-6 mb-4">
+					<h1 class="section-title">International Mobility Possibilities</h1>
+					<div class="facility-text">
+						{{ rs_fallback_data.field_internation_mobility_possi.rendered|raw }}
+						{% if rs_fallback_data.field_internation_mobility_possi.source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% else %}
+							<small class="text-muted"></small>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+		{% else %}
+			{% if rs.field_practical_information_for.value is not empty %}
+				<div class="col-md-6 mb-4">
+					<h1 class="section-title">Practical Information For Incoming Mobile Students</h1>
+					<div class="facility-text">
+						{{ rs.field_practical_information_for.value|raw }}
+					</div>
+				</div>
+			{% endif %}
+
+			{% if rs.field_internation_mobility_possi.value is not empty %}
+				<div class="col-md-6 mb-4">
+					<h1 class="section-title">International Mobility Possibilities</h1>
+					<div class="facility-text">
+						{{ rs.field_internation_mobility_possi.value|raw }}
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+	</div>
+</div></div></div><div class="" id="university-life"><div class="image-banner">
+<img src="/themes/custom/b5subtheme/images/university_life2.jpeg" alt="University Life" class="img-fluid">
+<div class="section-container">
+	<div class="my-custom-container-2">
+		<div class="rs-section-image-text">University Life</div>
+	</div>
+</div></div><div class="section-container">
+<div class="my-custom-container-2">
+	<div class="row mb-5">
+		{% if rs_mode == 'campus' %}
+			{% if rs_fallback_data.field_rs_cost_of_living.rendered %}
+				<div class="col-12">
+					<h1 class="section-title">Cost of Living</h1>
+					<div class="facility-text">
+						{{ rs_fallback_data.field_rs_cost_of_living.rendered|raw }}
+						{% if rs_fallback_data.field_rs_cost_of_living.source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% else %}
+							<small class="text-muted"></small>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+		{% else %}
+			{% if rs.field_rs_cost_of_living.value is not empty %}
+				<div class="col-12">
+					<h1 class="section-title">Cost of Living</h1>
+					<div class="facility-text">
+						{{ rs.field_rs_cost_of_living.value|raw }}
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+	</div>
+
+	<div class="row">
+		{% if rs_mode == 'campus' %}
+			{% if rs_fallback_data.field_rs_transportation.rendered %}
+				<div class="col-md-6 mb-4">
+					<h1 class="section-title">Transport</h1>
+					<div class="facility-text">
+						{{ rs_fallback_data.field_rs_transportation.rendered|raw }}
+						{% if rs_fallback_data.field_rs_transportation.source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% else %}
+							<small class="text-muted"></small>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+
+			{% if rs_fallback_data.field_rs_meals.rendered %}
+				<div class="col-md-6 mb-4">
+					<h1 class="section-title">Meals</h1>
+					<div class="facility-text">
+						{{ rs_fallback_data.field_rs_meals.rendered|raw }}
+						{% if rs_fallback_data.field_rs_meals.source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% else %}
+							<small class="text-muted"></small>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+		{% else %}
+			{% if rs.field_rs_transportation.value is not empty %}
+				<div class="col-md-6 mb-4">
+					<h1 class="section-title">Transport</h1>
+					<div class="facility-text">
+						{{ rs.field_rs_transportation.value|raw }}
+					</div>
+				</div>
+			{% endif %}
+
+			{% if rs.field_rs_meals.value is not empty %}
+				<div class="col-md-6 mb-4">
+					<h1 class="section-title">Meals</h1>
+					<div class="facility-text">
+						{{ rs.field_rs_meals.value|raw }}
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+	</div>
+</div></div></div><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><div class="" id="extra-academic-activities"> <div class="image-banner">
+<img src="/themes/custom/b5subtheme/images/basket.jpeg" alt="Extra-academic Activities" class="img-fluid">
+<div class="section-container">
+	<div class="my-custom-container-2">
+		<div class="rs-section-image-text">Extra-academic Activities</div>
+	</div>
+</div></div><div class="section-container">
+<div
+	class="my-custom-container-2">
+
+	{# ===== 1) Student Associations ===== #}
+	{% set sa_rendered = rs_fallback_data.field_rs_students_associations.rendered ?? '' %}
+	{% set sa_source   = rs_fallback_data.field_rs_students_associations.source   ?? '' %}
+	{% set sa_value    = rs.field_rs_students_associations.value                  ?? '' %}
+	{% set sa_has      = (rs_mode == 'campus' and sa_rendered) or (rs_mode != 'campus' and sa_value is not empty) %}
+
+	{% if sa_has %}
 		<div class="row mb-5">
-			{% if rs_mode == 'campus' %}
-				{% if rs_fallback_data.field_rs_cost_of_living.rendered %}
-					<div class="col-12">
-						<h1 class="section-title">Cost of Living</h1>
-						<div class="facility-text">
-							{{ rs_fallback_data.field_rs_cost_of_living.rendered|raw }}
-							{% if rs_fallback_data.field_rs_cost_of_living.source == 'institution' %}
-								<small class="text-muted">* For the whole institution</small>
-							{% else %}
-								<small class="text-muted"></small>
-							{% endif %}
-						</div>
-					</div>
-				{% endif %}
-			{% else %}
-				{% if rs.field_rs_cost_of_living.value is not empty %}
-					<div class="col-12">
-						<h1 class="section-title">Cost of Living</h1>
-						<div class="facility-text">
-							{{ rs.field_rs_cost_of_living.value|raw }}
-						</div>
-					</div>
-				{% endif %}
-			{% endif %}
-		</div>
-
-		<div class="row">
-			{% if rs_mode == 'campus' %}
-				{% if rs_fallback_data.field_rs_transportation.rendered %}
-					<div class="col-md-6 mb-4">
-						<h1 class="section-title">Transport</h1>
-						<div class="facility-text">
-							{{ rs_fallback_data.field_rs_transportation.rendered|raw }}
-							{% if rs_fallback_data.field_rs_transportation.source == 'institution' %}
-								<small class="text-muted">* For the whole institution</small>
-							{% else %}
-								<small class="text-muted"></small>
-							{% endif %}
-						</div>
-					</div>
-				{% endif %}
-
-				{% if rs_fallback_data.field_rs_meals.rendered %}
-					<div class="col-md-6 mb-4">
-						<h1 class="section-title">Meals</h1>
-						<div class="facility-text">
-							{{ rs_fallback_data.field_rs_meals.rendered|raw }}
-							{% if rs_fallback_data.field_rs_meals.source == 'institution' %}
-								<small class="text-muted">* For the whole institution</small>
-							{% else %}
-								<small class="text-muted"></small>
-							{% endif %}
-						</div>
-					</div>
-				{% endif %}
-			{% else %}
-				{% if rs.field_rs_transportation.value is not empty %}
-					<div class="col-md-6 mb-4">
-						<h1 class="section-title">Transport</h1>
-						<div class="facility-text">
-							{{ rs.field_rs_transportation.value|raw }}
-						</div>
-					</div>
-				{% endif %}
-
-				{% if rs.field_rs_meals.value is not empty %}
-					<div class="col-md-6 mb-4">
-						<h1 class="section-title">Meals</h1>
-						<div class="facility-text">
-							{{ rs.field_rs_meals.value|raw }}
-						</div>
-					</div>
-				{% endif %}
-			{% endif %}
-		</div>
-	</div>
-	</div>
-</div>
-
-
-<!--- EXTRA ACADEMIC ACTIVITIEEEEEEES -->
-<!--- EXTRA ACADEMIC ACTIVITIEEEEEEES -->
-<!--- EXTRA ACADEMIC ACTIVITIEEEEEEES -->
-<!--- EXTRA ACADEMIC ACTIVITIEEEEEEES -->
-
-<div class="" id="extra-academic-activities">
-	<div class="image-banner">
-		<img src="/themes/custom/b5subtheme/images/basket.jpeg" alt="Extra-academic Activities" class="img-fluid">
-		<div class="section-container">
-			<div class="my-custom-container-2">
-			<div class="rs-section-image-text">Extra-academic Activities</div>
+			<div class="col-12">
+				<h1 class="section-title">Student Associations</h1>
+				<div class="facility-text">
+					{% if rs_mode == 'campus' %}
+						{{ sa_rendered|raw }}
+						{% if sa_source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% endif %}
+					{% else %}
+						{{ sa_value|raw }}
+					{% endif %}
+				</div>
 			</div>
+		</div>
+	{% endif %}
+
+	{# ===== 2) Work placement possibilities ===== #}
+	{% set wp_rendered = rs_fallback_data.field_work_placement_possibiliti.rendered ?? '' %}
+	{% set wp_source   = rs_fallback_data.field_work_placement_possibiliti.source   ?? '' %}
+	{% set wp_value    = rs.field_work_placement_possibiliti.value                  ?? '' %}
+	{% set wp_has      = (rs_mode == 'campus' and wp_rendered) or (rs_mode != 'campus' and wp_value is not empty) %}
+
+	{% if wp_has %}
+		<div class="row mb-5">
+			<div class="col-12">
+				<h1 class="section-title">Work placement possibilities</h1>
+				<div class="facility-text">
+					{% if rs_mode == 'campus' %}
+						{{ wp_rendered|raw }}
+						{% if wp_source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% endif %}
+					{% else %}
+						{{ wp_value|raw }}
+					{% endif %}
+				</div>
 			</div>
+		</div>
+	{% endif %}
 
-	</div>
+	{# ===== 3) Sport clubs/programs ===== #}
+	{% set sp_rendered = rs_fallback_data.field_sport_clubs_programs.rendered ?? '' %}
+	{% set sp_source   = rs_fallback_data.field_sport_clubs_programs.source   ?? '' %}
+	{% set sp_value    = rs.field_sport_clubs_programs.value                  ?? '' %}
+	{% set sp_has      = (rs_mode == 'campus' and sp_rendered) or (rs_mode != 'campus' and sp_value is not empty) %}
 
-	<div class="section-container">
-	<div class="my-custom-container-2">
+	{% if sp_has %}
+		<div class="row mb-5">
+			<div class="col-12">
+				<h1 class="section-title">Sport clubs/programs</h1>
+				<div class="facility-text">
+					{% if rs_mode == 'campus' %}
+						{{ sp_rendered|raw }}
+						{% if sp_source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% endif %}
+					{% else %}
+						{{ sp_value|raw }}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endif %}
 
-  {# ===== 1) Student Associations ===== #}
-  {% set sa_rendered = rs_fallback_data.field_rs_students_associations.rendered ?? '' %}
-  {% set sa_source   = rs_fallback_data.field_rs_students_associations.source   ?? '' %}
-  {% set sa_value    = rs.field_rs_students_associations.value                  ?? '' %}
-  {% set sa_has      = (rs_mode == 'campus' and sa_rendered) or (rs_mode != 'campus' and sa_value is not empty) %}
+	{# ===== 4) Language courses ===== #}
+	{% set lc_rendered = rs_fallback_data.field_rs_language_courses.rendered ?? '' %}
+	{% set lc_source   = rs_fallback_data.field_rs_language_courses.source   ?? '' %}
+	{% set lc_value    = rs.field_rs_language_courses.value                  ?? '' %}
+	{% set lc_has      = (rs_mode == 'campus' and lc_rendered) or (rs_mode != 'campus' and lc_value is not empty) %}
 
-  {% if sa_has %}
-    <div class="row mb-5">
-      <div class="col-12">
-        <h1 class="section-title">Student Associations</h1>
-        <div class="facility-text">
-          {% if rs_mode == 'campus' %}
-            {{ sa_rendered|raw }}
-            {% if sa_source == 'institution' %}
-              <small class="text-muted">* For the whole institution</small>
-            {% endif %}
-          {% else %}
-            {{ sa_value|raw }}
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  {% endif %}
+	{% if lc_has %}
+		<div class="row mb-5">
+			<div class="col-12">
+				<h1 class="section-title">Language courses</h1>
+				<div class="facility-text">
+					{% if rs_mode == 'campus' %}
+						{{ lc_rendered|raw }}
+						{% if lc_source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% endif %}
+					{% else %}
+						{{ lc_value|raw }}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endif %}
 
-  {# ===== 2) Work placement possibilities ===== #}
-  {% set wp_rendered = rs_fallback_data.field_work_placement_possibiliti.rendered ?? '' %}
-  {% set wp_source   = rs_fallback_data.field_work_placement_possibiliti.source   ?? '' %}
-  {% set wp_value    = rs.field_work_placement_possibiliti.value                  ?? '' %}
-  {% set wp_has      = (rs_mode == 'campus' and wp_rendered) or (rs_mode != 'campus' and wp_value is not empty) %}
+	{# ===== 5) Events and culture ===== #}
+	{% set ec_rendered = rs_fallback_data.field_cultural_event_city_calend.rendered ?? '' %}
+	{% set ec_source   = rs_fallback_data.field_cultural_event_city_calend.source   ?? '' %}
+	{% set ec_value    = rs.field_cultural_event_city_calend.value                  ?? '' %}
+	{% set ec_has      = (rs_mode == 'campus' and ec_rendered) or (rs_mode != 'campus' and ec_value is not empty) %}
 
-  {% if wp_has %}
-    <div class="row mb-5">
-      <div class="col-12">
-        <h1 class="section-title">Work placement possibilities</h1>
-        <div class="facility-text">
-          {% if rs_mode == 'campus' %}
-            {{ wp_rendered|raw }}
-            {% if wp_source == 'institution' %}
-              <small class="text-muted">* For the whole institution</small>
-            {% endif %}
-          {% else %}
-            {{ wp_value|raw }}
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  {% endif %}
-
-  {# ===== 3) Sport clubs/programs ===== #}
-  {% set sp_rendered = rs_fallback_data.field_sport_clubs_programs.rendered ?? '' %}
-  {% set sp_source   = rs_fallback_data.field_sport_clubs_programs.source   ?? '' %}
-  {% set sp_value    = rs.field_sport_clubs_programs.value                  ?? '' %}
-  {% set sp_has      = (rs_mode == 'campus' and sp_rendered) or (rs_mode != 'campus' and sp_value is not empty) %}
-
-  {% if sp_has %}
-    <div class="row mb-5">
-      <div class="col-12">
-        <h1 class="section-title">Sport clubs/programs</h1>
-        <div class="facility-text">
-          {% if rs_mode == 'campus' %}
-            {{ sp_rendered|raw }}
-            {% if sp_source == 'institution' %}
-              <small class="text-muted">* For the whole institution</small>
-            {% endif %}
-          {% else %}
-            {{ sp_value|raw }}
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  {% endif %}
-
-  {# ===== 4) Language courses ===== #}
-  {% set lc_rendered = rs_fallback_data.field_rs_language_courses.rendered ?? '' %}
-  {% set lc_source   = rs_fallback_data.field_rs_language_courses.source   ?? '' %}
-  {% set lc_value    = rs.field_rs_language_courses.value                  ?? '' %}
-  {% set lc_has      = (rs_mode == 'campus' and lc_rendered) or (rs_mode != 'campus' and lc_value is not empty) %}
-
-  {% if lc_has %}
-    <div class="row mb-5">
-      <div class="col-12">
-        <h1 class="section-title">Language courses</h1>
-        <div class="facility-text">
-          {% if rs_mode == 'campus' %}
-            {{ lc_rendered|raw }}
-            {% if lc_source == 'institution' %}
-              <small class="text-muted">* For the whole institution</small>
-            {% endif %}
-          {% else %}
-            {{ lc_value|raw }}
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  {% endif %}
-
-  {# ===== 5) Events and culture ===== #}
-  {% set ec_rendered = rs_fallback_data.field_cultural_event_city_calend.rendered ?? '' %}
-  {% set ec_source   = rs_fallback_data.field_cultural_event_city_calend.source   ?? '' %}
-  {% set ec_value    = rs.field_cultural_event_city_calend.value                  ?? '' %}
-  {% set ec_has      = (rs_mode == 'campus' and ec_rendered) or (rs_mode != 'campus' and ec_value is not empty) %}
-
-  {% if ec_has %}
-    <div class="row mb-5">
-      <div class="col-12">
-        <h1 class="section-title">Events and culture</h1>
-        <div class="facility-text">
-          {% if rs_mode == 'campus' %}
-            {{ ec_rendered|raw }}
-            {% if ec_source == 'institution' %}
-              <small class="text-muted">* For the whole institution</small>
-            {% endif %}
-          {% else %}
-            {{ ec_value|raw }}
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  {% endif %}
+	{% if ec_has %}
+		<div class="row mb-5">
+			<div class="col-12">
+				<h1 class="section-title">Events and culture</h1>
+				<div class="facility-text">
+					{% if rs_mode == 'campus' %}
+						{{ ec_rendered|raw }}
+						{% if ec_source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% endif %}
+					{% else %}
+						{{ ec_value|raw }}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endif %}
 
 </div>
 

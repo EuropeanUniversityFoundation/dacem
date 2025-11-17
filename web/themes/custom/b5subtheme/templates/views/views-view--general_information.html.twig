@@ -33,7 +33,7 @@
 	<div class="page-band">
 		<h1 class="rs-title">INSTITUTIONAL INFORMATION</h1>
 	</div>
-</div></div><nav id="rs-navbar" class="rs-nav navbar navbar-expand-lg bg-black">
+</div></div><nav id="rs-navbar" class="fixed-navbar navbar navbar-expand-lg bg-black">
 <div
 	class="my-custom-constainer">
 	<!-- Menú desplegable para pantallas pequeñas -->
@@ -93,9 +93,9 @@
 			<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
 		</li>
 	</ul>
-	{{ dump(institution_vocab_labels_str) }}
+	{#{ dump(institution_vocab_labels_str) }}
 
-{{dump(institution.field_example_vocabularies.value | render)}}
+{{dump(institution.field_example_vocabularies.value | render)}#}
 
 </div></nav><div class="university-banner">
 {% if institution.field_institution_picture is not empty %}
@@ -441,7 +441,7 @@
 	{% endif %}
 
 
-</div>
+
 
 {# Donde quieras que aparezca el bloque generado por la otra vista 
 						<div class="mt-4">

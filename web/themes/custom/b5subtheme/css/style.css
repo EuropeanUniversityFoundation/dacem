@@ -14331,15 +14331,13 @@ INSTITUTION MENU
 
 #block-b5subtheme-institutionmenublock{
   width: 100%;
-  
+  position: sticky;
+  top:0;
   padding-bottom: 0 !important;
   margin-bottom: 0 !important;
   max-width: var(--global-site-width);
   margin: 0 auto;
-  /*position: fixed;
-  top: 0;
-  z-index: 5000;*/
-  
+ 
 }
 
 
@@ -15479,5 +15477,134 @@ tbody tr:nth-child(odd) td {
 
 
 
+
+:root{
+  --main-navbar-height: 100px; /* alto real del menú principal */
+}
+
+/* Menú principal: sticky normal (no toca la banda) */
+.navbar.sticky-top{
+  z-index: 1040;
+}
+
+/* Submenú: se pega DEBAJO del menú principal cuando se fija */
+#programme-navbar.sticky-top{
+  position: sticky !important;
+  top: var(--main-navbar-height) !important;
+  z-index: 1030;
+}
+
+header {
+  background-color: white !important; /* o el color que quieras */
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1050;
+}
+
+
+
+
+
+
+
+
+
+
+/* 1) Quita la caja del contenedor que se está colapsando */
+.dialog-off-canvas-main-canvas {
+  display: contents !important;       /* 🔑 Hace que los hijos “suban” un nivel */
+}
+
+/* 2) Asegura que el header puede ser sticky como en tu ejemplo que funciona */
+header {
+  position: sticky !important;
+  top: var(--drupal-displace-offset-top, 0px) !important;
+  z-index: 1050;
+  background: #fff;
+}
+
+/* 3) El bloque del institution NO necesita posición especial */
+#block-b5subtheme-institutionmenublock,
+#block-b5subtheme-institutionmenublock .navbar {
+  position: static !important;
+}
+
+/* 4) El submenú pegado justo debajo del header (ajusta si tu header mide otro alto) */
+:root { --main-navbar-height: 100px; }
+#programme-navbar.sticky-top {
+  position: sticky !important;
+  top: var(--main-navbar-height) !important;
+  z-index: 1030;
+  background: #fff;
+}
+
+/* Alturas (ajusta si tu menú mide distinto) */
+html { --admin-offset: var(--drupal-displace-offset-top, 0px); }
+:root { --inst-menu-height: 60px; }   /* alto real de tu menú principal */
+
+/* El submenú pegado debajo del principal */
+#programme-navbar.sticky-top,
+#programme-navbar.programme-nav {
+  position: sticky !important;
+  top: calc(var(--admin-offset) + var(--inst-menu-height)) !important;
+  z-index: 1040;
+  background: #fff;
+}
+
+/* Por si algún padre lo rome: que no corte sticky */
+main, .region-content, .layout-container {
+  overflow: visible !important;
+  transform: none !important;
+}
+
+/* La banda NO sticky (se va al hacer scroll) */
+.rs-header { position: static !important; }
+
+
+
+@media (max-width: 992px){
+  :root { --inst-menu-height: 72px; } /* ej. si abre el colapso y crece */
+}
+
+
+
+
+
+
+
+
+.fixed-navbar{
+  background-color: black;
+  position: sticky;
+  border: none;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  top: calc(var(--admin-offset) + var(--inst-menu-height)) !important;
+}
+
+.fixed-navbar .nav-item .nav-link{
+  color: white !important;
+}
+
+
+.fixed-navbar .nav-tabs{
+  border: none;
+  outline: none !important;
+}
+
+.fixed-navbar .nav-tabs .nav-link{
+  border: none !important;
+  outline: none !important;
+}
+
+
+
+.fixed-navbar .nav-item .nav-link:hover{
+  background-color: var(--university_primary_color);
+  color: var(--university_emphasis_text_color);
+  
+  
+}
 
 

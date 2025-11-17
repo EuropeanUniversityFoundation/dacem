@@ -522,3 +522,57 @@
 
 </div></div></div></div><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
 
+
+
+<!--
+<script>
+
+(function () {
+  const menu = document.getElementById('block-b5subtheme-institutionmenublock');
+  if (!menu) return;
+
+  // Crea un "spacer" para evitar salto cuando fijamos el menú
+  const spacer = document.createElement('div');
+  spacer.style.height = menu.offsetHeight + 'px';
+  spacer.style.display = 'none';
+  menu.parentNode.insertBefore(spacer, menu);
+
+  const getAdminOffset = () =>
+    parseInt(getComputedStyle(document.documentElement)
+      .getPropertyValue('--drupal-displace-offset-top')) || 0;
+
+  let originalTop = menu.getBoundingClientRect().top + window.scrollY - getAdminOffset();
+
+  function onScrollOrResize() {
+    const adminOffset = getAdminOffset();
+
+    if (window.scrollY >= originalTop) {
+      menu.style.position = 'fixed';
+      menu.style.top = adminOffset + 'px';
+      menu.style.left = '0';
+      menu.style.right = '0';
+      menu.style.width = '100%';
+      menu.style.zIndex = '9999';
+      spacer.style.display = 'block';           // evita salto
+    } else {
+      menu.style.position = 'static';
+      spacer.style.display = 'none';
+    }
+  }
+
+  window.addEventListener('scroll', onScrollOrResize);
+  window.addEventListener('resize', () => {
+    // Recalcula alturas y punto de anclaje en resize
+    spacer.style.display = 'none';
+    menu.style.position = 'static';
+    spacer.style.height = menu.offsetHeight + 'px';
+    originalTop = menu.getBoundingClientRect().top + window.scrollY - getAdminOffset();
+    onScrollOrResize();
+  });
+
+  // Primer cálculo
+  onScrollOrResize();
+})();
+
+</script>
+-->

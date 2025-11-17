@@ -133,46 +133,43 @@ class DacemMenuBlock extends BlockBase
 
 
     return [
-      '#markup' => $this->t('
-            <nav class="navbar navbar-expand-lg university-navbar">
-              <div class="container-fluid">
-                  <a class="navbar-brand" href="/">
-                      <img src="@menu_image_url" alt="DACEM Logo" class="menu-logo d-inline-block align-text-top">
-                  </a>
-                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#universityNavbar" aria-controls="universityNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
-                      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/about">' . $this->t('ABOUT') . '</a></li>
-                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('INSTITUTIONS') . '</a></li>
-                          <li class="nav-item dacem-menu-item"><a class="nav-link" href="/contact">' . $this->t('CONTACT') . '</a></li>
+  '#markup' => $this->t('
+    <nav class="navbar sticky-top navbar-expand-lg university-navbar">
+      <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+              <img src="@menu_image_url" alt="DACEM Logo" class="menu-logo d-inline-block align-text-top">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#universityNavbar" aria-controls="universityNavbar" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
+              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="/about">' . $this->t('ABOUT') . '</a></li>
+                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('INSTITUTIONS') . '</a></li>
+                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="/contact">' . $this->t('CONTACT') . '</a></li>
+              </ul>
+              <div class="d-flex ms-lg-2 right-buttons-university-menu">
+                  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle no-hover-bg" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      ' . strtoupper($current_language) . ' ' . $flags[$current_language] . '
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                        ' . $language_options . '
                       </ul>
-                      <div class="d-flex ms-lg-2 right-buttons-university-menu">
-                          <!-- Menú -->
-                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                              <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle no-hover-bg" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                ' . strtoupper($current_language) . ' ' . $flags[$current_language] . '
-                                </a>
-                          
-                                <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                                ' . $language_options . '
-                                </ul>
-                              </li>
-                            </ul>
-                            <!-- Imagen de perfil -->
-                            ' . $profile_html . '
-                          </div>
-                  </div>
+                    </li>
+                  </ul>
+                  ' . $profile_html . '
               </div>
-            </nav>',
-        [
-          '@menu_image_url' => $logo_url,
-          
-        ]
-      ),
-    ];
+          </div>
+      </div>
+    </nav>',
+    [
+      '@menu_image_url' => $logo_url,
+    ]
+  ),
+];
+
   }
 
 }
