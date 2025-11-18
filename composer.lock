@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "428406e52cf2528a84ce8d11f9c117ca",
+    "content-hash": "e8f53c11bc03e9f5eef8075053243272",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4880,6 +4880,49 @@
             "time": "2025-09-04T15:04:22+00:00"
         },
         {
+            "name": "euf/ewp_contact",
+            "version": "1.0.0-rc3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/ewp_contact.git",
+                "reference": "edef2796ee70cc388e147576d14f0ce73f4c1d2a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/ewp_contact/euf-ewp_contact-edef2796ee70cc388e147576d14f0ce73f4c1d2a-zip-7e9349.zip",
+                "reference": "edef2796ee70cc388e147576d14f0ce73f4c1d2a",
+                "shasum": "a2e4b04b9c821f8c0b2377e66f5ac17ba440a0c0"
+            },
+            "require": {
+                "euf/ewp_core": "^1.0",
+                "euf/ewp_flexible_address": "^1.0",
+                "euf/ewp_phone_number": "^1.0"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Implements EWP Abstract Contact Type as a content entity type.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/ewp_contact",
+            "keywords": [
+                "Drupal",
+                "Entity type",
+                "Erasmus Without Paper"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/ewp_contact/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/ewp_contact"
+            },
+            "time": "2025-09-04T15:38:23+00:00"
+        },
+        {
             "name": "euf/ewp_core",
             "version": "1.0.0-rc8",
             "source": {
@@ -4960,6 +5003,54 @@
                 "source": "https://github.com/EuropeanUniversityFoundation/ewp_flexible_address"
             },
             "time": "2025-03-04T17:26:20+00:00"
+        },
+        {
+            "name": "euf/ewp_institutions",
+            "version": "1.0.0-rc8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/ewp_institutions.git",
+                "reference": "52ec6b7dd051bfd0a97fb94fa0f9530978f6364b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/ewp_institutions/euf-ewp_institutions-52ec6b7dd051bfd0a97fb94fa0f9530978f6364b-zip-a5c9ba.zip",
+                "reference": "52ec6b7dd051bfd0a97fb94fa0f9530978f6364b",
+                "shasum": "7c83a0355e21f39d25bdf1a3951b6759c7299f6e"
+            },
+            "require": {
+                "euf/ewp_contact": "^1.0",
+                "euf/ewp_core": "^1.0"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Gábor Grósz",
+                    "email": "gabor.grosz@uni-foundation.eu",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Implements EWP Institutions as a content entity type.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/ewp_institutions",
+            "keywords": [
+                "Drupal",
+                "Entity type",
+                "Erasmus Without Paper",
+                "Field type"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/ewp_institutions/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/ewp_institutions"
+            },
+            "time": "2025-10-20T13:06:31+00:00"
         },
         {
             "name": "euf/ewp_phone_number",
@@ -5049,20 +5140,17 @@
         },
         {
             "name": "euf/openid_connect_eufidp",
-            "version": "3.0.0-alpha3",
+            "version": "1.0.0-beta6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EuropeanUniversityFoundation/openid_connect_eufidp.git",
-                "reference": "725cf0b04ba07ed14376bada8c9a59dffe386db1"
+                "reference": "a04bc219f8ce870829684362f51d5361c1bdf527"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.uni-foundation.eu/dist/euf/openid_connect_eufidp/euf-openid_connect_eufidp-725cf0b04ba07ed14376bada8c9a59dffe386db1-zip-d7ab37.zip",
-                "reference": "725cf0b04ba07ed14376bada8c9a59dffe386db1",
-                "shasum": "b0d8fbe28d89067c715c075261b8728a10f03a49"
-            },
-            "require": {
-                "drupal/openid_connect": "^3.0@alpha"
+                "url": "https://packages.uni-foundation.eu/dist/euf/openid_connect_eufidp/euf-openid_connect_eufidp-a04bc219f8ce870829684362f51d5361c1bdf527-zip-fa4f6e.zip",
+                "reference": "a04bc219f8ce870829684362f51d5361c1bdf527",
+                "shasum": "e2af7d18f36915e39f33d9f83e79246601d433fa"
             },
             "suggest": {
                 "euf/myacademicid_user_fields": "Extends the User entity to store MyAcademicID user claims."
@@ -5086,10 +5174,10 @@
                 "User management"
             ],
             "support": {
-                "issues": "https://github.com/EuropeanUniversityFoundation/openid_connect_eufidp/issues",
-                "source": "https://github.com/EuropeanUniversityFoundation/openid_connect_eufidp"
+                "source": "https://github.com/EuropeanUniversityFoundation/openid_connect_eufidp/tree/1.0.0-beta6",
+                "issues": "https://github.com/EuropeanUniversityFoundation/openid_connect_eufidp/issues"
             },
-            "time": "2023-12-06T16:04:20+00:00"
+            "time": "2023-12-06T11:12:58+00:00"
         },
         {
             "name": "grasmash/expander",
@@ -10473,9 +10561,10 @@
         "euf/elm_vocabulary_field": 15,
         "euf/ewp_core": 5,
         "euf/ewp_flexible_address": 10,
+        "euf/ewp_institutions": 5,
         "euf/ewp_phone_number": 10,
         "euf/myacademicid_user_fields": 5,
-        "euf/openid_connect_eufidp": 15
+        "euf/openid_connect_eufidp": 10
     },
     "prefer-stable": true,
     "prefer-lowest": false,
