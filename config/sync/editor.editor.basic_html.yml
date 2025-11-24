@@ -16,6 +16,7 @@ settings:
       - bold
       - italic
       - '|'
+      - link
       - '|'
       - bulletedList
       - numberedList
@@ -23,7 +24,6 @@ settings:
       - blockQuote
       - drupalInsertImage
       - '|'
-      - link
       - heading
       - code
       - '|'
@@ -50,7 +50,7 @@ settings:
         - '<dl>'
         - '<dt>'
         - '<dd>'
-        - '<a hreflang target rel class>'
+        - '<a hreflang>'
         - '<blockquote cite>'
         - '<ul type>'
         - '<ol type>'

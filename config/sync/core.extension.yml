@@ -32,8 +32,8 @@ module:
   degree_admin_locks_university: 0
   dynamic_page_cache: 0
   editor: 0
-  elm_vocabulary_field: 0
   entity: 0
+  euf_group_autojoin: 0
   ewp_contact: 0
   ewp_core: 0
   ewp_flexible_address: 0
@@ -79,6 +79,9 @@ module:
   menu_ui: 0
   my_contact_module: 0
   myacademicid_user_fields: 0
+  myacademicid_user_hei: 0
+  myacademicid_user_oidc: 0
+  myacademicid_user_roles: 0
   mysql: 0
   node: 0
   openid_connect: 0

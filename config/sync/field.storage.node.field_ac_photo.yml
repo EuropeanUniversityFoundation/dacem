@@ -16,8 +16,8 @@ settings:
   display_default: false
   uri_scheme: public
   default_image:
-    uuid: 288f43fa-d96d-4525-b5da-7e4d4ec36e1f
-    alt: 'Profile Picture'
+    uuid: 2ee9da52-b0df-4d71-9134-ea8cfb34b645
+    alt: 'Profile Image'
     title: ''
     width: 820
     height: 480

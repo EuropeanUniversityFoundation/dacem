@@ -1,9 +1,0 @@
-_core:
-  default_config_hash: 4Y6AyUBnk2-19MV_ceyaqOHVWBQHNwsYutyxpCRkywc
-enabled: false
-settings:
-  client_id: my_client_id
-  client_secret: my_client_secret
-  authorization_endpoint: 'https://idp.dev.uni-foundation.eu/oauth2/authorize'
-  token_endpoint: 'https://idp.dev.uni-foundation.eu/oauth2/token'
-  userinfo_endpoint: 'https://idp.dev.uni-foundation.eu/oauth2/userInfo'

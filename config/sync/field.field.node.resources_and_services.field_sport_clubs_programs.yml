@@ -1,10 +1,10 @@
-uuid: 225a13c5-29ca-4ec6-ae32-802f5a5ab7ff
+uuid: 48059398-22ec-46c6-8c48-06e35d5d4229
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_sport_clubs_programs
-    - filter.format.basic_html
+    - filter.format.plain_text
     - node.type.resources_and_services
   module:
     - text
@@ -20,5 +20,5 @@ default_value: {  }
 default_value_callback: ''
 settings:
   allowed_formats:
-    - basic_html
+    - plain_text
 field_type: text_long
