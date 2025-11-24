@@ -1,0 +1,13 @@
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          reset_button_label: Ponastavi
+      fields:
+        label:
+          label: Oznaka
+      filters:
+        label:
+          expose:
+            label: Oznaka

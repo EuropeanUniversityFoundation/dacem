@@ -1,0 +1,156 @@
+uuid: 6b2f7ddc-b742-4e5f-a704-36dbc0424173
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.full
+    - field.field.node.programme.body
+    - field.field.node.programme.field_academic_year
+    - field.field.node.programme.field_competencies
+    - field.field.node.programme.field_coordinator
+    - field.field.node.programme.field_credits
+    - field.field.node.programme.field_custom_taxonomy_field
+    - field.field.node.programme.field_distribution_of_credits
+    - field.field.node.programme.field_ejemplo_para_taxonomia
+    - field.field.node.programme.field_email
+    - field.field.node.programme.field_isced_f
+    - field.field.node.programme.field_main_objective
+    - field.field.node.programme.field_professional_practices
+    - field.field.node.programme.field_programme_area
+    - field.field.node.programme.field_programme_description
+    - field.field.node.programme.field_programme_institution
+    - field.field.node.programme.field_programme_level
+    - field.field.node.programme.field_programme_modality
+    - field.field.node.programme.field_programme_ou
+    - field.field.node.programme.field_programme_phone
+    - field.field.node.programme.field_programme_qualification
+    - field.field.node.programme.field_qualification_level
+    - field.field.node.programme.field_study_modality
+    - node.type.programme
+  module:
+    - layout_builder
+    - options
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.programme.full
+targetEntityType: node
+bundle: programme
+mode: full
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_competencies:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_coordinator:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_credits:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_email:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_isced_f:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_main_objective:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_professional_practices:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_programme_area:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_programme_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_programme_institution:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_programme_phone:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_programme_qualification:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_academic_year: true
+  field_custom_taxonomy_field: true
+  field_distribution_of_credits: true
+  field_ejemplo_para_taxonomia: true
+  field_programme_level: true
+  field_programme_modality: true
+  field_programme_ou: true
+  field_qualification_level: true
+  field_study_modality: true
+  langcode: true

@@ -1,0 +1,26 @@
+uuid: 171452f1-6cdb-4cf3-a8db-6dcb89c65913
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_contact
+    - ewp_flexible_address
+  enforced:
+    module:
+      - ewp_contact
+_core:
+  default_config_hash: 0zfFuJ-M7gLIm7qhHE_EwTPZ28aj3ahtifjS0kNvOTA
+id: contact.street_address
+field_name: street_address
+entity_type: contact
+type: ewp_flexible_address
+settings:
+  max_length_long: 255
+  max_length_short: 16
+module: ewp_flexible_address
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

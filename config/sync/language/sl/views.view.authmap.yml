@@ -1,0 +1,16 @@
+display:
+  default:
+    display_options:
+      fields:
+        delete_link:
+          label: izbriši
+          text: izbriši
+      exposed_form:
+        options:
+          reset_button_label: Ponastavi
+      arguments:
+        provider_field:
+          exception:
+            title: Vsi
+  page:
+    display_title: Stran

@@ -1,0 +1,26 @@
+uuid: 4d49d15d-1b16-4b91-aa90-29e7a1a3b585
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.contact.contact_name
+  module:
+    - ewp_contact
+    - ewp_core
+  enforced:
+    module:
+      - ewp_contact
+_core:
+  default_config_hash: J4mPs21Ko9ztE0pt9GbVRq5XcSJ17brG1j9Wt4trVCk
+id: contact.contact.contact_name
+field_name: contact_name
+entity_type: contact
+bundle: contact
+label: 'Contact name'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: ewp_string_lang

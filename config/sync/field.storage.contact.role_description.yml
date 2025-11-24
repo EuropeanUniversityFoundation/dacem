@@ -1,0 +1,24 @@
+uuid: b3d80b5f-8481-40ec-b1a3-584740a7c836
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_contact
+    - ewp_core
+  enforced:
+    module:
+      - ewp_contact
+_core:
+  default_config_hash: qMxL2olfCvQLjJ1BJMGJAai5G0tBNMCtFm2T0TokX1o
+id: contact.role_description
+field_name: role_description
+entity_type: contact
+type: ewp_multiline_lang
+settings: {  }
+module: ewp_core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

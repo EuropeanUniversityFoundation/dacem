@@ -1,0 +1,9 @@
+uuid: aafd63da-2d7d-4f31-8b54-9b0974516c9e
+langcode: en
+status: true
+dependencies: {  }
+name: 'Example Programme'
+vid: example_programme
+description: 'Test for translate taxonomys'
+weight: 0
+new_revision: false

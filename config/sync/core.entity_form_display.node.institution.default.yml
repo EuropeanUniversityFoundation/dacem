@@ -1,0 +1,380 @@
+uuid: 8ea32323-1a91-4e05-9712-606ce8b3f24c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.institution.body
+    - field.field.node.institution.field_abbreviation
+    - field.field.node.institution.field_academic_calendar
+    - field.field.node.institution.field_admission_description
+    - field.field.node.institution.field_admission_language_policy
+    - field.field.node.institution.field_admission_languages
+    - field.field.node.institution.field_admission_registration
+    - field.field.node.institution.field_ects_credit_allocation_pol
+    - field.field.node.institution.field_emphasis_text_color
+    - field.field.node.institution.field_erasmus_code
+    - field.field.node.institution.field_example_vocabularies
+    - field.field.node.institution.field_general_campus_description
+    - field.field.node.institution.field_general_ou_description
+    - field.field.node.institution.field_information
+    - field.field.node.institution.field_institution_address
+    - field.field.node.institution.field_institution_card_image
+    - field.field.node.institution.field_institution_country
+    - field.field.node.institution.field_institution_email
+    - field.field.node.institution.field_institution_map
+    - field.field.node.institution.field_institution_phone
+    - field.field.node.institution.field_institution_picture
+    - field.field.node.institution.field_institution_webpage
+    - field.field.node.institution.field_logo
+    - field.field.node.institution.field_mobility
+    - field.field.node.institution.field_mobility_incoming_students
+    - field.field.node.institution.field_mobility_outgoing_students
+    - field.field.node.institution.field_primary_color
+    - field.field.node.institution.field_text_color
+    - field.field.node.institution.field_university_pdfs
+    - field.field.node.institution.field_urls
+    - image.style.thumbnail
+    - node.type.institution
+  module:
+    - address
+    - color_field
+    - elm_vocabulary_field
+    - field_group
+    - file
+    - geofield
+    - image
+    - link
+    - path
+    - telephone
+    - text
+third_party_settings:
+  field_group:
+    group_admission:
+      children:
+        - field_admission_description
+        - field_admission_language_policy
+        - field_admission_languages
+        - field_admission_registration
+      label: Admission
+      region: content
+      parent_name: ''
+      weight: 18
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_colors:
+      children:
+        - field_primary_color
+        - field_text_color
+        - field_emphasis_text_color
+      label: Colors
+      region: content
+      parent_name: ''
+      weight: 23
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: "Configure the institutional color palette to be applied across the website. Make sure the selected colors provide good readability and follow accessibility standards.\r\n\r\nPrimary Color: Main brand color, used for headers, buttons, and highlights.\r\n\r\nText Color: Default color for body text, must contrast with background.\r\n\r\nEmphasis Text Color: Accent color for highlighted or emphasized text.\r\n\r\nOpacity: Always set to 1 (fully opaque, no transparency)."
+        required_fields: true
+id: node.institution.default
+targetEntityType: node
+bundle: institution
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_abbreviation:
+    type: string_textfield
+    weight: 10
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_academic_calendar:
+    type: text_textarea
+    weight: 17
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_admission_description:
+    type: text_textarea
+    weight: 127
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_admission_language_policy:
+    type: text_textarea
+    weight: 128
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_admission_languages:
+    type: string_textarea
+    weight: 129
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_admission_registration:
+    type: text_textarea
+    weight: 130
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_contact_details:
+    type: string_textarea
+    weight: 10
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_ects_credit_allocation_pol:
+    type: text_textarea
+    weight: 19
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_emphasis_text_color:
+    type: color_field_widget_html5
+    weight: 23
+    region: content
+    settings:
+      show_extra: false
+    third_party_settings: {  }
+  field_example_vocabularies:
+    type: elm_controlled_vocabulary_select
+    weight: 133
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  field_general_campus_description:
+    type: text_textarea
+    weight: 25
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_general_ou_description:
+    type: text_textarea
+    weight: 26
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_information:
+    type: text_textarea
+    weight: 16
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_institution_address:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_institution_card_image:
+    type: image_image
+    weight: 9
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_institution_country:
+    type: address_country_default
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_institution_email:
+    type: email_default
+    weight: 14
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_institution_map:
+    type: geofield_latlon
+    weight: 24
+    region: content
+    settings:
+      html5_geolocation: false
+    third_party_settings: {  }
+  field_institution_phone:
+    type: telephone_default
+    weight: 13
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_institution_picture:
+    type: image_image
+    weight: 8
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_institution_webpage:
+    type: link_default
+    weight: 15
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_logo:
+    type: image_image
+    weight: 11
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_mobility:
+    type: text_textarea
+    weight: 20
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_mobility_incoming_students:
+    type: text_textarea
+    weight: 131
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_mobility_outgoing_students:
+    type: text_textarea
+    weight: 132
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_primary_color:
+    type: color_field_widget_html5
+    weight: 21
+    region: content
+    settings:
+      show_extra: false
+    third_party_settings: {  }
+  field_text_color:
+    type: color_field_widget_html5
+    weight: 22
+    region: content
+    settings:
+      show_extra: false
+    third_party_settings: {  }
+  field_university_pdfs:
+    type: file_generic
+    weight: 27
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_urls:
+    type: link_default
+    weight: 28
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 21
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 22
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 6
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  body: true
+  field_erasmus_code: true

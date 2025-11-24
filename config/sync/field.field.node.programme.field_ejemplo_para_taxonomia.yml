@@ -1,0 +1,29 @@
+uuid: 7592895c-dd2c-47a1-8f22-92b772c48529
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ejemplo_para_taxonomia
+    - node.type.programme
+    - taxonomy.vocabulary.example_programme
+id: node.programme.field_ejemplo_para_taxonomia
+field_name: field_ejemplo_para_taxonomia
+entity_type: node
+bundle: programme
+label: 'Ejemplo para taxonomia'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      example_programme: example_programme
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

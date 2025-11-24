@@ -1,0 +1,22 @@
+uuid: c5d63c59-f312-4851-bca0-59fd1095bb61
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: resources_and_services
+label: 'Resources and Services'
+type: 'canonical_entities:node'
+pattern: 'rs/[node:field_rs_institution]/[node:field_rs_campus]'
+selection_criteria:
+  a8fdad33-c2a5-42f5-aa05-a0df919c3bde:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: a8fdad33-c2a5-42f5-aa05-a0df919c3bde
+    context_mapping:
+      node: node
+    bundles:
+      resources_and_services: resources_and_services
+selection_logic: and
+weight: -5
+relationships: {  }

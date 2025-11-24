@@ -1,0 +1,26 @@
+uuid: 0f950d52-7624-46d9-ab9c-88498c177cb3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.contact.role_description
+  module:
+    - ewp_contact
+    - ewp_core
+  enforced:
+    module:
+      - ewp_contact
+_core:
+  default_config_hash: Gl8Cw8P7S9rh_OLd8aRa0F_TrFfMq4mvUbc1rROy6X0
+id: contact.contact.role_description
+field_name: role_description
+entity_type: contact
+bundle: contact
+label: 'Role description'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: ewp_multiline_lang

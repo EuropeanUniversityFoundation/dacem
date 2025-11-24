@@ -1,0 +1,220 @@
+uuid: 8e89bfa7-d489-42a9-af0f-a91bc887c8c5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.institution.body
+    - field.field.node.institution.field_abbreviation
+    - field.field.node.institution.field_academic_calendar
+    - field.field.node.institution.field_admission_description
+    - field.field.node.institution.field_admission_language_policy
+    - field.field.node.institution.field_admission_languages
+    - field.field.node.institution.field_admission_registration
+    - field.field.node.institution.field_ects_credit_allocation_pol
+    - field.field.node.institution.field_emphasis_text_color
+    - field.field.node.institution.field_erasmus_code
+    - field.field.node.institution.field_example_vocabularies
+    - field.field.node.institution.field_general_campus_description
+    - field.field.node.institution.field_general_ou_description
+    - field.field.node.institution.field_information
+    - field.field.node.institution.field_institution_address
+    - field.field.node.institution.field_institution_card_image
+    - field.field.node.institution.field_institution_country
+    - field.field.node.institution.field_institution_email
+    - field.field.node.institution.field_institution_map
+    - field.field.node.institution.field_institution_phone
+    - field.field.node.institution.field_institution_picture
+    - field.field.node.institution.field_institution_webpage
+    - field.field.node.institution.field_logo
+    - field.field.node.institution.field_mobility
+    - field.field.node.institution.field_mobility_incoming_students
+    - field.field.node.institution.field_mobility_outgoing_students
+    - field.field.node.institution.field_primary_color
+    - field.field.node.institution.field_text_color
+    - field.field.node.institution.field_university_pdfs
+    - field.field.node.institution.field_urls
+    - node.type.institution
+  module:
+    - address
+    - elm_vocabulary_field
+    - geofield
+    - image
+    - link
+    - telephone
+    - text
+    - user
+id: node.institution.default
+targetEntityType: node
+bundle: institution
+mode: default
+content:
+  field_academic_calendar:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_admission_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_admission_language_policy:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_example_vocabularies:
+    type: elm_controlled_vocabulary_value
+    label: above
+    settings:
+      prefix: '1'
+      separator: ', '
+    third_party_settings: {  }
+    weight: 19
+    region: content
+  field_general_campus_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_general_ou_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_information:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_institution_address:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_institution_card_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 15
+    region: content
+  field_institution_country:
+    type: address_country_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 13
+    region: content
+  field_institution_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  field_institution_map:
+    type: geofield_default
+    label: above
+    settings:
+      output_format: wkt
+      output_escape: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_institution_phone:
+    type: telephone_link
+    label: above
+    settings:
+      title: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_institution_picture:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_institution_webpage:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_logo:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_mobility:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 16
+    region: content
+  field_mobility_incoming_students:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  field_mobility_outgoing_students:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 18
+    region: content
+hidden:
+  body: true
+  field_abbreviation: true
+  field_admission_languages: true
+  field_admission_registration: true
+  field_ects_credit_allocation_pol: true
+  field_emphasis_text_color: true
+  field_erasmus_code: true
+  field_primary_color: true
+  field_text_color: true
+  field_university_pdfs: true
+  field_urls: true
+  langcode: true
+  links: true

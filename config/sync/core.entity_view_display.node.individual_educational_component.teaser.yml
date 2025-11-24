@@ -1,0 +1,63 @@
+uuid: 0747e11f-6b5e-4f71-a214-b9600040065d
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.individual_educational_component.body
+    - field.field.node.individual_educational_component.field_iec_code
+    - field.field.node.individual_educational_component.field_iec_contents
+    - field.field.node.individual_educational_component.field_iec_credits
+    - field.field.node.individual_educational_component.field_iec_description
+    - field.field.node.individual_educational_component.field_iec_evaluation
+    - field.field.node.individual_educational_component.field_iec_instructors
+    - field.field.node.individual_educational_component.field_iec_language
+    - field.field.node.individual_educational_component.field_iec_learning_outcomes
+    - field.field.node.individual_educational_component.field_iec_modality
+    - field.field.node.individual_educational_component.field_iec_planned_activities
+    - field.field.node.individual_educational_component.field_iec_programme
+    - field.field.node.individual_educational_component.field_iec_recommendations
+    - field.field.node.individual_educational_component.field_iec_requirements
+    - field.field.node.individual_educational_component.field_iec_term
+    - field.field.node.individual_educational_component.field_iec_type
+    - field.field.node.individual_educational_component.field_iec_year
+    - node.type.individual_educational_component
+  module:
+    - text
+    - user
+id: node.individual_educational_component.teaser
+targetEntityType: node
+bundle: individual_educational_component
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_iec_code: true
+  field_iec_contents: true
+  field_iec_credits: true
+  field_iec_description: true
+  field_iec_evaluation: true
+  field_iec_instructors: true
+  field_iec_language: true
+  field_iec_learning_outcomes: true
+  field_iec_modality: true
+  field_iec_planned_activities: true
+  field_iec_programme: true
+  field_iec_recommendations: true
+  field_iec_requirements: true
+  field_iec_term: true
+  field_iec_type: true
+  field_iec_year: true
+  langcode: true

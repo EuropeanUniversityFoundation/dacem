@@ -1,0 +1,66 @@
+uuid: be053436-960d-4661-9402-0e16552961ce
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.programme_card_catalogue_view
+    - field.field.node.programme.body
+    - field.field.node.programme.field_academic_year
+    - field.field.node.programme.field_competencies
+    - field.field.node.programme.field_coordinator
+    - field.field.node.programme.field_credits
+    - field.field.node.programme.field_custom_taxonomy_field
+    - field.field.node.programme.field_distribution_of_credits
+    - field.field.node.programme.field_ejemplo_para_taxonomia
+    - field.field.node.programme.field_email
+    - field.field.node.programme.field_isced_f
+    - field.field.node.programme.field_main_objective
+    - field.field.node.programme.field_professional_practices
+    - field.field.node.programme.field_programme_area
+    - field.field.node.programme.field_programme_description
+    - field.field.node.programme.field_programme_institution
+    - field.field.node.programme.field_programme_level
+    - field.field.node.programme.field_programme_modality
+    - field.field.node.programme.field_programme_ou
+    - field.field.node.programme.field_programme_phone
+    - field.field.node.programme.field_programme_qualification
+    - field.field.node.programme.field_qualification_level
+    - field.field.node.programme.field_study_modality
+    - node.type.programme
+  module:
+    - layout_builder
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.programme.programme_card_catalogue_view
+targetEntityType: node
+bundle: programme
+mode: programme_card_catalogue_view
+content: {  }
+hidden:
+  body: true
+  field_academic_year: true
+  field_competencies: true
+  field_coordinator: true
+  field_credits: true
+  field_custom_taxonomy_field: true
+  field_distribution_of_credits: true
+  field_ejemplo_para_taxonomia: true
+  field_email: true
+  field_isced_f: true
+  field_main_objective: true
+  field_professional_practices: true
+  field_programme_area: true
+  field_programme_description: true
+  field_programme_institution: true
+  field_programme_level: true
+  field_programme_modality: true
+  field_programme_ou: true
+  field_programme_phone: true
+  field_programme_qualification: true
+  field_qualification_level: true
+  field_study_modality: true
+  langcode: true
+  links: true

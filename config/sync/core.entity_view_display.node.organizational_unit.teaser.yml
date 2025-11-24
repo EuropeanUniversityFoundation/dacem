@@ -1,0 +1,51 @@
+uuid: dd7669e5-e766-4fa4-a719-557235b990bf
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.organizational_unit.body
+    - field.field.node.organizational_unit.field_ou_area
+    - field.field.node.organizational_unit.field_ou_campus
+    - field.field.node.organizational_unit.field_ou_contacts
+    - field.field.node.organizational_unit.field_ou_description
+    - field.field.node.organizational_unit.field_ou_institution
+    - field.field.node.organizational_unit.field_ou_map
+    - field.field.node.organizational_unit.field_ou_picture
+    - field.field.node.organizational_unit.field_ou_type
+    - field.field.node.organizational_unit.field_ou_webs
+    - field.field.node.organizational_unit.field_parent_organizational_unit
+    - node.type.organizational_unit
+  module:
+    - text
+    - user
+id: node.organizational_unit.teaser
+targetEntityType: node
+bundle: organizational_unit
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_ou_area: true
+  field_ou_campus: true
+  field_ou_contacts: true
+  field_ou_description: true
+  field_ou_institution: true
+  field_ou_map: true
+  field_ou_picture: true
+  field_ou_type: true
+  field_ou_webs: true
+  field_parent_organizational_unit: true
+  langcode: true

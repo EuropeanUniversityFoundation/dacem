@@ -1,0 +1,27 @@
+uuid: 74150924-9b9e-4a94-8d2b-0469d50e263a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_programme_level
+field_name: field_programme_level
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: bachelor
+      label: Bachelor
+    -
+      value: master
+      label: Master
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

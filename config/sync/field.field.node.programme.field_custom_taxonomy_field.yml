@@ -1,0 +1,24 @@
+uuid: a859e41c-6520-4fdb-b648-ea48c9bf9299
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_custom_taxonomy_field
+    - node.type.programme
+    - taxonomy.vocabulary.custom_taxonomy
+id: node.programme.field_custom_taxonomy_field
+field_name: field_custom_taxonomy_field
+entity_type: node
+bundle: programme
+label: 'Custom taxonomy'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      custom_taxonomy: custom_taxonomy
+field_type: entity_reference
