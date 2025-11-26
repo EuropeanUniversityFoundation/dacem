@@ -28,31 +28,39 @@ bundle: hei
 mode: default
 content:
   abbreviation:
+    type: string_textfield
     weight: -16
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   contact:
+    type: entity_reference_autocomplete
     weight: -10
+    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   hei_id:
+    type: ascii_identifier_default
     weight: -19
+    region: content
     settings:
       size: 64
       placeholder: ''
     third_party_settings: {  }
-    type: ascii_identifier_default
+  index_key:
+    type: string_textfield
+    weight: 100
     region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   label:
     type: string_textfield
     weight: -20
@@ -69,49 +77,49 @@ content:
       include_locked: true
     third_party_settings: {  }
   logo_url:
-    weight: -12
-    settings: {  }
-    third_party_settings: {  }
     type: ewp_https_default
+    weight: -12
     region: content
+    settings: {  }
+    third_party_settings: {  }
   mailing_address:
+    type: ewp_flexible_address_default
     weight: -14
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: ewp_flexible_address_default
-    region: content
   mobility_factsheet_url:
+    type: ewp_http_lang_default
     weight: -11
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: ewp_http_lang_default
-    region: content
   name:
-    weight: -17
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
     type: ewp_string_lang_default
+    weight: -17
     region: content
-  other_id:
-    weight: -18
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  other_id:
     type: ewp_other_hei_id_default
+    weight: -18
     region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   street_address:
-    weight: -15
-    settings: {  }
-    third_party_settings: {  }
     type: ewp_flexible_address_default
+    weight: -15
     region: content
-  website_url:
-    weight: -13
     settings: {  }
     third_party_settings: {  }
+  website_url:
     type: ewp_http_lang_default
+    weight: -13
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden: {  }

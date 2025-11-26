@@ -125,6 +125,10 @@
 				<h3 class="subsection-title">{{ translations[current_language]['Evaluation Methods and Criteria'] }}</h3>
 				{{ translated_iec.field_iec_evaluation.value|raw }}
 			</div>
+			<div class="programme-section" id="competencies" style="text-align: justify;">
+				<h3 class="subsection-title">{{ translations[current_language]['Mobility'] }}</h3>
+				{{ translated_iec.field_iec_mobility.value|raw }}
+			</div>
 
 			</div>
 		
@@ -178,6 +182,14 @@
           <strong>{{ translations[current_language]['Language'] }}:</strong>
           {{ translated_iec.field_iec_language.value }}
         </div>
+
+		<div class="degree-info-item mb-2">
+          <strong>{{ translations[current_language]['Allow Mobility'] }}:</strong>
+          {{ translated_iec.field_allow_mobility.value }}
+        </div>
+
+
+
       </div>
 
       <!-- Columna 2: Coordination -->

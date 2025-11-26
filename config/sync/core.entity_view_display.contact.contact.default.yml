@@ -29,82 +29,82 @@ bundle: contact
 mode: default
 content:
   contact_name:
-    weight: 1
+    type: ewp_string_lang_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_string_lang_default
+    weight: 1
     region: content
   email:
-    weight: 7
+    type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
+    weight: 7
     region: content
   fax_number:
-    weight: 6
+    type: ewp_phone_number_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_phone_number_default
+    weight: 6
     region: content
   label:
-    label: hidden
     type: string
-    weight: 0
-    region: content
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 0
+    region: content
   mailing_address:
-    weight: 9
+    type: ewp_flexible_address_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_flexible_address_default
+    weight: 9
     region: content
   person_family_name:
-    weight: 3
+    type: ewp_string_lang_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_string_lang_default
+    weight: 3
     region: content
   person_gender:
-    weight: 4
+    type: gender_code_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    type: gender_code_default
+    weight: 4
     region: content
   person_given_names:
-    weight: 2
+    type: ewp_string_lang_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_string_lang_default
+    weight: 2
     region: content
   phone_number:
-    weight: 5
+    type: ewp_phone_number_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_phone_number_default
+    weight: 5
     region: content
   role_description:
-    weight: 10
+    type: ewp_multiline_lang_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_multiline_lang_default
+    weight: 10
     region: content
   street_address:
-    weight: 8
+    type: ewp_flexible_address_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_flexible_address_default
+    weight: 8
     region: content
 hidden:
   langcode: true

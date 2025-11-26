@@ -33,15 +33,20 @@
 	<div class="page-band">
 		<h1 class="rs-title">INSTITUTIONAL INFORMATION</h1>
 	</div>
-</div></div><nav id="rs-navbar" class="fixed-navbar navbar navbar-expand-lg bg-black">
+</div></div><nav id="fixed-navbar" class="fixed-navbar navbar-expand-lg bg-black">
 <div
 	class="my-custom-constainer">
 	<!-- Menú desplegable para pantallas pequeñas -->
 	<div class="dropdown d-lg-none w-100">
+	<!--
 		<button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold bg-black border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			{{ 'Student affairs'|t }}
-		</button>
+		</button> 
+	-->
+
+
 		<ul class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
+		<!--
 			<li>
 				<a class="dropdown-item fw-bold" href="#description">{{ 'Description'|t }}</a>
 			</li>
@@ -63,6 +68,26 @@
 			<li>
 				<a class="dropdown-item fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
 			</li>
+			-->
+
+
+			{% for section in menu_sections %}
+				<li class="nav-item">
+				<a class="nav-link nav-link-rs-menu fw-bold"
+					href="#{{ section.id }}">
+					{{ section.label }}
+				</a>
+				</li>
+      		{% endfor %}
+
+
+
+
+
+
+
+
+
 		</ul>
 	</div>
 
@@ -70,7 +95,7 @@
 	<!-- Menú de pestañas visible en pantallas grandes -->
 	<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
-
+		<!--
 		<li class="nav-item">
 			<a class="nav-link nav-link-rs-menu fw-bold" href="#description">{{ 'Description'|t }}</a>
 		</li>
@@ -92,6 +117,23 @@
 		<li class="nav-item">
 			<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
 		</li>
+		-->
+
+
+
+		{% for section in menu_sections %}
+        <li class="nav-item">
+          <a class="nav-link nav-link-rs-menu fw-bold "
+             href="#{{ section.id }}">
+            {{ section.label }}
+          </a>
+        </li>
+      {% endfor %}
+
+
+
+
+
 	</ul>
 	{#{ dump(institution_vocab_labels_str) }}
 
@@ -694,7 +736,7 @@ const campusHTML = campus ? `<span class="ou-campus">${campus}</span>` : '';
 
 const html = `
     <div class="mb-3 text-center">
-      <img src="${imageSrc}" alt="Organizational Unit" class="img-fluid w-100" style="max-height: 600px; object-fit: cover;" loading="lazy">
+      <img src="${imageSrc}" alt="Organizational Unit" class="img-fluid w-100" style="height: 600px; max-height: 600px; object-fit: cover;" loading="lazy">
     </div>
 
     <div class="p-4">

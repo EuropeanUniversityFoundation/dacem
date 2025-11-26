@@ -346,7 +346,7 @@ function b5subtheme_preprocess_views_view(&$variables)
             $original_language = $iec->language()->getId();
             //$row->custom_url = $subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
             $translated_url = $iec->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
- 
+
             // Extraer el idioma desde la URL original
             $language_prefix = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
@@ -455,61 +455,153 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
 
-    
-/**
- * Helper inline: mapea claves → etiquetas del vocabulario ELM.
- * - Usa $lang (idioma actual) y hace fallback a 'en' y luego a la clave.
- */
-$elm_labels = function (EntityInterface $entity, string $field_name, string $lang): array {
-  if (!$entity->hasField($field_name) || $entity->get($field_name)->isEmpty()) {
-    return [];
-  }
 
-  // ID del vocabulario configurado en el storage del field.
-  $vocabulary_id = $entity->getFieldDefinition($field_name)->getSetting('vocabulary');
+    /**
+     * Helper inline: mapea claves → etiquetas del vocabulario ELM.
+     * - Usa $lang (idioma actual) y hace fallback a 'en' y luego a la clave.
+     */
+    $elm_labels = function (EntityInterface $entity, string $field_name, string $lang): array {
+      if (!$entity->hasField($field_name) || $entity->get($field_name)->isEmpty()) {
+        return [];
+      }
 
-  /** @var \Drupal\elm_vocabulary_field\ControlledVocabularyProviderInterface $provider */
-  $provider = \Drupal::service('elm_vocabulary_field.provider');
-  $vocabulary = $provider->getVocabulary($vocabulary_id);
+      // ID del vocabulario configurado en el storage del field.
+      $vocabulary_id = $entity->getFieldDefinition($field_name)->getSetting('vocabulary');
 
-  // Listas por idioma destino + fallback a EN.
-  $listLang = $vocabulary->getLabeledList($lang);
-  $listEn   = $vocabulary->getLabeledList('en');
+      /** @var \Drupal\elm_vocabulary_field\ControlledVocabularyProviderInterface $provider */
+      $provider = \Drupal::service('elm_vocabulary_field.provider');
+      $vocabulary = $provider->getVocabulary($vocabulary_id);
 
-  $labels = [];
-  foreach ($entity->get($field_name) as $item) {
-    $key = $item->value;
-    $labels[] = $listLang[$key] ?? $listEn[$key] ?? $key;
-  }
-  return $labels;
-};
+      // Listas por idioma destino + fallback a EN.
+      $listLang = $vocabulary->getLabeledList($lang);
+      $listEn = $vocabulary->getLabeledList('en');
 
-/**
- * 1) Etiquetas para la universidad (variable directa para Twig).
- *    Usa SIEMPRE el idioma actual ($current_language) con fallback incluido.
- */
-if (!empty($translated_node) && $translated_node->hasField('field_example_vocabularies')) {
-  $variables['institution_vocab_labels'] =
-    $elm_labels($translated_node, 'field_example_vocabularies', $current_language);
+      $labels = [];
+      foreach ($entity->get($field_name) as $item) {
+        $key = $item->value;
+        $labels[] = $listLang[$key] ?? $listEn[$key] ?? $key;
+      }
+      return $labels;
+    };
 
-  $variables['institution_vocab_labels_str'] =
-    implode(', ', $variables['institution_vocab_labels']);
-}
+    /**
+     * 1) Etiquetas para la universidad (variable directa para Twig).
+     *    Usa SIEMPRE el idioma actual ($current_language) con fallback incluido.
+     */
+    if (!empty($translated_node) && $translated_node->hasField('field_example_vocabularies')) {
+      $variables['institution_vocab_labels'] =
+        $elm_labels($translated_node, 'field_example_vocabularies', $current_language);
 
-/**
- * 2) (Opcional) Etiquetas por cada row de la vista (si usas "result rows" en Twig).
- *    Inyecta en cada fila _elm_vocab_labels y _elm_vocab_labels_str para usar en plantillas.
- */
-if (!empty($variables['view']->result)) {
-  foreach ($variables['view']->result as $idx => $row) {
-    $entity = $row->_entity ?? NULL;
-    if ($entity instanceof EntityInterface && $entity->hasField('field_example_vocabularies')) {
-      $labels = $elm_labels($entity, 'field_example_vocabularies', $current_language);
-      $variables['view']->result[$idx]->_elm_vocab_labels = $labels;
-      $variables['view']->result[$idx]->_elm_vocab_labels_str = implode(', ', $labels);
+      $variables['institution_vocab_labels_str'] =
+        implode(', ', $variables['institution_vocab_labels']);
     }
-  }
-}
+
+    /**
+     * 2) (Opcional) Etiquetas por cada row de la vista (si usas "result rows" en Twig).
+     *    Inyecta en cada fila _elm_vocab_labels y _elm_vocab_labels_str para usar en plantillas.
+     */
+    if (!empty($variables['view']->result)) {
+      foreach ($variables['view']->result as $idx => $row) {
+        $entity = $row->_entity ?? NULL;
+        if ($entity instanceof EntityInterface && $entity->hasField('field_example_vocabularies')) {
+          $labels = $elm_labels($entity, 'field_example_vocabularies', $current_language);
+          $variables['view']->result[$idx]->_elm_vocab_labels = $labels;
+          $variables['view']->result[$idx]->_elm_vocab_labels_str = implode(', ', $labels);
+        }
+      }
+    }
+
+
+
+    /***************************/
+    /***************************/
+    /***************************/
+    /***************************/
+    /*FACER MENU DINAMICO */
+    /*FACER MENU DINAMICO */
+    /*FACER MENU DINAMICO */
+    /*FACER MENU DINAMICO */
+    /*FACER MENU DINAMICO */
+    /***************************/
+    /***************************/
+    /***************************/
+    /***************************/
+    /***************************/
+    /***************************/
+
+
+
+
+      $sections = [];
+
+
+      if (!$node->get('field_information')->isEmpty()) {
+        $sections[] = [
+          'id' => 'description',
+          'label' => t('Description'),
+        ];
+      }
+
+    
+      /*
+      if (!empty($variables['has_academic_authorities'])) {
+        $sections[] = [
+          'id' => 'academic-authorities',
+          'label' => t('Authorities'),
+        ];
+      }
+      */
+
+      if (!$node->get('field_admission_description')->isEmpty()) {
+        $sections[] = [
+          'id' => 'admission',
+          'label' => t('Admission'),
+        ];
+      }
+
+
+      if (!$node->get('field_ects_credit_allocation_pol')->isEmpty()) {
+        $sections[] = [
+          'id' => 'ects-allocation-policy',
+          'label' => t('ECTS Policies'),
+        ];
+      }
+
+
+      if (
+        !$node->get('field_mobility_incoming_students')->isEmpty()
+        || !$node->get('field_mobility_outgoing_students')->isEmpty()
+      ) {
+        $sections[] = [
+          'id' => 'mobility',
+          'label' => t('Mobility'),
+        ];
+      }
+
+      /*
+      if (!empty($variables['has_campuses'])) {
+        $sections[] = [
+          'id' => 'campuses',
+          'label' => t('Campuses'),
+        ];
+      }*/
+
+      /*
+      if (!empty($variables['has_organizational_units'])) {
+        $sections[] = [
+          'id' => 'organizational-units',
+          'label' => t('Org. Units'),
+        ];
+      }*/
+
+      $variables['menu_sections'] = $sections;
+
+
+
+      
+
+
+
 
 
 
@@ -1133,41 +1225,39 @@ if (!empty($variables['view']->result)) {
 
 
 
-foreach ($variables['view']->result as $row) {
-  $programme = $row->_entity ?? NULL;
-  if (!$programme) {
-    continue;
-  }
+    foreach ($variables['view']->result as $row) {
+      $programme = $row->_entity ?? NULL;
+      if (!$programme) {
+        continue;
+      }
 
-  // Idioma (si no hay traducción al actual, cae a 'en').
-  $lang_for_url = $programme->hasTranslation($langcode) ? $langcode : 'en';
-  $language = \Drupal::languageManager()->getLanguage($lang_for_url);
-  $programme_t = $programme->hasTranslation($lang_for_url) ? $programme->getTranslation($lang_for_url) : $programme;
+      // Idioma (si no hay traducción al actual, cae a 'en').
+      $lang_for_url = $programme->hasTranslation($langcode) ? $langcode : 'en';
+      $language = \Drupal::languageManager()->getLanguage($lang_for_url);
+      $programme_t = $programme->hasTranslation($lang_for_url) ? $programme->getTranslation($lang_for_url) : $programme;
 
-  // Institution del programme.
-  if (
-    !$programme->hasField('field_programme_institution') ||
-    $programme->get('field_programme_institution')->isEmpty()
-  ) {
-    continue;
-  }
-  $inst = $programme->get('field_programme_institution')->entity;
-  if ($inst && $inst->hasTranslation($lang_for_url)) {
-    $inst = $inst->getTranslation($lang_for_url);
-  }
+      // Institution del programme.
+      if (
+        !$programme->hasField('field_programme_institution') ||
+        $programme->get('field_programme_institution')->isEmpty()
+      ) {
+        continue;
+      }
+      $inst = $programme->get('field_programme_institution')->entity;
+      if ($inst && $inst->hasTranslation($lang_for_url)) {
+        $inst = $inst->getTranslation($lang_for_url);
+      }
 
-  // Aliases (último segmento de la URL canónica traducida).
-  $prog_canonical = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $programme_t->id()], ['language' => $language])->toString();
-  $inst_canonical = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $inst->id()], ['language' => $language])->toString();
+      // Aliases (último segmento de la URL canónica traducida).
+      $prog_canonical = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $programme_t->id()], ['language' => $language])->toString();
+      $inst_canonical = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $inst->id()], ['language' => $language])->toString();
 
-  $programme_alias   = basename(trim($prog_canonical, '/'));
-  $institution_alias = basename(trim($inst_canonical, '/'));
+      $programme_alias = basename(trim($prog_canonical, '/'));
+      $institution_alias = basename(trim($inst_canonical, '/'));
 
-  // /lang/alias_institution/catalogue/alias_programme_actual
-  $row->programme_url = '/' . $lang_for_url . '/catalogue/' . $institution_alias . '/' . $programme_alias;
-}
-
-
+      // /lang/alias_institution/catalogue/alias_programme_actual
+      $row->programme_url = '/' . $lang_for_url . '/catalogue/' . $institution_alias . '/' . $programme_alias;
+    }
 
 
 
@@ -1197,7 +1287,9 @@ foreach ($variables['view']->result as $row) {
 
 
 
-  
+
+
+
   }
 
 
@@ -1230,7 +1322,8 @@ function b5subtheme_theme_registry_alter(&$theme_registry)
 
 use Drupal\Core\Form\FormStateInterface;
 
-function b5subtheme_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+function b5subtheme_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, $form_id)
+{
   $view = $form_state->getBuildInfo()['callback_object']->view ?? NULL;
   if ($view && $view->id() === 'search_programme') {
     // En el form

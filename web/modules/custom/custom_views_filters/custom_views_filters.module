@@ -700,38 +700,79 @@ function custom_views_filters_form_node_academic_authority_edit_form_alter(array
 
 
 
+function custom_views_filters_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  \Drupal::logger('custom_views_filters')->info('Interceptado formulario con ID: @id', ['@id' => $form_id]);
+
+  // Si es creación o edición de organizational_unit, aplicamos la lógica común.
+  if ($form_id === 'node_organizational_unit_form' || $form_id === 'node_organizational_unit_edit_form') {
+    _custom_views_filters_alter_organizational_unit_form($form, $form_state, $form_id);
+  }
+}
 
 
 
 
 
+/**
+ * Crear ORGANIZATIONAL UNIT.
+ */
+function custom_views_filters_form_node_organizational_unit_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  \Drupal::logger('custom_views_filters')->info('custom_views_filters_form_node_organizational_unit_edit_form_alter jjjjaaaaaaajj');
+  
+  _custom_views_filters_alter_organizational_unit_form($form, $form_state, $form_id);
+}
+
+/**
+ * Editar ORGANIZATIONAL UNIT.
+ */
+function custom_views_filters_form_node_organizational_unit_edit_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  \Drupal::logger('custom_views_filters')->info('EDIT: form_node_organizational_unit_edit_form_alter');
+  _custom_views_filters_alter_organizational_unit_form($form, $form_state, $form_id);
+}
 
 
-function custom_views_filters_form_node_organizational_unit_form_alter(array &$form, FormStateInterface $form_state, $form_id)
-{
+/**
+ * Lógica común para creación y edición de organizational_unit.
+ */
+function _custom_views_filters_alter_organizational_unit_form(array &$form, FormStateInterface $form_state, $form_id) {
   $node = $form_state->getFormObject()->getEntity();
   if (!$node || $node->bundle() !== 'organizational_unit') {
     return;
   }
 
-  // 1) Obtener el grupo desde la ruta /group/{group}/content/create/...
+  // 1) Obtener el grupo.
   $route_match = \Drupal::routeMatch();
   $group_param = $route_match->getParameter('group');
   $group = NULL;
+
   if (is_object($group_param)) {
     $group = $group_param;
-  } elseif (is_numeric($group_param)) {
+  }
+  elseif (is_numeric($group_param)) {
     $group = \Drupal::entityTypeManager()->getStorage('group')->load((int) $group_param);
   }
+
+  $gr_storage = \Drupal::entityTypeManager()->getStorage('group_relationship');
+
+  // Si no viene por la ruta (caso /node/{nid}/edit), miramos la relación del nodo.
+  if (!$group && !$node->isNew()) {
+    $ou_rels = $gr_storage->loadByProperties([
+      'entity_id' => $node->id(),
+      'plugin_id' => 'group_node:organizational_unit',
+    ]);
+    if ($ou_rel = reset($ou_rels)) {
+      if (method_exists($ou_rel, 'getGroup')) {
+        $group = $ou_rel->getGroup();
+      }
+    }
+  }
+
   if (!$group) {
     // Fuera de contexto de grupo, no forzamos nada.
     return;
   }
 
-  // 2) Obtener INSTITUTION del grupo vía group_relationship.
-  //    Plugin id para nodos "institution": group_node:institution
-  $gr_storage = \Drupal::entityTypeManager()->getStorage('group_relationship');
-
+  // 2) Obtener INSTITUTION del grupo.
   $inst_rels = $gr_storage->loadByProperties([
     'gid' => $group->id(),
     'plugin_id' => 'group_node:institution',
@@ -741,12 +782,11 @@ function custom_views_filters_form_node_organizational_unit_form_alter(array &$f
   $institution_nid = NULL;
 
   foreach ($inst_rels as $rel) {
-    // Compatibilidad: Group v3 expone métodos diferentes según versión,
-    // intentamos ambos de forma segura.
     $entity = NULL;
     if (method_exists($rel, 'getEntity')) {
       $entity = $rel->getEntity();
-    } elseif (method_exists($rel, 'getContentEntity')) {
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
       $entity = $rel->getContentEntity();
     }
     if ($entity && $entity->bundle() === 'institution') {
@@ -755,7 +795,7 @@ function custom_views_filters_form_node_organizational_unit_form_alter(array &$f
     }
   }
 
-  // 3) Obtener CAMPUS del grupo (plugin group_node:campus).
+  // 3) CAMPUS del grupo.
   $campus_rels = $gr_storage->loadByProperties([
     'gid' => $group->id(),
     'plugin_id' => 'group_node:campus',
@@ -770,7 +810,6 @@ function custom_views_filters_form_node_organizational_unit_form_alter(array &$f
       $campus = $rel->getContentEntity();
     }
     if ($campus && $campus->bundle() === 'campus') {
-      // Si quieres filtrar solo los campus que referencian a ESA institution (opcional):
       if ($institution_nid && $campus->hasField('field_campus_institution') && !$campus->get('field_campus_institution')->isEmpty()) {
         $ref = (int) $campus->get('field_campus_institution')->target_id;
         if ($ref !== (int) $institution_nid) {
@@ -781,36 +820,107 @@ function custom_views_filters_form_node_organizational_unit_form_alter(array &$f
     }
   }
 
+  // 4) ORGANIZATIONAL UNITS raíz (sin padre).
+  $organizational_unit_rels = $gr_storage->loadByProperties([
+    'gid' => $group->id(),
+    'plugin_id' => 'group_node:organizational_unit',
+  ]);
 
+  $organizational_unit_options = [];
 
+  foreach ($organizational_unit_rels as $rel) {
+    $org_unit = NULL;
 
+    if (method_exists($rel, 'getEntity')) {
+      $org_unit = $rel->getEntity();
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
+      $org_unit = $rel->getContentEntity();
+    }
 
-  // === Campus: forzar opciones filtradas en el select ===
-  if (isset($form['field_ou_campus']['widget'][0]['target_id'])) {
-    $el =& $form['field_ou_campus']['widget'][0]['target_id'];
+    if ($org_unit && $org_unit->bundle() === 'organizational_unit') {
+      if ($org_unit->hasField('field_parent_organizational_unit')
+        && $org_unit->get('field_parent_organizational_unit')->isEmpty()) {
+
+        $organizational_unit_options[$org_unit->id()] = $org_unit->label();
+      }
+    }
+  }
+
+  // === Institution bloqueada (si tienes el campo en el form) ===
+  if (isset($form['field_ou_institution']['widget'][0]['target_id'])) {
+    $el =& $form['field_ou_institution']['widget'][0]['target_id'];
 
     $el['#type'] = 'select';
     $el['#multiple'] = FALSE;
     $el['#size'] = 1;
+    $el['#options'] = $institution_options;
+    $el['#required'] = TRUE;
+    $el['#disabled'] = TRUE;
 
-    // 👇 Solo campus del grupo (y si quieres, filtrados por la institution del grupo)
-    $el['#options'] = $campus_options;
-    $el['#empty_option'] = t('- None -');
-    $el['#empty_value'] = '_none';
-    $el['#required'] = FALSE;
-
+    if ($institution_nid) {
+      $el['#default_value'] = $institution_nid;
+    }
 
     unset($el['#selection_handler'], $el['#selection_settings'], $el['#autocomplete_route_name']);
-
-    $el['#element_validate'][] = 'custom_views_filters_er_select_empty_to_null';
   }
 
+  // === Campus select ===
+  // === Campus select ===
+if (isset($form['field_ou_campus']['widget'][0]['target_id'])) {
+  $el =& $form['field_ou_campus']['widget'][0]['target_id'];
+
+  $el['#type'] = 'select';
+  $el['#multiple'] = FALSE;
+  $el['#size'] = 1;
+
+  $el['#options'] = $campus_options;
+  $el['#empty_option'] = t('- None -');
+  $el['#empty_value'] = '_none';
+  $el['#required'] = FALSE;
+
+  // 👇 IMPORTANTE: asegurar default_value como ID, no como objeto.
+  if (!$node->isNew() && !$node->get('field_ou_campus')->isEmpty()) {
+    $el['#default_value'] = $node->get('field_ou_campus')->target_id;
+  }
+  else {
+    $el['#default_value'] = '_none';
+  }
+
+  unset($el['#selection_handler'], $el['#selection_settings'], $el['#autocomplete_route_name']);
+
+  $el['#element_validate'][] = 'custom_views_filters_er_select_empty_to_null';
+}
 
 
+  // === Parent Organizational Unit select (solo raíz) ===
+if (isset($form['field_parent_organizational_unit']['widget'][0]['target_id'])) {
+  $el =& $form['field_parent_organizational_unit']['widget'][0]['target_id'];
 
+  $el['#type'] = 'select';
+  $el['#multiple'] = FALSE;
+  $el['#size'] = 1;
 
+  $el['#options'] = $organizational_unit_options;
+  $el['#empty_option'] = t('- None -');
+  $el['#empty_value'] = '_none';
+  $el['#required'] = FALSE;
+
+  // 👇 Igual que antes: ID, no objeto.
+  if (!$node->isNew() && !$node->get('field_parent_organizational_unit')->isEmpty()) {
+    $el['#default_value'] = $node->get('field_parent_organizational_unit')->target_id;
+  }
+  else {
+    $el['#default_value'] = '_none';
+  }
+
+  unset($el['#selection_handler'], $el['#selection_settings'], $el['#autocomplete_route_name']);
+
+  $el['#element_validate'][] = 'custom_views_filters_er_select_empty_to_null';
+}
 
 }
+
 
 
 

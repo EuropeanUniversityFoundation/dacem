@@ -159,6 +159,9 @@
 					<a class="dropdown-item" href="#qualification">{{ 'Qualification'|t }}</a>
 				</li>
 				<li>
+					<a class="dropdown-item" href="#mobility">{{ 'Mobility'|t }}</a>
+				</li>
+				<li>
 					<a class="dropdown-item" href="#iecs">{{ 'Subjects'|t }}</a>
 				</li>
 				<li>
@@ -184,6 +187,9 @@
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#qualification">{{translations[current_language]['Qualification']  }}</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#mobility">{{translations[current_language]['Mobility']  }}</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#iecs">{{ translations[current_language]['Subjects'] }}</a>
@@ -246,6 +252,11 @@
 						{{ translated_entity.field_programme_qualification.value|raw }}
 					</div>
 
+					<div class="programme-section" id="mobility" style="text-align: justify;">
+						<h3 class="subsection-title">{{ translations[current_language]['Mobility'] }}</h3>
+						{{ translated_entity.field_programme_mobility.value|raw }}
+					</div>
+
 					{% if translated_entity.field_distribution_of_credits.value is not empty %}
 						<div class="programme-section" id="structure" style="text-align: justify;">
 							<h3 class="subsection-title">
@@ -260,161 +271,379 @@
 
 
 					<div class="programme-section" id="iecs" style="text-align: justify;">
-						<h3 class="subsection-title">{{ translations[current_language]['Subjects'] }}</h3>
-						<p>{{ 'The following tables show all the iecs that make up the Study Plan with reference to the 2023-24 academic year'|t }}:</p>
+  <h3 class="subsection-title">{{ translations[current_language]['Subjects'] }}</h3>
+  <p>{{ 'The following tables show all the iecs that make up the Study Plan with reference to the 2023-24 academic year'|t }}:</p>
 
-						<!-- Contenedor de	 los botones de los cursos -->
-						<div class="custom-btn-group btn-group btn-group-adjustment mb-3" role="group" aria-label="{{ 'Courses'|t }}">
-							{% for course_id, course_name in courses %}
-								<button type="button" class="btn btn-outline-primary toggle-button" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="false" aria-controls="course{{ loop.index }}">
-									{{ translations[current_language][course_name] }}
-								</button>
+  {# === TABS NAV: By course / By semester === #}
+  <ul class="nav nav-tabs justify-content-center mb-3" id="iecsTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active"
+              id="tab-by-course"
+              data-bs-toggle="tab"
+              data-bs-target="#pane-by-course"
+              type="button"
+              role="tab"
+              aria-controls="pane-by-course"
+              aria-selected="true">
+        {{ 'By course'|t }}
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link"
+              id="tab-by-semester"
+              data-bs-toggle="tab"
+              data-bs-target="#pane-by-semester"
+              type="button"
+              role="tab"
+              aria-controls="pane-by-semester"
+              aria-selected="false">
+        {{ 'By semester'|t }}
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="iecsTabsContent">
+
+    {# =========================
+       TAB 1: BY COURSE (lo que ya tenías)
+       ========================= #}
+    <div class="tab-pane fade show active"
+         id="pane-by-course"
+         role="tabpanel"
+         aria-labelledby="tab-by-course">
+
+      <!-- Contenedor de los botones de los cursos -->
+      <div class="custom-btn-group btn-group btn-group-adjustment mb-3"
+           role="group"
+           aria-label="{{ 'Courses'|t }}">
+        {% for course_id, course_name in courses %}
+          <button type="button"
+                  class="btn btn-outline-primary toggle-button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#course{{ loop.index }}"
+                  aria-expanded="false"
+                  aria-controls="course{{ loop.index }}">
+            {{ translations[current_language][course_name] }}
+          </button>
+
+          {# Versión móvil (tablas dentro de cada botón) #}
+          <div class="courses-container d-block d-sm-block d-md-none d-lg-none">
+            <div id="course{{ loop.index }}" class="collapse">
+              <h4 class="subsection-title">{{ translations[current_language][course_name] }}</h4>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>{{ translations[current_language]['Code'] }}</th>
+                    <th>{{ translations[current_language]['Name'] }}</th>
+                    <th>{{ translations[current_language]['Quarter'] }}</th>
+                    <th>{{ translations[current_language]['ECTS'] }}</th>
+                    <th>{{ translations[current_language]['Type'] }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for row in view.result %}
+                    {% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
+
+                    {% if iec.hasTranslation(current_language) %}
+                      {% set translated_iec = iec.getTranslation(current_language) %}
+                    {% else %}
+                      {% set translated_iec = iec %}
+                    {% endif %}
+
+                    {% if translated_iec.field_iec_year[0].value == course_id %}
+                      <tr>
+                        <td>
+                          {% if translated_iec.field_iec_code is not empty %}
+                            {{ translated_iec.field_iec_code[0].value|t|capitalize }}
+                          {% else %}
+                            {{ 'Sin codigo'|t }}
+                          {% endif %}
+                        </td>
+                        <td>
+                          <a href="{{ row.custom_url }}">
+                            {{ translated_iec.title.value }}
+                          </a>
+                        </td>
+                        <td>{{ cuatrimestres_curso[translated_iec.field_iec_term[0].value] }}</td>
+                        <td>
+                          {% if translated_iec.field_iec_credits is not empty %}
+                            {{ translated_iec.field_iec_credits[0].value|t|capitalize }}
+                          {% else %}
+                            {{ 0 }}
+                          {% endif %}
+                        </td>
+                        <td>
+                          {% if translated_iec.field_iec_type is not empty %}
+                            {{ translations[current_language][translated_iec.field_iec_type[0].value] }}
+                          {% else %}
+                            {{ 'Sin tipo'|t }}
+                          {% endif %}
+                        </td>
+                      </tr>
+                    {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Contenedor de las tablas colapsables, siempre debajo de los botones (desktop) -->
+      <div class="courses-container d-none d-md-block d-lg-block">
+        {% for course_id, course_name in courses %}
+          <div id="course{{ loop.index }}" class="collapse">
+            <h4 class="subsection-title">{{ translations[current_language][course_name] }}</h4>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>{{ translations[current_language]['Code'] }}</th>
+                  <th>{{ translations[current_language]['Name'] }}</th>
+                  <th>{{ translations[current_language]['Quarter'] }}</th>
+                  <th>{{ translations[current_language]['ECTS'] }}</th>
+                  <th>{{ translations[current_language]['Type'] }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in view.result %}
+                  {% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
+
+                  {% if iec.hasTranslation(current_language) %}
+                    {% set translated_iec = iec.getTranslation(current_language) %}
+                  {% else %}
+                    {% set translated_iec = iec %}
+                  {% endif %}
+
+                  {% if translated_iec.field_iec_year[0].value == course_id %}
+                    <tr>
+                      <td>
+                        {% if translated_iec.field_iec_code is not empty %}
+                          {{ translated_iec.field_iec_code[0].value|t|capitalize }}
+                        {% else %}
+                          {{ 'Sin codigo'|t }}
+                        {% endif %}
+                      </td>
+                      <td>
+                        <a href="/{{ row.custom_url }}">
+                          {{ translated_iec.title.value }}
+                        </a>
+                      </td>
+                      <td>{{ cuatrimestres_curso[translated_iec.field_iec_term[0].value] }}</td>
+                      <td>
+                        {% if translated_iec.field_iec_credits is not empty %}
+                          {{ translated_iec.field_iec_credits[0].value }}
+                        {% else %}
+                          {{ '0' }}
+                        {% endif %}
+                      </td>
+                      <td>
+                        {% if translated_iec.field_iec_type is not empty %}
+                          {{ translations[current_language][translated_iec.field_iec_type[0].value] }}
+                        {% else %}
+                          {{ 'Sin tipo'|t }}
+                        {% endif %}
+                      </td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {# =========================
+       TAB 2: BY SEMESTER (ordenado por field_iec_term)
+       ========================= #}
+    {# =========================
+   TAB 2: BY SEMESTER (botones + tablas por semestre)
+   ========================= #}
+<div class="tab-pane fade"
+     id="pane-by-semester"
+     role="tabpanel"
+     aria-labelledby="tab-by-semester">
+
+  {# Definimos los semestres que queremos mostrar #}
+  {% set semester_terms = [1, 2] %}
+  {% set semester_labels = {
+    1: '1st semester'|t,
+    2: '2nd semester'|t
+  } %}
+
+  <h4 class="subsection-title">{{ 'By semester'|t }}</h4>
+
+  {# --- BOTONES DE SEMESTRE (como los de course) --- #}
+  <div class="custom-btn-group btn-group btn-group-adjustment mb-3"
+       role="group"
+       aria-label="{{ 'Semesters'|t }}">
+    {% for term in semester_terms %}
+      <button type="button"
+              class="btn btn-outline-primary toggle-button"
+              data-bs-toggle="collapse"
+              data-bs-target="#semester{{ term }}"
+              aria-expanded="false"
+              aria-controls="semester{{ term }}">
+        {{ semester_labels[term] }}
+      </button>
+
+      {# Versión móvil: tabla dentro del propio loop (como en courses) #}
+      <div class="courses-container d-block d-sm-block d-md-none d-lg-none">
+        <div id="semester{{ term }}" class="collapse">
+          <h4 class="subsection-title">{{ semester_labels[term] }}</h4>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>{{ translations[current_language]['Code'] }}</th>
+                <th>{{ translations[current_language]['Name'] }}</th>
+                <th>{{ translations[current_language]['Course'] }}</th>
+                <th>{{ translations[current_language]['Quarter'] }}</th>
+                <th>{{ translations[current_language]['ECTS'] }}</th>
+                <th>{{ translations[current_language]['Type'] }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in view.result %}
+                {% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
+
+                
+
+                {% if iec.field_iec_term[0].value == term %}
+                  
+                  {% if iec.hasTranslation(current_language) %}
+                  {% set translated_iec = iec.getTranslation(current_language) %}
+                {% else %}
+                  {% set translated_iec = iec %}
+                {% endif %}
+                  
+                  
+                  <tr>
+                    <td>
+                      {% if translated_iec.field_iec_code is not empty %}
+                        {{ translated_iec.field_iec_code[0].value }}
+                      {% else %}
+                        {{ 'Sin codigo'|t }}
+                      {% endif %}
+                    </td>
+                    <td>
+                      <a href="{{ row.custom_url }}">
+                        {{ translated_iec.title.value }}
+                      </a>
+                    </td>
+                    <td>
+                      {# Curso al que pertenece (usamos courses[year]) #}
+                      {% set course_year = translated_iec.field_iec_year[0].value %}
+                      {% if course_year in courses|keys %}
+                        {{ translations[current_language][courses[course_year]] }}
+                      {% else %}
+                        {{ '-' }}
+                      {% endif %}
+                    </td>
+                    <td>{{ cuatrimestres_curso[term] }}</td>
+                    <td>
+                      {% if translated_iec.field_iec_credits is not empty %}
+                        {{ translated_iec.field_iec_credits[0].value }}
+                      {% else %}
+                        {{ '0' }}
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if translated_iec.field_iec_type is not empty %}
+                        {{ translations[current_language][translated_iec.field_iec_type[0].value] }}
+                      {% else %}
+                        {{ 'Sin tipo'|t }}
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {# --- Versión escritorio: tablas debajo, como en By course --- #}
+  <div class="courses-container d-none d-md-block d-lg-block">
+    {% for term in semester_terms %}
+      <div id="semester{{ term }}" class="collapse">
+        <h4 class="subsection-title">{{ semester_labels[term] }}</h4>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>{{ translations[current_language]['Code'] }}</th>
+              <th>{{ translations[current_language]['Name'] }}</th>
+              <th>{{ translations[current_language]['Course'] }}</th>
+              <th>{{ translations[current_language]['Quarter'] }}</th>
+              <th>{{ translations[current_language]['ECTS'] }}</th>
+              <th>{{ translations[current_language]['Type'] }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in view.result %}
+              {% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
+
+              
+
+              {% if iec.field_iec_term[0].value == term %}
+
+                {% if iec.hasTranslation(current_language) %}
+                {% set translated_iec = iec.getTranslation(current_language) %}
+              {% else %}
+                {% set translated_iec = iec %}
+              {% endif %}
+
+                <tr>
+                  <td>
+                    {% if translated_iec.field_iec_code is not empty %}
+                      {{ translated_iec.field_iec_code[0].value }}
+                    {% else %}
+                      {{ 'Sin codigo'|t }}
+                    {% endif %}
+                  </td>
+                  <td>
+                    <a href="/{{ row.custom_url }}">
+                      {{ translated_iec.title.value }}
+                    </a>
+                  </td>
+                  <td>
+                    {% set course_year = translated_iec.field_iec_year[0].value %}
+                    {% if course_year in courses|keys %}
+                      {{ translations[current_language][courses[course_year]] }}
+                    {% else %}
+                      {{ '-' }}
+                    {% endif %}
+                  </td>
+                  <td>{{ cuatrimestres_curso[term] }}</td>
+                  <td>
+                    {% if translated_iec.field_iec_credits is not empty %}
+                      {{ translated_iec.field_iec_credits[0].value }}
+                    {% else %}
+                      {{ '0' }}
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if translated_iec.field_iec_type is not empty %}
+                      {{ translations[current_language][translated_iec.field_iec_type[0].value] }}
+                    {% else %}
+                      {{ 'Sin tipo'|t }}
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endfor %}
+  </div>
+</div>
 
 
-								<div class="courses-container d-block d-sm-block d-md-none d-lg-none">
+  </div>
+</div>
 
-									<div id="course{{ loop.index }}" class="collapse">
-										<h4 class="subsection-title">{{ translations[current_language][course_name]}}</h4>
-										<table class="table table-bordered">
-											<thead>
-												<tr>
-													<th>{{ translations[current_language]['Code'] }}</th>
-													<th>{{ translations[current_language]['Name'] }}</th>
-													<th>{{ translations[current_language]['Quarter'] }}</th>
-													<th>{{ translations[current_language]['ECTS'] }}</th>
-													<th>{{ translations[current_language]['Type'] }}</th>
-												</tr>
-											</thead>
-											<tbody>
-												{% for row in view.result %}
-
-
-													{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
-
-													{% if iec.hasTranslation(current_language) %}
-														{% set translated_iec = iec.getTranslation(current_language) %}
-													{% else %}
-														{% set translated_iec = iec %}
-													{% endif %}
-
-													{% if translated_iec.field_iec_year[0].value == course_id %}
-														<tr>
-
-
-															<td>
-																{% if translated_iec.field_code is not empty %}
-																	{{ translated_iec.field_code[0].value|t|capitalize }}
-																{% else %}
-																	{{ 'Sin codigo'|t }}
-																{% endif %}
-															</td>
-
-															<td>
-
-																<!--<a href="{{ path('entity.node.canonical', {'node': translated_iec.id()}) }}">-->
-																<a href="{{ row.custom_url }}">
-																	{{ translated_iec.title.value }}
-																</a>
-															</td>
-															<td>{{ cuatrimestres_curso[translated_iec.field_iec_term[0].value] }}</td>
-															<td>
-																{% if translated_iec.field_iec_credits is not empty %}
-																	{{ translated_iec.field_iec_credits[0].value|t|capitalize }}
-																{% else %}
-																	{{ 0}}
-																{% endif %}
-															</td>
-															<td>
-																{% if translated_iec.field_iec_type is not empty %}
-
-																	{{ translations[current_language][translated_iec.field_iec_type[0].value]}}
-																{% else %}
-																	{{'Sin tipo'}}
-																{% endif %}
-															</td>
-
-														</tr>
-													{% endif %}
-												{% endfor %}
-											</tbody>
-										</table>
-									</div>
-
-								</div>
-
-
-							{% endfor %}
-						</div>
-
-						<!-- Contenedor de las tablas colapsables, siempre debajo de los botones -->
-						<div class="courses-container d-none d-md-block d-lg-block">
-							{% for course_id, course_name in courses %}
-								<div id="course{{ loop.index }}" class="collapse">
-									<h4 class="subsection-title">{{ translations[current_language][course_name]}}</h4>
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th>{{ translations[current_language]['Code'] }}</th>
-												<th>{{ translations[current_language]['Name'] }}</th>
-												<th>{{ translations[current_language]['Quarter'] }}</th>
-												<th>{{ translations[current_language]['ECTS'] }}</th>
-												<th>{{ translations[current_language]['Type'] }}</th>
-											</tr>
-										</thead>
-										<tbody>
-											{% for row in view.result %}
-
-												{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
-
-												{% if iec.hasTranslation(current_language) %}
-													{% set translated_iec = iec.getTranslation(current_language) %}
-												{% else %}
-													{% set translated_iec = iec %}
-												{% endif %}
-
-												{% if translated_iec.field_iec_year[0].value == course_id %}
-													<tr>
-
-														<td>
-															{% if translated_iec.field_iec_code is not empty %}
-																{{ translated_iec.field_iec_code[0].value|t|capitalize }}
-															{% else %}
-																{{ 'Sin codigo'|t }}
-															{% endif %}
-														</td>
-
-														<td>
-
-															<a href="/{{ row.custom_url }}">
-																{{ translated_iec.title.value }}
-															</a>
-														</td>
-														<td>{{ cuatrimestres_curso[translated_iec.field_iec_term[0].value] }}</td>
-														<td>
-															{% if translated_iec.field_iec_credits is not empty %}
-																{{ translated_iec.field_iec_credits[0].value }}
-															{% else %}
-																{{ '0' }}
-															{% endif %}
-														</td>
-														<td>
-
-															{% if translated_iec.field_iec_type is not empty %}
-																{{ translations[current_language][translated_iec.field_iec_type[0].value]}}
-															{% else %}
-																{{ 'Sin tipo'|t }}
-															{% endif %}
-														</td>
-
-													</tr>
-												{% endif %}
-											{% endfor %}
-										</tbody>
-									</table>
-								</div>
-							{% endfor %}
-						</div>
-					</div>
 				</div>
 
 

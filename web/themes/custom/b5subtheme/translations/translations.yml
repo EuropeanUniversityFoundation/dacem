@@ -100,7 +100,8 @@ en:
 
 
 
-
+  Mobility: 'Mobility'
+  Allow Mobility: 'Allow Mobility'
 
 
 es:
@@ -195,6 +196,8 @@ es:
   Click on an Organizational Unit to see its details. : 'Haz click en una Unidad Organizativa para ver sus detalles'
   See more: 'Ver más'
 
+  Mobility: 'Mobility'
+  Allow Mobility: 'Allow Mobility'
 
 
 
@@ -286,6 +289,10 @@ fr: # Francés
   Click on an Organizational Unit to see its details. : 'Cliquez sur une Unité organisationnelle pour voir ses détails'
   See more: 'Voir plus'
 
+  Mobility: 'Mobility'
+  Allow Mobility: 'Allow Mobility'
+
+
 
 pt-pt: # Portugués
 
@@ -374,6 +381,9 @@ pt-pt: # Portugués
   Type here to search: 'Escreva aqui para pesquisar'
   Click on an Organizational Unit to see its details. : 'Clique numa Unidade Organizacional para ver os seus detalhes'
   See more: 'Ver mais'
+
+  Mobility: 'Mobility'
+  Allow Mobility: 'Allow Mobility'
 
 
 
@@ -466,6 +476,9 @@ el: # Griego
   Click on an Organizational Unit to see its details. : 'Κάντε κλικ σε μια Οργανωτική Μονάδα για να δείτε τις λεπτομέρειες της'
   See more: 'Δείτε περισσότερα'
 
+  Mobility: 'Mobility'
+  Allow Mobility: 'Allow Mobility'
+
 
 cs: # Checo
 
@@ -553,6 +566,9 @@ cs: # Checo
   Type here to search: 'Pište sem pro vyhledávání'
   Click on an Organizational Unit to see its details. : 'Klikněte na organizační jednotku pro zobrazení detailů'
   See more: 'Zobrazit více'
+
+  Mobility: 'Mobility'
+  Allow Mobility: 'Allow Mobility'
 
 
 
@@ -646,6 +662,9 @@ sl: # Esloveno
   Click on an Organizational Unit to see its details. : 'Kliknite na organizacijsko enoto za ogled podrobnosti'
   See more: 'Poglej več'
 
+  Mobility: 'Mobility'
+  Allow Mobility: 'Allow Mobility'
+
 
 hu: # Húngaro
 
@@ -733,6 +752,9 @@ hu: # Húngaro
   Type here to search: 'Írjon ide a kereséshez'
   Click on an Organizational Unit to see its details. : 'Kattintson egy szervezeti egységre a részletek megtekintéséhez'
   See more: 'Továbbiak'
+
+  Mobility: 'Mobility'
+  Allow Mobility: 'Allow Mobility'
 
 
 
@@ -824,6 +846,9 @@ et: # Estonio
   Click on an Organizational Unit to see its details. : 'Klõpsa organisatsiooniüksusel, et näha selle üksikasju'
   See more: 'Vaata veel'
 
+  Mobility: 'Mobility'
+  Allow Mobility: 'Allow Mobility'
+
 
 gl: # Gallego
 
@@ -904,5 +929,8 @@ gl: # Gallego
   Planned Activities: 'ACTIVIDADES PLANIFICADAS'
   Evaluation Methods and Criteria: 'MÉTODOS E CRITERIOS DE AVALIACIÓN'
   in_person: 'Presencial'
+
+  Mobility: 'Mobility'
+  Allow Mobility: 'Allow Mobility'
 
 

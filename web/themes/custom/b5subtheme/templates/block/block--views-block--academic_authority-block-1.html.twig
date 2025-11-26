@@ -1,60 +1,159 @@
 {{ attach_library('b5subtheme/fontawesome') }}
 
-
 {% if content['#view'].result|length > 0 %}
 
+  {# Separamos las filas en dos grupos: authorities y mobility contacts #}
+  {% set authorities = [] %}
+  {% set mobility_contacts = [] %}
 
-		<div class="section-container section-bg-grey">
-		<div class='text-center my-custom-container-2  section-bg-grey' id='academic-authorities'>
-			<h2 class="section-title">Academic Authorities</h2>
+  {% for row in content['#view'].result %}
+    {% if row._entity.field_mobility_contact.value == '1' %}
+      {% set mobility_contacts = mobility_contacts|merge([row]) %}
+    {% else %}
+      {% set authorities = authorities|merge([row]) %}
+    {% endif %}
+  {% endfor %}
 
-			<div class="authorities-grid">
-				{% for row in content['#view'].result %}
-					<div class="authority-item">
-						{% set file_entity = row._entity.field_ac_photo.entity %}
+  {% set has_authorities = authorities|length > 0 %}
+  {% set has_mobility = mobility_contacts|length > 0 %}
 
-						<div class="authority-photo">
-						{% if file_entity and file_entity.uri %}
-							<img
-							src="{{ file_url(file_entity.uri.value) }}"
-							alt="{{ row._entity.title.value|default('') }}"
-							class="img-fluid"
-							>
-						{% else %}
-							<img
-							src="/themes/custom/b5subtheme/images/default-profile.jpg"
-							alt="{{ row._entity.title.value|default('') }}"
-							class="img-fluid"
-							>
-						{% endif %}
-						</div>
-						<div class="authority-info">
-							<h4>{{ row._entity.title.value }}</h4>
-							{% if row._entity.field_institution_role is not empty %}
-								<p class="text-center">{{ row._entity.field_institution_role.value | upper}}</p>
-							{% endif %}
-							<div class="authority-icons mt-2">
-								<a href="#" class="authority-icon me-3">
-									<i class="fas fa-globe fa-lg"></i>
-								</a>
-								<a href="#" class="authority-icon me-3">
-									<i class="fab fa-instagram fa-lg"></i>
-								</a>
-								<a href="#" class="authority-icon">
-									<i class="fab fa-linkedin fa-lg"></i>
-								</a>
-							</div>
-						</div>
-					</div>
+  <div class="section-container section-bg-grey">
+    <div class="text-center my-custom-container-2 section-bg-grey" id="academic-authorities">
+      <h2 class="section-title">Academic Authorities</h2>
 
-				{% endfor %}
-			</div>
-		</div>
-		</div>
-	
-	
+      {# Tabs solo si hay de los dos tipos #}
+      {% if has_authorities and has_mobility %}
+        <ul class="nav nav-tabs justify-content-center" id="academicAuthoritiesTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active"
+                    id="tab-authorities"
+                    data-bs-toggle="tab"
+                    data-bs-target="#pane-authorities"
+                    type="button" role="tab"
+                    aria-controls="pane-authorities"
+                    aria-selected="true">
+              Authorities
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link"
+                    id="tab-mobility-contacts"
+                    data-bs-toggle="tab"
+                    data-bs-target="#pane-mobility-contacts"
+                    type="button" role="tab"
+                    aria-controls="pane-mobility-contacts"
+                    aria-selected="false">
+              Mobility Contact
+            </button>
+          </li>
+        </ul>
+      {% endif %}
 
+      <div class="tab-content pt-3" id="academicAuthoritiesTabsContent">
 
-	<div class="spacer"></div>
+        {# AUTHORITIES (no mobility) – primero #}
+        {% if has_authorities %}
+          <div class="tab-pane fade {{ has_mobility ? 'show active' : 'show active' }}"
+               id="pane-authorities"
+               role="tabpanel"
+               aria-labelledby="tab-authorities">
+            <div class="authorities-grid">
+              {% for row in authorities %}
+                <div class="authority-item">
+                  {% set file_entity = row._entity.field_ac_photo.entity %}
 
+                  <div class="authority-photo">
+                    {% if file_entity and file_entity.uri %}
+                      <img
+                        src="{{ file_url(file_entity.uri.value) }}"
+                        alt="{{ row._entity.title.value|default('') }}"
+                        class="img-fluid"
+                      >
+                    {% else %}
+                      <img
+                        src="/themes/custom/b5subtheme/images/default-profile.jpg"
+                        alt="{{ row._entity.title.value|default('') }}"
+                        class="img-fluid"
+                      >
+                    {% endif %}
+                  </div>
+
+                  <div class="authority-info">
+                    <h4>{{ row._entity.title.value }}</h4>
+                    {% if row._entity.field_institution_role is not empty %}
+                      <p class="text-center">{{ row._entity.field_institution_role.value|upper }}</p>
+                    {% endif %}
+                    <div class="authority-icons mt-2">
+                      <a href="#" class="authority-icon me-3">
+                        <i class="fas fa-globe fa-lg"></i>
+                      </a>
+                      <a href="#" class="authority-icon me-3">
+                        <i class="fab fa-instagram fa-lg"></i>
+                      </a>
+                      <a href="#" class="authority-icon">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {# MOBILITY CONTACT – después #}
+        {% if has_mobility %}
+          <div class="tab-pane fade {{ has_authorities ? '' : 'show active' }}"
+               id="pane-mobility-contacts"
+               role="tabpanel"
+               aria-labelledby="tab-mobility-contacts">
+            <div class="authorities-grid">
+              {% for row in mobility_contacts %}
+                <div class="authority-item">
+                  {% set file_entity = row._entity.field_ac_photo.entity %}
+
+                  <div class="authority-photo">
+                    {% if file_entity and file_entity.uri %}
+                      <img
+                        src="{{ file_url(file_entity.uri.value) }}"
+                        alt="{{ row._entity.title.value|default('') }}"
+                        class="img-fluid"
+                      >
+                    {% else %}
+                      <img
+                        src="/themes/custom/b5subtheme/images/default-profile.jpg"
+                        alt="{{ row._entity.title.value|default('') }}"
+                        class="img-fluid"
+                      >
+                    {% endif %}
+                  </div>
+
+                  <div class="authority-info">
+                    <h4>{{ row._entity.title.value }}</h4>
+                    {% if row._entity.field_institution_role is not empty %}
+                      <p class="text-center">{{ row._entity.field_institution_role.value|upper }}</p>
+                    {% endif %}
+                    <div class="authority-icons mt-2">
+                      <a href="#" class="authority-icon me-3">
+                        <i class="fas fa-globe fa-lg"></i>
+                      </a>
+                      <a href="#" class="authority-icon me-3">
+                        <i class="fab fa-instagram fa-lg"></i>
+                      </a>
+                      <a href="#" class="authority-icon">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
 {% endif %}

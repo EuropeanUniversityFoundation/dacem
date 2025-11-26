@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8f53c11bc03e9f5eef8075053243272",
+    "content-hash": "2ecaf11a41257688dd36a9a1af61f4ae",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5092,6 +5092,85 @@
                 "source": "https://github.com/EuropeanUniversityFoundation/ewp_phone_number"
             },
             "time": "2025-03-04T17:26:59+00:00"
+        },
+        {
+            "name": "euf/isced",
+            "version": "v0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/isced_php.git",
+                "reference": "7cec35926dc5f8d350df944207c8f08d0cdd91de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EuropeanUniversityFoundation/isced_php/zipball/7cec35926dc5f8d350df944207c8f08d0cdd91de",
+                "reference": "7cec35926dc5f8d350df944207c8f08d0cdd91de",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Isced\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu"
+                }
+            ],
+            "description": "PHP library providing ISCED-F 2013 fields of study.",
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/isced_php/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/isced_php/tree/v0.0.4"
+            },
+            "time": "2025-06-23T13:40:27+00:00"
+        },
+        {
+            "name": "euf/isced_field",
+            "version": "1.0.0-alpha3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/isced_field.git",
+                "reference": "0398a4092a36e86581061c7636cc805979ca71f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/isced_field/euf-isced_field-0398a4092a36e86581061c7636cc805979ca71f7-zip-b8f1eb.zip",
+                "reference": "0398a4092a36e86581061c7636cc805979ca71f7",
+                "shasum": "8b768e6dd5dd3db066b956b13303ba2f12c553c9"
+            },
+            "require": {
+                "euf/isced": "*"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Provides a field type to store ISCED-F 2013 fields of study.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/isced_field",
+            "keywords": [
+                "Drupal",
+                "Erasmus Without Paper",
+                "Field type",
+                "ISCED"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/isced_field/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/isced_field"
+            },
+            "time": "2025-07-01T08:57:34+00:00"
         },
         {
             "name": "euf/myacademicid_user_fields",
@@ -10563,6 +10642,7 @@
         "euf/ewp_flexible_address": 10,
         "euf/ewp_institutions": 5,
         "euf/ewp_phone_number": 10,
+        "euf/isced_field": 15,
         "euf/myacademicid_user_fields": 5,
         "euf/openid_connect_eufidp": 10
     },
