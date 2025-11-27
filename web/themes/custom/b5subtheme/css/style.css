@@ -15552,8 +15552,10 @@ tbody tr:nth-child(odd) td {
 #programme-navbar.sticky-top{
   position: sticky !important;
   top: var(--main-navbar-height) !important;
-  z-index: 1030;
+  
 }
+
+
 
 header {
   background-color: white !important; /* o el color que quieras */
@@ -15608,7 +15610,7 @@ html { --admin-offset: var(--drupal-displace-offset-top, 0px); }
 #programme-navbar.programme-nav {
   position: sticky !important;
   top: calc(var(--admin-offset) + var(--inst-menu-height)) !important;
-  z-index: 1040;
+  /* z-index: 1040;*/
   background: #fff;
 }
 
@@ -15640,7 +15642,7 @@ main, .region-content, .layout-container {
   border: none;
   left: 0;
   right: 0;
-  z-index: 1030;
+  z-index: 30;
   top: calc(var(--admin-offset) + var(--inst-menu-height)) !important;
 }
 
@@ -15674,4 +15676,10 @@ main, .region-content, .layout-container {
 
 #ou-details img{
   height: 400px !important;
+}
+
+
+
+header {
+  z-index: 100 !important;
 }
