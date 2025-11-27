@@ -771,7 +771,6 @@ function b5subtheme_preprocess_views_view(&$variables)
           'field_sport_and_leisure_faciliti',
           'field_rs_special_facilities',
           'field_practical_information_for',
-          'field_internation_mobility_possi',
           'field_rs_cost_of_living',
           'field_rs_transportation',
           'field_rs_meals',

@@ -17,7 +17,7 @@
 	{% set rs = rs %}
 {% endif %}
 
-
+{{dump(rs)}}
 {#{dump(view.result[0])}#}
 
 
@@ -381,7 +381,7 @@
 </div></div></div><div class="" id="students-mobility"><div class="image-banner">
 
 
-<img src="/themes/custom/b5subtheme/images/Mobility.jpg" alt="Student's Mobility" class="img-fluid">
+<img src="/themes/custom/b5subtheme/images/dacem-005.jpg" alt="Student's Mobility" class="img-fluid">
 
 <div class="section-container">
 	<div class="my-custom-container-2">
@@ -392,7 +392,7 @@
 	<div class="row">
 		{% if rs_mode == 'campus' %}
 			{% if rs_fallback_data.field_practical_information_for.rendered %}
-				<div class="col-md-6 mb-4">
+				<div class="col-12 mb-4">
 					<h1 class="section-title">Practical Information For Incoming Mobile Students</h1>
 					<div class="facility-text">
 						{{ rs_fallback_data.field_practical_information_for.rendered|raw }}
@@ -404,22 +404,9 @@
 					</div>
 				</div>
 			{% endif %}
-			{% if rs_fallback_data.field_internation_mobility_possi.rendered %}
-				<div class="col-md-6 mb-4">
-					<h1 class="section-title">International Mobility Possibilities</h1>
-					<div class="facility-text">
-						{{ rs_fallback_data.field_internation_mobility_possi.rendered|raw }}
-						{% if rs_fallback_data.field_internation_mobility_possi.source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
-						{% else %}
-							<small class="text-muted"></small>
-						{% endif %}
-					</div>
-				</div>
-			{% endif %}
 		{% else %}
 			{% if rs.field_practical_information_for.value is not empty %}
-				<div class="col-md-6 mb-4">
+				<div class="col-12 mb-4">
 					<h1 class="section-title">Practical Information For Incoming Mobile Students</h1>
 					<div class="facility-text">
 						{{ rs.field_practical_information_for.value|raw }}
@@ -427,18 +414,11 @@
 				</div>
 			{% endif %}
 
-			{% if rs.field_internation_mobility_possi.value is not empty %}
-				<div class="col-md-6 mb-4">
-					<h1 class="section-title">International Mobility Possibilities</h1>
-					<div class="facility-text">
-						{{ rs.field_internation_mobility_possi.value|raw }}
-					</div>
-				</div>
-			{% endif %}
+			
 		{% endif %}
 	</div>
 </div></div></div><div class="" id="university-life"><div class="image-banner">
-<img src="/themes/custom/b5subtheme/images/university_life2.jpeg" alt="University Life" class="img-fluid">
+<img src="/themes/custom/b5subtheme/images/dacem-003.jpg" alt="University Life" class="img-fluid">
 <div class="section-container">
 	<div class="my-custom-container-2">
 		<div class="rs-section-image-text">University Life</div>
@@ -522,7 +502,7 @@
 		{% endif %}
 	</div>
 </div></div></div><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><div class="" id="extra-academic-activities"> <div class="image-banner">
-<img src="/themes/custom/b5subtheme/images/basket.jpeg" alt="Extra-academic Activities" class="img-fluid">
+<img src="/themes/custom/b5subtheme/images/dacem-004.jpg" alt="Extra-academic Activities" class="img-fluid">
 <div class="section-container">
 	<div class="my-custom-container-2">
 		<div class="rs-section-image-text">Extra-academic Activities</div>
