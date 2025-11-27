@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\Core\Language\LanguageInterface;
+
 /**
  * @file
  * DACEM Footer module.
@@ -10,14 +12,18 @@
  * Implements hook_theme().
  */
 function dacem_footer_theme($existing, $type, $theme, $path) {
-    return [
-      'dacem_footer_block' => [
-        'variables' => [
-          'institution' => NULL,
-          'primary_color' => NULL,
-        ],
-        'template' => 'dacem-footer-block',
+  return [
+    'dacem_footer_block' => [
+      'variables' => [
+        'institution'   => NULL,
+        'primary_color' => NULL,
+        'last_updated'  => NULL,
+        'nodebundle'    => NULL,
       ],
-    ];
-  }
-  
+      'template' => 'dacem-footer-block',
+    ],
+  ];
+}
+
+
+

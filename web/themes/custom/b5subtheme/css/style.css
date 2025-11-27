@@ -15683,3 +15683,20 @@ main, .region-content, .layout-container {
 header {
   z-index: 100 !important;
 }
+
+
+
+/* Texto en cursiva ya está con <em>, pero puedes reforzarlo si quieres */
+.last-update {
+  font-style: italic;
+}
+
+.last-update .my-custom-container-2 {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 30px !important;
+  text-align: left !important;
+  width: 100% !important;
+}

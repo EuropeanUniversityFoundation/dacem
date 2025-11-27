@@ -116,6 +116,7 @@
 {% set credit_type = translated_iec.field_iec_type[0].value|trim %}
 {% set credit_value = translated_iec.field_iec_credits[0].value|number_format(2, '.', '') %}
 
+
 {% if course_id in credits|json_encode(constant('JSON_PRETTY_PRINT')) and credit_type|capitalize in credits[course_id]|json_encode(constant('JSON_PRETTY_PRINT')) %}
 	{% set credits = credits|merge({ (course_id): credits[course_id]|merge({ (credit_type)|capitalize: credits[course_id][credit_type|capitalize] + credit_value }) }) %}
 	{% else %}
@@ -749,7 +750,10 @@
 		</div>
 	</div>
 
-</div></div></div></div><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</div></div></div></div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
 
 
 

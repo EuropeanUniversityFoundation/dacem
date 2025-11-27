@@ -8,7 +8,24 @@
 	{% set university_primary_color = '#ff4949' %}
 {% endif %}
 
+{#{dump(last_updated)}}
+{{dump(nodebundle)}#}
 
+<div class="last-update bg-black text-white p-3">
+  <div class="section-container pt-0 pb-0">
+    <div class="my-custom-container-2">
+
+      <span class="rs-source">
+        Source: <span class="rs-source-site" style="color: {{university_primary_color}};">Example.com</span>
+      </span>
+
+      <span class="rs-last-update">
+        <em>Last update: {{ last_updated }}</em>
+      </span>
+
+    </div>
+  </div>
+</div>
 
 <div class="dacem-footer-feedback py-5 text-white" style="background-color: {{university_primary_color}};">
 	<div class="container">

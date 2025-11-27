@@ -304,20 +304,22 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
   if ($variables['view']->id() === 'programme_information') {
+    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
 
     foreach ($variables['view']->result as &$row) {
+      
 
       // Accedemos a la relacion
       if (!empty($row->_relationship_entities['reverse__node__field_iec_programme'])) {
 
         $iec = $row->_relationship_entities['reverse__node__field_iec_programme'];
-
+        
         if ($iec instanceof Node) {
 
 
 
-          $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-
+          
           if ($iec->hasTranslation($current_language)) {
 
             // Si la asignatura tiene traducción al idioma actual.
@@ -364,6 +366,7 @@ function b5subtheme_preprocess_views_view(&$variables)
         }
       }
     }
+      
   }
 
 
@@ -599,6 +602,10 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
       
+      $changed = $node->getChangedTime();
+
+      $variables['last_updated'] = \Drupal::service('date.formatter')
+      ->format($changed, 'custom', 'd/m/Y');
 
 
 

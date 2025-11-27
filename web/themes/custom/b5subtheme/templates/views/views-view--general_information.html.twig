@@ -17,6 +17,8 @@
 
 {% endif %}
 
+{{dump(last_updated)}}
+
 
 <style>:root
 {
@@ -710,7 +712,36 @@
 			</div>
 		</div>
 	</div>
-</div>{% endif %}</div><script>/* ==========================================================
+</div>{% endif %}</div>
+
+
+
+<!-->
+<div class="last-update bg-black text-white p-3">
+  <div class="section-container pt-0 pb-0">
+    <div class="my-custom-container-2">
+
+      <span class="rs-source">
+        Source: <span class="rs-source-site">Example.com</span>
+      </span>
+
+      <span class="rs-last-update">
+        <em>Last update: {{ last_updated }}</em>
+      </span>
+
+    </div>
+  </div>
+</div>
+-->
+
+
+
+
+
+
+
+
+<script>/* ==========================================================
    (keep) DETAILS PANE: highlight selected item and show data
    ========================================================== */
 function loadOUDetails(el) {
