@@ -15705,3 +15705,11 @@ header {
 .ui-autocomplete.ui-front {
   z-index: 2000 !important;
 }
+
+
+
+#iecsTabs .nav-item .nav-link.active{ 
+ border-color: var(--university_primary_color);  
+ color: var(--university_primary_color);
+  border-bottom: none;
+}
