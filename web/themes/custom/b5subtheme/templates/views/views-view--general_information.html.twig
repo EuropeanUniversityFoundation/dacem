@@ -17,7 +17,9 @@
 
 {% endif %}
 
-{{dump(last_updated)}}
+{% set aa_results = drupal_view_result('academic_authority', 'block_1') %}
+
+
 
 
 <style>:root
@@ -45,6 +47,8 @@
 			{{ 'Student affairs'|t }}
 		</button> 
 	-->
+
+	
 
 
 		<ul class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
@@ -80,10 +84,30 @@
 					{{ section.label }}
 				</a>
 				</li>
+				
       		{% endfor %}
 
+			{% if campuses is not empty %}
+				<li class="nav-item">
+					<a class="nav-link nav-link-rs-menu fw-bold"
+						href="#campuses">
+						{{ 'Campuses'|t }}
+					</a>
+				</li>
+			{% endif %}
+
+			{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}
+			<li class="nav-item">
+				<a class="nav-link nav-link-rs-menu fw-bold"
+					href="#organizational-units">
+					{{ 'Org. Units'|t }}
+				</a>
+			</li>
+		{% endif %}
 
 
+
+		
 
 
 
@@ -124,13 +148,50 @@
 
 
 		{% for section in menu_sections %}
-        <li class="nav-item">
-          <a class="nav-link nav-link-rs-menu fw-bold "
-             href="#{{ section.id }}">
-            {{ section.label }}
-          </a>
-        </li>
-      {% endfor %}
+			<li class="nav-item">
+			<a class="nav-link nav-link-rs-menu fw-bold "
+				href="#{{ section.id }}">
+				{{ section.label }}
+			</a>
+			</li>
+
+			{% if section.id == 'description' %}	
+				{% if aa_results|length > 0 %}
+						<li class="nav-item">
+							<a class="nav-link nav-link-rs-menu fw-bold"
+								href="#academic-authorities">
+								{{ 'Authorities'|t }}
+							</a>
+						</li>
+
+					{% endif %}
+			{% endif %}
+
+
+
+      	{% endfor %}
+
+	  	{% if campuses is not empty %}
+			<li class="nav-item">
+				<a class="nav-link nav-link-rs-menu fw-bold"
+					href="#campuses">
+					{{ 'Campuses'|t }}
+				</a>
+			</li>
+		{% endif %}
+
+		{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}
+			<li class="nav-item">
+				<a class="nav-link nav-link-rs-menu fw-bold"
+					href="#organizational-units">
+					{{ 'Org. Units'|t }}
+				</a>
+			</li>
+		{% endif %}
+
+
+
+		
 
 
 
@@ -266,7 +327,17 @@
 </div>
 
 
-{{drupal_block('views_block:academic_authority-block_1')}}
+
+{% if aa_results|length > 0 %}
+  {# Aquí sí tiene sentido renderizar el bloque #}
+  {{ drupal_block('views_block:academic_authority-block_1') }}
+{% endif %}
+
+
+
+
+
+
 
 <div class="section-container">
 	<div class='my-custom-container-2'>
@@ -716,7 +787,7 @@
 
 
 
-<!-->
+<!--
 <div class="last-update bg-black text-white p-3">
   <div class="section-container pt-0 pb-0">
     <div class="my-custom-container-2">

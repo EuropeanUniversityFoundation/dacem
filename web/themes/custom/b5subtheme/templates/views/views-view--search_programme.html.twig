@@ -1,22 +1,22 @@
 {{ attach_library('b5subtheme/search-programme-sort') }}
 
 
-<div class="negative-margin-search-page">
+<div
+	class="negative-margin-search-page">
 
-{# 👉 MANTÉN el wrapper de Views: AJAX necesita este div con data-view-dom-id #}
- <div class="view view-id-{{ view.id }} view-display-id-{{ view.current_display }}
-              js-view-dom-id-{{ view.dom_id }} view-dom-id-{{ view.dom_id }}"
-       data-view-dom-id="{{ view.dom_id }}">
+	{# 👉 MANTÉN el wrapper de Views: AJAX necesita este div con data-view-dom-id #}
+	<div class="view view-id-{{ view.id }} view-display-id-{{ view.current_display }}
+		              js-view-dom-id-{{ view.dom_id }} view-dom-id-{{ view.dom_id }}" data-view-dom-id="{{ view.dom_id }}">
 
-    <div{{ attributes.addClass('catalogue-view') }}>
+		<div{{attributes.addClass('catalogue-view')}}>
 
-  <!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-  <!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-  <!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-  <!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-  <!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
+			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
+			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
+			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
+			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
+			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
 
-  {% set programme_area = {
+			{% set programme_area = {
     'es': {
       'arts_and_humanities': 'Artes y Humanidades',
       'sciences': 'Ciencias',
@@ -82,228 +82,277 @@
     }
   } %}
 
-  {% set programme_area_labels = programme_area[current_language] ?? programme_area['en'] %}
+			{% set programme_area_labels = programme_area[current_language] ?? programme_area['en'] %}
 
-  <!----><!----><!----><!---->
-  <!----><!----><!----><!---->
-  <!----><!----><!----><!---->
-  <!----><!----><!----><!---->
-  <!----><!----><!----><!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+			<!---->
+				<!----> <div class="catalogue-hero"style="height:300px;"> <div class="section-container">
+					<div class="my-custom-container-2">
 
- <div class="catalogue-hero" style="height:300px;">
-  <div class="section-container">
-    <div class="my-custom-container-2">
-
-      <div class="row">
-        <div class="col-auto">
-          <h1 class="section-title" style="color:white">Catalogue</h1>
-        </div>
-        <div class="col-auto">
-          <button class="btn btn-primary bg-black border-0 disabled">Select Home Programme</button>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control bg-light border-0" placeholder="DISABLED" id="programme-search">
-            <button class="btn btn-outline-secondary pe-4 ps-4 bg-black disabled" type="button" id="search-btn">
-              <i class="fas fa-search" style="color: white;"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {% if exposed %}
-        <div class="catg__filters">
-          {{ exposed }}
-        </div>
-      {% endif %}
-    </div>
-  </div>
-</div>
+						<div class="row">
+							<div class="col-auto">
+								<h1 class="section-title" style="color:white">Catalogue</h1>
+							</div>
+							<div class="col-auto">
+								<button class="btn btn-primary bg-black border-0" data-bs-toggle="modal" data-bs-target="#homeProgrammeModal">
+									Select Home Programme
+								</button>
+							</div>
+						</div>
 
 
+						<div class="row">
+							<div class="col-12">
+								<div class="input-group mb-3">
+									<input type="text" class="form-control bg-light border-0" placeholder="DISABLED" id="programme-search">
+									<button class="btn btn-outline-secondary pe-4 ps-4 bg-black disabled" type="button" id="search-btn">
+										<i class="fas fa-search" style="color: white;"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+
+						{% if exposed %}
+							<div class="catg__filters">
+								{{ exposed }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
 
 
+			<div class="section-container bg-light">
+				<div class="my-custom-container-2">
+					<div class="row">
+						<div class="col-lg-2">
+							<h3 class="subsection-title p-0 pb-2 m-0">
+								<i class="fas fa-sort-amount-down me-2"></i>
+								SORT
+							</h3>
+
+							<div class="group-search-sort-buttons w-100">
+								<button class="btn btn-dark btn-sm btn-whithout-border-radius js-sort disabled" data-sort-by="title" data-sort-order="ASC">A - Z</button>
+
+								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_programme_area" data-sort-order="ASC">Knowledge Area</button>
+
+								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_programme_level" data-sort-order="ASC">Level</button>
+
+								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sor disabled" data-sort-by="field_institution_country" data-sort-order="ASC">Country</button>
+							</div>
 
 
-  <div class="section-container bg-light">
-    <div class="my-custom-container-2">
-      <div class="row">
-        <div class="col-lg-2">
-          <h3 class="subsection-title p-0 pb-2 m-0">
-            <i class="fas fa-sort-amount-down me-2"></i>
-            SORT
-          </h3>
+						</div>
 
-            <div class="group-search-sort-buttons w-100">
-            <button class="btn btn-dark btn-sm btn-whithout-border-radius js-sort disabled"
-                    data-sort-by="title" data-sort-order="ASC">A - Z</button>
+						<div
+							class="col-lg-10 ps-5" id="programme-list">
+							{# Puedes seguir con tu loop propio: AJAX reemplaza todo el wrapper #}
+							{% if view.result is not empty %}
+								{% for row in view.result %}
 
-            <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled"
-                    data-sort-by="field_programme_area" data-sort-order="ASC">Knowledge Area</button>
+									{% set programme = row._entity %}
+									{% set institution = programme.field_programme_institution.entity ?? null %}
+									{% set university_primary_color = institution.field_primary_color[0].color %}
 
-            <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled"
-                    data-sort-by="field_programme_level" data-sort-order="ASC">Level</button>
+									{% set logo_uri = null %}
+									{% if institution and institution.field_logo.entity is defined %}
+										{% set logo_uri = institution.field_logo.entity.fileuri %}
+									{% endif %}
+									<div class="programme-item">
+										<a href="{{ row.programme_url }}" class="text-decoration-none text-reset" target="_blank">
+											<div class="card shadow-none mb-3 border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
+												<div
+													class="row g-0">
+													<!-- Imagen (logo institución) -->
+													<div class="col-3" style="height: 123.65px;">
+														{% if logo_uri %}
+															<img src="{{ file_url(logo_uri) }}" alt="{{ institution ? institution.label : '' }}" class="img-fluid rounded-0 h-100 object-fit-contain p-2">
+														{% else %}
+															<div class="bg-light d-flex align-items-center justify-content-center h-100">
+																<span class="text-muted small">No logo</span>
+															</div>
+														{% endif %}
+													</div>
 
-            <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sor disabled"
-                    data-sort-by="field_institution_country" data-sort-order="ASC">Country</button>
-            </div>
+													<!-- Texto -->
+													<div class="col-9">
+														<div
+															class="card-body p-2">
+															<!-- Título del programa -->
+															<h5 class="card-title mb-1 text-start">{{ programme.label }}</h5>
 
-
-        </div>
-
-        <div class="col-lg-10 ps-5" id="programme-list">
-          {# Puedes seguir con tu loop propio: AJAX reemplaza todo el wrapper #}
-          {% if view.result is not empty %}
-            {% for row in view.result %}
-            
-              {% set programme = row._entity %}
-              {% set institution = programme.field_programme_institution.entity ?? null %}
-              {% set university_primary_color = institution.field_primary_color[0].color %}
-
-              {% set logo_uri = null %}
-              {% if institution and institution.field_logo.entity is defined %}
-                {% set logo_uri = institution.field_logo.entity.fileuri %}
-              {% endif %}
-              <div class="programme-item">
-              <a href="{{ row.programme_url }}" class="text-decoration-none text-reset" target="_blank">
-                <div class="card shadow-none mb-3 border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
-                  <div class="row g-0">
-                    <!-- Imagen (logo institución) -->
-                    <div class="col-3" style="height: 123.65px;">
-                      {% if logo_uri %}
-                        <img src="{{ file_url(logo_uri) }}" alt="{{ institution ? institution.label : '' }}" class="img-fluid rounded-0 h-100 object-fit-contain p-2">
-                      {% else %}
-                        <div class="bg-light d-flex align-items-center justify-content-center h-100">
-                          <span class="text-muted small">No logo</span>
-                        </div>
-                      {% endif %}
-                    </div>
-
-                    <!-- Texto -->
-                    <div class="col-9">
-                      <div class="card-body p-2">
-                        <!-- Título del programa -->
-                        <h5 class="card-title mb-1 text-start">{{ programme.label }}</h5>
-
-                        <!-- Línea intermedia: nivel, créditos y área -->
-                        <div class="programme-meta d-flex align-items-center mb-2">
-                          {% if programme.field_programme_level.value %}
-                            {% set level_code = {
+															<!-- Línea intermedia: nivel, créditos y área -->
+															<div class="programme-meta d-flex align-items-center mb-2">
+																{% if programme.field_programme_level.value %}
+																	{% set level_code = {
                               'bachelor': 'B',
                               'master': 'M',
                               'phd': 'PhD'
                             }[programme.field_programme_level.value]|default(programme.field_programme_level.value) %}
-                            <strong>{{ level_code }}</strong>
-                          {% endif %}
+																	<strong>{{ level_code }}</strong>
+																{% endif %}
 
-                          {% if programme.field_credits.value %}
-                            <span class="mx-2">·</span>
-                            <span class="fst-italic">{{ programme.field_credits.value }} ECTS</span>
-                          {% endif %}
+																{% if programme.field_credits.value %}
+																	<span class="mx-2">·</span>
+																	<span class="fst-italic">{{ programme.field_credits.value }}
+																		ECTS</span>
+																{% endif %}
 
-                          {% if programme.field_programme_area.value %}
-                            <span class="mx-2">·</span>
-                            <span>{{ programme_area_labels[programme.field_programme_area.value] }}</span>
-                          {% endif %}
-                        </div>
+																{% if programme.field_programme_area.value %}
+																	<span class="mx-2">·</span>
+																	<span>{{ programme_area_labels[programme.field_programme_area.value] }}</span>
+																{% endif %}
+															</div>
 
-                        <!-- Línea inferior: institución y país -->
-                        <div class="ou-tag-bar">
-                         
-                          {% set university_primary_color = institution.field_primary_color[0].color %}
-                          {% set university_text_color = institution.field_text_color[0].color %}
-                          {% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
-                          {% if institution.title.value is defined %}
-                            <!--<span class="ou-tag px-3 py-1" style="background-color: #F44743; color: #fff; border-radius: 0;">-->
-                              <span class="ou-tag px-3 py-1" style="background-color: {{university_primary_color}}; color: #fff; border-radius: 0;">
-                              {{ institution.title.value }}
-                            </span>
-                          {% endif %}
+															<!-- Línea inferior: institución y país -->
+															<div class="ou-tag-bar">
 
-                          {% if institution.field_institution_country.value %}
-                            <span class="ou-tag px-3 py-1" style="background-color: black; color: white; border: 2px solid black; border-radius: 0;">
-                              {{ country_list[institution.field_institution_country.value]|default(institution.field_institution_country.value) }}
-                            </span>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              </div>
-            {% endfor %}
-          {% else %}
-            <p class="empty">{{ empty }}</p>
-          {% endif %}
+																{% set university_primary_color = institution.field_primary_color[0].color %}
+																{% set university_text_color = institution.field_text_color[0].color %}
+																{% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
+																{% if institution.title.value is defined %}
+																	<!--<span class="ou-tag px-3 py-1" style="background-color: #F44743; color: #fff; border-radius: 0;">-->
+																	<span class="ou-tag px-3 py-1" style="background-color: {{university_primary_color}}; color: #fff; border-radius: 0;">
+																		{{ institution.title.value }}
+																	</span>
+																{% endif %}
 
-          {# Pager dentro del wrapper para que AJAX lo actualice #}
-          {{ pager }}
-        </div>
+																{% if institution.field_institution_country.value %}
+																	<span class="ou-tag px-3 py-1" style="background-color: black; color: white; border: 2px solid black; border-radius: 0;">
+																		{{ country_list[institution.field_institution_country.value]|default(institution.field_institution_country.value) }}
+																	</span>
+																{% endif %}
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</a>
+									</div>
+								{% endfor %}
+							{% else %}
+								<p class="empty">{{ empty }}</p>
+							{% endif %}
+
+							{# Pager dentro del wrapper para que AJAX lo actualice #}
+							{{ pager }}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{# (opcional) attachments/feeds si los usas #}
+			{{ attachment_after }}
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="homeProgrammeModal" tabindex="-1" aria-labelledby="homeProgrammeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="homeProgrammeModalLabel">Select Home Programme</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
+
+      <div class="modal-body">
+        {{ drupal_form('Drupal\\programme_suggestions\\Form\\HomeProgrammeForm') }}
+      </div>
+
     </div>
   </div>
-
-  {# (opcional) attachments/feeds si los usas #}
-  {{ attachment_after }}
-</div>
 </div>
 
 
 
-<script>
-(function () {
-  const norm = s => (s||'').toString().trim();
+	<script>
+		(function () {
+const norm = s => (s || '').toString().trim();
 
-  const searchInput = document.getElementById('programme-search');
-  const searchBtn   = document.getElementById('search-btn');
-  if (!searchInput) return;
+const searchInput = document.getElementById('programme-search');
+const searchBtn = document.getElementById('search-btn');
+if (! searchInput) 
+return;
 
-  const wrapper = document.querySelector('[data-view-dom-id]');
-  if (!wrapper) return;
-  const form = wrapper.querySelector('form[id^="views-exposed-form-"]');
-  if (!form) return;
 
-  function resetPageParam() {
-    let pageField = form.querySelector('input[name="page"]');
-    if (!pageField) {
-      pageField = document.createElement('input');
-      pageField.type = 'hidden';
-      pageField.name = 'page';
-      form.appendChild(pageField);
-    }
-    pageField.value = 0;
-  }
+const wrapper = document.querySelector('[data-view-dom-id]');
+if (! wrapper) 
+return;
 
-  function submitSearch() {
-    const val = norm(searchInput.value);
+const form = wrapper.querySelector('form[id^="views-exposed-form-"]');
+if (! form) 
+return;
 
-    // 1) Pon el valor en TODOS los combine existentes
-    form.querySelectorAll('input[name="combine"]').forEach(el => { el.value = val; });
 
-    // 2) Inyecta un hidden al FINAL del form (último gana en la querystring)
-    let injected = form.querySelector('input[name="combine"][data-injected="1"]');
-    if (!injected) {
-      injected = document.createElement('input');
-      injected.type = 'hidden';
-      injected.name = 'combine';
-      injected.setAttribute('data-injected', '1');
-      form.appendChild(injected); // al final
-    }
-    injected.value = val;
+function resetPageParam() {
+let pageField = form.querySelector('input[name="page"]');
+if (! pageField) {
+pageField = document.createElement('input');
+pageField.type = 'hidden';
+pageField.name = 'page';
+form.appendChild(pageField);
+}
+pageField.value = 0;
+}
 
-    resetPageParam();
-    form.submit();
-  }
+function submitSearch() {
+const val = norm(searchInput.value);
 
-  // Mantén sincronizado si ya había valor del exposed al cargar
-  const firstCombine = wrapper.querySelector('input[name="combine"]');
-  if (firstCombine && !searchInput.value) searchInput.value = firstCombine.value || '';
+// 1) Pon el valor en TODOS los combine existentes
+form.querySelectorAll('input[name="combine"]').forEach(el => {
+el.value = val;
+});
 
-  searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitSearch(); }});
-  if (searchBtn) searchBtn.addEventListener('click', (e) => { e.preventDefault(); submitSearch(); });
+// 2) Inyecta un hidden al FINAL del form (último gana en la querystring)
+let injected = form.querySelector('input[name="combine"][data-injected="1"]');
+if (! injected) {
+injected = document.createElement('input');
+injected.type = 'hidden';
+injected.name = 'combine';
+injected.setAttribute('data-injected', '1');
+form.appendChild(injected); // al final
+}injected.value = val;
+
+resetPageParam();
+form.submit();
+}
+
+// Mantén sincronizado si ya había valor del exposed al cargar
+const firstCombine = wrapper.querySelector('input[name="combine"]');
+if (firstCombine && ! searchInput.value) 
+searchInput.value = firstCombine.value || '';
+
+
+searchInput.addEventListener('keydown', (e) => {
+if (e.key === 'Enter') {
+e.preventDefault();
+submitSearch();
+}
+});
+if (searchBtn) 
+searchBtn.addEventListener('click', (e) => {
+e.preventDefault();
+submitSearch();
+});
+
 })();
-</script>
+	</script>
+
