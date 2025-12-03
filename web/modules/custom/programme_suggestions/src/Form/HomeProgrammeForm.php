@@ -24,10 +24,10 @@ class HomeProgrammeForm extends FormBase {
       '#type' => 'entity_autocomplete',
       '#title' => $this->t('Home programme'),
       '#target_type' => 'node',
-      // Handler custom que creamos (para Institution--OU--Programme).
       '#selection_handler' => 'programme_suggestions_programme_selection',
       '#required' => TRUE,
       '#description' => $this->t('Start typing the programme you are studying.'),
+       '#maxlength' => 255, 
     ];
 
     $form['actions']['submit'] = [
@@ -49,14 +49,23 @@ class HomeProgrammeForm extends FormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $value = $form_state->getValue('home_programme');
 
-    // Si viene vacío o null → error.
-    if (!$value) {
+    // 1) Vacío → error.
+    if ($value === NULL || $value === '' || $value === 0 || $value === '0') {
       $form_state->setErrorByName('home_programme', $this->t('Please select a programme from the list.'));
       return;
     }
 
+    // 2) No numérico → seguramente texto escrito a mano.
+    if (!is_numeric($value)) {
+      $form_state->setErrorByName('home_programme', $this->t('The selected programme is not valid.'));
+      return;
+    }
+
+    // 3) Debe ser un nodo programme.
+    $nid = (int) $value;
     /** @var \Drupal\node\Entity\Node|null $node */
-    $node = Node::load($value);
+    $node = Node::load($nid);
+
     if (!$node || $node->bundle() !== 'programme') {
       $form_state->setErrorByName('home_programme', $this->t('The selected programme is not valid.'));
     }
@@ -66,14 +75,12 @@ class HomeProgrammeForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $nid = $form_state->getValue('home_programme');
+    $nid = (int) $form_state->getValue('home_programme');
 
-    // Aquí decides qué hacer con el ID:
-    // - Guardarlo en la cuenta de usuario
-    // - Guardarlo en sesión
-    // - Usarlo para redirigir, etc.
-    // De momento solo mostramos un mensaje.
-    $this->messenger()->addStatus($this->t('Selected home programme ID: @nid', ['@nid' => $nid]));
+    // De momento solo mostramos un mensaje y no redirigimos.
+    $this->messenger()->addStatus(
+      $this->t('Selected home programme ID: @nid', ['@nid' => $nid])
+    );
   }
 
 }

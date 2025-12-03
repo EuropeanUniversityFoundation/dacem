@@ -64,6 +64,11 @@ class ProgrammeSelection extends DefaultSelection {
         // Texto final: Institution--OU--Programme
         $custom_label = $institution . '--' . $ou . '--' . $programme;
 
+        // Limpieza final del label para evitar comillas y espacios
+        $custom_label = trim($custom_label);                     // quita espacios iniciales/finales
+        $custom_label = trim($custom_label, "\"' ");             // quita comillas " y '
+        $custom_label = preg_replace('/\s+/', ' ', $custom_label); // colapsa espacios dobles
+
         $result[$bundle][$id] = $custom_label;
       }
     }
