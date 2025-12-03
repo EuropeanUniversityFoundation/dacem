@@ -90,3 +90,96 @@
     };
   }
 })(Drupal);
+
+
+
+
+(function ($, Drupal, once) {
+
+  Drupal.behaviors.programmeLiveSearch = {
+    attach: function (context) {
+
+      // Wrapper de la vista
+      const $wrapper = $(context).find('[data-view-dom-id]');
+      if (!$wrapper.length) {
+        return;
+      }
+
+      // Formulario expuesto de la vista
+      const $viewForm = $wrapper.find('form[id^="views-exposed-form"]');
+      if (!$viewForm.length) {
+        return;
+      }
+
+      // Tu input manual
+      const $input = $('#programme-search');
+      if (!$input.length) {
+        return;
+      }
+
+      let timer;
+      const delay = 300;
+
+      function ensureCombine() {
+        let $combine = $viewForm.find('input[name="combine"]');
+        if (!$combine.length) {
+          $combine = $('<input>', {
+            type: 'hidden',
+            name: 'combine'
+          }).appendTo($viewForm);
+        }
+        return $combine;
+      }
+
+      function resetPage() {
+        let $page = $viewForm.find('input[name="page"]');
+        if (!$page.length) {
+          $page = $('<input>', {
+            type: 'hidden',
+            name: 'page'
+          }).appendTo($viewForm);
+        }
+        $page.val(0);
+      }
+
+      function searchNow() {
+        const value = $input.val().trim();
+        const $combine = ensureCombine();
+        $combine.val(value);
+
+        resetPage();
+
+        // Disparar el botón Apply (AJAX de Views)
+        const $submit = $viewForm.find('input[type="submit"], button[type="submit"]').first();
+        if ($submit.length) {
+          $submit.trigger('click');
+        } else {
+          $viewForm.trigger('submit');
+        }
+      }
+
+      // 🔁 Sincronizar el valor del combine al input tras cada recarga AJAX
+      const $combineExisting = $viewForm.find('input[name="combine"]');
+      if ($combineExisting.length && !$input.val()) {
+        $input.val($combineExisting.val());
+      }
+
+      // 🧲 Volver a enfocar el input y poner el cursor al final
+      if ($input.length) {
+        const val = $input.val();
+        const el = $input[0];
+        el.focus();
+        if (typeof el.setSelectionRange === 'function') {
+          el.setSelectionRange(val.length, val.length);
+        }
+      }
+
+      // 🧠 Listener de escritura (con once para no duplicar)
+      $(once('programmeLiveSearch', $input)).on('input', function () {
+        clearTimeout(timer);
+        timer = setTimeout(searchNow, delay);
+      });
+    }
+  };
+
+})(jQuery, Drupal, once);
