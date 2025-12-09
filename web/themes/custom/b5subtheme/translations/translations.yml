@@ -2,6 +2,7 @@ en:
 
 
   Name: 'Name'
+  Contacts: 'Contacts'
 
   #University View Search and Filters
   PROGRAMMES: 'PROGRAMMES'
@@ -102,9 +103,14 @@ en:
 
   Mobility: 'Mobility'
   Allow Mobility: 'Allow Mobility'
-
+  Academic Contacts: 'Academic Contacts'
+  Avaliable for Mobility Students: 'Avaliable for Mobility Students'
 
 es:
+
+
+ 
+  Contacts: 'Contactos'
 
 
   #Vista Universidad Filtros e Búsqueda
@@ -198,11 +204,15 @@ es:
 
   Mobility: 'Mobility'
   Allow Mobility: 'Allow Mobility'
+  Academic Contacts: 'Academic Contacts'
+  Avaliable for Mobility Students: 'Avaliable for Mobility Students'
 
 
 
 
 fr: # Francés
+
+  Contacts: 'Contacts'
 
   #Vue Université Filtres et Recherche
   PROGRAMMES: 'DIPLÔMES'
@@ -291,10 +301,14 @@ fr: # Francés
 
   Mobility: 'Mobility'
   Allow Mobility: 'Allow Mobility'
+  Academic Contacts: 'Academic Contacts'
+  Avaliable for Mobility Students: 'Avaliable for Mobility Students'
 
 
 
 pt-pt: # Portugués
+
+  Contacts: 'Contacts'
 
   #Pesquisa e Filtros da Universidade
   PROGRAMMES: 'GRAUS'
@@ -384,12 +398,16 @@ pt-pt: # Portugués
 
   Mobility: 'Mobility'
   Allow Mobility: 'Allow Mobility'
+  Academic Contacts: 'Academic Contacts'
+  Avaliable for Mobility Students: 'Avaliable for Mobility Students'
 
 
 
 
 
 el: # Griego
+
+  Contacts: 'Contacts'
 
   #Προβολή Πανεπιστημίου, Φίλτρα και Αναζήτηση
   PROGRAMMES: 'ΠΤΥΧΙΑ'
@@ -478,9 +496,13 @@ el: # Griego
 
   Mobility: 'Mobility'
   Allow Mobility: 'Allow Mobility'
+  Academic Contacts: 'Academic Contacts'
+  Avaliable for Mobility Students: 'Avaliable for Mobility Students'
 
 
 cs: # Checo
+
+  Contacts: 'Contacts'
 
   #Pohled na univerzitu, filtry a vyhledávání
   PROGRAMMES: 'STUPNĚ'
@@ -569,12 +591,16 @@ cs: # Checo
 
   Mobility: 'Mobility'
   Allow Mobility: 'Allow Mobility'
+  Academic Contacts: 'Academic Contacts'
+  Avaliable for Mobility Students: 'Avaliable for Mobility Students'
 
 
 
 
 
 sl: # Esloveno
+
+  Contacts: 'Contacts'
 
   #Pogled na univerzo, filtri in iskanje
   PROGRAMMES: 'STOPNJE'
@@ -664,9 +690,13 @@ sl: # Esloveno
 
   Mobility: 'Mobility'
   Allow Mobility: 'Allow Mobility'
+  Academic Contacts: 'Academic Contacts'
+  Avaliable for Mobility Students: 'Avaliable for Mobility Students'
 
 
 hu: # Húngaro
+
+  Contacts: 'Contacts'
 
   #Egyetemi nézet, szűrők és keresés
   PROGRAMMES: 'FOKOZATOK'
@@ -755,11 +785,15 @@ hu: # Húngaro
 
   Mobility: 'Mobility'
   Allow Mobility: 'Allow Mobility'
+  Academic Contacts: 'Academic Contacts'
+  Avaliable for Mobility Students: 'Avaliable for Mobility Students'
 
 
 
 
 et: # Estonio
+
+  Contacts: 'Contacts'
 
   #Ülikooli vaade, filtrid ja otsing
   PROGRAMMES: 'KRAADID'
@@ -848,9 +882,14 @@ et: # Estonio
 
   Mobility: 'Mobility'
   Allow Mobility: 'Allow Mobility'
+  Academic Contacts: 'Academic Contacts'
+  Avaliable for Mobility Students: 'Avaliable for Mobility Students'
+  
 
 
 gl: # Gallego
+
+  Contacts: 'Contacts'
 
   #Vista da universidade, filtros e busca
   PROGRAMMES: 'TITULACIÓNS'
@@ -932,5 +971,7 @@ gl: # Gallego
 
   Mobility: 'Mobility'
   Allow Mobility: 'Allow Mobility'
+  Academic Contacts: 'Academic Contacts'
+  Avaliable for Mobility Students: 'Avaliable for Mobility Students'
 
 

@@ -62,7 +62,7 @@
 			{% set list_academic_authorities = [] %}
 			{% if view.result[0]._relationship_entities['reverse__node__field_aa_organizational_unit'] %}
 				{#{dump(view.result)}}{{dump(campus.field_campus_description.value)}#}
-				<h4 class="mb-4 fw-bold">{{ translations[current_language]['Academic Authorities'] }}</h4>
+				<h4 class="mb-4 fw-bold">{{ translations[current_language]['Academic Contacts'] }}</h4>
 				<div class="vstack gap-3 mb-5">
 					{% for row in view.result %}
 						{% set authority = row._relationship_entities['reverse__node__field_aa_organizational_unit'] %}

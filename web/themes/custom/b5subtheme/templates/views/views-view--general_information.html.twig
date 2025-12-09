@@ -86,6 +86,19 @@
 				</li>
 				
       		{% endfor %}
+			
+			{% if section.id == 'description' %}	
+				{% if aa_results|length > 0 %}
+						<li class="nav-item">
+							<a class="nav-link nav-link-rs-menu fw-bold"
+								href="#academic-authorities">
+								{{ 'Contacts'|t }}
+							</a>
+						</li>
+
+					{% endif %}
+			{% endif %}
+
 
 			{% if campuses is not empty %}
 				<li class="nav-item">
@@ -160,7 +173,7 @@
 						<li class="nav-item">
 							<a class="nav-link nav-link-rs-menu fw-bold"
 								href="#academic-authorities">
-								{{ 'Authorities'|t }}
+								{{ 'Contacts'|t }}
 							</a>
 						</li>
 

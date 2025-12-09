@@ -44,7 +44,7 @@ class ProgrammeSelection extends DefaultSelection {
           continue;
         }
 
-        // ⚠️ AJUSTA ESTOS NOMBRES DE CAMPO A LOS TUYOS
+   
         // Campo referencia Institution en Programme.
         $institution = '';
         if (!$node->get('field_programme_institution')->isEmpty()) {
