@@ -435,6 +435,8 @@ display:
           operator: in
           value:
             en: en
+            und: und
+            zxx: zxx
           group: 1
           exposed: false
           expose:
@@ -643,7 +645,7 @@ display:
           group_type: group
           admin_label: 'field_ou_institution: Content'
           plugin_id: standard
-          required: true
+          required: false
       header: {  }
       footer: {  }
       display_extenders: {  }

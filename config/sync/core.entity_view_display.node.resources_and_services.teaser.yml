@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.resources_and_services.body
     - field.field.node.resources_and_services.field_cultural_event_city_calend
     - field.field.node.resources_and_services.field_financial_support_for_stud
-    - field.field.node.resources_and_services.field_internation_mobility_possi
     - field.field.node.resources_and_services.field_practical_information_for
     - field.field.node.resources_and_services.field_rs_campus
     - field.field.node.resources_and_services.field_rs_cost_of_living
@@ -50,7 +49,6 @@ content:
 hidden:
   field_cultural_event_city_calend: true
   field_financial_support_for_stud: true
-  field_internation_mobility_possi: true
   field_practical_information_for: true
   field_rs_campus: true
   field_rs_cost_of_living: true

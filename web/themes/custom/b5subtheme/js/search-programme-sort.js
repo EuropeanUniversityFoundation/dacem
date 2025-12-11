@@ -8,7 +8,7 @@
           wrapper.querySelector('form');
         if (!form) return;
 
-        // 🔒 Desactiva refocus/scroll en TODO el formulario expuesto:
+        // Desactiva refocus/scroll en el formulario expuesto:
         form.setAttribute('data-disable-refocus', 'true');
         form.querySelectorAll('input, select, textarea, button').forEach(el => {
           el.setAttribute('data-disable-refocus', 'true');
@@ -21,7 +21,7 @@
         // Lista blanca de opciones válidas según el <select> real:
         const allowed = Array.from(sortBy.options).map(o => o.value);
 
-        // 🔘 Botones
+        // Botones
         wrapper.querySelectorAll('.js-sort').forEach(function (btn) {
           btn.addEventListener('click', function (e) {
             e.preventDefault();
@@ -42,13 +42,13 @@
             sortBy.value = by;
             sortOrder.value = order;
 
-            // 🚀 Dispara autosubmit por "change" (sin clicks → no hay scroll/refocus)
+            // Dispara autosubmit por "change" (sin clicks → no hay scroll/refocus)
             sortBy.dispatchEvent(new Event('change', { bubbles: true }));
             sortOrder.dispatchEvent(new Event('change', { bubbles: true }));
           });
         });
 
-        // 🛡️ Extra: cuando cambie cualquier input del exposed, asegúrate del atributo.
+        
         form.addEventListener('change', function (ev) {
           const t = ev.target;
           if (t && t.setAttribute) {
@@ -85,7 +85,7 @@
         return original.call(this, ajax, response, status);
       } catch (e) {
         // Si falla, no hace scroll (pero no lanza error).
-        console.warn('⚠️ Views scroll skipped: wrapper not found (safe bypass)');
+        console.warn('Views scroll skipped: wrapper not found (safe bypass)');
       }
     };
   }
@@ -158,13 +158,13 @@
         }
       }
 
-      // 🔁 Sincronizar el valor del combine al input tras cada recarga AJAX
+      // Sincronizar el valor del combine al input tras cada recarga AJAX
       const $combineExisting = $viewForm.find('input[name="combine"]');
       if ($combineExisting.length && !$input.val()) {
         $input.val($combineExisting.val());
       }
 
-      // 🧲 Volver a enfocar el input y poner el cursor al final
+      // Volver a enfocar el input y poner el cursor al final
       if ($input.length) {
         const val = $input.val();
         const el = $input[0];
@@ -174,7 +174,7 @@
         }
       }
 
-      // 🧠 Listener de escritura (con once para no duplicar)
+      // Listener de escritura (con once para no duplicar)
       $(once('programmeLiveSearch', $input)).on('input', function () {
         clearTimeout(timer);
         timer = setTimeout(searchNow, delay);

@@ -1,24 +1,21 @@
-uuid: ecb1e5b0-a263-423f-b123-9c6b91a400c0
+uuid: 5862f28c-7ae8-4743-9d78-f0ef5438d65f
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_isced_f
-    - filter.format.basic_html
     - node.type.programme
   module:
-    - text
+    - isced_field
 id: node.programme.field_isced_f
 field_name: field_isced_f
 entity_type: node
 bundle: programme
 label: ISCED-F
-description: "You can chekc the different codes in this url:\r\nhttps://egracons.eu/sites/default/files/Isced%202013%20fields%20of%20education%20code%20list.pdf\r\n"
-required: false
+description: ''
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings:
-  allowed_formats:
-    - basic_html
-field_type: text
+settings: {  }
+field_type: isced_f

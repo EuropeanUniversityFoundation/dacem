@@ -672,7 +672,8 @@
 								</div>
                 <div class="degree-info-item mb-2">
                   <strong>{{ translations[current_language]['Avaliable for Mobility Students'] }}:</strong>
-                  {{ translated_entity.field_avaliable_for_mobility.value | capitalize}}
+						{{ translated_entity.field_avaliable_for_mobility.value ? 'Yes' : 'No' }}
+
                 </div>
 							</div>
 
@@ -778,3 +779,5 @@
 	
 	</script>
 	-->
+
+

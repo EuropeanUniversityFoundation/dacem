@@ -2,14 +2,12 @@
 
 {% set current_language = view.result[0].node_field_data_langcode %}
 
-{#{dump(view)}#}
+
 {% set rs = view.result[0]._entity %}
-{#{dump(rs)}#}
+
 
 {% set university = view.result[0]._relationship_entities.field_rs_institution %}
 
-{#{dump(view.result[0])}}
-{#{dump(rs_mode)}#}
 
 {% if rs.hasTranslation(current_language) %}
 	{% set rs = rs.getTranslation(current_language) %}
@@ -17,8 +15,6 @@
 	{% set rs = rs %}
 {% endif %}
 
-{{dump(rs)}}
-{#{dump(view.result[0])}#}
 
 
 {% set university_primary_color = university.field_primary_color[0].color %}
@@ -78,7 +74,6 @@
 		</ul>
 	</div>
 
-	<!-- Menú de pestañas visible en pantallas grandes -->
 	<!-- Menú de pestañas visible en pantallas grandes -->
 	<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 

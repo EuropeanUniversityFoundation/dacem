@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.programme_card_catalogue_view
     - field.field.node.programme.body
     - field.field.node.programme.field_academic_year
+    - field.field.node.programme.field_avaliable_for_mobility
     - field.field.node.programme.field_competencies
     - field.field.node.programme.field_coordinator
     - field.field.node.programme.field_credits
@@ -20,6 +21,7 @@ dependencies:
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_institution
     - field.field.node.programme.field_programme_level
+    - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_modality
     - field.field.node.programme.field_programme_ou
     - field.field.node.programme.field_programme_phone
@@ -42,6 +44,7 @@ content: {  }
 hidden:
   body: true
   field_academic_year: true
+  field_avaliable_for_mobility: true
   field_competencies: true
   field_coordinator: true
   field_credits: true
@@ -56,6 +59,7 @@ hidden:
   field_programme_description: true
   field_programme_institution: true
   field_programme_level: true
+  field_programme_mobility: true
   field_programme_modality: true
   field_programme_ou: true
   field_programme_phone: true

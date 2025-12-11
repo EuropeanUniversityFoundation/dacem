@@ -223,58 +223,6 @@ class InstitutionMenuBlock extends BlockBase
 
 
 
-        //dump($current_page);
-
-        /*
-        if (!is_numeric($institution_id)) {
-
-            $url_aux = null;
-
-            if(\Drupal::routeMatch()->getParameter('arg_2') != null){
-                $url_aux = '/'. $current_language . '/' . \Drupal::routeMatch()->getParameter('arg_0') . '/' . \Drupal::routeMatch()->getParameter('arg_1') . '/' .\Drupal::routeMatch()->getParameter('arg_2');
-
-            }else if(\Drupal::routeMatch()->getParameter('arg_1') != null){
-                ////dump('asñdkfjañslkdfjañsdklfj');
-                $url_aux = '/'. $current_language . '/' . \Drupal::routeMatch()->getParameter('arg_0') . '/' . \Drupal::routeMatch()->getParameter('arg_1');
-
-
-            }else if(\Drupal::routeMatch()->getParameter('arg_0') != null){
-                $url_aux = '/'. $current_language . '/' . \Drupal::routeMatch()->getParameter('arg_0');
-
-
-            }
-            ////dump('url_aux auuuux');
-            ////dump($url_aux);
-
-            ////dump($current_language);
-            // Obtiene la ruta interna asociada al alias
-            $path = \Drupal::service('path_alias.manager')->getPathByAlias('/' . $institution_id, $current_language);
-
-
-            // Verifica si la ruta interna es de tipo nodo (/node/{nid})
-            if (preg_match('/^\/node\/(\d+)$/', $path, $matches)) {
-                $institution_id = $matches[1]; // Obtiene el ID del nodo
-            } else {
-                // Si no es un alias válido, salimos
-                ////dump("No se encontró un nodo para el alias: " . $institution_id);
-                return [];
-            }
-
-            //$current_institution = \Drupal::routeMatch()->getParameter('node');
-            $current_institution = \Drupal\node\Entity\Node::load($institution_id);
-            //////dump($current_institution);
-        } else {
-            $current_institution = \Drupal\node\Entity\Node::load($institution_id);
-        }*/
-
-
-        //$current_institution = \Drupal::routeMatch()->getParameter('node');
-
-        //////dump($current_institution);
-        //////dump(\Drupal::routeMatch()->getRouteName());
-        //////dump(\Drupal::routeMatch()->getParameters()->all());
-
-
         if ($current_node_aux instanceof NodeInterface) {
 
             //////dump($current_institution);
@@ -346,18 +294,6 @@ class InstitutionMenuBlock extends BlockBase
                 }
             }
 
-
-            /*
-            if ($institution instanceof NodeInterface && $institution->hasField('field_primary_color') && !$institution->get('field_primary_color')->isEmpty()) {
-
-                $color_value = $institution->get('field_primary_color')->value;
-
-            } else {
-
-            }
-            */
-
-
             // Obtener el idioma actual
             $language_manager = \Drupal::service('language_manager');
             //$current_language = $language_manager->getCurrentLanguage()->getId();
@@ -395,13 +331,10 @@ class InstitutionMenuBlock extends BlockBase
                 $language_prefix = '/' . $language->getId();
 
                 // Asegurar que el alias no contenga el prefijo del idioma duplicado
-
                 $langcode = $language->getId();
-                //////dump($langcode);
-                $abbreviation = strtoupper($langcode); // Convertir el código del idioma a mayúsculas
 
-                //$url = Url::fromRoute('<current>', [], ['language' => $language]);
-                //$url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
+                $abbreviation = strtoupper($langcode); 
+
                 $url = '';
                 ////dump($current_page);
                 if ($current_node_aux->hasTranslation($language->getId())) {
@@ -458,6 +391,7 @@ class InstitutionMenuBlock extends BlockBase
             ], [
                 'language' => \Drupal::languageManager()->getLanguage($current_language),
             ])->toString();*/
+            
 
             $rs_url = $language_prefix . '/resources-and-services' . $institution_alias;
 
@@ -577,10 +511,6 @@ class InstitutionMenuBlock extends BlockBase
                     ]
                 ),
             ];
-
-
-
-
 
         }
 

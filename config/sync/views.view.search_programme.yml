@@ -547,7 +547,7 @@ display:
           admin_label: 'field_programme_institution: Content'
           plugin_id: standard
           required: false
-      use_ajax: false
+      use_ajax: true
       header: {  }
       footer: {  }
       display_extenders: {  }

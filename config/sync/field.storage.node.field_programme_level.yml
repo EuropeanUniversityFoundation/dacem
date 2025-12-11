@@ -17,6 +17,9 @@ settings:
     -
       value: master
       label: Master
+    -
+      value: phd
+      label: PhD
   allowed_values_function: ''
 module: options
 locked: false

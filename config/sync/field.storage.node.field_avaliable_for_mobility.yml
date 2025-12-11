@@ -1,18 +1,17 @@
-uuid: 4db36a16-cf23-48b5-8361-b2c38ffddb53
+uuid: fdb9834b-5961-4ef9-9edd-961985115a9c
 langcode: en
 status: true
 dependencies:
   module:
-    - isced_field
     - node
-id: node.field_isced_f
-field_name: field_isced_f
+id: node.field_avaliable_for_mobility
+field_name: field_avaliable_for_mobility
 entity_type: node
-type: isced_f
+type: boolean
 settings: {  }
-module: isced_field
+module: core
 locked: false
-cardinality: -1
+cardinality: 1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

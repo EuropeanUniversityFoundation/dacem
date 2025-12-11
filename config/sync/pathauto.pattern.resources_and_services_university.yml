@@ -7,12 +7,12 @@ dependencies:
 id: resources_and_services_university
 label: 'Resources and Services University'
 type: 'canonical_entities:node'
-pattern: 'rs/[node:field_rs_institution]'
+pattern: 'rs/[node:field_rs_institution:entity:title]'
 selection_criteria:
-  2f6acf27-2730-48e1-abf7-0619973c38e3:
+  8b4eb88e-1038-4e35-b068-abe1f297ad2f:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 2f6acf27-2730-48e1-abf7-0619973c38e3
+    uuid: 8b4eb88e-1038-4e35-b068-abe1f297ad2f
     context_mapping:
       node: node
     bundles:

@@ -26,9 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function fetchResources(campusId = '') {
-        let viewUrl = '/resources-and-services'; // 🔹 URL de la vista en Drupal
+        let viewUrl = '/resources-and-services'; 
         if (campusId) {
-            viewUrl += '/' + campusId; // 🔹 Agrega el ID del campus si está seleccionado
+            viewUrl += '/' + campusId; // Agrega el ID del campus si está seleccionado
         }
 
         fetch(viewUrl)

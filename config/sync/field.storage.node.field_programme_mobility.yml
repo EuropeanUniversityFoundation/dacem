@@ -1,12 +1,12 @@
-uuid: 2b92a2db-8329-46a0-a590-5b244b5f8906
+uuid: e3b88e10-33ea-444d-88a5-5dc080fab2d5
 langcode: en
 status: true
 dependencies:
   module:
     - node
     - text
-id: node.field_internation_mobility_possi
-field_name: field_internation_mobility_possi
+id: node.field_programme_mobility
+field_name: field_programme_mobility
 entity_type: node
 type: text_long
 settings: {  }

@@ -13,7 +13,6 @@
 {% endif %}
 
 {% if view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null %}
-	{# tu lógica aquí #}
 
 {% endif %}
 
@@ -120,17 +119,11 @@
 
 
 
-		
-
-
-
-
-
+	
 
 		</ul>
 	</div>
 
-	<!-- Menú de pestañas visible en pantallas grandes -->
 	<!-- Menú de pestañas visible en pantallas grandes -->
 	<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
@@ -157,7 +150,6 @@
 			<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
 		</li>
 		-->
-
 
 
 		{% for section in menu_sections %}
@@ -236,7 +228,6 @@
 
 			<h1 class="section-title">{{institution.title.value}}</h1>
 
-			<!-- Mostrar el país (no traducible) -->
 			{% if country_name %}
 				<h5 style="color: red;">{{country_name}}</h5>
 			{% else %}
@@ -245,7 +236,6 @@
 					No disponible</p>
 			{% endif %}
 
-			<!-- Mostrar la información -->
 			{% set current_language = institution.langcode.value %}
 
 			<div
@@ -292,7 +282,7 @@
 						</div>
 						<div
 							class="institution-card-information">
-							<!-- Dirección -->
+
 							{% if institution.field_institution_address.value is defined and institution.field_institution_address.value %}
 								<div class="d-flex align-items-start mb-3">
 									<i class="fas fa-map-marker-alt me-2 mt-1"></i>
@@ -300,7 +290,7 @@
 								</div>
 							{% endif %}
 
-							<!-- Teléfono -->
+					
 							{% if institution.field_institution_phone.value is defined and institution.field_institution_phone.value %}
 								<div class="d-flex align-items-start mb-3">
 									<i class="fas fa-phone-alt me-2 mt-1"></i>
@@ -315,7 +305,7 @@
 								</div>
 							{% endif %}
 
-							<!-- Web -->
+		
 							{% if institution.field_institution_webpage.uri is defined and institution.field_institution_webpage.uri %}
 								<div class="d-flex align-items-start mb-3">
 									<i class="fas fa-globe me-2 mt-1"></i>
@@ -342,7 +332,6 @@
 
 
 {% if aa_results|length > 0 %}
-  {# Aquí sí tiene sentido renderizar el bloque #}
   {{ drupal_block('views_block:academic_authority-block_1') }}
 {% endif %}
 
@@ -357,29 +346,29 @@
 
 		<div
 			class="admission-section" id='admission'>
-			<!-- Título principal centrado -->
+		
 
 			<h2 class="section-title text-center">Admission</h2>
 
 
-			<!-- Descripción general -->
+		
 			{% if institution.field_admission_description is not empty %}
 				<h3 class="subsection-title">Description</h3>
 				<p>{{ institution.field_admission_description.value | raw}}</p>
 			{% endif %}
 
-			<!-- Main Requirements -->
+	
 			{% if institution.field_main_requirements is not empty %}
 				<h3 class="subsection-title">Main Requirements</h3>
 				<p>{{ institution.field_main_requirements.value }}</p>
 			{% endif %}
 
-			<!-- Language Policy -->
+
 			{% if institution.field_admission_language_policy is not empty %}
 				<h3 class="subsection-title">Language Policy</h3>
 				<p>{{ institution.field_admission_language_policy.value | raw}}</p>
 
-				<!-- Subapartado: Languages -->
+
 				{% if institution.field_admission_languages is not empty %}
 					<h4 class="subsection-title">Admission Languages</h4>
 					<ul style="margin-left: 20px;">
@@ -391,7 +380,7 @@
 
 			{% endif %}
 
-			<!-- Registration Procedures -->
+	
 			{% if institution.field_admission_registration is not empty %}
 				<h3 class="subsection-title">Registration Procedures</h3>
 				<p>{{ institution.field_admission_registration.value | raw}}</p>
@@ -493,7 +482,7 @@
 		<div
 			class="my-custom-container-2">
 
-			<!-- Título -->
+		
 			<div class="row mb-4">
 				<div class="col-12">
 					<h2 class="section-title text-center">Campuses</h2>
@@ -514,7 +503,7 @@
 				<div class="col-lg-7 col-12 mb-4 mb-lg-0">
 					<div
 						class="map-wrapper">
-						<!--<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">-->
+						
 						{{ drupal_block('views_block:map_view-block_2') }}
 					</div>
 
@@ -570,16 +559,11 @@
 
 
 
-
-{# Donde quieras que aparezca el bloque generado por la otra vista 
-						<div class="mt-4">
-						  {{ bloque_campus }}
-						</div>
-						#}</div></div>{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}<div class="section-container" id='organizational-units'>
+</div></div>{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}<div class="section-container" id='organizational-units'>
 <div class="my-custom-container-2">
 
 
-	<!-- ORGANIZATIONAL UNITS SECTION --><!-- Título -->
+	<!-- ORGANIZATIONAL UNITS SECTION -->
 		<div class="row mb-4"> <div class="col-12">
 			<h2 class="section-title text-center">Organizational Units</h2>
 
@@ -606,7 +590,6 @@
 			</div>
 
 			<!-- Filtros -->
-			<!-- Filtros -->
 			<div
 				class="custom-btn-group-filter-ou d-flex gap-10 mb-3 flex-wrap">
 
@@ -628,7 +611,6 @@
 						<li>
 							<a class="dropdown-item" href="#" data-type="School">School</a>
 						</li>
-						<!-- Añade aquí tus tipos reales -->
 					</ul>
 				</div>
 
@@ -657,7 +639,7 @@
 						<li>
 							<a class="dropdown-item" href="#" data-area="social_and_legal_sciences">Social and Legal Sciences</a>
 						</li>
-						<!-- Añade aquí tus áreas reales -->
+						
 					</ul>
 				</div>
 
@@ -697,7 +679,7 @@
 					</ul>
 				</nav>
 
-				{# Define un path por defecto para la imagen de OU #}
+				{# Imagen por defecto de OU #}
 				{% set default_ou_image = '/themes/custom/b5subtheme/images/ou-default.png' %}
 
 				{% for row in view.result %}
@@ -710,7 +692,7 @@
 							{% set organizational_unit = organizational_unit.getTranslation(current_language) %}
 						{% endif %}
 
-						{# Campus y su etiqueta (con traducción) #}
+
 						{# Campus y su etiqueta (con traducción, si existe) #}
 						{% set campus_label = '' %}
 
@@ -724,7 +706,7 @@
 						{% endif %}
 
 
-						{# URL "bonita" de la página de info de la OU #}
+						{# URL de la página de info de la OU #}
 						{% set ou_path = path('entity.node.canonical', {'node': organizational_unit.id()}) %}
 						{% set parts = ou_path|trim('/')|split('/') %}
 						{% set ou_alias = parts|last %}
@@ -750,11 +732,8 @@
 						{% if organizational_unit.field_ou_picture is defined 
           and organizational_unit.field_ou_picture.entity is not empty %}
 							{% set img_file = organizational_unit.field_ou_picture.entity %}
-							{# Opción A: URL directa del archivo #}
 							{% set ou_image_url = file_url(img_file.getFileUri()) %}
 
-						{# Opción B (recomendada): usar un estilo de imagen si tienes uno creado, p.ej. 'ou_detail' #}
-							{# {% set ou_image_url = image_style('ou_detail', img_file.getFileUri()) %} #}
 						{% endif %}
 
 						<div class="ou-item p-3 mb-3 bg-light" data-ou-title="{{ organizational_unit.title.value|e('html_attr') }}" data-ou-type="{{ organizational_unit.field_ou_type.value|default('')|e('html_attr') }}" data-ou-area="{{ organizational_unit.field_ou_area.value|default('')|e('html_attr') }}" data-ou-description="{{ organizational_unit.field_oa_description.value|striptags|e('html_attr') }}" data-ou-address="{{ organizational_unit.field_ou_address.value|default('')|e('html_attr') }}" data-ou-gps="{{ coords_ou|e('html_attr') }}" data-ou-web="{{ organizational_unit.field_ou_webs.uri|default('')|e('html_attr') }}" data-ou-web-label="{{ organizational_unit.field_ou_webs.title|default('')|e('html_attr') }}" data-ou-email="{{ organizational_unit.field_ou_contacts.value|default('')|e('html_attr') }}" data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id()|e('html_attr') }}" data-ou-campus-label="{{ campus_label|e('html_attr') }}" data-ou-url="{{ ou_info_url|e('html_attr') }}" data-ou-image="{{ ou_image_url|e('html_attr') }}" onclick="loadOUDetails(this)">

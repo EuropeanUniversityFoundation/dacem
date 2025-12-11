@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.programme.body
     - field.field.node.programme.field_academic_year
+    - field.field.node.programme.field_avaliable_for_mobility
     - field.field.node.programme.field_competencies
     - field.field.node.programme.field_coordinator
     - field.field.node.programme.field_credits
@@ -19,6 +20,7 @@ dependencies:
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_institution
     - field.field.node.programme.field_programme_level
+    - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_modality
     - field.field.node.programme.field_programme_ou
     - field.field.node.programme.field_programme_phone
@@ -27,6 +29,7 @@ dependencies:
     - field.field.node.programme.field_study_modality
     - node.type.programme
   module:
+    - isced_field
     - layout_builder
     - layout_discovery
     - options
@@ -176,21 +179,6 @@ third_party_settings:
                 settings: {  }
                 third_party_settings: {  }
             weight: 9
-            additional: {  }
-          fa5869a6-7d58-434c-8206-6170ab9611ce:
-            uuid: fa5869a6-7d58-434c-8206-6170ab9611ce
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_isced_f'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: text_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 10
             additional: {  }
           e01102df-c428-4c21-aab2-69c41b94e76f:
             uuid: e01102df-c428-4c21-aab2-69c41b94e76f
@@ -376,6 +364,55 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 22
             additional: {  }
+          189fac59-4f8a-4575-b092-139e2445f679:
+            uuid: 189fac59-4f8a-4575-b092-139e2445f679
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_isced_f'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: isced_f_default
+                label: above
+                settings:
+                  prefix: true
+                third_party_settings: {  }
+            weight: 23
+            additional: {  }
+          722274ec-579a-484f-a903-4f3e40833a19:
+            uuid: 722274ec-579a-484f-a903-4f3e40833a19
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_mobility'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 24
+            additional: {  }
+          41381940-9dca-4640-9e76-5b51d5028494:
+            uuid: 41381940-9dca-4640-9e76-5b51d5028494
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_avaliable_for_mobility'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: boolean
+                label: above
+                settings:
+                  format: default
+                  format_custom_false: ''
+                  format_custom_true: ''
+                third_party_settings: {  }
+            weight: 25
+            additional: {  }
         third_party_settings: {  }
 id: node.programme.default
 targetEntityType: node
@@ -395,6 +432,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 120
+    region: content
+  field_avaliable_for_mobility:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 125
     region: content
   field_competencies:
     type: text_default
@@ -444,11 +491,12 @@ content:
     weight: 106
     region: content
   field_isced_f:
-    type: text_default
+    type: isced_f_default
     label: above
-    settings: {  }
+    settings:
+      prefix: true
     third_party_settings: {  }
-    weight: 110
+    weight: 123
     region: content
   field_main_objective:
     type: text_default
@@ -492,6 +540,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 117
+    region: content
+  field_programme_mobility:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 124
     region: content
   field_programme_modality:
     type: list_default
