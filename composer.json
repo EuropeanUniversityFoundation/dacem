@@ -55,7 +55,7 @@
         "drupal/views_field_view": "^1.0@beta",
         "drush/drush": "^12.5",
         "euf/elm_vocabularies": "^0.0.1",
-        "euf/elm_vocabulary_field": "1.0-alpha2",
+        "euf/elm_vocabulary_field": "1.0.0-alpha2",
         "euf/ewp_core": "^1.0@rc",
         "euf/ewp_flexible_address": "1.0.0-beta8",
         "euf/ewp_institutions": "^1.0@RC",
