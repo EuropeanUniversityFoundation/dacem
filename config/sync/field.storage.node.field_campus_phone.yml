@@ -1,17 +1,16 @@
-uuid: 595f28a5-a8b6-4135-9a43-d7ae694633e1
+uuid: 55b6ef24-e832-4252-bb47-2e5c90f7ae13
 langcode: en
 status: true
 dependencies:
   module:
     - node
-    - text
-id: node.field_ou_webs
-field_name: field_ou_webs
+    - telephone
+id: node.field_campus_phone
+field_name: field_campus_phone
 entity_type: node
-type: text
-settings:
-  max_length: 255
-module: text
+type: telephone
+settings: {  }
+module: telephone
 locked: false
 cardinality: 1
 translatable: true

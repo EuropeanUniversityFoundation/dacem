@@ -4,18 +4,24 @@ status: true
 dependencies:
   config:
     - field.field.node.campus.body
-    - field.field.node.campus.field_campus_contact_details
+    - field.field.node.campus.field_campus_address
     - field.field.node.campus.field_campus_description
+    - field.field.node.campus.field_campus_email
     - field.field.node.campus.field_campus_institution
     - field.field.node.campus.field_campus_location
+    - field.field.node.campus.field_campus_phone
     - field.field.node.campus.field_campus_picture
+    - field.field.node.campus.field_campus_web
+    - field.field.node.campus.field_general_ou_campus_descript
     - field.field.node.campus.field_map
     - image.style.thumbnail
     - node.type.campus
   module:
     - geofield
     - image
+    - link
     - path
+    - telephone
     - text
 id: node.campus.default
 targetEntityType: node
@@ -28,9 +34,9 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_campus_contact_details:
-    type: text_textfield
-    weight: 12
+  field_campus_address:
+    type: string_textfield
+    weight: 14
     region: content
     settings:
       size: 60
@@ -38,11 +44,19 @@ content:
     third_party_settings: {  }
   field_campus_description:
     type: text_textarea
-    weight: 13
+    weight: 15
     region: content
     settings:
       rows: 5
       placeholder: ''
+    third_party_settings: {  }
+  field_campus_email:
+    type: email_default
+    weight: 11
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
     third_party_settings: {  }
   field_campus_institution:
     type: entity_reference_autocomplete
@@ -56,23 +70,46 @@ content:
     third_party_settings: {  }
   field_campus_location:
     type: string_textfield
-    weight: 10
+    weight: 13
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_campus_phone:
+    type: telephone_default
+    weight: 12
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
   field_campus_picture:
     type: image_image
-    weight: 26
+    weight: 17
     region: content
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
+  field_campus_web:
+    type: link_default
+    weight: 10
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_general_ou_campus_descript:
+    type: text_textarea
+    weight: 18
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_map:
     type: geofield_latlon
-    weight: 14
+    weight: 16
     region: content
     settings:
       html5_geolocation: false

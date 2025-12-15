@@ -29,6 +29,9 @@
 {% endif %}
 
 
+
+{#{dump(translated_entity.field_elm_vocabulary_test)}}
+
 {#% if translated_entity.field_ejemplo_para_taxonomia.entity %}
   {% set term = translated_entity.field_ejemplo_para_taxonomia.entity %}
   {% set t = term.hasTranslation(current_language) ? term.getTranslation(current_language) : term %}

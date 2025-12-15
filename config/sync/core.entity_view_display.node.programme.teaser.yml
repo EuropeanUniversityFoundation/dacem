@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.programme.field_custom_taxonomy_field
     - field.field.node.programme.field_distribution_of_credits
     - field.field.node.programme.field_ejemplo_para_taxonomia
+    - field.field.node.programme.field_elm_vocabulary_test
     - field.field.node.programme.field_email
     - field.field.node.programme.field_isced_f
     - field.field.node.programme.field_main_objective
@@ -30,6 +31,7 @@ dependencies:
     - field.field.node.programme.field_study_modality
     - node.type.programme
   module:
+    - elm_vocabulary_field
     - text
     - user
 id: node.programme.teaser
@@ -43,12 +45,20 @@ content:
     settings:
       trim_length: 600
     third_party_settings: {  }
-    weight: 101
+    weight: 1
+    region: content
+  field_elm_vocabulary_test:
+    type: elm_controlled_vocabulary_default
+    label: above
+    settings:
+      prefix: false
+    third_party_settings: {  }
+    weight: 2
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden:
   field_academic_year: true

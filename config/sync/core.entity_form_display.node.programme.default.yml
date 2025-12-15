@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.programme.field_custom_taxonomy_field
     - field.field.node.programme.field_distribution_of_credits
     - field.field.node.programme.field_ejemplo_para_taxonomia
+    - field.field.node.programme.field_elm_vocabulary_test
     - field.field.node.programme.field_email
     - field.field.node.programme.field_isced_f
     - field.field.node.programme.field_main_objective
@@ -29,6 +30,7 @@ dependencies:
     - field.field.node.programme.field_study_modality
     - node.type.programme
   module:
+    - elm_vocabulary_field
     - field_group
     - isced_field
     - path
@@ -138,6 +140,13 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_elm_vocabulary_test:
+    type: elm_controlled_vocabulary_select
+    weight: 28
+    region: content
+    settings:
+      prefix: false
     third_party_settings: {  }
   field_email:
     type: string_textfield

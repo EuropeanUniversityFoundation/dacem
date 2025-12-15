@@ -49,27 +49,8 @@ third_party_settings:
         required_fields: true
     group_students_mobility:
       children:
-        - field_internation_mobility_possi
         - field_practical_information_for
       label: 'Students Mobility'
-      region: content
-      parent_name: ''
-      weight: 10
-      format_type: fieldset
-      format_settings:
-        classes: ''
-        show_empty_fields: false
-        id: ''
-        label_as_html: false
-        description: ''
-        required_fields: true
-    group_facilities:
-      children:
-        - field_rs_medical_facilities
-        - field_rs_special_facilities
-        - field_rs_learning_facilities
-        - field_sport_and_leisure_faciliti
-      label: Facilities
       region: content
       parent_name: ''
       weight: 11
@@ -81,12 +62,30 @@ third_party_settings:
         label_as_html: false
         description: ''
         required_fields: true
+    group_facilities:
+      children:
+        - field_rs_medical_facilities
+        - field_rs_learning_facilities
+        - field_sport_and_leisure_faciliti
+        - field_rs_special_facilities
+      label: Facilities
+      region: content
+      parent_name: ''
+      weight: 10
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
     group_university_life:
       children:
-        - field_rs_housing
-        - field_rs_meals
-        - field_rs_transportation
         - field_rs_cost_of_living
+        - field_rs_housing
+        - field_rs_transportation
+        - field_rs_meals
       label: 'University Life'
       region: content
       parent_name: ''
@@ -183,7 +182,7 @@ content:
     third_party_settings: {  }
   field_rs_housing:
     type: text_textarea
-    weight: 125
+    weight: 129
     region: content
     settings:
       rows: 5
@@ -209,7 +208,7 @@ content:
     third_party_settings: {  }
   field_rs_language_courses:
     type: text_textarea
-    weight: 143
+    weight: 141
     region: content
     settings:
       rows: 5
@@ -217,7 +216,7 @@ content:
     third_party_settings: {  }
   field_rs_learning_facilities:
     type: text_textarea
-    weight: 133
+    weight: 131
     region: content
     settings:
       rows: 5
@@ -225,7 +224,7 @@ content:
     third_party_settings: {  }
   field_rs_meals:
     type: text_textarea
-    weight: 126
+    weight: 131
     region: content
     settings:
       rows: 5
@@ -241,7 +240,7 @@ content:
     third_party_settings: {  }
   field_rs_special_facilities:
     type: text_textarea
-    weight: 132
+    weight: 133
     region: content
     settings:
       rows: 5
@@ -265,7 +264,7 @@ content:
     third_party_settings: {  }
   field_rs_transportation:
     type: text_textarea
-    weight: 127
+    weight: 130
     region: content
     settings:
       rows: 5
@@ -273,7 +272,7 @@ content:
     third_party_settings: {  }
   field_sport_and_leisure_faciliti:
     type: text_textarea
-    weight: 138
+    weight: 132
     region: content
     settings:
       rows: 5

@@ -11,7 +11,7 @@ id: node.institution.field_institution_phone
 field_name: field_institution_phone
 entity_type: node
 bundle: institution
-label: institution_phone
+label: 'Institution Phone'
 description: ''
 required: true
 translatable: false

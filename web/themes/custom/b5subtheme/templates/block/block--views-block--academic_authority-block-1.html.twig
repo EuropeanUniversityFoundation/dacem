@@ -79,9 +79,9 @@
                   </div>
 
                   <div class="authority-info">
-                    <h4>{{ row._entity.title.value }}</h4>
+                    <h5>{{ row._entity.title.value }}</h5>
                     {% if row._entity.field_institution_role is not empty %}
-                      <p class="text-center">{{ row._entity.field_institution_role.value|upper }}</p>
+                      <p class="text-center people-role">{{ row._entity.field_institution_role.value|upper }}</p>
                     {% endif %}
                     <div class="authority-icons mt-2">
                       <a href="#" class="authority-icon me-3">
@@ -129,9 +129,9 @@
                   </div>
 
                   <div class="authority-info">
-                    <h4>{{ row._entity.title.value }}</h4>
+                    <h5>{{ row._entity.title.value }}</h5>
                     {% if row._entity.field_institution_role is not empty %}
-                      <p class="text-center">{{ row._entity.field_institution_role.value|upper }}</p>
+                      <p class="text-center people-role">{{ row._entity.field_institution_role.value|upper }}</p>
                     {% endif %}
                     <div class="authority-icons mt-2">
                       <a href="#" class="authority-icon me-3">

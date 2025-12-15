@@ -79,7 +79,7 @@ function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
   }
   
 
-  if($form_id == 'node_institutition_edit_form' || $form_id == 'node_programme_edit_form' || $form_id == 'node_individual_educational_component_edit_form' || 
+  if($form_id == 'node_institution_edit_form' || $form_id == 'node_programme_edit_form' || $form_id == 'node_individual_educational_component_edit_form' || 
     $form_id == 'node_institution_form' || $form_id == 'node_programme_form' || $form_id == 'node_individual_educational_component_form' || $form_id == 'node_campus_edit_form' ||
     $form_id == 'node_campus_form' || $form_id == 'node_resources_and_services_edit_form' || $form_id == 'node_resources_and_services_form' || $form_id == 'node_organizational_unit_edit_form'
     || $form_id == 'node_organizational_unit_form' || $form_id == 'node_academic_authority_edit_form' || $form_id == 'node_academic_authority_form'){
@@ -152,6 +152,8 @@ function admin_area_redirect_after_translation(array &$form, \Drupal\Core\Form\F
   $node = $form_state->getFormObject()->getEntity();
   $current_user = \Drupal::currentUser();
   $user = \Drupal\user\Entity\User::load($current_user->id());
+
+  \Drupal::logger('admin_area')->info('Redirect after translatioooooonnn');
 
   if ($node && $user) {
     $memberships = \Drupal::service('group.membership_loader')->loadByUser($user);

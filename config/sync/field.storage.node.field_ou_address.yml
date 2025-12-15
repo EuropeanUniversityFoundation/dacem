@@ -1,17 +1,18 @@
-uuid: a8a8d7f5-6aca-496f-88db-7bf7cb62e55f
+uuid: f87614f5-5128-489c-9d15-305b0318d7ed
 langcode: en
 status: true
 dependencies:
   module:
     - node
-    - text
-id: node.field_campus_contact_details
-field_name: field_campus_contact_details
+id: node.field_ou_address
+field_name: field_ou_address
 entity_type: node
-type: text
+type: string
 settings:
   max_length: 255
-module: text
+  case_sensitive: false
+  is_ascii: false
+module: core
 locked: false
 cardinality: 1
 translatable: true

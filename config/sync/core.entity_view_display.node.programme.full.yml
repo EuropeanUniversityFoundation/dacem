@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.programme.field_custom_taxonomy_field
     - field.field.node.programme.field_distribution_of_credits
     - field.field.node.programme.field_ejemplo_para_taxonomia
+    - field.field.node.programme.field_elm_vocabulary_test
     - field.field.node.programme.field_email
     - field.field.node.programme.field_isced_f
     - field.field.node.programme.field_main_objective
@@ -144,6 +145,7 @@ hidden:
   field_custom_taxonomy_field: true
   field_distribution_of_credits: true
   field_ejemplo_para_taxonomia: true
+  field_elm_vocabulary_test: true
   field_isced_f: true
   field_programme_level: true
   field_programme_mobility: true

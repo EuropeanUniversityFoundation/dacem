@@ -9,7 +9,7 @@ id: node.institution.field_institution_address
 field_name: field_institution_address
 entity_type: node
 bundle: institution
-label: institution_address
+label: 'Institution Address'
 description: ''
 required: true
 translatable: true
