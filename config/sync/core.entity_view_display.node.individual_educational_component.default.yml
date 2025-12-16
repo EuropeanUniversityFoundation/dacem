@@ -9,12 +9,15 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_contents
     - field.field.node.individual_educational_component.field_iec_credits
     - field.field.node.individual_educational_component.field_iec_description
+    - field.field.node.individual_educational_component.field_iec_email
     - field.field.node.individual_educational_component.field_iec_evaluation
+    - field.field.node.individual_educational_component.field_iec_grading_scheme
     - field.field.node.individual_educational_component.field_iec_instructors
     - field.field.node.individual_educational_component.field_iec_language
     - field.field.node.individual_educational_component.field_iec_learning_outcomes
     - field.field.node.individual_educational_component.field_iec_mobility
     - field.field.node.individual_educational_component.field_iec_modality
+    - field.field.node.individual_educational_component.field_iec_phone
     - field.field.node.individual_educational_component.field_iec_planned_activities
     - field.field.node.individual_educational_component.field_iec_programme
     - field.field.node.individual_educational_component.field_iec_recommendations
@@ -22,6 +25,7 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_term
     - field.field.node.individual_educational_component.field_iec_type
     - field.field.node.individual_educational_component.field_iec_year
+    - field.field.node.individual_educational_component.field_restricted_to_local
     - node.type.individual_educational_component
   module:
     - text
@@ -41,12 +45,43 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
+  field_iec_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_iec_grading_scheme:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
   field_iec_mobility:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_iec_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_restricted_to_local:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 6
     region: content
 hidden:
   body: true

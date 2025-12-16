@@ -6,8 +6,11 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.academic_authority.body
     - field.field.node.academic_authority.field_aa_campus
+    - field.field.node.academic_authority.field_aa_email
     - field.field.node.academic_authority.field_aa_institution
     - field.field.node.academic_authority.field_aa_organizational_unit
+    - field.field.node.academic_authority.field_aa_phone
+    - field.field.node.academic_authority.field_aa_web
     - field.field.node.academic_authority.field_ac_photo
     - field.field.node.academic_authority.field_campus_role
     - field.field.node.academic_authority.field_institution_role
@@ -37,8 +40,11 @@ content:
     region: content
 hidden:
   field_aa_campus: true
+  field_aa_email: true
   field_aa_institution: true
   field_aa_organizational_unit: true
+  field_aa_phone: true
+  field_aa_web: true
   field_ac_photo: true
   field_campus_role: true
   field_institution_role: true

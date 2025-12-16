@@ -11,6 +11,8 @@ dependencies:
     - field.field.node.institution.field_admission_language_policy
     - field.field.node.institution.field_admission_languages
     - field.field.node.institution.field_admission_registration
+    - field.field.node.institution.field_arrangements_guidance
+    - field.field.node.institution.field_arrangements_recognition
     - field.field.node.institution.field_ects_credit_allocation_pol
     - field.field.node.institution.field_emphasis_text_color
     - field.field.node.institution.field_erasmus_code
@@ -150,6 +152,8 @@ hidden:
   field_academic_calendar: true
   field_admission_description: true
   field_admission_language_policy: true
+  field_arrangements_guidance: true
+  field_arrangements_recognition: true
   field_general_campus_description: true
   field_general_ou_description: true
   field_information: true

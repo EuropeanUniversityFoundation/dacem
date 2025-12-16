@@ -5,8 +5,11 @@ dependencies:
   config:
     - field.field.node.academic_authority.body
     - field.field.node.academic_authority.field_aa_campus
+    - field.field.node.academic_authority.field_aa_email
     - field.field.node.academic_authority.field_aa_institution
     - field.field.node.academic_authority.field_aa_organizational_unit
+    - field.field.node.academic_authority.field_aa_phone
+    - field.field.node.academic_authority.field_aa_web
     - field.field.node.academic_authority.field_ac_photo
     - field.field.node.academic_authority.field_campus_role
     - field.field.node.academic_authority.field_institution_role
@@ -15,6 +18,7 @@ dependencies:
     - node.type.academic_authority
   module:
     - image
+    - link
     - text
     - user
 id: node.academic_authority.default
@@ -37,6 +41,13 @@ content:
     third_party_settings: {  }
     weight: 111
     region: content
+  field_aa_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 118
+    region: content
   field_aa_institution:
     type: entity_reference_label
     label: above
@@ -52,6 +63,25 @@ content:
       link: true
     third_party_settings: {  }
     weight: 112
+    region: content
+  field_aa_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 119
+    region: content
+  field_aa_web:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 120
     region: content
   field_ac_photo:
     type: image

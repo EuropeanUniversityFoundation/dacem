@@ -1,0 +1,19 @@
+uuid: 8e1ad109-1d27-455c-b387-04f18beb67c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_length_of_programme
+    - node.type.programme
+id: node.programme.field_length_of_programme
+field_name: field_length_of_programme
+entity_type: node
+bundle: programme
+label: 'Length of Programme'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

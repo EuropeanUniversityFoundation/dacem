@@ -11,7 +11,7 @@ id: node.campus.field_map
 field_name: field_map
 entity_type: node
 bundle: campus
-label: Map
+label: 'GPS Coordinates'
 description: "Enter the latitude and longitude in decimal degrees format. Example: Latitude: 42.170115 Longitude: -8.688152. \r\nYou can obtain these values from Google Maps."
 required: false
 translatable: false

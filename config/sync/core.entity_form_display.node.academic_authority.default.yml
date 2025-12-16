@@ -5,8 +5,11 @@ dependencies:
   config:
     - field.field.node.academic_authority.body
     - field.field.node.academic_authority.field_aa_campus
+    - field.field.node.academic_authority.field_aa_email
     - field.field.node.academic_authority.field_aa_institution
     - field.field.node.academic_authority.field_aa_organizational_unit
+    - field.field.node.academic_authority.field_aa_phone
+    - field.field.node.academic_authority.field_aa_web
     - field.field.node.academic_authority.field_ac_photo
     - field.field.node.academic_authority.field_campus_role
     - field.field.node.academic_authority.field_institution_role
@@ -16,7 +19,9 @@ dependencies:
     - node.type.academic_authority
   module:
     - image
+    - link
     - path
+    - telephone
 id: node.academic_authority.default
 targetEntityType: node
 bundle: academic_authority
@@ -38,6 +43,14 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_aa_email:
+    type: email_default
+    weight: 27
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
   field_aa_institution:
     type: entity_reference_autocomplete
     weight: 4
@@ -57,6 +70,21 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_aa_phone:
+    type: telephone_default
+    weight: 28
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_aa_web:
+    type: link_default
+    weight: 29
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_ac_photo:
     type: image_image

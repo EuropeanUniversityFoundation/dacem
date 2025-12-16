@@ -10,6 +10,8 @@ dependencies:
     - field.field.node.institution.field_admission_language_policy
     - field.field.node.institution.field_admission_languages
     - field.field.node.institution.field_admission_registration
+    - field.field.node.institution.field_arrangements_guidance
+    - field.field.node.institution.field_arrangements_recognition
     - field.field.node.institution.field_ects_credit_allocation_pol
     - field.field.node.institution.field_emphasis_text_color
     - field.field.node.institution.field_erasmus_code
@@ -136,6 +138,22 @@ content:
   field_admission_registration:
     type: text_textarea
     weight: 130
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_arrangements_guidance:
+    type: text_textarea
+    weight: 32
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_arrangements_recognition:
+    type: text_textarea
+    weight: 33
     region: content
     settings:
       rows: 5

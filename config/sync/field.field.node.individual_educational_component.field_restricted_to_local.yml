@@ -1,0 +1,21 @@
+uuid: 2b3d17a8-6b4f-4c82-aa2a-44f0e73c14af
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_restricted_to_local
+    - node.type.individual_educational_component
+id: node.individual_educational_component.field_restricted_to_local
+field_name: field_restricted_to_local
+entity_type: node
+bundle: individual_educational_component
+label: 'Restricted to local students'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

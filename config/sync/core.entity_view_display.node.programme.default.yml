@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.field.node.programme.body
     - field.field.node.programme.field_academic_year
+    - field.field.node.programme.field_access_to_further_studies
+    - field.field.node.programme.field_arrangments_recognition
     - field.field.node.programme.field_avaliable_for_mobility
     - field.field.node.programme.field_competencies
     - field.field.node.programme.field_coordinator
@@ -14,20 +16,32 @@ dependencies:
     - field.field.node.programme.field_ejemplo_para_taxonomia
     - field.field.node.programme.field_elm_vocabulary_test
     - field.field.node.programme.field_email
+    - field.field.node.programme.field_grade_distribution_table
     - field.field.node.programme.field_isced_f
+    - field.field.node.programme.field_length_of_programme
     - field.field.node.programme.field_main_objective
+    - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
     - field.field.node.programme.field_programme_area
     - field.field.node.programme.field_programme_description
+    - field.field.node.programme.field_programme_explanation_scal
+    - field.field.node.programme.field_programme_grading_scale
     - field.field.node.programme.field_programme_institution
+    - field.field.node.programme.field_programme_languages
+    - field.field.node.programme.field_programme_learn_outcomes
     - field.field.node.programme.field_programme_level
     - field.field.node.programme.field_programme_mobility
+    - field.field.node.programme.field_programme_mobility_windows
     - field.field.node.programme.field_programme_modality
     - field.field.node.programme.field_programme_ou
     - field.field.node.programme.field_programme_phone
     - field.field.node.programme.field_programme_qualification
+    - field.field.node.programme.field_programme_requirements
+    - field.field.node.programme.field_programme_work_placements
     - field.field.node.programme.field_qualification_level
+    - field.field.node.programme.field_qualification_requirements
     - field.field.node.programme.field_study_modality
+    - field.field.node.programme.field_work_based_learning
     - node.type.programme
   module:
     - elm_vocabulary_field
@@ -431,6 +445,217 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 26
             additional: {  }
+          88354d9e-3948-4385-99ae-a7818a8af96b:
+            uuid: 88354d9e-3948-4385-99ae-a7818a8af96b
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_length_of_programme'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 27
+            additional: {  }
+          342f96ef-9ea5-480b-b631-87d985cef202:
+            uuid: 342f96ef-9ea5-480b-b631-87d985cef202
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_requirements'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 28
+            additional: {  }
+          3983adec-b46c-4bd1-ae9a-cb8a9440760a:
+            uuid: 3983adec-b46c-4bd1-ae9a-cb8a9440760a
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_learn_outcomes'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 29
+            additional: {  }
+          84871073-a672-4383-917a-f63d7af26347:
+            uuid: 84871073-a672-4383-917a-f63d7af26347
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_qualification_requirements'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 30
+            additional: {  }
+          84f940f6-1f04-4186-a126-dc8cf23b5ce4:
+            uuid: 84f940f6-1f04-4186-a126-dc8cf23b5ce4
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_arrangments_recognition'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 31
+            additional: {  }
+          c749ecb4-45a6-4c01-ad72-e4050513464c:
+            uuid: c749ecb4-45a6-4c01-ad72-e4050513464c
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_grading_scale'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 32
+            additional: {  }
+          00facc90-e76a-4631-9d8e-08369c54ae62:
+            uuid: 00facc90-e76a-4631-9d8e-08369c54ae62
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_explanation_scal'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 33
+            additional: {  }
+          71c1bd71-1c2e-414a-8e04-77cc13f7553d:
+            uuid: 71c1bd71-1c2e-414a-8e04-77cc13f7553d
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_grade_distribution_table'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 34
+            additional: {  }
+          82a92d4e-dd6d-4fb8-b4d3-eb7e5c7964be:
+            uuid: 82a92d4e-dd6d-4fb8-b4d3-eb7e5c7964be
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_mobility_windows'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 35
+            additional: {  }
+          2c453d14-3092-48fc-a998-57c9564fb367:
+            uuid: 2c453d14-3092-48fc-a998-57c9564fb367
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_work_placements'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 36
+            additional: {  }
+          4ff15dee-de22-4871-a963-297a065ea94c:
+            uuid: 4ff15dee-de22-4871-a963-297a065ea94c
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_work_based_learning'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 37
+            additional: {  }
+          0167a7e8-b12a-4a10-b5ec-7dd62a28ca2d:
+            uuid: 0167a7e8-b12a-4a10-b5ec-7dd62a28ca2d
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_occupational_profiles'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 38
+            additional: {  }
+          db0878e7-9f29-422d-ba92-7f6c10e2c95d:
+            uuid: db0878e7-9f29-422d-ba92-7f6c10e2c95d
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_access_to_further_studies'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 39
+            additional: {  }
+          48d74421-4b0d-4c85-bca0-55e37c2a08a1:
+            uuid: 48d74421-4b0d-4c85-bca0-55e37c2a08a1
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_languages'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 40
+            additional: {  }
         third_party_settings: {  }
 id: node.programme.default
 targetEntityType: node
@@ -450,6 +675,20 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 120
+    region: content
+  field_access_to_further_studies:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 139
+    region: content
+  field_arrangments_recognition:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 131
     region: content
   field_avaliable_for_mobility:
     type: boolean
@@ -516,6 +755,13 @@ content:
     third_party_settings: {  }
     weight: 106
     region: content
+  field_grade_distribution_table:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 134
+    region: content
   field_isced_f:
     type: isced_f_default
     label: above
@@ -524,12 +770,27 @@ content:
     third_party_settings: {  }
     weight: 123
     region: content
+  field_length_of_programme:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 127
+    region: content
   field_main_objective:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
     weight: 109
+    region: content
+  field_occupational_profiles:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 138
     region: content
   field_professional_practices:
     type: list_default
@@ -552,6 +813,20 @@ content:
     third_party_settings: {  }
     weight: 107
     region: content
+  field_programme_explanation_scal:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 133
+    region: content
+  field_programme_grading_scale:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 132
+    region: content
   field_programme_institution:
     type: entity_reference_label
     label: above
@@ -559,6 +834,20 @@ content:
       link: true
     third_party_settings: {  }
     weight: 111
+    region: content
+  field_programme_languages:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 140
+    region: content
+  field_programme_learn_outcomes:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 129
     region: content
   field_programme_level:
     type: list_default
@@ -573,6 +862,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 124
+    region: content
+  field_programme_mobility_windows:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 135
     region: content
   field_programme_modality:
     type: list_default
@@ -604,12 +900,33 @@ content:
     third_party_settings: {  }
     weight: 112
     region: content
+  field_programme_requirements:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 128
+    region: content
+  field_programme_work_placements:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 136
+    region: content
   field_qualification_level:
     type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
     weight: 115
+    region: content
+  field_qualification_requirements:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 130
     region: content
   field_study_modality:
     type: string
@@ -618,6 +935,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 118
+    region: content
+  field_work_based_learning:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 137
     region: content
   links:
     settings: {  }

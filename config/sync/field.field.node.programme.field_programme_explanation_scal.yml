@@ -1,0 +1,24 @@
+uuid: 7639cc3b-9227-435d-bcd9-d2073d764a60
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_explanation_scal
+    - filter.format.basic_html
+    - node.type.programme
+  module:
+    - text
+id: node.programme.field_programme_explanation_scal
+field_name: field_programme_explanation_scal
+entity_type: node
+bundle: programme
+label: 'Explanation of the scale'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

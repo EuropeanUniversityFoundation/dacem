@@ -10,12 +10,15 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_contents
     - field.field.node.individual_educational_component.field_iec_credits
     - field.field.node.individual_educational_component.field_iec_description
+    - field.field.node.individual_educational_component.field_iec_email
     - field.field.node.individual_educational_component.field_iec_evaluation
+    - field.field.node.individual_educational_component.field_iec_grading_scheme
     - field.field.node.individual_educational_component.field_iec_instructors
     - field.field.node.individual_educational_component.field_iec_language
     - field.field.node.individual_educational_component.field_iec_learning_outcomes
     - field.field.node.individual_educational_component.field_iec_mobility
     - field.field.node.individual_educational_component.field_iec_modality
+    - field.field.node.individual_educational_component.field_iec_phone
     - field.field.node.individual_educational_component.field_iec_planned_activities
     - field.field.node.individual_educational_component.field_iec_programme
     - field.field.node.individual_educational_component.field_iec_recommendations
@@ -23,6 +26,7 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_term
     - field.field.node.individual_educational_component.field_iec_type
     - field.field.node.individual_educational_component.field_iec_year
+    - field.field.node.individual_educational_component.field_restricted_to_local
     - node.type.individual_educational_component
   module:
     - text
@@ -51,12 +55,15 @@ hidden:
   field_iec_contents: true
   field_iec_credits: true
   field_iec_description: true
+  field_iec_email: true
   field_iec_evaluation: true
+  field_iec_grading_scheme: true
   field_iec_instructors: true
   field_iec_language: true
   field_iec_learning_outcomes: true
   field_iec_mobility: true
   field_iec_modality: true
+  field_iec_phone: true
   field_iec_planned_activities: true
   field_iec_programme: true
   field_iec_recommendations: true
@@ -64,4 +71,5 @@ hidden:
   field_iec_term: true
   field_iec_type: true
   field_iec_year: true
+  field_restricted_to_local: true
   langcode: true
