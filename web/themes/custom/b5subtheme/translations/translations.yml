@@ -70,10 +70,10 @@ en:
 
 
   #Courses. Change in future
-  1º Course: '1º Course'
-  2º Course: '2º Course'
-  3º Course: '3º Course'
-  4º Course: '4º Course'
+  1º Year: '1º Year'
+  2º Year: '2º Year'
+  3º Year: '3º Year'
+  4º Year: '4º Year'
 
 
 
@@ -83,7 +83,7 @@ en:
   Requirements: 'Requirements'
   Language: 'Language'
   Instructors: 'Instructors'
-  Iec Contents: 'Iec Contents'
+  Contents: 'Contents'
   Learning Outcomes: 'Learning Outcomes'
   Recommended Readings and Tools: 'Recommended Readings and Tools'
   Planned Activities: 'Planned Activities'
@@ -188,7 +188,7 @@ es:
   Requirements: 'Requisitos'
   Language: 'Idioma'
   Instructors: 'PROFESORES'
-  Iec Contents: 'CONTENIDO DE LA ASIGNATURA'
+  Contents: 'CONTENIDO DE LA ASIGNATURA'
   Learning Outcomes: 'RESULTADOS DE APRENDIZAJE'
   Recommended Readings and Tools: 'LECTURAS Y HERRAMIENTAS RECOMENDADAS'
   Planned Activities: 'ACTIVIDADES PLANIFICADAS'

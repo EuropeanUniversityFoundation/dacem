@@ -11,7 +11,7 @@ admin_area.admin_menu:
 
 
 admin_area.my_academic_authorities_link:
-  title: 'My Academic Authorities'
+  title: 'My Institutional Contacts'
   route_name: admin_area.my_entity_page
   route_parameters:
     entity_type: 'academic_authority'

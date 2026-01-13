@@ -45,19 +45,17 @@ function b5subtheme_preprocess_block(&$variables)
 
 function getEntityFromAlias($alias, $langcode = NULL)
 {
-  // Obtener el servicio de alias
   $alias_manager = \Drupal::service('path_alias.manager');
 
-  // Obtener el path interno a partir del alias en el idioma solicitado
   $internal_path = $alias_manager->getPathByAlias('/' . $alias, $langcode);
 
   if (preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
     $nid = (int) $matches[1];
 
-    // Cargar y retornar el nodo
+   
     $node = Node::load($nid);
 
-    // Si hay un idioma definido y el nodo tiene traducción, cargarla
+   
     if ($langcode && $node->hasTranslation($langcode)) {
       return $node->getTranslation($langcode);
     }
@@ -80,11 +78,6 @@ function getEntityFromAlias($alias, $langcode = NULL)
  */
 function b5subtheme_preprocess_page(&$variables)
 {
-
-
-
-
-
 
 
 
@@ -789,9 +782,10 @@ function b5subtheme_preprocess_views_view(&$variables)
           'field_rs_special_facilities',
           'field_practical_information_for',
           'field_rs_cost_of_living',
+          
           'field_rs_transportation',
           'field_rs_meals',
-
+          'field_rs_housing',
           'field_rs_students_associations',
           'field_work_placement_possibiliti',
           'field_sport_clubs_programs',

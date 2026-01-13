@@ -447,6 +447,37 @@
 		{% endif %}
 	</div>
 
+	<div class="row mb-5">
+		{% if rs_mode == 'campus' %}
+			{% if rs_fallback_data.field_rs_housing.rendered %}
+				<div class="col-12">
+					<h1 class="section-title">Housing</h1>
+					<div class="facility-text">
+						{{ rs_fallback_data.field_rs_housing.rendered|raw }}
+						{% if rs_fallback_data.field_rs_housing.source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% else %}
+							<small class="text-muted"></small>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+		{% else %}
+			{% if rs.field_rs_housing.value is not empty %}
+				<div class="col-12">
+					<h1 class="section-title">Housing</h1>
+					<div class="facility-text">
+						{{ rs.field_rs_housing.value|raw }}
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+	</div>
+
+
+
+
+
 	<div class="row">
 		{% if rs_mode == 'campus' %}
 			{% if rs_fallback_data.field_rs_transportation.rendered %}

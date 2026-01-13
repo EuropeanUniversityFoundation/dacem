@@ -9,8 +9,6 @@
 {% set entity = view.result[0]._entity %}
 
 
-
-
 {#{{dump(entity)}}
 
 {# Obtener el idioma actual basado en la URL, NO en la interfaz #}
@@ -29,9 +27,6 @@
 	{% set translated_entity = entity %}
 
 {% endif %}
-
-
-
 
 
 {#{dump(translated_entity.field_elm_vocabulary_test)}}
@@ -95,10 +90,10 @@
   '3': '3º',
   '4': '4º',
 } %}{% set courses = {
-  '1': '1º Course',
-  '2': '2º Course',
-  '3': '3º Course',
-  '4': '4º Course'
+  '1': '1º Year',
+  '2': '2º Year',
+  '3': '3º Year',
+  '4': '4º Year'
 } %}{% set credit_types = [
   'Core',
   'Mandatory',
@@ -242,28 +237,45 @@
 
 			<div class="row">
 				<div class="col-sm-12 col-md-12 col-xl-8 order-2 order-xl-1">
-					<div class="programme-section " id="general-information" style="text-align: justify;">
-						<h3 class="subsection-title m-0">{{ translations[current_language]['Presentation'] }}</h3>
-						{{ translated_entity.field_programme_description.value|raw }}
-					</div>
+					{% if translated_entity.field_programme_description.value is not empty %}
+						<div class="programme-section " id="general-information" style="text-align: justify;">
+							<h3 class="subsection-title m-0">{{ translations[current_language]['Presentation'] }}</h3>
+							{{ translated_entity.field_programme_description.value|raw }}
+						</div>
+					{% endif %}
 
-					<div class="programme-section" id="main-objective" style="text-align: justify;">
-						<h3 class="subsection-title">{{ translations[current_language]['Main Objective'] }}</h3>
-						{{ translated_entity.field_main_objective.value|raw }}
-					</div>
-					<div class="programme-section" id="competencies" style="text-align: justify;">
-						<h3 class="subsection-title">{{ translations[current_language]['Competencies'] }}</h3>
-						{{ translated_entity.field_competencies.value|raw }}
-					</div>
-					<div class="programme-section" id="qualification" style="text-align: justify;">
-						<h3 class="subsection-title">{{ translations[current_language]['Qualification'] }}</h3>
-						{{ translated_entity.field_programme_qualification.value|raw }}
-					</div>
+					{% if translated_entity.field_main_objective.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">{{ translations[current_language]['Main Objective'] }}</h3>
+							{{ translated_entity.field_main_objective.value|raw }}
+						</div>
+					{% endif %}
+					{% if translated_entity.field_competencies.value is not empty %}
+						<div class="programme-section" id="competencies" style="text-align: justify;">
+							<h3 class="subsection-title">{{ translations[current_language]['Competencies'] }}</h3>
+							{{ translated_entity.field_competencies.value|raw }}
+						</div>
+					{% endif %}
+					{% if translated_entity.field_programme_learn_outcomes.value is not empty %}
+						<div class="programme-section" id="learning-outcomes" style="text-align: justify;">
+							<h3 class="subsection-title">Learning outcomes</h3>
+							{{ translated_entity.field_programme_learn_outcomes.value|raw }}
+						</div>
+					{% endif %}
 
-					<div class="programme-section" id="mobility" style="text-align: justify;">
-						<h3 class="subsection-title">{{ translations[current_language]['Mobility'] }}</h3>
-						{{ translated_entity.field_programme_mobility.value|raw }}
-					</div>
+					{% if translated_entity.field_programme_qualification.value is not empty %}
+						<div class="programme-section" id="qualification" style="text-align: justify;">
+							<h3 class="subsection-title">{{ translations[current_language]['Qualification'] }}</h3>
+							{{ translated_entity.field_programme_qualification.value|raw }}
+						</div>
+					{% endif %}
+
+					{% if translated_entity.field_programme_mobility.value is not empty %}
+						<div class="programme-section" id="mobility" style="text-align: justify;">
+							<h3 class="subsection-title">{{ translations[current_language]['Mobility'] }}</h3>
+							{{ translated_entity.field_programme_mobility.value|raw }}
+						</div>
+					{% endif %}
 
 					{% if translated_entity.field_distribution_of_credits.value is not empty %}
 						<div class="programme-section" id="structure" style="text-align: justify;">
@@ -284,25 +296,24 @@
 
 						{# === TABS NAV: By course / By semester === #}
 						<ul class="nav nav-tabs justify-content-center mb-3" id="iecsTabs" role="tablist">
-							
+
 							<li class="nav-item" role="presentation">
 								<button class="nav-link active" id="tab-by-semester" data-bs-toggle="tab" data-bs-target="#pane-by-semester" type="button" role="tab" aria-controls="pane-by-semester" aria-selected="false">
 									{{ 'By semester'|t }}
 								</button>
 							</li>
 
-              <li class="nav-item" role="presentation">
+							<li class="nav-item" role="presentation">
 								<button class="nav-link" id="tab-by-course" data-bs-toggle="tab" data-bs-target="#pane-by-course" type="button" role="tab" aria-controls="pane-by-course" aria-selected="true">
-									{{ 'By course'|t }}
+									{{ 'By Year'|t }}
 								</button>
 							</li>
 
 						</ul>
 
-						<div
-							class="tab-content" id="iecsTabsContent">
+						<div class="tab-content" id="iecsTabsContent">
 
-              <div
+							<div
 								class="tab-pane fade show active" id="pane-by-semester" role="tabpanel" aria-labelledby="tab-by-semester">
 
 								{# Definimos los semestres que queremos mostrar #}
@@ -473,8 +484,8 @@
 
 
 							{# =========================
-							       TAB 1: BY COURSE (lo que ya tenías)
-							       ========================= #}
+														       TAB 1: BY COURSE (lo que ya tenías)
+														       ========================= #}
 							<div
 								class="tab-pane fade" id="pane-by-course" role="tabpanel" aria-labelledby="tab-by-course">
 
@@ -613,18 +624,130 @@
 							</div>
 
 							{# =========================
-							       TAB 2: BY SEMESTER (ordenado por field_iec_term)
-							       ========================= #}
+														       TAB 2: BY SEMESTER (ordenado por field_iec_term)
+														       ========================= #}
 							{# =========================
-							   TAB 2: BY SEMESTER (botones + tablas por semestre)
-							   ========================= #}
-							
+														   TAB 2: BY SEMESTER (botones + tablas por semestre)
+														   ========================= #}
 
 
 						</div>
 					</div>
 
+
+
+
+
+					{% if translated_entity.field_programme_requirements.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">Admission Requirements</h3>
+							{{ translated_entity.field_programme_requirements.value|raw }}
+						</div>
+					{% endif %}
+					
+					{% if translated_entity.field_arrangments_recognition.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">Arrangments for recognition of prior learning</h3>
+							{{ translated_entity.field_arrangments_recognition.value|raw }}
+						</div>
+					{% endif %}
+					
+					{% if translated_entity.field_qualification_requirements.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">Qualification requirements</h3>
+							{{ translated_entity.field_qualification_requirements.value|raw }}
+						</div>
+					{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+					{% if translated_entity.field_programme_grading_scale.value is not empty or translated_entity.field_programme_explanation_scal.value is not empty or translated_entity.field_grade_distribution_table.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">Examination regulations and grading scale</h3>
+							<br>
+
+							{% if translated_entity.field_programme_grading_scale.value is not empty %}
+								<div class="programme-section ms-5" id="main-objective" style="text-align: justify;">
+									<h4 class="subsection-title">Grading scale</h4>
+									{{ translated_entity.field_programme_grading_scale.value|raw }}
+								</div>
+							{% endif %}
+							
+							{% if translated_entity.field_programme_explanation_scal.value is not empty %}
+								<div class="programme-section ms-5" id="main-objective" style="text-align: justify;">
+									<h4 class="subsection-title">Explanation of the scale</h4>
+									{{ translated_entity.field_programme_explanation_scal.value|raw }}
+								</div>
+							{% endif %}
+
+							{% if translated_entity.field_grade_distribution_table.value is not empty %}
+								<div class="programme-section ms-5" id="main-objective" style="text-align: justify;">
+									<h4 class="subsection-title">Grade distribution table</h4>
+									{{ translated_entity.field_grade_distribution_table.value|raw }}
+								</div>
+							{% endif %}
+
+						</div>
+					{% endif %}
+
+					{% if translated_entity.field_programme_mobility_windows.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">Mobility windows</h3>
+							{{ translated_entity.field_programme_mobility_windows.value|raw }}
+						</div>
+					{% endif %}
+
+					{% if translated_entity.field_programme_work_placements.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">Work placements</h3>
+							{{ translated_entity.field_programme_work_placements.value|raw }}
+						</div>
+					{% endif %}
+
+					{% if translated_entity.field_work_based_learning.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">Work-based Learning</h3>
+							{{ translated_entity.field_work_based_learning.value|raw }}
+						</div>
+					{% endif %}
+
+					{% if translated_entity.field_occupational_profiles.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">Occupational profiles of graduates</h3>
+							{{ translated_entity.field_occupational_profiles.value|raw }}
+						</div>
+					{% endif %}
+
+					{% if translated_entity.field_access_to_further_studies.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">Access to further studies</h3>
+							{{ translated_entity.field_access_to_further_studies.value|raw }}
+						</div>
+					{% endif %}
+
+					{% if translated_entity.field_programme_languages.value is not empty %}
+						<div class="programme-section" id="main-objective" style="text-align: justify;">
+							<h3 class="subsection-title">Languages</h3>
+							{{ translated_entity.field_programme_languages.value|raw }}
+						</div>
+					{% endif %}
+
+
+					
 				</div>
+
+				
+
+
 
 
 				<div class="col-sm-12 col-md-12 col-xl-4 degree-sidebar-wrapper order-1 order-xl-2">
@@ -634,73 +757,129 @@
 
 							<!-- Columna 1: General Data -->
 							<div class="col-12 col-md-6 col-xl-12">
-								<h3 class="subsection-title m-0 mb-3">
-									{{ translations[current_language]['General Data'] }}
-								</h3>
+								{% set has_general_data = translated_entity.field_academic_year.value is not empty
+									or translated_entity.field_programme_level.value is not empty
+									or translated_entity.field_credits.value is not empty
+									or translated_entity.field_programme_modality.value is not empty
+									or translated_entity.field_isced_f.value is not empty
+									or translated_entity.field_qualification_level.value is not empty
+									or translated_entity.field_programme_mode_of_study.value is not empty
+									or translated_entity.field_professional_practices.value is not empty
+									or translated_entity.field_avaliable_for_mobility.value is not empty %}
+								{% if has_general_data %}
+									<h3 class="subsection-title m-0 mb-3">
+										{{ translations[current_language]['General Data'] }}
+									</h3>
+								{% endif %}
 
-								<div class="degree-info-item mb-2">
-									<strong>{{ translations[current_language]['Academic Course'] }}:</strong>
-									{{ translated_entity.field_academic_year.value }}
-								</div>
+								{% if translated_entity.field_academic_year.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['Academic Course'] }}:</strong>
+										{{ translated_entity.field_academic_year.value }}
+									</div>
+								{% endif %}
 
-								<div class="degree-info-item mb-2">
-									<strong>{{ translations[current_language]['Level'] }}:</strong>
-									{{ translated_entity.field_programme_level.value }}
-								</div>
+								{% if translated_entity.field_programme_level.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['Level'] }}:</strong>
+										{{ translated_entity.field_programme_level.value }}
+									</div>
+								{% endif %}
 
-								<div class="degree-info-item mb-2">
-									<strong>{{ translations[current_language]['ECTS Credits'] }}:</strong>
-									{{ translated_entity.field_credits.value }}
-								</div>
+								{% if translated_entity.field_credits.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['ECTS Credits'] }}:</strong>
+										{{ translated_entity.field_credits.value }}
+									</div>
+								{% endif %}
 
-								<div class="degree-info-item mb-2">
-									<strong>{{ translations[current_language]['Modality'] }}:</strong>
-									{{ translations[current_language][translated_entity.field_modality.value]|default(translated_entity.field_modality.value)|capitalize }}
-								</div>
+								{% if translated_entity.field_programme_mode_of_learning.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['Modality'] }}:</strong>
+										{{translated_entity.field_programme_mode_of_learning.value}}
+									</div>
+								{% endif %}
 
-								<div class="degree-info-item mb-2">
-									<strong>{{ translations[current_language]['ISCED-F'] }}:</strong>
-									{{ translated_entity.field_isced_f.value }}
-								</div>
+								{% if translated_entity.field_isced_f.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['ISCED-F'] }}:</strong>
+										{{ translated_entity.field_isced_f.value }}
+									</div>
+								{% endif %}
 
-								<div class="degree-info-item mb-2">
-									<strong>{{ translations[current_language]['Qualification Level'] }}:</strong>
-									{{ translated_entity.qualification_level.value }}
-								</div>
+								{% if translated_entity.field_qualification_level.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['Qualification Level'] }}:</strong>
+										{{ translated_entity.field_qualification_level.value }}
+									</div>
+								{% endif %}
 
-								<div class="degree-info-item mb-2">
-									<strong>{{ translations[current_language]['Study Modality'] }}:</strong>
-									{{ translated_entity.study_modality.value }}
-								</div>
+								{% if translated_entity.field_programme_mode_of_study.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['Study Modality'] }}:</strong>
+										{{ translated_entity.field_programme_mode_of_study.value }}
+									</div>
+								{% endif %}
 
-								<div class="degree-info-item mb-2">
-									<strong>{{ translations[current_language]['Professional Practices'] }}:</strong>
-									{{ translations[current_language][translated_entity.field_professional_practices.value] }}
-								</div>
-                <div class="degree-info-item mb-2">
-                  <strong>{{ translations[current_language]['Avaliable for Mobility Students'] }}:</strong>
-						{{ translated_entity.field_avaliable_for_mobility.value ? 'Yes' : 'No' }}
+								{% if translated_entity.field_professional_practices.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['Professional Practices'] }}:</strong>
+										{{ translations[current_language][translated_entity.field_professional_practices.value] }}
+									</div>
+								{% endif %}
+								{% if translated_entity.field_avaliable_for_mobility.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['Avaliable for Mobility Students'] }}:</strong>
+										{{ translated_entity.field_avaliable_for_mobility.value ? 'Yes' : 'No' }}
 
-                </div>
+									</div>
+								{% endif %}
+
+								{% if translated_entity.field_programme_web.value is not empty %}
+									<div class="d-flex align-items-start mb-3">
+										<i class="fas fa-globe me-2 mt-1"></i>
+										<p class="mb-0">
+											<a href="{{ translated_entity.field_programme_web.uri ?? translated_entity.field_programme_web.value }}" target="_blank" rel="noopener" style="color: {{university_primary_color}}">
+												{{ translated_entity.field_programme_web.title ?? translated_entity.field_programme_web.value }}
+											</a>
+										</p>
+									</div>
+								{% endif %}
+
+
+
+
+
 							</div>
 
 							<!-- Columna 2: Coordination -->
 							<div class="col-12 col-md-6 col-xl-12">
-								<h3 class="mt-4 mt-md-0 mt-xl-4">
-									{{ translations[current_language]['Coordination'] }}
-								</h3>
+								{% set has_coordination = translated_entity.field_coordinator.value is not empty
+									or translated_entity.field_programme_phone.value is not empty
+									or translated_entity.field_email.value is not empty %}
+								{% if has_coordination %}
+									<h3 class="mt-4 mt-md-0 mt-xl-4">
+										{{ translations[current_language]['Coordination'] }}
+									</h3>
+								{% endif %}
 
-								<div class="degree-info-item mb-1">{{ translated_entity.field_coordinator.value }}</div>
+								{% if translated_entity.field_coordinator.value is not empty %}
+									<div class="degree-info-item mb-1">{{ translated_entity.field_coordinator.value }}</div>
+								{% endif %}
 
-								<div class="degree-info-item mb-1">
-									<i class="fa fa-phone"></i>
-									{{ translated_entity.field_programme_phone.value }}
-								</div>
+								{% if translated_entity.field_programme_phone.value is not empty %}
+									<div class="degree-info-item mb-1">
+										<i class="fa fa-phone"></i>
+										{{ translated_entity.field_programme_phone.value }}
+									</div>
+								{% endif %}
 
-								<div class="degree-info-item mb-1">
-									<i class="fa fa-envelope"></i>
-									{{ translated_entity.field_email.value }}
-								</div>
+								{% if translated_entity.field_email.value is not empty %}
+									<div class="degree-info-item mb-1">
+										<i class="fa fa-envelope"></i>
+										{{ translated_entity.field_email.value }}
+									</div>
+								{% endif %}
 							</div>
 
 						</div>
@@ -708,21 +887,21 @@
 
 
 					<!--
-															<div class="information-footer p-2">
-																<div class="d-flex justify-content-between align-items-center">
-																	<div>
-																		<i class="fas fa-share-square custom-icon me-2"></i>
-										
-																		<span class="text-white">Original Source:
-																		</span>
-																		<a href="#" class="guia-docente-link">www.example.com</a>
-																	</div>
-																	<div>
-																		<span>Updated 12-05-2024</span>
-																	</div>
-																</div>
-															</div>
-															-->
+																				<div class="information-footer p-2">
+																					<div class="d-flex justify-content-between align-items-center">
+																						<div>
+																							<i class="fas fa-share-square custom-icon me-2"></i>
+															
+																							<span class="text-white">Original Source:
+																							</span>
+																							<a href="#" class="guia-docente-link">www.example.com</a>
+																						</div>
+																						<div>
+																							<span>Updated 12-05-2024</span>
+																						</div>
+																					</div>
+																				</div>
+																				-->
 
 
 				</div>
@@ -735,56 +914,54 @@
 	</div>
 
 </div></div></div></div><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script><!--
-	<script>
-	
-	(function () {
-	  const menu = document.getElementById('block-b5subtheme-institutionmenublock');
-	  if (!menu) return;
-	
-	  // Crea un "spacer" para evitar salto cuando fijamos el menú
-	  const spacer = document.createElement('div');
-	  spacer.style.height = menu.offsetHeight + 'px';
-	  spacer.style.display = 'none';
-	  menu.parentNode.insertBefore(spacer, menu);
-	
-	  const getAdminOffset = () =>
-	    parseInt(getComputedStyle(document.documentElement)
-	      .getPropertyValue('--drupal-displace-offset-top')) || 0;
-	
-	  let originalTop = menu.getBoundingClientRect().top + window.scrollY - getAdminOffset();
-	
-	  function onScrollOrResize() {
-	    const adminOffset = getAdminOffset();
-	
-	    if (window.scrollY >= originalTop) {
-	      menu.style.position = 'fixed';
-	      menu.style.top = adminOffset + 'px';
-	      menu.style.left = '0';
-	      menu.style.right = '0';
-	      menu.style.width = '100%';
-	      menu.style.zIndex = '9999';
-	      spacer.style.display = 'block';           // evita salto
-	    } else {
-	      menu.style.position = 'static';
-	      spacer.style.display = 'none';
-	    }
-	  }
-	
-	  window.addEventListener('scroll', onScrollOrResize);
-	  window.addEventListener('resize', () => {
-	    // Recalcula alturas y punto de anclaje en resize
-	    spacer.style.display = 'none';
-	    menu.style.position = 'static';
-	    spacer.style.height = menu.offsetHeight + 'px';
-	    originalTop = menu.getBoundingClientRect().top + window.scrollY - getAdminOffset();
-	    onScrollOrResize();
-	  });
-	
-	  // Primer cálculo
-	  onScrollOrResize();
-	})();
-	
-	</script>
-	-->
-
-
+		<script>
+		
+		(function () {
+		  const menu = document.getElementById('block-b5subtheme-institutionmenublock');
+		  if (!menu) return;
+		
+		  // Crea un "spacer" para evitar salto cuando fijamos el menú
+		  const spacer = document.createElement('div');
+		  spacer.style.height = menu.offsetHeight + 'px';
+		  spacer.style.display = 'none';
+		  menu.parentNode.insertBefore(spacer, menu);
+		
+		  const getAdminOffset = () =>
+		    parseInt(getComputedStyle(document.documentElement)
+		      .getPropertyValue('--drupal-displace-offset-top')) || 0;
+		
+		  let originalTop = menu.getBoundingClientRect().top + window.scrollY - getAdminOffset();
+		
+		  function onScrollOrResize() {
+		    const adminOffset = getAdminOffset();
+		
+		    if (window.scrollY >= originalTop) {
+		      menu.style.position = 'fixed';
+		      menu.style.top = adminOffset + 'px';
+		      menu.style.left = '0';
+		      menu.style.right = '0';
+		      menu.style.width = '100%';
+		      menu.style.zIndex = '9999';
+		      spacer.style.display = 'block';           // evita salto
+		    } else {
+		      menu.style.position = 'static';
+		      spacer.style.display = 'none';
+		    }
+		  }
+		
+		  window.addEventListener('scroll', onScrollOrResize);
+		  window.addEventListener('resize', () => {
+		    // Recalcula alturas y punto de anclaje en resize
+		    spacer.style.display = 'none';
+		    menu.style.position = 'static';
+		    spacer.style.height = menu.offsetHeight + 'px';
+		    originalTop = menu.getBoundingClientRect().top + window.scrollY - getAdminOffset();
+		    onScrollOrResize();
+		  });
+		
+		  // Primer cálculo
+		  onScrollOrResize();
+		})();
+		
+		</script>
+		-->

@@ -87,6 +87,27 @@
 										{% if role %}
 											<div class="text-muted text-uppercase small">{{ role }}</div>
 										{% endif %}
+										<div class="authority-icons d-flex align-items-center gap-3 mt-2">
+
+											<a href="#" class="authority-icon">
+												<i class="fas fa-globe"></i>
+											</a>
+
+											<a href="#" class="authority-icon">
+												<i class="fas fa-envelope"></i>
+											</a>
+
+											<a href="#" class="authority-icon">
+												<i class="fas fa-phone-alt"></i>
+											</a>
+
+											{% if authority.field_mobility_contact.value %}
+												<span class="text-muted small ms-2">
+												&middot; Mobility
+												</span>
+											{% endif %}
+
+										</div>
 									</div>
 								</div>
 

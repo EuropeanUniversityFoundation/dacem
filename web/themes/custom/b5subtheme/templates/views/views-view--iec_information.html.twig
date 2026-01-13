@@ -106,7 +106,7 @@
 			<div
 				class="programme-section" id="competencies" style="text-align: justify;">
 				<!--<h3 class="subsection-title">{{ translations[current_language]['SUBJECT CONTENT'] }}</h3>-->
-				<h3 class="subsection-title">{{ translations[current_language]['Iec Contents'] }}</h3>
+				<h3 class="subsection-title">{{ translations[current_language]['Contents'] }}</h3>
 				{{ translated_iec.field_iec_contents.value|raw }}
 			</div>
 			<div class="programme-section" id="competencies" style="text-align: justify;">
@@ -128,6 +128,10 @@
 			<div class="programme-section" id="competencies" style="text-align: justify;">
 				<h3 class="subsection-title">{{ translations[current_language]['Mobility'] }}</h3>
 				{{ translated_iec.field_iec_mobility.value|raw }}
+			</div>
+			<div class="programme-section" id="competencies" style="text-align: justify;">
+				<h3 class="subsection-title">Grading Scheme</h3>
+				{{ translated_iec.field_iec_grading_scheme.value|raw }}
 			</div>
 
 			</div>
@@ -206,6 +210,22 @@
         <div class="degree-info-item mb-1">
           <i class="fa fa-envelope"></i> {{ translated_iec.field_iec_email.value }}
         </div>
+
+
+		{% if translated_iec.field_iec_web.value is not empty %}
+			<div class="d-flex align-items-start mb-3">
+				<i class="fas fa-globe me-2 mt-1"></i>
+				<p class="mb-0">
+					<a href="{{ translated_iec.field_iec_web.uri ?? translated_iec.field_iec_web.value }}" target="_blank" rel="noopener" style="color: {{university_primary_color}}">
+						{{ translated_iec.field_iec_web.title ?? translated_iec.field_iec_web.value }}
+					</a>
+				</p>
+			</div>
+		{% endif %}
+
+
+
+
       </div>
 
     </div>
