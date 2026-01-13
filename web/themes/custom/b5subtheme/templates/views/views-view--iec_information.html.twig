@@ -86,53 +86,63 @@
 <div class="my-custom-container-2">
 	<div class="row">
 		<div class="col-sm-12 col-md-12 col-xl-8 order-2 order-xl-1">
-			<div
-				class="programme-section" id="general-information" style="text-align: justify;">
-				<!--<h3 class="subsection-title">{{ translations[current_language]['Presentation'] }}</h3>-->
-				<h3 class="subsection-title mt-0">{{ translations[current_language]['Description'] }}</h3>
-				{{ translated_iec.field_iec_description.value|raw }}
-			</div>
+			{% if translated_iec.field_iec_description.value is not empty %}
+				<div class="programme-section" id="general-information" style="text-align: justify;">
+					<!--<h3 class="subsection-title">{{ translations[current_language]['Presentation'] }}</h3>-->
+					<h3 class="subsection-title mt-0">{{ translations[current_language]['Description'] }}</h3>
+					{{ translated_iec.field_iec_description.value|raw }}
+				</div>
+			{% endif %}
 		
+			{% if translated_iec.field_iec_requirements.value is not empty %}
+				<div class="programme-section" id="main-objective" style="text-align: justify;">
+					<h3 class="subsection-title">{{ translations[current_language]['Requirements'] }}</h3>
+					{{ translated_iec.field_iec_requirements.value|raw }}
+				</div>
+			{% endif %}
 
-		
-	
 
-	
-		
-			<div class="programme-section" id="main-objective" style="text-align: justify;">
-				<h3 class="subsection-title">{{ translations[current_language]['Instructors'] }}</h3>
-				{{ translated_iec.field_iec_instructors.value|raw }}
-			</div>
-			<div
-				class="programme-section" id="competencies" style="text-align: justify;">
-				<!--<h3 class="subsection-title">{{ translations[current_language]['SUBJECT CONTENT'] }}</h3>-->
-				<h3 class="subsection-title">{{ translations[current_language]['Contents'] }}</h3>
-				{{ translated_iec.field_iec_contents.value|raw }}
-			</div>
-			<div class="programme-section" id="competencies" style="text-align: justify;">
-				<h3 class="subsection-title">{{ translations[current_language]['Learning Outcomes'] }}</h3>
-				{{ translated_iec.field_iec_learning_outcomes.value|raw }}
-			</div>
-			<div class="programme-section" id="competencies" style="text-align: justify;">
-				<h3 class="subsection-title">{{ translations[current_language]['Recommended Readings and Tools'] }}</h3>
-				{{ translated_iec.field_iec_recommendations.value|raw }}
-			</div>
-			<div class="programme-section" id="competencies" style="text-align: justify;">
-				<h3 class="subsection-title">{{ translations[current_language]['Planned Activities'] }}</h3>
-				{{ translated_iec.field_iec_planned_activities.value|raw }}
-			</div>
-			<div class="programme-section" id="competencies" style="text-align: justify;">
-				<h3 class="subsection-title">{{ translations[current_language]['Evaluation Methods and Criteria'] }}</h3>
-				{{ translated_iec.field_iec_evaluation.value|raw }}
-			</div>
-			<div class="programme-section" id="competencies" style="text-align: justify;">
-				<h3 class="subsection-title">{{ translations[current_language]['Mobility'] }}</h3>
-				{{ translated_iec.field_iec_mobility.value|raw }}
-			</div>
-			<div class="programme-section" id="competencies" style="text-align: justify;">
-				<h3 class="subsection-title">Grading Scheme</h3>
-				{{ translated_iec.field_iec_grading_scheme.value|raw }}
-			</div>
+			{% if translated_iec.field_iec_instructors.value is not empty %}
+				<div class="programme-section" id="main-objective" style="text-align: justify;">
+					<h3 class="subsection-title">{{ translations[current_language]['Instructors'] }}</h3>
+					{{ translated_iec.field_iec_instructors.value|raw }}
+				</div>
+			{% endif %}
+
+
+			{% if translated_iec.field_iec_contents.value is not empty %}
+				<div class="programme-section" id="competencies" style="text-align: justify;">
+					<!--<h3 class="subsection-title">{{ translations[current_language]['SUBJECT CONTENT'] }}</h3>-->
+					<h3 class="subsection-title">{{ translations[current_language]['Contents'] }}</h3>
+					{{ translated_iec.field_iec_contents.value|raw }}
+				</div>
+			{% endif %}
+			{% if translated_iec.field_iec_learning_outcomes.value is not empty %}
+				<div class="programme-section" id="competencies" style="text-align: justify;">
+					<h3 class="subsection-title">{{ translations[current_language]['Learning Outcomes'] }}</h3>
+					{{ translated_iec.field_iec_learning_outcomes.value|raw }}
+				</div>
+			{% endif %}
+			{% if translated_iec.field_iec_recommendations.value is not empty %}
+				<div class="programme-section" id="competencies" style="text-align: justify;">
+					<h3 class="subsection-title">{{ translations[current_language]['Recommended Readings and Tools'] }}</h3>
+					{{ translated_iec.field_iec_recommendations.value|raw }}
+				</div>
+			{% endif %}
+			{% if translated_iec.field_iec_planned_activities.value is not empty %}
+				<div class="programme-section" id="competencies" style="text-align: justify;">
+					<h3 class="subsection-title">{{ translations[current_language]['Planned Activities'] }}</h3>
+					{{ translated_iec.field_iec_planned_activities.value|raw }}
+				</div>
+			{% endif %}
+			{% if translated_iec.field_iec_evaluation.value is not empty %}
+				<div class="programme-section" id="competencies" style="text-align: justify;">
+					<h3 class="subsection-title">{{ translations[current_language]['Assessment Methods and Criteria'] }}</h3>
+					{{ translated_iec.field_iec_evaluation.value|raw }}
+				</div>
+			{% endif %}
+			
+			
 
 			</div>
 		
@@ -149,49 +159,58 @@
 
         <div class="degree-info-item mb-2">
           <strong>{{ translations[current_language]['Academic Course'] }}:</strong>
-          23/24
+          25/26
         </div>
 
-        <div class="degree-info-item mb-2">
-          <strong>{{ translations[current_language]['Type'] }}:</strong>
-          {{ translations[current_language][translated_iec.field_iec_type.value]|capitalize }}
-        </div>
+        {% if translated_iec.field_iec_type.value is not empty %}
+          <div class="degree-info-item mb-2">
+            <strong>{{ translations[current_language]['Category'] }}:</strong>
+            {{ translations[current_language][translated_iec.field_iec_type.value]|capitalize }}
+          </div>
+        {% endif %}
 
-        <div class="degree-info-item mb-2">
-          <strong>{{ translations[current_language]['Course'] }}:</strong>
-          {{ translated_iec.field_iec_year.value }}
-        </div>
+        {% if translated_iec.field_iec_year.value is not empty %}
+          <div class="degree-info-item mb-2">
+            <strong>{{ translations[current_language]['Course'] }}:</strong>
+            {{ translated_iec.field_iec_year.value }}
+          </div>
+        {% endif %}
 
-        <div class="degree-info-item mb-2">
-          <strong>{{ translations[current_language]['Period'] }}:</strong>
-          {{ translated_iec.field_iec_term.value }}
-        </div>
+        {% if translated_iec.field_iec_term.value is not empty %}
+          <div class="degree-info-item mb-2">
+            <strong>{{ translations[current_language]['Period'] }}:</strong>
+            {{ translated_iec.field_iec_term.value }}
+          </div>
+        {% endif %}
 
-        <div class="degree-info-item mb-2">
-          <strong>{{ translations[current_language]['ECTS Credits'] }}:</strong>
-          {{ translated_iec.field_iec_credits.value }}
-        </div>
+        {% if translated_iec.field_iec_credits.value is not empty %}
+          <div class="degree-info-item mb-2">
+            <strong>{{ translations[current_language]['ECTS Credits'] }}:</strong>
+            {{ translated_iec.field_iec_credits.value }}
+          </div>
+        {% endif %}
 
-        <div class="degree-info-item mb-2">
-          <strong>{{ translations[current_language]['Modality'] }}:</strong>
-          {{ translations[current_language][translated_iec.field_iec_modality.value] }}
-        </div>
+        {% if translated_iec.field_iec_modality.value is not empty %}
+          <div class="degree-info-item mb-2">
+            <strong>{{ translations[current_language]['Modality'] }}:</strong>
+            {{ translated_iec.field_iec_modality.value}}
+          </div>
+        {% endif %}
 
-        <div class="degree-info-item mb-2">
-          <strong>{{ translations[current_language]['Requirements'] }}:</strong>
-          {{ translated_iec.field_iec_requirements.value | raw }}
-        </div>
+        {% if translated_iec.field_iec_language.value is not empty %}
+          <div class="degree-info-item mb-2">
+            <strong>{{ translations[current_language]['Language'] }}:</strong>
+            {{ translated_iec.field_iec_language.value }}
+          </div>
+        {% endif %}
 
-        <div class="degree-info-item mb-2">
-          <strong>{{ translations[current_language]['Language'] }}:</strong>
-          {{ translated_iec.field_iec_language.value }}
-        </div>
+		{% if translated_iec.field_iec_avaliable_for_mobility.value is not empty %}
+		  <div class="degree-info-item mb-2">
+            <strong>{{ translations[current_language]['Avaliable for Mobility Students'] }}:</strong>
+            {{ translated_iec.field_iec_avaliable_for_mobility.value ? 'Yes' : 'No' }}
 
-		<div class="degree-info-item mb-2">
-          <strong>{{ translations[current_language]['Avaliable for Mobility Students'] }}:</strong>
-          {{ translated_iec.field_iec_avaliable_for_mobility.value ? 'Yes' : 'No' }}
-
-        </div>
+          </div>
+		{% endif %}
 
 
 
@@ -201,15 +220,21 @@
       <div class="col-12 col-md-6 col-xl-12">
         <h3 class="mt-4 mt-md-0 mt-xl-4">{{ translations[current_language]['Coordination']}}</h3>
 
-        <div class="degree-info-item mb-1">{{ translated_iec.field_iec_coordinator.value }}</div>
+        {% if translated_iec.field_iec_coordinator.value is not empty %}
+          <div class="degree-info-item mb-1">{{ translated_iec.field_iec_coordinator.value }}</div>
+        {% endif %}
 
-        <div class="degree-info-item mb-1">
-          <i class="fa fa-phone"></i> {{ translated_iec.field_iec_phone.value }}
-        </div>
+        {% if translated_iec.field_iec_phone.value is not empty %}
+          <div class="degree-info-item mb-1">
+            <i class="fa fa-phone"></i> {{ translated_iec.field_iec_phone.value }}
+          </div>
+        {% endif %}
 
-        <div class="degree-info-item mb-1">
-          <i class="fa fa-envelope"></i> {{ translated_iec.field_iec_email.value }}
-        </div>
+        {% if translated_iec.field_iec_email.value is not empty %}
+          <div class="degree-info-item mb-1">
+            <i class="fa fa-envelope"></i> {{ translated_iec.field_iec_email.value }}
+          </div>
+        {% endif %}
 
 
 		{% if translated_iec.field_iec_web.value is not empty %}

@@ -217,7 +217,7 @@
 			{% set current_language = institution.langcode.value %}
 
 			<div
-				class="row" id="description">
+				class="row" id="description" style="scroll-margin-top: 150px;">
 				<!-- Parte izquierda con información de la universidad -->
 				<div class="col-12 col-lg-8 order-2 order-lg-1">
 					{% if institution.field_information.value is not empty %}
@@ -333,7 +333,7 @@
 <div class="section-container">
 	<div class='my-custom-container-2'>
 
-		<div class="admission-section" id='admission'>
+		<div class="admission-section" id='admission' style="scroll-margin-top: 150px;">
 
 
 			<h2 class="section-title text-center">Admission</h2>
@@ -378,7 +378,7 @@
 
 <!--<div class="section-margin-negative"></div>-->
 <div class="section-container section-bg-grey">
-	<div class='my-custom-container-2' id='ects-allocation-policy'>
+	<div class='my-custom-container-2' id='ects-allocation-policy' style="scroll-margin-top: 150px;">
 		{% if institution.field_ects_credit_allocation_pol is not empty %}
 
 			<h2 class="section-title text-center">ECTS Allocation Policy</h2>
@@ -393,7 +393,7 @@
 
 <!--<div class="section-margin-negative"></div>-->
 <div class="section-container">
-	<div class="my-custom-container-2" id="mobility">
+	<div class="my-custom-container-2" id="mobility" style="scroll-margin-top: 150px;">
 
 		{% set has_incoming = institution.field_mobility_incoming_students is not empty %}
 		{% set has_outgoing = institution.field_mobility_outgoing_students is not empty %}
@@ -440,7 +440,7 @@
 {% if campuses is not empty %}
 
 
-	<div class='section-container section-bg-grey' id="campuses">
+	<div class='section-container section-bg-grey' id="campuses" style="scroll-margin-top: 150px;">
 
 		<div class="my-custom-container-2">
 
@@ -520,7 +520,7 @@
 
 
 </div></div>{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}
-<div class="section-container" id='organizational-units'>
+<div class="section-container" id='organizational-units' style="scroll-margin-top: 150px;">
 	<div
 		class="my-custom-container-2">
 
@@ -980,4 +980,3 @@ if (items.length > 0) {
 showPage(currentPage);
 }
 });</script>
-

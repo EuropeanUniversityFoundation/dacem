@@ -65,7 +65,7 @@ en:
   Subject: 'Subject'
   Quarter: 'Quarter'
   ECTS: 'ECTS'
-  Type: 'Type'
+  Category: 'Category'
   
 
 
@@ -87,7 +87,7 @@ en:
   Learning Outcomes: 'Learning Outcomes'
   Recommended Readings and Tools: 'Recommended Readings and Tools'
   Planned Activities: 'Planned Activities'
-  Evaluation Methods and Criteria: 'Evaluation Methods and Criteria'
+  Assessment Methods and Criteria: 'Assessment Methods and Criteria'
   in_person: 'In person'
 
 
@@ -95,7 +95,7 @@ en:
   Academic Authorities : 'Academic Authorities'
   Programmes: 'Programmes'
   Organizational Units: 'Organizational Units'
-  Type here to search: 'Type here to search'
+  Category here to search: 'Category here to search'
   Click on an Organizational Unit to see its details. : 'Click on an Organizational Unit to see its details.'
   See more: 'See more'
 
@@ -105,6 +105,7 @@ en:
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
+  Length of Programme: 'Length of Programme'
 
 es:
 
@@ -173,7 +174,7 @@ es:
   Subject: 'Asignatura'
   Quarter: 'Cuatrimestre'
   ECTS: 'ECTS'
-  Type: 'Tipo'
+  Category: 'Tipo'
 
   #Cursos, cambiar nun futuro
   1º Course: '1º Curso'
@@ -192,13 +193,13 @@ es:
   Learning Outcomes: 'RESULTADOS DE APRENDIZAJE'
   Recommended Readings and Tools: 'LECTURAS Y HERRAMIENTAS RECOMENDADAS'
   Planned Activities: 'ACTIVIDADES PLANIFICADAS'
-  Evaluation Methods and Criteria: 'MÉTODOS Y CRITERIOS DE EVALUACIÓN'
+  Assessment Methods and Criteria: 'MÉTODOS Y CRITERIOS DE EVALUACIÓN'
   in_person: 'Presencial'
 
   Academic Authorities: 'Autoridades Académicas'
   Programmes: 'Programas'
   Organizational Units: 'Unidades Organizativas'
-  Type here to search: 'Escribe aquí para buscar'
+  Category here to search: 'Escribe aquí para buscar'
   Click on an Organizational Unit to see its details. : 'Haz click en una Unidad Organizativa para ver sus detalles'
   See more: 'Ver más'
 
@@ -206,6 +207,7 @@ es:
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
+  Length of Programme: 'Length of Programme'
 
 
 
@@ -271,7 +273,7 @@ fr: # Francés
   Subject: 'Sujet'
   Quarter: 'Trimestre'
   ECTS: 'ECTS'
-  Type: 'Type'
+  Category: 'Category'
 
   #Cours
   1º Course: '1º Cours'
@@ -289,13 +291,13 @@ fr: # Francés
   Learning Outcomes: 'RÉSULTATS D’APPRENTISSAGE'
   Recommended Readings and Tools: 'LECTURES ET OUTILS RECOMMANDÉS'
   Planned Activities: 'ACTIVITÉS PLANIFIÉES'
-  Evaluation Methods and Criteria: 'MÉTHODES ET CRITÈRES D’ÉVALUATION'
+  Assessment Methods and Criteria: 'MÉTHODES ET CRITÈRES D’ÉVALUATION'
   in_person: 'En présentiel'
 
   Academic Authorities: 'Autorités académiques'
   Programmes: 'Programmes'
   Organizational Units: 'Unités organisationnelles'
-  Type here to search: 'Tapez ici pour rechercher'
+  Category here to search: 'Tapez ici pour rechercher'
   Click on an Organizational Unit to see its details. : 'Cliquez sur une Unité organisationnelle pour voir ses détails'
   See more: 'Voir plus'
 
@@ -303,6 +305,7 @@ fr: # Francés
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
+  Lenght of Programme: 'Lenght of Programme'
 
 
 
@@ -367,7 +370,7 @@ pt-pt: # Portugués
   Subject: 'Disciplina'
   Quarter: 'Trimestre'
   ECTS: 'ECTS'
-  Type: 'Tipo'
+  Category: 'Tipo'
 
   #Cursos
   1º Course: '1º Ano'
@@ -385,14 +388,14 @@ pt-pt: # Portugués
   Learning Outcomes: 'RESULTADOS DE APRENDIZAGEM'
   Recommended Readings and Tools: 'LEITURAS E FERRAMENTAS RECOMENDADAS'
   Planned Activities: 'ATIVIDADES PLANEJADAS'
-  Evaluation Methods and Criteria: 'MÉTODOS E CRITÉRIOS DE AVALIAÇÃO'
+  Assessment Methods and Criteria: 'MÉTODOS E CRITÉRIOS DE AVALIAÇÃO'
   in_person: 'Presencial'
 
 
   Academic Authorities: 'Autoridades Académicas'
   Programmes: 'Programas'
   Organizational Units: 'Unidades Organizacionais'
-  Type here to search: 'Escreva aqui para pesquisar'
+  Category here to search: 'Escreva aqui para pesquisar'
   Click on an Organizational Unit to see its details. : 'Clique numa Unidade Organizacional para ver os seus detalhes'
   See more: 'Ver mais'
 
@@ -466,7 +469,7 @@ el: # Griego
   Subject: 'Μάθημα'
   Quarter: 'Τρίμηνο'
   ECTS: 'ECTS'
-  Type: 'Τύπος'
+  Category: 'Τύπος'
 
   #Μαθήματα
   1º Course: '1º Έτος'
@@ -484,13 +487,13 @@ el: # Griego
   Learning Outcomes: 'ΜΑΘΗΣΙΑΚΑ ΑΠΟΤΕΛΕΣΜΑΤΑ'
   Recommended Readings and Tools: 'ΠΡΟΤΕΙΝΟΜΕΝΑ ΒΙΒΛΙΑ ΚΑΙ ΕΡΓΑΛΕΙΑ'
   Planned Activities: 'ΠΡΟΓΡΑΜΜΑΤΙΣΜΕΝΕΣ ΔΡΑΣΤΗΡΙΟΤΗΤΕΣ'
-  Evaluation Methods and Criteria: 'ΜΕΘΟΔΟΙ ΚΑΙ ΚΡΙΤΗΡΙΑ ΑΞΙΟΛΟΓΗΣΗΣ'
+  Assessment Methods and Criteria: 'ΜΕΘΟΔΟΙ ΚΑΙ ΚΡΙΤΗΡΙΑ ΑΞΙΟΛΟΓΗΣΗΣ'
   in_person: 'Δια ζώσης'
 
   Academic Authorities: 'Ακαδημαϊκές αρχές'
   Programmes: 'Προγράμματα'
   Organizational Units: 'Οργανωτικές μονάδες'
-  Type here to search: 'Πληκτρολογήστε εδώ για αναζήτηση'
+  Category here to search: 'Πληκτρολογήστε εδώ για αναζήτηση'
   Click on an Organizational Unit to see its details. : 'Κάντε κλικ σε μια Οργανωτική Μονάδα για να δείτε τις λεπτομέρειες της'
   See more: 'Δείτε περισσότερα'
 
@@ -561,7 +564,7 @@ cs: # Checo
   Subject: 'Předmět'
   Quarter: 'Čtvrtletí'
   ECTS: 'ECTS'
-  Type: 'Typ'
+  Category: 'Typ'
 
   #Kurzy
   1º Course: '1. Kurz'
@@ -579,13 +582,13 @@ cs: # Checo
   Learning Outcomes: 'VÝSLEDKY UČENÍ'
   Recommended Readings and Tools: 'DOPORUČENÁ ČTENÍ A NÁSTROJE'
   Planned Activities: 'PLÁNOVANÉ AKTIVITY'
-  Evaluation Methods and Criteria: 'METODY A KRITÉRIA HODNOCENÍ'
+  Assessment Methods and Criteria: 'METODY A KRITÉRIA HODNOCENÍ'
   in_person: 'Přítomný'
 
   Academic Authorities: 'Akademické orgány'
   Programmes: 'Programy'
   Organizational Units: 'Organizační jednotky'
-  Type here to search: 'Pište sem pro vyhledávání'
+  Category here to search: 'Pište sem pro vyhledávání'
   Click on an Organizational Unit to see its details. : 'Klikněte na organizační jednotku pro zobrazení detailů'
   See more: 'Zobrazit více'
 
@@ -659,7 +662,7 @@ sl: # Esloveno
   Subject: 'Predmet'
   Quarter: 'Četrtletje'
   ECTS: 'ECTS'
-  Type: 'Tip'
+  Category: 'Tip'
 
   #Tečaji
   1º Course: '1º Tečaj'
@@ -677,14 +680,14 @@ sl: # Esloveno
   Learning Outcomes: 'UČNI IZIDI'
   Recommended Readings and Tools: 'PRIPOROČENO GRADIVO IN ORODJA'
   Planned Activities: 'NAČRTOVANE AKTIVNOSTI'
-  Evaluation Methods and Criteria: 'METODE IN KRITERIJI VREDNOTENJA'
+  Assessment Methods and Criteria: 'METODE IN KRITERIJI VREDNOTENJA'
   in_person: 'Osebno'
 
 
   Academic Authorities: 'Akademske oblasti'
   Programmes: 'Programi'
   Organizational Units: 'Organizacijske enote'
-  Type here to search: 'Vnesite tukaj za iskanje'
+  Category here to search: 'Vnesite tukaj za iskanje'
   Click on an Organizational Unit to see its details. : 'Kliknite na organizacijsko enoto za ogled podrobnosti'
   See more: 'Poglej več'
 
@@ -755,7 +758,7 @@ hu: # Húngaro
   Subject: 'Tantárgy'
   Quarter: 'Negyedév'
   ECTS: 'ECTS'
-  Type: 'Típus'
+  Category: 'Típus'
 
   #Tantárgyak
   1º Course: '1. Év'
@@ -773,13 +776,13 @@ hu: # Húngaro
   Learning Outcomes: 'TANULÁSI EREDMÉNYEK'
   Recommended Readings and Tools: 'AJÁNLOTT OLVASMÁNYOK ÉS ESZKÖZÖK'
   Planned Activities: 'TERVEZETT TEVÉKENYSÉGEK'
-  Evaluation Methods and Criteria: 'ÉRTÉKELÉSI MÓDSZEREK ÉS KRITÉRIUMOK'
+  Assessment Methods and Criteria: 'ÉRTÉKELÉSI MÓDSZEREK ÉS KRITÉRIUMOK'
   in_person: 'Személyes'
 
   Academic Authorities: 'Akadémiai hatóságok'
   Programmes: 'Programok'
   Organizational Units: 'Szervezeti egységek'
-  Type here to search: 'Írjon ide a kereséshez'
+  Category here to search: 'Írjon ide a kereséshez'
   Click on an Organizational Unit to see its details. : 'Kattintson egy szervezeti egységre a részletek megtekintéséhez'
   See more: 'Továbbiak'
 
@@ -852,7 +855,7 @@ et: # Estonio
   Subject: 'Aine'
   Quarter: 'Kvartal'
   ECTS: 'ECTS'
-  Type: 'Tüüp'
+  Category: 'Tüüp'
 
   #Kursused
   1º Course: '1º Kursus'
@@ -870,13 +873,13 @@ et: # Estonio
   Learning Outcomes: 'ÕPIVÄLJUNDID'
   Recommended Readings and Tools: 'SOOVITATUD LUGEMIS- JA TÖÖRIISTAD'
   Planned Activities: 'PLANEERITUD TEGEVUSED'
-  Evaluation Methods and Criteria: 'HINDAMISMEETODID JA KRITEERIUMID'
+  Assessment Methods and Criteria: 'HINDAMISMEETODID JA KRITEERIUMID'
   in_person: 'Kohapeal'
 
   Academic Authorities: 'Akadeemilised võimud'
   Programmes: 'Programmid'
   Organizational Units: 'Organisatsiooniüksused'
-  Type here to search: 'Sisesta siia otsinguks'
+  Category here to search: 'Sisesta siia otsinguks'
   Click on an Organizational Unit to see its details. : 'Klõpsa organisatsiooniüksusel, et näha selle üksikasju'
   See more: 'Vaata veel'
 
@@ -948,7 +951,7 @@ gl: # Gallego
   Subject: 'Asignatura'
   Quarter: 'Cuatrimestre'
   ECTS: 'ECTS'
-  Type: 'Tipo'
+  Category: 'Tipo'
 
   #Cursos
   1º Course: '1º Curso'
@@ -966,7 +969,7 @@ gl: # Gallego
   Learning Outcomes: 'RESULTADOS DE APRENDIZAXE'
   Recommended Readings and Tools: 'LECTURAS E FERRAMENTAS RECOMENDADAS'
   Planned Activities: 'ACTIVIDADES PLANIFICADAS'
-  Evaluation Methods and Criteria: 'MÉTODOS E CRITERIOS DE AVALIACIÓN'
+  Assessment Methods and Criteria: 'MÉTODOS E CRITERIOS DE AVALIACIÓN'
   in_person: 'Presencial'
 
   Mobility: 'Mobility'

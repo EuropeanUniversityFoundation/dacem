@@ -144,34 +144,31 @@
 			class="dropdown d-lg-none">
 			<!-- Botón para mostrar el menú desplegable en pantallas pequeñas -->
 			<button id="programmeDropdownButton" class="btn btn-secondary dropdown-toggle w-100 button-menu-programme" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-				{{ 'General Information'|t }}
+				{{ 'Overview'|t }}
 			</button>
 
 			<!-- Menú desplegable -->
 			<ul class="dropdown-menu programme-menu w-100" aria-labelledby="programmeDropdownButton">
 				<li>
-					<a class="dropdown-item" href="#general-information">{{ 'General Information'|t }}</a>
+					<a class="dropdown-item" href="#presentation">{{ 'Overview'|t }}</a>
 				</li>
 				<li>
-					<a class="dropdown-item" href="#main-objective">{{ 'Main Objective'|t }}</a>
+					<a class="dropdown-item" href="#structure">{{ 'Curriculum'|t }}</a>
 				</li>
 				<li>
-					<a class="dropdown-item" href="#competencies">{{ 'Competencies'|t }}</a>
+					<a class="dropdown-item" href="#admission-requirements">{{ 'Admission'|t }}</a>
 				</li>
 				<li>
-					<a class="dropdown-item" href="#qualification">{{ 'Qualification'|t }}</a>
+					<a class="dropdown-item" href="#grading-scale">{{ 'Assessment'|t }}</a>
 				</li>
 				<li>
 					<a class="dropdown-item" href="#mobility">{{ 'Mobility'|t }}</a>
 				</li>
 				<li>
-					<a class="dropdown-item" href="#iecs">{{ 'Subjects'|t }}</a>
+					<a class="dropdown-item" href="#work-placements">{{ 'Practice'|t }}</a>
 				</li>
 				<li>
-					<a class="dropdown-item" href="#admission">{{ 'Admission'|t }}</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#regulations">{{ 'Regulations'|t }}</a>
+					<a class="dropdown-item" href="#occupational-profiles">{{ 'Careers'|t }}</a>
 				</li>
 			</ul>
 
@@ -180,28 +177,25 @@
 		<!-- Menú de pestañas visible en pantallas grandes -->
 		<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 			<li class="nav-item">
-				<a class="nav-link active" href="#general-information">{{ translations[current_language]['General Information']}}</a>
+				<a class="nav-link active" href="#presentation">{{ 'Overview'|t }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#main-objective">{{ translations[current_language]['Main Objective'] }}</a>
+				<a class="nav-link" href="#structure">{{ 'Curriculum'|t }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#competencies">{{ translations[current_language]['Competencies'] }}</a>
+				<a class="nav-link" href="#admission-requirements">{{ 'Admission'|t }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#qualification">{{translations[current_language]['Qualification']  }}</a>
+				<a class="nav-link" href="#grading-scale">{{ 'Assessment'|t }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#mobility">{{translations[current_language]['Mobility']  }}</a>
+				<a class="nav-link" href="#mobility">{{ translations[current_language]['Mobility'] }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#iecs">{{ translations[current_language]['Subjects'] }}</a>
+				<a class="nav-link" href="#work-placements">{{ 'Practice'|t }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#admission">{{ translations[current_language]['Admission']  }}</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#regulations">{{ translations[current_language]['Regulations'] }}</a>
+				<a class="nav-link" href="#occupational-profiles">{{ 'Careers'|t }}</a>
 			</li>
 		</ul>
 	</div>
@@ -238,49 +232,49 @@
 			<div class="row">
 				<div class="col-sm-12 col-md-12 col-xl-8 order-2 order-xl-1">
 					{% if translated_entity.field_programme_description.value is not empty %}
-						<div class="programme-section " id="general-information" style="text-align: justify;">
+						<div class="programme-section" id="presentation" style="text-align: justify; scroll-margin-top: 150px;">
 							<h3 class="subsection-title m-0">{{ translations[current_language]['Presentation'] }}</h3>
 							{{ translated_entity.field_programme_description.value|raw }}
 						</div>
 					{% endif %}
 
 					{% if translated_entity.field_main_objective.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
+						<div class="programme-section" id="main-objective" style="text-align: justify; scroll-margin-top: 150px;">
 							<h3 class="subsection-title">{{ translations[current_language]['Main Objective'] }}</h3>
 							{{ translated_entity.field_main_objective.value|raw }}
 						</div>
 					{% endif %}
 					{% if translated_entity.field_competencies.value is not empty %}
-						<div class="programme-section" id="competencies" style="text-align: justify;">
+						<div class="programme-section" id="competencies" style="text-align: justify; scroll-margin-top: 150px;">
 							<h3 class="subsection-title">{{ translations[current_language]['Competencies'] }}</h3>
 							{{ translated_entity.field_competencies.value|raw }}
 						</div>
 					{% endif %}
 					{% if translated_entity.field_programme_learn_outcomes.value is not empty %}
-						<div class="programme-section" id="learning-outcomes" style="text-align: justify;">
-							<h3 class="subsection-title">Learning outcomes</h3>
+						<div class="programme-section" id="learning-outcomes" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Learning Outcomes'|t }}</h3>
 							{{ translated_entity.field_programme_learn_outcomes.value|raw }}
 						</div>
 					{% endif %}
 
 					{% if translated_entity.field_programme_qualification.value is not empty %}
-						<div class="programme-section" id="qualification" style="text-align: justify;">
+						<div class="programme-section" id="qualification" style="text-align: justify; scroll-margin-top: 150px;">
 							<h3 class="subsection-title">{{ translations[current_language]['Qualification'] }}</h3>
 							{{ translated_entity.field_programme_qualification.value|raw }}
 						</div>
 					{% endif %}
 
-					{% if translated_entity.field_programme_mobility.value is not empty %}
-						<div class="programme-section" id="mobility" style="text-align: justify;">
-							<h3 class="subsection-title">{{ translations[current_language]['Mobility'] }}</h3>
-							{{ translated_entity.field_programme_mobility.value|raw }}
+					{% if translated_entity.field_programme_languages.value is not empty %}
+						<div class="programme-section" id="languages" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Languages'|t }}</h3>
+							{{ translated_entity.field_programme_languages.value|raw }}
 						</div>
 					{% endif %}
 
 					{% if translated_entity.field_distribution_of_credits.value is not empty %}
-						<div class="programme-section" id="structure" style="text-align: justify;">
+						<div class="programme-section" id="structure" style="text-align: justify; scroll-margin-top: 150px;">
 							<h3 class="subsection-title">
-								{{ translations[current_language]['Structure and Distribution of credits'] }}
+								{{ 'Structure and Distribution of Credits'|t }}
 							</h3>
 
 
@@ -290,16 +284,15 @@
 					{% endif %}
 
 
-					<div class="programme-section" id="iecs" style="text-align: justify;">
+					<div class="programme-section" id="iecs" style="text-align: justify; scroll-margin-top: 150px;">
 						<h3 class="subsection-title">{{ translations[current_language]['Subjects'] }}</h3>
-						<p>{{ 'The following tables show all the iecs that make up the Study Plan with reference to the 2023-24 academic year'|t }}:</p>
-
+						
 						{# === TABS NAV: By course / By semester === #}
 						<ul class="nav nav-tabs justify-content-center mb-3" id="iecsTabs" role="tablist">
 
 							<li class="nav-item" role="presentation">
 								<button class="nav-link active" id="tab-by-semester" data-bs-toggle="tab" data-bs-target="#pane-by-semester" type="button" role="tab" aria-controls="pane-by-semester" aria-selected="false">
-									{{ 'By semester'|t }}
+									{{ 'By term'|t }}
 								</button>
 							</li>
 
@@ -319,8 +312,8 @@
 								{# Definimos los semestres que queremos mostrar #}
 								{% set semester_terms = [1, 2] %}
 								{% set semester_labels = {
-    1: '1st semester'|t,
-    2: '2nd semester'|t
+    1: '1st term'|t,
+    2: '2nd term'|t
   } %}
 
 
@@ -639,22 +632,22 @@
 
 
 					{% if translated_entity.field_programme_requirements.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
-							<h3 class="subsection-title">Admission Requirements</h3>
+						<div class="programme-section" id="admission-requirements" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Admission Requirements'|t }}</h3>
 							{{ translated_entity.field_programme_requirements.value|raw }}
 						</div>
 					{% endif %}
-					
+
 					{% if translated_entity.field_arrangments_recognition.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
-							<h3 class="subsection-title">Arrangments for recognition of prior learning</h3>
+						<div class="programme-section" id="recognition-prior-learning" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Recognition of Prior Learning'|t }}</h3>
 							{{ translated_entity.field_arrangments_recognition.value|raw }}
 						</div>
 					{% endif %}
-					
+
 					{% if translated_entity.field_qualification_requirements.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
-							<h3 class="subsection-title">Qualification requirements</h3>
+						<div class="programme-section" id="qualification-requirements" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Qualification Requirements'|t }}</h3>
 							{{ translated_entity.field_qualification_requirements.value|raw }}
 						</div>
 					{% endif %}
@@ -671,27 +664,27 @@
 
 
 					{% if translated_entity.field_programme_grading_scale.value is not empty or translated_entity.field_programme_explanation_scal.value is not empty or translated_entity.field_grade_distribution_table.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
-							<h3 class="subsection-title">Examination regulations and grading scale</h3>
+						<div class="programme-section" id="assessment" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Assessment'|t }}</h3>
 							<br>
 
 							{% if translated_entity.field_programme_grading_scale.value is not empty %}
-								<div class="programme-section ms-5" id="main-objective" style="text-align: justify;">
-									<h4 class="subsection-title">Grading scale</h4>
+								<div class="programme-section ms-5" id="grading-scale" style="text-align: justify; scroll-margin-top: 150px;">
+									<h4 class="subsection-title">{{ 'Grading Scale'|t }}</h4>
 									{{ translated_entity.field_programme_grading_scale.value|raw }}
 								</div>
 							{% endif %}
 							
 							{% if translated_entity.field_programme_explanation_scal.value is not empty %}
-								<div class="programme-section ms-5" id="main-objective" style="text-align: justify;">
-									<h4 class="subsection-title">Explanation of the scale</h4>
+								<div class="programme-section ms-5" id="explanation-scale" style="text-align: justify; scroll-margin-top: 150px;">
+									<h4 class="subsection-title">{{ 'Explanation of the Scale'|t }}</h4>
 									{{ translated_entity.field_programme_explanation_scal.value|raw }}
 								</div>
 							{% endif %}
 
 							{% if translated_entity.field_grade_distribution_table.value is not empty %}
-								<div class="programme-section ms-5" id="main-objective" style="text-align: justify;">
-									<h4 class="subsection-title">Grade distribution table</h4>
+								<div class="programme-section ms-5" id="grade-distribution-table" style="text-align: justify; scroll-margin-top: 150px;">
+									<h4 class="subsection-title">{{ 'Grade Distribution Table'|t }}</h4>
 									{{ translated_entity.field_grade_distribution_table.value|raw }}
 								</div>
 							{% endif %}
@@ -699,45 +692,45 @@
 						</div>
 					{% endif %}
 
+					{% if translated_entity.field_programme_mobility.value is not empty %}
+						<div class="programme-section" id="mobility" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ translations[current_language]['Mobility'] }}</h3>
+							{{ translated_entity.field_programme_mobility.value|raw }}
+						</div>
+					{% endif %}
+
 					{% if translated_entity.field_programme_mobility_windows.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
-							<h3 class="subsection-title">Mobility windows</h3>
+						<div class="programme-section" id="mobility-windows" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Mobility Windows'|t }}</h3>
 							{{ translated_entity.field_programme_mobility_windows.value|raw }}
 						</div>
 					{% endif %}
 
 					{% if translated_entity.field_programme_work_placements.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
-							<h3 class="subsection-title">Work placements</h3>
+						<div class="programme-section" id="work-placements" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Work Placements'|t }}</h3>
 							{{ translated_entity.field_programme_work_placements.value|raw }}
 						</div>
 					{% endif %}
 
 					{% if translated_entity.field_work_based_learning.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
-							<h3 class="subsection-title">Work-based Learning</h3>
+						<div class="programme-section" id="work-based-learning" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Work-based Learning'|t }}</h3>
 							{{ translated_entity.field_work_based_learning.value|raw }}
 						</div>
 					{% endif %}
 
 					{% if translated_entity.field_occupational_profiles.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
-							<h3 class="subsection-title">Occupational profiles of graduates</h3>
+						<div class="programme-section" id="occupational-profiles" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Occupational Profiles of Graduates'|t }}</h3>
 							{{ translated_entity.field_occupational_profiles.value|raw }}
 						</div>
 					{% endif %}
 
 					{% if translated_entity.field_access_to_further_studies.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
-							<h3 class="subsection-title">Access to further studies</h3>
+						<div class="programme-section" id="access-further-studies" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Access to Further Studies'|t }}</h3>
 							{{ translated_entity.field_access_to_further_studies.value|raw }}
-						</div>
-					{% endif %}
-
-					{% if translated_entity.field_programme_languages.value is not empty %}
-						<div class="programme-section" id="main-objective" style="text-align: justify;">
-							<h3 class="subsection-title">Languages</h3>
-							{{ translated_entity.field_programme_languages.value|raw }}
 						</div>
 					{% endif %}
 
@@ -793,6 +786,13 @@
 									</div>
 								{% endif %}
 
+								{% if translated_entity.field_length_of_programme.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['Length of Programme'] }}:</strong>
+										{{ translated_entity.field_length_of_programme.value }}
+									</div>
+								{% endif %}
+
 								{% if translated_entity.field_programme_mode_of_learning.value is not empty %}
 									<div class="degree-info-item mb-2">
 										<strong>{{ translations[current_language]['Modality'] }}:</strong>
@@ -835,21 +835,7 @@
 									</div>
 								{% endif %}
 
-								{% if translated_entity.field_programme_web.value is not empty %}
-									<div class="d-flex align-items-start mb-3">
-										<i class="fas fa-globe me-2 mt-1"></i>
-										<p class="mb-0">
-											<a href="{{ translated_entity.field_programme_web.uri ?? translated_entity.field_programme_web.value }}" target="_blank" rel="noopener" style="color: {{university_primary_color}}">
-												{{ translated_entity.field_programme_web.title ?? translated_entity.field_programme_web.value }}
-											</a>
-										</p>
-									</div>
-								{% endif %}
-
-
-
-
-
+								
 							</div>
 
 							<!-- Columna 2: Coordination -->
@@ -878,6 +864,17 @@
 									<div class="degree-info-item mb-1">
 										<i class="fa fa-envelope"></i>
 										{{ translated_entity.field_email.value }}
+									</div>
+								{% endif %}
+
+								{% if translated_entity.field_programme_web.value is not empty %}
+									<div class="d-flex align-items-start mb-3">
+										<i class="fas fa-globe me-2 mt-1"></i>
+										<p class="mb-0">
+											<a href="{{ translated_entity.field_programme_web.uri ?? translated_entity.field_programme_web.value }}" target="_blank" rel="noopener" style="color: {{university_primary_color}}">
+												{{ translated_entity.field_programme_web.title ?? translated_entity.field_programme_web.value }}
+											</a>
+										</p>
 									</div>
 								{% endif %}
 							</div>
