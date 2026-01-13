@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.programme.field_ejemplo_para_taxonomia
     - field.field.node.programme.field_elm_vocabulary_test
     - field.field.node.programme.field_email
+    - field.field.node.programme.field_eqf_level
     - field.field.node.programme.field_grade_distribution_table
     - field.field.node.programme.field_isced_f
     - field.field.node.programme.field_length_of_programme
@@ -32,22 +33,25 @@ dependencies:
     - field.field.node.programme.field_programme_level
     - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_mobility_windows
-    - field.field.node.programme.field_programme_modality
+    - field.field.node.programme.field_programme_mode_of_learning
+    - field.field.node.programme.field_programme_mode_of_study
     - field.field.node.programme.field_programme_ou
     - field.field.node.programme.field_programme_phone
     - field.field.node.programme.field_programme_qualification
     - field.field.node.programme.field_programme_requirements
+    - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
     - field.field.node.programme.field_qualification_level
     - field.field.node.programme.field_qualification_requirements
-    - field.field.node.programme.field_study_modality
     - field.field.node.programme.field_work_based_learning
     - node.type.programme
   module:
     - elm_vocabulary_field
+    - ewp_core
     - isced_field
     - layout_builder
     - layout_discovery
+    - link
     - options
     - text
     - user
@@ -272,21 +276,6 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 15
             additional: {  }
-          c627d51a-5cd1-4798-9244-d0ebd5c1ad0e:
-            uuid: c627d51a-5cd1-4798-9244-d0ebd5c1ad0e
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_programme_modality'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: list_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 16
-            additional: {  }
           63d4d379-17ce-475b-b8ef-08c55849ec2a:
             uuid: 63d4d379-17ce-475b-b8ef-08c55849ec2a
             region: content
@@ -301,22 +290,6 @@ third_party_settings:
                 settings: {  }
                 third_party_settings: {  }
             weight: 17
-            additional: {  }
-          378f1dc5-f6df-492f-98cb-07153af86813:
-            uuid: 378f1dc5-f6df-492f-98cb-07153af86813
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_study_modality'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: string
-                label: above
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-            weight: 18
             additional: {  }
           834f9248-c19f-47a5-bd8d-6efebba700e3:
             uuid: 834f9248-c19f-47a5-bd8d-6efebba700e3
@@ -656,6 +629,73 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 40
             additional: {  }
+          75b4497a-dc01-4f35-aab0-b083e7509e11:
+            uuid: 75b4497a-dc01-4f35-aab0-b083e7509e11
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_web'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: above
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 41
+            additional: {  }
+          8fad2a00-85c7-4f2e-b91e-f6f69274c8fe:
+            uuid: 8fad2a00-85c7-4f2e-b91e-f6f69274c8fe
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_mode_of_study'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: elm_controlled_vocabulary_default
+                label: above
+                settings:
+                  prefix: false
+                third_party_settings: {  }
+            weight: 42
+            additional: {  }
+          b6748c4d-9dad-4f2d-99bb-207acd06ac91:
+            uuid: b6748c4d-9dad-4f2d-99bb-207acd06ac91
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_mode_of_learning'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: elm_controlled_vocabulary_default
+                label: above
+                settings:
+                  prefix: false
+                third_party_settings: {  }
+            weight: 43
+            additional: {  }
+          599ee72f-bbb8-4708-8b76-8aeffcd1c164:
+            uuid: 599ee72f-bbb8-4708-8b76-8aeffcd1c164
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_eqf_level'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: eqf_level_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 44
+            additional: {  }
         third_party_settings: {  }
 id: node.programme.default
 targetEntityType: node
@@ -754,6 +794,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 106
+    region: content
+  field_eqf_level:
+    type: eqf_level_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 144
     region: content
   field_grade_distribution_table:
     type: text_default
@@ -870,12 +917,21 @@ content:
     third_party_settings: {  }
     weight: 135
     region: content
-  field_programme_modality:
-    type: list_default
+  field_programme_mode_of_learning:
+    type: elm_controlled_vocabulary_default
     label: above
-    settings: {  }
+    settings:
+      prefix: false
     third_party_settings: {  }
-    weight: 116
+    weight: 143
+    region: content
+  field_programme_mode_of_study:
+    type: elm_controlled_vocabulary_default
+    label: above
+    settings:
+      prefix: false
+    third_party_settings: {  }
+    weight: 142
     region: content
   field_programme_ou:
     type: entity_reference_label
@@ -907,6 +963,18 @@ content:
     third_party_settings: {  }
     weight: 128
     region: content
+  field_programme_web:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 141
+    region: content
   field_programme_work_placements:
     type: text_default
     label: above
@@ -927,14 +995,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 130
-    region: content
-  field_study_modality:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 118
     region: content
   field_work_based_learning:
     type: text_default

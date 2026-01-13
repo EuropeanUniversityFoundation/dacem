@@ -11,7 +11,7 @@ id: node.individual_educational_component.field_iec_type
 field_name: field_iec_type
 entity_type: node
 bundle: individual_educational_component
-label: Type
+label: Category
 description: ''
 required: true
 translatable: true

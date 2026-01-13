@@ -1,16 +1,16 @@
-uuid: 3b8a32c7-57c4-4faa-ae97-933d073165b6
+uuid: 12593442-21a5-42cb-a007-a51089761da7
 langcode: en
 status: true
 dependencies:
   module:
+    - link
     - node
-    - text
-id: node.field_mobility
-field_name: field_mobility
+id: node.field_iec_web
+field_name: field_iec_web
 entity_type: node
-type: text_long
+type: link
 settings: {  }
-module: text
+module: link
 locked: false
 cardinality: 1
 translatable: true

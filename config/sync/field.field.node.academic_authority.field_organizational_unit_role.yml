@@ -12,7 +12,7 @@ bundle: academic_authority
 label: 'Organizational Unit Role'
 description: 'Fill in only if this Academic Authority has a role in the Organizational Unit.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

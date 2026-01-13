@@ -27,7 +27,6 @@ dependencies:
     - field.field.node.institution.field_institution_picture
     - field.field.node.institution.field_institution_webpage
     - field.field.node.institution.field_logo
-    - field.field.node.institution.field_mobility
     - field.field.node.institution.field_mobility_incoming_students
     - field.field.node.institution.field_mobility_outgoing_students
     - field.field.node.institution.field_primary_color
@@ -185,13 +184,6 @@ content:
         attribute: lazy
     third_party_settings: {  }
     weight: 5
-    region: content
-  field_mobility:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 16
     region: content
   field_mobility_incoming_students:
     type: text_default

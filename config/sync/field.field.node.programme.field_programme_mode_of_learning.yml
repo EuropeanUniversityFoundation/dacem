@@ -1,17 +1,17 @@
-uuid: 0fc9d30a-2acb-4fe7-9236-22cd7cd2a92e
+uuid: d98029f3-218e-46c5-89e3-f0d0b1124021
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_iec_modality
-    - node.type.individual_educational_component
+    - field.storage.node.field_programme_mode_of_learning
+    - node.type.programme
   module:
     - elm_vocabulary_field
-id: node.individual_educational_component.field_iec_modality
-field_name: field_iec_modality
+id: node.programme.field_programme_mode_of_learning
+field_name: field_programme_mode_of_learning
 entity_type: node
-bundle: individual_educational_component
-label: Modality
+bundle: programme
+label: 'Mode of Learning'
 description: ''
 required: false
 translatable: false

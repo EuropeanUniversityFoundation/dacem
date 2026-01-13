@@ -12,7 +12,7 @@ id: node.individual_educational_component.field_iec_evaluation
 field_name: field_iec_evaluation
 entity_type: node
 bundle: individual_educational_component
-label: Evaluation
+label: Assessment
 description: ''
 required: false
 translatable: true

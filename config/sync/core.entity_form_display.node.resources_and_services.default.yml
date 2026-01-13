@@ -122,16 +122,6 @@ targetEntityType: node
 bundle: resources_and_services
 mode: default
 content:
-  body:
-    type: text_textarea_with_summary
-    weight: 16
-    region: content
-    settings:
-      rows: 9
-      summary_rows: 3
-      placeholder: ''
-      show_summary: false
-    third_party_settings: {  }
   created:
     type: datetime_timestamp
     weight: 3
@@ -351,4 +341,5 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  body: true

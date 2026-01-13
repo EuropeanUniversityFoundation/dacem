@@ -1,16 +1,16 @@
-uuid: 0949598e-ee4a-49d2-9b1b-4bca4a7d80a8
+uuid: ebf8e273-ed98-489d-835b-cffa4cb8f799
 langcode: en
 status: true
 dependencies:
   module:
     - elm_vocabulary_field
     - node
-id: node.field_iec_modality
-field_name: field_iec_modality
+id: node.field_iec_elm_type
+field_name: field_iec_elm_type
 entity_type: node
 type: elm_controlled_vocabulary
 settings:
-  vocabulary: learning_assessment
+  vocabulary: learning_opportunity
 module: elm_vocabulary_field
 locked: false
 cardinality: 1

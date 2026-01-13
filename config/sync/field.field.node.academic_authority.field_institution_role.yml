@@ -12,7 +12,7 @@ bundle: academic_authority
 label: 'Institution Role'
 description: 'Fill in only if this Academic Authority has a role in the Institution.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

@@ -27,7 +27,6 @@ dependencies:
     - field.field.node.institution.field_institution_picture
     - field.field.node.institution.field_institution_webpage
     - field.field.node.institution.field_logo
-    - field.field.node.institution.field_mobility
     - field.field.node.institution.field_mobility_incoming_students
     - field.field.node.institution.field_mobility_outgoing_students
     - field.field.node.institution.field_primary_color
@@ -145,7 +144,7 @@ content:
     third_party_settings: {  }
   field_arrangements_guidance:
     type: text_textarea
-    weight: 32
+    weight: 30
     region: content
     settings:
       rows: 5
@@ -153,7 +152,7 @@ content:
     third_party_settings: {  }
   field_arrangements_recognition:
     type: text_textarea
-    weight: 33
+    weight: 31
     region: content
     settings:
       rows: 5
@@ -273,14 +272,6 @@ content:
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
-    third_party_settings: {  }
-  field_mobility:
-    type: text_textarea
-    weight: 31
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
     third_party_settings: {  }
   field_mobility_incoming_students:
     type: text_textarea

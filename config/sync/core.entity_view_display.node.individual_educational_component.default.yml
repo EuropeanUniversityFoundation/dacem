@@ -4,18 +4,18 @@ status: true
 dependencies:
   config:
     - field.field.node.individual_educational_component.body
+    - field.field.node.individual_educational_component.field_fields_of_study
     - field.field.node.individual_educational_component.field_iec_avaliable_for_mobility
     - field.field.node.individual_educational_component.field_iec_code
     - field.field.node.individual_educational_component.field_iec_contents
     - field.field.node.individual_educational_component.field_iec_credits
     - field.field.node.individual_educational_component.field_iec_description
+    - field.field.node.individual_educational_component.field_iec_elm_type
     - field.field.node.individual_educational_component.field_iec_email
     - field.field.node.individual_educational_component.field_iec_evaluation
-    - field.field.node.individual_educational_component.field_iec_grading_scheme
     - field.field.node.individual_educational_component.field_iec_instructors
     - field.field.node.individual_educational_component.field_iec_language
     - field.field.node.individual_educational_component.field_iec_learning_outcomes
-    - field.field.node.individual_educational_component.field_iec_mobility
     - field.field.node.individual_educational_component.field_iec_modality
     - field.field.node.individual_educational_component.field_iec_phone
     - field.field.node.individual_educational_component.field_iec_planned_activities
@@ -24,17 +24,27 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_requirements
     - field.field.node.individual_educational_component.field_iec_term
     - field.field.node.individual_educational_component.field_iec_type
+    - field.field.node.individual_educational_component.field_iec_web
     - field.field.node.individual_educational_component.field_iec_year
-    - field.field.node.individual_educational_component.field_restricted_to_local
     - node.type.individual_educational_component
   module:
-    - text
+    - elm_vocabulary_field
+    - isced_field
+    - link
     - user
 id: node.individual_educational_component.default
 targetEntityType: node
 bundle: individual_educational_component
 mode: default
 content:
+  field_fields_of_study:
+    type: isced_f_default
+    label: above
+    settings:
+      prefix: true
+    third_party_settings: {  }
+    weight: 9
+    region: content
   field_iec_avaliable_for_mobility:
     type: boolean
     label: above
@@ -45,6 +55,14 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
+  field_iec_elm_type:
+    type: elm_controlled_vocabulary_default
+    label: above
+    settings:
+      prefix: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
   field_iec_email:
     type: basic_string
     label: above
@@ -52,19 +70,13 @@ content:
     third_party_settings: {  }
     weight: 5
     region: content
-  field_iec_grading_scheme:
-    type: text_default
+  field_iec_modality:
+    type: elm_controlled_vocabulary_default
     label: above
-    settings: {  }
+    settings:
+      prefix: false
     third_party_settings: {  }
-    weight: 3
-    region: content
-  field_iec_mobility:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 1
+    weight: 10
     region: content
   field_iec_phone:
     type: basic_string
@@ -73,15 +85,17 @@ content:
     third_party_settings: {  }
     weight: 4
     region: content
-  field_restricted_to_local:
-    type: boolean
+  field_iec_web:
+    type: link
     label: above
     settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
     third_party_settings: {  }
-    weight: 6
+    weight: 7
     region: content
 hidden:
   body: true
@@ -93,7 +107,6 @@ hidden:
   field_iec_instructors: true
   field_iec_language: true
   field_iec_learning_outcomes: true
-  field_iec_modality: true
   field_iec_planned_activities: true
   field_iec_programme: true
   field_iec_recommendations: true

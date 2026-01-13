@@ -1,15 +1,16 @@
-uuid: 7c9cc819-fb0c-491a-9623-2f68035f3d7c
+uuid: 500d5c48-893a-48fa-a6dd-84ee7347afa6
 langcode: en
 status: true
 dependencies:
   module:
+    - link
     - node
-id: node.field_restricted_to_local
-field_name: field_restricted_to_local
+id: node.field_programme_web
+field_name: field_programme_web
 entity_type: node
-type: boolean
+type: link
 settings: {  }
-module: core
+module: link
 locked: false
 cardinality: 1
 translatable: true

@@ -4,18 +4,18 @@ status: true
 dependencies:
   config:
     - field.field.node.individual_educational_component.body
+    - field.field.node.individual_educational_component.field_fields_of_study
     - field.field.node.individual_educational_component.field_iec_avaliable_for_mobility
     - field.field.node.individual_educational_component.field_iec_code
     - field.field.node.individual_educational_component.field_iec_contents
     - field.field.node.individual_educational_component.field_iec_credits
     - field.field.node.individual_educational_component.field_iec_description
+    - field.field.node.individual_educational_component.field_iec_elm_type
     - field.field.node.individual_educational_component.field_iec_email
     - field.field.node.individual_educational_component.field_iec_evaluation
-    - field.field.node.individual_educational_component.field_iec_grading_scheme
     - field.field.node.individual_educational_component.field_iec_instructors
     - field.field.node.individual_educational_component.field_iec_language
     - field.field.node.individual_educational_component.field_iec_learning_outcomes
-    - field.field.node.individual_educational_component.field_iec_mobility
     - field.field.node.individual_educational_component.field_iec_modality
     - field.field.node.individual_educational_component.field_iec_phone
     - field.field.node.individual_educational_component.field_iec_planned_activities
@@ -24,11 +24,14 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_requirements
     - field.field.node.individual_educational_component.field_iec_term
     - field.field.node.individual_educational_component.field_iec_type
+    - field.field.node.individual_educational_component.field_iec_web
     - field.field.node.individual_educational_component.field_iec_year
-    - field.field.node.individual_educational_component.field_restricted_to_local
     - node.type.individual_educational_component
   module:
+    - elm_vocabulary_field
     - field_group
+    - isced_field
+    - link
     - path
     - telephone
     - text
@@ -36,17 +39,37 @@ third_party_settings:
   field_group:
     group_general_data:
       children:
-        - field_iec_type
+        - field_iec_year
         - field_iec_term
+        - field_iec_type
+        - field_iec_elm_type
+        - field_fields_of_study
         - field_iec_credits
         - field_iec_language
         - field_iec_modality
-        - field_iec_year
-        - field_iec_requirements
+        - field_iec_avaliable_for_mobility
+        - group_coordination
       label: 'General Data'
       region: content
       parent_name: ''
       weight: 10
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_coordination:
+      children:
+        - field_iec_phone
+        - field_iec_email
+        - field_iec_web
+      label: Coordination
+      region: hidden
+      parent_name: group_general_data
+      weight: 23
       format_type: fieldset
       format_settings:
         classes: ''
@@ -66,9 +89,16 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_fields_of_study:
+    type: isced_f_select
+    weight: 19
+    region: content
+    settings:
+      allow_all_levels: true
+    third_party_settings: {  }
   field_iec_avaliable_for_mobility:
     type: boolean_checkbox
-    weight: 27
+    weight: 23
     region: content
     settings:
       display_label: true
@@ -83,7 +113,7 @@ content:
     third_party_settings: {  }
   field_iec_contents:
     type: text_textarea
-    weight: 14
+    weight: 15
     region: content
     settings:
       rows: 5
@@ -91,7 +121,7 @@ content:
     third_party_settings: {  }
   field_iec_credits:
     type: number
-    weight: 13
+    weight: 20
     region: content
     settings:
       placeholder: ''
@@ -104,9 +134,16 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  field_iec_elm_type:
+    type: elm_controlled_vocabulary_select
+    weight: 18
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
   field_iec_email:
     type: email_default
-    weight: 30
+    weight: 23
     region: content
     settings:
       placeholder: ''
@@ -114,15 +151,7 @@ content:
     third_party_settings: {  }
   field_iec_evaluation:
     type: text_textarea
-    weight: 18
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  field_iec_grading_scheme:
-    type: text_textarea
-    weight: 28
+    weight: 19
     region: content
     settings:
       rows: 5
@@ -130,7 +159,7 @@ content:
     third_party_settings: {  }
   field_iec_instructors:
     type: text_textarea
-    weight: 13
+    weight: 14
     region: content
     settings:
       rows: 5
@@ -138,7 +167,7 @@ content:
     third_party_settings: {  }
   field_iec_language:
     type: string_textfield
-    weight: 14
+    weight: 21
     region: content
     settings:
       size: 60
@@ -146,36 +175,29 @@ content:
     third_party_settings: {  }
   field_iec_learning_outcomes:
     type: text_textarea
-    weight: 15
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  field_iec_mobility:
-    type: text_textarea
-    weight: 26
+    weight: 16
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
   field_iec_modality:
-    type: options_select
-    weight: 15
+    type: elm_controlled_vocabulary_select
+    weight: 22
     region: content
-    settings: {  }
+    settings:
+      prefix: false
     third_party_settings: {  }
   field_iec_phone:
     type: telephone_default
-    weight: 29
+    weight: 22
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_iec_planned_activities:
     type: text_textarea
-    weight: 17
+    weight: 18
     region: content
     settings:
       rows: 5
@@ -193,7 +215,7 @@ content:
     third_party_settings: {  }
   field_iec_recommendations:
     type: text_textarea
-    weight: 16
+    weight: 17
     region: content
     settings:
       rows: 5
@@ -201,7 +223,7 @@ content:
     third_party_settings: {  }
   field_iec_requirements:
     type: text_textarea
-    weight: 22
+    weight: 13
     region: content
     settings:
       rows: 5
@@ -209,28 +231,29 @@ content:
     third_party_settings: {  }
   field_iec_term:
     type: options_select
-    weight: 12
+    weight: 16
     region: content
     settings: {  }
     third_party_settings: {  }
   field_iec_type:
     type: options_select
-    weight: 11
+    weight: 17
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_iec_web:
+    type: link_default
+    weight: 24
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_iec_year:
     type: options_select
-    weight: 16
+    weight: 15
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_restricted_to_local:
-    type: boolean_checkbox
-    weight: 31
-    region: content
-    settings:
-      display_label: true
     third_party_settings: {  }
   langcode:
     type: language_select

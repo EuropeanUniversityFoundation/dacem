@@ -1,12 +1,12 @@
-uuid: 0949598e-ee4a-49d2-9b1b-4bca4a7d80a8
+uuid: 913a9a2a-bad9-43c1-9f05-4de073c75b70
 langcode: en
 status: true
 dependencies:
   module:
     - elm_vocabulary_field
     - node
-id: node.field_iec_modality
-field_name: field_iec_modality
+id: node.field_programme_mode_of_learning
+field_name: field_programme_mode_of_learning
 entity_type: node
 type: elm_controlled_vocabulary
 settings:

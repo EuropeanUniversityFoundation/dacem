@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.programme.field_ejemplo_para_taxonomia
     - field.field.node.programme.field_elm_vocabulary_test
     - field.field.node.programme.field_email
+    - field.field.node.programme.field_eqf_level
     - field.field.node.programme.field_grade_distribution_table
     - field.field.node.programme.field_isced_f
     - field.field.node.programme.field_length_of_programme
@@ -32,21 +33,24 @@ dependencies:
     - field.field.node.programme.field_programme_level
     - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_mobility_windows
-    - field.field.node.programme.field_programme_modality
+    - field.field.node.programme.field_programme_mode_of_learning
+    - field.field.node.programme.field_programme_mode_of_study
     - field.field.node.programme.field_programme_ou
     - field.field.node.programme.field_programme_phone
     - field.field.node.programme.field_programme_qualification
     - field.field.node.programme.field_programme_requirements
+    - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
     - field.field.node.programme.field_qualification_level
     - field.field.node.programme.field_qualification_requirements
-    - field.field.node.programme.field_study_modality
     - field.field.node.programme.field_work_based_learning
     - node.type.programme
   module:
     - elm_vocabulary_field
+    - ewp_core
     - field_group
     - isced_field
+    - link
     - path
     - text
 third_party_settings:
@@ -55,16 +59,19 @@ third_party_settings:
       children:
         - field_programme_level
         - field_credits
-        - field_programme_modality
+        - field_length_of_programme
         - field_qualification_level
-        - field_study_modality
-        - field_professional_practices
-        - field_academic_year
+        - field_programme_mode_of_study
+        - field_programme_area
         - field_isced_f
+        - field_eqf_level
+        - field_programme_mode_of_learning
+        - field_professional_practices
+        - field_avaliable_for_mobility
       label: 'General Data'
       region: content
       parent_name: ''
-      weight: 12
+      weight: 11
       format_type: fieldset
       format_settings:
         classes: ''
@@ -78,10 +85,128 @@ third_party_settings:
         - field_coordinator
         - field_programme_phone
         - field_email
+        - field_programme_web
       label: Coordination
       region: content
       parent_name: ''
+      weight: 15
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_assessment:
+      children:
+        - field_programme_grading_scale
+        - field_programme_explanation_scal
+        - field_grade_distribution_table
+      label: Assessment
+      region: content
+      parent_name: ''
+      weight: 16
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_overview:
+      children:
+        - field_programme_description
+        - field_main_objective
+        - field_competencies
+        - field_programme_learn_outcomes
+        - field_programme_qualification
+        - field_programme_languages
+      label: Overview
+      region: content
+      parent_name: ''
+      weight: 12
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_mobility:
+      children:
+        - field_programme_mobility
+        - field_programme_mobility_windows
+      label: Mobility
+      region: content
+      parent_name: ''
       weight: 17
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_practice:
+      children:
+        - field_programme_work_placements
+        - field_work_based_learning
+      label: Practice
+      region: content
+      parent_name: ''
+      weight: 18
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_careers:
+      children:
+        - field_occupational_profiles
+        - field_access_to_further_studies
+      label: Careers
+      region: content
+      parent_name: ''
+      weight: 19
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_admission:
+      children:
+        - field_programme_requirements
+        - field_arrangments_recognition
+        - field_qualification_requirements
+      label: Admission
+      region: content
+      parent_name: ''
+      weight: 14
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_curriculum:
+      children:
+        - field_distribution_of_credits
+      label: Curriculum
+      region: content
+      parent_name: ''
+      weight: 13
       format_type: fieldset
       format_settings:
         classes: ''
@@ -102,14 +227,14 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_academic_year:
-    type: options_select
-    weight: 26
+    type: options_buttons
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
   field_access_to_further_studies:
     type: text_textarea
-    weight: 35
+    weight: 28
     region: content
     settings:
       rows: 5
@@ -117,7 +242,7 @@ content:
     third_party_settings: {  }
   field_arrangments_recognition:
     type: text_textarea
-    weight: 30
+    weight: 20
     region: content
     settings:
       rows: 5
@@ -125,7 +250,7 @@ content:
     third_party_settings: {  }
   field_avaliable_for_mobility:
     type: boolean_checkbox
-    weight: 20
+    weight: 31
     region: content
     settings:
       display_label: true
@@ -148,35 +273,18 @@ content:
     third_party_settings: {  }
   field_credits:
     type: number
-    weight: 15
+    weight: 22
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_distribution_of_credits:
     type: text_textarea
-    weight: 18
+    weight: 17
     region: content
     settings:
       rows: 5
       placeholder: ''
-    third_party_settings: {  }
-  field_ejemplo_para_taxonomia:
-    type: entity_reference_autocomplete
-    weight: 22
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_elm_vocabulary_test:
-    type: elm_controlled_vocabulary_select
-    weight: 21
-    region: content
-    settings:
-      prefix: false
     third_party_settings: {  }
   field_email:
     type: string_textfield
@@ -186,9 +294,15 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_eqf_level:
+    type: eqf_level_default
+    weight: 28
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_grade_distribution_table:
     type: text_textarea
-    weight: 32
+    weight: 28
     region: content
     settings:
       rows: 5
@@ -203,7 +317,7 @@ content:
     third_party_settings: {  }
   field_length_of_programme:
     type: string_textfield
-    weight: 26
+    weight: 23
     region: content
     settings:
       size: 60
@@ -219,7 +333,7 @@ content:
     third_party_settings: {  }
   field_occupational_profiles:
     type: text_textarea
-    weight: 37
+    weight: 27
     region: content
     settings:
       rows: 5
@@ -227,13 +341,13 @@ content:
     third_party_settings: {  }
   field_professional_practices:
     type: options_select
-    weight: 20
+    weight: 30
     region: content
     settings: {  }
     third_party_settings: {  }
   field_programme_area:
     type: options_select
-    weight: 11
+    weight: 26
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -247,7 +361,7 @@ content:
     third_party_settings: {  }
   field_programme_explanation_scal:
     type: text_textarea
-    weight: 33
+    weight: 27
     region: content
     settings:
       rows: 5
@@ -255,7 +369,7 @@ content:
     third_party_settings: {  }
   field_programme_grading_scale:
     type: text_textarea
-    weight: 27
+    weight: 26
     region: content
     settings:
       rows: 5
@@ -273,7 +387,7 @@ content:
     third_party_settings: {  }
   field_programme_languages:
     type: text_textarea
-    weight: 38
+    weight: 18
     region: content
     settings:
       rows: 5
@@ -281,7 +395,7 @@ content:
     third_party_settings: {  }
   field_programme_learn_outcomes:
     type: text_textarea
-    weight: 28
+    weight: 16
     region: content
     settings:
       rows: 5
@@ -289,13 +403,13 @@ content:
     third_party_settings: {  }
   field_programme_level:
     type: options_select
-    weight: 14
+    weight: 21
     region: content
     settings: {  }
     third_party_settings: {  }
   field_programme_mobility:
     type: text_textarea
-    weight: 19
+    weight: 16
     region: content
     settings:
       rows: 5
@@ -303,17 +417,25 @@ content:
     third_party_settings: {  }
   field_programme_mobility_windows:
     type: text_textarea
-    weight: 34
+    weight: 17
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_programme_modality:
-    type: options_select
-    weight: 16
+  field_programme_mode_of_learning:
+    type: elm_controlled_vocabulary_select
+    weight: 29
     region: content
-    settings: {  }
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  field_programme_mode_of_study:
+    type: elm_controlled_vocabulary_select
+    weight: 25
+    region: content
+    settings:
+      prefix: false
     third_party_settings: {  }
   field_programme_ou:
     type: entity_reference_autocomplete
@@ -335,7 +457,7 @@ content:
     third_party_settings: {  }
   field_programme_qualification:
     type: text_textarea
-    weight: 16
+    weight: 17
     region: content
     settings:
       rows: 5
@@ -343,15 +465,23 @@ content:
     third_party_settings: {  }
   field_programme_requirements:
     type: text_textarea
-    weight: 23
+    weight: 19
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  field_programme_web:
+    type: link_default
+    weight: 18
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
   field_programme_work_placements:
     type: text_textarea
-    weight: 31
+    weight: 25
     region: content
     settings:
       rows: 5
@@ -359,7 +489,7 @@ content:
     third_party_settings: {  }
   field_qualification_level:
     type: string_textarea
-    weight: 18
+    weight: 24
     region: content
     settings:
       rows: 5
@@ -367,23 +497,15 @@ content:
     third_party_settings: {  }
   field_qualification_requirements:
     type: text_textarea
-    weight: 29
+    weight: 21
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_study_modality:
-    type: string_textfield
-    weight: 19
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_work_based_learning:
     type: text_textarea
-    weight: 36
+    weight: 26
     region: content
     settings:
       rows: 5
@@ -449,3 +571,5 @@ content:
 hidden:
   body: true
   field_custom_taxonomy_field: true
+  field_ejemplo_para_taxonomia: true
+  field_elm_vocabulary_test: true

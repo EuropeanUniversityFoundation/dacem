@@ -1,16 +1,16 @@
-uuid: 1f51ea31-d050-45fb-965f-a94326c62830
+uuid: 13b3910f-6674-43ee-a025-1ad3b3785711
 langcode: en
 status: true
 dependencies:
   module:
+    - ewp_core
     - node
-    - text
-id: node.field_iec_mobility
-field_name: field_iec_mobility
+id: node.field_eqf_level
+field_name: field_eqf_level
 entity_type: node
-type: text_long
+type: eqf_level
 settings: {  }
-module: text
+module: ewp_core
 locked: false
 cardinality: 1
 translatable: true

@@ -11,7 +11,7 @@ entity_type: node
 bundle: programme
 label: 'Avaliable for Mobility Students'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
