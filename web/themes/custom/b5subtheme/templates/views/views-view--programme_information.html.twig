@@ -264,13 +264,7 @@
 						</div>
 					{% endif %}
 
-					{% if translated_entity.field_programme_languages.value is not empty %}
-						<div class="programme-section" id="languages" style="text-align: justify; scroll-margin-top: 150px;">
-							<h3 class="subsection-title">{{ 'Languages'|t }}</h3>
-							{{ translated_entity.field_programme_languages.value|raw }}
-						</div>
-					{% endif %}
-
+					
 					{% if translated_entity.field_distribution_of_credits.value is not empty %}
 						<div class="programme-section" id="structure" style="text-align: justify; scroll-margin-top: 150px;">
 							<h3 class="subsection-title">
@@ -790,6 +784,13 @@
 									<div class="degree-info-item mb-2">
 										<strong>{{ translations[current_language]['Length of Programme'] }}:</strong>
 										{{ translated_entity.field_length_of_programme.value }}
+									</div>
+								{% endif %}
+
+								{% if translated_entity.field_programme_languages.value is not empty %}
+									<div class="degree-info-item mb-2">
+										<strong>{{ translations[current_language]['Languages'] }}:</strong>
+										{{ translated_entity.field_programme_languages.value | raw }}
 									</div>
 								{% endif %}
 

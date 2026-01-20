@@ -57,7 +57,6 @@ class InstitutionMenuBlock extends BlockBase
 
         $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
-
         // Imagen y menú desplegable de usuario
         $current_user = \Drupal::currentUser();
         if ($current_user->isAuthenticated() && $current_user->id() != 0) {
@@ -169,10 +168,15 @@ class InstitutionMenuBlock extends BlockBase
         ////dump($current_path);
         $current_path_aux = preg_replace('#^/[^/]+/#', '/', $current_path);
 
-        ////dump($current_path_aux);
-        $current_node_aux = $this->getNodeFromAlias($current_path_aux, $current_language);
-        ////dump($current_node_aux->bundle());
 
+        if(is_numeric($institution_id)){
+            $current_node_aux = \Drupal\node\Entity\Node::load($institution_id);
+           
+        }else{
+            $current_node_aux = $this->getNodeFromAlias($current_path_aux, $current_language);
+        }
+        ////dump($current_path_aux);
+        
 
         ////dump(\Drupal::routeMatch()->getParameters());
         $current_route = \Drupal::routeMatch()->getRouteName();
@@ -217,14 +221,25 @@ class InstitutionMenuBlock extends BlockBase
 
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
 
+        } elseif ($current_route === 'view.institution_new_catalogue.page_1') {
+            $current_page = 'catalogue';
+           
+            $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+           
+        } elseif ($current_route === 'view.institution_new_catalogue.page_2') {
+            $current_page = 'catalogue';
+           
+            $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+    
         }
 
 
 
 
 
-        if ($current_node_aux instanceof NodeInterface) {
 
+        if ($current_node_aux instanceof NodeInterface) {
+            
             //////dump($current_institution);
 
             $node_type = $current_node_aux->bundle();
@@ -320,9 +335,16 @@ class InstitutionMenuBlock extends BlockBase
                 'gl' => '🇪🇸', // Gallego
             ];
 
+
+            $current_path = \Drupal::service('path.current')->getPath();
+            // Ej: /es/catalogue/uni-x/programmes
+
+            
+
+            
             foreach ($languages as $language) {
 
-
+                
                 $alias_manager = \Drupal::service('path_alias.manager');
 
                 // Obtener el alias de la institución en el idioma actual
@@ -337,14 +359,26 @@ class InstitutionMenuBlock extends BlockBase
 
                 $url = '';
                 ////dump($current_page);
+
+
                 if ($current_node_aux->hasTranslation($language->getId())) {
                     $url = '/' . $langcode . '/' . $current_page . $alias_manager->getAliasByPath('/node/' . $current_node_aux->id(), $language->getId());
                 } else {
                     $url = '/en/' . $current_page . $alias_manager->getAliasByPath('/node/' . $current_node_aux->id(), 'en');
                 }
 
+                if (
+                    $current_route === 'view.institution_new_catalogue.page_1' || // programmes
+                    $current_route === 'view.institution_new_catalogue.page_2'        // iecs
+                ) {
+                    // 🔒 Forzar siempre URL en inglés
+                    $url = \Drupal::request()->getRequestUri();
+                }
+
+
+
                 //$url = '/' . $langcode . '/catalogue' .  $alias_manager->getAliasByPath('/node/' . $current_node_aux->id(), $language->getId());
-                ////dump($url);
+              
                 ////dump($url);
                 $flag = $flags[$langcode] ?? ''; // Asegurarse de tener un icono
 
@@ -380,7 +414,11 @@ class InstitutionMenuBlock extends BlockBase
             }
 
             // Construir la URL con el formato correcto
-            $catalogue_url = $language_prefix . '/catalogue' . $institution_alias;
+            //$catalogue_url = $language_prefix . '/catalogue/' . $institution->id() . '/programmes';
+         
+            $catalogue_url =  'en/catalogue/' . $institution->id() . '/programmes';
+            
+            
 
             $general_info_url = $language_prefix . '/general-information' . $institution_alias;
 
@@ -473,7 +511,7 @@ class InstitutionMenuBlock extends BlockBase
             </li>
             
             <li class="nav-item">
-              <a class="nav-link' . $cat_active . '" href="' . $catalogue_url . '"' . $cat_aria . '>' . $translations[$current_language]['CATALOGUE'] . '</a>
+              <a class="nav-link' . $cat_active . '" href="/' . $catalogue_url . '"' . $cat_aria . '>' . $translations[$current_language]['CATALOGUE'] . '</a>
             </li>
             <li class="nav-item">
               <a class="nav-link' . $rs_active . '" href="' . $rs_url . '"' . $rs_aria . '>' . $translations[$current_language]['RESOURCES AND SERVICES'] . '</a>

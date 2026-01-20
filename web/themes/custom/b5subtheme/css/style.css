@@ -15473,26 +15473,25 @@ tbody tr:nth-child(odd) td {
 
 
 .btn-search-filter-active{
-  background-color: #ff4949;
-  color: white;
+  background-color: #ff4949 !important;
+  color: white !important;
 }
 
 
-/* /themes/custom/b5subtheme/css/custom.css */
-#views-exposed-form-search-programme-page-1 .form-actions input[type="submit"][id^="edit-submit"],
-#views-exposed-form-search-programme-page-1 .form-actions input[type="submit"][id^="edit-reset"] {
+
+.catalogue-view .views-exposed-form .form-actions input[type="submit"][id^="edit-submit"],
+.catalogue-view .views-exposed-form .form-actions input[type="submit"][id^="edit-reset"] {
   background-color: #000 !important;
   border-color: #000 !important;
   color: #fff !important;
 }
 
-#views-exposed-form-search-programme-page-1 .form-actions input[type="submit"][id^="edit-submit"]:hover,
-#views-exposed-form-search-programme-page-1 .form-actions input[type="submit"][id^="edit-reset"]:hover {
+.catalogue-view .views-exposed-form .form-actions input[type="submit"][id^="edit-submit"]:hover,
+.catalogue-view .views-exposed-form .form-actions input[type="submit"][id^="edit-reset"]:hover {
   background-color: #222 !important;
   border-color: #222 !important;
   color: #fff !important;
 }
-
 
 
 
@@ -15721,4 +15720,38 @@ header {
 
 .people-role{
   font-size: 0.9rem;
+}
+
+
+
+.newcatalogue-btn{
+  font-size: 0.75rem;
+  background-color: black;
+  color: white;
+}
+
+.newcatalogue-btn h3{
+  margin-bottom: 0px !important;
+  font-weight: bold;
+}
+
+.newcatalogue-btn {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ========= BOTÓN ACTIVO ========= */
+
+
+/* ========= BOTÓN INACTIVO ========= */
+/* Hover → se comporta como el activo */
+.newcatalogue-btn:hover {
+  /*background-color: var(--university_primary_color);*/ /* mismo color del activo */
+    background-color: var(--university_primary_color) !important;
+  color: white !important;
+
+}
+
+.btn-newcatalogue-active{
+  background-color: var(--university_primary_color) !important;
+  color: white !important;
 }

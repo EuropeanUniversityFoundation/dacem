@@ -7,6 +7,7 @@ use Drupal\views\Views;
 use Symfony\Component\Intl\Countries;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Component\Utility\Html;
+use Drupal\node\NodeInterface;
 
 /**
  * @file
@@ -133,7 +134,8 @@ function b5subtheme_preprocess_views_view(&$variables)
   ////dump($variables['view']->id());
 
   $path = \Drupal::theme()->getActiveTheme()->getPath() . '/translations/translations.yml';
-
+ 
+  
   // Cargar el contenido del archivo YAML.
   if (file_exists($path)) {
     $translations = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($path));
@@ -293,6 +295,129 @@ function b5subtheme_preprocess_views_view(&$variables)
     // Pasa las carreras agrupadas a la plantilla.
     $variables['grouped_carreras'] = $grouped_carreras;
   }
+
+
+  
+  if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.page_1') {
+  $current_language = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+    ->getId();
+
+  $alias_manager = \Drupal::service('path_alias.manager');
+  $language_prefix = '/' . $current_language;
+
+  foreach ($variables['view']->result as &$row) {
+    /** @var \Drupal\node\NodeInterface $programme */
+    $programme = $row->_entity ?? NULL;
+    if (!$programme || !$programme->id()) {
+      continue;
+    }
+
+    // Traducción del programme
+    $programme_translated = $programme->hasTranslation($current_language)
+      ? $programme->getTranslation($current_language)
+      : $programme;
+
+    // Institution referenciada
+    if (
+      !$programme_translated->hasField('field_programme_institution') ||
+      $programme_translated->get('field_programme_institution')->isEmpty()
+    ) {
+      continue;
+    }
+
+    /** @var \Drupal\node\NodeInterface $institution */
+    $institution = $programme_translated->get('field_programme_institution')->entity;
+    if (!$institution || !$institution->id()) {
+      continue;
+    }
+
+    // Traducción de la institution
+    $institution_translated = $institution->hasTranslation($current_language)
+      ? $institution->getTranslation($current_language)
+      : $institution;
+
+    // Alias por idioma
+    $programme_alias = $alias_manager->getAliasByPath(
+      '/node/' . $programme_translated->id(),
+      $current_language
+    );
+
+    $institution_alias = $alias_manager->getAliasByPath(
+      '/node/' . $institution_translated->id(),
+      $current_language
+    );
+
+    // Slugs (último segmento)
+    $programme_slug = basename(trim($programme_alias, '/'));
+    $institution_slug = basename(trim($institution_alias, '/'));
+
+    // URL final
+    $row->custom_url = $language_prefix
+      . '/catalogue/'
+      . $institution_slug
+      . '/'
+      . $programme_slug;
+  }
+}
+
+
+
+if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.page_2') {
+
+  
+
+  $current_language = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+    ->getId();
+
+  foreach ($variables['view']->result as &$row) {
+    /** @var \Drupal\node\NodeInterface|null $iec */
+    $iec = $row->_entity ?? NULL;
+
+    if (!$iec instanceof NodeInterface || !$iec->id()) {
+      
+      continue;
+    }
+
+    // Trabajar con traducción si existe
+    $iec_translated = $iec->hasTranslation($current_language)
+      ? $iec->getTranslation($current_language)
+      : $iec;
+
+    // Genera la URL canónica en el idioma adecuado
+    $lang_for_url = $iec_translated->language()->getId();
+    $url = $iec_translated
+      ->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($lang_for_url)])
+      ->toString();
+
+    // Si la URL viene ya con prefijo /xx, lo quitamos para evitar duplicados
+    if (strpos($url, '/' . $lang_for_url) === 0) {
+      $url = substr($url, strlen('/' . $lang_for_url));
+    }
+
+    // Construir la nueva URL con el formato correcto: /<current_language>/catalogue/<...>
+    // (Nota: pongo "/" al principio para que sea una ruta absoluta correcta)
+    $row->custom_url = '/' . $current_language . '/catalogue' . $url;
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

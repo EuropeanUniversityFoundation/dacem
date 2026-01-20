@@ -1,6 +1,18 @@
 {{ attach_library('b5subtheme/search-programme-sort') }}
 
 
+{% set university_primary_color = view.result[0]._entity.field_programme_institution.entity.field_primary_color[0].color  %}
+{% set university_text_color = view.result[0]._entity.field_programme_institution.entity.field_text_color[0].color  %}
+{% set university_emphasis_text_color = view.result[0]._entity.field_programme_institution.entity.field_emphasis_text_color[0].color  %}
+
+<style>:root
+{
+	--university_primary_color: {{university_primary_color}};
+	--university_text_color: {{university_text_color}};
+	--university_emphasis_text_color: {{university_emphasis_text_color}};
+
+}</style>
+
 <div
 	class="negative-margin-search-page">
 
@@ -12,9 +24,7 @@
 
 			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
 			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
+			
 
 			{% set programme_area = {
     'es': {
@@ -84,17 +94,7 @@
 
 			{% set programme_area_labels = programme_area[current_language] ?? programme_area['en'] %}
 
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
+
 			<!---->
 			<!---->
 			<!---->
@@ -111,9 +111,18 @@
 								<h1 class="section-title" style="color:white">Catalogue</h1>
 							</div>
 							<div class="col-auto">
-								<button class="btn btn-primary bg-black border-0 disabled" data-bs-toggle="modal" data-bs-target="#homeProgrammeModal">
-									Select Home Programme
-								</button>
+								<div class="" role="group" aria-label="Catalogue type">
+
+									<a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-newcatalogue-active" data-target-segment="programmes">
+										<h3>PROGRAMMES</h3>
+									</a>
+
+									<a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn" data-target-segment="iecs">
+										<h3>SUBJECTS</h3>
+									</a>
+
+
+								</div>
 							</div>
 						</div>
 
@@ -166,27 +175,29 @@
 							{# Puedes seguir con tu loop propio: AJAX reemplaza todo el wrapper #}
 							{% if view.result is not empty %}
 								{% for row in view.result %}
+								
 
 									{% set programme = row._entity %}
 									{% set institution = programme.field_programme_institution.entity ?? null %}
+									{% set ou = programme.field_programme_ou.entity ?? null %}
 									{% set university_primary_color = institution.field_primary_color[0].color %}
 
 									{% set logo_uri = null %}
-									{% if institution and institution.field_logo.entity is defined %}
-										{% set logo_uri = institution.field_logo.entity.fileuri %}
+									{% if ou and ou.field_ou_picture.entity is defined %}
+										{% set logo_uri = ou.field_ou_picture.entity.fileuri %}
 									{% endif %}
 									<div class="programme-item">
-										<a href="{{ row.programme_url }}" class="text-decoration-none text-reset" target="_blank">
-											<div class="card shadow-none mb-3 border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
+										<a href="{{ row.custom_url }}" class="text-decoration-none text-reset" target="_blank">
+											<div class="card shadow-none mb-3 border-0 rounded-0" style="height: 100.65px; cursor: pointer;">
 												<div
 													class="row g-0">
 													<!-- Imagen (logo institución) -->
-													<div class="col-3" style="height: 123.65px;">
+													<div class="col-2" style="height: 100.65px;">
 														{% if logo_uri %}
-															<img src="{{ file_url(logo_uri) }}" alt="{{ institution ? institution.label : '' }}" class="img-fluid rounded-0 h-100 object-fit-contain p-2">
+															<img src="{{ file_url(logo_uri) }}" alt="{{ ou ? ou.label : '' }}" class="img-fluid rounded-0 h-100 ">
 														{% else %}
 															<div class="bg-light d-flex align-items-center justify-content-center h-100">
-																<span class="text-muted small">No logo</span>
+																<span class="text-muted small">No OU image</span>
 															</div>
 														{% endif %}
 													</div>
@@ -221,14 +232,14 @@
 																{% endif %}
 															</div>
 
-															<!-- Línea inferior: institución y país -->
+															<!-- Línea inferior: institución y país 
 															<div class="ou-tag-bar">
 
 																{% set university_primary_color = institution.field_primary_color[0].color %}
 																{% set university_text_color = institution.field_text_color[0].color %}
 																{% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
 																{% if institution.title.value is defined %}
-																	<!--<span class="ou-tag px-3 py-1" style="background-color: #F44743; color: #fff; border-radius: 0;">-->
+																	
 																	<span class="ou-tag px-3 py-1" style="background-color: {{university_primary_color}}; color: #fff; border-radius: 0;">
 																		{{ institution.title.value }}
 																	</span>
@@ -240,6 +251,7 @@
 																	</span>
 																{% endif %}
 															</div>
+															-->
 														</div>
 													</div>
 												</div>
@@ -356,3 +368,38 @@ submitSearch();
 })();
 	</script>
 
+
+
+<script>
+		(function () {
+function replaceLastPathSegment(pathname, newSegment) { // Quita trailing slash salvo que sea "/"
+const hasTrailingSlash = pathname.length > 1 && pathname.endsWith('/');
+const clean = hasTrailingSlash ? pathname.slice(0, -1) : pathname;
+
+const parts = clean.split('/').filter(Boolean); // sin vacíos
+if (parts.length === 0) 
+return '/' + newSegment;
+
+
+parts[parts.length - 1] = newSegment;
+return '/' + parts.join('/') + (hasTrailingSlash ? '/' : '');
+}
+
+document.querySelectorAll('.newcatalogue-btn[data-target-segment]').forEach((btn) => {
+btn.addEventListener('click', (e) => {
+e.preventDefault();
+
+const target = btn.getAttribute('data-target-segment');
+if (! target) 
+return;
+
+
+const {pathname, search, hash} = window.location;
+const nextPath = replaceLastPathSegment(pathname, target);
+
+// Mantiene ?query y #hash
+window.location.href = nextPath + search + hash;
+});
+});
+})();
+	</script>
