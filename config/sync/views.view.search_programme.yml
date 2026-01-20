@@ -161,7 +161,7 @@ display:
               field_institution_country_value:
                 plugin_id: bef
                 advanced:
-                  sort_options: true
+                  sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
@@ -172,6 +172,14 @@ display:
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
+              combine:
+                plugin_id: default
+                advanced:
+                  placeholder_text: ''
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+                  hide_label: false
       access:
         type: perm
         options:
