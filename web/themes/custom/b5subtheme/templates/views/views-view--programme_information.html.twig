@@ -7,7 +7,7 @@
 {# Obtener la entidad de contenido desde la vista #}
 
 {% set entity = view.result[0]._entity %}
-
+{#{dump(entity)}}
 
 {#{{dump(entity)}}
 
@@ -787,12 +787,25 @@
 									</div>
 								{% endif %}
 
+
+								<!--
 								{% if translated_entity.field_programme_languages.value is not empty %}
 									<div class="degree-info-item mb-2">
 										<strong>{{ translations[current_language]['Languages'] }}:</strong>
 										{{ translated_entity.field_programme_languages.value | raw }}
 									</div>
 								{% endif %}
+								-->
+								{% set langs = translated_entity.field_programme_language_of_inst %}
+
+								{% if langs is not empty %}
+								<div class="degree-info-item mb-2">
+									<strong>{{ translations[current_language]['Languages'] }}:</strong>
+									{{ langs|map(item => item.entity.label)|join(', ') }}.
+								</div>
+								{% endif %}
+
+
 
 								{% if translated_entity.field_programme_mode_of_learning.value is not empty %}
 									<div class="degree-info-item mb-2">
