@@ -1,9 +1,0 @@
-uuid: 2acf86c6-d9f3-43c8-be33-b379efc7ea71
-langcode: en
-status: true
-dependencies: {  }
-name: 'Custom taxonomy'
-vid: custom_taxonomy
-description: 'Reusable taxonomy for programmes.'
-weight: 0
-new_revision: false

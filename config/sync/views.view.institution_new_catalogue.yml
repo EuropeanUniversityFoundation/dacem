@@ -5,10 +5,13 @@ dependencies:
   config:
     - node.type.individual_educational_component
     - node.type.programme
+    - taxonomy.vocabulary.languages_of_instuction
+    - taxonomy.vocabulary.type_of_programme
   module:
     - better_exposed_filters
     - node
     - options
+    - taxonomy
     - user
 id: institution_new_catalogue
 label: 'Institution New Catalogue'
@@ -131,7 +134,29 @@ display:
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-              field_programme_level_value:
+              field_programme_language_of_inst_target_id:
+                plugin_id: bef
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+                  hide_label: true
+                select_all_none: false
+                select_all_none_nested: false
+                display_inline: false
+              combine:
+                plugin_id: default
+                advanced:
+                  placeholder_text: ''
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+                  hide_label: false
+              field_programme_type_target_id:
                 plugin_id: bef
                 advanced:
                   sort_options: false
@@ -170,6 +195,21 @@ display:
             field_identifier: ''
           exposed: false
           granularity: second
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       arguments:
         field_programme_institution_target_id:
           id: field_programme_institution_target_id
@@ -280,7 +320,7 @@ display:
         options:
           query_comment: ''
           disable_sql_rewrite: false
-          distinct: false
+          distinct: true
           replica: false
           query_tags: {  }
       relationships:
@@ -312,6 +352,54 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      fields:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            make_link: false
+            absolute: false
+            word_boundary: false
+            ellipsis: false
+            strip_tags: false
+            trim: false
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
       arguments:
         field_programme_institution_target_id:
           id: field_programme_institution_target_id
@@ -446,27 +534,27 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_programme_level_value:
-          id: field_programme_level_value
-          table: node__field_programme_level
-          field: field_programme_level_value
+        field_programme_language_of_inst_target_id:
+          id: field_programme_language_of_inst_target_id
+          table: node__field_programme_language_of_inst
+          field: field_programme_language_of_inst_target_id
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: list_field
+          plugin_id: taxonomy_index_tid
           operator: or
           value: {  }
           group: 1
           exposed: true
           expose:
-            operator_id: field_programme_level_value_op
-            label: 'Programme Level (field_programme_level)'
+            operator_id: field_programme_language_of_inst_target_id_op
+            label: 'Programme language of instruction (field_programme_language_of_inst)'
             description: ''
             use_operator: false
-            operator: field_programme_level_value_op
+            operator: field_programme_language_of_inst_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: programme_level
+            identifier: programme_language
             required: false
             remember: false
             multiple: true
@@ -491,7 +579,54 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          reduce_duplicates: false
+          reduce_duplicates: true
+          vid: languages_of_instuction
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+        langcode:
+          id: langcode
+          table: node_field_data
+          field: langcode
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: langcode
+          plugin_id: language
+          operator: in
+          value:
+            en: en
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         combine:
           id: combine
           table: views
@@ -539,35 +674,38 @@ display:
             group_items: {  }
           fields:
             title: title
-        langcode:
-          id: langcode
-          table: node_field_data
-          field: langcode
+        field_programme_type_target_id:
+          id: field_programme_type_target_id
+          table: node__field_programme_type
+          field: field_programme_type_target_id
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: langcode
-          plugin_id: language
-          operator: in
-          value:
-            en: en
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
           group: 1
-          exposed: false
+          exposed: true
           expose:
-            operator_id: ''
-            label: ''
+            operator_id: field_programme_type_target_id_op
+            label: 'Programme Type (field_programme_type)'
             description: ''
             use_operator: false
-            operator: ''
+            operator: field_programme_type_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: ''
+            identifier: programme_type
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
+              anonymous: '0'
+              content_editor: '0'
+              administrator: '0'
+              degree_admin: '0'
+              suject_admi: '0'
+              university_admin: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -581,12 +719,20 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          reduce_duplicates: true
+          vid: type_of_programme
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
       filter_groups:
         operator: AND
         groups:
           1: AND
       defaults:
         relationships: false
+        fields: false
+        sorts: true
         arguments: false
         filters: false
         filter_groups: false
@@ -614,7 +760,7 @@ display:
         type: bef
         options:
           submit_button: Apply
-          reset_button: false
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
@@ -624,7 +770,7 @@ display:
           text_input_required_format: basic_html
           bef:
             general:
-              autosubmit: true
+              autosubmit: false
               autosubmit_exclude_textfield: false
               autosubmit_textfield_delay: 500
               autosubmit_textfield_minimum_length: 3
@@ -646,6 +792,42 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+              field_iec_language_of_instructio_target_id:
+                plugin_id: bef
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+                  hide_label: true
+                select_all_none: false
+                select_all_none_nested: false
+                display_inline: false
+              combine:
+                plugin_id: default
+                advanced:
+                  placeholder_text: ''
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+                  hide_label: false
+              field_programme_type_target_id:
+                plugin_id: bef
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+                  hide_label: true
+                select_all_none: false
+                select_all_none_nested: false
+                display_inline: false
       arguments:
         field_programme_institution_target_id:
           id: field_programme_institution_target_id
@@ -839,7 +1021,7 @@ display:
             operator: field_iec_avaliable_for_mobility_value_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_iec_avaliable_for_mobility_value
+            identifier: iec_avaliable_for_mobility
             required: false
             remember: false
             multiple: false
@@ -863,6 +1045,57 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+        field_iec_language_of_instructio_target_id:
+          id: field_iec_language_of_instructio_target_id
+          table: node__field_iec_language_of_instructio
+          field: field_iec_language_of_instructio_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_iec_language_of_instructio_target_id_op
+            label: 'IEC Language of instruction (field_iec_language_of_instructio)'
+            description: ''
+            use_operator: false
+            operator: field_iec_language_of_instructio_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: iec_language
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              content_editor: '0'
+              administrator: '0'
+              degree_admin: '0'
+              suject_admi: '0'
+              university_admin: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: true
+          vid: languages_of_instuction
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
         combine:
           id: combine
           table: views
@@ -874,21 +1107,27 @@ display:
           operator: contains
           value: ''
           group: 1
-          exposed: false
+          exposed: true
           expose:
-            operator_id: ''
-            label: ''
+            operator_id: combine_op
+            label: 'Combine fields filter'
             description: ''
             use_operator: false
-            operator: ''
+            operator: combine_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: ''
+            identifier: combine
             required: false
             remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
+              anonymous: '0'
+              content_editor: '0'
+              administrator: '0'
+              degree_admin: '0'
+              suject_admi: '0'
+              university_admin: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -904,6 +1143,57 @@ display:
             group_items: {  }
           fields:
             title: title
+        field_programme_type_target_id:
+          id: field_programme_type_target_id
+          table: node__field_programme_type
+          field: field_programme_type_target_id
+          relationship: field_iec_programme
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_programme_type_target_id_op
+            label: 'Programme Type (field_programme_type)'
+            description: ''
+            use_operator: false
+            operator: field_programme_type_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: programme_type
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              content_editor: '0'
+              administrator: '0'
+              degree_admin: '0'
+              suject_admi: '0'
+              university_admin: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: true
+          vid: type_of_programme
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
       filter_groups:
         operator: AND
         groups:

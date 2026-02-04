@@ -341,6 +341,12 @@ display:
           class: ''
       row:
         type: fields
+        options:
+          default_field_elements: true
+          inline:
+            title: title
+          separator: ''
+          hide_empty: false
       query:
         type: views_query
         options:
@@ -996,8 +1002,8 @@ display:
           entity_source: __base_table
           name_field: ''
           leaflet_tooltip:
-            value: ''
-            options: '{"permanent":false,"direction":"center"}'
+            value: title
+            options: '{"permanent":false,"direction":"center","className":"leaflet-tooltip-plain"}'
           leaflet_popup:
             value: ''
             options: '{"maxWidth":"300","minWidth":"50","autoPan":true}'

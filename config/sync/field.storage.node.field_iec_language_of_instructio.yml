@@ -1,19 +1,19 @@
-uuid: 2cccb87d-e85b-4e7c-8122-7f7ae65138d2
+uuid: b913b66c-3be0-4a4a-b7a4-b396e05c219f
 langcode: en
 status: true
 dependencies:
   module:
     - node
     - taxonomy
-id: node.field_ejemplo_para_taxonomia
-field_name: field_ejemplo_para_taxonomia
+id: node.field_iec_language_of_instructio
+field_name: field_iec_language_of_instructio
 entity_type: node
 type: entity_reference
 settings:
   target_type: taxonomy_term
 module: core
 locked: false
-cardinality: 1
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

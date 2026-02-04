@@ -15,6 +15,7 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_evaluation
     - field.field.node.individual_educational_component.field_iec_instructors
     - field.field.node.individual_educational_component.field_iec_language
+    - field.field.node.individual_educational_component.field_iec_language_of_instructio
     - field.field.node.individual_educational_component.field_iec_learning_outcomes
     - field.field.node.individual_educational_component.field_iec_modality
     - field.field.node.individual_educational_component.field_iec_phone
@@ -45,6 +46,7 @@ third_party_settings:
         - field_iec_elm_type
         - field_fields_of_study
         - field_iec_credits
+        - field_iec_language_of_instructio
         - field_iec_language
         - field_iec_modality
         - field_iec_avaliable_for_mobility
@@ -98,7 +100,7 @@ content:
     third_party_settings: {  }
   field_iec_avaliable_for_mobility:
     type: boolean_checkbox
-    weight: 23
+    weight: 24
     region: content
     settings:
       display_label: true
@@ -165,13 +167,11 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_iec_language:
-    type: string_textfield
+  field_iec_language_of_instructio:
+    type: options_buttons
     weight: 21
     region: content
-    settings:
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
   field_iec_learning_outcomes:
     type: text_textarea
@@ -183,7 +183,7 @@ content:
     third_party_settings: {  }
   field_iec_modality:
     type: elm_controlled_vocabulary_select
-    weight: 22
+    weight: 23
     region: content
     settings:
       prefix: false
@@ -314,3 +314,4 @@ content:
     third_party_settings: {  }
 hidden:
   body: true
+  field_iec_language: true

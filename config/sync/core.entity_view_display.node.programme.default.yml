@@ -11,10 +11,7 @@ dependencies:
     - field.field.node.programme.field_competencies
     - field.field.node.programme.field_coordinator
     - field.field.node.programme.field_credits
-    - field.field.node.programme.field_custom_taxonomy_field
     - field.field.node.programme.field_distribution_of_credits
-    - field.field.node.programme.field_ejemplo_para_taxonomia
-    - field.field.node.programme.field_elm_vocabulary_test
     - field.field.node.programme.field_email
     - field.field.node.programme.field_eqf_level
     - field.field.node.programme.field_grade_distribution_table
@@ -28,9 +25,9 @@ dependencies:
     - field.field.node.programme.field_programme_explanation_scal
     - field.field.node.programme.field_programme_grading_scale
     - field.field.node.programme.field_programme_institution
+    - field.field.node.programme.field_programme_language_of_inst
     - field.field.node.programme.field_programme_languages
     - field.field.node.programme.field_programme_learn_outcomes
-    - field.field.node.programme.field_programme_level
     - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_mobility_windows
     - field.field.node.programme.field_programme_mode_of_learning
@@ -39,6 +36,7 @@ dependencies:
     - field.field.node.programme.field_programme_phone
     - field.field.node.programme.field_programme_qualification
     - field.field.node.programme.field_programme_requirements
+    - field.field.node.programme.field_programme_type
     - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
     - field.field.node.programme.field_qualification_level
@@ -276,21 +274,6 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 15
             additional: {  }
-          63d4d379-17ce-475b-b8ef-08c55849ec2a:
-            uuid: 63d4d379-17ce-475b-b8ef-08c55849ec2a
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_programme_level'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: list_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 17
-            additional: {  }
           834f9248-c19f-47a5-bd8d-6efebba700e3:
             uuid: 834f9248-c19f-47a5-bd8d-6efebba700e3
             region: content
@@ -321,22 +304,6 @@ third_party_settings:
                 settings: {  }
                 third_party_settings: {  }
             weight: 20
-            additional: {  }
-          76d381ae-bea9-40fc-91b2-3bed113d06ad:
-            uuid: 76d381ae-bea9-40fc-91b2-3bed113d06ad
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_ejemplo_para_taxonomia'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 21
             additional: {  }
           f07efd8a-ca35-461b-b0ef-607306538f65:
             uuid: f07efd8a-ca35-461b-b0ef-607306538f65
@@ -401,22 +368,6 @@ third_party_settings:
                   format_custom_true: ''
                 third_party_settings: {  }
             weight: 25
-            additional: {  }
-          d035baa5-da1d-4ee4-a0c2-3774be2a0b9e:
-            uuid: d035baa5-da1d-4ee4-a0c2-3774be2a0b9e
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_elm_vocabulary_test'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: elm_controlled_vocabulary_default
-                label: above
-                settings:
-                  prefix: false
-                third_party_settings: {  }
-            weight: 26
             additional: {  }
           88354d9e-3948-4385-99ae-a7818a8af96b:
             uuid: 88354d9e-3948-4385-99ae-a7818a8af96b
@@ -696,6 +647,38 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 44
             additional: {  }
+          43a02c4a-04b3-4ff4-9ae0-2b021d9d3846:
+            uuid: 43a02c4a-04b3-4ff4-9ae0-2b021d9d3846
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_language_of_inst'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 45
+            additional: {  }
+          c25d83ed-460d-4486-8964-1b191ffe73a8:
+            uuid: c25d83ed-460d-4486-8964-1b191ffe73a8
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_type'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 46
+            additional: {  }
         third_party_settings: {  }
 id: node.programme.default
 targetEntityType: node
@@ -770,22 +753,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 122
-    region: content
-  field_ejemplo_para_taxonomia:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 121
-    region: content
-  field_elm_vocabulary_test:
-    type: elm_controlled_vocabulary_default
-    label: above
-    settings:
-      prefix: false
-    third_party_settings: {  }
-    weight: 126
     region: content
   field_email:
     type: string
@@ -882,6 +849,14 @@ content:
     third_party_settings: {  }
     weight: 111
     region: content
+  field_programme_language_of_inst:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 145
+    region: content
   field_programme_languages:
     type: text_default
     label: above
@@ -895,13 +870,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 129
-    region: content
-  field_programme_level:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 117
     region: content
   field_programme_mobility:
     type: text_default
@@ -963,6 +931,14 @@ content:
     third_party_settings: {  }
     weight: 128
     region: content
+  field_programme_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 146
+    region: content
   field_programme_web:
     type: link
     label: above
@@ -1009,5 +985,4 @@ content:
     weight: 100
     region: content
 hidden:
-  field_custom_taxonomy_field: true
   langcode: true

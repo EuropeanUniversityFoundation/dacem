@@ -12,10 +12,7 @@ dependencies:
     - field.field.node.programme.field_competencies
     - field.field.node.programme.field_coordinator
     - field.field.node.programme.field_credits
-    - field.field.node.programme.field_custom_taxonomy_field
     - field.field.node.programme.field_distribution_of_credits
-    - field.field.node.programme.field_ejemplo_para_taxonomia
-    - field.field.node.programme.field_elm_vocabulary_test
     - field.field.node.programme.field_email
     - field.field.node.programme.field_eqf_level
     - field.field.node.programme.field_grade_distribution_table
@@ -29,9 +26,9 @@ dependencies:
     - field.field.node.programme.field_programme_explanation_scal
     - field.field.node.programme.field_programme_grading_scale
     - field.field.node.programme.field_programme_institution
+    - field.field.node.programme.field_programme_language_of_inst
     - field.field.node.programme.field_programme_languages
     - field.field.node.programme.field_programme_learn_outcomes
-    - field.field.node.programme.field_programme_level
     - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_mobility_windows
     - field.field.node.programme.field_programme_mode_of_learning
@@ -40,6 +37,7 @@ dependencies:
     - field.field.node.programme.field_programme_phone
     - field.field.node.programme.field_programme_qualification
     - field.field.node.programme.field_programme_requirements
+    - field.field.node.programme.field_programme_type
     - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
     - field.field.node.programme.field_qualification_level
@@ -67,10 +65,7 @@ hidden:
   field_competencies: true
   field_coordinator: true
   field_credits: true
-  field_custom_taxonomy_field: true
   field_distribution_of_credits: true
-  field_ejemplo_para_taxonomia: true
-  field_elm_vocabulary_test: true
   field_email: true
   field_eqf_level: true
   field_grade_distribution_table: true
@@ -84,9 +79,9 @@ hidden:
   field_programme_explanation_scal: true
   field_programme_grading_scale: true
   field_programme_institution: true
+  field_programme_language_of_inst: true
   field_programme_languages: true
   field_programme_learn_outcomes: true
-  field_programme_level: true
   field_programme_mobility: true
   field_programme_mobility_windows: true
   field_programme_mode_of_learning: true
@@ -95,6 +90,7 @@ hidden:
   field_programme_phone: true
   field_programme_qualification: true
   field_programme_requirements: true
+  field_programme_type: true
   field_programme_web: true
   field_programme_work_placements: true
   field_qualification_level: true

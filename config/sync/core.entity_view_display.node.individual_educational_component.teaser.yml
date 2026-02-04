@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_evaluation
     - field.field.node.individual_educational_component.field_iec_instructors
     - field.field.node.individual_educational_component.field_iec_language
+    - field.field.node.individual_educational_component.field_iec_language_of_instructio
     - field.field.node.individual_educational_component.field_iec_learning_outcomes
     - field.field.node.individual_educational_component.field_iec_modality
     - field.field.node.individual_educational_component.field_iec_phone
@@ -61,6 +62,7 @@ hidden:
   field_iec_evaluation: true
   field_iec_instructors: true
   field_iec_language: true
+  field_iec_language_of_instructio: true
   field_iec_learning_outcomes: true
   field_iec_modality: true
   field_iec_phone: true

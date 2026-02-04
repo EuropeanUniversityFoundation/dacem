@@ -1197,7 +1197,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<a class=\"btn btn-sm btn-primary\" href=\"/group/{{ id }}/content/create/group_node%3Aindividual_educational_component?field_iec_programme={{ nid }}&destination=/admin/admin-programmes\">\r\n  ➕ Add IEC\r\n</a>\r\n"
+            text: "<a class=\"btn btn-sm btn-primary\" href=\"/group/{{ id }}/content/create/group_node%3Aindividual_educational_component?field_iec_programme={{ nid }}&destination=/admin/admin-programmes\">\r\n  ➕ Add IEC (Course)\r\n</a>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -2007,7 +2007,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<a class=\"btn btn-sm btn-primary\" href=\"/group/{{ id }}/content/create/group_node%3Aindividual_educational_component?field_iec_programme={{ nid }}&destination=/admin/admin-programmes/programme-admin\">\r\n  ➕ Add IEC\r\n</a>\r\n"
+            text: "<a class=\"btn btn-sm btn-primary\" href=\"/group/{{ id }}/content/create/group_node%3Aindividual_educational_component?field_iec_programme={{ nid }}&destination=/admin/admin-programmes/programme-admin\">\r\n  ➕ Add IEC (Course)\r\n</a>\r\n"
             make_link: false
             path: ''
             absolute: false

@@ -31,6 +31,7 @@ dependencies:
     - field.field.node.institution.field_mobility_outgoing_students
     - field.field.node.institution.field_primary_color
     - field.field.node.institution.field_text_color
+    - field.field.node.institution.field_type_of_hei
     - field.field.node.institution.field_university_pdfs
     - field.field.node.institution.field_urls
     - node.type.institution
@@ -198,6 +199,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 18
+    region: content
+  field_type_of_hei:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 21
     region: content
 hidden:
   body: true

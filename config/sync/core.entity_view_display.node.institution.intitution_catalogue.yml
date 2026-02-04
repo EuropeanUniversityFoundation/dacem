@@ -32,6 +32,7 @@ dependencies:
     - field.field.node.institution.field_mobility_outgoing_students
     - field.field.node.institution.field_primary_color
     - field.field.node.institution.field_text_color
+    - field.field.node.institution.field_type_of_hei
     - field.field.node.institution.field_university_pdfs
     - field.field.node.institution.field_urls
     - node.type.institution
@@ -167,4 +168,5 @@ hidden:
   field_logo: true
   field_mobility_incoming_students: true
   field_mobility_outgoing_students: true
+  field_type_of_hei: true
   langcode: true

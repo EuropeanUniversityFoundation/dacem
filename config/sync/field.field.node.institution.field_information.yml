@@ -12,7 +12,7 @@ id: node.institution.field_information
 field_name: field_information
 entity_type: node
 bundle: institution
-label: Information
+label: Description
 description: ''
 required: true
 translatable: true
