@@ -279,13 +279,14 @@
 													{% set lvl_raw = p.level_code|default(p.level|default('')) %}
 													{% set lvl = lvl_raw|lower %}
 
-													{% if lvl starts with 'b' %}
-														{% set prefix = 'B' %}
-													{% elseif lvl starts with 'm' %}
-														{% set prefix = 'M' %}
-													{% else %}
-														{% set prefix = 'PhD' %}
-													{% endif %}
+													{% if lvl starts with '6' %}
+															{% set prefix = 'B' %}
+														{% elseif lvl starts with '7' %}
+															{% set prefix = 'M' %}
+														{% elseif lvl starts with '8' %}
+															{% set prefix = 'PhD' %}
+														{% endif %}
+
 
 													<li class="mb-2">
 														{% if prefix == 'B' %}

@@ -1048,14 +1048,14 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       }
 
       // Nivel -> B / M / PhD.
-      $lvl_raw = strtolower($programme->get('field_programme_level')->value ?? '');
+      $lvl_raw = strtolower($programme->get('field_eqf_level')->value ?? '');
       //dump($programme->title->value);
       //dump($lvl_raw);
-      if (str_starts_with($lvl_raw, 'b')) {
+      if (str_starts_with($lvl_raw, '6')) {
         $level = 'B';
-      } elseif (str_starts_with($lvl_raw, 'm')) {
+      } elseif (str_starts_with($lvl_raw, '7')) {
         $level = 'M';
-      } else {
+      } elseif (str_starts_with($lvl_raw, '8')) {
         $level = 'PhD';
       }
 
@@ -1098,7 +1098,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       $programmes_by_area[$area_key][$level][] = [
         'id' => $programme->id(),
         'label' => $programme->label(),
-        'level_code' => $programme->get('field_programme_level')->value,
+        'level_code' => $programme->get('field_eqf_level')->value,
         'programme_url' => $programme_url,
         // Añade más campos si quieres: ECTS, enlaces, alias, etc.
       ];
@@ -1196,12 +1196,12 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       }
 
       // Nivel
-      $lvl_raw = strtolower($programme->get('field_programme_level')->value ?? '');
-      if (str_starts_with($lvl_raw, 'b')) {
+      $lvl_raw = strtolower($programme->get('field_eqf_level')->value ?? '');
+      if (str_starts_with($lvl_raw, '6')) {
         $level = 'B';
-      } elseif (str_starts_with($lvl_raw, 'm')) {
+      } elseif (str_starts_with($lvl_raw, '7')) {
         $level = 'M';
-      } else {
+      } elseif (str_starts_with($lvl_raw, '7')) {
         $level = 'PhD';
       }
 
@@ -1249,7 +1249,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       $programmes_by_area[$area_key][$level][] = [
         'id' => $programme->id(),
         'label' => $programme->label(),
-        'level_code' => $programme->get('field_programme_level')->value,
+        'level_code' => $programme->get('field_eqf_level')->value,
         'programme_url' => $programme_url,
       ];
     }
