@@ -15747,7 +15747,7 @@ header {
 .newcatalogue-btn:hover {
   /*background-color: var(--university_primary_color);*/ /* mismo color del activo */
     background-color: var(--university_primary_color) !important;
-  color: white !important;
+    color: white !important;
 
 }
 
@@ -15755,6 +15755,16 @@ header {
   background-color: var(--university_primary_color) !important;
   color: white !important;
 }
+
+.btn-iec-searcher:hover{
+  background: #ff4949 !important;
+}
+
+
+.btn-programme_searcher:hover{
+  background: #ff4949 !important;
+}
+
 
 
 
@@ -15785,4 +15795,55 @@ header {
 
   z-index: 0;
   pointer-events: none;
+}
+
+
+
+.leaflet-tooltip-plain {
+  color: #222;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.leaflet-tooltip-plain a {
+  color: inherit !important;
+  text-decoration: none !important;
+  pointer-events: none; /* por si acaso */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Hace el dropdown de filtros ancho tipo panel */
+.filter-menu {
+  min-width: 720px;   /* ancho real del panel */
+  max-width: 90vw;    /* que no se salga de la pantalla */
+}
+
+
+
+.filter-menu .form-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 8px 24px;
+}
+
+
+.filter-menu .form-checkboxes .form-item {
+  break-inside: avoid;      /* evita que un checkbox se parta entre columnas */
+  margin-bottom: 6px;
+}
+
+
+.dropdown-menu.filter-menu {
+  left: 0 !important;
+  right: auto !important;
 }

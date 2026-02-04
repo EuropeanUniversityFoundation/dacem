@@ -37,3 +37,11 @@ search-programme-sort:
     - core/drupal.ajax
     #- core/jquery
     - core/once
+
+
+iec_mobility_autosubmit:
+  js:
+    js/iec-mobility-autosubmit.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

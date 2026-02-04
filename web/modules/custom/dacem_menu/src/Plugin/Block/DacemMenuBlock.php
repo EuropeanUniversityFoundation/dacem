@@ -35,6 +35,7 @@ class DacemMenuBlock extends BlockBase
     $allowed_routes = [
       'view.main_page.page_1', 
       'view.search_programme.page_1',
+       'view.search_iec.page_1',
       //'admin_area.my_area',   
       //'about',
     ];
@@ -145,7 +146,7 @@ class DacemMenuBlock extends BlockBase
           <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
               <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li class="nav-item dacem-menu-item"><a class="nav-link" href="/about">' . $this->t('ABOUT') . '</a></li>
-                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="/">' . $this->t('INSTITUTIONS') . '</a></li>
+                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="/#institutions">' . $this->t('INSTITUTIONS') . '</a></li>
                   <li class="nav-item dacem-menu-item"><a class="nav-link" href="/contact">' . $this->t('CONTACT') . '</a></li>
               </ul>
               <div class="d-flex ms-lg-2 right-buttons-university-menu">

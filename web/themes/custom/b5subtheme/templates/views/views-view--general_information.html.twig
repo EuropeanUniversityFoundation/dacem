@@ -331,6 +331,51 @@
 
 
 <div class="section-container">
+	<div class="my-custom-container-2" id="mobility" style="scroll-margin-top: 150px;">
+
+		{% set has_incoming = institution.field_mobility_incoming_students is not empty %}
+		{% set has_outgoing = institution.field_mobility_outgoing_students is not empty %}
+
+		{% if has_incoming or has_outgoing %}
+			<h2 class="section-title text-center">Mobility</h2>
+
+			{# Nav tabs #}
+			{% if has_incoming and has_outgoing %}
+				<ul class="nav nav-tabs justify-content-center" id="mobilityTabs-{{ institution.id() }}" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active" id="tab-incoming-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-incoming-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-incoming-{{ institution.id() }}" aria-selected="true">
+							Incoming students
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="tab-outgoing-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-outgoing-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-outgoing-{{ institution.id() }}" aria-selected="false">
+							Outgoing students
+						</button>
+					</li>
+				</ul>
+			{% endif %}
+
+			{# Tab contents #}
+			<div class="tab-content pt-3" id="mobilityTabsContent-{{ institution.id() }}">
+				{% if has_incoming %}
+					<div class="tab-pane fade show active" id="pane-incoming-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-incoming-{{ institution.id() }}">
+						{{ institution.field_mobility_incoming_students.value|raw }}
+					</div>
+				{% endif %}
+
+				{% if has_outgoing %}
+					<div class="tab-pane fade {{ has_incoming ? '' : 'show active' }}" id="pane-outgoing-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-outgoing-{{ institution.id() }}">
+						{{ institution.field_mobility_outgoing_students.value|raw }}
+					</div>
+				{% endif %}
+			</div>
+
+		{% endif %}
+	</div>
+</div>
+
+
+<div class="section-container section-bg-grey">
 	<div class='my-custom-container-2'>
 
 		<div class="admission-section" id='admission' style="scroll-margin-top: 150px;">
@@ -377,64 +422,36 @@
 </div>
 
 <!--<div class="section-margin-negative"></div>-->
-<div class="section-container section-bg-grey">
-	<div class='my-custom-container-2' id='ects-allocation-policy' style="scroll-margin-top: 150px;">
-		{% if institution.field_ects_credit_allocation_pol is not empty %}
+<div class="section-container">
+	<div class='my-custom-container-2'>
 
-			<h2 class="section-title text-center">ECTS Allocation Policy</h2>
+		<div class="admission-section" id='ects-policies' style="scroll-margin-top: 150px;">
 
-			<p>{{ institution.field_ects_credit_allocation_pol.value|raw }}</p>
+			<h2 class="section-title text-center">ECTS Policies</h2>
 
+			{% if institution.field_ects_credit_allocation_pol is not empty %}
+				<h3 class="subsection-title">ECTS Allocation Policy</h3>
+				<p>{{ institution.field_ects_credit_allocation_pol.value | raw }}</p>
+			{% endif %}
 
-		{% endif %}
+			{% if institution.field_arrangements_guidance is not empty %}
+				<h3 class="subsection-title">Arrangements for Academic Guidance</h3>
+				<p>{{ institution.field_arrangements_guidance.value | raw }}</p>
+			{% endif %}
+
+			{% if institution.field_arrangements_recognition is not empty %}
+				<h3 class="subsection-title">Arrangements for the Recognition of Credit Mobility and Prior Learning</h3>
+				<p>{{ institution.field_arrangements_recognition.value | raw }}</p>
+			{% endif %}
+
+		</div>
 	</div>
 </div>
+
 
 
 <!--<div class="section-margin-negative"></div>-->
-<div class="section-container">
-	<div class="my-custom-container-2" id="mobility" style="scroll-margin-top: 150px;">
 
-		{% set has_incoming = institution.field_mobility_incoming_students is not empty %}
-		{% set has_outgoing = institution.field_mobility_outgoing_students is not empty %}
-
-		{% if has_incoming or has_outgoing %}
-			<h2 class="section-title text-center">Mobility</h2>
-
-			{# Nav tabs #}
-			{% if has_incoming and has_outgoing %}
-				<ul class="nav nav-tabs justify-content-center" id="mobilityTabs-{{ institution.id() }}" role="tablist">
-					<li class="nav-item" role="presentation">
-						<button class="nav-link active" id="tab-incoming-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-incoming-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-incoming-{{ institution.id() }}" aria-selected="true">
-							Incoming students
-						</button>
-					</li>
-					<li class="nav-item" role="presentation">
-						<button class="nav-link" id="tab-outgoing-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-outgoing-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-outgoing-{{ institution.id() }}" aria-selected="false">
-							Outgoing students
-						</button>
-					</li>
-				</ul>
-			{% endif %}
-
-			{# Tab contents #}
-			<div class="tab-content pt-3" id="mobilityTabsContent-{{ institution.id() }}">
-				{% if has_incoming %}
-					<div class="tab-pane fade show active" id="pane-incoming-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-incoming-{{ institution.id() }}">
-						{{ institution.field_mobility_incoming_students.value|raw }}
-					</div>
-				{% endif %}
-
-				{% if has_outgoing %}
-					<div class="tab-pane fade {{ has_incoming ? '' : 'show active' }}" id="pane-outgoing-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-outgoing-{{ institution.id() }}">
-						{{ institution.field_mobility_outgoing_students.value|raw }}
-					</div>
-				{% endif %}
-			</div>
-
-		{% endif %}
-	</div>
-</div>
 
 
 {% if campuses is not empty %}

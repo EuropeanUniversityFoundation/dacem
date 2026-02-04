@@ -36,7 +36,6 @@
   {{- label -}}
 {% endmacro %}
 
-{#{dump(form)}#}
 
 
 
@@ -53,11 +52,11 @@
       or (form.programme_area['#value']|default('') not in ['', '_none', 'All'])
     )
   %}
-  {% set level_active =
-    form.programme_level is defined
+  {% set programme_type_active =
+    form.programme_type is defined
     and (
-      (form.programme_level['#value'] is iterable and form.programme_level['#value']|length > 0)
-      or (form.programme_level['#value']|default('') not in ['', '_none', 'All'])
+      (form.programme_type['#value'] is iterable and form.programme_type['#value']|length > 0)
+      or (form.programme_type['#value']|default('') not in ['', '_none', 'All'])
     )
   %}
   {% set country_active =
@@ -65,6 +64,13 @@
     and (
       (form.field_institution_country_value['#value'] is iterable and form.field_institution_country_value['#value']|length > 0)
       or (form.field_institution_country_value['#value']|default('') not in ['', '_none', 'All'])
+    )
+  %}
+  {% set language_active =
+    form.programme_language is defined
+    and (
+      (form.programme_language['#value'] is iterable and form.programme_language['#value']|length > 0)
+      or (form.programme_language['#value']|default('') not in ['', '_none', 'All'])
     )
   %}
 
@@ -83,12 +89,12 @@
 
     <div class="dropdown">
       <button
-        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ level_active ? 'btn-search-filter-active' : 'btn-dark' }}"
+        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ programme_type_active ? 'btn-search-filter-active' : 'btn-dark' }}"
         type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-        {{ helpers.filter_label(form.programme_level, 'Level') }}
+        {{ helpers.filter_label(form.programme_type, 'Type') }}
       </button>
       <div class="dropdown-menu p-3 filter-menu">
-        {{ form.programme_level }}
+        {{ form.programme_type }}
       </div>
     </div>
 
@@ -103,6 +109,18 @@
         {{ form.field_institution_country_value }}
       </div>
     </div>
+
+    <div class="dropdown">
+      <button
+        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ language_active ? 'btn-search-filter-active' : 'btn-dark' }}"
+        type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+        {{ helpers.filter_label(form.programme_language, 'Languages') }}
+      </button>
+      <div class="dropdown-menu p-3 filter-menu">
+        {{ form.programme_language }}
+      </div>
+    </div>
+
 
     {% if form.actions is defined %}
       <div class="ms-auto">

@@ -681,22 +681,6 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       }
       */
 
-      if (!$node->get('field_admission_description')->isEmpty()) {
-        $sections[] = [
-          'id' => 'admission',
-          'label' => t('Admission'),
-        ];
-      }
-
-
-      if (!$node->get('field_ects_credit_allocation_pol')->isEmpty()) {
-        $sections[] = [
-          'id' => 'ects-allocation-policy',
-          'label' => t('ECTS Policies'),
-        ];
-      }
-
-
       if (
         !$node->get('field_mobility_incoming_students')->isEmpty()
         || !$node->get('field_mobility_outgoing_students')->isEmpty()
@@ -706,6 +690,31 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
           'label' => t('Mobility'),
         ];
       }
+
+
+
+      if (!$node->get('field_admission_description')->isEmpty()) {
+        $sections[] = [
+          'id' => 'admission',
+          'label' => t('Admission'),
+        ];
+      }
+
+
+     if (
+        !$node->get('field_ects_credit_allocation_pol')->isEmpty() ||
+        !$node->get('field_arrangements_guidance')->isEmpty() ||
+        !$node->get('field_arrangements_recognition')->isEmpty()
+      ) {
+        $sections[] = [
+          'id' => 'ects-policies',
+          'label' => t('ECTS Policies'),
+        ];
+      }
+
+
+
+      
 
       /*
       if (!empty($variables['has_campuses'])) {
@@ -1421,6 +1430,57 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
 
 
+
+
+
+
+  }
+
+
+
+  if ($variables['view']->id() === 'search_iec') {
+
+    $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
+    // Países traducidos (Address).
+    $variables['country_list'] = \Drupal::service('address.country_repository')->getList($langcode);
+
+
+
+
+    $current_language = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+    ->getId();
+
+  foreach ($variables['view']->result as &$row) {
+    /** @var \Drupal\node\NodeInterface|null $iec */
+    $iec = $row->_entity ?? NULL;
+
+    if (!$iec instanceof NodeInterface || !$iec->id()) {
+      
+      continue;
+    }
+
+    // Trabajar con traducción si existe
+    $iec_translated = $iec->hasTranslation($current_language)
+      ? $iec->getTranslation($current_language)
+      : $iec;
+
+    // Genera la URL canónica en el idioma adecuado
+    $lang_for_url = $iec_translated->language()->getId();
+    $url = $iec_translated
+      ->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($lang_for_url)])
+      ->toString();
+
+    // Si la URL viene ya con prefijo /xx, lo quitamos para evitar duplicados
+    if (strpos($url, '/' . $lang_for_url) === 0) {
+      $url = substr($url, strlen('/' . $lang_for_url));
+    }
+
+    // Construir la nueva URL con el formato correcto: /<current_language>/catalogue/<...>
+    // (Nota: pongo "/" al principio para que sea una ruta absoluta correcta)
+    $row->custom_url = '/' . $current_language . '/catalogue' . $url;
+  }
 
 
 

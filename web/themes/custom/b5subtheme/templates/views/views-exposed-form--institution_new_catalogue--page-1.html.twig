@@ -49,11 +49,11 @@
       or (form.programme_area['#value']|default('') not in ['', '_none', 'All'])
     )
   %}
-  {% set level_active =
-    form.programme_level is defined
+  {% set programme_type_active =
+    form.programme_type is defined
     and (
-      (form.programme_level['#value'] is iterable and form.programme_level['#value']|length > 0)
-      or (form.programme_level['#value']|default('') not in ['', '_none', 'All'])
+      (form.programme_type['#value'] is iterable and form.programme_type['#value']|length > 0)
+      or (form.programme_type['#value']|default('') not in ['', '_none', 'All'])
     )
   %}
   {% set country_active =
@@ -68,6 +68,21 @@
     and (
       (form.programme_language['#value'] is iterable and form.programme_language['#value']|length > 0)
       or (form.programme_language['#value']|default('') not in ['', '_none', 'All'])
+    )
+  %}
+
+  {% set programme_ou_active =
+    form.programme_ou is defined
+    and (
+      (form.programme_ou['#value'] is iterable and form.programme_ou['#value']|length > 0)
+      or (form.programme_ou['#value']|default('') not in ['', '_none', 'All'])
+    )
+  %}
+   {% set programme_campus_active =
+    form.programme_campus is defined
+    and (
+      (form.programme_campus['#value'] is iterable and form.programme_campus['#value']|length > 0)
+      or (form.programme_campus['#value']|default('') not in ['', '_none', 'All'])
     )
   %}
 
@@ -86,12 +101,12 @@
 
     <div class="dropdown">
       <button
-        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ level_active ? 'btn-newcatalogue-active' : 'btn-dark' }}"
+        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ programme_type_active ? 'btn-newcatalogue-active' : 'btn-dark' }}"
         type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-        {{ helpers.filter_label(form.programme_level, 'Level') }}
+        {{ helpers.filter_label(form.programme_type, 'Type') }}
       </button>
       <div class="dropdown-menu p-3 filter-menu">
-        {{ form.programme_level }}
+        {{ form.programme_type }}
       </div>
     </div>
 
@@ -107,6 +122,37 @@
       </div>
     </div>
 
+
+
+    <div class="dropdown">
+      <button
+        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ programme_campus_active ? 'btn-newcatalogue-active' : 'btn-dark' }}"
+        type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+        {{ helpers.filter_label(form.programme_campus, 'Campus') }}
+      </button>
+      <div class="dropdown-menu p-3 filter-menu">
+        {{ form.programme_campus }}
+      </div>
+    </div>
+
+
+
+
+    <div class="dropdown">
+      <button
+        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ programme_ou_active ? 'btn-newcatalogue-active' : 'btn-dark' }}"
+        type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+        {{ helpers.filter_label(form.programme_ou, 'Organizational Unit') }}
+      </button>
+      <div class="dropdown-menu p-3 filter-menu">
+        {{ form.programme_ou }}
+      </div>
+    </div>
+
+    
+
+
+    
 
     <!--
     <div class="dropdown">
