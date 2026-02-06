@@ -1,6 +1,14 @@
 {% set current_language = view.result[0].node_field_data_langcode %}
 
 
+
+
+
+{{dump()}}
+
+
+
+
 {# Acceder a la asignatura actual #}
 {% set iec = view.result[0]._entity %}
 {% if iec.hasTranslation(current_language) %}

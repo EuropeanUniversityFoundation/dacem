@@ -453,8 +453,7 @@
 <!--<div class="section-margin-negative"></div>-->
 
 
-
-{% if campuses is not empty %}
+{% if institution.field_general_campus_description is not empty  %}
 
 
 	<div class='section-container section-bg-grey' id="campuses" style="scroll-margin-top: 150px;">
@@ -474,6 +473,8 @@
 					{% endif %}
 				</div>
 			</div>
+
+			{% if campuses is not empty %}
 
 			<!-- Contenido: Mapa + Tarjetas -->
 			<div
@@ -531,6 +532,8 @@
 				</div>
 
 			</div>
+
+			{% endif %}
 
 		</div>
 	{% endif %}
