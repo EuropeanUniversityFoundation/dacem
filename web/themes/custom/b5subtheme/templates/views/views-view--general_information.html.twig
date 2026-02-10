@@ -628,6 +628,7 @@
 
 					<!-- Otros botones -->
 					<!-- Campus -->
+					{% if campuses|length > 1 %}
 					<div class="dropdown">
 						<button id="campus-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 							Campus
@@ -650,6 +651,8 @@
 						</ul>
 
 					</div>
+
+					{% endif %}
 
 				</div>
 

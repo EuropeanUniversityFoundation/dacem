@@ -124,16 +124,25 @@
 
 
 
-    <div class="dropdown">
-      <button
-        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ programme_campus_active ? 'btn-newcatalogue-active' : 'btn-dark' }}"
-        type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-        {{ helpers.filter_label(form.programme_campus, 'Campus') }}
-      </button>
-      <div class="dropdown-menu p-3 filter-menu">
-        {{ form.programme_campus }}
-      </div>
+
+
+    {% if form.programme_campus['#options']|length > 1 %}
+  <div class="dropdown">
+    <button
+      class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ programme_campus_active ? 'btn-newcatalogue-active' : 'btn-dark' }}"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      data-bs-auto-close="outside">
+      {{ helpers.filter_label(form.programme_campus, 'Campus') }}
+    </button>
+
+    <div class="dropdown-menu p-3 filter-menu">
+      {{ form.programme_campus }}
     </div>
+  </div>
+{% endif %}
+
 
 
 

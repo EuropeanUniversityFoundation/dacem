@@ -77,6 +77,8 @@
 	<!-- Menú de pestañas visible en pantallas grandes -->
 	<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
+	{% if campuses is defined and campuses|length > 1 %}
+
 		<li class="nav-item">
 			<a class="nav-link nav-link-rs-menu fw-bold" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
 				<img src="/path/to/icon.jpg" alt="" class="me-2" style="height: 24px;">
@@ -84,6 +86,8 @@
 				<i class="fas fa-chevron-down ms-1"></i>
 			</a>
 		</li>
+
+	{% endif %}
 
 
 		<li class="nav-item">
@@ -103,7 +107,7 @@
 		</li>
 	</ul>
 
-</div></nav><div class="collapse bg-dark text-white section-container" id="campusCollapse">{% if campuses %}
+</div></nav><div class="collapse bg-dark text-white section-container" id="campusCollapse">{% if campuses is defined and campuses|length > 1 %}
 
 
 <div class="d-flex flex-wrap gap-3 justify-content-center campuses-row-rs">
