@@ -230,6 +230,15 @@
 		<div class="scrollspy-example" data-bs-spy="scroll" data-bs-target="#programme-navbar" data-bs-root-margin="0px 0px -60%" tabindex="0">
 
 			<div class="row">
+
+				{% if attachment_after %}
+    <div class="col-sm-12 col-md-12 col-xl-4 order-1 order-xl-2">
+      {{ attachment_after }}
+    </div>
+  {% endif %}
+
+
+
 				<div class="col-sm-12 col-md-12 col-xl-8 order-2 order-xl-1">
 					{% if translated_entity.field_programme_description.value is not empty %}
 						<div class="programme-section" id="presentation" style="text-align: justify; scroll-margin-top: 150px;">
@@ -737,185 +746,7 @@
 
 
 
-				<div class="col-sm-12 col-md-12 col-xl-4 degree-sidebar-wrapper order-1 order-xl-2">
-					<div class="degree-sidebar bg-light">
-						<div
-							class="row g-3 mx-0">
-
-							<!-- Columna 1: General Data -->
-							<div class="col-12 col-md-6 col-xl-12">
-								{% set has_general_data = translated_entity.field_academic_year.value is not empty
-									or translated_entity.field_programme_level.value is not empty
-									or translated_entity.field_credits.value is not empty
-									or translated_entity.field_programme_modality.value is not empty
-									or translated_entity.field_isced_f.value is not empty
-									or translated_entity.field_qualification_level.value is not empty
-									or translated_entity.field_programme_mode_of_study.value is not empty
-									or translated_entity.field_professional_practices.value is not empty
-									or translated_entity.field_avaliable_for_mobility.value is not empty %}
-								{% if has_general_data %}
-									<h3 class="subsection-title m-0 mb-3">
-										{{ translations[current_language]['General Data'] }}
-									</h3>
-								{% endif %}
-
-								{% if translated_entity.field_academic_year.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['Academic Course'] }}:</strong>
-										{{ translated_entity.field_academic_year.value }}
-									</div>
-								{% endif %}
-
-								{% if translated_entity.field_programme_level.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['Level'] }}:</strong>
-										{{ translated_entity.field_programme_level.value }}
-									</div>
-								{% endif %}
-
-								{% if translated_entity.field_credits.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['ECTS Credits'] }}:</strong>
-										{{ translated_entity.field_credits.value }}
-									</div>
-								{% endif %}
-
-								{% if translated_entity.field_length_of_programme.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['Length of Programme'] }}:</strong>
-										{{ translated_entity.field_length_of_programme.value }}
-									</div>
-								{% endif %}
-
-
-								<!--
-								{% if translated_entity.field_programme_languages.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['Languages'] }}:</strong>
-										{{ translated_entity.field_programme_languages.value | raw }}
-									</div>
-								{% endif %}
-								-->
-								{% set langs = translated_entity.field_programme_language_of_inst %}
-
-								{% if langs is not empty %}
-								<div class="degree-info-item mb-2">
-									<strong>{{ translations[current_language]['Languages'] }}:</strong>
-									{{ langs|map(item => item.entity.label)|join(', ') }}.
-								</div>
-								{% endif %}
-
-
-
-								{% if translated_entity.field_programme_mode_of_learning.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['Modality'] }}:</strong>
-										{{translated_entity.field_programme_mode_of_learning.value}}
-									</div>
-								{% endif %}
-
-								{% if translated_entity.field_isced_f.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['ISCED-F'] }}:</strong>
-										{{ translated_entity.field_isced_f.value }}
-									</div>
-								{% endif %}
-
-								{% if translated_entity.field_qualification_level.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['Qualification Level'] }}:</strong>
-										{{ translated_entity.field_qualification_level.value }}
-									</div>
-								{% endif %}
-
-								{% if translated_entity.field_programme_mode_of_study.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['Study Modality'] }}:</strong>
-										{{ translated_entity.field_programme_mode_of_study.value }}
-									</div>
-								{% endif %}
-
-								{% if translated_entity.field_professional_practices.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['Professional Practices'] }}:</strong>
-										{{ translations[current_language][translated_entity.field_professional_practices.value] }}
-									</div>
-								{% endif %}
-								{% if translated_entity.field_avaliable_for_mobility.value is not empty %}
-									<div class="degree-info-item mb-2">
-										<strong>{{ translations[current_language]['Avaliable for Mobility Students'] }}:</strong>
-										{{ translated_entity.field_avaliable_for_mobility.value ? 'Yes' : 'No' }}
-
-									</div>
-								{% endif %}
-
-								
-							</div>
-
-							<!-- Columna 2: Coordination -->
-							<div class="col-12 col-md-6 col-xl-12">
-								{% set has_coordination = translated_entity.field_coordinator.value is not empty
-									or translated_entity.field_programme_phone.value is not empty
-									or translated_entity.field_email.value is not empty %}
-								{% if has_coordination %}
-									<h3 class="mt-4 mt-md-0 mt-xl-4">
-										{{ translations[current_language]['Coordination'] }}
-									</h3>
-								{% endif %}
-
-								{% if translated_entity.field_coordinator.value is not empty %}
-									<div class="degree-info-item mb-1">{{ translated_entity.field_coordinator.value }}</div>
-								{% endif %}
-
-								{% if translated_entity.field_programme_phone.value is not empty %}
-									<div class="degree-info-item mb-1">
-										<i class="fa fa-phone"></i>
-										{{ translated_entity.field_programme_phone.value }}
-									</div>
-								{% endif %}
-
-								{% if translated_entity.field_email.value is not empty %}
-									<div class="degree-info-item mb-1">
-										<i class="fa fa-envelope"></i>
-										{{ translated_entity.field_email.value }}
-									</div>
-								{% endif %}
-
-								{% if translated_entity.field_programme_web.value is not empty %}
-									<div class="d-flex align-items-start mb-3">
-										<i class="fas fa-globe me-2 mt-1"></i>
-										<p class="mb-0">
-											<a href="{{ translated_entity.field_programme_web.uri ?? translated_entity.field_programme_web.value }}" target="_blank" rel="noopener" style="color: {{university_primary_color}}">
-												{{ translated_entity.field_programme_web.title ?? translated_entity.field_programme_web.value }}
-											</a>
-										</p>
-									</div>
-								{% endif %}
-							</div>
-
-						</div>
-					</div>
-
-
-					<!--
-																				<div class="information-footer p-2">
-																					<div class="d-flex justify-content-between align-items-center">
-																						<div>
-																							<i class="fas fa-share-square custom-icon me-2"></i>
-															
-																							<span class="text-white">Original Source:
-																							</span>
-																							<a href="#" class="guia-docente-link">www.example.com</a>
-																						</div>
-																						<div>
-																							<span>Updated 12-05-2024</span>
-																						</div>
-																					</div>
-																				</div>
-																				-->
-
-
-				</div>
+				
 
 
 			</div>

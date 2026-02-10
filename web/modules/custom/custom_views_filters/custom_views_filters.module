@@ -57,17 +57,22 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
       ////dump($where_conditions);
 
       foreach ($where_conditions as &$condition_group) {
+  foreach ($condition_group['conditions'] as &$condition) {
 
-        foreach ($condition_group['conditions'] as &$condition) {
-          if (isset($condition['field']) && strpos($condition['field'], 'node_field_data.nid') !== false) {
-            \Drupal::logger('custom_views_filters')->notice('Replacing :node_field_data_nid with ' . $node_id);
+    if (isset($condition['field']) && strpos($condition['field'], 'node_field_data.nid') !== false) {
 
-            $condition['value'][':node_field_data_nid'] = $node_id;
-            ////dump($condition['value'][':node_field_data_nid']);
+      // Reemplaza el placeholder existente (:node_field_data_nid, :node_field_data_nid1, ...)
+      if (!empty($condition['value']) && is_array($condition['value'])) {
+        foreach ($condition['value'] as $key => $val) {
+          if (preg_match('/^:node_field_data_nid\d*$/', (string) $key)) {
+            $condition['value'][$key] = $node_id;
           }
-
         }
       }
+    }
+  }
+}
+
     }
   } else if ($view->id() === 'resources_and_services') {
 
