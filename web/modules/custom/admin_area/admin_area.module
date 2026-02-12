@@ -1,6 +1,12 @@
 <?php
 
 use Drupal\node\Entity\Node;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Url;
+use Drupal\user\Entity\User;
+
+
 /**
  * Implements hook_theme().
  */
@@ -148,10 +154,10 @@ function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
 /**
  * Callback para redirigir después de guardar una traducción.
  */
-function admin_area_redirect_after_translation(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+function admin_area_redirect_after_translation(array &$form, FormStateInterface $form_state) {
   $node = $form_state->getFormObject()->getEntity();
   $current_user = \Drupal::currentUser();
-  $user = \Drupal\user\Entity\User::load($current_user->id());
+  $user = User::load($current_user->id());
 
   \Drupal::logger('admin_area')->info('Redirect after translatioooooonnn');
 
@@ -168,11 +174,16 @@ function admin_area_redirect_after_translation(array &$form, \Drupal\Core\Form\F
         foreach ($membership->getRoles() as $r) {
           switch ($r->id()) {
             case 'universitytypegroup-university_a':
-              $role = 'university_admin'; break;
+              $role = 'university_admin';
+              break;
+
             case 'universitytypegroup-degree_admin':
-              $role = 'programme_admin'; break;
+              $role = 'programme_admin';
+              break;
+
             case 'universitytypegroup-subject_admi':
-              $role = 'iec_admin'; break;
+              $role = 'iec_admin';
+              break;
           }
         }
       }
@@ -203,19 +214,37 @@ function admin_area_redirect_after_translation(array &$form, \Drupal\Core\Form\F
         'academic_authority' => [
           'university_admin' => 'view.admin_academic_authorities.page_1',
         ],
-        
       ];
 
       if (isset($route_maps[$entity_type][$role])) {
-        $form_state->setRedirect($route_maps[$entity_type][$role]);
+        $route_name = $route_maps[$entity_type][$role];
+
+        // ✅ Forzar idioma EN en la URL de destino.
+        $en = \Drupal::languageManager()->getLanguage('en');
+        if ($en) {
+          $url = Url::fromRoute($route_name, [], ['language' => $en]);
+          $form_state->setRedirectUrl($url);
+        }
+        else {
+          // Fallback si no existe 'en'
+          $form_state->setRedirect($route_name);
+        }
+
         return;
       }
     }
   }
 
-  // Redirección por defecto si no encuentra grupo o rol
-  $form_state->setRedirect('<front>');
+  // Redirección por defecto
+  $en = \Drupal::languageManager()->getLanguage('en');
+  if ($en) {
+    $form_state->setRedirectUrl(Url::fromRoute('<front>', [], ['language' => $en]));
+  }
+  else {
+    $form_state->setRedirect('<front>');
+  }
 }
+
 
 
 
@@ -381,9 +410,6 @@ function admin_area_form_node_programme_edit_form_alter(&$form, \Drupal\Core\For
 }
 
 
-
-
-use Drupal\Core\Form\FormStateInterface;
 
 function admin_area_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $node = $form_state->getFormObject()->getEntity();

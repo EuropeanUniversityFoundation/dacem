@@ -1,22 +1,23 @@
 {% set current_language = view.result[0].node_field_data_langcode %}
 
-
-{% if sidebar_second %}
-	{{dump('sideebar')}}
-
+{# Acceder a la instancia de asignatura actual #}
+{% set iec_instance = view.result[0]._entity %}
+{% if iec_instance.hasTranslation(current_language) %}
+	{% set translated_iec_instance = iec_instance.getTranslation(current_language) %}
+{% else %}
+	{% set translated_iec_instance = iec_instance %}
 {% endif %}
 
-
-{# Acceder a la asignatura actual #}
-{% set iec = view.result[0]._entity %}
-{% if iec.hasTranslation(current_language) %}
+{# Acceder a la asignatura (IEC) referenciada desde la instancia #}
+{% set iec = translated_iec_instance.field_iec.entity %}
+{% if iec and iec.hasTranslation(current_language) %}
 	{% set translated_iec = iec.getTranslation(current_language) %}
 {% else %}
 	{% set translated_iec = iec %}
 {% endif %}
 
-{# Acceder a la carrera a la que pertenece la asignatura #}
-{% set programme = translated_iec.field_iec_programme.entity %}
+{# Acceder a la carrera a la que pertenece la asignatura (IEC) #}
+{% set programme = translated_iec ? translated_iec.field_iec_programme.entity : null %}
 
 {% if programme %}
 	{% if programme.hasTranslation(current_language) %}
@@ -27,7 +28,7 @@
 {% endif %}
 
 {# Acceder a la universidad a la que pertenece la carrera #}
-{% set institution = programme.field_programme_institution.entity %}
+{% set institution = programme ? programme.field_programme_institution.entity : null %}
 
 {% if institution %}
 	{% if institution.hasTranslation(current_language) %}
@@ -38,9 +39,9 @@
 {% endif %}
 
 {# Obtener colores de la universidad #}
-{% set university_primary_color = institution.field_primary_color[0].color %}
-{% set university_text_color = institution.field_text_color[0].color %}
-{% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
+{% set university_primary_color = institution ? institution.field_primary_color[0].color : '#000000' %}
+{% set university_text_color = institution ? institution.field_text_color[0].color : '#ffffff' %}
+{% set university_emphasis_text_color = institution ? institution.field_emphasis_text_color[0].color : '#ffffff' %}
 
 <style>:root
 {
@@ -88,7 +89,17 @@
 		</div>
 	</div>
 
-</div></div><div class="section-container">
+</div>
+<div class="rs-header" style="background-color: #e9ecef;">
+	<div class="my-custom-container-2">
+		<div class="page-band py-1">
+			<h2 class="rs-title mb-0" style="font-size: 1rem; font-weight: 600; color: #212529;">
+				{{ translated_iec_instance.label }}
+			</h2>
+		</div>
+	</div>
+</div>
+</div><div class="section-container">
 <div class="my-custom-container-2">
 
 	<div class="row">
@@ -103,59 +114,38 @@
   {# CONTENIDO PRINCIPAL #}
   <div class="col-sm-12 col-md-12 col-xl-8 order-2 order-xl-1">
 
-    {% if translated_iec.field_iec_description.value is not empty %}
+    {% if translated_iec_instance.field_iec_instance_instructors.value is not empty %}
       <div class="programme-section" id="general-information" style="text-align: justify;">
-        <h3 class="subsection-title mt-0">{{ translations[current_language]['Description'] }}</h3>
-        {{ translated_iec.field_iec_description.value|raw }}
+        <h3 class="subsection-title mt-0">{{ 'Instructors'|t }}</h3>
+        {{ translated_iec_instance.field_iec_instance_instructors.value|raw }}
       </div>
     {% endif %}
 
-    {% if translated_iec.field_iec_requirements.value is not empty %}
+    {% if translated_iec_instance.field_iec_instance_activities.value is not empty %}
       <div class="programme-section" style="text-align: justify;">
-        <h3 class="subsection-title">{{ translations[current_language]['Requirements'] }}</h3>
-        {{ translated_iec.field_iec_requirements.value|raw }}
+        <h3 class="subsection-title">{{ 'Planned Activities'|t }}</h3>
+        {{ translated_iec_instance.field_iec_instance_activities.value|raw }}
       </div>
     {% endif %}
 
-    {% if translated_iec.field_iec_instructors.value is not empty %}
+    {% if translated_iec_instance.field_iec_instance_assessment.value is not empty %}
       <div class="programme-section" style="text-align: justify;">
-        <h3 class="subsection-title">{{ translations[current_language]['Instructors'] }}</h3>
-        {{ translated_iec.field_iec_instructors.value|raw }}
+        <h3 class="subsection-title">{{ 'Assessment Methods and Criteria'|t }}</h3>
+        {{ translated_iec_instance.field_iec_instance_assessment.value|raw }}
       </div>
     {% endif %}
 
-    {% if translated_iec.field_iec_contents.value is not empty %}
+    {% if translated_iec_instance.field_iec_instance_grading_schem.value is not empty %}
       <div class="programme-section" style="text-align: justify;">
-        <h3 class="subsection-title">{{ translations[current_language]['Contents'] }}</h3>
-        {{ translated_iec.field_iec_contents.value|raw }}
+        <h3 class="subsection-title">{{ 'Grading Scheme'|t }}</h3>
+        {{ translated_iec_instance.field_iec_instance_grading_schem.value|raw }}
       </div>
     {% endif %}
 
-    {% if translated_iec.field_iec_learning_outcomes.value is not empty %}
+    {% if translated_iec_instance.field_iec_instance_grade_distrib.value is not empty %}
       <div class="programme-section" style="text-align: justify;">
-        <h3 class="subsection-title">{{ translations[current_language]['Learning Outcomes'] }}</h3>
-        {{ translated_iec.field_iec_learning_outcomes.value|raw }}
-      </div>
-    {% endif %}
-
-    {% if translated_iec.field_iec_recommendations.value is not empty %}
-      <div class="programme-section" style="text-align: justify;">
-        <h3 class="subsection-title">{{ translations[current_language]['Recommended Readings and Tools'] }}</h3>
-        {{ translated_iec.field_iec_recommendations.value|raw }}
-      </div>
-    {% endif %}
-
-    {% if translated_iec.field_iec_planned_activities.value is not empty %}
-      <div class="programme-section" style="text-align: justify;">
-        <h3 class="subsection-title">{{ translations[current_language]['Planned Activities'] }}</h3>
-        {{ translated_iec.field_iec_planned_activities.value|raw }}
-      </div>
-    {% endif %}
-
-    {% if translated_iec.field_iec_evaluation.value is not empty %}
-      <div class="programme-section" style="text-align: justify;">
-        <h3 class="subsection-title">{{ translations[current_language]['Assessment Methods and Criteria'] }}</h3>
-        {{ translated_iec.field_iec_evaluation.value|raw }}
+        <h3 class="subsection-title">{{ 'Grade Distribution'|t }}</h3>
+        {{ translated_iec_instance.field_iec_instance_grade_distrib.value|raw }}
       </div>
     {% endif %}
 
@@ -163,4 +153,3 @@
 </div>
 
 </div></div>
-
