@@ -215,17 +215,77 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
 
 
 
+
+
+
+
+
+
+
 /**
- * Convierte aliases compuestos a NID para campus/OU/IEC.
+ * Convierte aliases compuestos a NID para campus/OU/IEC
+ * y añade soporte para iec_instance (dropdown de instancias hermanas).
  *
  * - campus_information:   /{institution_alias}/{campus_alias}
  * - organizational_unit_information: /{institution_alias}/{ou_alias}
  * - iec_information:      /{institution_alias}/{programme_alias}/{iec_alias}
  *
- * Reinyecta los args para que la vista trabaje con UN solo argumento: [nid]
- * (y así los attachments pueden heredar contextual filters sin colisiones).
+ * Además:
+ * - iec_instance_information (Page muestra iec_instance por NID/alias)
+ *   Attachment dropdown: recibe NID de iec_instance, lo convierte a NID del IEC via field_iec,
+ *   y reinyecta args = [iec_nid] para filtrar otras instancias.
  */
 function custom_views_filters_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+
+  /**
+   * ============================================================
+   * 1) SPECIAL CASE: IEC_INSTANCE VIEW (instance -> IEC nid)
+   * ============================================================
+   *
+   * Ajusta estos IDs a los tuyos:
+   * - View id:      iec_instance_information
+   * - Attachment id: attachment_2 (o el que tengas para el dropdown)
+   */
+  $is_iec_instance_view = ($view->id() === 'iec_instance');
+  $is_instance_switcher_attachment = ($display_id === 'attachment_2'); // <-- cambia si tu attachment se llama distinto
+
+  if ($is_iec_instance_view && $is_instance_switcher_attachment) {
+    // Esperamos que el attachment herede el NID de la iec_instance como arg[0].
+    // Si tu page usa alias complejo y tú lo conviertes a nid antes, aquí ya llegará el nid.
+    if (!empty($args[0]) && ctype_digit((string) $args[0])) {
+      $instance_nid = (int) $args[0];
+      $instance = Node::load($instance_nid);
+
+      if ($instance && $instance->bundle() === 'iec_instance') {
+        $iec_nid = (int) ($instance->get('field_iec')->target_id ?? 0);
+
+        if ($iec_nid) {
+          // Para el attachment: queremos filtrar instancias por el IEC original.
+          $args = [$iec_nid];
+          $view->setArguments($args);
+
+          \Drupal::logger('custom_views_filters')->notice(
+            'iec_instance_information:@display: instance @instance_nid -> IEC @iec_nid; args reinyectados.',
+            [
+              '@display' => $display_id,
+              '@instance_nid' => $instance_nid,
+              '@iec_nid' => $iec_nid,
+            ]
+          );
+        }
+      }
+    }
+
+    // IMPORTANTE: aquí devolvemos para no mezclar con la lógica de alias campus/ou/iec.
+    return;
+  }
+
+  /**
+   * ============================================================
+   * 2) EXISTING LOGIC: campus / OU / IEC (alias -> nid)
+   * ============================================================
+   */
+
   // Solo nuestras vistas.
   $is_campus = ($view->id() === 'campus_information');
   $is_ou = ($view->id() === 'organizational_unit_information');
@@ -290,7 +350,6 @@ function custom_views_filters_views_pre_view(ViewExecutable $view, $display_id, 
   $path = $alias_manager->getPathByAlias($full_alias, $langcode);
 
   // Fallback: intenta alias "plano" del último segmento por si existiera.
-  // (Útil en campus/OU; en IEC normalmente no hará falta, pero no molesta.)
   $m = [];
   if (!preg_match('/^\/node\/(\d+)$/', $path ?? '', $m)) {
     $last_segment = $is_iec ? trim($args[2], '/') : trim($args[1], '/');
@@ -311,7 +370,6 @@ function custom_views_filters_views_pre_view(ViewExecutable $view, $display_id, 
     $nid = (int) $m[1];
 
     // Todas estas vistas deben tener UN único contextual: Content: Nid
-    // (o heredar ese único valor para attachments).
     $args = [$nid];
     $view->setArguments($args);
 
@@ -327,6 +385,21 @@ function custom_views_filters_views_pre_view(ViewExecutable $view, $display_id, 
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

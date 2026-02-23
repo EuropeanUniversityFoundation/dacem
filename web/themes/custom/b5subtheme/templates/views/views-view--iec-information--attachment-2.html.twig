@@ -1,0 +1,19 @@
+{% if view.result|length > 0 %}
+  <div class="subject-edition-band">
+    <div class="subject-edition-label">{{ 'Subject edition:'|t }}</div>
+
+    <div class="subject-edition-dropdown">
+      <select class="subject-edition-select"
+              onchange="if (this.value) window.location.href=this.value;">
+        {% for row in view.result %}
+          {% set instance = row._entity %}
+          {% if instance %}
+            <option value="{{ path('entity.node.canonical', {'node': instance.id}) }}">
+              {{ instance.label }}
+            </option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+{% endif %}
