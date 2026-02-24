@@ -1,4 +1,5 @@
 <div class="degree-sidebar-wrapper ">
+{{ 'TEST STRING XYZ'|t }}
   <div class="degree-sidebar bg-light">
     <div class="row g-3 mx-0">
 
@@ -12,42 +13,42 @@
 
         {% if fields.field_start_date is defined and fields.field_start_date.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_start_date.label }}:</strong>
+            <strong>{{ 'Start Date'|t }}:</strong>
             {{ fields.field_start_date.content }}
           </div>
         {% endif %}
 
         {% if fields.field_end_date is defined and fields.field_end_date.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_end_date.label }}:</strong>
+            <strong>{{ 'End Date'|t }}:</strong>
             {{ fields.field_end_date.content }}
           </div>
         {% endif %}
 
         {% if fields.field_iec_instance_type is defined and fields.field_iec_instance_type.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_iec_instance_type.label }}:</strong>
+            <strong>{{ 'Category'|t }}:</strong>
             {{ fields.field_iec_instance_type.content }}
           </div>
         {% endif %}
 
         {% if fields.field_number_of_credits is defined and fields.field_number_of_credits.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_number_of_credits.label }}:</strong>
+            <strong>{{ 'Credits'|t }}:</strong>
             {{ fields.field_number_of_credits.content }}
           </div>
         {% endif %}
 
         {% if fields.field_engagement_hours is defined and fields.field_engagement_hours.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_engagement_hours.label }}:</strong>
+            <strong>{{ 'Engagement hours'|t }}:</strong>
             {{ fields.field_engagement_hours.content }}
           </div>
         {% endif %}
 
         {% if fields.field_iec_instance_mode_delivery is defined and fields.field_iec_instance_mode_delivery.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_iec_instance_mode_delivery.label }}:</strong>
+            <strong>{{ 'Modality'|t }}:</strong>
             {{ fields.field_iec_instance_mode_delivery.content }}
           </div>
         {% endif %}

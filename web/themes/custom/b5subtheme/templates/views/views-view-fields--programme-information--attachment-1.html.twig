@@ -35,35 +35,35 @@
 
         {% if fields.field_academic_year is defined and fields.field_academic_year.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_academic_year.label }}:</strong>
+            <strong>{{ 'Academic Course'|t }}:</strong>
             {{ fields.field_academic_year.content }}
           </div>
         {% endif %}
 
          {% if fields.field_eqf_level is defined and fields.field_eqf_level.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_eqf_level.label }}:</strong>
+            <strong>{{ 'Level'|t }}:</strong>
             {{ fields.field_eqf_level.content }}
           </div>
         {% endif %}
 
         {% if fields.field_programme_level is defined and fields.field_programme_level.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_programme_level.label }}:</strong>
+            <strong>{{ 'Modality'|t }}:</strong>
             {{ fields.field_programme_level.content }}
           </div>
         {% endif %}
 
         {% if fields.field_credits is defined and fields.field_credits.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_credits.label }}:</strong>
+            <strong>{{ 'ECTS Credits'|t }}:</strong>
             {{ fields.field_credits.content }}
           </div>
         {% endif %}
 
         {% if fields.field_length_of_programme is defined and fields.field_length_of_programme.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_length_of_programme.label }}:</strong>
+            <strong>{{ 'Length of Programme'|t }}:</strong>
             {{ fields.field_length_of_programme.content }}
           </div>
         {% endif %}
@@ -71,7 +71,7 @@
         {# Languages: configure the field in Views as comma-separated labels #}
         {% if fields.field_programme_language_of_inst is defined and fields.field_programme_language_of_inst.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_programme_language_of_inst.label }}:</strong>
+            <strong>{{ 'Languages'|t }}:</strong>
             {{ fields.field_programme_language_of_inst.content }}
           </div>
         {% endif %}
@@ -79,42 +79,42 @@
 
         {% if fields.field_programme_mode_of_learning is defined and fields.field_programme_mode_of_learning.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_programme_mode_of_learning.label }}:</strong>
+            <strong>{{ 'Mode of Learning'|t }}:</strong>
             {{ fields.field_programme_mode_of_learning.content }}
           </div>
         {% endif %}
 
         {% if fields.field_isced_f is defined and fields.field_isced_f.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_isced_f.label }}:</strong>
+            <strong>{{ 'ISCED-F'|t }}:</strong>
             {{ fields.field_isced_f.content }}
           </div>
         {% endif %}
 
         {% if fields.field_qualification_level is defined and fields.field_qualification_level.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_qualification_level.label }}:</strong>
+            <strong>{{ 'Level'|t }}:</strong>
             {{ fields.field_qualification_level.content }}
           </div>
         {% endif %}
 
         {% if fields.field_programme_mode_of_study is defined and fields.field_programme_mode_of_study.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_programme_mode_of_study.label }}:</strong>
+            <strong>{{ 'Study Modality'|t }}:</strong>
             {{ fields.field_programme_mode_of_study.content }}
           </div>
         {% endif %}
 
         {% if fields.field_professional_practices is defined and fields.field_professional_practices.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_professional_practices.label }}:</strong>
+            <strong>{{ 'Professional Practices'|t }}:</strong>
             {{ fields.field_professional_practices.content }}
           </div>
         {% endif %}
 
         {% if fields.field_avaliable_for_mobility is defined and fields.field_avaliable_for_mobility.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
-            <strong>{{ fields.field_avaliable_for_mobility.label }}:</strong>
+            <strong>{{ 'Avaliable for Mobility'|t }}:</strong>
             {{ fields.field_avaliable_for_mobility.content }}
           </div>
         {% endif %}
@@ -138,6 +138,7 @@
 
         {% if fields.field_coordinator is defined and fields.field_coordinator.content|render|striptags|trim %}
           <div class="degree-info-item mb-1">
+           
             {{ fields.field_coordinator.content }}
           </div>
         {% endif %}

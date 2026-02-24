@@ -15879,41 +15879,64 @@ header {
 
 
 
-
-
-
-
-/* ===== Subject edition band (Attachment 2) ===== */
-
-.subject-edition-band {
+.subject-edition-band{
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-
+  align-items: stretch;     /* <-- clave */
   padding: 14px 16px;
-  background: #111; /* black band */
+  background: #111;
   color: #fff;
-
-  border-radius: 0; /* like a band */
+  gap: 16px;
 }
 
-.subject-edition-label {
+/* Label ocupa su altura natural */
+.subject-edition-label{
+  display: flex;
+  align-items: center;      /* centra verticalmente el texto */
   font-weight: 700;
-  font-size: 15px;
-  line-height: 1;
   white-space: nowrap;
 }
 
-/* Dropdown wrapper so we can draw a custom arrow */
-.subject-edition-dropdown {
+/* Dropdown ocupa toda la altura disponible */
+.subject-edition-dropdown{
   position: relative;
-  display: inline-flex;
-  align-items: center;
+  flex: 1 1 auto;
+  align-self: stretch;      /* <-- clave */
+  display: flex;
 }
 
-/* Custom arrow */
-.subject-edition-dropdown::after {
+/* Select ocupa TODO el espacio del dropdown */
+.subject-edition-select{
+  width: 100%;
+  height: 100%;             /* <-- clave */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  border: 0;
+  border-radius: 0;         /* opcional si quieres flush total */
+
+  background: #111;
+  color: #fff;
+
+  font-weight: 700;
+  padding: 0 42px 0 16px;
+
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  transition: background-color 160ms ease;
+}
+
+/* Hover cubre TODO el bloque derecho */
+.subject-edition-select:hover,
+.subject-edition-select:focus{
+  background: #f04444;
+  color: #fff;
+}
+
+/* Flecha */
+.subject-edition-dropdown::after{
   content: "▼";
   position: absolute;
   right: 14px;
@@ -15921,57 +15944,4 @@ header {
   transform: translateY(-50%);
   pointer-events: none;
   font-size: 12px;
-  opacity: 0.95;
 }
-
-/* The select itself */
-.subject-edition-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-
-  padding: 10px 42px 10px 16px; /* right padding for arrow */
-  border: 0;
-  border-radius: 10px;
-
-  background: #111; /* same as band by default */
-  color: #fff;
-
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-
-  outline: none;
-  cursor: pointer;
-
-  transition: background-color 160ms ease, color 160ms ease;
-}
-
-/* Hover effect like your screenshot */
-.subject-edition-dropdown:hover .subject-edition-select,
-.subject-edition-select:focus {
-  background: #f04444; /* red hover */
-  color: #fff;
-}
-
-/* Keep arrow visible on hover */
-.subject-edition-dropdown:hover::after,
-.subject-edition-select:focus + .subject-edition-dropdown::after {
-  opacity: 1;
-}
-
-/* Optional: make it full width on small screens */
-@media (max-width: 575.98px) {
-  .subject-edition-band {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .subject-edition-dropdown,
-  .subject-edition-select {
-    width: 100%;
-  }
-}
-
-
-

@@ -1,0 +1,8 @@
+msgid "Engagement hours"
+msgstr "Horas de estudio"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Mode of Learning"
+msgstr "Modalidad de estudio"

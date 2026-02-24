@@ -16,56 +16,56 @@
 
     {% if fields.field_fields_of_study is defined and fields.field_fields_of_study.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ fields.field_fields_of_study.label }}:</strong>
+        <strong>{{ 'ISCED-F'|t }}:</strong>
         {{ fields.field_fields_of_study.content }}
       </div>
     {% endif %}
 
     {% if fields.field_iec_type is defined and fields.field_iec_type.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ fields.field_iec_type.label }}:</strong>
+        <strong>{{ 'Type'|t }}:</strong>
         {{ fields.field_iec_type.content }}
       </div>
     {% endif %}
 
     {% if fields.field_iec_year is defined and fields.field_iec_year.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ fields.field_iec_year.label }}:</strong>
+        <strong>{{ 'Academic Year'|t }}:</strong>
         {{ fields.field_iec_year.content }}
       </div>
     {% endif %}
 
     {% if fields.field_iec_term is defined and fields.field_iec_term.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ fields.field_iec_term.label }}:</strong>
+        <strong>{{ 'Period'|t }}:</strong>
         {{ fields.field_iec_term.content }}
       </div>
     {% endif %}
 
     {% if fields.field_iec_credits is defined and fields.field_iec_credits.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ fields.field_iec_credits.label }}:</strong>
+        <strong>{{ 'ECTS Credits'|t }}:</strong>
         {{ fields.field_iec_credits.content }}
       </div>
     {% endif %}
 
     {% if fields.field_iec_modality is defined and fields.field_iec_modality.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ fields.field_iec_modality.label }}:</strong>
+        <strong>{{ 'Modality'|t }}:</strong>
         {{ fields.field_iec_modality.content }}
       </div>
     {% endif %}
 
     {% if fields.field_iec_language_of_instructio is defined and fields.field_iec_language_of_instructio.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ fields.field_iec_language_of_instructio.label }}:</strong>
+        <strong>{{ 'Languages'|t }}:</strong>
         {{ fields.field_iec_language_of_instructio.content }}
       </div>
     {% endif %}
 
     {% if fields.field_iec_avaliable_for_mobility is defined and fields.field_iec_avaliable_for_mobility.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ fields.field_iec_avaliable_for_mobility.label }}:</strong>
+        <strong>{{ 'Avaliable for Mobility Students'|t }}:</strong>
         {{ fields.field_iec_avaliable_for_mobility.content }}
       </div>
     {% endif %}
