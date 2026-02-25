@@ -1,25 +1,44 @@
-{# templates/views/views-view--iec-instance-information--attachment-2.html.twig #}
-{# Dropdown band for IEC instances (siblings) when viewing an iec_instance page. #}
 {% if view.result|length > 0 %}
+  {# Path actual: /en/iec-instance/622 -> nos quedamos con 622 #}
+  {% set current_path = path('<current>') %}
+  {% set current_id = current_path|trim('/')|split('/')|last %}
+
+  {# Texto por defecto del botón #}
+  {% set current_label = 'Select instance'|t %}
+
+  {# Primera pasada: encuentra el label de la instancia actual #}
+  {% for row in view.result %}
+    {% set instance = row._entity %}
+    {% if instance and (instance.id|striptags|trim == current_id) %}
+      {% set current_label = instance.label %}
+    {% endif %}
+  {% endfor %}
+
   <div class="subject-edition-band">
     <div class="subject-edition-label">{{ 'Subject edition:'|t }}</div>
 
-    <div class="subject-edition-dropdown">
-      <select class="subject-edition-select"
-              aria-label="{{ 'Select subject edition'|t }}"
-              onchange="if (this.value) window.location.href=this.value;">
+    <div class="dropdown subject-edition-dropdown">
+      <button
+        class="subject-edition-btn dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false">
+        {{ current_label }}
+      </button>
 
-        <option value="" selected disabled>{{ 'Select an edition'|t }}</option>
-
+      <ul class="dropdown-menu dropdown-menu-dark w-100">
         {% for row in view.result %}
           {% set instance = row._entity %}
           {% if instance %}
-            <option value="{{ path('entity.node.canonical', {'node': instance.id}) }}">
-              {{ instance.label }}
-            </option>
+            <li>
+              <a class="dropdown-item {% if (instance.id|striptags|trim == current_id) %}active{% endif %}"
+                 href="/iec-instance/{{ instance.id }}">
+                {{ instance.label }}
+              </a>
+            </li>
           {% endif %}
         {% endfor %}
-      </select>
+      </ul>
     </div>
   </div>
 {% endif %}
