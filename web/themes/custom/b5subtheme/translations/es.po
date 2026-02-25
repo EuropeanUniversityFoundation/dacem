@@ -6,3 +6,7 @@ msgstr "Tipo"
 
 msgid "Mode of Learning"
 msgstr "Modalidad de estudio"
+
+msgid "Explore the best opportunities to study in Europe. Discover universities, programs, and destinations tailored to your future. Your next academic adventure starts here."
+msgstr "Explora las mejores oportunidades para estudiar en Europa. Descubre universidades, programas y destinos adaptados a tu futuro. Tu próxima aventura académica comienza aquí."
+

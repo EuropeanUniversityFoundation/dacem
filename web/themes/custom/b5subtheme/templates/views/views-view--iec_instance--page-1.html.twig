@@ -1,5 +1,9 @@
 {% set current_language = view.result[0].node_field_data_langcode %}
 
+
+
+
+
 {# Acceder a la instancia de asignatura actual #}
 {% set iec_instance = view.result[0]._entity %}
 {% if iec_instance.hasTranslation(current_language) %}
@@ -103,9 +107,6 @@
 <div class="my-custom-container-2">
 
 	<div class="row">
-
-
-	{{dump(attachment_after)}}
 
   {# SIDEBAR — arriba en móvil, derecha en desktop #}
   {% if attachment_after %}

@@ -231,6 +231,9 @@ class InstitutionMenuBlock extends BlockBase
            
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
     
+        } elseif ($current_route === 'view.iec_instance.page_1') {
+            $current_page = 'catalogue';
+           
         }
 
 
@@ -240,7 +243,6 @@ class InstitutionMenuBlock extends BlockBase
 
         if ($current_node_aux instanceof NodeInterface) {
             
-            //////dump($current_institution);
 
             $node_type = $current_node_aux->bundle();
 
@@ -262,6 +264,13 @@ class InstitutionMenuBlock extends BlockBase
                 if ($programme) {
                     $institution = $programme->get('field_programme_institution')->entity;
                 }
+            } else if ($node_type == 'iec_instance') {
+                
+                $iec = $current_node_aux->get('field_iec')->entity;
+                $programme = $iec->get('field_iec_programme')->entity;
+                $institution = $programme->get('field_programme_institution')->entity;
+                
+
             }
 
         } else {

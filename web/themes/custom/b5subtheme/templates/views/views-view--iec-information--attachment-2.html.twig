@@ -8,12 +8,14 @@
         {% for row in view.result %}
           {% set instance = row._entity %}
           {% if instance %}
-            <option value="{{ path('entity.node.canonical', {'node': instance.id}) }}">
-              {{ instance.label }}
-            </option>
+            <option value="/iec-instance/{{ instance.id }}">
+  {{ instance.label }}
+</option>
           {% endif %}
         {% endfor %}
       </select>
     </div>
   </div>
 {% endif %}
+
+
