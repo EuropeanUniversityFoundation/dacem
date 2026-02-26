@@ -401,15 +401,6 @@
 				<p>{{ institution.field_admission_language_policy.value | raw}}</p>
 
 
-				{% if institution.field_admission_languages is not empty %}
-					<h4 class="subsection-title">Admission Languages</h4>
-					<ul style="margin-left: 20px;">
-						{% for language in institution.field_admission_languages %}
-							<li>{{ language.value }}</li>
-						{% endfor %}
-					</ul>
-				{% endif %}
-
 			{% endif %}
 
 

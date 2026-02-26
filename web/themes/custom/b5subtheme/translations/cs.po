@@ -1,0 +1,411 @@
+
+msgid "CATALOGUE"
+msgstr "Katalog"
+
+msgid "GENERAL INFORMATION"
+msgstr "Obecné informace"
+
+msgid "RESOURCES AND SERVICES"
+msgstr "Služby a informace (units, student facilites, sport facilites, faculties etc.)"
+
+msgid "UNIVERSITY LIFE"
+msgstr "Studentský život na univerzitě"
+
+msgid "Arts and Humanities"
+msgstr "Humanitní vědy"
+
+msgid "Sciences"
+msgstr "Přírodní vědy"
+
+msgid "Health Sciences"
+msgstr "Lékařské vědy"
+
+msgid "Social and Legal Sciences"
+msgstr "Sociální a právní vědy"
+
+msgid "Engineering and Architecture"
+msgstr "Inženýrské vědy a architektura"
+
+msgid "Apply"
+msgstr "Přihlásit se"
+
+msgid "Reset"
+msgstr "Resetovat"
+
+msgid "Sort"
+msgstr "Třídit"
+
+msgid "Country"
+msgstr "Země"
+
+msgid "Page"
+msgstr "Stránka"
+
+msgid "Destination"
+msgstr "Destinace"
+
+msgid "Select Home Programme"
+msgstr "Vybrat domácí program"
+
+msgid "Programme"
+msgstr "Program"
+
+msgid "Course"
+msgstr "Předmět"
+
+msgid "Description"
+msgstr "Popis"
+
+msgid "General Information"
+msgstr "Obecné informace"
+
+msgid "Main Objective"
+msgstr "Hlavní cíl"
+
+msgid "Competencies"
+msgstr "Kompetence"
+
+msgid "Qualification"
+msgstr "Kvalifikace"
+
+msgid "Courses"
+msgstr "Předměty"
+
+msgid "Admission"
+msgstr "Přijímací řízení"
+
+msgid "Structure and distribution of credits"
+msgstr "Struktura a rozložení kreditů"
+
+msgid "Regulations"
+msgstr "Předpisy"
+
+msgid "Year (1º Year, 2º Year...)"
+msgstr "Ročník (1. rok, 2. rok...)"
+
+msgid "General data"
+msgstr "Základní údaje"
+
+msgid "Academic year"
+msgstr "Akademický rok"
+
+msgid "Level (Degree, Bachelor, Master, PhD, Other"
+msgstr "Stupeň studia (bakalářský, magisterský, doktorský, jiný)"
+
+msgid "ECTS Credits"
+msgstr "ECTS kredity"
+
+msgid "Modality (In-person, Online...)"
+msgstr "Forma výuky (prezenční, online)"
+
+msgid "ISCED-F"
+msgstr "ISCED-F"
+
+msgid "Qualification level???"
+msgstr "Úroveň kvalifikace???"
+
+msgid "Study modality(Full-time, part time)"
+msgstr "Forma studia (prezenční, kombinovaná)"
+
+msgid "Professional Practices"
+msgstr "Stáž, odborné praxe"
+
+msgid "Coordination??"
+msgstr "Koordinace??"
+
+msgid "By Semester"
+msgstr "Podle semestru"
+
+msgid "By Year"
+msgstr "Podle roku"
+
+msgid "Admission Requirements"
+msgstr "Požadavky na přijetí"
+
+msgid "Recognition of Prior Learning"
+msgstr "Uznání předchozího vzdělání"
+
+msgid "Qualification Requirements"
+msgstr "Kvalifikační požadavky"
+
+msgid "Assessment"
+msgstr "Hodnocení"
+
+msgid "Granding Scale"
+msgstr "Stupnice hodnocení"
+
+msgid "Explanation of the Scale"
+msgstr "Vysvětlení stupnice"
+
+msgid "Grade Distribution Table"
+msgstr "Tabulka hodnocení "
+
+msgid "Mobility Windows"
+msgstr "Možnosti mobility"
+
+msgid "Work Placements"
+msgstr "Pracovní stáže"
+
+msgid "Work-based Learning"
+msgstr "Vzdělávání praxí"
+
+msgid "Occupational Profiles of Graduates"
+msgstr "Profesní profily absolventů"
+
+msgid "Access to Further Studies"
+msgstr "Možnost pokračovat v dalším studiu"
+
+msgid "Code"
+msgstr "Kód"
+
+msgid "Term"
+msgstr "Semestr"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Subject"
+msgstr "Předmět"
+
+msgid "Core"
+msgstr "Povinný základ"
+
+msgid "Mandatory"
+msgstr "Povinný předmět"
+
+msgid "Elective"
+msgstr "Volitelný předmět"
+
+msgid "Other types"
+msgstr "Ostatní typy"
+
+msgid "Final project"
+msgstr "Závěrečná práce"
+
+msgid "TOTAL"
+msgstr "CELKEM"
+
+msgid "Language"
+msgstr "Jazyk "
+
+msgid "Requirements"
+msgstr "Požadavky"
+
+msgid "Instructors"
+msgstr "Vyučující"
+
+msgid "Course content"
+msgstr "Obsah kurzu"
+
+msgid "Learning outcomes"
+msgstr "Výsledky studia"
+
+msgid "Recommended literature and resources"
+msgstr "Doporučená literatura a zdroje"
+
+msgid "Planned learning activities and teaching methods"
+msgstr "Plánované výukové aktivity a metody výuky"
+
+msgid "Evaluation methods and criteria"
+msgstr "Metody a kritéria hodnocení"
+
+msgid "Field of Study (ISCED-F)"
+msgstr "Studijní obor (ISCED-F)"
+
+msgid "Avaliable for Mobility Students"
+msgstr "Dostupné pro výměnné studenty"
+
+msgid "Category (Core, Mandatory, Optional, Other)"
+msgstr "Kategorie (Základní, Povinné, Volitelné, Jiné)"
+
+msgid "Contents"
+msgstr "Obsah"
+
+msgid "Credits"
+msgstr "Kredity"
+
+msgid "Modality (ELM Vocabulary, Online, Hybrid, Presential...)"
+msgstr "Forma výuky (ELM slovník, online, hybridní, prezenční...)"
+
+msgid "External practices"
+msgstr "Externí praxe"
+
+msgid "Academic Authorities"
+msgstr "Akademické orgány / autority"
+
+msgid "Language Policy"
+msgstr "Jazyková politika"
+
+msgid "Languages"
+msgstr "Jazyky"
+
+msgid "Enrollment Procedures"
+msgstr "Postupy pro zápis"
+
+msgid "Contacts"
+msgstr "Kontakty"
+
+msgid "ECTS Policies"
+msgstr "Zásady ECTS"
+
+msgid "Campuses"
+msgstr "Kampusy"
+
+msgid "Org. Units"
+msgstr "Organizační jednotky"
+
+msgid "Academic Calendar"
+msgstr "Akademický kalendář"
+
+msgid "Institutional Contacts"
+msgstr "Institucionální kontakty"
+
+msgid "Mobility"
+msgstr "Mobility"
+
+msgid "Authorities"
+msgstr "Orgány / Autority"
+
+msgid "Admission Languages"
+msgstr "Jazyky přijímacího řízení"
+
+msgid "ECTS Allocation Policy"
+msgstr "Zásady přidělování kreditů ECTS"
+
+msgid "Incoming Students"
+msgstr "Přijíždějící studenti"
+
+msgid "Outgoing Students"
+msgstr "Vyjíždějící studenti"
+
+msgid "Organizational Units"
+msgstr "Organizační jednotky"
+
+msgid "Type here to search"
+msgstr "Zde napište pro vyhledávání"
+
+msgid "Knowledge Area"
+msgstr "Oblast znalostí"
+
+msgid "Campus"
+msgstr "Kampus"
+
+msgid "Click on an Organizational Unit to see its details"
+msgstr "Klikněte na organizační jednotku pro zobrazení detailů"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Web"
+msgstr "Web"
+
+msgid "Select Campus"
+msgstr "Vyberte kampus"
+
+msgid "Student affairs"
+msgstr "Záležitosti studentů"
+
+msgid "Facilities"
+msgstr "Zařízení / vybavení"
+
+msgid "Students mobility"
+msgstr "Studentská mobilita"
+
+msgid "University life"
+msgstr "Univerzitní život"
+
+msgid "Extra-academic activities"
+msgstr "Mimouniverzitní aktivity"
+
+msgid "Students Affairs Office"
+msgstr "Studijní oddělení"
+
+msgid "Financial Support for Students"
+msgstr "Finanční podpora pro studenty"
+
+msgid "Insurance"
+msgstr "Pojištění"
+
+msgid "Medical Facilities"
+msgstr "Zdravotnická zařízení"
+
+msgid "Learning Facilities"
+msgstr "Studijní prostory"
+
+msgid "Sport and Leisure Facilities"
+msgstr "Sportovní a volnočasová zařízení"
+
+msgid "Special Facilities"
+msgstr "Speciální zařízení"
+
+msgid "Student's Mobility"
+msgstr "Mobilita studentů "
+
+msgid "Practical Information For Incoming Mobile Students"
+msgstr "Praktické informace pro přijíždějící studenty"
+
+msgid "Cost of Living"
+msgstr "Životní náklady"
+
+msgid "Housing"
+msgstr "Ubytování"
+
+msgid "Transport"
+msgstr "Doprava"
+
+msgid "Meals"
+msgstr "Stravování"
+
+msgid "Student Associations"
+msgstr "Studentské spolky "
+
+msgid "Work placement possibilities"
+msgstr "Možnosti pracovních stáží  "
+
+msgid "Events and culture"
+msgstr "Akce a kultura"
+
+msgid "For the whole institution"
+msgstr "Pro celou instituci"
+
+msgid "Source"
+msgstr "Zdroj"
+
+msgid "Last update"
+msgstr "Poslední aktualizace"
+
+msgid "Found something wrong? Give us feedback"
+msgstr "Našli jste chybu? Pošlete nám zpětnou vazbu"
+
+msgid "Name"
+msgstr "Jméno"
+
+msgid "Your message"
+msgstr "Vaše zpráva"
+
+msgid "About DACEM"
+msgstr "O DACEM"
+
+msgid "ABOUT"
+msgstr "O NÁS"
+
+msgid "INSTITUTIONS"
+msgstr "INSTITUCE"
+
+msgid "CONTACT"
+msgstr "KONTAKT"
+
+msgid "Study in Europe"
+msgstr "Studuj v Evropě"
+
+msgid "FIND A PROGRAMME"
+msgstr "Najdi studijní program"
+
+msgid "Explore the best opportunities to study in Europe. Discover universities, programmes, and destinations tailored to your future. Your next international academic adventure starts here."
+msgstr "Objevte nejlepší možnosti studia v Evropě. Najděte univerzity, studijní programy a destinace šité na míru pro vaši budoucnost. Vaše další mezinárodní akademické dobrodružství začíná právě zde."
+
+msgid "\"\nEXPLORE OUR UNIVERSITIES\n\nFind a new place to continue your studies, meet new people and learn a new language. Before this, you should:\n\n    Find which universities are available from your home university at your local international office.\n    Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar.\n    Assess accommodation, transportation, and daily expenses.\n    Research the local culture, student life, and opportunities for personal and professional growth.\n    Check healthcare coverage, safety, and housing availability.\n\nDon't miss the opportunity!\""
+msgstr "PROZKOUMEJTE NAŠE UNIVERZITY Najděte nové místo, kde můžete pokračovat ve studiu, poznat nové lidi a naučit se nový jazyk. Než však začnete, měli byste:\n\n- Zjistit od vaší domovské univerzity prostřednictvím zahraničního oddělení, které univerzity v zahraničí jsou dostupné. \n- Ujistit se, že se kurzy shodují s vaším studijním plánem, jsou vyučovány jazykem, kterému rozumíte, a odpovídají vašemu akademickému kalendáři.\n- Zhodnotit možnosti ubytování, dopravy a denních nákladů. \n- Prozkoumat místní kulturu, studentský život a příležitosti pro osobní i profesní rozvoj.\n- Prověřit možnosti zdravotního pojištění, bezpečnost a dostupnost ubytování.\nNepropásněte tuto příležitost! "
