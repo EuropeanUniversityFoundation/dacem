@@ -367,3 +367,12 @@ msgstr "Szlovén"
 
 msgid "Spanish"
 msgstr "Spanyol"
+
+msgid "By semester"
+msgstr "Félév szerint"
+
+msgid "1st semester"
+msgstr "1. félév"
+
+msgid "2nd semester"
+msgstr "2. félév"

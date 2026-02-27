@@ -465,3 +465,12 @@ msgstr "Σλοβενικά"
 
 msgid "Spanish"
 msgstr "Ισπανικά"
+
+msgid "By semester"
+msgstr "Ανά εξάμηνο"
+
+msgid "1st semester"
+msgstr "1ο εξάμηνο"
+
+msgid "2nd semester"
+msgstr "2ο εξάμηνο"

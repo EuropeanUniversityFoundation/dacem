@@ -465,3 +465,12 @@ msgstr "Sloveeni"
 
 msgid "Spanish"
 msgstr "Hispaania"
+
+msgid "By semester"
+msgstr "Semestri järgi"
+
+msgid "1st semester"
+msgstr "1. semester"
+
+msgid "2nd semester"
+msgstr "2. semester"

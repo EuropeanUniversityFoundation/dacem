@@ -462,3 +462,12 @@ msgstr "Slovenščina"
 
 msgid "Spanish"
 msgstr "Španščina"
+
+msgid "By semester"
+msgstr "Po semestru"
+
+msgid "1st semester"
+msgstr "1. semester"
+
+msgid "2nd semester"
+msgstr "2. semester"
