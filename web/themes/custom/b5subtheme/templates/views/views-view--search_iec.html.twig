@@ -94,7 +94,6 @@
     }
   } %}
 
-			{% set programme_area_labels = programme_area[current_language] ?? programme_area['en'] %}
 
 			<!---->
 			<!---->
@@ -230,11 +229,6 @@
 																<!--<span class="mx-2">·</span>-->
 																<span class="fst-italic">Term: {{ iec.field_iec_term.value }}
 																	</span>
-															{% endif %}
-
-															{% if programme.field_programme_area.value %}
-																<span class="mx-2">·</span>
-																<span>{{ programme_area_labels[programme.field_programme_area.value] }}</span>
 															{% endif %}
 
 															{# Languages of instruction #}

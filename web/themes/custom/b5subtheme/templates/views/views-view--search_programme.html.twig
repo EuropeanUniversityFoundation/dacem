@@ -82,7 +82,6 @@
     }
   } %}
 
-			{% set programme_area_labels = programme_area[current_language] ?? programme_area['en'] %}
 
 			<!---->
 			<!---->
@@ -164,7 +163,6 @@
 							<div class="group-search-sort-buttons w-100">
 								<button class="btn btn-dark btn-sm btn-whithout-border-radius js-sort disabled" data-sort-by="title" data-sort-order="ASC">A - Z</button>
 
-								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_programme_area" data-sort-order="ASC">Knowledge Area</button>
 
 								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_programme_level" data-sort-order="ASC">Level</button>
 
@@ -226,11 +224,6 @@
 																	<span class="mx-2">·</span>
 																	<span class="fst-italic">{{ programme.field_credits.value }}
 																		ECTS</span>
-																{% endif %}
-
-																{% if programme.field_programme_area.value %}
-																	<span class="mx-2">·</span>
-																	<span>{{ programme_area_labels[programme.field_programme_area.value] }}</span>
 																{% endif %}
 
 																{# ✅ Languages of instruction #}
@@ -383,4 +376,3 @@ submitSearch();
 
 })();
 	</script>
-
