@@ -323,13 +323,14 @@
 								{# --- BOTONES DE SEMESTRE (como los de course) --- #}
 								<div class="custom-btn-group btn-group btn-group-adjustment mb-3" role="group" aria-label="{{ 'Semesters'|t }}">
 									{% for term in semester_terms %}
-										<button type="button" class="btn btn-outline-primary toggle-button" data-bs-toggle="collapse" data-bs-target="#semester{{ term }}" aria-expanded="false" aria-controls="semester{{ term }}">
+										{% set is_default_term = term == semester_terms|first %}
+										<button type="button" class="btn btn-outline-primary toggle-button {{ is_default_term ? '' : 'collapsed' }}" data-bs-toggle="collapse" data-bs-target="#semester{{ term }}" aria-expanded="{{ is_default_term ? 'true' : 'false' }}" aria-controls="semester{{ term }}">
 											{{ semester_labels[term] }}
 										</button>
 
 										{# Versión móvil: tabla dentro del propio loop (como en courses) #}
 										<div class="courses-container d-block d-sm-block d-md-none d-lg-none">
-											<div id="semester{{ term }}" class="collapse show" aria-expand>
+											<div id="semester{{ term }}" class="collapse {{ is_default_term ? 'show' : '' }}" aria-expand>
 												<h4 class="subsection-title">{{ semester_labels[term] }}</h4>
 												<table class="table table-bordered">
 													<thead>
@@ -406,7 +407,7 @@
 								{# --- Versión escritorio: tablas debajo, como en By course --- #}
 								<div class="courses-container d-none d-md-block d-lg-block">
 									{% for term in semester_terms %}
-										<div id="semester{{ term }}" class="collapse">
+										<div id="semester{{ term }}" class="collapse {{ term == semester_terms|first ? 'show' : '' }}">
 											<h4 class="subsection-title">{{ semester_labels[term] }}</h4>
 											<table class="table table-bordered">
 												<thead>
@@ -488,13 +489,13 @@
 								<!-- Contenedor de los botones de los cursos -->
 								<div class="custom-btn-group btn-group btn-group-adjustment mb-3" role="group" aria-label="{{ 'Courses'|t }}">
 									{% for course_id, course_name in courses %}
-										<button type="button" class="btn btn-outline-primary toggle-button" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="false" aria-controls="course{{ loop.index }}">
+										<button type="button" class="btn btn-outline-primary toggle-button {{ loop.first ? '' : 'collapsed' }}" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="{{ loop.first ? 'true' : 'false' }}" aria-controls="course{{ loop.index }}">
 											{{ translations[current_language][course_name] }}
 										</button>
 
 										{# Versión móvil (tablas dentro de cada botón) #}
 										<div class="courses-container d-block d-sm-block d-md-none d-lg-none">
-											<div id="course{{ loop.index }}" class="collapse">
+											<div id="course{{ loop.index }}" class="collapse {{ loop.first ? 'show' : '' }}">
 												<h4 class="subsection-title">{{ translations[current_language][course_name] }}</h4>
 												<table class="table table-bordered">
 													<thead>
@@ -558,7 +559,7 @@
 								<!-- Contenedor de las tablas colapsables, siempre debajo de los botones (desktop) -->
 								<div class="courses-container d-none d-md-block d-lg-block">
 									{% for course_id, course_name in courses %}
-										<div id="course{{ loop.index }}" class="collapse">
+										<div id="course{{ loop.index }}" class="collapse {{ loop.first ? 'show' : '' }}">
 											<h4 class="subsection-title">{{ translations[current_language][course_name] }}</h4>
 											<table class="table table-bordered">
 												<thead>

@@ -412,3 +412,56 @@ msgstr "Εξερευνήστε τις καλύτερες ευκαιρίες γι
 
 msgid "\"\nEXPLORE OUR UNIVERSITIES\n\nFind a new place to continue your studies, meet new people and learn a new language. Before this, you should:\n\n    Find which universities are available from your home university at your local international office.\n    Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar.\n    Assess accommodation, transportation, and daily expenses.\n    Research the local culture, student life, and opportunities for personal and professional growth.\n    Check healthcare coverage, safety, and housing availability.\n\nDon't miss the opportunity!\""
 msgstr "ΕΞΕΡΕΥΝΗΣΤΕ ΤΑ ΠΑΝΕΠΕΙΣΤΗΜΙΑ ΜΑΣ\n\nΒρείτε ένα νέο μέρος για να συνεχίσετε τις σπουδές σας, να γνωρίσετε νέους ανθρώπους και να μάθετε μια νέα γλώσσα. Πριν από αυτό, θα πρέπει:\n\n Βρείτε ποια πανεπιστήμια είναι διαθέσιμα από το πανεπιστήμιο της χώρας σας στο τοπικό γραφείο διεθνών σχέσεων.\n Βεβαιωθείτε ότι τα μαθήματα ευθυγραμμίζονται με το πτυχίο σας, διδάσκονται σε μια γλώσσα που καταλαβαίνετε και ταιριάζουν στο ακαδημαϊκό σας ημερολόγιο.\n Αξιολογήστε τη διαμονή, τη μεταφορά και τα καθημερινά έξοδα.\n Ερευνήστε την τοπική κουλτούρα, τη φοιτητική ζωή και τις ευκαιρίες για προσωπική και επαγγελματική ανάπτυξη.\n Ελέγξτε την κάλυψη υγειονομικής περίθαλψης, την ασφάλεια και τη διαθεσιμότητα στέγασης.\n\nΜη χάσεις την ευκαιρία!»"
+msgid "Explore the best opportunities to study in Europe. Discover universities, programs, and destinations tailored to your future. Your next academic adventure starts here."
+msgstr "Εξερευνήστε τις καλύτερες ευκαιρίες για σπουδές στην Ευρώπη. Ανακαλύψτε πανεπιστήμια, προγράμματα και προορισμούς προσαρμοσμένους στο μέλλον σας. Η επόμενη ακαδημαϊκή σας περιπέτεια ξεκινά εδώ."
+
+msgid "EXPLORE OUR UNIVERSITIES"
+msgstr "ΕΞΕΡΕΥΝΗΣΤΕ ΤΑ ΠΑΝΕΠΙΣΤΗΜΙΑ ΜΑΣ"
+
+msgid "Find a new place to continue your studies, meet new people and learn a new language. Before this, you should:"
+msgstr "Βρείτε ένα νέο μέρος για να συνεχίσετε τις σπουδές σας, να γνωρίσετε νέους ανθρώπους και να μάθετε μια νέα γλώσσα. Πριν από αυτό, θα πρέπει:"
+
+msgid "Find which universities are available from your home university at your local international office."
+msgstr "Δείτε ποια πανεπιστήμια είναι διαθέσιμα από το πανεπιστήμιο προέλευσής σας στο τοπικό γραφείο διεθνών σχέσεων."
+
+msgid "Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar."
+msgstr "Βεβαιωθείτε ότι τα μαθήματα ταιριάζουν με το πρόγραμμα σπουδών σας, διδάσκονται σε γλώσσα που κατανοείτε και ταιριάζουν στο ακαδημαϊκό σας ημερολόγιο."
+
+msgid "Assess accommodation, transportation, and daily expenses."
+msgstr "Αξιολογήστε τη διαμονή, τις μετακινήσεις και τα καθημερινά έξοδα."
+
+msgid "Research the local culture, student life, and opportunities for personal and professional growth."
+msgstr "Ερευνήστε την τοπική κουλτούρα, τη φοιτητική ζωή και τις ευκαιρίες προσωπικής και επαγγελματικής ανάπτυξης."
+
+msgid "Check healthcare coverage, safety, and housing availability."
+msgstr "Ελέγξτε την υγειονομική κάλυψη, την ασφάλεια και τη διαθεσιμότητα στέγασης."
+
+msgid "Don't miss the opportunity!"
+msgstr "Μην χάσετε την ευκαιρία!"
+
+msgid "Czech"
+msgstr "Τσεχικά"
+
+msgid "English"
+msgstr "Αγγλικά"
+
+msgid "Estonian"
+msgstr "Εσθονικά"
+
+msgid "French"
+msgstr "Γαλλικά"
+
+msgid "Greek"
+msgstr "Ελληνικά"
+
+msgid "Hungarian"
+msgstr "Ουγγρικά"
+
+msgid "Portuguese"
+msgstr "Πορτογαλικά"
+
+msgid "Slovenian"
+msgstr "Σλοβενικά"
+
+msgid "Spanish"
+msgstr "Ισπανικά"

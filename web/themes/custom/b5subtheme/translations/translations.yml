@@ -182,6 +182,10 @@ es:
   2º Course: '2º Curso'
   3º Course: '3º Curso'
   4º Course: '4º Curso'
+  1º Year: '1º Curso'
+  2º Year: '2º Curso'
+  3º Year: '3º Curso'
+  4º Year: '4º Curso'
 
 
   #ASIGNATURA
@@ -282,6 +286,10 @@ fr: # Francés
   2º Course: '2º Cours'
   3º Course: '3º Cours'
   4º Course: '4º Cours'
+  1º Year: '1re année'
+  2º Year: '2e année'
+  3º Year: '3e année'
+  4º Year: '4e année'
 
   #SUJET
   Description: 'PRÉSENTATION'
@@ -379,6 +387,10 @@ pt-pt: # Portugués
   2º Course: '2º Ano'
   3º Course: '3º Ano'
   4º Course: '4º Ano'
+  1º Year: '1º Ano'
+  2º Year: '2º Ano'
+  3º Year: '3º Ano'
+  4º Year: '4º Ano'
 
   #DISCIPLINA
   Description: 'APRESENTAÇÃO'
@@ -478,6 +490,10 @@ el: # Griego
   2º Course: '2º Έτος'
   3º Course: '3º Έτος'
   4º Course: '4º Έτος'
+  1º Year: '1ο Έτος'
+  2º Year: '2ο Έτος'
+  3º Year: '3ο Έτος'
+  4º Year: '4ο Έτος'
 
   #ΜΑΘΗΜΑ
   Description: 'ΠΑΡΟΥΣΙΑΣΗ'
@@ -573,6 +589,10 @@ cs: # Checo
   2º Course: '2. Kurz'
   3º Course: '3. Kurz'
   4º Course: '4. Kurz'
+  1º Year: '1. ročník'
+  2º Year: '2. ročník'
+  3º Year: '3. ročník'
+  4º Year: '4. ročník'
 
   #PŘEDMĚT
   Description: 'PREZENTACE'
@@ -671,6 +691,10 @@ sl: # Esloveno
   2º Course: '2º Tečaj'
   3º Course: '3º Tečaj'
   4º Course: '4º Tečaj'
+  1º Year: '1. letnik'
+  2º Year: '2. letnik'
+  3º Year: '3. letnik'
+  4º Year: '4. letnik'
 
   #PREDMET
   Description: 'PREDSTAVITEV'
@@ -767,6 +791,10 @@ hu: # Húngaro
   2º Course: '2. Év'
   3º Course: '3. Év'
   4º Course: '4. Év'
+  1º Year: '1. évfolyam'
+  2º Year: '2. évfolyam'
+  3º Year: '3. évfolyam'
+  4º Year: '4. évfolyam'
 
   #TANTÁRGY
   Description: 'BEMUTATÁS'
@@ -864,6 +892,10 @@ et: # Estonio
   2º Course: '2º Kursus'
   3º Course: '3º Kursus'
   4º Course: '4º Kursus'
+  1º Year: '1. õppeaasta'
+  2º Year: '2. õppeaasta'
+  3º Year: '3. õppeaasta'
+  4º Year: '4. õppeaasta'
 
   #AINE
   Description: 'ESITLUS'
@@ -960,6 +992,10 @@ gl: # Gallego
   2º Course: '2º Curso'
   3º Course: '3º Curso'
   4º Course: '4º Curso'
+  1º Year: '1º Curso'
+  2º Year: '2º Curso'
+  3º Year: '3º Curso'
+  4º Year: '4º Curso'
 
   #ASIGNATURA
   Description: 'PRESENTACIÓN'
@@ -978,5 +1014,4 @@ gl: # Gallego
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
-
 

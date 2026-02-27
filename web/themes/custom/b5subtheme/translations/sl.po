@@ -409,3 +409,56 @@ msgstr "Raziščite najboljše priložnosti za študij v Evropi. Odkrijte univer
 
 msgid "\"\nEXPLORE OUR UNIVERSITIES\n\nFind a new place to continue your studies, meet new people and learn a new language. Before this, you should:\n\n    Find which universities are available from your home university at your local international office.\n    Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar.\n    Assess accommodation, transportation, and daily expenses.\n    Research the local culture, student life, and opportunities for personal and professional growth.\n    Check healthcare coverage, safety, and housing availability.\n\nDon't miss the opportunity!\""
 msgstr "RAZIŠČITE NAŠE UNIVERZE\nPoiščite novo okolje za nadaljevanje študija, spoznajte nove ljudi in se naučite novega jezika. Pred tem:\nPri matični mednarodni pisarni preverite, katere destinacije so vam na voljo.\nPreverite, ali se predmeti ujemajo z vašim študijskim programom, so poučevani v jeziku, ki ga razumete, in ustrezajo vašemu akademskemu koledarju.\nOcenite stroške nastanitve, prevoza in vsakodnevnega življenja.\nRaziščite lokalno kulturo, študentsko življenje ter priložnosti za osebni in poklicni razvoj.\nPreverite kritje zdravstvenega zavarovanja ter varnost in razpoložljivost nastanitev.\nNe zamudite priložnosti!"
+msgid "Explore the best opportunities to study in Europe. Discover universities, programs, and destinations tailored to your future. Your next academic adventure starts here."
+msgstr "Raziščite najboljše priložnosti za študij v Evropi. Odkrijte univerze, programe in destinacije, prilagojene vaši prihodnosti. Vaša naslednja akademska pustolovščina se začne tukaj."
+
+msgid "EXPLORE OUR UNIVERSITIES"
+msgstr "RAZIŠČITE NAŠE UNIVERZE"
+
+msgid "Find a new place to continue your studies, meet new people and learn a new language. Before this, you should:"
+msgstr "Poiščite nov kraj za nadaljevanje študija, spoznajte nove ljudi in se naučite novega jezika. Pred tem morate:"
+
+msgid "Find which universities are available from your home university at your local international office."
+msgstr "V mednarodni pisarni svoje matične univerze preverite, katere univerze so vam na voljo."
+
+msgid "Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar."
+msgstr "Prepričajte se, da se predmeti ujemajo z vašim študijskim programom, so poučevani v jeziku, ki ga razumete, in ustrezajo vašemu akademskemu koledarju."
+
+msgid "Assess accommodation, transportation, and daily expenses."
+msgstr "Ocenite nastanitev, prevoz in vsakodnevne stroške."
+
+msgid "Research the local culture, student life, and opportunities for personal and professional growth."
+msgstr "Raziščite lokalno kulturo, študentsko življenje ter priložnosti za osebno in poklicno rast."
+
+msgid "Check healthcare coverage, safety, and housing availability."
+msgstr "Preverite zdravstveno zavarovanje, varnost in razpoložljivost nastanitev."
+
+msgid "Don't miss the opportunity!"
+msgstr "Ne zamudite priložnosti!"
+
+msgid "Czech"
+msgstr "Češčina"
+
+msgid "English"
+msgstr "Angleščina"
+
+msgid "Estonian"
+msgstr "Estonščina"
+
+msgid "French"
+msgstr "Francoščina"
+
+msgid "Greek"
+msgstr "Grščina"
+
+msgid "Hungarian"
+msgstr "Madžarščina"
+
+msgid "Portuguese"
+msgstr "Portugalščina"
+
+msgid "Slovenian"
+msgstr "Slovenščina"
+
+msgid "Spanish"
+msgstr "Španščina"

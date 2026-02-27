@@ -412,3 +412,56 @@ msgstr "Avasta parimad võimalused Euroopas õppimiseks. Leia ülikoolid, õppek
 
 msgid "\"\nEXPLORE OUR UNIVERSITIES\n\nFind a new place to continue your studies, meet new people and learn a new language. Before this, you should:\n\n    Find which universities are available from your home university at your local international office.\n    Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar.\n    Assess accommodation, transportation, and daily expenses.\n    Research the local culture, student life, and opportunities for personal and professional growth.\n    Check healthcare coverage, safety, and housing availability.\n\nDon't miss the opportunity!\""
 msgstr "AVASTA MEIE ÜLIKOOLID\n\nLeia uus koht oma õpingute jätkamiseks, tutvu uute inimestega ja õpi selgeks uus keel. Enne seda peaksid sa:\n\nLeia oma koduülikooli välissuhete osakonnast, millised ülikoolid on saadaval.\nVeendu, et kursused ühtivad sinu õpingutega, neid õpetatakse sulle arusaadavas keeles ning need sobivad sinu akadeemilise kalendriga.\nHinda majutust, transporti ja igapäevaseid kulusid.\nUuri kohalikku kultuuri, tudengielu ning isikliku ja professionaalse arengu võimalusi.\nKontrolli ravikindlustuse kaetust, turvalisust ja elamispindade kättesaadavust.\n\nÄra lase võimalust käest!"
+msgid "Explore the best opportunities to study in Europe. Discover universities, programs, and destinations tailored to your future. Your next academic adventure starts here."
+msgstr "Avasta parimad võimalused Euroopas õppimiseks. Leia ülikoolid, programmid ja sihtkohad, mis sobivad sinu tulevikuga. Sinu järgmine akadeemiline seiklus algab siin."
+
+msgid "EXPLORE OUR UNIVERSITIES"
+msgstr "AVASTA MEIE ÜLIKOOLID"
+
+msgid "Find a new place to continue your studies, meet new people and learn a new language. Before this, you should:"
+msgstr "Leia uus koht, kus õpinguid jätkata, tutvu uute inimestega ja õpi uus keel. Enne seda peaksid:"
+
+msgid "Find which universities are available from your home university at your local international office."
+msgstr "Uuri oma koduülikooli rahvusvahelisest büroost, millised ülikoolid on sulle saadaval."
+
+msgid "Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar."
+msgstr "Veendu, et õppeained sobivad sinu õppekavaga, on õpetatavad sulle arusaadavas keeles ja klapivad sinu akadeemilise kalendriga."
+
+msgid "Assess accommodation, transportation, and daily expenses."
+msgstr "Hinda majutust, transporti ja igapäevaseid kulusid."
+
+msgid "Research the local culture, student life, and opportunities for personal and professional growth."
+msgstr "Uuri kohalikku kultuuri, tudengielu ning isikliku ja erialase arengu võimalusi."
+
+msgid "Check healthcare coverage, safety, and housing availability."
+msgstr "Kontrolli ravikindlustuse katvust, turvalisust ja majutuse kättesaadavust."
+
+msgid "Don't miss the opportunity!"
+msgstr "Ära lase võimalust käest!"
+
+msgid "Czech"
+msgstr "Tšehhi"
+
+msgid "English"
+msgstr "Inglise"
+
+msgid "Estonian"
+msgstr "Eesti"
+
+msgid "French"
+msgstr "Prantsuse"
+
+msgid "Greek"
+msgstr "Kreeka"
+
+msgid "Hungarian"
+msgstr "Ungari"
+
+msgid "Portuguese"
+msgstr "Portugali"
+
+msgid "Slovenian"
+msgstr "Sloveeni"
+
+msgid "Spanish"
+msgstr "Hispaania"

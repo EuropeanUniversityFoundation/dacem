@@ -232,6 +232,14 @@
 																	<span class="mx-2">·</span>
 																	<span>{{ programme_area_labels[programme.field_programme_area.value] }}</span>
 																{% endif %}
+
+																{% set langs = programme.field_programme_language_of_inst %}
+																{% if langs is not empty %}
+																	<span class="mx-2">·</span>
+																	<span class="fst-italic">
+																		{{ langs|map(item => item.entity.label)|join(', ') }}
+																	</span>
+																{% endif %}
 															</div>
 
 															<!-- Línea inferior: institución y país 

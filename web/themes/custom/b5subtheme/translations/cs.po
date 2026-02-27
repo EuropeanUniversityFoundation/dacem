@@ -409,3 +409,56 @@ msgstr "Objevte nejlepší možnosti studia v Evropě. Najděte univerzity, stud
 
 msgid "\"\nEXPLORE OUR UNIVERSITIES\n\nFind a new place to continue your studies, meet new people and learn a new language. Before this, you should:\n\n    Find which universities are available from your home university at your local international office.\n    Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar.\n    Assess accommodation, transportation, and daily expenses.\n    Research the local culture, student life, and opportunities for personal and professional growth.\n    Check healthcare coverage, safety, and housing availability.\n\nDon't miss the opportunity!\""
 msgstr "PROZKOUMEJTE NAŠE UNIVERZITY Najděte nové místo, kde můžete pokračovat ve studiu, poznat nové lidi a naučit se nový jazyk. Než však začnete, měli byste:\n\n- Zjistit od vaší domovské univerzity prostřednictvím zahraničního oddělení, které univerzity v zahraničí jsou dostupné. \n- Ujistit se, že se kurzy shodují s vaším studijním plánem, jsou vyučovány jazykem, kterému rozumíte, a odpovídají vašemu akademickému kalendáři.\n- Zhodnotit možnosti ubytování, dopravy a denních nákladů. \n- Prozkoumat místní kulturu, studentský život a příležitosti pro osobní i profesní rozvoj.\n- Prověřit možnosti zdravotního pojištění, bezpečnost a dostupnost ubytování.\nNepropásněte tuto příležitost! "
+msgid "Explore the best opportunities to study in Europe. Discover universities, programs, and destinations tailored to your future. Your next academic adventure starts here."
+msgstr "Objevte nejlepší příležitosti ke studiu v Evropě. Prozkoumejte univerzity, programy a destinace přizpůsobené vaší budoucnosti. Vaše další akademické dobrodružství začíná zde."
+
+msgid "EXPLORE OUR UNIVERSITIES"
+msgstr "PROZKOUMEJTE NAŠE UNIVERZITY"
+
+msgid "Find a new place to continue your studies, meet new people and learn a new language. Before this, you should:"
+msgstr "Najděte nové místo pro pokračování ve studiu, seznamte se s novými lidmi a naučte se nový jazyk. Předtím byste měli:"
+
+msgid "Find which universities are available from your home university at your local international office."
+msgstr "Zjistěte na mezinárodním oddělení své domovské univerzity, které univerzity jsou dostupné."
+
+msgid "Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar."
+msgstr "Ujistěte se, že předměty odpovídají vašemu studijnímu programu, jsou vyučovány v jazyce, kterému rozumíte, a zapadají do vašeho akademického kalendáře."
+
+msgid "Assess accommodation, transportation, and daily expenses."
+msgstr "Zvažte ubytování, dopravu a každodenní výdaje."
+
+msgid "Research the local culture, student life, and opportunities for personal and professional growth."
+msgstr "Prozkoumejte místní kulturu, studentský život a příležitosti pro osobní i profesní růst."
+
+msgid "Check healthcare coverage, safety, and housing availability."
+msgstr "Ověřte si zdravotní pojištění, bezpečnost a dostupnost ubytování."
+
+msgid "Don't miss the opportunity!"
+msgstr "Nenechte si ujít tuto příležitost!"
+
+msgid "Czech"
+msgstr "Čeština"
+
+msgid "English"
+msgstr "Angličtina"
+
+msgid "Estonian"
+msgstr "Estonština"
+
+msgid "French"
+msgstr "Francouzština"
+
+msgid "Greek"
+msgstr "Řečtina"
+
+msgid "Hungarian"
+msgstr "Maďarština"
+
+msgid "Portuguese"
+msgstr "Portugalština"
+
+msgid "Slovenian"
+msgstr "Slovinština"
+
+msgid "Spanish"
+msgstr "Španělština"

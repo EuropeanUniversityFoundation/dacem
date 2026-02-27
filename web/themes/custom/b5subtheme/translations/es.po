@@ -415,3 +415,56 @@ msgstr "Explora las mejores oportunidades para estudiar en Europa. Descubre univ
 
 msgid "\"\nEXPLORE OUR UNIVERSITIES\n\nFind a new place to continue your studies, meet new people and learn a new language. Before this, you should:\n\n    Find which universities are available from your home university at your local international office.\n    Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar.\n    Assess accommodation, transportation, and daily expenses.\n    Research the local culture, student life, and opportunities for personal and professional growth.\n    Check healthcare coverage, safety, and housing availability.\n\nDon't miss the opportunity!\""
 msgstr "\"Encuentra un nuevo destino donde continuar tus estudios, conocer nuevas personas y aprender un nuevo idioma. Antes de hacerlo, deberías:\n\n   Consultar en la oficina internacional de tu universidad de origen qué universidades están disponibles.\n\n   Asegurarte de que las asignaturas se ajusten a tu titulación, se impartan en un idioma que comprendas y encajen en tu calendario académico.\n\n   Evaluar el alojamiento, el transporte y los gastos diarios.\n\n   Investigar la cultura local, la vida estudiantil y las oportunidades de crecimiento personal y profesional.\n\n   Comprobar la cobertura sanitaria, la seguridad y la disponibilidad de alojamiento.\n\n¡No pierdas la oportunidad!\""
+msgid "Explore the best opportunities to study in Europe. Discover universities, programs, and destinations tailored to your future. Your next academic adventure starts here."
+msgstr "Explora las mejores oportunidades para estudiar en Europa. Descubre universidades, programas y destinos adaptados a tu futuro. Tu próxima aventura académica comienza aquí."
+
+msgid "EXPLORE OUR UNIVERSITIES"
+msgstr "EXPLORA NUESTRAS UNIVERSIDADES"
+
+msgid "Find a new place to continue your studies, meet new people and learn a new language. Before this, you should:"
+msgstr "Encuentra un nuevo lugar para continuar tus estudios, conocer gente nueva y aprender un nuevo idioma. Antes de esto, deberías:"
+
+msgid "Find which universities are available from your home university at your local international office."
+msgstr "Consulta en la oficina internacional de tu universidad de origen qué universidades están disponibles."
+
+msgid "Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar."
+msgstr "Asegúrate de que las asignaturas se ajustan a tu titulación, se imparten en un idioma que entiendes y encajan en tu calendario académico."
+
+msgid "Assess accommodation, transportation, and daily expenses."
+msgstr "Evalúa el alojamiento, el transporte y los gastos diarios."
+
+msgid "Research the local culture, student life, and opportunities for personal and professional growth."
+msgstr "Investiga la cultura local, la vida estudiantil y las oportunidades de crecimiento personal y profesional."
+
+msgid "Check healthcare coverage, safety, and housing availability."
+msgstr "Comprueba la cobertura sanitaria, la seguridad y la disponibilidad de alojamiento."
+
+msgid "Don't miss the opportunity!"
+msgstr "¡No pierdas la oportunidad!"
+
+msgid "Czech"
+msgstr "Checo"
+
+msgid "English"
+msgstr "Inglés"
+
+msgid "Estonian"
+msgstr "Estonio"
+
+msgid "French"
+msgstr "Francés"
+
+msgid "Greek"
+msgstr "Griego"
+
+msgid "Hungarian"
+msgstr "Húngaro"
+
+msgid "Portuguese"
+msgstr "Portugués"
+
+msgid "Slovenian"
+msgstr "Esloveno"
+
+msgid "Spanish"
+msgstr "Español"

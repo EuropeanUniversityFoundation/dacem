@@ -234,6 +234,24 @@
 																<span class="mx-2">·</span>
 																<span>{{ programme_area_labels[programme.field_programme_area.value] }}</span>
 															{% endif %}
+
+															{# Languages of instruction #}
+															{% set langs = iec.field_iec_language_of_instructio ?? [] %}
+															{% if langs is not empty %}
+																{% set lang_labels = [] %}
+																{% for item in langs %}
+																	{% set lang_label = item.entity.label ?? item.value ?? '' %}
+																	{% if lang_label %}
+																		{% set lang_labels = lang_labels|merge([lang_label]) %}
+																	{% endif %}
+																{% endfor %}
+																{% if lang_labels is not empty %}
+																	<span class="mx-2">·</span>
+																	<span class="fst-italic">
+																		{{ lang_labels|join(', ') }}
+																	</span>
+																{% endif %}
+															{% endif %}
 														</div>
 
 													
@@ -397,4 +415,3 @@ window.location.href = nextPath + search + hash;
 });
 })();
 	</script>
-

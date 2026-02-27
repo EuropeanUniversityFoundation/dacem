@@ -307,3 +307,63 @@ msgstr "Intézmények"
 
 msgid "CONTACT"
 msgstr "Elérhetőség"
+
+msgid "Explore the best opportunities to study in Europe. Discover universities, programs, and destinations tailored to your future. Your next academic adventure starts here."
+msgstr "Fedezze fel a legjobb európai tanulási lehetőségeket. Ismerje meg a jövőjéhez igazított egyetemeket, képzéseket és úti célokat. A következő tudományos kalandja itt kezdődik."
+
+msgid "Study in Europe"
+msgstr "Tanulj Európában"
+
+msgid "FIND A PROGRAMME"
+msgstr "KERESS KÉPZÉST"
+
+msgid "EXPLORE OUR UNIVERSITIES"
+msgstr "FEDEZD FEL EGYETEMEINKET"
+
+msgid "Find a new place to continue your studies, meet new people and learn a new language. Before this, you should:"
+msgstr "Találj egy új helyet a tanulmányaid folytatásához, ismerkedj meg új emberekkel, és tanulj meg egy új nyelvet. Mielőtt belevágnál, érdemes:"
+
+msgid "Find which universities are available from your home university at your local international office."
+msgstr "Tájékozódj a saját egyetemed nemzetközi irodájában, hogy mely egyetemek érhetők el."
+
+msgid "Ensure the courses align with your degree, are taught in a language you understand, and fit your academic calendar."
+msgstr "Győződj meg róla, hogy a tantárgyak illeszkednek a képzésedhez, olyan nyelven oktatják őket, amelyet értesz, és beleillenek a tanulmányi naptáradba."
+
+msgid "Assess accommodation, transportation, and daily expenses."
+msgstr "Mérd fel a szállást, a közlekedést és a mindennapi kiadásokat."
+
+msgid "Research the local culture, student life, and opportunities for personal and professional growth."
+msgstr "Ismerd meg a helyi kultúrát, a hallgatói életet, valamint a személyes és szakmai fejlődési lehetőségeket."
+
+msgid "Check healthcare coverage, safety, and housing availability."
+msgstr "Ellenőrizd az egészségügyi fedezetet, a biztonságot és a szálláslehetőségek elérhetőségét."
+
+msgid "Don't miss the opportunity!"
+msgstr "Ne hagyd ki a lehetőséget!"
+
+msgid "Czech"
+msgstr "Cseh"
+
+msgid "English"
+msgstr "Angol"
+
+msgid "Estonian"
+msgstr "Észt"
+
+msgid "French"
+msgstr "Francia"
+
+msgid "Greek"
+msgstr "Görög"
+
+msgid "Hungarian"
+msgstr "Magyar"
+
+msgid "Portuguese"
+msgstr "Portugál"
+
+msgid "Slovenian"
+msgstr "Szlovén"
+
+msgid "Spanish"
+msgstr "Spanyol"

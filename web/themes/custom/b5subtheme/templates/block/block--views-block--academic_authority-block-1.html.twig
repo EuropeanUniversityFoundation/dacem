@@ -12,7 +12,7 @@
   {% set mobility_contacts = [] %}
 
   {% for row in content['#view'].result %}
-    {{dump(row._entity.title.value)}}
+
     {% if row._entity.field_mobility_contact.value == '1' %}
       {% set mobility_contacts = mobility_contacts|merge([row]) %}
     {% else %}
