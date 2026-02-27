@@ -73,6 +73,8 @@ display:
   widget_table:
     display_options:
       fields:
+        thumbnail__target_id:
+          label: Μικρογραφία
         name:
           label: Όνομα
         uid:

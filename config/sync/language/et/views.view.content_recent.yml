@@ -10,8 +10,8 @@ display:
           separator: ', '
       exposed_form:
         options:
-          submit_button: Rakenda
-          reset_button_label: Tühista
+          submit_button: 'Rakenda / Kinnita'
+          reset_button_label: Lähtesta
           exposed_sorts_label: 'Sorteerimise alus'
           sort_asc_label: Kasvav
           sort_desc_label: Kahanev

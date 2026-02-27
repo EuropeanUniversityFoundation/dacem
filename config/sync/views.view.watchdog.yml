@@ -179,7 +179,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: standard
-          label: Type
+          label: Tipo
           exclude: false
           alter:
             alter_text: false
@@ -460,7 +460,7 @@ display:
         options:
           submit_button: Filter
           reset_button: true
-          reset_button_label: Reset
+          reset_button_label: Restablecer
           exposed_sorts_label: 'Sort by'
           expose_sort_order: false
           sort_asc_label: Asc
@@ -514,7 +514,7 @@ display:
           exposed: true
           expose:
             operator_id: type_op
-            label: Type
+            label: Tipo
             description: ''
             use_operator: false
             operator: type_op
@@ -696,7 +696,7 @@ display:
       tags: {  }
   page:
     id: page
-    display_title: Page
+    display_title: Página
     display_plugin: page
     position: 1
     display_options:

@@ -20,7 +20,6 @@ dependencies:
     - field.field.node.programme.field_main_objective
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
-    - field.field.node.programme.field_programme_area
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_explanation_scal
     - field.field.node.programme.field_programme_grading_scale
@@ -243,21 +242,6 @@ third_party_settings:
                 settings: {  }
                 third_party_settings: {  }
             weight: 13
-            additional: {  }
-          38181c90-faa6-43fa-81ad-21f225fa76d6:
-            uuid: 38181c90-faa6-43fa-81ad-21f225fa76d6
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_programme_area'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: list_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 14
             additional: {  }
           6b068417-2fff-44b4-a718-8641645517bc:
             uuid: 6b068417-2fff-44b4-a718-8641645517bc
@@ -812,13 +796,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 113
-    region: content
-  field_programme_area:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 114
     region: content
   field_programme_description:
     type: text_default

@@ -295,7 +295,7 @@
 
 							<li class="nav-item" role="presentation">
 								<button class="nav-link active" id="tab-by-semester" data-bs-toggle="tab" data-bs-target="#pane-by-semester" type="button" role="tab" aria-controls="pane-by-semester" aria-selected="false">
-									{{ 'By term'|t }}
+									{{ 'By semester'|t }}
 								</button>
 							</li>
 
@@ -315,8 +315,8 @@
 								{# Definimos los semestres que queremos mostrar #}
 								{% set semester_terms = [1, 2] %}
 								{% set semester_labels = {
-    1: '1st term'|t,
-    2: '2nd term'|t
+    1: '1st semester'|t,
+    2: '2nd semester'|t
   } %}
 
 

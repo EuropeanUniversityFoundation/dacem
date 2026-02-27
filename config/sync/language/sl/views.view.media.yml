@@ -6,7 +6,7 @@ display:
         media_bulk_form:
           action_title: Akcija
         bundle:
-          label: Tip
+          label: Vrsta
         uid:
           label: Avtor
         status:
@@ -24,7 +24,7 @@ display:
       filters:
         bundle:
           expose:
-            label: Tip
+            label: Vrsta
         status:
           group_info:
             group_items:

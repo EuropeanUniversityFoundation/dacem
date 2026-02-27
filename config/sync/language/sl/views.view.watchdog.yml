@@ -7,7 +7,7 @@ display:
         severity:
           label: Resnost
         type:
-          label: Tip
+          label: Vrsta
         timestamp:
           label: Datum
         message:
@@ -27,7 +27,7 @@ display:
       filters:
         type:
           expose:
-            label: Tip
+            label: Vrsta
         severity:
           expose:
             label: Resnost

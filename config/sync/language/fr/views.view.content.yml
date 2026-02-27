@@ -58,7 +58,7 @@ display:
                 title: 'Non publié'
         langcode:
           expose:
-            label: Langue
+            label: "Langues d'enseignement"
   page_1:
     display_title: Page
     display_options:

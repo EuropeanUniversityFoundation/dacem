@@ -15,7 +15,7 @@ display:
           label: 'Média neve'
           separator: ', '
         bundle:
-          label: Típus
+          label: Tipus
           separator: ', '
         uid:
           label: Szerző
@@ -45,7 +45,7 @@ display:
       exposed_form:
         options:
           submit_button: Szűrő
-          reset_button_label: Alaphelyzet
+          reset_button_label: Visszaállít
           exposed_sorts_label: Rendezés
           sort_asc_label: Növ
           sort_desc_label: Csökk
@@ -58,7 +58,7 @@ display:
             label: 'Média neve'
         bundle:
           expose:
-            label: Típus
+            label: Tipus
         status:
           expose:
             label: Igaz

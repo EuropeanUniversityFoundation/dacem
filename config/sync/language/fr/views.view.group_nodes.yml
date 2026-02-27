@@ -22,9 +22,12 @@ display:
           separator: ', '
         view_group_relationship:
           admin_label: 'Voir le lien de relation'
+          label: 'Lien vers la relation de groupe'
         edit_group_relationship:
+          label: 'Lien vers la modification de la relation de groupe'
           text: 'Modifier la relation'
         delete_group_relationship:
+          label: 'Lien vers la suppression de la relation de groupe'
           text: 'Supprimer la relation'
         edit_node:
           text: 'Modifier le nœud'
@@ -45,7 +48,7 @@ display:
             offset_label: Décalage
       exposed_form:
         options:
-          submit_button: Appliquer
+          submit_button: Candidater
           reset_button_label: Réinitialiser
           exposed_sorts_label: 'Trier par'
           sort_asc_label: Asc

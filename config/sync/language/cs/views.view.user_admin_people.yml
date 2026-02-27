@@ -39,7 +39,7 @@ display:
       exposed_form:
         options:
           submit_button: Filtr
-          reset_button_label: Reset
+          reset_button_label: Resetovat
           exposed_sorts_label: 'Řadit dle'
           sort_asc_label: Vzestupně
           sort_desc_label: Sestupně

@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.academic_authority.field_aa_web
     - field.field.node.academic_authority.field_ac_photo
     - field.field.node.academic_authority.field_campus_role
+    - field.field.node.academic_authority.field_display_order
     - field.field.node.academic_authority.field_institution_role
     - field.field.node.academic_authority.field_mobility_contact
     - field.field.node.academic_authority.field_organizational_unit_role
@@ -100,6 +101,13 @@ content:
     region: content
     settings:
       size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_display_order:
+    type: number
+    weight: 30
+    region: content
+    settings:
       placeholder: ''
     third_party_settings: {  }
   field_institution_role:

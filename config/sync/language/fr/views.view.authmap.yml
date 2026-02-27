@@ -22,7 +22,7 @@ display:
             offset_label: Décalage
       exposed_form:
         options:
-          submit_button: Appliquer
+          submit_button: Candidater
           reset_button_label: Réinitialiser
           exposed_sorts_label: 'Trier par'
           sort_asc_label: Asc

@@ -8,7 +8,7 @@ display:
         comment_bulk_form:
           action_title: Akcija
         subject:
-          label: Zadeva
+          label: Predmet
         name:
           label: Avtor
         entity_id:
@@ -34,7 +34,7 @@ display:
       filters:
         subject:
           expose:
-            label: Zadeva
+            label: Predmet
         langcode:
           expose:
             label: Jezik
@@ -50,7 +50,7 @@ display:
         comment_bulk_form:
           action_title: Akcija
         subject:
-          label: Zadeva
+          label: Predmet
         name:
           label: Avtor
         entity_id:
@@ -62,7 +62,7 @@ display:
       filters:
         subject:
           expose:
-            label: Zadeva
+            label: Predmet
         langcode:
           expose:
             label: Jezik

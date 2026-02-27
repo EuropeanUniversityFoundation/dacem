@@ -13,7 +13,7 @@ display:
         severity:
           label: Szint
         type:
-          label: Típus
+          label: Tipus
         timestamp:
           label: Dátum
         message:
@@ -37,7 +37,7 @@ display:
       exposed_form:
         options:
           submit_button: Szűrő
-          reset_button_label: Alaphelyzet
+          reset_button_label: Visszaállít
           exposed_sorts_label: Rendezés
           sort_asc_label: Növ
           sort_desc_label: Csökk
@@ -48,7 +48,7 @@ display:
       filters:
         type:
           expose:
-            label: Típus
+            label: Tipus
         severity:
           expose:
             label: Szint

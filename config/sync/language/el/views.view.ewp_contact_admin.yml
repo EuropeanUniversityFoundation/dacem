@@ -41,3 +41,8 @@ display:
         label:
           expose:
             label: Ετικέτα
+      title: Επαφές
+  contact_list:
+    display_options:
+      menu:
+        title: Επαφές

@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.academic_authority.field_aa_web
     - field.field.node.academic_authority.field_ac_photo
     - field.field.node.academic_authority.field_campus_role
+    - field.field.node.academic_authority.field_display_order
     - field.field.node.academic_authority.field_institution_role
     - field.field.node.academic_authority.field_mobility_contact
     - field.field.node.academic_authority.field_organizational_unit_role
@@ -47,6 +48,7 @@ hidden:
   field_aa_web: true
   field_ac_photo: true
   field_campus_role: true
+  field_display_order: true
   field_institution_role: true
   field_mobility_contact: true
   field_organizational_unit_role: true

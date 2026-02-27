@@ -8,6 +8,7 @@ display:
         media_bulk_form:
           action_title: Ενέργεια
         thumbnail__target_id:
+          label: Μικρογραφία
           separator: ', '
         name:
           separator: ', '

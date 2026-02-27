@@ -21,7 +21,6 @@ dependencies:
     - field.field.node.programme.field_main_objective
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
-    - field.field.node.programme.field_programme_area
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_explanation_scal
     - field.field.node.programme.field_programme_grading_scale
@@ -74,7 +73,6 @@ hidden:
   field_main_objective: true
   field_occupational_profiles: true
   field_professional_practices: true
-  field_programme_area: true
   field_programme_description: true
   field_programme_explanation_scal: true
   field_programme_grading_scale: true

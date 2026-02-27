@@ -15,4 +15,4 @@ selection_logic: and
 weight: -5
 relationships:
   'group_relationship:langcode:language':
-    label: Language
+    label: Idioma

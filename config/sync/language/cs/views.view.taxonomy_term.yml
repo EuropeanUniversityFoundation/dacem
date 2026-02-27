@@ -15,8 +15,8 @@ display:
             offset_label: Posun
       exposed_form:
         options:
-          submit_button: Použít
-          reset_button_label: Reset
+          submit_button: 'Přihlásit se'
+          reset_button_label: Resetovat
           exposed_sorts_label: 'Řadit dle'
           sort_asc_label: Vzestupně
           sort_desc_label: Sestupně

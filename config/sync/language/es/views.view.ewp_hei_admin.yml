@@ -4,8 +4,8 @@ display:
     display_options:
       exposed_form:
         options:
-          submit_button: Apply
-          reset_button_label: Reset
+          submit_button: Aplicar
+          reset_button_label: Restablecer
           exposed_sorts_label: 'Sort by'
           sort_asc_label: Asc
           sort_desc_label: Desc
@@ -27,7 +27,7 @@ display:
         hei_id:
           separator: ', '
         name:
-          label: Name
+          label: Nombre
         abbreviation:
           label: Abreviatura
           separator: ', '

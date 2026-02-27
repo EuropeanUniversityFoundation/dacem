@@ -58,7 +58,7 @@ display:
             label: 'Type de média'
         langcode:
           expose:
-            label: Langue
+            label: "Langues d'enseignement"
   page:
     display_title: Page
     display_options:

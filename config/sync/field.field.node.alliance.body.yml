@@ -1,0 +1,24 @@
+uuid: df1eed36-7c90-4ed8-9313-fb868275bba6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.alliance
+  module:
+    - text
+id: node.alliance.body
+field_name: body
+entity_type: node
+bundle: alliance
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

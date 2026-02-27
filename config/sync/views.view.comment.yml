@@ -88,7 +88,7 @@ display:
           entity_type: comment
           entity_field: subject
           plugin_id: field
-          label: Subject
+          label: Curso
           exclude: false
           alter:
             alter_text: false
@@ -556,7 +556,7 @@ display:
         options:
           submit_button: Filter
           reset_button: false
-          reset_button_label: Reset
+          reset_button_label: Restablecer
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
           sort_asc_label: Asc
@@ -655,7 +655,7 @@ display:
           exposed: true
           expose:
             operator_id: subject_op
-            label: Subject
+            label: Curso
             description: ''
             use_operator: false
             operator: subject_op
@@ -740,7 +740,7 @@ display:
           exposed: true
           expose:
             operator_id: langcode_op
-            label: Language
+            label: Idioma
             description: ''
             use_operator: false
             operator: langcode_op
@@ -976,7 +976,7 @@ display:
           entity_type: comment
           entity_field: subject
           plugin_id: field
-          label: Subject
+          label: Curso
           exclude: false
           alter:
             alter_text: false
@@ -1474,7 +1474,7 @@ display:
           exposed: true
           expose:
             operator_id: subject_op
-            label: Subject
+            label: Curso
             description: ''
             use_operator: false
             operator: subject_op
@@ -1559,7 +1559,7 @@ display:
           exposed: true
           expose:
             operator_id: langcode_op
-            label: Language
+            label: Idioma
             description: ''
             use_operator: false
             operator: langcode_op

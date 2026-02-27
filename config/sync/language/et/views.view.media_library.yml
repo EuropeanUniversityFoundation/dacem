@@ -19,7 +19,7 @@ display:
       exposed_form:
         options:
           submit_button: 'Rakenda filtrid'
-          reset_button_label: Tühista
+          reset_button_label: Lähtesta
           exposed_sorts_label: 'Sorteerimise alus'
           sort_asc_label: Kasvav
           sort_desc_label: Kahanev
@@ -57,9 +57,9 @@ display:
             label: 'Meedia tüüp'
         langcode:
           expose:
-            label: Keel
+            label: Õppekeel
   page:
-    display_title: Lehekülg
+    display_title: Leht
     display_options:
       fields:
         media_bulk_form:

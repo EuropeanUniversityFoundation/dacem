@@ -7,6 +7,7 @@ display:
           text: izbriši
       exposed_form:
         options:
+          submit_button: Prijava
           reset_button_label: Ponastavi
       arguments:
         provider_field:

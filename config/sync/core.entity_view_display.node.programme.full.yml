@@ -21,7 +21,6 @@ dependencies:
     - field.field.node.programme.field_main_objective
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
-    - field.field.node.programme.field_programme_area
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_explanation_scal
     - field.field.node.programme.field_programme_grading_scale
@@ -110,13 +109,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 113
-    region: content
-  field_programme_area:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 114
     region: content
   field_programme_description:
     type: text_default

@@ -159,7 +159,7 @@ display:
         options:
           submit_button: 'Apply filters'
           reset_button: false
-          reset_button_label: Reset
+          reset_button_label: Restablecer
           exposed_sorts_label: 'Sort by'
           expose_sort_order: false
           sort_asc_label: Asc
@@ -295,7 +295,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Nombre
             description: ''
             use_operator: false
             operator: name_op
@@ -422,7 +422,7 @@ display:
           exposed: true
           expose:
             operator_id: langcode_op
-            label: Language
+            label: Idioma
             description: ''
             use_operator: false
             operator: langcode_op
@@ -488,7 +488,7 @@ display:
       tags: {  }
   page:
     id: page
-    display_title: Page
+    display_title: Página
     display_plugin: page
     position: 1
     display_options:
@@ -993,7 +993,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Nombre
             description: ''
             use_operator: false
             operator: name_op
@@ -1142,7 +1142,7 @@ display:
           entity_type: media
           entity_field: name
           plugin_id: field
-          label: Name
+          label: Nombre
           type: string
           settings:
             link_to_entity: false
@@ -1283,7 +1283,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: Name
+            label: Nombre
             description: ''
             use_operator: false
             operator: name_op

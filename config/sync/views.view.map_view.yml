@@ -1385,8 +1385,8 @@ display:
           entity_source: __base_table
           name_field: ''
           leaflet_tooltip:
-            value: ''
-            options: '{"permanent":false,"direction":"center"}'
+            value: title
+            options: '{"permanent":false,"direction":"center","className":"leaflet-tooltip-plain"}'
           leaflet_popup:
             value: ''
             options: '{"maxWidth":"300","minWidth":"50","autoPan":true}'
@@ -1507,7 +1507,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<a href=\"#\" class=\"zoom-to-entity\" data-lat-long=\"{{ field_map }}\">{{ title }}</a>\r\n"
+            text: "<a href=\"#\" class=\"zoom-to-entity\" data-lat-long=\"{{ field_ou_map }}\">{{ title }}</a>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -1765,10 +1765,10 @@ display:
           data_source:
             field_ou_map: field_ou_map
           entity_source: __base_table
-          name_field: ''
+          name_field: title
           leaflet_tooltip:
-            value: ''
-            options: '{"permanent":false,"direction":"center"}'
+            value: title
+            options: '{"permanent":false,"direction":"center","className":"leaflet-tooltip-plain"}'
           leaflet_popup:
             value: ''
             options: '{"maxWidth":"300","minWidth":"50","autoPan":true}'
@@ -1889,7 +1889,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: "<a href=\"#\" class=\"zoom-to-entity\" data-lat-long=\"{{ field_map }}\">{{ title }}</a>\r\n"
+            text: "<a href=\"#\" class=\"zoom-to-entity\" data-lat-long=\"{{ field_institution_map }}\">{{ title }}</a>\r\n"
             make_link: false
             path: ''
             absolute: false
@@ -2114,8 +2114,8 @@ display:
           entity_source: __base_table
           name_field: ''
           leaflet_tooltip:
-            value: ''
-            options: '{"permanent":false,"direction":"center"}'
+            value: title
+            options: '{"permanent":false,"direction":"center","className":"leaflet-tooltip-plain"}'
           leaflet_popup:
             value: ''
             options: '{"maxWidth":"300","minWidth":"50","autoPan":true}'
@@ -2393,8 +2393,8 @@ display:
           entity_source: __base_table
           name_field: ''
           leaflet_tooltip:
-            value: ''
-            options: '{"permanent":false,"direction":"center"}'
+            value: title
+            options: '{"permanent":false,"direction":"center","className":"leaflet-tooltip-plain"}'
           leaflet_popup:
             value: ''
             options: '{"maxWidth":"300","minWidth":"50","autoPan":true}'

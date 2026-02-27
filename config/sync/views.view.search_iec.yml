@@ -9,6 +9,7 @@ dependencies:
   module:
     - address
     - better_exposed_filters
+    - isced_field
     - node
     - taxonomy
     - user
@@ -167,6 +168,20 @@ display:
                   is_secondary: false
                   hide_label: false
               field_programme_type_target_id:
+                plugin_id: bef
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+                  hide_label: true
+                select_all_none: false
+                select_all_none_nested: false
+                display_inline: false
+              field_fields_of_study_value:
                 plugin_id: bef
                 advanced:
                   sort_options: false
@@ -598,6 +613,62 @@ display:
           hierarchy: false
           limit: true
           error_message: true
+        field_fields_of_study_value:
+          id: field_fields_of_study_value
+          table: node__field_fields_of_study
+          field: field_fields_of_study_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: isced
+          operator: in
+          value:
+            '00': '00'
+            '01': '01'
+            '02': '02'
+            '03': '03'
+            '04': '04'
+            '05': '05'
+            '06': '06'
+            '07': '07'
+            '08': '08'
+            '09': '09'
+            10: '10'
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_fields_of_study_value_op
+            label: 'Fields of study (field_fields_of_study)'
+            description: ''
+            use_operator: false
+            operator: field_fields_of_study_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_isced_f
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              content_editor: '0'
+              administrator: '0'
+              degree_admin: '0'
+              suject_admi: '0'
+              university_admin: '0'
+            reduce: true
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
       filter_groups:
         operator: AND
         groups:

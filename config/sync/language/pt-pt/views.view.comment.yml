@@ -9,7 +9,7 @@ display:
         comment_bulk_form:
           action_title: Ação
         subject:
-          label: Assunto
+          label: 'Unidade Curricular (UC)'
           separator: ', '
         uid:
           separator: ', '
@@ -40,7 +40,7 @@ display:
       exposed_form:
         options:
           submit_button: Filtro
-          reset_button_label: Reiniciar
+          reset_button_label: Atualizar
           exposed_sorts_label: 'Ordenar por'
           sort_asc_label: Asc
           sort_desc_label: Desc
@@ -50,7 +50,7 @@ display:
       filters:
         subject:
           expose:
-            label: Assunto
+            label: 'Unidade Curricular (UC)'
         combine:
           expose:
             label: 'Nome do autor'
@@ -72,7 +72,7 @@ display:
         comment_bulk_form:
           action_title: Ação
         subject:
-          label: Assunto
+          label: 'Unidade Curricular (UC)'
           separator: ', '
         uid:
           separator: ', '
@@ -92,7 +92,7 @@ display:
       filters:
         subject:
           expose:
-            label: Assunto
+            label: 'Unidade Curricular (UC)'
         combine:
           expose:
             label: 'Nome do autor'

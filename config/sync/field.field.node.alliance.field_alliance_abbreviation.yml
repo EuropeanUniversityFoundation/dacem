@@ -1,0 +1,19 @@
+uuid: 85171f05-65fa-4e1f-a16c-87fd95fb48a3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_alliance_abbreviation
+    - node.type.alliance
+id: node.alliance.field_alliance_abbreviation
+field_name: field_alliance_abbreviation
+entity_type: node
+bundle: alliance
+label: Abbreviation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

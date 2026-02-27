@@ -71,7 +71,7 @@ display:
                 title: 'Non publié'
         langcode:
           expose:
-            label: Langue
+            label: "Langues d'enseignement"
   media_page_list:
     display_title: Média
     display_options:

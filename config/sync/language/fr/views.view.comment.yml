@@ -9,7 +9,7 @@ display:
         comment_bulk_form:
           action_title: Action
         subject:
-          label: Objet
+          label: Discipline
           separator: ', '
         uid:
           separator: ', '
@@ -50,13 +50,13 @@ display:
       filters:
         subject:
           expose:
-            label: Objet
+            label: Discipline
         combine:
           expose:
             label: "Nom de l'auteur"
         langcode:
           expose:
-            label: Langue
+            label: "Langues d'enseignement"
       use_more_text: plus
   page_published:
     display_title: 'Commentaires publiés'
@@ -72,7 +72,7 @@ display:
         comment_bulk_form:
           action_title: Action
         subject:
-          label: Objet
+          label: Discipline
           separator: ', '
         uid:
           separator: ', '
@@ -92,13 +92,13 @@ display:
       filters:
         subject:
           expose:
-            label: Objet
+            label: Discipline
         combine:
           expose:
             label: "Nom de l'auteur"
         langcode:
           expose:
-            label: Langue
+            label: "Langues d'enseignement"
       display_description: 'La liste des commentaires non-approuvés.'
       menu:
         title: 'Commentaires non approuvés'

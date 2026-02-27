@@ -4,8 +4,8 @@ display:
     display_options:
       exposed_form:
         options:
-          submit_button: Aplicar
-          reset_button_label: Reiniciar
+          submit_button: Candidatar-se
+          reset_button_label: Atualizar
           exposed_sorts_label: 'Ordenar por'
           sort_asc_label: Asc
           sort_desc_label: Desc
@@ -44,3 +44,8 @@ display:
         label:
           expose:
             label: Etiqueta
+      title: Contactos
+  contact_list:
+    display_options:
+      menu:
+        title: Contactos

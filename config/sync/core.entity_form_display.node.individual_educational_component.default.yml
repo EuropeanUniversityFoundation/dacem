@@ -14,7 +14,6 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_email
     - field.field.node.individual_educational_component.field_iec_evaluation
     - field.field.node.individual_educational_component.field_iec_instructors
-    - field.field.node.individual_educational_component.field_iec_language
     - field.field.node.individual_educational_component.field_iec_language_of_instructio
     - field.field.node.individual_educational_component.field_iec_learning_outcomes
     - field.field.node.individual_educational_component.field_iec_modality
@@ -314,4 +313,3 @@ content:
     third_party_settings: {  }
 hidden:
   body: true
-  field_iec_language: true

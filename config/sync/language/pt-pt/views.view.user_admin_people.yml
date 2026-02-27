@@ -45,7 +45,7 @@ display:
       exposed_form:
         options:
           submit_button: Filtro
-          reset_button_label: Reiniciar
+          reset_button_label: Atualizar
           exposed_sorts_label: 'Ordenar por'
           sort_asc_label: Asc
           sort_desc_label: Desc

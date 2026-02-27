@@ -20,6 +20,7 @@ dependencies:
     - field.field.node.institution.field_general_ou_description
     - field.field.node.institution.field_information
     - field.field.node.institution.field_institution_address
+    - field.field.node.institution.field_institution_alliance
     - field.field.node.institution.field_institution_card_image
     - field.field.node.institution.field_institution_country
     - field.field.node.institution.field_institution_email
@@ -158,6 +159,7 @@ hidden:
   field_general_ou_description: true
   field_information: true
   field_institution_address: true
+  field_institution_alliance: true
   field_institution_card_image: true
   field_institution_country: true
   field_institution_email: true

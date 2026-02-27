@@ -22,4 +22,4 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: "/catalogue/*\r\n/general-information/*\r\n/resources-and-services/*\r\n/campus-information/*\r\n/organizational-unit-information/*\r\n/catalogue/*/programmes\r\n/catalogue/*/iecs"
+    pages: "/catalogue/*\r\n/general-information/*\r\n/resources-and-services/*\r\n/campus-information/*\r\n/organizational-unit-information/*\r\n/catalogue/*/programmes\r\n/catalogue/*/iecs\r\n/iec-instance/*"

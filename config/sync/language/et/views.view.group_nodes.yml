@@ -36,8 +36,8 @@ display:
             offset_label: Nihe
       exposed_form:
         options:
-          submit_button: Rakenda
-          reset_button_label: Tühista
+          submit_button: 'Rakenda / Kinnita'
+          reset_button_label: Lähtesta
           exposed_sorts_label: 'Sorteerimise alus'
           sort_asc_label: Kasvav
           sort_desc_label: Kahanev
@@ -61,9 +61,9 @@ display:
                 title: Avaldamata
         type:
           expose:
-            label: Liik
+            label: Tüüp
   page_1:
-    display_title: Lehekülg
+    display_title: Leht
     display_options:
       menu:
         title: Postitused

@@ -20,7 +20,7 @@ display:
       exposed_form:
         options:
           submit_button: 'Szűrők alkalmazása'
-          reset_button_label: Alaphelyzet
+          reset_button_label: Visszaállít
           exposed_sorts_label: Rendezés
           sort_asc_label: Növ
           sort_desc_label: Csökk

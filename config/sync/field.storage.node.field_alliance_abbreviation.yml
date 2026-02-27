@@ -1,11 +1,11 @@
-uuid: 987e4902-191f-4ee6-8c26-f1becd49567f
+uuid: e234e847-d754-4fd5-86b5-ed6f468b7508
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_iec_language
-field_name: field_iec_language
+id: node.field_alliance_abbreviation
+field_name: field_alliance_abbreviation
 entity_type: node
 type: string
 settings:

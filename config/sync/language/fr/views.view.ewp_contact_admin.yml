@@ -4,7 +4,7 @@ display:
     display_options:
       exposed_form:
         options:
-          submit_button: Appliquer
+          submit_button: Candidater
           reset_button_label: Réinitialiser
           exposed_sorts_label: 'Trier par'
           sort_asc_label: Asc
@@ -33,7 +33,7 @@ display:
         phone_number:
           label: 'Numéro de téléphone'
         email:
-          label: Courriel
+          label: Email
         street_address:
           separator: ', '
         mailing_address:
@@ -44,3 +44,8 @@ display:
         label:
           expose:
             label: Libellé
+      title: contacts
+  contact_list:
+    display_options:
+      menu:
+        title: contacts
