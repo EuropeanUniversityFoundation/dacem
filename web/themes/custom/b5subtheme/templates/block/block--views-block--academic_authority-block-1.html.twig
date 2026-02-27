@@ -1,5 +1,10 @@
 {{ attach_library('b5subtheme/fontawesome') }}
 
+
+
+
+
+
 {% if content['#view'].result|length > 0 %}
 
   {# Separamos las filas en dos grupos: authorities y mobility contacts #}
@@ -7,6 +12,7 @@
   {% set mobility_contacts = [] %}
 
   {% for row in content['#view'].result %}
+    {{dump(row._entity.title.value)}}
     {% if row._entity.field_mobility_contact.value == '1' %}
       {% set mobility_contacts = mobility_contacts|merge([row]) %}
     {% else %}
