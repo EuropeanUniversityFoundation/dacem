@@ -234,13 +234,18 @@
 					{#{dump(institution.field_institution_map[0].lon)}#}
 
 
-					<!-- Academic Terms debajo de la info -->
-					<div class="mt-4">
-						{% if institution.field_academic_calendar.value is defined and institution.field_academic_calendar.value %}
+						<!-- Academic Terms debajo de la info -->
+						<div class="mt-4">
+							{% if institution.field_admission_language_policy is not empty %}
+								<h4 class="subsection-title">Language Policy</h4>
+								<p>{{ institution.field_admission_language_policy.value | raw}}</p>
+							{% endif %}
 
-							<h4 class="subsection-title">Academic Calendar</h4>
+							{% if institution.field_academic_calendar.value is defined and institution.field_academic_calendar.value %}
 
-							{{institution.field_academic_calendar.value | raw}}
+								<h4 class="subsection-title">Academic Calendar</h4>
+
+								{{institution.field_academic_calendar.value | raw}}
 						{% endif %}
 					</div>
 				</div>
@@ -363,12 +368,16 @@
 					</div>
 				{% endif %}
 
-				{% if has_outgoing %}
-					<div class="tab-pane fade {{ has_incoming ? '' : 'show active' }}" id="pane-outgoing-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-outgoing-{{ institution.id() }}">
-						{{ institution.field_mobility_outgoing_students.value|raw }}
-					</div>
-				{% endif %}
-			</div>
+					{% if has_outgoing %}
+						<div class="tab-pane fade {{ has_incoming ? '' : 'show active' }}" id="pane-outgoing-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-outgoing-{{ institution.id() }}">
+							{{ institution.field_mobility_outgoing_students.value|raw }}
+							{% if institution.field_recognition_outgoing is not empty %}
+								<h3 class="subsection-title mt-3">Recognition process for outgoing students</h3>
+								<p>{{ institution.field_recognition_outgoing.value|raw }}</p>
+							{% endif %}
+						</div>
+					{% endif %}
+				</div>
 
 		{% endif %}
 	</div>
@@ -378,39 +387,96 @@
 <div class="section-container section-bg-grey">
 	<div class='my-custom-container-2'>
 
-		<div class="admission-section" id='admission' style="scroll-margin-top: 150px;">
+			<div class="admission-section" id='admission' style="scroll-margin-top: 150px;">
 
 
-			<h2 class="section-title text-center">Admission</h2>
+				<h2 class="section-title text-center">Admission</h2>
 
+				{% set has_full_degree = institution.field_admission_descipt_full is not empty or institution.field_registration_proc_full is not empty or institution.field_arrangements_recognition is not empty %}
+				{% set has_exchange = institution.field_admission_descript_exchang is not empty or institution.field_registration_proc_exchange is not empty or institution.field_requirements_nominations is not empty or institution.field_additional_requirements is not empty %}
+				{% set has_visiting = institution.field_admission_descript_visitin is not empty or institution.field_registration_proc_visiting is not empty %}
 
-			{% if institution.field_admission_description is not empty %}
-				<h3 class="subsection-title">Description</h3>
-				<p>{{ institution.field_admission_description.value | raw}}</p>
-			{% endif %}
+				{% if has_full_degree or has_exchange or has_visiting %}
+					<ul class="nav nav-tabs justify-content-center" id="admissionTabs-{{ institution.id() }}" role="tablist">
+						{% if has_full_degree %}
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="tab-full-degree-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-full-degree-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-full-degree-{{ institution.id() }}" aria-selected="true">
+									Full-Degree
+								</button>
+							</li>
+						{% endif %}
+						{% if has_exchange %}
+							<li class="nav-item" role="presentation">
+								<button class="nav-link {{ has_full_degree ? '' : 'active' }}" id="tab-exchange-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-exchange-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-exchange-{{ institution.id() }}" aria-selected="{{ has_full_degree ? 'false' : 'true' }}">
+									Exchange
+								</button>
+							</li>
+						{% endif %}
+						{% if has_visiting %}
+							<li class="nav-item" role="presentation">
+								<button class="nav-link {{ (not has_full_degree and not has_exchange) ? 'active' : '' }}" id="tab-visiting-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-visiting-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-visiting-{{ institution.id() }}" aria-selected="{{ (not has_full_degree and not has_exchange) ? 'true' : 'false' }}">
+									Visiting
+								</button>
+							</li>
+						{% endif %}
+					</ul>
 
+					<div class="tab-content pt-3" id="admissionTabsContent-{{ institution.id() }}">
+						{% if has_full_degree %}
+							<div class="tab-pane fade show active" id="pane-full-degree-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-full-degree-{{ institution.id() }}">
+								{% if institution.field_admission_descipt_full is not empty %}
+									<h3 class="subsection-title">Admission description for full-degree students</h3>
+									<p>{{ institution.field_admission_descipt_full.value | raw }}</p>
+								{% endif %}
+								{% if institution.field_registration_proc_full is not empty %}
+									<h3 class="subsection-title">Registration procedures for full-degree students</h3>
+									<p>{{ institution.field_registration_proc_full.value | raw }}</p>
+								{% endif %}
+								{% if institution.field_arrangements_recognition is not empty %}
+									<h3 class="subsection-title">Arrangements for the recognition of credit and prior learning</h3>
+									<p>{{ institution.field_arrangements_recognition.value | raw }}</p>
+								{% endif %}
+							</div>
+						{% endif %}
 
-			{% if institution.field_main_requirements is not empty %}
-				<h3 class="subsection-title">Main Requirements</h3>
-				<p>{{ institution.field_main_requirements.value }}</p>
-			{% endif %}
+						{% if has_exchange %}
+							<div class="tab-pane fade {{ has_full_degree ? '' : 'show active' }}" id="pane-exchange-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-exchange-{{ institution.id() }}">
+								{% if institution.field_admission_descript_exchang is not empty %}
+									<h3 class="subsection-title">Admission description for exchange students</h3>
+									<p>{{ institution.field_admission_descript_exchang.value | raw }}</p>
+								{% endif %}
+								{% if institution.field_registration_proc_exchange is not empty %}
+									<h3 class="subsection-title">Registration procedures for exchange students</h3>
+									<p>{{ institution.field_registration_proc_exchange.value | raw }}</p>
+								{% endif %}
+								{% if institution.field_requirements_nominations is not empty %}
+									<h3 class="subsection-title">Academic requirements for nominations</h3>
+									<p>{{ institution.field_requirements_nominations.value | raw }}</p>
+								{% endif %}
+								{% if institution.field_additional_requirements is not empty %}
+									<h3 class="subsection-title">Additional requirements</h3>
+									<p>{{ institution.field_additional_requirements.value | raw }}</p>
+								{% endif %}
+							</div>
+						{% endif %}
 
-
-			{% if institution.field_admission_language_policy is not empty %}
-				<h3 class="subsection-title">Language Policy</h3>
-				<p>{{ institution.field_admission_language_policy.value | raw}}</p>
-
-
-			{% endif %}
-
-
-			{% if institution.field_admission_registration is not empty %}
-				<h3 class="subsection-title">Registration Procedures</h3>
-				<p>{{ institution.field_admission_registration.value | raw}}</p>
-			{% endif %}
+						{% if has_visiting %}
+							<div class="tab-pane fade {{ (not has_full_degree and not has_exchange) ? 'show active' : '' }}" id="pane-visiting-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-visiting-{{ institution.id() }}">
+								{% if institution.field_admission_descript_visitin is not empty %}
+									<h3 class="subsection-title">Admission description for visiting students</h3>
+									<p>{{ institution.field_admission_descript_visitin.value | raw }}</p>
+								{% endif %}
+								{% if institution.field_registration_proc_visiting is not empty %}
+									<h3 class="subsection-title">Registration procedures for visiting students</h3>
+									<p>{{ institution.field_registration_proc_visiting.value | raw }}</p>
+								{% endif %}
+							</div>
+						{% endif %}
+					</div>
+				{% endif %}
+			</div>
 		</div>
 	</div>
-</div>
 
 <!--<div class="section-margin-negative"></div>-->
 <div class="section-container">
