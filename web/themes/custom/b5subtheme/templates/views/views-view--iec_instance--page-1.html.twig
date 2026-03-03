@@ -1,9 +1,6 @@
 {% set current_language = view.result[0].node_field_data_langcode %}
 
 
-
-
-
 {# Acceder a la instancia de asignatura actual #}
 {% set iec_instance = view.result[0]._entity %}
 {% if iec_instance.hasTranslation(current_language) %}
@@ -19,6 +16,9 @@
 {% else %}
 	{% set translated_iec = iec %}
 {% endif %}
+
+
+
 
 {# Acceder a la carrera a la que pertenece la asignatura (IEC) #}
 {% set programme = translated_iec ? translated_iec.field_iec_programme.entity : null %}
@@ -86,6 +86,11 @@
 		</div>
 	</div>
 {% endif %}
+
+{% set alias = path('entity.node.canonical', {'node': translated_iec.id}) %}
+{% set parts = alias|split('/') %}
+{% set iec_url = '/' ~ parts[1] ~ '/catalogue/' ~ parts|slice(2)|join('/') %}
+<a href="{{ iec_url }}" class="programme-header-link">
 <div class="rs-header bg-black">
 	<div class="my-custom-container-2">
 		<div class="page-band">
@@ -94,6 +99,7 @@
 	</div>
 
 </div>
+</a>
 <div class="rs-header" style="background-color: #e9ecef;">
 	<div class="my-custom-container-2">
 		<div class="page-band py-1">

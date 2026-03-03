@@ -999,6 +999,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $area_key = '';
     $area_meta_filtered = [];
+    $level = '';
 
     //$institution = $campus->get('field_campus_institution')->entity;
 
@@ -1158,6 +1159,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $area_key = '';
     $area_meta_filtered = [];
+    $level='';
 
     $area_meta = [
       'arts_and_humanities' => ['label' => 'Arts and Humanities', 'icon' => 'fas fa-palette'],

@@ -1,5 +1,16 @@
+{% set langcode = language.getId() %}
+{% set entity = row._entity %}
+
+{% if entity.hasTranslation(langcode) %}
+  {% set entity = entity.getTranslation(langcode) %}
+{% endif %}
+
+{{ entity.field_fields_of_study.entity.label }}
+
 <div class="degree-sidebar bg-light p-4">
 <div class="row g-3 mx-0">
+
+
 
   {# -------------------------
      Columna 1: General Data

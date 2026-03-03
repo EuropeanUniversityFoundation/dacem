@@ -17,7 +17,7 @@ admin_area.my_academic_authorities_link:
     entity_type: 'academic_authority'
   parent: admin_area.admin_menu
   menu_name: admin
-  weight: 11
+  weight: 12
 
 
 admin_area.my_iec_link:
@@ -28,6 +28,17 @@ admin_area.my_iec_link:
   parent: admin_area.admin_menu
   menu_name: admin
   weight: 10
+
+
+admin_area.my_iec_instances_link:
+  title: 'My IEC Editions'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'iec_instance'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 11
+
 
 admin_area.my_programmes_link:
   title: 'My Programmes'
