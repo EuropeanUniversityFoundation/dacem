@@ -89,24 +89,33 @@
                     {% endif %}
                   </div>
 
-                  <div class="authority-info">
-                    <h5>{{ row._entity.title.value }}</h5>
-                    {% if row._entity.field_institution_role is not empty %}
-                      <p class="text-center people-role">{{ row._entity.field_institution_role.value|upper }}</p>
-                    {% endif %}
-                    <div class="authority-icons mt-2">
-                      <a href="#" class="authority-icon me-3">
-                        <i class="fas fa-globe fa-lg"></i>
-                      </a>
-                      <a href="#" class="authority-icon me-3">
-                        <i class="fas fa-envelope fa-lg"></i>
-                      </a>
-                      <a href="#" class="authority-icon">
-                        <i class="fas fa-phone-alt fa-lg"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+	                  <div class="authority-info">
+	                    <h5>{{ row._entity.title.value }}</h5>
+	                    {% if row._entity.field_institution_role is not empty %}
+	                      <p class="text-center people-role">{{ row._entity.field_institution_role.value|upper }}</p>
+	                    {% endif %}
+	                    {% set aa_web = row._entity.field_aa_web is not empty and row._entity.field_aa_web.uri is defined ? row._entity.field_aa_web.uri : '' %}
+	                    {% set aa_email = row._entity.field_aa_email is not empty and row._entity.field_aa_email.value is defined ? row._entity.field_aa_email.value : '' %}
+	                    {% set aa_phone = row._entity.field_aa_phone is not empty and row._entity.field_aa_phone.value is defined ? row._entity.field_aa_phone.value : '' %}
+	                    <div class="authority-icons mt-2">
+	                      {% if aa_web %}
+	                        <a href="{{ aa_web }}" class="authority-icon me-3" target="_blank" rel="noopener noreferrer">
+	                          <i class="fas fa-globe fa-lg"></i>
+	                        </a>
+	                      {% endif %}
+	                      {% if aa_email %}
+	                        <a href="mailto:{{ aa_email }}" class="authority-icon me-3">
+	                          <i class="fas fa-envelope fa-lg"></i>
+	                        </a>
+	                      {% endif %}
+	                      {% if aa_phone %}
+	                        <a href="tel:{{ aa_phone }}" class="authority-icon">
+	                          <i class="fas fa-phone-alt fa-lg"></i>
+	                        </a>
+	                      {% endif %}
+	                    </div>
+	                  </div>
+	                </div>
               {% endfor %}
             </div>
           </div>
@@ -139,24 +148,33 @@
                     {% endif %}
                   </div>
 
-                  <div class="authority-info">
-                    <h5>{{ row._entity.title.value }}</h5>
-                    {% if row._entity.field_institution_role is not empty %}
-                      <p class="text-center people-role">{{ row._entity.field_institution_role.value|upper }}</p>
-                    {% endif %}
-                    <div class="authority-icons mt-2">
-                      <a href="#" class="authority-icon me-3">
-                        <i class="fas fa-globe fa-lg"></i>
-                      </a>
-                      <a href="#" class="authority-icon me-3">
-                        <i class="fas fa-envelope fa-lg"></i>
-                      </a>
-                      <a href="#" class="authority-icon">
-                        <i class="fas fa-phone-alt fa-lg"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+	                  <div class="authority-info">
+	                    <h5>{{ row._entity.title.value }}</h5>
+	                    {% if row._entity.field_institution_role is not empty %}
+	                      <p class="text-center people-role">{{ row._entity.field_institution_role.value|upper }}</p>
+	                    {% endif %}
+	                    {% set aa_web = row._entity.field_aa_web is not empty and row._entity.field_aa_web.uri is defined ? row._entity.field_aa_web.uri : '' %}
+	                    {% set aa_email = row._entity.field_aa_email is not empty and row._entity.field_aa_email.value is defined ? row._entity.field_aa_email.value : '' %}
+	                    {% set aa_phone = row._entity.field_aa_phone is not empty and row._entity.field_aa_phone.value is defined ? row._entity.field_aa_phone.value : '' %}
+	                    <div class="authority-icons mt-2">
+	                      {% if aa_web %}
+	                        <a href="{{ aa_web }}" class="authority-icon me-3" target="_blank" rel="noopener noreferrer">
+	                          <i class="fas fa-globe fa-lg"></i>
+	                        </a>
+	                      {% endif %}
+	                      {% if aa_email %}
+	                        <a href="mailto:{{ aa_email }}" class="authority-icon me-3">
+	                          <i class="fas fa-envelope fa-lg"></i>
+	                        </a>
+	                      {% endif %}
+	                      {% if aa_phone %}
+	                        <a href="tel:{{ aa_phone }}" class="authority-icon">
+	                          <i class="fas fa-phone-alt fa-lg"></i>
+	                        </a>
+	                      {% endif %}
+	                    </div>
+	                  </div>
+	                </div>
               {% endfor %}
             </div>
           </div>

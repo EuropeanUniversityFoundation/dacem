@@ -13855,6 +13855,16 @@ PARA PÁXINA DE GENERAL INFORMATION
   color: var(--university_primary_color);
 }
 
+/* Hide extlink injected mini-icons in authority contact links. */
+.authority-icons .authority-icon span.ext,
+.authority-icons .authority-icon span.mailto,
+.authority-icons .authority-icon span.tel,
+.authority-icons .authority-icon svg.ext,
+.authority-icons .authority-icon svg.mailto,
+.authority-icons .authority-icon svg.tel {
+  display: none !important;
+}
+
 /*
 .authority-icons .authority-icon:hover{
   background-color: var(--university_primary_color);
