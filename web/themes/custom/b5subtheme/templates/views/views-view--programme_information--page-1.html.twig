@@ -343,12 +343,15 @@
 															<th>{{ translations[current_language]['Type'] }}</th>
 														</tr>
 													</thead>
-													<tbody>
-														{% for row in view.result %}
-															{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
+														<tbody>
+															{% for row in view.result %}
+																{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
+																{% set iec_terms = [] %}
+																{% for iec_term_item in iec.field_iec_term %}
+																	{% set iec_terms = iec_terms|merge([iec_term_item.value ~ '']) %}
+																{% endfor %}
 
-
-															{% if iec.field_iec_term[0].value == term %}
+																{% if (term ~ '') in iec_terms or '0' in iec_terms %}
 
 																{% if iec.hasTranslation(current_language) %}
 																	{% set translated_iec = iec.getTranslation(current_language) %}
@@ -420,12 +423,15 @@
 														<th>{{ translations[current_language]['Type'] }}</th>
 													</tr>
 												</thead>
-												<tbody>
-													{% for row in view.result %}
-														{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
+													<tbody>
+														{% for row in view.result %}
+															{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
+															{% set iec_terms = [] %}
+															{% for iec_term_item in iec.field_iec_term %}
+																{% set iec_terms = iec_terms|merge([iec_term_item.value ~ '']) %}
+															{% endfor %}
 
-
-														{% if iec.field_iec_term[0].value == term %}
+															{% if (term ~ '') in iec_terms or '0' in iec_terms %}
 
 															{% if iec.hasTranslation(current_language) %}
 																{% set translated_iec = iec.getTranslation(current_language) %}
@@ -517,7 +523,12 @@
 																{% set translated_iec = iec %}
 															{% endif %}
 
-															{% if translated_iec.field_iec_year[0].value == course_id %}
+															{% set iec_years = [] %}
+															{% for iec_year_item in translated_iec.field_iec_year %}
+																{% set iec_years = iec_years|merge([iec_year_item.value ~ '']) %}
+															{% endfor %}
+
+															{% if (course_id ~ '') in iec_years or '0' in iec_years %}
 																<tr>
 																	<td>
 																		{% if translated_iec.field_iec_code is not empty %}
@@ -575,14 +586,19 @@
 													{% for row in view.result %}
 														{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
 
-														{% if iec.hasTranslation(current_language) %}
-															{% set translated_iec = iec.getTranslation(current_language) %}
-														{% else %}
-															{% set translated_iec = iec %}
-														{% endif %}
+															{% if iec.hasTranslation(current_language) %}
+																{% set translated_iec = iec.getTranslation(current_language) %}
+															{% else %}
+																{% set translated_iec = iec %}
+															{% endif %}
 
-														{% if translated_iec.field_iec_year[0].value == course_id %}
-															<tr>
+															{% set iec_years = [] %}
+															{% for iec_year_item in translated_iec.field_iec_year %}
+																{% set iec_years = iec_years|merge([iec_year_item.value ~ '']) %}
+															{% endfor %}
+
+															{% if (course_id ~ '') in iec_years or '0' in iec_years %}
+																<tr>
 																<td>
 																	{% if translated_iec.field_iec_code is not empty %}
 																		{{ translated_iec.field_iec_code[0].value|t|capitalize }}
