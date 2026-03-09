@@ -28,22 +28,32 @@ class DacemMenuBlock extends BlockBase
    */
   public function build()
   {
-    // Obtener el nombre de la ruta actual.
-    $route_name = \Drupal::routeMatch()->getRouteName();
-    //dump($route_name);
-    // Lista de rutas donde el bloque debe aparecer.
-    $allowed_routes = [
-      'view.main_page.page_1', 
-      'view.search_programme.page_1',
-       'view.search_iec.page_1',
-      //'admin_area.my_area',   
-      //'about',
-    ];
 
-  
-    if (!in_array($route_name, $allowed_routes)) {
-      return []; 
-    }
+    $route_match = \Drupal::routeMatch();
+$route_name = $route_match->getRouteName();
+
+// Lista de rutas donde el bloque debe aparecer.
+$allowed_routes = [
+  'view.main_page.page_1',
+  'view.search_programme.page_1',
+  'view.search_iec.page_1',
+];
+
+$show_block = in_array($route_name, $allowed_routes, TRUE);
+
+// Si no es una de las Views permitidas, comprueba si es la página /about.
+if (!$show_block && $route_name === 'entity.node.canonical') {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+
+  if ($alias === '/about' || $alias === '/contact') {
+    $show_block = TRUE;
+  }
+}
+
+if (!$show_block) {
+  return [];
+}
 
     // Route to logo 
     $theme_path = \Drupal::theme()->getActiveTheme()->getPath();

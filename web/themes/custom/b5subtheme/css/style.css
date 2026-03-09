@@ -15924,3 +15924,159 @@ header {
 .subject-edition-btn:hover{
   background: #f04444;
 }
+
+
+
+
+
+
+
+
+
+/*ABOUT*/
+.about-dacem {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 40px 24px 80px !important;
+}
+
+.about-dacem__intro {
+  max-width: 1080px !important;
+  margin: 0 auto 80px !important;
+}
+
+.about-dacem__intro p {
+  margin: 0 0 28px 0 !important;
+  text-align: center !important;
+  font-size: 18px !important;
+  line-height: 1.8 !important;
+}
+
+.about-dacem__partners-section {
+  margin-top: 20px !important;
+}
+
+.about-dacem__title {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 0 56px 0 !important;
+  text-align: center !important;
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+.about-dacem__partners-grid {
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  column-gap: 48px !important;
+  row-gap: 70px !important;
+  align-items: center !important;
+  justify-items: center !important;
+}
+
+.about-dacem__partner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 90px !important;
+  text-decoration: none !important;
+  border: 0 !important;
+}
+
+.about-dacem__partner img {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 180px !important;
+  max-height: 72px !important;
+  object-fit: contain !important;
+  margin: 0 auto !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.about-dacem__partner:hover img,
+.about-dacem__partner:focus img {
+  transform: scale(1.04);
+  transition: transform 0.2s ease;
+}
+
+@media (max-width: 1100px) {
+  .about-dacem__partners-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .about-dacem {
+    padding: 32px 20px 64px !important;
+  }
+
+  .about-dacem__title {
+    font-size: 2.25rem !important;
+    margin-bottom: 40px !important;
+  }
+
+  .about-dacem__partners-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    column-gap: 28px !important;
+    row-gap: 40px !important;
+  }
+
+  .about-dacem__partner img {
+    max-width: 150px !important;
+    max-height: 60px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .about-dacem__intro p {
+    text-align: left !important;
+    font-size: 16px !important;
+    line-height: 1.7 !important;
+  }
+
+  .about-dacem__partners-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.mobility-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+}
+
+.mobility-badge img {
+  width: 38px;
+  height: auto;
+}
+
+
+
+
+.iec-mobility-filter *{
+  font-weight: bold !important ;
+  color: black !important;
+}

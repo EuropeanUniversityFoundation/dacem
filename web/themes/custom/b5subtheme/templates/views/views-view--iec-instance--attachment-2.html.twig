@@ -4,7 +4,7 @@
   {% set current_id = current_path|trim('/')|split('/')|last %}
 
   {# Texto por defecto del botón #}
-  {% set current_label = 'Select instance'|t %}
+  {% set current_label = 'Select'|t %}
 
   {# Primera pasada: encuentra el label de la instancia actual #}
   {% for row in view.result %}

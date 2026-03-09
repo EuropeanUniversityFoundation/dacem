@@ -195,7 +195,14 @@
 									<div class="iec-item">
 										<a href="{{row.custom_url}}" class="text-decoration-none text-reset" target="_blank">
 											
-											<div class="card shadow-none mb-3 border-0 rounded-0" style="cursor: pointer;">
+											<div class="card shadow-none mb-3 border-0 rounded-0 position-relative" style="cursor: pointer;">
+													{% if iec.field_iec_avaliable_for_mobility.value %}
+													<div class="mobility-badge">
+														<img src="/themes/custom/b5subtheme/images/mobility_iec.jpeg"
+															alt="Available for mobility">
+													</div>
+												{% endif %}
+												
 												<div
 													class="card-body p-2">
 
