@@ -376,7 +376,7 @@ display:
           click_sort_column: value
           type: isced_f_default
           settings:
-            prefix: true
+            prefix: false
           group_column: value
           group_columns: {  }
           group_rows: true

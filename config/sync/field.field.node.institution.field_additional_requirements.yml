@@ -1,18 +1,18 @@
-uuid: adedd2f6-d538-4e42-8429-1453aa5af2ff
+uuid: f16cde33-9c48-40fe-9a4a-71b4d971715e
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_admission_language_policy
+    - field.storage.node.field_additional_requirements
     - filter.format.basic_html
     - node.type.institution
   module:
     - text
-id: node.institution.field_admission_language_policy
-field_name: field_admission_language_policy
+id: node.institution.field_additional_requirements
+field_name: field_additional_requirements
 entity_type: node
 bundle: institution
-label: Languages
+label: 'Additional requirements'
 description: ''
 required: false
 translatable: true

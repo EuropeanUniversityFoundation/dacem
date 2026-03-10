@@ -1,18 +1,18 @@
-uuid: adedd2f6-d538-4e42-8429-1453aa5af2ff
+uuid: 840fffa0-119b-474d-8e15-9cec7d071f2e
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_admission_language_policy
+    - field.storage.node.field_registration_proc_exchange
     - filter.format.basic_html
     - node.type.institution
   module:
     - text
-id: node.institution.field_admission_language_policy
-field_name: field_admission_language_policy
+id: node.institution.field_registration_proc_exchange
+field_name: field_registration_proc_exchange
 entity_type: node
 bundle: institution
-label: Languages
+label: 'Registration procedures for exchange students'
 description: ''
 required: false
 translatable: true

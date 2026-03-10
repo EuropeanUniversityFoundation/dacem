@@ -6,12 +6,22 @@ dependencies:
     - field.field.node.institution.body
     - field.field.node.institution.field_abbreviation
     - field.field.node.institution.field_academic_calendar
+    - field.field.node.institution.field_additional_requirements
+    - field.field.node.institution.field_admission_descipt_full
+    - field.field.node.institution.field_admission_descript_exchang
+    - field.field.node.institution.field_admission_descript_visitin
     - field.field.node.institution.field_admission_description
     - field.field.node.institution.field_admission_language_policy
     - field.field.node.institution.field_admission_languages
     - field.field.node.institution.field_admission_registration
+    - field.field.node.institution.field_application_email
+    - field.field.node.institution.field_application_phone
+    - field.field.node.institution.field_application_web
+    - field.field.node.institution.field_applications_autumn_term
+    - field.field.node.institution.field_applications_spring_term
     - field.field.node.institution.field_arrangements_guidance
     - field.field.node.institution.field_arrangements_recognition
+    - field.field.node.institution.field_decision
     - field.field.node.institution.field_ects_credit_allocation_pol
     - field.field.node.institution.field_emphasis_text_color
     - field.field.node.institution.field_erasmus_code
@@ -30,8 +40,16 @@ dependencies:
     - field.field.node.institution.field_logo
     - field.field.node.institution.field_mobility_incoming_students
     - field.field.node.institution.field_mobility_outgoing_students
+    - field.field.node.institution.field_nominations_autumn_term
+    - field.field.node.institution.field_nominations_spring_term
     - field.field.node.institution.field_primary_color
+    - field.field.node.institution.field_recognition_outgoing
+    - field.field.node.institution.field_registration_proc_exchange
+    - field.field.node.institution.field_registration_proc_full
+    - field.field.node.institution.field_registration_proc_visiting
+    - field.field.node.institution.field_requirements_nominations
     - field.field.node.institution.field_text_color
+    - field.field.node.institution.field_transcript_of_records
     - field.field.node.institution.field_type_of_hei
     - field.field.node.institution.field_university_pdfs
     - field.field.node.institution.field_urls
@@ -55,6 +73,34 @@ content:
     third_party_settings: {  }
     weight: 6
     region: content
+  field_additional_requirements:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 29
+    region: content
+  field_admission_descipt_full:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 24
+    region: content
+  field_admission_descript_exchang:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 26
+    region: content
+  field_admission_descript_visitin:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 30
+    region: content
   field_admission_description:
     type: text_default
     label: above
@@ -69,6 +115,48 @@ content:
     third_party_settings: {  }
     weight: 9
     region: content
+  field_application_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 36
+    region: content
+  field_application_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 41
+    region: content
+  field_application_web:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 38
+    region: content
+  field_applications_autumn_term:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 34
+    region: content
+  field_applications_spring_term:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 35
+    region: content
   field_arrangements_guidance:
     type: text_default
     label: above
@@ -82,6 +170,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 19
+    region: content
+  field_decision:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 39
     region: content
   field_general_campus_description:
     type: text_default
@@ -208,6 +305,66 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 18
+    region: content
+  field_nominations_autumn_term:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 32
+    region: content
+  field_nominations_spring_term:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 33
+    region: content
+  field_recognition_outgoing:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 23
+    region: content
+  field_registration_proc_exchange:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 27
+    region: content
+  field_registration_proc_full:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 25
+    region: content
+  field_registration_proc_visiting:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 31
+    region: content
+  field_requirements_nominations:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 28
+    region: content
+  field_transcript_of_records:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 40
     region: content
   field_type_of_hei:
     type: entity_reference_label

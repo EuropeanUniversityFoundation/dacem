@@ -46,7 +46,6 @@ third_party_settings:
         - field_fields_of_study
         - field_iec_credits
         - field_iec_language_of_instructio
-        - field_iec_language
         - field_iec_modality
         - field_iec_avaliable_for_mobility
         - group_coordination
@@ -229,7 +228,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_iec_term:
-    type: options_select
+    type: options_buttons
     weight: 16
     region: content
     settings: {  }
@@ -249,7 +248,7 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
   field_iec_year:
-    type: options_select
+    type: options_buttons
     weight: 15
     region: content
     settings: {  }
