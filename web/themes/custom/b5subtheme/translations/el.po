@@ -71,6 +71,9 @@ msgstr "Προσόντα"
 msgid "Courses"
 msgstr "Μαθήματα"
 
+msgid "Course edition:"
+msgstr "Έκδοση μαθήματος:"
+
 msgid "Admission"
 msgstr "Είσοδος"
 

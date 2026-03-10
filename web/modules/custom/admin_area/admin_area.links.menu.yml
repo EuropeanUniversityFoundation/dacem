@@ -21,7 +21,7 @@ admin_area.my_academic_authorities_link:
 
 
 admin_area.my_iec_link:
-  title: 'My IECs (Courses)'
+  title: 'My Courses'
   route_name: admin_area.my_entity_page
   route_parameters:
     entity_type: 'iec'
@@ -31,7 +31,7 @@ admin_area.my_iec_link:
 
 
 admin_area.my_iec_instances_link:
-  title: 'My IEC Editions'
+  title: 'My Course Editions'
   route_name: admin_area.my_entity_page
   route_parameters:
     entity_type: 'iec_instance'

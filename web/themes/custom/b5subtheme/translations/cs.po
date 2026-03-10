@@ -71,6 +71,9 @@ msgstr "Kvalifikace"
 msgid "Courses"
 msgstr "Předměty"
 
+msgid "Course edition:"
+msgstr "Běh předmětu:"
+
 msgid "Admission"
 msgstr "Přijímací řízení"
 

@@ -71,6 +71,9 @@ msgstr "Qualificação"
 msgid "Courses"
 msgstr "Unidades Curriculares (UC)"
 
+msgid "Course edition:"
+msgstr "Edição do curso:"
+
 msgid "Admission"
 msgstr "Acesso"
 

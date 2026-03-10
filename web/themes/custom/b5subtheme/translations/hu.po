@@ -71,6 +71,9 @@ msgstr "Képesités"
 msgid "Courses"
 msgstr "Kurzusok"
 
+msgid "Course edition:"
+msgstr "Kurzusváltozat:"
+
 msgid "Admission"
 msgstr "Jelentkezési feltételek"
 

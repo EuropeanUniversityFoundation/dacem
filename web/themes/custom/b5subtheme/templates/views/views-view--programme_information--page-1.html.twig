@@ -288,14 +288,14 @@
 
 
 					<div class="programme-section" id="iecs" style="text-align: justify; scroll-margin-top: 150px;">
-						<h3 class="subsection-title">{{ translations[current_language]['Subjects'] }}</h3>
+						<h3 class="subsection-title">{{ 'Courses'|t }}</h3>
 						
 						{# === TABS NAV: By course / By semester === #}
 						<ul class="nav nav-tabs justify-content-center mb-3" id="iecsTabs" role="tablist">
 
 							<li class="nav-item" role="presentation">
 								<button class="nav-link active" id="tab-by-semester" data-bs-toggle="tab" data-bs-target="#pane-by-semester" type="button" role="tab" aria-controls="pane-by-semester" aria-selected="false">
-									{{ 'By semester'|t }}
+									{{ 'By term'|t }}
 								</button>
 							</li>
 
@@ -314,14 +314,14 @@
 
 								{# Definimos los semestres que queremos mostrar #}
 								{% set semester_terms = [1, 2] %}
-								{% set semester_labels = {
-    1: '1st semester'|t,
-    2: '2nd semester'|t
+									{% set semester_labels = {
+    1: '1st term'|t,
+    2: '2nd term'|t
   } %}
 
 
 								{# --- BOTONES DE SEMESTRE (como los de course) --- #}
-								<div class="custom-btn-group btn-group btn-group-adjustment mb-3" role="group" aria-label="{{ 'Semesters'|t }}">
+									<div class="custom-btn-group btn-group btn-group-adjustment mb-3" role="group" aria-label="{{ 'Terms'|t }}">
 									{% for term in semester_terms %}
 										{% set is_default_term = term == semester_terms|first %}
 										<button type="button" class="btn btn-outline-primary toggle-button {{ is_default_term ? '' : 'collapsed' }}" data-bs-toggle="collapse" data-bs-target="#semester{{ term }}" aria-expanded="{{ is_default_term ? 'true' : 'false' }}" aria-controls="semester{{ term }}">

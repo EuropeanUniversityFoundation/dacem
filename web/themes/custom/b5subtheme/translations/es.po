@@ -54,7 +54,7 @@ msgid "Programme"
 msgstr "Programa"
 
 msgid "Course"
-msgstr "Asignatura"
+msgstr "Curso"
 
 msgid "Description"
 msgstr "Descripción"
@@ -72,7 +72,10 @@ msgid "Qualification"
 msgstr "Cualificación"
 
 msgid "Courses"
-msgstr "Asignaturas"
+msgstr "Cursos"
+
+msgid "Course edition:"
+msgstr "Edición del curso:"
 
 msgid "Admission"
 msgstr "Admisión"
@@ -477,7 +480,6 @@ msgstr "1er semestre"
 
 msgid "2nd semester"
 msgstr "2º semestre"
-
 
 
 

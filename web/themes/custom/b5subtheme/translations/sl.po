@@ -71,6 +71,9 @@ msgstr "Kvalifikacija"
 msgid "Courses"
 msgstr "Predmeti"
 
+msgid "Course edition:"
+msgstr "Izvedba predmeta:"
+
 msgid "Admission"
 msgstr "Vpis"
 

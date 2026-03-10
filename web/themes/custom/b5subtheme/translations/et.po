@@ -71,6 +71,9 @@ msgstr "Kvalifikatsioon"
 msgid "Courses"
 msgstr "Kursused"
 
+msgid "Course edition:"
+msgstr "Kursuse versioon:"
+
 msgid "Admission"
 msgstr "Vastuvõtt"
 

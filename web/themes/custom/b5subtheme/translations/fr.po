@@ -71,6 +71,9 @@ msgstr "Diplôme"
 msgid "Courses"
 msgstr "Cours"
 
+msgid "Course edition:"
+msgstr "Édition du cours :"
+
 msgid "Admission"
 msgstr "Conditions d'admission"
 
