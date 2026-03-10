@@ -99,22 +99,36 @@
 											{% set aa_web = authority.field_aa_web is not empty and authority.field_aa_web.uri is defined ? authority.field_aa_web.uri : '' %}
 											{% set aa_email = authority.field_aa_email is not empty and authority.field_aa_email.value is defined ? authority.field_aa_email.value : '' %}
 											{% set aa_phone = authority.field_aa_phone is not empty and authority.field_aa_phone.value is defined ? authority.field_aa_phone.value : '' %}
-											<div class="authority-icons d-flex align-items-center gap-3 mt-2">
-												{% if aa_web %}
-													<a href="{{ aa_web }}" class="authority-icon" target="_blank" rel="noopener noreferrer">
-														<i class="fas fa-globe"></i>
-													</a>
-												{% endif %}
-												{% if aa_email %}
-													<a href="mailto:{{ aa_email }}" class="authority-icon">
-														<i class="fas fa-envelope"></i>
-													</a>
-												{% endif %}
-												{% if aa_phone %}
-													<a href="tel:{{ aa_phone }}" class="authority-icon">
-														<i class="fas fa-phone-alt"></i>
-													</a>
-												{% endif %}
+												<div class="authority-icons d-flex align-items-center gap-3 mt-2">
+													{% if aa_web %}
+														<a href="{{ aa_web }}"
+														   class="authority-icon"
+														   target="_blank"
+														   rel="noopener noreferrer"
+														   data-bs-toggle="tooltip"
+														   data-bs-placement="top"
+														   title="{{ aa_web }}">
+															<i class="fas fa-globe"></i>
+														</a>
+													{% endif %}
+													{% if aa_email %}
+														<a href="mailto:{{ aa_email }}"
+														   class="authority-icon"
+														   data-bs-toggle="tooltip"
+														   data-bs-placement="top"
+														   title="{{ aa_email }}">
+															<i class="fas fa-envelope"></i>
+														</a>
+													{% endif %}
+													{% if aa_phone %}
+														<a href="tel:{{ aa_phone }}"
+														   class="authority-icon"
+														   data-bs-toggle="tooltip"
+														   data-bs-placement="top"
+														   title="{{ aa_phone }}">
+															<i class="fas fa-phone-alt"></i>
+														</a>
+													{% endif %}
 
 											{% if authority.field_mobility_contact.value %}
 												<span class="text-muted small ms-2">

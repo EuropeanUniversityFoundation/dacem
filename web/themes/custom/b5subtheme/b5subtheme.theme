@@ -708,7 +708,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       ) {
         $sections[] = [
           'id' => 'ects-policies',
-          'label' => t('ECTS Policies'),
+          'label' => t('Policies'),
         ];
       }
 

@@ -276,20 +276,28 @@
 								</div>
 							{% endif %}
 
-							{% if institution.field_institution_email.value is defined and institution.field_institution_email.value %}
-								<div class="d-flex align-items-start mb-3">
-									<i class="fas fa-envelope me-2 mt-1"></i>
-									<p class="mb-0">{{ institution.field_institution_email.value }}</p>
-								</div>
-							{% endif %}
+								{% if institution.field_institution_email.value is defined and institution.field_institution_email.value %}
+									<div class="d-flex align-items-start mb-3">
+										<i class="fas fa-envelope me-2 mt-1"></i>
+										<p class="mb-0">
+											<a href="mailto:{{ institution.field_institution_email.value }}" class="text-dark text-decoration-none">
+												{{ institution.field_institution_email.value }}
+											</a>
+										</p>
+									</div>
+								{% endif %}
 
 
-							{% if institution.field_institution_phone.value is defined and institution.field_institution_phone.value %}
-								<div class="d-flex align-items-start mb-3">
-									<i class="fas fa-phone-alt me-2 mt-1"></i>
-									<p class="mb-0">{{ institution.field_institution_phone.value }}</p>
-								</div>
-							{% endif %}
+								{% if institution.field_institution_phone.value is defined and institution.field_institution_phone.value %}
+									<div class="d-flex align-items-start mb-3">
+										<i class="fas fa-phone-alt me-2 mt-1"></i>
+										<p class="mb-0">
+											<a href="tel:{{ institution.field_institution_phone.value }}" class="text-dark text-decoration-none">
+												{{ institution.field_institution_phone.value }}
+											</a>
+										</p>
+									</div>
+								{% endif %}
 
 
 							{% if institution.field_institution_address.value is defined and institution.field_institution_address.value %}
@@ -393,7 +401,19 @@
 				<h2 class="section-title text-center">Admission</h2>
 
 				{% set has_full_degree = institution.field_admission_descipt_full is not empty or institution.field_registration_proc_full is not empty or institution.field_arrangements_recognition is not empty %}
-				{% set has_exchange = institution.field_admission_descript_exchang is not empty or institution.field_registration_proc_exchange is not empty or institution.field_requirements_nominations is not empty or institution.field_additional_requirements is not empty %}
+					{% set has_exchange = institution.field_admission_descript_exchang is not empty
+						or institution.field_registration_proc_exchange is not empty
+						or institution.field_requirements_nominations is not empty
+						or institution.field_additional_requirements is not empty
+						or institution.field_applications_autumn_term is not empty
+						or institution.field_applications_spring_term is not empty
+						or institution.field_nominations_autumn_term is not empty
+						or institution.field_nominations_spring_term is not empty
+						or institution.field_decision is not empty
+						or institution.field_transcript_of_records is not empty
+						or institution.field_application_email is not empty
+						or institution.field_application_phone is not empty
+						or institution.field_application_web is not empty %}
 				{% set has_visiting = institution.field_admission_descript_visitin is not empty or institution.field_registration_proc_visiting is not empty %}
 
 				{% if has_full_degree or has_exchange or has_visiting %}
@@ -453,12 +473,140 @@
 									<h3 class="subsection-title">Academic requirements for nominations</h3>
 									<p>{{ institution.field_requirements_nominations.value | raw }}</p>
 								{% endif %}
-								{% if institution.field_additional_requirements is not empty %}
-									<h3 class="subsection-title">Additional requirements</h3>
-									<p>{{ institution.field_additional_requirements.value | raw }}</p>
-								{% endif %}
-							</div>
-						{% endif %}
+									{% if institution.field_additional_requirements is not empty %}
+										<h3 class="subsection-title">Additional requirements</h3>
+										<p>{{ institution.field_additional_requirements.value | raw }}</p>
+									{% endif %}
+									{% set ex_app_autumn = institution.field_applications_autumn_term is not empty and institution.field_applications_autumn_term.value is defined ? institution.field_applications_autumn_term.value|trim : '' %}
+									{% set ex_app_spring = institution.field_applications_spring_term is not empty and institution.field_applications_spring_term.value is defined ? institution.field_applications_spring_term.value|trim : '' %}
+									{% set ex_nom_autumn = institution.field_nominations_autumn_term is not empty and institution.field_nominations_autumn_term.value is defined ? institution.field_nominations_autumn_term.value|trim : '' %}
+									{% set ex_nom_spring = institution.field_nominations_spring_term is not empty and institution.field_nominations_spring_term.value is defined ? institution.field_nominations_spring_term.value|trim : '' %}
+									{% set ex_decision_weeks = institution.field_decision is not empty and institution.field_decision.value is defined ? institution.field_decision.value|trim : '' %}
+									{% set ex_transcript_weeks = institution.field_transcript_of_records is not empty and institution.field_transcript_of_records.value is defined ? institution.field_transcript_of_records.value|trim : '' %}
+									{% set app_email = institution.field_application_email is not empty and institution.field_application_email.value is defined ? institution.field_application_email.value|trim : '' %}
+									{% set app_phone = institution.field_application_phone is not empty and institution.field_application_phone.value is defined ? institution.field_application_phone.value|trim : '' %}
+									{% set app_web = '' %}
+									{% set app_web_label = '' %}
+									{% if institution.field_application_web is not empty %}
+										{% set app_web = institution.field_application_web.uri is defined and institution.field_application_web.uri ? institution.field_application_web.uri : (institution.field_application_web.value is defined ? institution.field_application_web.value : '') %}
+										{% set app_web_label = institution.field_application_web.title is defined and institution.field_application_web.title ? institution.field_application_web.title : app_web %}
+									{% endif %}
+
+									{% set month_names = {
+										'1': 'Jan', '01': 'Jan',
+										'2': 'Feb', '02': 'Feb',
+										'3': 'Mar', '03': 'Mar',
+										'4': 'Apr', '04': 'Apr',
+										'5': 'May', '05': 'May',
+										'6': 'Jun', '06': 'Jun',
+										'7': 'Jul', '07': 'Jul',
+										'8': 'Aug', '08': 'Aug',
+										'9': 'Sep', '09': 'Sep',
+										'10': 'Oct',
+										'11': 'Nov',
+										'12': 'Dec'
+									} %}
+
+										{% if ex_app_autumn or ex_app_spring or ex_nom_autumn or ex_nom_spring or ex_decision_weeks or ex_transcript_weeks or app_email or app_phone or app_web %}
+											<div class="mt-4">
+												<h3 class="subsection-title">Exchange timeline</h3>
+												<div class="row g-3">
+												{% if ex_app_autumn %}
+													{% set parts = ex_app_autumn|split('/') %}
+													{% set m = parts[0]|default('')|trim %}
+													{% set d = parts[1]|default('')|trim %}
+													<div class="col-12 col-md-6">
+														<div class="border rounded p-3 h-100 bg-white">
+															<div class="small text-muted text-uppercase">Applications · Autumn</div>
+															<div class="fw-semibold">📅 {{ month_names[m]|default(m) }} {{ d }}</div>
+														</div>
+													</div>
+												{% endif %}
+												{% if ex_app_spring %}
+													{% set parts = ex_app_spring|split('/') %}
+													{% set m = parts[0]|default('')|trim %}
+													{% set d = parts[1]|default('')|trim %}
+													<div class="col-12 col-md-6">
+														<div class="border rounded p-3 h-100 bg-white">
+															<div class="small text-muted text-uppercase">Applications · Spring</div>
+															<div class="fw-semibold">📅 {{ month_names[m]|default(m) }} {{ d }}</div>
+														</div>
+													</div>
+												{% endif %}
+												{% if ex_nom_autumn %}
+													{% set parts = ex_nom_autumn|split('/') %}
+													{% set m = parts[0]|default('')|trim %}
+													{% set d = parts[1]|default('')|trim %}
+													<div class="col-12 col-md-6">
+														<div class="border rounded p-3 h-100 bg-white">
+															<div class="small text-muted text-uppercase">Nominations · Autumn</div>
+															<div class="fw-semibold">📅 {{ month_names[m]|default(m) }} {{ d }}</div>
+														</div>
+													</div>
+												{% endif %}
+													{% if ex_nom_spring %}
+														{% set parts = ex_nom_spring|split('/') %}
+														{% set m = parts[0]|default('')|trim %}
+														{% set d = parts[1]|default('')|trim %}
+														<div class="col-12 col-md-6">
+															<div class="border rounded p-3 h-100 bg-white">
+																<div class="small text-muted text-uppercase">Nominations · Spring</div>
+																<div class="fw-semibold">📅 {{ month_names[m]|default(m) }} {{ d }}</div>
+															</div>
+														</div>
+													{% endif %}
+												</div>
+
+												{% if ex_decision_weeks or ex_transcript_weeks %}
+													<div class="mt-4">
+														<h3 class="subsection-title">Timeframe</h3>
+														<div class="row g-3">
+															{% if ex_decision_weeks %}
+																<div class="col-12 col-md-6">
+																	<div class="border rounded p-3 h-100 bg-white">
+																		<div class="small text-muted text-uppercase">FOR DECISSION</div>
+																		<div class="fw-semibold">{{ ex_decision_weeks }} {{ ex_decision_weeks == '1' ? 'week' : 'weeks' }}</div>
+																	</div>
+																</div>
+															{% endif %}
+															{% if ex_transcript_weeks %}
+																<div class="col-12 col-md-6">
+																	<div class="border rounded p-3 h-100 bg-white">
+																		<div class="small text-muted text-uppercase">TO ISSUE THE TRANSCRIPT OF RECORDS</div>
+																		<div class="fw-semibold">{{ ex_transcript_weeks }} {{ ex_transcript_weeks == '1' ? 'week' : 'weeks' }}</div>
+																	</div>
+																</div>
+															{% endif %}
+														</div>
+													</div>
+												{% endif %}
+
+												{% if app_email or app_phone or app_web %}
+													<div class="mt-4">
+														<h3 class="subsection-title">Contact</h3>
+														<div class="d-flex flex-column gap-2">
+															{% if app_email %}
+																<a href="mailto:{{ app_email }}" class="text-decoration-none text-dark">
+																	<i class="fas fa-envelope me-2"></i>{{ app_email }}
+																</a>
+															{% endif %}
+															{% if app_phone %}
+																<a href="tel:{{ app_phone }}" class="text-decoration-none text-dark">
+																	<i class="fas fa-phone-alt me-2"></i>{{ app_phone }}
+																</a>
+															{% endif %}
+															{% if app_web %}
+																<a href="{{ app_web }}" class="text-decoration-none text-dark" target="_blank" rel="noopener noreferrer">
+																	<i class="fas fa-globe me-2"></i>{{ app_web_label }}
+																</a>
+															{% endif %}
+														</div>
+													</div>
+													{% endif %}
+											</div>
+										{% endif %}
+								</div>
+							{% endif %}
 
 						{% if has_visiting %}
 							<div class="tab-pane fade {{ (not has_full_degree and not has_exchange) ? 'show active' : '' }}" id="pane-visiting-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-visiting-{{ institution.id() }}">
@@ -484,7 +632,7 @@
 
 		<div class="admission-section" id='ects-policies' style="scroll-margin-top: 150px;">
 
-			<h2 class="section-title text-center">ECTS Policies</h2>
+			<h2 class="section-title text-center">Policies</h2>
 
 			{% if institution.field_ects_credit_allocation_pol is not empty %}
 				<h3 class="subsection-title">ECTS Allocation Policy</h3>
