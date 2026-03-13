@@ -5,7 +5,7 @@ dependencies:
   config:
     - group.type.universitytypegroup
 id: universitytypegroup-degree_admin
-label: 'Degree Admin'
+label: 'Programme Administrator'
 weight: 104
 admin: false
 scope: individual
@@ -38,6 +38,7 @@ permissions:
   - 'update own group_node:individual_educational_component relationship'
   - 'update own group_node:programme entity'
   - 'update own group_node:programme relationship'
+  - 'update own group_node:resources_and_services relationship'
   - 'view group'
   - 'view group_node:academic_authority entity'
   - 'view group_node:asignatura entity'

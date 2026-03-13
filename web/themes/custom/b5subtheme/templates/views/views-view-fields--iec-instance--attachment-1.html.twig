@@ -46,6 +46,13 @@
           </div>
         {% endif %}
 
+        {% if fields.field_iec_instance_language is defined and fields.field_iec_instance_language.content|render|striptags|trim %}
+      <div class="degree-info-item mb-2">
+        <strong>{{ 'Languages'|t }}:</strong>
+        {{ fields.field_iec_instance_language.content }}
+      </div>
+    {% endif %}
+
         {% if fields.field_iec_instance_mode_delivery is defined and fields.field_iec_instance_mode_delivery.content|render|striptags|trim %}
           <div class="degree-info-item mb-2">
             <strong>{{ 'Modality'|t }}:</strong>

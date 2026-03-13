@@ -1,7 +1,5 @@
 <?php
 
-use Drupal\Core\Language\LanguageInterface;
-
 /**
  * @file
  * DACEM Footer module.
@@ -19,11 +17,26 @@ function dacem_footer_theme($existing, $type, $theme, $path) {
         'primary_color' => NULL,
         'last_updated'  => NULL,
         'nodebundle'    => NULL,
+        'feedback_form' => NULL,
       ],
       'template' => 'dacem-footer-block',
     ],
   ];
 }
 
+/**
+ * Implements hook_mail().
+ */
+function dacem_footer_mail($key, &$message, $params) {
+  if ($key !== 'feedback') {
+    return;
+  }
 
+  $message['subject'] = $params['subject'] ?? t('DACEM footer feedback');
+  $message['body'][] = $params['message'] ?? '';
+
+  if (!empty($params['reply_to'])) {
+    $message['headers']['Reply-to'] = $params['reply_to'];
+  }
+}
 

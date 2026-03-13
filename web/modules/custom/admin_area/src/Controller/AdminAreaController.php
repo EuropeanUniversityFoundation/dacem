@@ -49,6 +49,7 @@ class AdminAreaController extends ControllerBase
       'programme' => [
         'university_admin' => 'view.admin_programmes.page_1',
         'programme_admin'  => 'view.admin_programmes.page_2',
+        'ou_administrator' => 'view.admin_programmes.page_3',
         // IEC Admin NO debe acceder
       ],
       'iec' => [
@@ -63,15 +64,18 @@ class AdminAreaController extends ControllerBase
       ],
       'campus' => [
         'university_admin' => 'view.admin_campuses.page_1',
+        'campus_editor' => 'view.admin_campuses.page_2',
       ],
       'rs' => [
         'university_admin' => 'view.admin_rs.page_1',
+        'campus_editor' => 'view.admin_rs.page_2',
       ],
       'institution' => [
         'university_admin' => 'view.admin_institution.page_1',
       ],
       'organizational_unit' => [
         'university_admin' => 'view.admin_organizational_units.page_1',
+        'ou_administrator' => 'view.admin_organizational_units.page_2',
       ],
       'users' => [
         'university_admin' => 'view.admin_users.page_1',
@@ -120,6 +124,10 @@ class AdminAreaController extends ControllerBase
           return 'programme_admin';
         case 'universitytypegroup-subject_admi':
           return 'iec_admin';
+        case 'universitytypegroup-campus_edito':
+          return 'campus_editor';
+        case 'universitytypegroup-ou_administr':
+          return 'ou_administrator';
       }
     }
   

@@ -3,13 +3,12 @@
 namespace Drupal\dacem_footer\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\dacem_footer\Form\DacemFooterFeedbackForm;
 
 /**
  * Provides the DACEM footer block.
@@ -19,8 +18,7 @@ use Drupal\Core\Language\LanguageInterface;
  *   admin_label = @Translation("DACEM Footer Block"),
  * )
  */
-class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterface
-{
+class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   protected $routeMatch;
   protected $entityTypeManager;
@@ -73,8 +71,7 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
 
 
 
-public function build() {
-  \Drupal::logger('dacem_footer')->notice('Footer block ejecutado');
+  public function build() {
 
   $institution = NULL;
   $primary_color = '#ff4949'; // Default DACEM color.
@@ -197,8 +194,16 @@ public function build() {
     '#primary_color' => $primary_color,
     '#last_updated'  => $last_updated,
     '#nodebundle'    => $nodebundle,
+    '#feedback_form' => \Drupal::formBuilder()->getForm(DacemFooterFeedbackForm::class),
   ];
-}
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheMaxAge() {
+    return 0;
+  }
 
 
 }

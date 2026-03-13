@@ -206,7 +206,7 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: field
-          label: Title
+          label: Programme
           exclude: false
           alter:
             alter_text: true
@@ -870,7 +870,7 @@ display:
           admin_label: ''
           entity_type: node
           plugin_id: entity_link
-          label: 'Link to Content'
+          label: 'Link to content'
           exclude: true
           alter:
             alter_text: false
@@ -989,7 +989,7 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: field
-          label: Title
+          label: Programme
           exclude: false
           alter:
             alter_text: true
@@ -1368,7 +1368,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a class="btn btn-sm btn-primary" href="/group/{{ id }}/content/create/group_node%3Aiec_instance?field_iec={{ nid }}&destination=/admin/admin-iecs">➕ Add Instance</a>'
+            text: '<a class="btn btn-sm btn-primary" href="/group/{{ id }}/content/create/group_node%3Aiec_instance?field_iec={{ nid }}&destination=/admin/admin-iecs">➕ Add Edition</a>'
             make_link: false
             path: ''
             absolute: false

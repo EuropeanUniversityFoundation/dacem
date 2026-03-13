@@ -16,8 +16,8 @@
       <div class="col-12 col-md-6 col-xl-12">
 
         {% set has_general_data =
-          (fields.field_academic_year is defined and fields.field_academic_year.content|render|striptags|trim)
-          or (fields.field_programme_level is defined and fields.field_programme_level.content|render|striptags|trim)
+         
+         (fields.field_programme_level is defined and fields.field_programme_level.content|render|striptags|trim)
           or (fields.field_credits is defined and fields.field_credits.content|render|striptags|trim)
           or (fields.field_length_of_programme is defined and fields.field_length_of_programme.content|render|striptags|trim)
           or (fields.field_programme_language_of_inst is defined and fields.field_programme_language_of_inst.content|render|striptags|trim)
@@ -31,13 +31,6 @@
 
         {% if has_general_data %}
           <h3 class="subsection-title m-0 mb-3">{{ 'General Data'|t }}</h3>
-        {% endif %}
-
-        {% if fields.field_academic_year is defined and fields.field_academic_year.content|render|striptags|trim %}
-          <div class="degree-info-item mb-2">
-            <strong>{{ 'Academic Course'|t }}:</strong>
-            {{ fields.field_academic_year.content }}
-          </div>
         {% endif %}
 
          {% if fields.field_eqf_level is defined and fields.field_eqf_level.content|render|striptags|trim %}

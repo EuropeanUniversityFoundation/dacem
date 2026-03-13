@@ -5,7 +5,6 @@ dependencies:
   config:
     - core.entity_view_mode.node.programme_card_catalogue_view
     - field.field.node.programme.body
-    - field.field.node.programme.field_academic_year
     - field.field.node.programme.field_access_to_further_studies
     - field.field.node.programme.field_arrangments_recognition
     - field.field.node.programme.field_avaliable_for_mobility
@@ -58,7 +57,6 @@ mode: programme_card_catalogue_view
 content: {  }
 hidden:
   body: true
-  field_academic_year: true
   field_access_to_further_studies: true
   field_arrangments_recognition: true
   field_avaliable_for_mobility: true

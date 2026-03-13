@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.programme.body
-    - field.field.node.programme.field_academic_year
     - field.field.node.programme.field_access_to_further_studies
     - field.field.node.programme.field_arrangments_recognition
     - field.field.node.programme.field_avaliable_for_mobility
@@ -274,21 +273,6 @@ third_party_settings:
                   link: true
                 third_party_settings: {  }
             weight: 19
-            additional: {  }
-          f308ac8c-6ad5-4252-8f9c-519b469d87c5:
-            uuid: f308ac8c-6ad5-4252-8f9c-519b469d87c5
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_academic_year'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: list_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 20
             additional: {  }
           f07efd8a-ca35-461b-b0ef-607306538f65:
             uuid: f07efd8a-ca35-461b-b0ef-607306538f65
@@ -691,13 +675,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 101
-    region: content
-  field_academic_year:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 120
     region: content
   field_access_to_further_studies:
     type: text_default

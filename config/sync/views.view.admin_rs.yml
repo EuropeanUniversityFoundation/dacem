@@ -217,7 +217,7 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: field
-          label: Title
+          label: Campus
           exclude: false
           alter:
             alter_text: true
@@ -340,7 +340,7 @@ display:
           id: title_1
           table: node_field_data
           field: title
-          relationship: field_rs_institution
+          relationship: none
           group_type: group
           admin_label: ''
           entity_type: node
@@ -610,7 +610,7 @@ display:
           id: langcode_1
           table: node_field_data
           field: langcode
-          relationship: field_rs_institution
+          relationship: none
           group_type: group
           admin_label: ''
           entity_type: node

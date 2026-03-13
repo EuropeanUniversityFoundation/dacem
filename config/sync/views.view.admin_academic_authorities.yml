@@ -38,7 +38,7 @@ display:
           entity_type: node
           entity_field: title
           plugin_id: field
-          label: 'Academic Authority'
+          label: Contact
           exclude: false
           alter:
             alter_text: false

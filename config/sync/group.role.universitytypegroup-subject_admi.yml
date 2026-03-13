@@ -5,7 +5,7 @@ dependencies:
   config:
     - group.type.universitytypegroup
 id: universitytypegroup-subject_admi
-label: 'Subject Admin'
+label: 'Course Editor'
 weight: 107
 admin: false
 scope: individual

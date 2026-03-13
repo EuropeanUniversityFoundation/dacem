@@ -5,7 +5,7 @@ dependencies:
   config:
     - group.type.universitytypegroup
 id: universitytypegroup-university_a
-label: 'University Admin'
+label: 'Higher Education Institution (HEI) Administrator'
 weight: 103
 admin: false
 scope: individual

@@ -319,20 +319,16 @@ function admin_area_form_group_node_individual_educational_component_form_alter(
 }
 
 
-
-
-
-
-/**use Drupal\node\Entity\Node;
-
-use Drupal\node\Entity\Node;
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */
+
+
 function admin_area_form_node_programme_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   $institution_id = \Drupal::request()->query->get('field_programme_institution');
 
+  
+  
   if ($institution_id && is_numeric($institution_id)) {
     $institution = Node::load($institution_id);
 
@@ -344,6 +340,21 @@ function admin_area_form_node_programme_form_alter(array &$form, \Drupal\Core\Fo
       $form['field_programme_institution']['widget'][0]['target_id']['#disabled'] = TRUE;
     }
   }
+
+
+  $ou_id = \Drupal::request()->query->get('field_programme_ou');
+  if ($ou_id && is_numeric($ou_id)) {
+    $ou = Node::load($ou_id);
+
+    if ($ou && $ou->bundle() === 'organizational_unit') {
+      $form['field_programme_ou']['widget'][0]['target_id']['#default_value'] = $ou->id();
+      $form['field_programme_ou']['widget'][0]['target_id']['#disabled'] = TRUE;
+    }
+  }
+
+
+
+
 }
 
 

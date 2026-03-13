@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.programme.body
-    - field.field.node.programme.field_academic_year
     - field.field.node.programme.field_access_to_further_studies
     - field.field.node.programme.field_arrangments_recognition
     - field.field.node.programme.field_avaliable_for_mobility
@@ -220,12 +219,6 @@ content:
   created:
     type: datetime_timestamp
     weight: 3
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_academic_year:
-    type: options_buttons
-    weight: 21
     region: content
     settings: {  }
     third_party_settings: {  }
