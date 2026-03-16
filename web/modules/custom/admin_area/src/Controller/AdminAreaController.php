@@ -59,8 +59,8 @@ class AdminAreaController extends ControllerBase
       ],
       'iec_instance' => [
         'university_admin' => 'view.admin_iec_instances.page_1',
-        'programme_admin'  => 'view.admin_iecs.page_2',
-        'iec_admin'        => 'view.admin_iecs.page_3',
+        'programme_admin'  => 'view.admin_iec_instances.page_2',
+        'iec_admin'  => 'view.admin_iec_instances.page_3',
       ],
       'campus' => [
         'university_admin' => 'view.admin_campuses.page_1',

@@ -89,6 +89,12 @@
       {{ 'Coordination'|t }}
     </h3>
 
+    {% if fields.field_iec_coordinator is defined and fields.field_iec_coordinator.content|render|striptags|trim %}
+      <div class="degree-info-item mb-1">
+        <i class=""></i> {{ fields.field_iec_coordinator.content }}
+      </div>
+    {% endif %}
+
     {% if fields.field_iec_phone is defined and fields.field_iec_phone.content|render|striptags|trim %}
       <div class="degree-info-item mb-1">
         <i class="fa fa-phone"></i> {{ fields.field_iec_phone.content }}
