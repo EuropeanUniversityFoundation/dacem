@@ -26,7 +26,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: admin-academic-authorities
+      title: 'Higher Education Institution (HEI) Administrator - My Contacts'
       fields:
         title:
           id: title

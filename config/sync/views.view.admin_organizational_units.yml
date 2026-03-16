@@ -721,6 +721,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      title: 'Higher Education Institution (HEI) Administrator - My Organizational Units'
       fields:
         view_node:
           id: view_node
@@ -1257,6 +1258,7 @@ display:
           empty_zero: false
           hide_alter_empty: false
       defaults:
+        title: false
         fields: false
       display_extenders: {  }
       path: admin/admin-organizational-units
@@ -1277,6 +1279,7 @@ display:
     display_plugin: page
     position: 2
     display_options:
+      title: 'Organizational Unit (OU) Administrator - My Organizational Units'
       fields:
         view_node:
           id: view_node
@@ -1849,6 +1852,7 @@ display:
           break_phrase: false
           not: false
       defaults:
+        title: false
         fields: false
         arguments: false
       display_extenders: {  }

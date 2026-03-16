@@ -795,6 +795,22 @@ display:
     display_plugin: attachment
     position: 3
     display_options:
+      sorts:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: standard
+          order: DESC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       arguments:
         field_iec_target_id:
           id: field_iec_target_id
@@ -844,6 +860,7 @@ display:
         style: false
         row: false
         relationships: false
+        sorts: false
         arguments: false
       relationships: {  }
       display_extenders: {  }

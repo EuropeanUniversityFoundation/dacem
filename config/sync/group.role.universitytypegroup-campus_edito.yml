@@ -15,5 +15,6 @@ permissions:
   - 'update own group_node:campus entity'
   - 'update own group_node:resources_and_services entity'
   - 'view group_node:campus entity'
+  - 'view group_node:iec_instance entity'
   - 'view group_node:institution entity'
   - 'view group_node:resources_and_services entity'

@@ -22,7 +22,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: admin-users
+      title: 'Higher Education Institution (HEI) Administrator - Users'
       fields:
         label:
           id: label
@@ -553,6 +553,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      title: 'Higher Education Institution (HEI) Administrator - Users'
       fields:
         label:
           id: label
@@ -1127,6 +1128,7 @@ display:
           separator: '-'
           hide_empty: false
       defaults:
+        title: false
         style: false
         row: false
         relationships: false

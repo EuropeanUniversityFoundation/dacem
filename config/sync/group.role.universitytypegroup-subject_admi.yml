@@ -12,16 +12,20 @@ scope: individual
 global_role: null
 group_type: universitytypegroup
 permissions:
+  - 'create group_node:iec_instance entity'
   - 'delete own group_node:asignatura entity'
   - 'delete own group_node:carrera entity'
   - 'delete own group_node:individual_educational_component entity'
   - 'delete own group_node:programme entity'
+  - 'update any group_node:iec_instance entity'
   - 'update own group_node:asignatura entity'
+  - 'update own group_node:iec_instance entity'
   - 'update own group_node:individual_educational_component entity'
   - 'view group_node:academic_authority entity'
   - 'view group_node:asignatura entity'
   - 'view group_node:campus entity'
   - 'view group_node:carrera entity'
+  - 'view group_node:iec_instance entity'
   - 'view group_node:individual_educational_component entity'
   - 'view group_node:institution entity'
   - 'view group_node:organizational_unit entity'
