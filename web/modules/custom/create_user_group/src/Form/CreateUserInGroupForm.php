@@ -70,10 +70,11 @@ class CreateUserInGroupForm extends FormBase {
             '#title' => $this->t('Role'),
             '#options' => [
               'university_a' => $this->t('Higher Education Institution (HEI) Administrator'),
-              'degree_admin' => $this->t('Programme Administrator'),
-              'subject_admi' => $this->t('Course Editor'),
               'campus_edito' => $this->t('Campus Editor'),
               'ou_administr' => $this->t('Organizational Unit (OU) Administrator'),
+              'degree_admin' => $this->t('Programme Administrator'),
+              'subject_admi' => $this->t('Course Editor'),
+               
             ],
             '#required' => TRUE,
           ];

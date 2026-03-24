@@ -258,9 +258,10 @@
 {% if area_meta|length > 0 %}
 	<div class='my-custom-container-2'>
 		<h2 class="section-title text-center">{{ translations[current_language]['Programmes'] }}</h3>
-
+			
 		<div class="accordion" id="accordionPanelsStayOpenExample">
 			{% for area_key, meta in area_meta %}
+			
 				{% set B = programmes_by_area[area_key]['B']|default([]) %}
 				{% set M = programmes_by_area[area_key]['M']|default([]) %}
 				{% set D = programmes_by_area[area_key]['PhD']|default([]) %}
@@ -414,34 +415,6 @@
 							<a class="dropdown-item" href="#" data-type="School">School</a>
 						</li>
 						<!-- Añade aquí tus tipos reales -->
-					</ul>
-				</div>
-
-				<!-- Knowledge Area -->
-				<div class="dropdown">
-					<button id="area-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Knowledge Area
-					</button>
-					<ul class="dropdown-menu" id="filter-area">
-						<li>
-							<a class="dropdown-item" href="#" data-area="">All</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#" data-area="arts_and_humanities">Arts and Humanities</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#" data-area="engineering_and_architecture">Engineering and Architecture</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#" data-area="health_sciences">Health Sciences</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#" data-area="sciences">Sciences</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#" data-area="social_and_legal_sciences">Social and Legal Sciences</a>
-						</li>
-						<!-- Añade aquí tus áreas reales -->
 					</ul>
 				</div>
 
@@ -669,12 +642,10 @@ document.getElementById('ou-details').innerHTML = html;
 // =======================
 let currentCampus = '';
 let currentType = '';
-let currentArea = '';
 
 // Botones (respetamos clases existentes)
 // const campusButton = document.getElementById('campus-filter-button');
 const typeButton = document.getElementById('type-filter-button');
-const areaButton = document.getElementById('area-filter-button');
 
 // Helper para aplicar/quitar color activo sin cambiar clases
 function setActiveButtonStyle(btn, active) {
@@ -716,7 +687,7 @@ item.style.display = (title.includes(query) || type.includes(query)) ? '' : 'non
 });
 });
 
-// TYPE y AREA
+// TYPE
 document.querySelectorAll('#filter-type .dropdown-item').forEach(item => {
 item.addEventListener('click', function (e) {
 e.preventDefault();
@@ -727,17 +698,7 @@ filterOUList();
 });
 });
 
-document.querySelectorAll('#filter-area .dropdown-item').forEach(item => {
-item.addEventListener('click', function (e) {
-e.preventDefault();
-currentArea = this.dataset.area || '';
-areaButton.textContent = currentArea ? this.textContent.trim() : 'Knowledge Area';
-setActiveButtonStyle(areaButton, !! currentArea);
-filterOUList();
-});
-});
-
-// Filtro general (combina búsqueda + tipo + área + campus) — sin cambios de lógica
+// Filtro general (combina búsqueda + tipo + campus)
 function filterOUList() {
 const query = document.getElementById('ou-search').value.toLowerCase();
 const items = document.querySelectorAll('#ou-list .ou-item');
@@ -745,15 +706,13 @@ const items = document.querySelectorAll('#ou-list .ou-item');
 items.forEach(item => {
 const title = item.dataset.ouTitle ?. toLowerCase() || '';
 const type = item.dataset.ouType ?. toLowerCase() || '';
-const area = item.dataset.ouArea ?. toLowerCase() || '';
 const campus = item.dataset.ouCampusId || '';
 
 const matchText = title.includes(query);
 const matchType = ! currentType || type === currentType.toLowerCase();
-const matchArea = ! currentArea || area === currentArea.toLowerCase();
 const matchCampus = ! currentCampus || campus === currentCampus;
 
-item.style.display = (matchText && matchType && matchArea && matchCampus) ? '' : 'none';
+item.style.display = (matchText && matchType && matchCampus) ? '' : 'none';
 });
 }
 

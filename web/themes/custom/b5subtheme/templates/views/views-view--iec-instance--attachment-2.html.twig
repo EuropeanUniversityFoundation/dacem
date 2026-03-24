@@ -1,3 +1,19 @@
+{% set iec = view.result[0]._entity.field_iec.entity %}
+{% set programme = iec ? iec.field_iec_programme.entity : null %}
+{% set institution = programme ? programme.field_programme_institution.entity : null %}
+
+{% set university_primary_color = institution.field_primary_color[0].color %}
+
+<style>:root
+{
+	--university_primary_color: {{university_primary_color}}
+	;
+	
+}</style>
+
+
+
+
 {% if view.result|length > 0 %}
   {# Path actual: /en/iec-instance/622 -> nos quedamos con 622 #}
   {% set current_path = path('<current>') %}

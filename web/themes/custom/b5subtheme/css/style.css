@@ -15922,7 +15922,7 @@ header {
 
 /* Hover rojo */
 .subject-edition-btn:hover{
-  background: #f04444;
+  background: var(--university_primary_color);
 }
 
 

@@ -202,6 +202,28 @@
 						<small class="text-muted"></small>
 					{% endif %}
 				</div>
+				{% set insurance_email_rendered = rs_fallback_data.field_insurance_email.rendered|default('') %}
+				{% set insurance_phone_rendered = rs_fallback_data.field_insurance_phone.rendered|default('') %}
+				{% set insurance_website_rendered = rs_fallback_data.field_insurance_website.rendered|default('') %}
+				{% if insurance_email_rendered or insurance_phone_rendered or insurance_website_rendered %}
+					<div class="d-flex flex-column gap-2 mt-3">
+						{% if insurance_phone_rendered %}
+							<div class="text-decoration-none text-dark">
+								<i class="fas fa-phone-alt me-2"></i>{{ insurance_phone_rendered|raw }}
+							</div>
+						{% endif %}
+						{% if insurance_email_rendered %}
+							<div class="text-decoration-none text-dark">
+								<i class="fas fa-envelope me-2"></i>{{ insurance_email_rendered|raw }}
+							</div>
+						{% endif %}
+						{% if insurance_website_rendered %}
+							<div class="text-decoration-none text-dark">
+								<i class="fas fa-globe me-2"></i>{{ insurance_website_rendered|raw }}
+							</div>
+						{% endif %}
+					</div>
+				{% endif %}
 			</div>
 		{% endif %}
 	{% else %}
@@ -220,10 +242,127 @@
 				<div class="facility-text">
 					{{ rs.field_rs_insurance.value|raw }}
 				</div>
+				{% set insurance_email = rs.field_insurance_email.value is defined and rs.field_insurance_email.value ? rs.field_insurance_email.value|trim : '' %}
+				{% set insurance_phone = rs.field_insurance_phone.value is defined and rs.field_insurance_phone.value ? rs.field_insurance_phone.value|trim : '' %}
+				{% set insurance_website = rs.field_insurance_website.0.uri is defined and rs.field_insurance_website.0.uri ? rs.field_insurance_website.0.uri|trim : '' %}
+				{% set insurance_website_label = rs.field_insurance_website.0.title is defined and rs.field_insurance_website.0.title ? rs.field_insurance_website.0.title|trim : insurance_website %}
+				{% if insurance_email or insurance_phone or insurance_website %}
+					<div class="d-flex flex-column gap-2 mt-3">
+						{% if insurance_phone %}
+							<a href="tel:{{ insurance_phone }}" class="text-decoration-none text-dark">
+								<i class="fas fa-phone-alt me-2"></i>{{ insurance_phone }}
+							</a>
+						{% endif %}
+						{% if insurance_email %}
+							<a href="mailto:{{ insurance_email }}" class="text-decoration-none text-dark">
+								<i class="fas fa-envelope me-2"></i>{{ insurance_email }}
+							</a>
+						{% endif %}
+						{% if insurance_website %}
+							<a href="{{ insurance_website }}" class="text-decoration-none text-dark" target="_blank" rel="noopener noreferrer">
+								<i class="fas fa-globe me-2"></i>{{ insurance_website_label }}
+							</a>
+						{% endif %}
+					</div>
+				{% endif %}
 			</div>
 		{% endif %}
 	{% endif %}
-</div></div></div><div class="col-lg-12 col-md-12 col-sm-12"><div class="bg-black text-white mb-0" id="facilities">
+</div>
+
+
+
+<div class="row mb-5">
+	{% if rs_mode == 'campus' %}
+		{% if rs_fallback_data.field_rs_special_needs.rendered %}
+			<div class="col-12">
+				<h1 class="section-title">Support for students with disabilities and special needs</h1>
+				<div class="facility-text">
+					{{ rs_fallback_data.field_rs_special_needs.rendered|raw }}
+					{% if rs_fallback_data.field_rs_special_needs.source == 'institution' %}
+						<small class="text-muted">* For the whole institution</small>
+					{% else %}
+						<small class="text-muted"></small>
+					{% endif %}
+				</div>
+			</div>
+		{% endif %}
+	{% else %}
+
+		{% if rs.field_rs_special_needs.value is not empty %}
+
+
+			<div class="col-12">
+				<h1 class="section-title">Support for students with disabilities and special needs</h1>
+				<div class="facility-text">
+					{{ rs.field_rs_special_needs.value|raw }}
+				</div>
+			</div>
+		{% endif %}
+	{% endif %}
+</div>
+
+{% if rs_mode == 'campus' %}
+	{% set inclusion_email_rendered = rs_fallback_data.field_inclusion_email.rendered|default('') %}
+	{% set inclusion_phone_rendered = rs_fallback_data.field_inclusion_phone.rendered|default('') %}
+	{% set inclusion_website_rendered = rs_fallback_data.field_inclusion_website.rendered|default('') %}
+	{% if inclusion_email_rendered or inclusion_phone_rendered or inclusion_website_rendered %}
+		<div class="row mb-5">
+			<div class="col-12">
+				<div class="d-flex flex-column gap-2">
+					{% if inclusion_phone_rendered %}
+						<div class="text-decoration-none text-dark">
+							<i class="fas fa-phone-alt me-2"></i>{{ inclusion_phone_rendered|raw }}
+						</div>
+					{% endif %}
+					{% if inclusion_email_rendered %}
+						<div class="text-decoration-none text-dark">
+							<i class="fas fa-envelope me-2"></i>{{ inclusion_email_rendered|raw }}
+						</div>
+					{% endif %}
+					{% if inclusion_website_rendered %}
+						<div class="text-decoration-none text-dark">
+							<i class="fas fa-globe me-2"></i>{{ inclusion_website_rendered|raw }}
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% else %}
+	{% set inclusion_email = rs.field_inclusion_email.value is defined and rs.field_inclusion_email.value ? rs.field_inclusion_email.value|trim : '' %}
+	{% set inclusion_phone = rs.field_inclusion_phone.value is defined and rs.field_inclusion_phone.value ? rs.field_inclusion_phone.value|trim : '' %}
+	{% set inclusion_website = rs.field_inclusion_website.0.uri is defined and rs.field_inclusion_website.0.uri ? rs.field_inclusion_website.0.uri|trim : '' %}
+	{% set inclusion_website_label = rs.field_inclusion_website.0.title is defined and rs.field_inclusion_website.0.title ? rs.field_inclusion_website.0.title|trim : inclusion_website %}
+	{% if inclusion_email or inclusion_phone or inclusion_website %}
+		<div class="row mb-5">
+			<div class="col-12">
+				<div class="d-flex flex-column gap-2">
+					{% if inclusion_phone %}
+						<a href="tel:{{ inclusion_phone }}" class="text-decoration-none text-dark">
+							<i class="fas fa-phone-alt me-2"></i>{{ inclusion_phone }}
+						</a>
+					{% endif %}
+					{% if inclusion_email %}
+						<a href="mailto:{{ inclusion_email }}" class="text-decoration-none text-dark">
+							<i class="fas fa-envelope me-2"></i>{{ inclusion_email }}
+						</a>
+					{% endif %}
+					{% if inclusion_website %}
+						<a href="{{ inclusion_website }}" class="text-decoration-none text-dark" target="_blank" rel="noopener noreferrer">
+							<i class="fas fa-globe me-2"></i>{{ inclusion_website_label }}
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endif %}
+
+
+
+
+</div></div><div class="col-lg-12 col-md-12 col-sm-12"><div class="bg-black text-white mb-0" id="facilities">
 
 <div class="image-banner image-banner--bottom">
 	<img src="/themes/custom/b5subtheme/images/facilities5.jpeg" alt="Facilities" class="img-fluid">
@@ -343,6 +482,28 @@
 									<small class="text-warning"></small>
 								{% endif %}
 							</div>
+							{% set inclusion_infrast_email_rendered = rs_fallback_data.field_inclusion_infrast_email.rendered|default('') %}
+							{% set inclusion_infrast_phone_rendered = rs_fallback_data.field_inclusion_infrast_phone.rendered|default('') %}
+							{% set inclusion_infrast_website_rendered = rs_fallback_data.field_inclusion_infrast_website.rendered|default('') %}
+							{% if inclusion_infrast_email_rendered or inclusion_infrast_phone_rendered or inclusion_infrast_website_rendered %}
+								<div class="d-flex flex-column gap-2 mt-3">
+									{% if inclusion_infrast_phone_rendered %}
+										<div>
+											<i class="fas fa-phone-alt me-2"></i>{{ inclusion_infrast_phone_rendered|raw }}
+										</div>
+									{% endif %}
+									{% if inclusion_infrast_email_rendered %}
+										<div>
+											<i class="fas fa-envelope me-2"></i>{{ inclusion_infrast_email_rendered|raw }}
+										</div>
+									{% endif %}
+									{% if inclusion_infrast_website_rendered %}
+										<div>
+											<i class="fas fa-globe me-2"></i>{{ inclusion_infrast_website_rendered|raw }}
+										</div>
+									{% endif %}
+								</div>
+							{% endif %}
 						</div>
 					</div>
 				{% endif %}
@@ -371,6 +532,29 @@
 							<div class="facility-text">
 								{{ rs.field_rs_special_facilities.value|raw }}
 							</div>
+							{% set inclusion_infrast_email = rs.field_inclusion_infrast_email.value is defined and rs.field_inclusion_infrast_email.value ? rs.field_inclusion_infrast_email.value|trim : '' %}
+							{% set inclusion_infrast_phone = rs.field_inclusion_infrast_phone.value is defined and rs.field_inclusion_infrast_phone.value ? rs.field_inclusion_infrast_phone.value|trim : '' %}
+							{% set inclusion_infrast_website = rs.field_inclusion_infrast_website.0.uri is defined and rs.field_inclusion_infrast_website.0.uri ? rs.field_inclusion_infrast_website.0.uri|trim : '' %}
+							{% set inclusion_infrast_website_label = rs.field_inclusion_infrast_website.0.title is defined and rs.field_inclusion_infrast_website.0.title ? rs.field_inclusion_infrast_website.0.title|trim : inclusion_infrast_website %}
+							{% if inclusion_infrast_email or inclusion_infrast_phone or inclusion_infrast_website %}
+								<div class="d-flex flex-column gap-2 mt-3">
+									{% if inclusion_infrast_phone %}
+										<a href="tel:{{ inclusion_infrast_phone }}" class="text-decoration-none text-reset">
+											<i class="fas fa-phone-alt me-2"></i>{{ inclusion_infrast_phone }}
+										</a>
+									{% endif %}
+									{% if inclusion_infrast_email %}
+										<a href="mailto:{{ inclusion_infrast_email }}" class="text-decoration-none text-reset">
+											<i class="fas fa-envelope me-2"></i>{{ inclusion_infrast_email }}
+										</a>
+									{% endif %}
+									{% if inclusion_infrast_website %}
+										<a href="{{ inclusion_infrast_website }}" class="text-decoration-none text-reset" target="_blank" rel="noopener noreferrer">
+											<i class="fas fa-globe me-2"></i>{{ inclusion_infrast_website_label }}
+										</a>
+									{% endif %}
+								</div>
+							{% endif %}
 						</div>
 					</div>
 				{% endif %}
@@ -380,11 +564,11 @@
 </div></div></div><div class="" id="students-mobility"><div class="image-banner">
 
 
-<img src="/themes/custom/b5subtheme/images/dacem-005.jpg" alt="Student's Mobility" class="img-fluid">
+<img src="/themes/custom/b5subtheme/images/dacem-005.jpg" alt="Student Mobility" class="img-fluid">
 
 <div class="section-container">
 	<div class="my-custom-container-2">
-		<div class="rs-section-image-text">Student's Mobility</div>
+		<div class="rs-section-image-text">Student Mobility</div>
 	</div>
 </div></div><div class="section-container">
 <div class="my-custom-container-2">
@@ -416,6 +600,114 @@
 			
 		{% endif %}
 	</div>
+
+
+
+	<div class="row">
+		{% if rs_mode == 'campus' %}
+			{% if rs_fallback_data.field_visa.rendered %}
+				<div class="col-12 mb-4">
+					<h1 class="section-title">VISA</h1>
+					<div class="facility-text">
+						{{ rs_fallback_data.field_visa.rendered|raw }}
+						{% if rs_fallback_data.field_visa.source == 'institution' %}
+							<small class="text-muted">* For the whole institution</small>
+						{% else %}
+							<small class="text-muted"></small>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+		{% else %}
+			{% if rs.field_visa.value is not empty %}
+				<div class="col-12 mb-4">
+					<h1 class="section-title">VISA</h1>
+					<div class="facility-text">
+						{{ rs.field_visa.value|raw }}
+					</div>
+				</div>
+			{% endif %}
+
+			
+		{% endif %}
+	</div>
+
+	{% if rs_mode == 'campus' %}
+		{% set visa_email_rendered = rs_fallback_data.field_visa_email.rendered|default('') %}
+		{% set visa_phone_rendered = rs_fallback_data.field_visa_phone.rendered|default('') %}
+		{% set visa_website_rendered = rs_fallback_data.field_visa_website.rendered|default('') %}
+		{% if visa_email_rendered or visa_phone_rendered or visa_website_rendered %}
+			<div class="row mb-5">
+				<div class="col-12">
+					<div class="d-flex flex-column gap-2">
+						{% if visa_phone_rendered %}
+							<div class="text-decoration-none text-dark">
+								<i class="fas fa-phone-alt me-2"></i>{{ visa_phone_rendered|raw }}
+							</div>
+						{% endif %}
+						{% if visa_email_rendered %}
+							<div class="text-decoration-none text-dark">
+								<i class="fas fa-envelope me-2"></i>{{ visa_email_rendered|raw }}
+							</div>
+						{% endif %}
+						{% if visa_website_rendered %}
+							<div class="text-decoration-none text-dark">
+								<i class="fas fa-globe me-2"></i>{{ visa_website_rendered|raw }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	{% else %}
+		{% set visa_email = rs.field_visa_email.value is defined and rs.field_visa_email.value ? rs.field_visa_email.value|trim : '' %}
+		{% set visa_phone = rs.field_visa_phone.value is defined and rs.field_visa_phone.value ? rs.field_visa_phone.value|trim : '' %}
+		{% set visa_website = rs.field_visa_website.0.uri is defined and rs.field_visa_website.0.uri ? rs.field_visa_website.0.uri|trim : '' %}
+		{% set visa_website_label = rs.field_visa_website.0.title is defined and rs.field_visa_website.0.title ? rs.field_visa_website.0.title|trim : visa_website %}
+		{% if visa_email or visa_phone or visa_website %}
+			<div class="row mb-5">
+				<div class="col-12">
+					<div class="d-flex flex-column gap-2">
+						{% if visa_phone %}
+							<a href="tel:{{ visa_phone }}" class="text-decoration-none text-dark">
+								<i class="fas fa-phone-alt me-2"></i>{{ visa_phone }}
+							</a>
+						{% endif %}
+						{% if visa_email %}
+							<a href="mailto:{{ visa_email }}" class="text-decoration-none text-dark">
+								<i class="fas fa-envelope me-2"></i>{{ visa_email }}
+							</a>
+						{% endif %}
+						{% if visa_website %}
+							<a href="{{ visa_website }}" class="text-decoration-none text-dark" target="_blank" rel="noopener noreferrer">
+								<i class="fas fa-globe me-2"></i>{{ visa_website_label }}
+							</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div></div></div><div class="" id="university-life"><div class="image-banner">
 <img src="/themes/custom/b5subtheme/images/dacem-003.jpg" alt="University Life" class="img-fluid">
 <div class="section-container">
@@ -662,4 +954,3 @@
 	{% endif %}
 
 </div>
-

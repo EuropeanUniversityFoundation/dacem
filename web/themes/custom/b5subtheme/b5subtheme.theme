@@ -8,6 +8,7 @@ use Symfony\Component\Intl\Countries;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\node\NodeInterface;
+use Isced\IscedFieldsOfStudy;
 
 /**
  * @file
@@ -925,6 +926,30 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
           'field_sport_clubs_programs',
           'field_rs_language_courses',
           'field_cultural_event_city_calend',
+
+
+
+          'field_housing_email',
+          'field_housing_phone',
+          'field_housing_website',
+          'field_inclusion_infrast_email',
+          'field_inclusion_infrast_phone',
+          'field_inclusion_infrast_website',
+          'field_inclusion_email',
+          'field_inclusion_phone',
+          'field_inclusion_website',
+          'field_rs_institution',
+          'field_insurance_email',
+          'field_insurance_phone',
+          'field_insurance_website',
+          'field_rs_special_needs',
+          'field_visa',
+          'field_visa_email',
+          'field_visa_phone',
+          'field_visa_website',
+
+
+
         ];
 
         // Obtenemos el nodo actual (que es un RS de campus porque estamos en page_2)
@@ -997,28 +1022,12 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
   if ($variables['view']->id() == 'campus_information') {
     $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-    $area_key = '';
     $area_meta_filtered = [];
-    $level = '';
-
-    //$institution = $campus->get('field_campus_institution')->entity;
-
-
-
-    // Meta de áreas para orden/título/icono (ajústalo a tus valores reales).
-    $area_meta = [
-      'arts_and_humanities' => ['label' => 'Arts and Humanities', 'icon' => 'fas fa-palette'],
-      'engineering_and_architecture' => ['label' => 'Engineering and Architecture', 'icon' => 'fas fa-drafting-compass'],
-      'health_sciences' => ['label' => 'Health Sciences', 'icon' => 'fas fa-heartbeat'],
-      'sciences' => ['label' => 'Sciences', 'icon' => 'fas fa-atom'],
-      'social_and_legal_sciences' => ['label' => 'Social and Legal Sciences', 'icon' => 'fas fa-balance-scale'],
-    ];
-
-    // Estructura de salida: por área => [ 'B'=>[], 'M'=>[], 'PhD'=>[] ].
+    $generic_area_key = 'generic';
+    $isced = new IscedFieldsOfStudy();
+    $isced_labels = $isced->getLabeledList();
     $programmes_by_area = [];
-    foreach ($area_meta as $k => $_) {
-      $programmes_by_area[$k] = ['B' => [], 'M' => [], 'PhD' => []];
-    }
+    $area_meta = [];
 
     $seen = []; // dedupe OU:PROG
 
@@ -1058,16 +1067,22 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         $level = 'M';
       } elseif (str_starts_with($lvl_raw, '8')) {
         $level = 'PhD';
+      } else {
+        continue;
       }
 
-      // Área (usa la key que guardas en el campo).
-      $area_key = $programme->get('field_programme_area')->value ?? '';
-      //dump($area_key);
-      if (!isset($programmes_by_area[$area_key])) {
-        // Si llega un área no contemplada en el mapping, crea el bucket al vuelo.
-        $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
-        // Y podrías añadir un label por defecto:
-        $area_meta[$area_key] = ['label' => $area_key, 'icon' => 'fas fa-folder'];
+      $programme_area_keys = [];
+      if ($programme->hasField('field_isced_f') && !$programme->get('field_isced_f')->isEmpty()) {
+        foreach ($programme->get('field_isced_f') as $item) {
+          $broad_key = $item->broad ?? '';
+          if ($broad_key !== '') {
+            $programme_area_keys[$broad_key] = $broad_key;
+          }
+        }
+      }
+
+      if ($programme_area_keys === []) {
+        $programme_area_keys[$generic_area_key] = $generic_area_key;
       }
 
       $lang_for_url = $programme->hasTranslation($langcode) ? $langcode : 'en';
@@ -1095,14 +1110,27 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         $programme_url = '/' . $lang_for_url . '/catalogue/' . $institution_alias . '/' . $programme_alias;
         //dump($programme_url);
       }
-      // Empuja un payload "ligero" para Twig (lo que necesites).
-      $programmes_by_area[$area_key][$level][] = [
-        'id' => $programme->id(),
-        'label' => $programme->label(),
-        'level_code' => $programme->get('field_eqf_level')->value,
-        'programme_url' => $programme_url,
-        // Añade más campos si quieres: ECTS, enlaces, alias, etc.
-      ];
+      foreach ($programme_area_keys as $area_key) {
+        if (!isset($programmes_by_area[$area_key])) {
+          $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
+        }
+
+        if (!isset($area_meta[$area_key])) {
+          $area_meta[$area_key] = [
+            'label' => $area_key === $generic_area_key
+              ? (string) t('Other')
+              : ($isced_labels[$area_key] ?? $area_key),
+            'icon' => 'fas fa-folder',
+          ];
+        }
+
+        $programmes_by_area[$area_key][$level][] = [
+          'id' => $programme->id(),
+          'label' => $programme->label(),
+          'level_code' => $programme->get('field_eqf_level')->value,
+          'programme_url' => $programme_url,
+        ];
+      }
     }
 
     // Ordena alfabéticamente por label en cada bucket.
@@ -1115,16 +1143,21 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     }
 
 
-    if (!isset($programmes_by_area[$area_key])) {
-      $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
-    }
-
     // Cuando termines de rellenar, filtra las vacías:
     foreach ($programmes_by_area as $area_key => $levels) {
       $total = count($levels['B']) + count($levels['M']) + count($levels['PhD']);
       if ($total > 0) {
         $area_meta_filtered[$area_key] = $area_meta[$area_key];
       }
+    }
+
+    if (isset($area_meta_filtered[$generic_area_key])) {
+      $generic_area = $area_meta_filtered[$generic_area_key];
+      unset($area_meta_filtered[$generic_area_key]);
+      ksort($area_meta_filtered, SORT_NATURAL);
+      $area_meta_filtered[$generic_area_key] = $generic_area;
+    } else {
+      ksort($area_meta_filtered, SORT_NATURAL);
     }
 
     $variables['area_meta'] = $area_meta_filtered;
@@ -1157,22 +1190,12 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
   if ($variables['view']->id() == 'organizational_unit_information') {
     $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-    $area_key = '';
     $area_meta_filtered = [];
-    $level='';
-
-    $area_meta = [
-      'arts_and_humanities' => ['label' => 'Arts and Humanities', 'icon' => 'fas fa-palette'],
-      'engineering_and_architecture' => ['label' => 'Engineering and Architecture', 'icon' => 'fas fa-drafting-compass'],
-      'health_sciences' => ['label' => 'Health Sciences', 'icon' => 'fas fa-heartbeat'],
-      'sciences' => ['label' => 'Sciences', 'icon' => 'fas fa-atom'],
-      'social_and_legal_sciences' => ['label' => 'Social and Legal Sciences', 'icon' => 'fas fa-balance-scale'],
-    ];
-
+    $generic_area_key = 'generic';
+    $isced = new IscedFieldsOfStudy();
+    $isced_labels = $isced->getLabeledList();
     $programmes_by_area = [];
-    foreach ($area_meta as $k => $_) {
-      $programmes_by_area[$k] = ['B' => [], 'M' => [], 'PhD' => []];
-    }
+    $area_meta = [];
 
     $seen = [];
 
@@ -1203,15 +1226,24 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         $level = 'B';
       } elseif (str_starts_with($lvl_raw, '7')) {
         $level = 'M';
-      } elseif (str_starts_with($lvl_raw, '7')) {
+      } elseif (str_starts_with($lvl_raw, '8')) {
         $level = 'PhD';
+      } else {
+        continue;
       }
 
-      // Área
-      $area_key = $programme->get('field_programme_area')->value ?? '';
-      if (!isset($programmes_by_area[$area_key])) {
-        $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
-        $area_meta[$area_key] = ['label' => $area_key, 'icon' => 'fas fa-folder'];
+      $programme_area_keys = [];
+      if ($programme->hasField('field_isced_f') && !$programme->get('field_isced_f')->isEmpty()) {
+        foreach ($programme->get('field_isced_f') as $item) {
+          $broad_key = $item->broad ?? '';
+          if ($broad_key !== '') {
+            $programme_area_keys[$broad_key] = $broad_key;
+          }
+        }
+      }
+
+      if ($programme_area_keys === []) {
+        $programme_area_keys[$generic_area_key] = $generic_area_key;
       }
 
       // URL (igual que en campus_information, pero institución desde OU)
@@ -1248,12 +1280,27 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
       $programme_url = '/' . $lang_for_url . '/catalogue/' . $institution_alias . '/' . $programme_alias;
 
-      $programmes_by_area[$area_key][$level][] = [
-        'id' => $programme->id(),
-        'label' => $programme->label(),
-        'level_code' => $programme->get('field_eqf_level')->value,
-        'programme_url' => $programme_url,
-      ];
+      foreach ($programme_area_keys as $area_key) {
+        if (!isset($programmes_by_area[$area_key])) {
+          $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
+        }
+
+        if (!isset($area_meta[$area_key])) {
+          $area_meta[$area_key] = [
+            'label' => $area_key === $generic_area_key
+              ? (string) t('Other')
+              : ($isced_labels[$area_key] ?? $area_key),
+            'icon' => 'fas fa-folder',
+          ];
+        }
+
+        $programmes_by_area[$area_key][$level][] = [
+          'id' => $programme->id(),
+          'label' => $programme->label(),
+          'level_code' => $programme->get('field_eqf_level')->value,
+          'programme_url' => $programme_url,
+        ];
+      }
     }
 
     foreach ($programmes_by_area as $area => $levels) {
@@ -1264,19 +1311,21 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       }
     }
 
-
-
-
-    if (!isset($programmes_by_area[$area_key])) {
-      $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
-    }
-
     // Cuando termines de rellenar, filtra las vacías:
     foreach ($programmes_by_area as $area_key => $levels) {
       $total = count($levels['B']) + count($levels['M']) + count($levels['PhD']);
       if ($total > 0) {
         $area_meta_filtered[$area_key] = $area_meta[$area_key];
       }
+    }
+
+    if (isset($area_meta_filtered[$generic_area_key])) {
+      $generic_area = $area_meta_filtered[$generic_area_key];
+      unset($area_meta_filtered[$generic_area_key]);
+      ksort($area_meta_filtered, SORT_NATURAL);
+      $area_meta_filtered[$generic_area_key] = $generic_area;
+    } else {
+      ksort($area_meta_filtered, SORT_NATURAL);
     }
 
     $variables['area_meta'] = $area_meta_filtered;
@@ -1537,8 +1586,6 @@ function b5subtheme_form_views_exposed_form_alter(array &$form, FormStateInterfa
     }
   }
 }
-
-
 
 
 
