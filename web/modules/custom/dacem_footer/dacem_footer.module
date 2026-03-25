@@ -23,20 +23,3 @@ function dacem_footer_theme($existing, $type, $theme, $path) {
     ],
   ];
 }
-
-/**
- * Implements hook_mail().
- */
-function dacem_footer_mail($key, &$message, $params) {
-  if ($key !== 'feedback') {
-    return;
-  }
-
-  $message['subject'] = $params['subject'] ?? t('DACEM footer feedback');
-  $message['body'][] = $params['message'] ?? '';
-
-  if (!empty($params['reply_to'])) {
-    $message['headers']['Reply-to'] = $params['reply_to'];
-  }
-}
-

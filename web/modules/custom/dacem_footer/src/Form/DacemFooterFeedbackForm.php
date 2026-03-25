@@ -2,11 +2,11 @@
 
 namespace Drupal\dacem_footer\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Database\DatabaseExceptionWrapper;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Component\Datetime\TimeInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -17,18 +17,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class DacemFooterFeedbackForm extends FormBase {
 
   /**
-   * The mail manager.
+   * The database connection.
    *
-   * @var \Drupal\Core\Mail\MailManagerInterface
+   * @var \Drupal\Core\Database\Connection
    */
-  protected $mailManager;
-
-  /**
-   * The config factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
+  protected $database;
 
   /**
    * The request stack.
@@ -38,13 +31,6 @@ class DacemFooterFeedbackForm extends FormBase {
   protected $requestStack;
 
   /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
    * Module logger.
    *
    * @var \Psr\Log\LoggerInterface
@@ -52,14 +38,20 @@ class DacemFooterFeedbackForm extends FormBase {
   protected $logger;
 
   /**
+   * The time service.
+   *
+   * @var \Drupal\Component\Datetime\TimeInterface
+   */
+  protected $time;
+
+  /**
    * Constructs the form.
    */
-  public function __construct(MailManagerInterface $mail_manager, ConfigFactoryInterface $config_factory, RequestStack $request_stack, LanguageManagerInterface $language_manager, LoggerInterface $logger) {
-    $this->mailManager = $mail_manager;
-    $this->configFactory = $config_factory;
+  public function __construct(Connection $database, RequestStack $request_stack, LoggerInterface $logger, TimeInterface $time) {
+    $this->database = $database;
     $this->requestStack = $request_stack;
-    $this->languageManager = $language_manager;
     $this->logger = $logger;
+    $this->time = $time;
   }
 
   /**
@@ -67,11 +59,10 @@ class DacemFooterFeedbackForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('plugin.manager.mail'),
-      $container->get('config.factory'),
+      $container->get('database'),
       $container->get('request_stack'),
-      $container->get('language_manager'),
-      $container->get('logger.factory')->get('dacem_footer')
+      $container->get('logger.factory')->get('dacem_footer'),
+      $container->get('datetime.time')
     );
   }
 
@@ -100,7 +91,6 @@ class DacemFooterFeedbackForm extends FormBase {
     $form['row']['name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Name'),
-      '#required' => TRUE,
       '#placeholder' => $this->t('Name'),
       '#wrapper_attributes' => [
         'class' => ['col-6', 'mb-3'],
@@ -139,7 +129,7 @@ class DacemFooterFeedbackForm extends FormBase {
 
     $form['context_page'] = [
       '#type' => 'hidden',
-      '#value' => $current_request ? $current_request->getUri() : '',
+      '#value' => $current_request ? $current_request->getPathInfo() : '',
     ];
 
     $form['row']['actions'] = [
@@ -164,7 +154,7 @@ class DacemFooterFeedbackForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    foreach (['name', 'email', 'message'] as $field) {
+    foreach (['email', 'message'] as $field) {
       $value = trim((string) $form_state->getValue($field));
       $form_state->setValue($field, $value);
 
@@ -178,50 +168,32 @@ class DacemFooterFeedbackForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $site_config = $this->configFactory->get('system.site');
-    $site_name = $site_config->get('name') ?: 'DACEM';
-    $site_mail = $site_config->get('mail');
-    $to = $site_mail;
-
-    if (empty($to)) {
-      $this->messenger()->addError($this->t('Feedback could not be sent because the site email is not configured.'));
-      $this->logger->error('Footer feedback could not be sent because system.site:mail is empty.');
-      return;
-    }
-
-    $name = $form_state->getValue('name');
     $email = $form_state->getValue('email');
     $message_text = $form_state->getValue('message');
-    $page = $form_state->getValue('context_page');
-    $langcode = $this->languageManager->getCurrentLanguage()->getId();
+    $page_path = (string) $form_state->getValue('context_page');
 
-    $params = [
-      'subject' => (string) $this->t('[DACEM] Footer feedback from @name', ['@name' => $name]),
-      'message' => implode("\n\n", [
-        'A new footer feedback message has been submitted.',
-        'Name: ' . $name,
-        'Email: ' . $email,
-        'Page: ' . $page,
-        'Site: ' . $site_name,
-        'Message:',
-        $message_text,
-      ]),
-      'reply_to' => $email,
-    ];
+    try {
+      $this->database->insert('dacem_footer_feedback')
+        ->fields([
+          'email' => $email,
+          'message' => $message_text,
+          'page_path' => $page_path,
+          'created' => $this->time->getRequestTime(),
+        ])
+        ->execute();
 
-    $result = $this->mailManager->mail('dacem_footer', 'feedback', $to, $langcode, $params, $site_mail, TRUE);
-
-    if (!empty($result['result'])) {
-      $this->messenger()->addStatus($this->t('Thanks. Your feedback has been sent.'));
+      $this->messenger()->addStatus($this->t('Thanks. Your feedback has been saved.'));
       $form_state->setRedirect('<current>');
       return;
     }
-
-    $this->logger->error('Footer feedback email failed for %mail on page %page.', [
-      '%mail' => $email,
-      '%page' => $page,
-    ]);
-    $this->messenger()->addError($this->t('The feedback could not be sent right now. Please try again later.'));
+    catch (DatabaseExceptionWrapper $exception) {
+      $this->logger->error('Failed to save footer feedback for %mail on path %path. Error: @message', [
+        '%mail' => $email,
+        '%path' => $page_path,
+        '@message' => $exception->getMessage(),
+      ]);
+      $this->messenger()->addError($this->t('The feedback could not be saved right now. Please try again later.'));
+    }
   }
 
 }
