@@ -7,7 +7,7 @@ dependencies:
     - user.role.anonymous
 id: universitytypegroup-anonimo
 label: Anonimo
-weight: 105
+weight: -4
 admin: false
 scope: outsider
 global_role: anonymous

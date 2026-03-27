@@ -11,7 +11,7 @@ id: node.campus.field_campus_phone
 field_name: field_campus_phone
 entity_type: node
 bundle: campus
-label: 'Campus Phone'
+label: Phone
 description: ''
 required: false
 translatable: false

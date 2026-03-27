@@ -1,0 +1,33 @@
+uuid: 8cff1149-911d-4b22-8085-ceec99064566
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_iec_cycle
+field_name: field_iec_cycle
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: short
+      label: Short
+    -
+      value: first
+      label: First
+    -
+      value: second
+      label: Second
+    -
+      value: third
+      label: Third
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

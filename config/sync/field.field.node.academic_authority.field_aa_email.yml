@@ -9,7 +9,7 @@ id: node.academic_authority.field_aa_email
 field_name: field_aa_email
 entity_type: node
 bundle: academic_authority
-label: Email
+label: E-mail
 description: ''
 required: false
 translatable: false

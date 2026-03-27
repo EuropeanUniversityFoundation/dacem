@@ -6,7 +6,7 @@ dependencies:
     - group.type.universitytypegroup
 id: universitytypegroup-university_a
 label: 'Higher Education Institution (HEI) Administrator'
-weight: 103
+weight: -8
 admin: false
 scope: individual
 global_role: null

@@ -17,7 +17,9 @@ dependencies:
     - field.field.node.iec_instance.field_iec_instance_language
     - field.field.node.iec_instance.field_iec_instance_mode_delivery
     - field.field.node.iec_instance.field_iec_instance_planned_activ
+    - field.field.node.iec_instance.field_iec_instance_term
     - field.field.node.iec_instance.field_iec_instance_type
+    - field.field.node.iec_instance.field_instance_type_of_credits
     - field.field.node.iec_instance.field_number_of_credits
     - field.field.node.iec_instance.field_start_date
     - node.type.iec_instance
@@ -55,7 +57,9 @@ hidden:
   field_iec_instance_language: true
   field_iec_instance_mode_delivery: true
   field_iec_instance_planned_activ: true
+  field_iec_instance_term: true
   field_iec_instance_type: true
+  field_instance_type_of_credits: true
   field_number_of_credits: true
   field_start_date: true
   langcode: true

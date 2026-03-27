@@ -10,7 +10,7 @@ id: node.institution.field_type_of_hei
 field_name: field_type_of_hei
 entity_type: node
 bundle: institution
-label: 'Type of HEI'
+label: Type
 description: ''
 required: false
 translatable: false

@@ -12,7 +12,7 @@ id: node.iec_instance.field_iec_instance_grade_distrib
 field_name: field_iec_instance_grade_distrib
 entity_type: node
 bundle: iec_instance
-label: 'Grade distribution table'
+label: 'Grading distribution table'
 description: ''
 required: false
 translatable: true

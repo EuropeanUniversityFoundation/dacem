@@ -11,7 +11,7 @@ id: node.individual_educational_component.field_iec_web
 field_name: field_iec_web
 entity_type: node
 bundle: individual_educational_component
-label: Web
+label: Webpage
 description: ''
 required: false
 translatable: false

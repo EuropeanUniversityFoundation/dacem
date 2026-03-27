@@ -11,7 +11,7 @@ id: node.organizational_unit.field_ou_phone
 field_name: field_ou_phone
 entity_type: node
 bundle: organizational_unit
-label: 'Org. Unit Phone'
+label: Phone
 description: ''
 required: false
 translatable: false

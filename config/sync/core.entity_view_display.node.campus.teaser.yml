@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.campus.body
+    - field.field.node.campus.field_campus_abbreviation
     - field.field.node.campus.field_campus_address
     - field.field.node.campus.field_campus_description
     - field.field.node.campus.field_campus_email
@@ -38,6 +39,7 @@ content:
     weight: 100
     region: content
 hidden:
+  field_campus_abbreviation: true
   field_campus_address: true
   field_campus_description: true
   field_campus_email: true

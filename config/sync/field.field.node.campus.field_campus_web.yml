@@ -11,7 +11,7 @@ id: node.campus.field_campus_web
 field_name: field_campus_web
 entity_type: node
 bundle: campus
-label: 'Campus Web'
+label: Webpage
 description: ''
 required: false
 translatable: false

@@ -11,7 +11,7 @@ id: node.programme.field_eqf_level
 field_name: field_eqf_level
 entity_type: node
 bundle: programme
-label: 'EQF Level'
+label: 'Level of qualification'
 description: ''
 required: false
 translatable: true

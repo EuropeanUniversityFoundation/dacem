@@ -6,7 +6,7 @@ dependencies:
     - group.type.universitytypegroup
 id: universitytypegroup-campus_edito
 label: 'Campus Editor'
-weight: 109
+weight: -7
 admin: false
 scope: individual
 global_role: null
@@ -17,4 +17,5 @@ permissions:
   - 'view group_node:campus entity'
   - 'view group_node:iec_instance entity'
   - 'view group_node:institution entity'
+  - 'view group_node:programme entity'
   - 'view group_node:resources_and_services entity'

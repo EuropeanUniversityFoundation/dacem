@@ -9,7 +9,7 @@ id: node.campus.field_campus_address
 field_name: field_campus_address
 entity_type: node
 bundle: campus
-label: 'Campus Address'
+label: 'Street Address'
 description: ''
 required: false
 translatable: false

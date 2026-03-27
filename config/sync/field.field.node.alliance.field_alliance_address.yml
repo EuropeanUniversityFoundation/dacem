@@ -9,7 +9,7 @@ id: node.alliance.field_alliance_address
 field_name: field_alliance_address
 entity_type: node
 bundle: alliance
-label: Address
+label: 'Street Address'
 description: ''
 required: false
 translatable: false

@@ -11,7 +11,7 @@ id: node.programme.field_isced_f
 field_name: field_isced_f
 entity_type: node
 bundle: programme
-label: ISCED-F
+label: 'Fields of study'
 description: ''
 required: true
 translatable: true

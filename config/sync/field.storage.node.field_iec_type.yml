@@ -21,6 +21,9 @@ settings:
       value: optional
       label: Optional
     -
+      value: elective
+      label: Elective
+    -
       value: external_practices
       label: Other
   allowed_values_function: ''

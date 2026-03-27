@@ -7,6 +7,18 @@ dependencies:
     - field.field.node.resources_and_services.body
     - field.field.node.resources_and_services.field_cultural_event_city_calend
     - field.field.node.resources_and_services.field_financial_support_for_stud
+    - field.field.node.resources_and_services.field_housing_email
+    - field.field.node.resources_and_services.field_housing_phone
+    - field.field.node.resources_and_services.field_housing_website
+    - field.field.node.resources_and_services.field_inclusion_email
+    - field.field.node.resources_and_services.field_inclusion_infrast_email
+    - field.field.node.resources_and_services.field_inclusion_infrast_phone
+    - field.field.node.resources_and_services.field_inclusion_infrast_website
+    - field.field.node.resources_and_services.field_inclusion_phone
+    - field.field.node.resources_and_services.field_inclusion_website
+    - field.field.node.resources_and_services.field_insurance_email
+    - field.field.node.resources_and_services.field_insurance_phone
+    - field.field.node.resources_and_services.field_insurance_website
     - field.field.node.resources_and_services.field_practical_information_for
     - field.field.node.resources_and_services.field_rs_campus
     - field.field.node.resources_and_services.field_rs_cost_of_living
@@ -18,11 +30,16 @@ dependencies:
     - field.field.node.resources_and_services.field_rs_meals
     - field.field.node.resources_and_services.field_rs_medical_facilities
     - field.field.node.resources_and_services.field_rs_special_facilities
+    - field.field.node.resources_and_services.field_rs_special_needs
     - field.field.node.resources_and_services.field_rs_students_affairs_office
     - field.field.node.resources_and_services.field_rs_students_associations
     - field.field.node.resources_and_services.field_rs_transportation
     - field.field.node.resources_and_services.field_sport_and_leisure_faciliti
     - field.field.node.resources_and_services.field_sport_clubs_programs
+    - field.field.node.resources_and_services.field_visa
+    - field.field.node.resources_and_services.field_visa_email
+    - field.field.node.resources_and_services.field_visa_phone
+    - field.field.node.resources_and_services.field_visa_website
     - field.field.node.resources_and_services.field_work_placement_possibiliti
     - node.type.resources_and_services
   module:
@@ -49,6 +66,18 @@ content:
 hidden:
   field_cultural_event_city_calend: true
   field_financial_support_for_stud: true
+  field_housing_email: true
+  field_housing_phone: true
+  field_housing_website: true
+  field_inclusion_email: true
+  field_inclusion_infrast_email: true
+  field_inclusion_infrast_phone: true
+  field_inclusion_infrast_website: true
+  field_inclusion_phone: true
+  field_inclusion_website: true
+  field_insurance_email: true
+  field_insurance_phone: true
+  field_insurance_website: true
   field_practical_information_for: true
   field_rs_campus: true
   field_rs_cost_of_living: true
@@ -60,10 +89,15 @@ hidden:
   field_rs_meals: true
   field_rs_medical_facilities: true
   field_rs_special_facilities: true
+  field_rs_special_needs: true
   field_rs_students_affairs_office: true
   field_rs_students_associations: true
   field_rs_transportation: true
   field_sport_and_leisure_faciliti: true
   field_sport_clubs_programs: true
+  field_visa: true
+  field_visa_email: true
+  field_visa_phone: true
+  field_visa_website: true
   field_work_placement_possibiliti: true
   langcode: true

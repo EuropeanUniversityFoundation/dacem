@@ -6,6 +6,18 @@ dependencies:
     - field.field.node.resources_and_services.body
     - field.field.node.resources_and_services.field_cultural_event_city_calend
     - field.field.node.resources_and_services.field_financial_support_for_stud
+    - field.field.node.resources_and_services.field_housing_email
+    - field.field.node.resources_and_services.field_housing_phone
+    - field.field.node.resources_and_services.field_housing_website
+    - field.field.node.resources_and_services.field_inclusion_email
+    - field.field.node.resources_and_services.field_inclusion_infrast_email
+    - field.field.node.resources_and_services.field_inclusion_infrast_phone
+    - field.field.node.resources_and_services.field_inclusion_infrast_website
+    - field.field.node.resources_and_services.field_inclusion_phone
+    - field.field.node.resources_and_services.field_inclusion_website
+    - field.field.node.resources_and_services.field_insurance_email
+    - field.field.node.resources_and_services.field_insurance_phone
+    - field.field.node.resources_and_services.field_insurance_website
     - field.field.node.resources_and_services.field_practical_information_for
     - field.field.node.resources_and_services.field_rs_campus
     - field.field.node.resources_and_services.field_rs_cost_of_living
@@ -17,16 +29,23 @@ dependencies:
     - field.field.node.resources_and_services.field_rs_meals
     - field.field.node.resources_and_services.field_rs_medical_facilities
     - field.field.node.resources_and_services.field_rs_special_facilities
+    - field.field.node.resources_and_services.field_rs_special_needs
     - field.field.node.resources_and_services.field_rs_students_affairs_office
     - field.field.node.resources_and_services.field_rs_students_associations
     - field.field.node.resources_and_services.field_rs_transportation
     - field.field.node.resources_and_services.field_sport_and_leisure_faciliti
     - field.field.node.resources_and_services.field_sport_clubs_programs
+    - field.field.node.resources_and_services.field_visa
+    - field.field.node.resources_and_services.field_visa_email
+    - field.field.node.resources_and_services.field_visa_phone
+    - field.field.node.resources_and_services.field_visa_website
     - field.field.node.resources_and_services.field_work_placement_possibiliti
     - node.type.resources_and_services
   module:
     - field_group
+    - link
     - path
+    - telephone
     - text
 third_party_settings:
   field_group:
@@ -35,6 +54,13 @@ third_party_settings:
         - field_rs_students_affairs_office
         - field_financial_support_for_stud
         - field_rs_insurance
+        - field_insurance_phone
+        - field_insurance_email
+        - field_insurance_website
+        - field_rs_special_needs
+        - field_inclusion_phone
+        - field_inclusion_email
+        - field_inclusion_website
       label: 'Student Affairs'
       region: content
       parent_name: ''
@@ -50,10 +76,14 @@ third_party_settings:
     group_students_mobility:
       children:
         - field_practical_information_for
+        - field_visa
+        - field_visa_phone
+        - field_visa_email
+        - field_visa_website
       label: 'Students Mobility'
       region: content
       parent_name: ''
-      weight: 11
+      weight: 12
       format_type: fieldset
       format_settings:
         classes: ''
@@ -68,10 +98,13 @@ third_party_settings:
         - field_rs_learning_facilities
         - field_sport_and_leisure_faciliti
         - field_rs_special_facilities
+        - field_inclusion_infrast_phone
+        - field_inclusion_infrast_email
+        - field_inclusion_infrast_website
       label: Facilities
       region: content
       parent_name: ''
-      weight: 10
+      weight: 11
       format_type: fieldset
       format_settings:
         classes: ''
@@ -84,12 +117,15 @@ third_party_settings:
       children:
         - field_rs_cost_of_living
         - field_rs_housing
+        - field_housing_phone
+        - field_housing_email
+        - field_housing_website
         - field_rs_transportation
         - field_rs_meals
       label: 'University Life'
       region: content
       parent_name: ''
-      weight: 12
+      weight: 13
       format_type: fieldset
       format_settings:
         classes: ''
@@ -108,7 +144,7 @@ third_party_settings:
       label: 'Extra-academic Activities'
       region: content
       parent_name: ''
-      weight: 13
+      weight: 14
       format_type: fieldset
       format_settings:
         classes: ''
@@ -138,11 +174,103 @@ content:
     third_party_settings: {  }
   field_financial_support_for_stud:
     type: text_textarea
-    weight: 129
+    weight: 125
     region: content
     settings:
       rows: 5
       placeholder: ''
+    third_party_settings: {  }
+  field_housing_email:
+    type: email_default
+    weight: 131
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_housing_phone:
+    type: telephone_default
+    weight: 130
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_housing_website:
+    type: link_default
+    weight: 132
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_inclusion_email:
+    type: email_default
+    weight: 132
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_inclusion_infrast_email:
+    type: email_default
+    weight: 135
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_inclusion_infrast_phone:
+    type: telephone_default
+    weight: 134
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_inclusion_infrast_website:
+    type: link_default
+    weight: 136
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_inclusion_phone:
+    type: telephone_default
+    weight: 131
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_inclusion_website:
+    type: link_default
+    weight: 133
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_insurance_email:
+    type: email_default
+    weight: 128
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_insurance_phone:
+    type: telephone_default
+    weight: 127
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_insurance_website:
+    type: link_default
+    weight: 129
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_practical_information_for:
     type: text_textarea
@@ -190,7 +318,7 @@ content:
     third_party_settings: {  }
   field_rs_insurance:
     type: text_textarea
-    weight: 131
+    weight: 126
     region: content
     settings:
       rows: 5
@@ -214,7 +342,7 @@ content:
     third_party_settings: {  }
   field_rs_meals:
     type: text_textarea
-    weight: 131
+    weight: 134
     region: content
     settings:
       rows: 5
@@ -231,6 +359,14 @@ content:
   field_rs_special_facilities:
     type: text_textarea
     weight: 133
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_rs_special_needs:
+    type: text_textarea
+    weight: 130
     region: content
     settings:
       rows: 5
@@ -254,7 +390,7 @@ content:
     third_party_settings: {  }
   field_rs_transportation:
     type: text_textarea
-    weight: 130
+    weight: 133
     region: content
     settings:
       rows: 5
@@ -276,6 +412,37 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  field_visa:
+    type: text_textarea
+    weight: 136
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_visa_email:
+    type: email_default
+    weight: 138
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_visa_phone:
+    type: telephone_default
+    weight: 137
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_visa_website:
+    type: link_default
+    weight: 139
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
   field_work_placement_possibiliti:
     type: text_textarea
     weight: 139
@@ -293,7 +460,7 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 14
+    weight: 15
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -306,7 +473,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 15
+    weight: 16
     region: content
     settings:
       display_label: true

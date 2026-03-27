@@ -11,7 +11,7 @@ id: node.academic_authority.field_aa_web
 field_name: field_aa_web
 entity_type: node
 bundle: academic_authority
-label: Web
+label: Webpage
 description: ''
 required: false
 translatable: false

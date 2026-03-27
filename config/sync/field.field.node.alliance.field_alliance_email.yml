@@ -9,7 +9,7 @@ id: node.alliance.field_alliance_email
 field_name: field_alliance_email
 entity_type: node
 bundle: alliance
-label: Email
+label: E-mail
 description: ''
 required: false
 translatable: false

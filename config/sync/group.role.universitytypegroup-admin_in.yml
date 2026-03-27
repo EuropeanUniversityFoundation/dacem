@@ -7,7 +7,7 @@ dependencies:
     - user.role.administrator
 id: universitytypegroup-admin_in
 label: Administrador
-weight: 102
+weight: -9
 admin: true
 scope: insider
 global_role: administrator

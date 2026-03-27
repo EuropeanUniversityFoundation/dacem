@@ -9,7 +9,7 @@ id: node.individual_educational_component.field_iec_email
 field_name: field_iec_email
 entity_type: node
 bundle: individual_educational_component
-label: Email
+label: E-mail
 description: ''
 required: false
 translatable: false

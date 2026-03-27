@@ -1,16 +1,16 @@
-uuid: 9579b878-cf1c-4a3d-997a-3d9118e72ffd
+uuid: 0c79d6d3-3bbb-4593-a384-bb283859bcd4
 langcode: en
 status: true
 dependencies:
   module:
+    - link
     - node
-    - text
-id: node.field_programme_grading_scale
-field_name: field_programme_grading_scale
+id: node.field_recognition_process_websit
+field_name: field_recognition_process_websit
 entity_type: node
-type: text_long
+type: link
 settings: {  }
-module: text
+module: link
 locked: false
 cardinality: 1
 translatable: true

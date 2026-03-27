@@ -16,14 +16,19 @@ dependencies:
     - field.field.node.programme.field_eqf_level
     - field.field.node.programme.field_grade_distribution_table
     - field.field.node.programme.field_isced_f
+    - field.field.node.programme.field_learning_opportunity_type
     - field.field.node.programme.field_length_of_programme
     - field.field.node.programme.field_main_objective
+    - field.field.node.programme.field_number_of_terms
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
+    - field.field.node.programme.field_programme_abbreviation
     - field.field.node.programme.field_programme_area
     - field.field.node.programme.field_programme_description
+    - field.field.node.programme.field_programme_end_date
     - field.field.node.programme.field_programme_explanation_scal
-    - field.field.node.programme.field_programme_grading_scale
+    - field.field.node.programme.field_programme_grading_scheme
+    - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
     - field.field.node.programme.field_programme_language_of_inst
     - field.field.node.programme.field_programme_languages
@@ -36,9 +41,13 @@ dependencies:
     - field.field.node.programme.field_programme_phone
     - field.field.node.programme.field_programme_qualification
     - field.field.node.programme.field_programme_requirements
+    - field.field.node.programme.field_programme_restricted_allia
+    - field.field.node.programme.field_programme_start_date
     - field.field.node.programme.field_programme_type
+    - field.field.node.programme.field_programme_type_of_credits
     - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
+    - field.field.node.programme.field_qualification_awarded
     - field.field.node.programme.field_qualification_level
     - field.field.node.programme.field_qualification_requirements
     - field.field.node.programme.field_work_based_learning
@@ -68,14 +77,19 @@ hidden:
   field_eqf_level: true
   field_grade_distribution_table: true
   field_isced_f: true
+  field_learning_opportunity_type: true
   field_length_of_programme: true
   field_main_objective: true
+  field_number_of_terms: true
   field_occupational_profiles: true
   field_professional_practices: true
+  field_programme_abbreviation: true
   field_programme_area: true
   field_programme_description: true
+  field_programme_end_date: true
   field_programme_explanation_scal: true
-  field_programme_grading_scale: true
+  field_programme_grading_scheme: true
+  field_programme_grading_table: true
   field_programme_institution: true
   field_programme_language_of_inst: true
   field_programme_languages: true
@@ -88,9 +102,13 @@ hidden:
   field_programme_phone: true
   field_programme_qualification: true
   field_programme_requirements: true
+  field_programme_restricted_allia: true
+  field_programme_start_date: true
   field_programme_type: true
+  field_programme_type_of_credits: true
   field_programme_web: true
   field_programme_work_placements: true
+  field_qualification_awarded: true
   field_qualification_level: true
   field_qualification_requirements: true
   field_work_based_learning: true

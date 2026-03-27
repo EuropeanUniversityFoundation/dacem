@@ -6,6 +6,18 @@ dependencies:
     - field.field.node.resources_and_services.body
     - field.field.node.resources_and_services.field_cultural_event_city_calend
     - field.field.node.resources_and_services.field_financial_support_for_stud
+    - field.field.node.resources_and_services.field_housing_email
+    - field.field.node.resources_and_services.field_housing_phone
+    - field.field.node.resources_and_services.field_housing_website
+    - field.field.node.resources_and_services.field_inclusion_email
+    - field.field.node.resources_and_services.field_inclusion_infrast_email
+    - field.field.node.resources_and_services.field_inclusion_infrast_phone
+    - field.field.node.resources_and_services.field_inclusion_infrast_website
+    - field.field.node.resources_and_services.field_inclusion_phone
+    - field.field.node.resources_and_services.field_inclusion_website
+    - field.field.node.resources_and_services.field_insurance_email
+    - field.field.node.resources_and_services.field_insurance_phone
+    - field.field.node.resources_and_services.field_insurance_website
     - field.field.node.resources_and_services.field_practical_information_for
     - field.field.node.resources_and_services.field_rs_campus
     - field.field.node.resources_and_services.field_rs_cost_of_living
@@ -17,14 +29,20 @@ dependencies:
     - field.field.node.resources_and_services.field_rs_meals
     - field.field.node.resources_and_services.field_rs_medical_facilities
     - field.field.node.resources_and_services.field_rs_special_facilities
+    - field.field.node.resources_and_services.field_rs_special_needs
     - field.field.node.resources_and_services.field_rs_students_affairs_office
     - field.field.node.resources_and_services.field_rs_students_associations
     - field.field.node.resources_and_services.field_rs_transportation
     - field.field.node.resources_and_services.field_sport_and_leisure_faciliti
     - field.field.node.resources_and_services.field_sport_clubs_programs
+    - field.field.node.resources_and_services.field_visa
+    - field.field.node.resources_and_services.field_visa_email
+    - field.field.node.resources_and_services.field_visa_phone
+    - field.field.node.resources_and_services.field_visa_website
     - field.field.node.resources_and_services.field_work_placement_possibiliti
     - node.type.resources_and_services
   module:
+    - link
     - text
     - user
 id: node.resources_and_services.default
@@ -52,6 +70,110 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 109
+    region: content
+  field_housing_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 124
+    region: content
+  field_housing_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 125
+    region: content
+  field_housing_website:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 126
+    region: content
+  field_inclusion_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 127
+    region: content
+  field_inclusion_infrast_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 139
+    region: content
+  field_inclusion_infrast_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 138
+    region: content
+  field_inclusion_infrast_website:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 140
+    region: content
+  field_inclusion_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 128
+    region: content
+  field_inclusion_website:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 129
+    region: content
+  field_insurance_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 130
+    region: content
+  field_insurance_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 131
+    region: content
+  field_insurance_website:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 132
     region: content
   field_practical_information_for:
     type: text_default
@@ -132,6 +254,13 @@ content:
     third_party_settings: {  }
     weight: 112
     region: content
+  field_rs_special_needs:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 136
+    region: content
   field_rs_students_affairs_office:
     type: text_default
     label: above
@@ -166,6 +295,39 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 122
+    region: content
+  field_visa:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 137
+    region: content
+  field_visa_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 133
+    region: content
+  field_visa_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 134
+    region: content
+  field_visa_website:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 135
     region: content
   field_work_placement_possibiliti:
     type: text_default

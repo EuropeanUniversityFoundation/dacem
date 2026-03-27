@@ -9,7 +9,7 @@ id: node.academic_authority.field_display_order
 field_name: field_display_order
 entity_type: node
 bundle: academic_authority
-label: 'Display Order'
+label: 'Order number'
 description: ''
 required: false
 translatable: false

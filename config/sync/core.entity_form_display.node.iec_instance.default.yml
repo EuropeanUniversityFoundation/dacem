@@ -16,7 +16,9 @@ dependencies:
     - field.field.node.iec_instance.field_iec_instance_language
     - field.field.node.iec_instance.field_iec_instance_mode_delivery
     - field.field.node.iec_instance.field_iec_instance_planned_activ
+    - field.field.node.iec_instance.field_iec_instance_term
     - field.field.node.iec_instance.field_iec_instance_type
+    - field.field.node.iec_instance.field_instance_type_of_credits
     - field.field.node.iec_instance.field_number_of_credits
     - field.field.node.iec_instance.field_start_date
     - node.type.iec_instance
@@ -126,12 +128,24 @@ content:
     settings:
       prefix: false
     third_party_settings: {  }
+  field_iec_instance_term:
+    type: options_buttons
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_iec_instance_type:
     type: elm_controlled_vocabulary_select
     weight: 14
     region: content
     settings:
       prefix: false
+    third_party_settings: {  }
+  field_instance_type_of_credits:
+    type: options_select
+    weight: 27
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_number_of_credits:
     type: number
@@ -187,6 +201,11 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete

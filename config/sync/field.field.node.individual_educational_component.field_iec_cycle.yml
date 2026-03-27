@@ -1,0 +1,21 @@
+uuid: e79a752a-e381-4f39-acea-3cbec6ea4f3d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_iec_cycle
+    - node.type.individual_educational_component
+  module:
+    - options
+id: node.individual_educational_component.field_iec_cycle
+field_name: field_iec_cycle
+entity_type: node
+bundle: individual_educational_component
+label: Cycle
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

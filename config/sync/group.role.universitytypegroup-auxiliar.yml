@@ -7,7 +7,7 @@ dependencies:
     - user.role.authenticated
 id: universitytypegroup-auxiliar
 label: Auxiliar
-weight: 108
+weight: -2
 admin: false
 scope: outsider
 global_role: authenticated

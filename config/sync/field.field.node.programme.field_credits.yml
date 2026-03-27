@@ -9,7 +9,7 @@ id: node.programme.field_credits
 field_name: field_credits
 entity_type: node
 bundle: programme
-label: Credits
+label: 'Number of credits'
 description: ''
 required: false
 translatable: false

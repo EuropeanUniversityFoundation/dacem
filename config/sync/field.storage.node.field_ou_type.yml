@@ -20,6 +20,9 @@ settings:
     -
       value: department
       label: Department
+    -
+      value: institute
+      label: Institute
   allowed_values_function: ''
 module: options
 locked: false

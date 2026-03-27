@@ -6,7 +6,7 @@ dependencies:
     - group.type.universitytypegroup
 id: universitytypegroup-ou_administr
 label: 'Organizational Unit (OU) Administrator'
-weight: 110
+weight: -6
 admin: false
 scope: individual
 global_role: null

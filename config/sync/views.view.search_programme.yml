@@ -9,6 +9,7 @@ dependencies:
   module:
     - address
     - better_exposed_filters
+    - ewp_core
     - isced_field
     - node
     - options
@@ -212,25 +213,20 @@ display:
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-              field_eqf_level_value:
-                plugin_id: default
+              field_eqf_level_value_1:
+                plugin_id: bef
                 advanced:
-                  placeholder_text: ''
+                  sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
-                  hide_label: false
-              field_eqf_level_value_1:
-                plugin_id: default
-                advanced:
-                  placeholder_text: ''
-                  collapsible: false
-                  collapsible_disable_automatic_open: false
-                  is_secondary: false
-                  hide_label: false
+                  hide_label: true
+                select_all_none: false
+                select_all_none_nested: false
+                display_inline: false
       access:
         type: perm
         options:
@@ -686,11 +682,12 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: numeric
-          operator: '='
+          operator: in
           value:
-            min: ''
-            max: ''
-            value: ''
+            5: '5'
+            6: '6'
+            7: '7'
+            8: '8'
           group: 1
           exposed: true
           expose:
@@ -701,10 +698,10 @@ display:
             operator: field_eqf_level_value_1_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_eqf_level_value_1
+            identifier: eqf_level
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -716,6 +713,7 @@ display:
             min_placeholder: ''
             max_placeholder: ''
             placeholder: ''
+            reduce: 1
           is_grouped: false
           group_info:
             label: ''

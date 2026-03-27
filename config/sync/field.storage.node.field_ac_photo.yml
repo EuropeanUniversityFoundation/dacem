@@ -13,10 +13,10 @@ type: image
 settings:
   target_type: file
   display_field: false
-  display_default: false
+  display_default: true
   uri_scheme: public
   default_image:
-    uuid: 2ee9da52-b0df-4d71-9134-ea8cfb34b645
+    uuid: ''
     alt: 'Profile Image'
     title: ''
     width: 820

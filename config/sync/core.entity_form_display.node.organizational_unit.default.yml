@@ -4,12 +4,13 @@ status: true
 dependencies:
   config:
     - field.field.node.organizational_unit.body
+    - field.field.node.organizational_unit.field_ou_abbreviation
     - field.field.node.organizational_unit.field_ou_address
-    - field.field.node.organizational_unit.field_ou_area
     - field.field.node.organizational_unit.field_ou_campus
     - field.field.node.organizational_unit.field_ou_description
     - field.field.node.organizational_unit.field_ou_email
     - field.field.node.organizational_unit.field_ou_institution
+    - field.field.node.organizational_unit.field_ou_knowledge_area
     - field.field.node.organizational_unit.field_ou_map
     - field.field.node.organizational_unit.field_ou_phone
     - field.field.node.organizational_unit.field_ou_picture
@@ -21,6 +22,7 @@ dependencies:
   module:
     - geofield
     - image
+    - isced_field
     - link
     - path
     - telephone
@@ -32,23 +34,25 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 8
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_ou_address:
+  field_ou_abbreviation:
     type: string_textfield
-    weight: 17
+    weight: 13
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_ou_area:
-    type: options_select
-    weight: 5
+  field_ou_address:
+    type: string_textfield
+    weight: 18
     region: content
-    settings: {  }
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_ou_campus:
     type: entity_reference_autocomplete
@@ -62,7 +66,7 @@ content:
     third_party_settings: {  }
   field_ou_description:
     type: text_textarea
-    weight: 6
+    weight: 5
     region: content
     settings:
       rows: 5
@@ -70,7 +74,7 @@ content:
     third_party_settings: {  }
   field_ou_email:
     type: email_default
-    weight: 15
+    weight: 16
     region: content
     settings:
       placeholder: ''
@@ -86,23 +90,30 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_ou_knowledge_area:
+    type: isced_f_select
+    weight: 14
+    region: content
+    settings:
+      allow_all_levels: true
+    third_party_settings: {  }
   field_ou_map:
     type: geofield_latlon
-    weight: 18
+    weight: 19
     region: content
     settings:
       html5_geolocation: false
     third_party_settings: {  }
   field_ou_phone:
     type: telephone_default
-    weight: 16
+    weight: 17
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_ou_picture:
     type: image_image
-    weight: 20
+    weight: 21
     region: content
     settings:
       progress_indicator: throbber
@@ -116,7 +127,7 @@ content:
     third_party_settings: {  }
   field_ou_web:
     type: link_default
-    weight: 14
+    weight: 15
     region: content
     settings:
       placeholder_url: ''
@@ -124,7 +135,7 @@ content:
     third_party_settings: {  }
   field_parent_organizational_unit:
     type: entity_reference_autocomplete
-    weight: 19
+    weight: 20
     region: content
     settings:
       match_operator: CONTAINS
@@ -141,27 +152,27 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 13
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 10
+    weight: 9
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 12
+    weight: 11
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
-    weight: 11
+    weight: 10
     region: content
     settings:
       display_label: true
@@ -175,13 +186,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 9
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 7
+    weight: 6
     region: content
     settings:
       match_operator: CONTAINS

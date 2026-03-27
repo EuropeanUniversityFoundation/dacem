@@ -32,6 +32,7 @@ dependencies:
     - field.field.node.institution.field_institution_alliance
     - field.field.node.institution.field_institution_card_image
     - field.field.node.institution.field_institution_country
+    - field.field.node.institution.field_institution_department
     - field.field.node.institution.field_institution_email
     - field.field.node.institution.field_institution_map
     - field.field.node.institution.field_institution_phone
@@ -44,10 +45,14 @@ dependencies:
     - field.field.node.institution.field_nominations_spring_term
     - field.field.node.institution.field_primary_color
     - field.field.node.institution.field_recognition_outgoing
+    - field.field.node.institution.field_recognition_process_email
+    - field.field.node.institution.field_recognition_process_phone
+    - field.field.node.institution.field_recognition_process_websit
     - field.field.node.institution.field_registration_proc_exchange
     - field.field.node.institution.field_registration_proc_full
     - field.field.node.institution.field_registration_proc_visiting
     - field.field.node.institution.field_requirements_nominations
+    - field.field.node.institution.field_shac_code
     - field.field.node.institution.field_text_color
     - field.field.node.institution.field_transcript_of_records
     - field.field.node.institution.field_type_of_hei
@@ -235,6 +240,14 @@ content:
     third_party_settings: {  }
     weight: 13
     region: content
+  field_institution_department:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 42
+    region: content
   field_institution_email:
     type: basic_string
     label: above
@@ -329,6 +342,32 @@ content:
     third_party_settings: {  }
     weight: 23
     region: content
+  field_recognition_process_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 45
+    region: content
+  field_recognition_process_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 44
+    region: content
+  field_recognition_process_websit:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 46
+    region: content
   field_registration_proc_exchange:
     type: text_default
     label: above
@@ -356,6 +395,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 28
+    region: content
+  field_shac_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 43
     region: content
   field_transcript_of_records:
     type: number_integer

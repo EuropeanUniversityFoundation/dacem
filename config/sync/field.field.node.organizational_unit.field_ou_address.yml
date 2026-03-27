@@ -9,7 +9,7 @@ id: node.organizational_unit.field_ou_address
 field_name: field_ou_address
 entity_type: node
 bundle: organizational_unit
-label: 'Org. Unit Address'
+label: 'Street Address'
 description: ''
 required: false
 translatable: false

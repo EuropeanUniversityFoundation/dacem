@@ -15,14 +15,19 @@ dependencies:
     - field.field.node.programme.field_eqf_level
     - field.field.node.programme.field_grade_distribution_table
     - field.field.node.programme.field_isced_f
+    - field.field.node.programme.field_learning_opportunity_type
     - field.field.node.programme.field_length_of_programme
     - field.field.node.programme.field_main_objective
+    - field.field.node.programme.field_number_of_terms
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
+    - field.field.node.programme.field_programme_abbreviation
     - field.field.node.programme.field_programme_area
     - field.field.node.programme.field_programme_description
+    - field.field.node.programme.field_programme_end_date
     - field.field.node.programme.field_programme_explanation_scal
-    - field.field.node.programme.field_programme_grading_scale
+    - field.field.node.programme.field_programme_grading_scheme
+    - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
     - field.field.node.programme.field_programme_language_of_inst
     - field.field.node.programme.field_programme_languages
@@ -35,14 +40,19 @@ dependencies:
     - field.field.node.programme.field_programme_phone
     - field.field.node.programme.field_programme_qualification
     - field.field.node.programme.field_programme_requirements
+    - field.field.node.programme.field_programme_restricted_allia
+    - field.field.node.programme.field_programme_start_date
     - field.field.node.programme.field_programme_type
+    - field.field.node.programme.field_programme_type_of_credits
     - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
+    - field.field.node.programme.field_qualification_awarded
     - field.field.node.programme.field_qualification_level
     - field.field.node.programme.field_qualification_requirements
     - field.field.node.programme.field_work_based_learning
     - node.type.programme
   module:
+    - datetime
     - elm_vocabulary_field
     - ewp_core
     - field_group
@@ -305,12 +315,18 @@ content:
     settings:
       allow_all_levels: true
     third_party_settings: {  }
-  field_length_of_programme:
-    type: string_textfield
-    weight: 23
+  field_learning_opportunity_type:
+    type: elm_controlled_vocabulary_select
+    weight: 41
     region: content
     settings:
-      size: 60
+      prefix: false
+    third_party_settings: {  }
+  field_length_of_programme:
+    type: number
+    weight: 35
+    region: content
+    settings:
       placeholder: ''
     third_party_settings: {  }
   field_main_objective:
@@ -319,6 +335,13 @@ content:
     region: content
     settings:
       rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_number_of_terms:
+    type: number
+    weight: 36
+    region: content
+    settings:
       placeholder: ''
     third_party_settings: {  }
   field_occupational_profiles:
@@ -335,6 +358,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_programme_abbreviation:
+    type: string_textfield
+    weight: 33
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_programme_area:
     type: options_select
     weight: 32
@@ -349,6 +380,12 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  field_programme_end_date:
+    type: datetime_default
+    weight: 38
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_programme_explanation_scal:
     type: text_textarea
     weight: 27
@@ -357,9 +394,17 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_programme_grading_scale:
+  field_programme_grading_scheme:
     type: text_textarea
-    weight: 26
+    weight: 39
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_programme_grading_table:
+    type: text_textarea
+    weight: 40
     region: content
     settings:
       rows: 5
@@ -453,9 +498,28 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  field_programme_restricted_allia:
+    type: boolean_checkbox
+    weight: 34
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_programme_start_date:
+    type: datetime_default
+    weight: 37
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_programme_type:
     type: options_buttons
     weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_programme_type_of_credits:
+    type: options_select
+    weight: 42
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -474,6 +538,12 @@ content:
     settings:
       rows: 5
       placeholder: ''
+    third_party_settings: {  }
+  field_qualification_awarded:
+    type: options_select
+    weight: 43
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_qualification_level:
     type: string_textarea

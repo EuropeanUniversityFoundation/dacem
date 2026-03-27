@@ -11,7 +11,7 @@ id: node.organizational_unit.field_ou_web
 field_name: field_ou_web
 entity_type: node
 bundle: organizational_unit
-label: 'Org. Unit Web'
+label: Webpage
 description: ''
 required: false
 translatable: false

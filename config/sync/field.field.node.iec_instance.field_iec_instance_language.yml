@@ -10,7 +10,7 @@ id: node.iec_instance.field_iec_instance_language
 field_name: field_iec_instance_language
 entity_type: node
 bundle: iec_instance
-label: Language
+label: 'Languages of instruction'
 description: ''
 required: false
 translatable: true

@@ -11,7 +11,7 @@ id: node.campus.field_campus_picture
 field_name: field_campus_picture
 entity_type: node
 bundle: campus
-label: 'Campus Picture'
+label: Picture
 description: ''
 required: true
 translatable: false

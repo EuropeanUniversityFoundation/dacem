@@ -11,7 +11,7 @@ id: node.institution.field_institution_country
 field_name: field_institution_country
 entity_type: node
 bundle: institution
-label: 'Institution Country'
+label: Country
 description: ''
 required: true
 translatable: false

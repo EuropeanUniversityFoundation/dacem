@@ -6,7 +6,7 @@ dependencies:
     - group.type.universitytypegroup
 id: universitytypegroup-degree_admin
 label: 'Programme Administrator'
-weight: 104
+weight: 1
 admin: false
 scope: individual
 global_role: null

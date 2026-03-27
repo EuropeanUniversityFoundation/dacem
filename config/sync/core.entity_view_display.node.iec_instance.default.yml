@@ -16,13 +16,16 @@ dependencies:
     - field.field.node.iec_instance.field_iec_instance_language
     - field.field.node.iec_instance.field_iec_instance_mode_delivery
     - field.field.node.iec_instance.field_iec_instance_planned_activ
+    - field.field.node.iec_instance.field_iec_instance_term
     - field.field.node.iec_instance.field_iec_instance_type
+    - field.field.node.iec_instance.field_instance_type_of_credits
     - field.field.node.iec_instance.field_number_of_credits
     - field.field.node.iec_instance.field_start_date
     - node.type.iec_instance
   module:
     - datetime
     - elm_vocabulary_field
+    - options
     - text
     - user
 id: node.iec_instance.default
@@ -132,6 +135,13 @@ content:
     third_party_settings: {  }
     weight: 111
     region: content
+  field_iec_instance_term:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 117
+    region: content
   field_iec_instance_type:
     type: elm_controlled_vocabulary_default
     label: above
@@ -139,6 +149,13 @@ content:
       prefix: false
     third_party_settings: {  }
     weight: 108
+    region: content
+  field_instance_type_of_credits:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 118
     region: content
   field_number_of_credits:
     type: number_decimal
