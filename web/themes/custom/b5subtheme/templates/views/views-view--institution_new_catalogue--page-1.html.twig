@@ -6,6 +6,8 @@
 {% set university_primary_color = view.result[0]._entity.field_programme_institution.entity.field_primary_color[0].color  %}
 {% set university_text_color = view.result[0]._entity.field_programme_institution.entity.field_text_color[0].color  %}
 {% set university_emphasis_text_color = view.result[0]._entity.field_programme_institution.entity.field_emphasis_text_color[0].color  %}
+{% set institution = view.result[0]._entity.field_programme_institution.entity ?? null %}
+{% set shac_code = institution and institution.field_shac_code is defined ? institution.field_shac_code.value : '' %}
 
 <style>:root
 {
@@ -107,9 +109,12 @@
 				<!----> <div class="catalogue-hero newcatalogue-hero"style="height:300px;"> <div class="section-container">
 					<div class="my-custom-container-2">
 
-						<div class="row">
-							<div class="col-auto">
-								<h1 class="section-title" style="color:white">Catalogue</h1>
+						<div class="row align-items-center">
+							<div class="col-auto d-flex align-items-center gap-2 flex-wrap">
+								{% if shac_code %}
+									<span style="color:white;font-weight:700;font-size:1.75rem;line-height:1;">{{ shac_code }}</span>
+								{% endif %}
+								<h1 class="section-title" style="color:white;font-weight:400;">catalogue</h1>
 							</div>
 							<div class="col-auto">
 								<div class="" role="group" aria-label="Catalogue type">
@@ -295,82 +300,6 @@
     </div>
   </div>
 </div>
-
-
-
-	<script>
-		(function () {
-const norm = s => (s || '').toString().trim();
-
-const searchInput = document.getElementById('programme-search');
-const searchBtn = document.getElementById('search-btn');
-if (! searchInput) 
-return;
-
-
-const wrapper = document.querySelector('[data-view-dom-id]');
-if (! wrapper) 
-return;
-
-const form = wrapper.querySelector('form[id^="views-exposed-form-"]');
-if (! form) 
-return;
-
-
-function resetPageParam() {
-let pageField = form.querySelector('input[name="page"]');
-if (! pageField) {
-pageField = document.createElement('input');
-pageField.type = 'hidden';
-pageField.name = 'page';
-form.appendChild(pageField);
-}
-pageField.value = 0;
-}
-
-function submitSearch() {
-const val = norm(searchInput.value);
-
-// 1) Pon el valor en TODOS los combine existentes
-form.querySelectorAll('input[name="combine"]').forEach(el => {
-el.value = val;
-});
-
-// 2) Inyecta un hidden al FINAL del form (último gana en la querystring)
-let injected = form.querySelector('input[name="combine"][data-injected="1"]');
-if (! injected) {
-injected = document.createElement('input');
-injected.type = 'hidden';
-injected.name = 'combine';
-injected.setAttribute('data-injected', '1');
-form.appendChild(injected); // al final
-}injected.value = val;
-
-resetPageParam();
-form.submit();
-}
-
-// Mantén sincronizado si ya había valor del exposed al cargar
-const firstCombine = wrapper.querySelector('input[name="combine"]');
-if (firstCombine && ! searchInput.value) 
-searchInput.value = firstCombine.value || '';
-
-
-searchInput.addEventListener('keydown', (e) => {
-if (e.key === 'Enter') {
-e.preventDefault();
-submitSearch();
-}
-});
-if (searchBtn) 
-searchBtn.addEventListener('click', (e) => {
-e.preventDefault();
-submitSearch();
-});
-
-})();
-	</script>
-
 
 
 <script>

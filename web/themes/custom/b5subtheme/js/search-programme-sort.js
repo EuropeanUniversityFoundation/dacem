@@ -95,89 +95,182 @@
 
 
 (function ($, Drupal, once) {
+  const focusState = {};
 
   Drupal.behaviors.programmeLiveSearch = {
     attach: function (context) {
-
-      // Wrapper de la vista
-      const $wrapper = $(context).find('[data-view-dom-id]');
-      if (!$wrapper.length) {
-        return;
-      }
-
-      // Formulario expuesto de la vista
-      const $viewForm = $wrapper.find('form[id^="views-exposed-form"]');
-      if (!$viewForm.length) {
-        return;
-      }
-
-      // Tu input manual
-      const $input = $('#programme-search');
-      if (!$input.length) {
-        return;
-      }
-
-      let timer;
-      const delay = 300;
-
-      function ensureCombine() {
-        let $combine = $viewForm.find('input[name="combine"]');
-        if (!$combine.length) {
-          $combine = $('<input>', {
-            type: 'hidden',
-            name: 'combine'
-          }).appendTo($viewForm);
+      once('programmeLiveSearch', '[data-view-dom-id]', context).forEach(function (wrapper) {
+        const $wrapper = $(wrapper);
+        const viewDomId = wrapper.getAttribute('data-view-dom-id') || 'default';
+        const $viewForm = $wrapper.find('form[id^="views-exposed-form"]').first();
+        if (!$viewForm.length) {
+          return;
         }
-        return $combine;
-      }
 
-      function resetPage() {
-        let $page = $viewForm.find('input[name="page"]');
-        if (!$page.length) {
-          $page = $('<input>', {
-            type: 'hidden',
-            name: 'page'
-          }).appendTo($viewForm);
+        const $input = $wrapper.find('#programme-search').first();
+        if (!$input.length) {
+          return;
         }
-        $page.val(0);
-      }
 
-      function searchNow() {
-        const value = $input.val().trim();
-        const $combine = ensureCombine();
-        $combine.val(value);
+        let timer = null;
+        let isSubmitting = false;
+        let isComposing = false;
+        let pendingValue = null;
+        let lastSubmittedValue = null;
+        const delay = 500;
 
-        resetPage();
+        function captureFocusState() {
+          const input = $input[0];
+          focusState[viewDomId] = {
+            shouldRestore: document.activeElement === input,
+            selectionStart: typeof input.selectionStart === 'number' ? input.selectionStart : null,
+            selectionEnd: typeof input.selectionEnd === 'number' ? input.selectionEnd : null
+          };
+        }
 
-        // Disparar el botón Apply (AJAX de Views)
-        const $submit = $viewForm.find('input[type="submit"], button[type="submit"]').first();
-        if ($submit.length) {
-          $submit.trigger('click');
-        } else {
+        function restoreFocusState(attempt) {
+          const state = focusState[viewDomId];
+          if (!state || !state.shouldRestore) {
+            return;
+          }
+
+          const currentAttempt = typeof attempt === 'number' ? attempt : 0;
+
+          const currentWrapper = document.querySelector('[data-view-dom-id="' + viewDomId + '"]');
+          if (!currentWrapper) {
+            if (currentAttempt < 10) {
+              window.setTimeout(function () {
+                restoreFocusState(currentAttempt + 1);
+              }, 50);
+            }
+            return;
+          }
+
+          const input = currentWrapper.querySelector('#programme-search');
+          if (!input) {
+            if (currentAttempt < 10) {
+              window.setTimeout(function () {
+                restoreFocusState(currentAttempt + 1);
+              }, 50);
+            }
+            return;
+          }
+
+          input.focus({ preventScroll: true });
+
+          if (typeof input.setSelectionRange === 'function') {
+            const valueLength = input.value.length;
+            const start = state.selectionStart === null ? valueLength : Math.min(state.selectionStart, valueLength);
+            const end = state.selectionEnd === null ? valueLength : Math.min(state.selectionEnd, valueLength);
+            input.setSelectionRange(start, end);
+          }
+
+          state.shouldRestore = false;
+        }
+
+        function ensureCombine() {
+          let $combine = $viewForm.find('input[name="combine"]');
+          if (!$combine.length) {
+            $combine = $('<input>', {
+              type: 'hidden',
+              name: 'combine'
+            }).appendTo($viewForm);
+          }
+          return $combine;
+        }
+
+        function resetPage() {
+          let $page = $viewForm.find('input[name="page"]');
+          if (!$page.length) {
+            $page = $('<input>', {
+              type: 'hidden',
+              name: 'page'
+            }).appendTo($viewForm);
+          }
+          $page.val(0);
+        }
+
+        function finishSubmit() {
+          isSubmitting = false;
+          window.setTimeout(function () {
+            restoreFocusState(0);
+          }, 0);
+
+          if (pendingValue !== null && pendingValue !== lastSubmittedValue) {
+            const valueToSubmit = pendingValue;
+            pendingValue = null;
+            queueSearch(valueToSubmit);
+          }
+        }
+
+        function submitSearch(value) {
+          if (isSubmitting) {
+            pendingValue = value;
+            return;
+          }
+
+          isSubmitting = true;
+          lastSubmittedValue = value;
+
+          const $combine = ensureCombine();
+          $combine.val(value);
+          resetPage();
+          captureFocusState();
+
+          $(document).one('ajaxComplete.programmeLiveSearch', finishSubmit);
+
+          const $submit = $viewForm.find('input[type="submit"], button[type="submit"]').first();
+          if ($submit.length) {
+            $submit.trigger('click');
+            return;
+          }
+
           $viewForm.trigger('submit');
+          finishSubmit();
         }
-      }
 
-      // Sincronizar el valor del combine al input tras cada recarga AJAX
-      const $combineExisting = $viewForm.find('input[name="combine"]');
-      if ($combineExisting.length && !$input.val()) {
-        $input.val($combineExisting.val());
-      }
+        function queueSearch(forcedValue) {
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            if (isComposing) {
+              return;
+            }
 
-      // Volver a enfocar el input y poner el cursor al final
-      if ($input.length) {
-        const val = $input.val();
-        const el = $input[0];
-        el.focus();
-        if (typeof el.setSelectionRange === 'function') {
-          el.setSelectionRange(val.length, val.length);
+            const value = typeof forcedValue === 'string'
+              ? forcedValue
+              : $input.val().trim();
+
+            if (value === lastSubmittedValue && !isSubmitting) {
+              return;
+            }
+
+            submitSearch(value);
+          }, delay);
         }
-      }
 
-      // Listener de escritura (con once para no duplicar)
-      $(once('programmeLiveSearch', $input)).on('input', function () {
-        clearTimeout(timer);
-        timer = setTimeout(searchNow, delay);
+        const $combineExisting = $viewForm.find('input[name="combine"]').first();
+        if ($combineExisting.length && !$input.val()) {
+          $input.val($combineExisting.val());
+        }
+
+        restoreFocusState();
+
+        $input.on('compositionstart', function () {
+          isComposing = true;
+        });
+
+        $input.on('compositionend', function () {
+          isComposing = false;
+          queueSearch();
+        });
+
+        $input.on('input', function () {
+          if (isComposing) {
+            return;
+          }
+
+          queueSearch();
+        });
       });
     }
   };

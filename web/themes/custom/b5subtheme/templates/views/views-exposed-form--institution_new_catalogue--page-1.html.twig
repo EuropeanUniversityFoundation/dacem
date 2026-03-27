@@ -49,6 +49,8 @@
       or (form.field_isced_f['#value']|default('') not in ['', '_none', 'All'])
     )
   %}
+
+  {#
   {% set programme_type_active =
     form.programme_type is defined
     and (
@@ -56,6 +58,8 @@
       or (form.programme_type['#value']|default('') not in ['', '_none', 'All'])
     )
   %}
+  #}
+
   {% set country_active =
     form.field_institution_country_value is defined
     and (
@@ -86,6 +90,14 @@
     )
   %}
 
+  {% set eqf_level_active =
+    form.eqf_level is defined
+    and (
+      (form.eqf_level['#value'] is iterable and form.eqf_level['#value']|length > 0)
+      or (form.eqf_level['#value']|default('') not in ['', '_none', 'All'])
+    )
+  %}
+
   <div class="custom-btn-group-filter-ou d-flex gap-10 mb-3 flex-wrap">
 
     <div class="dropdown">
@@ -100,7 +112,7 @@
     </div>
 
 
-
+    {#
     <div class="dropdown">
       <button
         class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ programme_type_active ? 'btn-newcatalogue-active' : 'btn-dark' }}"
@@ -111,6 +123,24 @@
         {{ form.programme_type }}
       </div>
     </div>
+
+    #}
+
+
+
+    <div class="dropdown">
+      <button
+        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ eqf_level_active ? 'btn-newcatalogue-active' : 'btn-dark' }}"
+        type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+        {{ helpers.filter_label(form.eqf_level, 'Type') }}
+      </button>
+      <div class="dropdown-menu p-3 filter-menu">
+        {{ form.eqf_level }}
+      </div>
+    </div>
+
+
+
 
 
     <div class="dropdown">

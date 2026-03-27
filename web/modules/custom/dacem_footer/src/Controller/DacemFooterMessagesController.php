@@ -65,6 +65,7 @@ class DacemFooterMessagesController extends ControllerBase {
 
     $rows = [];
     foreach ($query->execute() as $record) {
+      
       $rows[] = [
         'data' => [
           $record->id,
