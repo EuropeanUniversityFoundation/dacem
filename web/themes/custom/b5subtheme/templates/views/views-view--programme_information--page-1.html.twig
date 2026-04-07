@@ -2,7 +2,7 @@
 {{ attach_library('b5subtheme/degree_menu_scroll') }}
 
 
-{#{dump(view.result)}}
+
 
 {# Obtener la entidad de contenido desde la vista #}
 
@@ -301,7 +301,7 @@
 
 							<li class="nav-item" role="presentation">
 								<button class="nav-link" id="tab-by-course" data-bs-toggle="tab" data-bs-target="#pane-by-course" type="button" role="tab" aria-controls="pane-by-course" aria-selected="true">
-									{{ 'By Year'|t }}
+									{{ 'By year'|t }}
 								</button>
 							</li>
 
@@ -337,10 +337,11 @@
 														<tr>
 															<th>{{ translations[current_language]['Code'] }}</th>
 															<th>{{ translations[current_language]['Name'] }}</th>
-															<th>{{ translations[current_language]['Course'] }}</th>
-															<th>{{ translations[current_language]['Quarter'] }}</th>
+															<th>{{ 'Year'|t }}</th>
+															<th>{{ 'Term'|t }}</th>
 															<th>{{ translations[current_language]['ECTS'] }}</th>
 															<th>{{ translations[current_language]['Type'] }}</th>
+															<th>{{ 'Mobility'|t }}</th>
 														</tr>
 													</thead>
 														<tbody>
@@ -397,6 +398,9 @@
 																			{{ 'Sin tipo'|t }}
 																		{% endif %}
 																	</td>
+																	<td>
+																		{{ translated_iec.field_iec_avaliable_for_mobility is not empty and translated_iec.field_iec_avaliable_for_mobility[0].value == '1' ? 'Yes'|t : 'No'|t }}
+																	</td>
 																</tr>
 															{% endif %}
 														{% endfor %}
@@ -417,10 +421,11 @@
 													<tr>
 														<th>{{ translations[current_language]['Code'] }}</th>
 														<th>{{ translations[current_language]['Name'] }}</th>
-														<th>{{ translations[current_language]['Course'] }}</th>
-														<th>{{ translations[current_language]['Quarter'] }}</th>
+														<th>{{ 'Year'|t }}</th>
+														<th>{{ 'Term'|t }}</th>
 														<th>{{ translations[current_language]['ECTS'] }}</th>
 														<th>{{ translations[current_language]['Type'] }}</th>
+														<th>{{ 'Mobility'|t }}</th>
 													</tr>
 												</thead>
 													<tbody>
@@ -475,6 +480,9 @@
 																		{{ 'Sin tipo'|t }}
 																	{% endif %}
 																</td>
+																<td>
+																	{{ translated_iec.field_iec_avaliable_for_mobility is not empty and translated_iec.field_iec_avaliable_for_mobility[0].value == '1' ? 'Yes'|t : 'No'|t }}
+																</td>
 															</tr>
 														{% endif %}
 													{% endfor %}
@@ -508,9 +516,10 @@
 														<tr>
 															<th>{{ translations[current_language]['Code'] }}</th>
 															<th>{{ translations[current_language]['Name'] }}</th>
-															<th>{{ translations[current_language]['Quarter'] }}</th>
+															<th>{{ 'Term'|t }}</th>
 															<th>{{ translations[current_language]['ECTS'] }}</th>
 															<th>{{ translations[current_language]['Type'] }}</th>
+															<th>{{ 'Mobility'|t }}</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -557,6 +566,9 @@
 																			{{ 'Sin tipo'|t }}
 																		{% endif %}
 																	</td>
+																	<td>
+																		{{ translated_iec.field_iec_avaliable_for_mobility is not empty and translated_iec.field_iec_avaliable_for_mobility[0].value == '1' ? 'Yes'|t : 'No'|t }}
+																	</td>
 																</tr>
 															{% endif %}
 														{% endfor %}
@@ -577,9 +589,10 @@
 													<tr>
 														<th>{{ translations[current_language]['Code'] }}</th>
 														<th>{{ translations[current_language]['Name'] }}</th>
-														<th>{{ translations[current_language]['Quarter'] }}</th>
+														<th>{{ 'Term'|t }}</th>
 														<th>{{ translations[current_language]['ECTS'] }}</th>
 														<th>{{ translations[current_language]['Type'] }}</th>
+														<th>{{ 'Mobility'|t }}</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -625,6 +638,9 @@
 																	{% else %}
 																		{{ 'Sin tipo'|t }}
 																	{% endif %}
+																</td>
+																<td>
+																	{{ translated_iec.field_iec_avaliable_for_mobility is not empty and translated_iec.field_iec_avaliable_for_mobility[0].value == '1' ? 'Yes'|t : 'No'|t }}
 																</td>
 															</tr>
 														{% endif %}
@@ -683,7 +699,7 @@
 
 
 
-					{% if translated_entity.field_programme_grading_scale.value is not empty or translated_entity.field_programme_explanation_scal.value is not empty or translated_entity.field_grade_distribution_table.value is not empty %}
+					{% if translated_entity.field_programme_grading_scale.value is not empty or translated_entity.field_programme_explanation_scal.value is not empty or translated_entity.field_programme_grading_table.value is not empty %}
 						<div class="programme-section" id="assessment" style="text-align: justify; scroll-margin-top: 150px;">
 							<h3 class="subsection-title">{{ 'Assessment'|t }}</h3>
 							<br>
@@ -695,17 +711,21 @@
 								</div>
 							{% endif %}
 							
-							{% if translated_entity.field_programme_explanation_scal.value is not empty %}
-								<div class="programme-section ms-5" id="explanation-scale" style="text-align: justify; scroll-margin-top: 150px;">
-									<h4 class="subsection-title">{{ 'Explanation of the Scale'|t }}</h4>
-									{{ translated_entity.field_programme_explanation_scal.value|raw }}
+							
+
+
+								{% if translated_entity.field_programme_grading_scheme.value is not empty %}
+								<div class="programme-section ms-5" id="grade-distribution-table" style="text-align: justify; scroll-margin-top: 150px;">
+									<h4 class="subsection-title">{{ 'Grading Scheme'|t }}</h4>
+									{{ translated_entity.field_programme_grading_scheme.value|raw }}
 								</div>
 							{% endif %}
 
-							{% if translated_entity.field_grade_distribution_table.value is not empty %}
+
+							{% if translated_entity.field_programme_grading_table.value is not empty %}
 								<div class="programme-section ms-5" id="grade-distribution-table" style="text-align: justify; scroll-margin-top: 150px;">
-									<h4 class="subsection-title">{{ 'Grade Distribution Table'|t }}</h4>
-									{{ translated_entity.field_grade_distribution_table.value|raw }}
+									<h4 class="subsection-title">{{ 'Grading Distribution Table'|t }}</h4>
+									{{ translated_entity.field_programme_grading_table.value|raw }}
 								</div>
 							{% endif %}
 

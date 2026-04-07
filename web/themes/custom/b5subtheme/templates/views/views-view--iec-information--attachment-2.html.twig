@@ -1,4 +1,7 @@
 
+
+{% if view.result|length > 0 %}
+
 {% set iec = view.result[0]._entity.field_iec.entity %}
 {% set programme = iec ? iec.field_iec_programme.entity : null %}
 {% set institution = programme ? programme.field_programme_institution.entity : null %}
@@ -12,7 +15,6 @@
 	
 }</style>
 
-{% if view.result|length > 0 %}
 
 
 

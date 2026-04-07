@@ -6,14 +6,15 @@
 {% set shac_code = institution and institution.field_shac_code is defined ? institution.field_shac_code.value : '' %}
 
 
+
+
 <style>:root
 {
-	--university_primary_color: {{university_primary_color}};
-	--university_text_color: {{university_text_color}};
-	--university_emphasis_text_color: {{university_emphasis_text_color}};
+	--university_primary_color: {{catalogue_university_primary_color}};
+	--university_text_color: {{catalogue_university_text_color}};
+	--university_emphasis_text_color: {{catalogue_university_emphasis_text_color}};
 
 }</style>
-
 
 <div
 	class="negative-margin-search-page">
@@ -121,8 +122,8 @@
 
 						<div class="row align-items-center mb-2">
 							<div class="col-auto d-flex align-items-center gap-2 flex-wrap">
-								{% if shac_code %}
-									<span style="color:white;font-weight:700;font-size:1.75rem;line-height:1;">{{ shac_code }}</span>
+								{% if catalogue_shac_code %}
+									<span style="color:white;font-weight:700;font-size:1.75rem;line-height:1;">{{ catalogue_shac_code }}</span>
 								{% endif %}
 								<h1 class="section-title" style="color:white;font-weight:400;">catalogue</h1>
 							</div>

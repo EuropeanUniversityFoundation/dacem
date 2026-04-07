@@ -11,9 +11,9 @@
 
 <style>:root
 {
-	--university_primary_color: {{university_primary_color}};
-	--university_text_color: {{university_text_color}};
-	--university_emphasis_text_color: {{university_emphasis_text_color}};
+	--university_primary_color: {{catalogue_university_primary_color}};
+	--university_text_color: {{catalogue_university_text_color}};
+	--university_emphasis_text_color: {{catalogue_university_emphasis_text_color}};
 
 }</style>
 
@@ -111,8 +111,8 @@
 
 						<div class="row align-items-center">
 							<div class="col-auto d-flex align-items-center gap-2 flex-wrap">
-								{% if shac_code %}
-									<span style="color:white;font-weight:700;font-size:1.75rem;line-height:1;">{{ shac_code }}</span>
+								{% if catalogue_shac_code %}
+									<span style="color:white;font-weight:700;font-size:1.75rem;line-height:1;">{{ catalogue_shac_code }}</span>
 								{% endif %}
 								<h1 class="section-title" style="color:white;font-weight:400;">catalogue</h1>
 							</div>
@@ -192,6 +192,7 @@
 										{% set logo_uri = ou.field_ou_picture.entity.fileuri %}
 									{% endif %}
 									<div class="programme-item">
+									
 										<a href="{{ row.custom_url }}" class="text-decoration-none text-reset" target="_blank">
 											<div class="card shadow-none mb-3 border-0 rounded-0" style="height: 100.65px; cursor: pointer;">
 												<div

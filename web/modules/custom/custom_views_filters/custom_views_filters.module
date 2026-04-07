@@ -167,6 +167,8 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
 
   } else if ($view->id() === 'institution_new_catalogue' && $view->current_display == 'page_1') {
 
+    
+
     /**
      * 1) OU filter (Programme -> field_programme_ou IN selected OUs)
      */

@@ -229,6 +229,69 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
 
+  if ($variables['view']->id() == 'institution_new_catalogue') {
+
+  $institution = NULL;
+  $institution_id = $variables['view']->args[0] ?? NULL;
+  
+  
+
+  if ($institution_id && is_numeric($institution_id)) {
+    $institution = Node::load((int) $institution_id);
+  }
+
+  if ($institution) {
+    
+   
+    $current_language = \Drupal::languageManager()
+      ->getCurrentLanguage(\Drupal\Core\Language\LanguageInterface::TYPE_CONTENT)
+      ->getId();
+
+    if ($institution->hasTranslation($current_language)) {
+      $institution = $institution->getTranslation($current_language);
+    }
+
+    $variables['catalogue_institution'] = $institution;
+    $variables['catalogue_university_primary_color'] =
+      (!$institution->get('field_primary_color')->isEmpty() && isset($institution->get('field_primary_color')->first()->color))
+        ? $institution->get('field_primary_color')->first()->color
+        : '#19d329ff';
+
+    $variables['catalogue_university_text_color'] =
+      (!$institution->get('field_text_color')->isEmpty() && isset($institution->get('field_text_color')->first()->color))
+        ? $institution->get('field_text_color')->first()->color
+        : '#000000';
+      
+    $variables['catalogue_university_emphasis_text_color'] =
+      (!$institution->get('field_emphasis_text_color')->isEmpty() && isset($institution->get('field_emphasis_text_color')->first()->color))
+        ? $institution->get('field_emphasis_text_color')->first()->color
+        : '#000000';
+
+    $variables['catalogue_shac_code'] =
+      !$institution->get('field_shac_code')->isEmpty()
+        ? $institution->get('field_shac_code')->value
+        : '';
+  }
+  else {
+
+    \Drupal::logger('catalogue_debug')->notice('Institutionfsdfsadfasdfasdf id arg: @id', [
+  '@id' => $institution_id ?? 'NULL',
+]);
+    $variables['catalogue_institution'] = NULL;
+    $variables['catalogue_university_primary_color'] = '#F44743';
+    $variables['catalogue_university_text_color'] = '#000000';
+    $variables['catalogue_university_emphasis_text_color'] = '#000000';
+    $variables['catalogue_shac_code'] = '';
+  }
+
+
+  }
+
+
+  
+
+
+
 
 
 
@@ -298,18 +361,23 @@ function b5subtheme_preprocess_views_view(&$variables)
   }
 
 
-  
+  /*
   if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.page_1') {
+    dump(\Drupal::routeMatch()->getRouteName());
   $current_language = \Drupal::languageManager()
     ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
     ->getId();
+  
+  
 
   $alias_manager = \Drupal::service('path_alias.manager');
   $language_prefix = '/' . $current_language;
 
   foreach ($variables['view']->result as &$row) {
-    /** @var \Drupal\node\NodeInterface $programme */
+   
     $programme = $row->_entity ?? NULL;
+
+  
     if (!$programme || !$programme->id()) {
       continue;
     }
@@ -327,7 +395,7 @@ function b5subtheme_preprocess_views_view(&$variables)
       continue;
     }
 
-    /** @var \Drupal\node\NodeInterface $institution */
+    
     $institution = $programme_translated->get('field_programme_institution')->entity;
     if (!$institution || !$institution->id()) {
       continue;
@@ -359,6 +427,14 @@ function b5subtheme_preprocess_views_view(&$variables)
       . $institution_slug
       . '/'
       . $programme_slug;
+
+
+
+      dump([
+  'nid' => $programme ? $programme->id() : NULL,
+  'custom_url' => $row->custom_url ?? 'NO_URL',
+]);
+
   }
 }
 
@@ -373,7 +449,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     ->getId();
 
   foreach ($variables['view']->result as &$row) {
-    /** @var \Drupal\node\NodeInterface|null $iec */
+   
     $iec = $row->_entity ?? NULL;
 
     if (!$iec instanceof NodeInterface || !$iec->id()) {
@@ -405,6 +481,8 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
 
 }
+
+*/
 
 
 
@@ -1594,6 +1672,125 @@ function b5subtheme_form_views_exposed_form_alter(array &$form, FormStateInterfa
 
 
 
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function b5subtheme_views_pre_render(ViewExecutable $view) {
+  if ($view->id() !== 'institution_new_catalogue') {
+    return;
+  }
+
+  if ($view->current_display === 'page_1') {
+    $current_language = \Drupal::languageManager()
+      ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+      ->getId();
+
+    $alias_manager = \Drupal::service('path_alias.manager');
+    $language_prefix = '/' . $current_language;
+
+    foreach ($view->result as &$row) {
+      /** @var \Drupal\node\NodeInterface|null $programme */
+      $programme = $row->_entity ?? NULL;
+
+      if (!$programme || !$programme->id()) {
+        \Drupal::logger('catalogue_debug')->warning('Row without valid programme entity.');
+        continue;
+      }
+
+      $programme_translated = $programme->hasTranslation($current_language)
+        ? $programme->getTranslation($current_language)
+        : $programme;
+
+      if (
+        !$programme_translated->hasField('field_programme_institution') ||
+        $programme_translated->get('field_programme_institution')->isEmpty()
+      ) {
+        \Drupal::logger('catalogue_debug')->warning('Programme @nid has no institution reference.', [
+          '@nid' => $programme_translated->id(),
+        ]);
+        continue;
+      }
+
+      /** @var \Drupal\node\NodeInterface|null $institution */
+      $institution = $programme_translated->get('field_programme_institution')->entity;
+      if (!$institution || !$institution->id()) {
+        \Drupal::logger('catalogue_debug')->warning('Programme @nid has invalid institution entity.', [
+          '@nid' => $programme_translated->id(),
+        ]);
+        continue;
+      }
+
+      $institution_translated = $institution->hasTranslation($current_language)
+        ? $institution->getTranslation($current_language)
+        : $institution;
+
+      $programme_alias = $alias_manager->getAliasByPath(
+        '/node/' . $programme_translated->id(),
+        $current_language
+      );
+
+      $institution_alias = $alias_manager->getAliasByPath(
+        '/node/' . $institution_translated->id(),
+        $current_language
+      );
+
+      $programme_slug = basename(trim($programme_alias, '/'));
+      $institution_slug = basename(trim($institution_alias, '/'));
+
+      $row->custom_url = $language_prefix
+        . '/catalogue/'
+        . $institution_slug
+        . '/'
+        . $programme_slug;
+
+      \Drupal::logger('catalogue_debug')->notice('Generated custom_url for page_1 nid @nid: @url', [
+        '@nid' => $programme_translated->id(),
+        '@url' => $row->custom_url,
+      ]);
+    }
+  }
+
+  if ($view->current_display === 'page_2') {
+    $current_language = \Drupal::languageManager()
+      ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+      ->getId();
+
+    foreach ($view->result as &$row) {
+      /** @var \Drupal\node\NodeInterface|null $iec */
+      $iec = $row->_entity ?? NULL;
+
+      if (!$iec instanceof NodeInterface || !$iec->id()) {
+        continue;
+      }
+
+      // Trabajar con traducción si existe.
+      $iec_translated = $iec->hasTranslation($current_language)
+        ? $iec->getTranslation($current_language)
+        : $iec;
+
+      // Genera la URL canónica en el idioma adecuado.
+      $lang_for_url = $iec_translated->language()->getId();
+      $url = $iec_translated
+        ->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($lang_for_url)])
+        ->toString();
+
+      // Si la URL viene ya con prefijo /xx, lo quitamos para evitar duplicados.
+      if (strpos($url, '/' . $lang_for_url) === 0) {
+        $url = substr($url, strlen('/' . $lang_for_url));
+      }
+
+      // Construir la nueva URL con el formato correcto: /<current_language>/catalogue/<...>
+      $row->custom_url = '/' . $current_language . '/catalogue' . $url;
+
+      \Drupal::logger('catalogue_debug')->notice('Generated custom_url for page_2 nid @nid: @url', [
+        '@nid' => $iec_translated->id(),
+        '@url' => $row->custom_url,
+      ]);
+    }
+  }
+}
 
 
 

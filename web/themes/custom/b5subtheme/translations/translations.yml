@@ -102,6 +102,7 @@ en:
 
 
   Mobility: 'Mobility'
+  Type: 'Type'
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
@@ -209,6 +210,7 @@ es:
   See more: 'Ver más'
 
   Mobility: 'Mobility'
+  Type: 'Tipo'
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
@@ -312,6 +314,7 @@ fr: # Francés
   See more: 'Voir plus'
 
   Mobility: 'Mobility'
+  Type: 'Type'
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
@@ -414,6 +417,7 @@ pt-pt: # Portugués
   See more: 'Ver mais'
 
   Mobility: 'Mobility'
+  Type: 'Τύπος'
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
@@ -516,6 +520,7 @@ el: # Griego
   See more: 'Δείτε περισσότερα'
 
   Mobility: 'Mobility'
+  Type: 'Typ'
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
@@ -615,6 +620,7 @@ cs: # Checo
   See more: 'Zobrazit více'
 
   Mobility: 'Mobility'
+  Type: 'Tip'
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
@@ -718,6 +724,7 @@ sl: # Esloveno
   See more: 'Poglej več'
 
   Mobility: 'Mobility'
+  Type: 'Típus'
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
@@ -817,6 +824,7 @@ hu: # Húngaro
   See more: 'Továbbiak'
 
   Mobility: 'Mobility'
+  Type: 'Tüüp'
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
@@ -918,6 +926,7 @@ et: # Estonio
   See more: 'Vaata veel'
 
   Mobility: 'Mobility'
+  Type: 'Tipo'
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
@@ -1014,4 +1023,3 @@ gl: # Gallego
   Allow Mobility: 'Allow Mobility'
   Academic Contacts: 'Academic Contacts'
   Avaliable for Mobility Students: 'Avaliable for Mobility Students'
-

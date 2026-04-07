@@ -42,6 +42,7 @@
 {% set university_text_color = institution.field_text_color[0].color %}
 {% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
 
+
 <style>:root
 {
 	--university_primary_color: {{university_primary_color}}
@@ -62,7 +63,7 @@
 	{% set language_prefix = '/' ~ current_language ~ '/' %}
 	{% set modified_url = original_url|replace({(language_prefix): language_prefix ~ 'catalogue/'}) %}
 	<a href="{{ modified_url }}" class="programme-header-link">
-		<div class="rs-header ">
+		<div class="rs-header " >
 			<div class="my-custom-container-2">
 				<div class="page-band">
 					<h1 class="rs-title">{{ translated_programme.title.value|raw }}</h1>
@@ -108,6 +109,13 @@
       <div class="programme-section" id="general-information" style="text-align: justify;">
         <h3 class="subsection-title mt-0">{{ translations[current_language]['Description'] }}</h3>
         {{ translated_iec.field_iec_description.value|raw }}
+
+        {% if translated_iec.field_subject_area is defined and translated_iec.field_subject_area.value is not empty %}
+          <div class="mt-4">
+            <h4 class="subsection-title">{{ 'Subject area'|t }}</h4>
+            {{ translated_iec.field_subject_area.value|raw }}
+          </div>
+        {% endif %}
       </div>
     {% endif %}
 
@@ -164,4 +172,3 @@
 </div>
 
 </div></div>
-

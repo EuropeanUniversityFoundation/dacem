@@ -19,10 +19,35 @@
       {{ 'General Data'|t }}
     </h3>
 
-    <div class="degree-info-item mb-2">
-      <strong>{{ 'Academic Course'|t }}:</strong>
-      25/26
-    </div>
+    
+
+    {% if fields.field_iec_code is defined and fields.field_iec_code.content|render|striptags|trim %}
+      <div class="degree-info-item mb-2">
+        <strong>{{ 'Code'|t }}:</strong>
+        {{ fields.field_iec_code.content }}
+      </div>
+    {% endif %}
+
+    {% if fields.field_iec_type_of_credits is defined and fields.field_iec_type_of_credits.content|render|striptags|trim %}
+      <div class="degree-info-item mb-2">
+        <strong>{{ 'Type of credits'|t }}:</strong>
+        {{ fields.field_iec_type_of_credits.content }}
+      </div>
+    {% endif %}
+
+    {% if fields.field_iec_credits is defined and fields.field_iec_credits.content|render|striptags|trim %}
+      <div class="degree-info-item mb-2">
+        <strong>{{ 'Number of credits'|t }}:</strong>
+        {{ fields.field_iec_credits.content }}
+      </div>
+    {% endif %}
+
+    {% if fields.field_iec_engagement_hours is defined and fields.field_iec_engagement_hours.content|render|striptags|trim %}
+      <div class="degree-info-item mb-2">
+        <strong>{{ 'Engagement hours'|t }}:</strong>
+        {{ fields.field_iec_engagement_hours.content }}
+      </div>
+    {% endif %}
 
     {% if fields.field_fields_of_study is defined and fields.field_fields_of_study.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
@@ -33,8 +58,15 @@
 
     {% if fields.field_iec_type is defined and fields.field_iec_type.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ 'Type'|t }}:</strong>
+        <strong>{{ 'Status'|t }}:</strong>
         {{ fields.field_iec_type.content }}
+      </div>
+    {% endif %}
+
+    {% if fields.field_iec_elm_type is defined and fields.field_iec_elm_type.content|render|striptags|trim %}
+      <div class="degree-info-item mb-2">
+        <strong>{{ 'Type'|t }}:</strong>
+        {{ fields.field_iec_elm_type.content }}
       </div>
     {% endif %}
 
@@ -47,15 +79,8 @@
 
     {% if fields.field_iec_term is defined and fields.field_iec_term.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ 'Period'|t }}:</strong>
+        <strong>{{ 'Term'|t }}:</strong>
         {{ fields.field_iec_term.content }}
-      </div>
-    {% endif %}
-
-    {% if fields.field_iec_credits is defined and fields.field_iec_credits.content|render|striptags|trim %}
-      <div class="degree-info-item mb-2">
-        <strong>{{ 'ECTS Credits'|t }}:</strong>
-        {{ fields.field_iec_credits.content }}
       </div>
     {% endif %}
 
@@ -75,8 +100,15 @@
 
     {% if fields.field_iec_avaliable_for_mobility is defined and fields.field_iec_avaliable_for_mobility.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
-        <strong>{{ 'Avaliable for Mobility Students'|t }}:</strong>
+        <strong>{{ 'Available for Mobility Students'|t }}:</strong>
         {{ fields.field_iec_avaliable_for_mobility.content }}
+      </div>
+    {% endif %}
+
+    {% if fields.field_iec_restricted_alliance is defined and fields.field_iec_restricted_alliance.content|render|striptags|trim %}
+      <div class="degree-info-item mb-2">
+        <strong>{{ 'Restricted to alliance'|t }}:</strong>
+        {{ fields.field_iec_restricted_alliance.content }}
       </div>
     {% endif %}
   </div>
