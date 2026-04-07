@@ -13,7 +13,6 @@ dependencies:
     - field.field.node.programme.field_distribution_of_credits
     - field.field.node.programme.field_email
     - field.field.node.programme.field_eqf_level
-    - field.field.node.programme.field_grade_distribution_table
     - field.field.node.programme.field_isced_f
     - field.field.node.programme.field_learning_opportunity_type
     - field.field.node.programme.field_length_of_programme
@@ -25,7 +24,6 @@ dependencies:
     - field.field.node.programme.field_programme_area
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
-    - field.field.node.programme.field_programme_explanation_scal
     - field.field.node.programme.field_programme_grading_scheme
     - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
@@ -47,7 +45,6 @@ dependencies:
     - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
     - field.field.node.programme.field_qualification_awarded
-    - field.field.node.programme.field_qualification_level
     - field.field.node.programme.field_qualification_requirements
     - field.field.node.programme.field_work_based_learning
     - node.type.programme
@@ -64,16 +61,26 @@ third_party_settings:
   field_group:
     group_general_data:
       children:
+        - field_programme_type
+        - field_programme_abbreviation
+        - field_programme_start_date
+        - field_programme_end_date
+        - field_programme_type_of_credits
         - field_credits
-        - field_length_of_programme
-        - field_qualification_level
-        - field_programme_mode_of_study
-        - field_programme_area
-        - field_isced_f
         - field_eqf_level
+        - field_programme_language_of_inst
+        - field_isced_f
+        - field_programme_mode_of_study
         - field_programme_mode_of_learning
         - field_professional_practices
         - field_avaliable_for_mobility
+        - field_programme_restricted_allia
+        - field_programme_area
+        - field_length_of_programme
+        - field_number_of_terms
+        - field_learning_opportunity_type
+        - field_qualification_awarded
+        - group_coordination
       label: 'General Data'
       region: content
       parent_name: ''
@@ -88,144 +95,209 @@ third_party_settings:
         required_fields: true
     group_coordination:
       children:
-        - field_coordinator
         - field_programme_phone
         - field_email
         - field_programme_web
+        - group_overview
       label: Coordination
       region: content
-      parent_name: ''
-      weight: 16
-      format_type: fieldset
+      parent_name: group_general_data
+      weight: 13
+      format_type: html_element
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
         label_as_html: false
-        description: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
         required_fields: true
+        description: ''
     group_assessment:
       children:
-        - field_programme_grading_scale
-        - field_programme_explanation_scal
-        - field_grade_distribution_table
+        - field_programme_grading_scheme
+        - field_programme_grading_table
+        - group_mobility
       label: Assessment
       region: content
-      parent_name: ''
+      parent_name: group_admission
       weight: 17
-      format_type: fieldset
+      format_type: html_element
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
         label_as_html: false
-        description: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
         required_fields: true
+        description: ''
     group_overview:
       children:
-        - field_programme_description
         - field_main_objective
         - field_competencies
         - field_programme_learn_outcomes
         - field_programme_qualification
-        - field_programme_language_of_inst
+        - group_curriculum
       label: Overview
       region: content
-      parent_name: ''
-      weight: 13
-      format_type: fieldset
+      parent_name: group_coordination
+      weight: 14
+      format_type: html_element
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
         label_as_html: false
-        description: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
         required_fields: true
+        description: ''
     group_mobility:
       children:
-        - field_programme_mobility
         - field_programme_mobility_windows
+        - group_practice
       label: Mobility
       region: content
-      parent_name: ''
+      parent_name: group_assessment
       weight: 18
-      format_type: fieldset
+      format_type: html_element
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
         label_as_html: false
-        description: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
         required_fields: true
+        description: ''
     group_practice:
       children:
-        - field_programme_work_placements
         - field_work_based_learning
+        - group_careers
       label: Practice
       region: content
-      parent_name: ''
+      parent_name: group_mobility
       weight: 19
-      format_type: fieldset
+      format_type: html_element
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
         label_as_html: false
-        description: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
         required_fields: true
+        description: ''
     group_careers:
       children:
-        - field_occupational_profiles
         - field_access_to_further_studies
+        - body
       label: Careers
       region: content
-      parent_name: ''
+      parent_name: group_practice
       weight: 20
-      format_type: fieldset
+      format_type: html_element
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
         label_as_html: false
-        description: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
         required_fields: true
+        description: ''
     group_admission:
       children:
-        - field_programme_requirements
         - field_arrangments_recognition
         - field_qualification_requirements
+        - group_assessment
       label: Admission
       region: content
-      parent_name: ''
-      weight: 15
-      format_type: fieldset
+      parent_name: group_curriculum
+      weight: 16
+      format_type: html_element
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
         label_as_html: false
-        description: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
         required_fields: true
+        description: ''
     group_curriculum:
       children:
-        - field_distribution_of_credits
+        - group_admission
       label: Curriculum
       region: content
-      parent_name: ''
-      weight: 14
-      format_type: fieldset
+      parent_name: group_overview
+      weight: 15
+      format_type: html_element
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
         label_as_html: false
-        description: ''
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
         required_fields: true
+        description: ''
 id: node.programme.default
 targetEntityType: node
 bundle: programme
 mode: default
 content:
+  body:
+    type: text_textarea_with_summary
+    weight: 0
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
   created:
     type: datetime_timestamp
     weight: 3
@@ -249,15 +321,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_avaliable_for_mobility:
-    type: boolean_checkbox
-    weight: 31
+    type: options_buttons
+    weight: 46
     region: content
-    settings:
-      display_label: true
+    settings: {  }
     third_party_settings: {  }
   field_competencies:
     type: text_textarea
-    weight: 15
+    weight: 16
     region: content
     settings:
       rows: 5
@@ -273,7 +344,7 @@ content:
     third_party_settings: {  }
   field_credits:
     type: number
-    weight: 22
+    weight: 37
     region: content
     settings:
       placeholder: ''
@@ -296,42 +367,34 @@ content:
     third_party_settings: {  }
   field_eqf_level:
     type: eqf_level_default
-    weight: 28
+    weight: 38
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_grade_distribution_table:
-    type: text_textarea
-    weight: 28
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
   field_isced_f:
     type: isced_f_select
-    weight: 27
+    weight: 41
     region: content
     settings:
       allow_all_levels: true
     third_party_settings: {  }
   field_learning_opportunity_type:
     type: elm_controlled_vocabulary_select
-    weight: 41
+    weight: 50
     region: content
     settings:
       prefix: false
     third_party_settings: {  }
   field_length_of_programme:
     type: number
-    weight: 35
+    weight: 48
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_main_objective:
     type: text_textarea
-    weight: 14
+    weight: 15
     region: content
     settings:
       rows: 5
@@ -339,7 +402,7 @@ content:
     third_party_settings: {  }
   field_number_of_terms:
     type: number
-    weight: 36
+    weight: 49
     region: content
     settings:
       placeholder: ''
@@ -353,8 +416,8 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_professional_practices:
-    type: options_select
-    weight: 30
+    type: options_buttons
+    weight: 45
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -367,8 +430,8 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_programme_area:
-    type: options_select
-    weight: 32
+    type: options_buttons
+    weight: 42
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -382,21 +445,13 @@ content:
     third_party_settings: {  }
   field_programme_end_date:
     type: datetime_default
-    weight: 38
+    weight: 35
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_programme_explanation_scal:
-    type: text_textarea
-    weight: 27
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
   field_programme_grading_scheme:
     type: text_textarea
-    weight: 39
+    weight: 28
     region: content
     settings:
       rows: 5
@@ -404,7 +459,7 @@ content:
     third_party_settings: {  }
   field_programme_grading_table:
     type: text_textarea
-    weight: 40
+    weight: 29
     region: content
     settings:
       rows: 5
@@ -422,13 +477,13 @@ content:
     third_party_settings: {  }
   field_programme_language_of_inst:
     type: options_buttons
-    weight: 18
+    weight: 40
     region: content
     settings: {  }
     third_party_settings: {  }
   field_programme_learn_outcomes:
     type: text_textarea
-    weight: 16
+    weight: 17
     region: content
     settings:
       rows: 5
@@ -452,14 +507,14 @@ content:
     third_party_settings: {  }
   field_programme_mode_of_learning:
     type: elm_controlled_vocabulary_select
-    weight: 29
+    weight: 44
     region: content
     settings:
       prefix: false
     third_party_settings: {  }
   field_programme_mode_of_study:
     type: elm_controlled_vocabulary_select
-    weight: 25
+    weight: 43
     region: content
     settings:
       prefix: false
@@ -484,7 +539,7 @@ content:
     third_party_settings: {  }
   field_programme_qualification:
     type: text_textarea
-    weight: 17
+    weight: 18
     region: content
     settings:
       rows: 5
@@ -500,26 +555,26 @@ content:
     third_party_settings: {  }
   field_programme_restricted_allia:
     type: boolean_checkbox
-    weight: 34
+    weight: 47
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_programme_start_date:
     type: datetime_default
-    weight: 37
+    weight: 34
     region: content
     settings: {  }
     third_party_settings: {  }
   field_programme_type:
     type: options_buttons
-    weight: 11
+    weight: 39
     region: content
     settings: {  }
     third_party_settings: {  }
   field_programme_type_of_credits:
     type: options_select
-    weight: 42
+    weight: 36
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -540,18 +595,10 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_qualification_awarded:
-    type: options_select
-    weight: 43
+    type: options_buttons
+    weight: 51
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_qualification_level:
-    type: string_textarea
-    weight: 24
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
     third_party_settings: {  }
   field_qualification_requirements:
     type: text_textarea
@@ -627,5 +674,4 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
-  body: true
   field_programme_languages: true

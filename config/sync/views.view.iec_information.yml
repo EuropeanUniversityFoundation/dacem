@@ -6,15 +6,19 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.storage.node.field_fields_of_study
     - field.storage.node.field_iec_avaliable_for_mobility
+    - field.storage.node.field_iec_code
     - field.storage.node.field_iec_coordinator
     - field.storage.node.field_iec_credits
     - field.storage.node.field_iec_elm_type
     - field.storage.node.field_iec_email
+    - field.storage.node.field_iec_engagement_hours
     - field.storage.node.field_iec_language_of_instructio
     - field.storage.node.field_iec_modality
     - field.storage.node.field_iec_phone
+    - field.storage.node.field_iec_restricted_alliance
     - field.storage.node.field_iec_term
     - field.storage.node.field_iec_type
+    - field.storage.node.field_iec_type_of_credits
     - field.storage.node.field_iec_web
     - field.storage.node.field_iec_year
     - node.type.iec_instance
@@ -1149,6 +1153,262 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        field_iec_code:
+          id: field_iec_code
+          table: node__field_iec_code
+          field: field_iec_code
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_iec_engagement_hours:
+          id: field_iec_engagement_hours
+          table: node__field_iec_engagement_hours
+          field: field_iec_engagement_hours
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_decimal
+          settings:
+            thousand_separator: ''
+            decimal_separator: .
+            scale: 2
+            prefix_suffix: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_iec_type_of_credits:
+          id: field_iec_type_of_credits
+          table: node__field_iec_type_of_credits
+          field: field_iec_type_of_credits
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        field_iec_restricted_alliance:
+          id: field_iec_restricted_alliance
+          table: node__field_iec_restricted_alliance
+          field: field_iec_restricted_alliance
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: boolean
+          settings:
+            format: yes-no
+            format_custom_false: ''
+            format_custom_true: ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
       pager:
         type: some
         options:
@@ -1183,15 +1443,19 @@ display:
       tags:
         - 'config:field.storage.node.field_fields_of_study'
         - 'config:field.storage.node.field_iec_avaliable_for_mobility'
+        - 'config:field.storage.node.field_iec_code'
         - 'config:field.storage.node.field_iec_coordinator'
         - 'config:field.storage.node.field_iec_credits'
         - 'config:field.storage.node.field_iec_elm_type'
         - 'config:field.storage.node.field_iec_email'
+        - 'config:field.storage.node.field_iec_engagement_hours'
         - 'config:field.storage.node.field_iec_language_of_instructio'
         - 'config:field.storage.node.field_iec_modality'
         - 'config:field.storage.node.field_iec_phone'
+        - 'config:field.storage.node.field_iec_restricted_alliance'
         - 'config:field.storage.node.field_iec_term'
         - 'config:field.storage.node.field_iec_type'
+        - 'config:field.storage.node.field_iec_type_of_credits'
         - 'config:field.storage.node.field_iec_web'
         - 'config:field.storage.node.field_iec_year'
   attachment_2:

@@ -13,7 +13,6 @@ dependencies:
     - field.field.node.programme.field_distribution_of_credits
     - field.field.node.programme.field_email
     - field.field.node.programme.field_eqf_level
-    - field.field.node.programme.field_grade_distribution_table
     - field.field.node.programme.field_isced_f
     - field.field.node.programme.field_learning_opportunity_type
     - field.field.node.programme.field_length_of_programme
@@ -25,7 +24,6 @@ dependencies:
     - field.field.node.programme.field_programme_area
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
-    - field.field.node.programme.field_programme_explanation_scal
     - field.field.node.programme.field_programme_grading_scheme
     - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
@@ -47,7 +45,6 @@ dependencies:
     - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
     - field.field.node.programme.field_qualification_awarded
-    - field.field.node.programme.field_qualification_level
     - field.field.node.programme.field_qualification_requirements
     - field.field.node.programme.field_work_based_learning
     - node.type.programme
@@ -253,21 +250,6 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 13
             additional: {  }
-          6b068417-2fff-44b4-a718-8641645517bc:
-            uuid: 6b068417-2fff-44b4-a718-8641645517bc
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_qualification_level'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: basic_string
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 15
-            additional: {  }
           834f9248-c19f-47a5-bd8d-6efebba700e3:
             uuid: 834f9248-c19f-47a5-bd8d-6efebba700e3
             region: content
@@ -407,36 +389,6 @@ third_party_settings:
                 settings: {  }
                 third_party_settings: {  }
             weight: 31
-            additional: {  }
-          00facc90-e76a-4631-9d8e-08369c54ae62:
-            uuid: 00facc90-e76a-4631-9d8e-08369c54ae62
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_programme_explanation_scal'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: text_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 33
-            additional: {  }
-          71c1bd71-1c2e-414a-8e04-77cc13f7553d:
-            uuid: 71c1bd71-1c2e-414a-8e04-77cc13f7553d
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_grade_distribution_table'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: text_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 34
             additional: {  }
           82a92d4e-dd6d-4fb8-b4d3-eb7e5c7964be:
             uuid: 82a92d4e-dd6d-4fb8-b4d3-eb7e5c7964be
@@ -903,13 +855,6 @@ content:
     third_party_settings: {  }
     weight: 144
     region: content
-  field_grade_distribution_table:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 134
-    region: content
   field_isced_f:
     type: isced_f_default
     label: above
@@ -995,13 +940,6 @@ content:
       format_type: medium
     third_party_settings: {  }
     weight: 153
-    region: content
-  field_programme_explanation_scal:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 133
     region: content
   field_programme_grading_scheme:
     type: text_default
@@ -1166,13 +1104,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 158
-    region: content
-  field_qualification_level:
-    type: basic_string
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 115
     region: content
   field_qualification_requirements:
     type: text_default

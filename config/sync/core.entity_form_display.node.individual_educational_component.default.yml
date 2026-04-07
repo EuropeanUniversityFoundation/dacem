@@ -47,16 +47,20 @@ third_party_settings:
   field_group:
     group_general_data:
       children:
+        - field_iec_code
+        - field_iec_type_of_credits
+        - field_iec_credits
+        - field_iec_engagement_hours
+        - field_iec_language_of_instructio
+        - field_fields_of_study
+        - field_iec_elm_type
+        - field_iec_type
         - field_iec_year
         - field_iec_term
-        - field_iec_type
-        - field_iec_elm_type
-        - field_fields_of_study
-        - field_iec_credits
-        - field_iec_language_of_instructio
         - field_iec_modality
         - field_iec_avaliable_for_mobility
         - field_iec_restricted_alliance
+        - field_iec_cycle
         - group_coordination
       label: 'General Data'
       region: content
@@ -79,7 +83,7 @@ third_party_settings:
       label: Coordination
       region: content
       parent_name: group_general_data
-      weight: 25
+      weight: 26
       format_type: fieldset
       format_settings:
         classes: ''
@@ -101,28 +105,28 @@ content:
     third_party_settings: {  }
   field_assessment_method_types:
     type: elm_controlled_vocabulary_select
-    weight: 23
+    weight: 21
     region: content
     settings:
       prefix: false
     third_party_settings: {  }
   field_fields_of_study:
     type: isced_f_select
-    weight: 19
+    weight: 16
     region: content
     settings:
       allow_all_levels: true
     third_party_settings: {  }
   field_iec_activity_types:
     type: elm_controlled_vocabulary_select
-    weight: 22
+    weight: 19
     region: content
     settings:
       prefix: false
     third_party_settings: {  }
   field_iec_avaliable_for_mobility:
     type: boolean_checkbox
-    weight: 23
+    weight: 22
     region: content
     settings:
       display_label: true
@@ -153,20 +157,20 @@ content:
     third_party_settings: {  }
   field_iec_credits:
     type: number
-    weight: 20
+    weight: 13
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_iec_cycle:
     type: options_select
-    weight: 25
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
   field_iec_description:
     type: text_textarea
-    weight: 12
+    weight: 11
     region: content
     settings:
       rows: 5
@@ -174,7 +178,7 @@ content:
     third_party_settings: {  }
   field_iec_elm_type:
     type: elm_controlled_vocabulary_select
-    weight: 18
+    weight: 17
     region: content
     settings:
       prefix: false
@@ -189,14 +193,14 @@ content:
     third_party_settings: {  }
   field_iec_engagement_hours:
     type: number
-    weight: 21
+    weight: 14
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_iec_evaluation:
     type: text_textarea
-    weight: 19
+    weight: 20
     region: content
     settings:
       rows: 5
@@ -212,7 +216,7 @@ content:
     third_party_settings: {  }
   field_iec_language_of_instructio:
     type: options_buttons
-    weight: 21
+    weight: 15
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -226,7 +230,7 @@ content:
     third_party_settings: {  }
   field_iec_modality:
     type: elm_controlled_vocabulary_select
-    weight: 22
+    weight: 21
     region: content
     settings:
       prefix: false
@@ -274,26 +278,26 @@ content:
     third_party_settings: {  }
   field_iec_restricted_alliance:
     type: boolean_checkbox
-    weight: 24
+    weight: 23
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_iec_term:
     type: options_buttons
-    weight: 16
+    weight: 20
     region: content
     settings: {  }
     third_party_settings: {  }
   field_iec_type:
     type: options_select
-    weight: 17
+    weight: 18
     region: content
     settings: {  }
     third_party_settings: {  }
   field_iec_type_of_credits:
     type: options_select
-    weight: 24
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -307,13 +311,13 @@ content:
     third_party_settings: {  }
   field_iec_year:
     type: options_buttons
-    weight: 15
+    weight: 19
     region: content
     settings: {  }
     third_party_settings: {  }
   field_subject_area:
     type: text_textarea
-    weight: 20
+    weight: 12
     region: content
     settings:
       rows: 5

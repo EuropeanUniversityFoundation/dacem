@@ -13,7 +13,7 @@ entity_type: node
 bundle: resources_and_services
 label: 'Inclusion and accessibility Infrastructure website'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
