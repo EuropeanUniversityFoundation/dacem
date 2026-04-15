@@ -298,7 +298,7 @@ display:
           operator: '='
           value: '0'
           group: 1
-          exposed: true
+          exposed: false
           expose:
             operator_id: ''
             label: 'Avaliable for Mobility Students'

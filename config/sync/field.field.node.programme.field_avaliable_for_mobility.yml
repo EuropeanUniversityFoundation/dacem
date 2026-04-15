@@ -9,7 +9,7 @@ id: node.programme.field_avaliable_for_mobility
 field_name: field_avaliable_for_mobility
 entity_type: node
 bundle: programme
-label: 'Avaliable for Mobility Students'
+label: 'Available for Mobility Students'
 description: ''
 required: false
 translatable: false

@@ -212,22 +212,6 @@ display:
         options: {  }
       empty: {  }
       sorts:
-        created:
-          id: created
-          table: node_field_data
-          field: created
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: created
-          plugin_id: date
-          order: DESC
-          expose:
-            label: ''
-            field_identifier: ''
-          exposed: false
-          granularity: second
         title:
           id: title
           table: node_field_data
@@ -1168,7 +1152,7 @@ display:
           exposed: true
           expose:
             operator_id: ''
-            label: 'Avaliable for Mobility Students'
+            label: 'Available for Mobility Students'
             description: ''
             use_operator: false
             operator: field_iec_avaliable_for_mobility_value_op

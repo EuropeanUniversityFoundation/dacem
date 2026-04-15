@@ -21,7 +21,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Main Page'
+      title: 'DACEM AC. Main Page'
       fields:
         title:
           id: title
