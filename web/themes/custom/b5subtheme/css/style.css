@@ -13596,14 +13596,102 @@ code {
   margin: 0 !important;
 }
 
+@media (max-width: 991.98px) {
+  #block-b5subtheme-institutionmenublock .navbar-collapse,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse {
+    flex-basis: 100%;
+  }
 
+  #block-b5subtheme-institutionmenublock .navbar-collapse.show,
+  #block-b5subtheme-institutionmenublock .navbar-collapse.collapsing,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse.show,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse.collapsing {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px 16px 16px;
+    background: #fff;
+    border-top: 1px solid #e6e6e6;
+  }
 
+  #block-b5subtheme-institutionmenublock .navbar-collapse.show > .navbar-nav,
+  #block-b5subtheme-institutionmenublock .navbar-collapse.collapsing > .navbar-nav,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse.show > .navbar-nav,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse.collapsing > .navbar-nav {
+    width: 100%;
+    height: auto;
+    margin: 0 !important;
+  }
 
+  #block-b5subtheme-institutionmenublock .navbar-collapse.show > .navbar-nav > .nav-item,
+  #block-b5subtheme-institutionmenublock .navbar-collapse.collapsing > .navbar-nav > .nav-item,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse.show > .navbar-nav > .nav-item,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse.collapsing > .navbar-nav > .nav-item {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #eeeeee;
+  }
 
+  #block-b5subtheme-institutionmenublock .navbar-collapse.show > .navbar-nav > .nav-item > .nav-link,
+  #block-b5subtheme-institutionmenublock .navbar-collapse.collapsing > .navbar-nav > .nav-item > .nav-link,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse.show > .navbar-nav > .nav-item > .nav-link,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse.collapsing > .navbar-nav > .nav-item > .nav-link {
+    width: 100%;
+    min-height: 44px;
+    height: auto;
+    padding: 12px 0 !important;
+    color: #111 !important;
+    line-height: 1.25;
+  }
 
+  #block-b5subtheme-institutionmenublock .navbar-collapse.show > .navbar-nav > .nav-item > .nav-link:hover,
+  #block-b5subtheme-institutionmenublock .navbar-collapse.show > .navbar-nav > .nav-item > .nav-link.active,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse.show > .navbar-nav > .nav-item > .nav-link:hover,
+  #block-b5subtheme-dacemmenublock-2 .navbar-collapse.show > .navbar-nav > .nav-item > .nav-link.active {
+    background: transparent;
+    color: var(--university_primary_color) !important;
+  }
 
+  #block-b5subtheme-institutionmenublock .right-buttons-university-menu,
+  #block-b5subtheme-dacemmenublock-2 .right-buttons-university-menu {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center !important;
+    gap: 12px;
+    padding: 12px 0 0;
+    margin-top: 8px;
+    border-top: 1px solid #e6e6e6;
+  }
 
+  #block-b5subtheme-institutionmenublock .language-buttons,
+  #block-b5subtheme-dacemmenublock-2 .language-buttons {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 
+  #block-b5subtheme-institutionmenublock .language-buttons .navbar-nav,
+  #block-b5subtheme-dacemmenublock-2 .right-buttons-university-menu > .navbar-nav {
+    height: auto;
+    margin: 0 !important;
+  }
+
+  #block-b5subtheme-institutionmenublock .language-buttons .nav-item,
+  #block-b5subtheme-dacemmenublock-2 .right-buttons-university-menu > .navbar-nav > .nav-item {
+    height: auto;
+  }
+
+  #block-b5subtheme-institutionmenublock .language-buttons .nav-link,
+  #block-b5subtheme-dacemmenublock-2 .right-buttons-university-menu > .navbar-nav > .nav-item > .nav-link {
+    height: auto;
+    padding: 8px 0 !important;
+    color: #111 !important;
+    line-height: 1.25;
+  }
+
+  #block-b5subtheme-institutionmenublock .user-profile-container,
+  #block-b5subtheme-dacemmenublock-2 .user-profile-container {
+    margin-left: 0 !important;
+  }
+}
 
 .button-menu-programme{
   background-color: #000;
@@ -13898,6 +13986,25 @@ VISTA DE LISTA DE UNIVERSIDADES
   margin: 0 auto; /* Centra el carrusel */
 }
 
+#universityCarousel {
+  display: flex;
+  flex-direction: column;
+}
+
+#universityCarousel .carousel-inner {
+  order: 1;
+}
+
+#universityCarousel .carousel-indicators {
+  order: 2;
+  position: static;
+  margin: 14px 0 0;
+}
+
+#universityCarousel .carousel-indicators [data-bs-target] {
+  background-color: #000;
+}
+
 /* Tarjetas dentro del carrusel */
 .card {
   border: none; /* Elimina el borde predeterminado */
@@ -14077,6 +14184,35 @@ VISTA DE LISTA DE UNIVERSIDADES
   margin-bottom: 3%;
   max-width: 100% ;
   text-align-last: center;
+}
+
+@media (max-width: 767.98px) {
+  .image-banner-main-page {
+    height: 320px !important;
+  }
+
+  .image-banner-main-page img {
+    object-position: center center !important;
+  }
+
+  .container-university-list {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .text-under-main-image-uni {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .map-and-explore {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .map-and-explore .map-wrapper {
+    margin-bottom: 32px;
+  }
 }
 
 /* Contenedor de la imagen */
@@ -14874,6 +15010,139 @@ padding-right: 25px;
   letter-spacing: -1px;
 }
 
+@media (max-width: 991.98px) {
+  #campusCollapse.section-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .campuses-row-rs {
+    gap: 12px !important;
+    justify-content: stretch !important;
+  }
+
+  .campus-card-rs {
+    width: 100%;
+    max-width: 100%;
+    min-height: 84px;
+  }
+
+  .campus-card-rs-img {
+    width: 84px;
+    height: 84px;
+    flex: 0 0 84px;
+  }
+
+  .campus-card-rs-name {
+    height: 84px;
+    min-width: 0;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .campus-card-rs-name h5 {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .rs-campus-title {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .rs-campus-title h1 {
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  #student-affairs .section-title,
+  #facilities .section-title,
+  #students-mobility .section-title,
+  #university-life .section-title,
+  #extra-academic-activities .section-title {
+    font-size: 1.55rem;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  #student-affairs .facility-text,
+  #facilities .facility-text,
+  #students-mobility .facility-text,
+  #university-life .facility-text,
+  #extra-academic-activities .facility-text {
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  #student-affairs .facility-text img,
+  #facilities .facility-text img,
+  #students-mobility .facility-text img,
+  #university-life .facility-text img,
+  #extra-academic-activities .facility-text img,
+  #student-affairs .facility-text iframe,
+  #facilities .facility-text iframe,
+  #students-mobility .facility-text iframe,
+  #university-life .facility-text iframe,
+  #extra-academic-activities .facility-text iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  #student-affairs .facility-text a,
+  #facilities .facility-text a,
+  #students-mobility .facility-text a,
+  #university-life .facility-text a,
+  #extra-academic-activities .facility-text a {
+    overflow-wrap: anywhere;
+  }
+
+  #facilities .facility-box {
+    padding: 1rem 0 1.5rem;
+  }
+
+  #facilities .facility-icon {
+    font-size: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  #facilities .facility-box h3 {
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+
+  #students-mobility .image-banner,
+  #university-life .image-banner,
+  #extra-academic-activities .image-banner,
+  #facilities .image-banner {
+    height: 260px;
+  }
+
+  .rs-section-image-text {
+    font-size: 34px;
+    line-height: 1.05;
+    max-width: calc(100vw - 32px);
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 575.98px) {
+  #students-mobility .image-banner,
+  #university-life .image-banner,
+  #extra-academic-activities .image-banner,
+  #facilities .image-banner {
+    height: 220px;
+  }
+
+  .rs-section-image-text {
+    font-size: 28px;
+  }
+}
+
 
 
 
@@ -14889,6 +15158,19 @@ padding-right: 25px;
 
 .section-container{
   padding: 75px var(--global-side-padding);
+}
+
+@media (max-width: 767.98px) {
+  .section-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .rs-header .my-custom-container-2 {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
 }
 
 .page-band {
@@ -15685,12 +15967,46 @@ main, .region-content, .layout-container {
   
 }
 
+@media (max-width: 991.98px) {
+  .fixed-navbar .dropdown > .btn.dropdown-toggle {
+    background-color: #000;
+    border-color: #000;
+    color: #fff;
+  }
+
+  .fixed-navbar .dropdown > .dropdown-menu {
+    background-color: #000;
+    border-color: #000;
+    border-radius: 0;
+  }
+
+  .fixed-navbar .dropdown > .dropdown-menu .dropdown-item {
+    color: #fff !important;
+  }
+
+  .fixed-navbar .dropdown > .dropdown-menu .dropdown-item:hover,
+  .fixed-navbar .dropdown > .dropdown-menu .dropdown-item:focus {
+    background-color: var(--university_primary_color);
+    color: var(--university_emphasis_text_color) !important;
+  }
+}
+
 
 
 
 
 #ou-details img{
   height: 400px !important;
+}
+
+@media (max-width: 991.98px) {
+  #ou-details {
+    display: none;
+  }
+
+  .ou-details-mobile img {
+    height: 240px !important;
+  }
 }
 
 
@@ -15861,6 +16177,219 @@ header {
 .dropdown-menu.filter-menu {
   left: 0 !important;
   right: auto !important;
+}
+
+@media (max-width: 991.98px) {
+  .institution-new-catalogue-hero {
+    height: auto !important;
+    min-height: 360px;
+  }
+
+  .institution-new-catalogue-hero .section-container {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .institution-new-catalogue-hero .row.align-items-center {
+    gap: 12px;
+  }
+
+  .institution-new-catalogue-hero .col-auto {
+    width: 100%;
+  }
+
+  .institution-new-catalogue-hero .row.align-items-center > .col {
+    flex: 0 0 100%;
+    width: 100%;
+    text-align: left !important;
+  }
+
+  .institution-new-catalogue-hero h1.section-title {
+    font-size: 30px;
+    line-height: 1.1;
+  }
+
+  .institution-new-catalogue-hero .newcatalogue-btn {
+    margin-bottom: 8px;
+  }
+
+  .institution-new-catalogue-hero .newcatalogue-btn h3 {
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+
+  .institution-new-catalogue-filters {
+    gap: 8px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .institution-new-catalogue-filters .dropdown,
+  .institution-new-catalogue-filters .ms-auto {
+    width: 100%;
+  }
+
+  .institution-new-catalogue-filters .btn,
+  .institution-new-catalogue-filters .form-actions,
+  .institution-new-catalogue-filters .form-actions input {
+    width: 100%;
+  }
+
+  .institution-new-catalogue-filters .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .institution-new-catalogue-filters .form-actions input {
+    min-height: 48px;
+    margin: 0 !important;
+  }
+
+  .institution-new-catalogue-filters .dropdown-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 48px;
+    text-align: left;
+  }
+
+  .institution-new-catalogue-filters .dropdown-toggle::after {
+    margin-left: 12px;
+  }
+
+  .institution-new-catalogue-exposed-form .dropdown-menu.filter-menu {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 50vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 6px !important;
+    border-radius: 0;
+    border: 1px solid #d8d8d8;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  }
+
+  .institution-new-catalogue-exposed-form .filter-menu .form-checkboxes,
+  .institution-new-catalogue-filters .filter-menu .form-checkboxes,
+  .catalogue-view .institution-new-catalogue-filters .filter-menu .form-checkboxes {
+    display: block !important;
+    grid-template-columns: none !important;
+    gap: 0;
+  }
+
+  .institution-new-catalogue-exposed-form .filter-menu .form-checkboxes .form-item,
+  .institution-new-catalogue-filters .filter-menu .form-checkboxes .form-item,
+  .catalogue-view .institution-new-catalogue-filters .filter-menu .form-checkboxes .form-item {
+    display: flex !important;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    min-height: 44px;
+    margin: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #ececec;
+  }
+
+  .institution-new-catalogue-exposed-form .filter-menu .form-checkboxes .form-item:last-child {
+    border-bottom: 0;
+  }
+
+  .institution-new-catalogue-exposed-form .filter-menu input[type="checkbox"] {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    accent-color: var(--university_primary_color);
+  }
+
+  .institution-new-catalogue-exposed-form .filter-menu label {
+    flex: 1 1 auto;
+    margin: 0;
+    line-height: 1.25;
+    text-align: left;
+  }
+
+  .institution-new-catalogue-sort {
+    display: none;
+  }
+
+  .institution-new-catalogue-list {
+    padding-left: 0 !important;
+  }
+
+  .catalogue-programme-card {
+    height: auto !important;
+    min-height: 0;
+  }
+
+  .catalogue-programme-card__row {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .catalogue-programme-card__media,
+  .catalogue-programme-card__content {
+    width: auto;
+    max-width: none;
+    flex: none;
+  }
+
+  .catalogue-programme-card__media {
+    height: auto !important;
+    min-height: 104px;
+  }
+
+  .catalogue-programme-card__media img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .catalogue-programme-card .card-title {
+    font-size: 1rem;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .catalogue-programme-card .programme-meta {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+    gap: 4px 0;
+    font-size: 0.9rem;
+    line-height: 1.25;
+  }
+
+  .catalogue-programme-card .programme-meta .mx-2 {
+    margin-left: 0.35rem !important;
+    margin-right: 0.35rem !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .institution-new-catalogue-hero .section-container,
+  .catalogue-view > .section-container.bg-light {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .institution-new-catalogue-exposed-form .dropdown-menu.filter-menu {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .catalogue-programme-card__row {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .catalogue-programme-card__media {
+    min-height: 112px;
+  }
+
+  .catalogue-programme-card .card-body {
+    padding: 0.65rem !important;
+  }
 }
 
 

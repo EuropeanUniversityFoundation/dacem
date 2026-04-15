@@ -102,7 +102,7 @@
 			<!---->
 			<!---->
 			<!---->
-				<!----> <div class="catalogue-hero"style="height:300px;"> <div class="section-container">
+        <!----> <div class="catalogue-hero institution-new-catalogue-hero"style="height:300px;"> <div class="section-container">
 					<div class="my-custom-container-2">
 
 						<div class="row align-items-center">
@@ -153,8 +153,8 @@
 
 			<div class="section-container bg-light">
 				<div class="my-custom-container-2">
-					<div class="row">
-						<div class="col-lg-2">
+          <div class="row institution-new-catalogue-results">
+            <div class="col-lg-2 institution-new-catalogue-sort">
 							<h3 class="subsection-title p-0 pb-2 m-0">
 								<i class="fas fa-sort-amount-down me-2"></i>
 								SORT
@@ -166,14 +166,14 @@
 
 								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_programme_level" data-sort-order="ASC">Level</button>
 
-								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sor disabled" data-sort-by="field_institution_country" data-sort-order="ASC">Country</button>
+                <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_institution_country" data-sort-order="ASC">Country</button>
 							</div>
 
 
 						</div>
 
 						<div
-							class="col-lg-10 ps-5" id="programme-list">
+              class="col-lg-10 ps-lg-5 institution-new-catalogue-list" id="programme-list">
 							{# Puedes seguir con tu loop propio: AJAX reemplaza todo el wrapper #}
 							{% if view.result is not empty %}
 								{% for row in view.result %}
@@ -188,11 +188,11 @@
 									{% endif %}
 									<div class="programme-item">
 										<a href="{{ row.programme_url }}" class="text-decoration-none text-reset" target="_blank">
-											<div class="card shadow-none mb-3 border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
+                      <div class="card shadow-none mb-3 border-0 rounded-0 catalogue-programme-card" style="height: 123.65px; cursor: pointer;">
 												<div
-													class="row g-0">
+                          class="row g-0 catalogue-programme-card__row">
 													<!-- Imagen (logo institución) -->
-													<div class="col-3" style="height: 123.65px;">
+                          <div class="col-3 catalogue-programme-card__media" style="height: 123.65px;">
 														{% if logo_uri %}
 															<img src="{{ file_url(logo_uri) }}" alt="{{ institution ? institution.label : '' }}" class="img-fluid rounded-0 h-100 object-fit-contain p-2">
 														{% else %}
@@ -203,7 +203,7 @@
 													</div>
 
 													<!-- Texto -->
-													<div class="col-9">
+                          <div class="col-9 catalogue-programme-card__content">
 														<div
 															class="card-body p-2">
 															<!-- Título del programa -->

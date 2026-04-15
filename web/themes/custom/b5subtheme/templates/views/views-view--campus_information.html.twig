@@ -631,7 +631,29 @@ const html = `
     </div>
   `;
 
-document.getElementById('ou-details').innerHTML = html;
+const desktopDetails = document.getElementById('ou-details');
+const existingMobileDetails = document.querySelector('.ou-details-mobile');
+const isMobile = window.matchMedia('(max-width: 991.98px)').matches;
+
+if (isMobile) {
+if (desktopDetails) {
+desktopDetails.innerHTML = '';
+}
+
+const mobileDetails = existingMobileDetails || document.createElement('div');
+mobileDetails.className = 'ou-details-mobile bg-light mb-3';
+mobileDetails.innerHTML = html;
+el.insertAdjacentElement('afterend', mobileDetails);
+mobileDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+} else {
+if (existingMobileDetails) {
+existingMobileDetails.remove();
+}
+
+if (desktopDetails) {
+desktopDetails.innerHTML = html;
+}
+}
 }
 
 

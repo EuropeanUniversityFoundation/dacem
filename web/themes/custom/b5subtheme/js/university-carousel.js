@@ -1,44 +1,98 @@
-document.addEventListener('DOMContentLoaded', function () {
-  function updateCarousel() {
-    const screenWidth = window.innerWidth;
-    const carouselInner = document.querySelector('.carousel-inner');
-    const carouselItems = Array.from(carouselInner.querySelectorAll('.carousel-item .row > .col-12'));
+(function () {
+  'use strict';
 
-    // Limpiar las diapositivas existentes
-    carouselInner.innerHTML = '';
+  function createIndicator(carouselId, index) {
+    const button = document.createElement('button');
 
-    if (screenWidth <= 768) {
-      // Pantallas pequeñas: Una tarjeta por diapositiva
-      carouselItems.forEach((item, index) => {
-        const carouselItem = document.createElement('div');
-        carouselItem.classList.add('carousel-item');
-        if (index === 0) carouselItem.classList.add('active');
+    button.type = 'button';
+    button.setAttribute('data-bs-target', `#${carouselId}`);
+    button.setAttribute('data-bs-slide-to', index);
 
-        const row = document.createElement('div');
-        row.classList.add('row', 'justify-content-center');
-        row.appendChild(item);
-
-        carouselItem.appendChild(row);
-        carouselInner.appendChild(carouselItem);
-      });
-    } else {
-      // Pantallas grandes: Tres tarjetas por diapositiva
-      for (let i = 0; i < carouselItems.length; i += 3) {
-        const carouselItem = document.createElement('div');
-        carouselItem.classList.add('carousel-item');
-        if (i === 0) carouselItem.classList.add('active');
-
-        const row = document.createElement('div');
-        row.classList.add('row', 'gx-3');
-        carouselItems.slice(i, i + 3).forEach(item => row.appendChild(item));
-
-        carouselItem.appendChild(row);
-        carouselInner.appendChild(carouselItem);
-      }
+    if (index === 0) {
+      button.classList.add('active');
+      button.setAttribute('aria-current', 'true');
     }
+
+    return button;
   }
 
-  // Ejecutar al cargar y redimensionar la ventana
-  updateCarousel();
-  window.addEventListener('resize', updateCarousel);
-});
+  function createSlide(cards, isActive, shouldCenterCards) {
+    const slide = document.createElement('div');
+    const row = document.createElement('div');
+
+    slide.classList.add('carousel-item');
+    if (isActive) {
+      slide.classList.add('active');
+    }
+
+    row.classList.add('row', 'gx-3');
+    if (shouldCenterCards) {
+      row.classList.add('justify-content-center');
+    }
+    cards.forEach((card) => row.appendChild(card.cloneNode(true)));
+
+    slide.appendChild(row);
+    return slide;
+  }
+
+  function rebuildBootstrapCarousel(carousel) {
+    if (!window.bootstrap || !window.bootstrap.Carousel) {
+      return;
+    }
+
+    const currentInstance = window.bootstrap.Carousel.getInstance(carousel);
+    if (currentInstance) {
+      currentInstance.dispose();
+    }
+
+    window.bootstrap.Carousel.getOrCreateInstance(carousel);
+  }
+
+  function initUniversityCarousel(carousel) {
+    const carouselInner = carousel.querySelector('.carousel-inner');
+    const indicators = carousel.querySelector('.carousel-indicators');
+
+    if (!carouselInner || !indicators) {
+      return;
+    }
+
+    const originalCards = Array.from(
+      carouselInner.querySelectorAll('.carousel-item .row > .col-12')
+    ).map((card) => card.cloneNode(true));
+
+    if (!originalCards.length) {
+      return;
+    }
+
+    let currentCardsPerSlide = null;
+
+    function updateCarousel() {
+      const cardsPerSlide = window.innerWidth <= 768 ? 1 : 3;
+
+      if (cardsPerSlide === currentCardsPerSlide) {
+        return;
+      }
+
+      currentCardsPerSlide = cardsPerSlide;
+      carouselInner.innerHTML = '';
+      indicators.innerHTML = '';
+
+      for (let i = 0; i < originalCards.length; i += cardsPerSlide) {
+        const slideIndex = i / cardsPerSlide;
+        const cards = originalCards.slice(i, i + cardsPerSlide);
+
+        carouselInner.appendChild(createSlide(cards, slideIndex === 0, cardsPerSlide === 1));
+        indicators.appendChild(createIndicator(carousel.id, slideIndex));
+      }
+
+      rebuildBootstrapCarousel(carousel);
+    }
+
+    updateCarousel();
+    window.addEventListener('resize', updateCarousel);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('#universityCarousel').forEach(initUniversityCarousel);
+  });
+}());

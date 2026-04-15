@@ -27,7 +27,7 @@
 
 {% set menu_titles = {
   'student_affairs': 'Student affairs',
-  'students_mobility': 'Students mobility',
+  'students_mobility': 'Student mobility',
   'facilities': 'Facilities',
   'university_life': 'University life',
   'extra_academic_activities': 'Extra-academic activites'
@@ -56,6 +56,13 @@
 			{{ 'Student affairs'|t }}
 		</button>
 		<ul class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
+      {% if campuses is defined and campuses|length > 1 %}
+        <li>
+          <a class="dropdown-item fw-bold" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#campusCollapse" role="button" aria-expanded="false" aria-controls="campusCollapse">
+            {{ 'Select Campus'|t }}
+          </a>
+        </li>
+      {% endif %}
 			<li>
 				<a class="dropdown-item fw-bold" href="#student-affairs">{{ 'Student affairs'|t }}</a>
 			</li>

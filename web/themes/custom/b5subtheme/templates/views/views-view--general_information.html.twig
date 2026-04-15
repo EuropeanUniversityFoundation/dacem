@@ -38,12 +38,11 @@
 	<!-- Menú desplegable para pantallas pequeñas -->
 	<div
 		class="dropdown d-lg-none w-100">
-		<!--
-								<button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold bg-black border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-									{{ 'Student affairs'|t }}
-								</button> 
-							-->
-
+    {% set first_menu_section = menu_sections|first %}
+    {% set dropdown_label = first_menu_section.label|default('Menu'|t) %}
+    <button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold bg-black border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      {{ dropdown_label }}
+    </button>
 
 		<ul
 			class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
@@ -74,28 +73,28 @@
 
 			{% for section in menu_sections %}
 				<li class="nav-item">
-					<a class="nav-link nav-link-rs-menu fw-bold" href="#{{ section.id }}">
+          <a class="dropdown-item fw-bold" href="#{{ section.id }}">
 						{{ section.label }}
 					</a>
 				</li>
 
-			{% endfor %}
-
-			{% if section.id == 'description' %}
-				{% if aa_results|length > 0 %}
+        {% if section.id == 'description' %}
+          {% if aa_results|length > 0 %}
 					<li class="nav-item">
-						<a class="nav-link nav-link-rs-menu fw-bold" href="#academic-authorities">
+              <a class="dropdown-item fw-bold" href="#academic-authorities">
 							{{ 'Contacts'|t }}
 						</a>
 					</li>
 
+          {% endif %}
 				{% endif %}
-			{% endif %}
+
+      {% endfor %}
 
 
 			{% if campuses is not empty %}
 				<li class="nav-item">
-					<a class="nav-link nav-link-rs-menu fw-bold" href="#campuses">
+          <a class="dropdown-item fw-bold" href="#campuses">
 						{{ 'Campuses'|t }}
 					</a>
 				</li>
@@ -103,7 +102,7 @@
 
 			{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}
 				<li class="nav-item">
-					<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">
+          <a class="dropdown-item fw-bold" href="#organizational-units">
 						{{ 'Org. Units'|t }}
 					</a>
 				</li>
@@ -1086,7 +1085,29 @@ const html = `
     </div>
   `;
 
-document.getElementById('ou-details').innerHTML = html;
+const desktopDetails = document.getElementById('ou-details');
+const existingMobileDetails = document.querySelector('.ou-details-mobile');
+const isMobile = window.matchMedia('(max-width: 991.98px)').matches;
+
+if (isMobile) {
+if (desktopDetails) {
+desktopDetails.innerHTML = '';
+}
+
+const mobileDetails = existingMobileDetails || document.createElement('div');
+mobileDetails.className = 'ou-details-mobile bg-light mb-3';
+mobileDetails.innerHTML = html;
+el.insertAdjacentElement('afterend', mobileDetails);
+mobileDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+} else {
+if (existingMobileDetails) {
+existingMobileDetails.remove();
+}
+
+if (desktopDetails) {
+desktopDetails.innerHTML = html;
+}
+}
 }
 
 
@@ -1210,4 +1231,3 @@ if (items.length > 0) {
 showPage(currentPage);
 }
 });</script>
-

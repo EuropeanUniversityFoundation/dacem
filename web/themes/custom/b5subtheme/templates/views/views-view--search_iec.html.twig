@@ -114,7 +114,7 @@
 			<!---->
 			<!---->
 			<!---->
-				<!----> <div class="catalogue-hero "style="height:300px;"> <div class="section-container">
+        <!----> <div class="catalogue-hero institution-new-catalogue-hero"style="height:300px;"> <div class="section-container">
 					<div class="my-custom-container-2">
 
 						<div class="row align-items-center mb-2">
@@ -163,8 +163,8 @@
 
 			<div class="section-container bg-light">
 				<div class="my-custom-container-2">
-					<div class="row">
-						<div class="col-lg-2">
+          <div class="row institution-new-catalogue-results">
+            <div class="col-lg-2 institution-new-catalogue-sort">
 							<h3 class="subsection-title p-0 pb-2 m-0">
 								<i class="fas fa-sort-amount-down me-2"></i>
 								SORT
@@ -184,7 +184,7 @@
 							</div>
 						</div>
 
-						<div class="col-lg-10 ps-5" id="iec-list">
+            <div class="col-lg-10 ps-lg-5 institution-new-catalogue-list" id="iec-list">
                         	{% if view.result is not empty %}
 								{% for row in view.result %}
 									{% set iec = row._entity %}
@@ -199,7 +199,7 @@
 									<div class="iec-item">
 										<a href="{{row.custom_url}}" class="text-decoration-none text-reset" target="_blank">
 											
-											<div class="card shadow-none mb-3 border-0 rounded-0 position-relative" style="cursor: pointer;">
+                      <div class="card shadow-none mb-3 border-0 rounded-0 position-relative catalogue-programme-card" style="cursor: pointer;">
 												
 												{% if iec.field_iec_avaliable_for_mobility.value %}
 													<div class="mobility-badge">

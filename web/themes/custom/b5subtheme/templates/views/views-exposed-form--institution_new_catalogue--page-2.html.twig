@@ -37,7 +37,7 @@
 {% endmacro %}
 
 
-<form{{attributes.addAttribute('data-disable-refocus','true')}}>
+<form{{attributes.addClass('institution-new-catalogue-exposed-form').addAttribute('data-disable-refocus','true')}}>
 
 	{# Activo si tiene valor “real” (no vacío / no All / no _none) #}
 	{% set mobility_active =
@@ -74,7 +74,7 @@
 
 
 	<div
-		class="custom-btn-group-filter-ou d-flex gap-10 mb-3 flex-wrap">
+    class="custom-btn-group-filter-ou institution-new-catalogue-filters d-flex gap-10 mb-3 flex-wrap">
 
 
 
@@ -155,4 +155,3 @@
 
 	{{ children }}
 </form>
-
