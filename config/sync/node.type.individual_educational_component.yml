@@ -9,7 +9,7 @@ third_party_settings:
     available_menus:
       - main
     parent: 'main:'
-name: 'Individual Educational Component'
+name: Course
 type: individual_educational_component
 description: null
 help: null

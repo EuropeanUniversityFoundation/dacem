@@ -14042,7 +14042,7 @@ VISTA DE LISTA DE UNIVERSIDADES
 
 .card-text-country {
 
-  color: red;
+  color: var(--university_primary_color);
   font-size: 0.9rem;
   line-height: 1.4;
   margin-bottom: 5px;
@@ -14274,7 +14274,7 @@ a.card.h-100 {
 
 
 .dacem-menu-item:hover {
-  background-color: #ff4949;
+  background-color: var(--university_primary_color);
 }
 
 .user-menu-item:hover{
@@ -15770,7 +15770,7 @@ tbody tr:nth-child(odd) td {
 
 
 .btn-search-filter-active{
-  background-color: #ff4949 !important;
+  background-color: var(--university_primary_color) !important;
   color: white !important;
 }
 
@@ -15807,8 +15807,8 @@ tbody tr:nth-child(odd) td {
   content:"";
   position:absolute; inset:0;
   background: linear-gradient(180deg,
-    rgba(242,73,65,.95) 0%,   /* #f24941 */
-    rgba(98,21,15,.85) 100%  /* #62150f */
+    color-mix(in srgb, var(--university_primary_color) 78%, transparent) 0%,
+    color-mix(in srgb, var(--university_primary_color) 62%, black) 100%
   );
   z-index: 0;
   pointer-events: none;
@@ -16088,12 +16088,12 @@ header {
 }
 
 .btn-iec-searcher:hover{
-  background: #ff4949 !important;
+  background: var(--university_primary_color) !important;
 }
 
 
 .btn-programme_searcher:hover{
-  background: #ff4949 !important;
+  background: var(--university_primary_color) !important;
 }
 
 

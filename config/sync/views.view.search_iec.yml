@@ -298,10 +298,10 @@ display:
           operator: '='
           value: '0'
           group: 1
-          exposed: false
+          exposed: true
           expose:
             operator_id: ''
-            label: 'Avaliable for Mobility Students'
+            label: 'Available for Mobility Students'
             description: ''
             use_operator: false
             operator: field_iec_avaliable_for_mobility_value_op

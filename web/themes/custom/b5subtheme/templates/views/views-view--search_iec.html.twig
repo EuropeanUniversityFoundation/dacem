@@ -1,14 +1,10 @@
 {{ attach_library('b5subtheme/search-programme-sort') }}
-{% set university_primary_color = view.result[0]._entity.field_iec_programme.entity.field_programme_institution.entity.field_primary_color[0].color  %}
-{% set university_text_color = view.result[0]._entity.field_iec_programme.entity.field_programme_institution.entity.field_text_color[0].color  %}
-{% set university_emphasis_text_color = view.result[0]._entity.field_iec_programme.entity.field_programme_institution.entity.field_emphasis_text_color[0].color  %}
-
 
 <style>:root
 {
-	--university_primary_color: {{university_primary_color}};
-	--university_text_color: {{university_text_color}};
-	--university_emphasis_text_color: {{university_emphasis_text_color}};
+  --university_primary_color: {{ search_site_primary_color|default('#ff4949') }};
+  --university_text_color: #000;
+  --university_emphasis_text_color: #fff;
 
 }</style>
 
@@ -130,7 +126,7 @@
                                     </a>
 
 
-									<a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-iec-searcher" style="background-color: #ff4949;">
+                  <a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-iec-searcher btn-newcatalogue-active">
 											<h3>{{ 'Courses'|t|upper }}</h3>
 									</a>
 

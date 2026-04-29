@@ -1,12 +1,7 @@
 {# dacem-footer-block.html.twig #}
 {# Nombre del nodo #}
 
-	{% if institution %}
-	{% set university_primary_color = primary_color %}
-
-{% else %}
-	{% set university_primary_color = '#ff4949' %}
-{% endif %}
+{% set university_primary_color = primary_color|default('#ff4949') %}
 
 {#{dump(last_updated)}}
 {{dump(nodebundle)}#}
@@ -120,6 +115,7 @@
 <div class="footer-bottom text-center py-2" style="background-color: black; color: #989898">
 	<p class="small mb-0 text-center">Copyright © 2025 - Designed by DACEM</p>
 </div>
+
 -->
 
 
@@ -164,8 +160,9 @@
 <div class="footer-middle py-5 bg-white">
 	<div class="container">
 		<div class="row text-center text-md-start">
-			<div class="col-md-4 mb-4 mb-md-0">
-				<img src="/themes/custom/b5subtheme/images/logo_dacem.png" alt="DACEM logo" class="mb-3" style="max-width: 300px;">
+			<div class="col-md-4 mb-4 mb-md-0 d-flex align-items-center justify-content-center justify-content-md-start gap-3 flex-wrap">
+				<img src="/themes/custom/b5subtheme/images/athena-logo.png" alt="Athena logo" class="athena-footer-logo mb-3" style="max-width: 180px; display: none;">
+				<img src="/themes/custom/b5subtheme/images/logo_dacem.png" alt="DACEM logo" class="mb-3" style="max-width: 220px;">
 			</div>
 			<div class="col-md-4 mb-4 mb-md-0">
 				<h6 class="fw-bold">Links</h6>
@@ -220,12 +217,13 @@
 	<p class="small mb-0 text-center">Copyright © 2025 - Designed by DACEM</p>
 </div>
 
+<script>
+(function () {
+	var hostname = window.location.hostname.toLowerCase();
+	var athenaLogo = document.querySelector('.athena-footer-logo');
 
-
-
-
-
-
-
-
-
+	if (athenaLogo && hostname.indexOf('athena') !== -1) {
+		athenaLogo.style.display = '';
+	}
+})();
+</script>

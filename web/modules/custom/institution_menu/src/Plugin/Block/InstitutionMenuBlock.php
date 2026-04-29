@@ -8,6 +8,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Path\AliasManagerInterface;
+use Drupal\Core\Site\Settings;
 use Drupal\user\Entity\User;
 use Drupal\file\Entity\File;
 
@@ -56,6 +57,8 @@ class InstitutionMenuBlock extends BlockBase
     {
 
         $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+        $site_branding = Settings::get('site_branding', []);
+        $site_menu_logo_url = $site_branding['menu_logo_image'] ?? '/themes/custom/b5subtheme/images/dacem-imago.png';
 
         // Imagen y menú desplegable de usuario
         $current_user = \Drupal::currentUser();
@@ -306,7 +309,6 @@ class InstitutionMenuBlock extends BlockBase
 
             ////dump('if not empty institution');
             $logo_url = '';
-            $logo_dacem_url = '/themes/custom/b5subtheme/images/dacem-imago.png';
 
             if (!$institution->get('field_logo')->isEmpty()) {
                 $media = $institution->get('field_logo')->entity;
@@ -550,7 +552,7 @@ class InstitutionMenuBlock extends BlockBase
     
   </div>',
                     [
-                        '@logo_dacem_url' => $logo_dacem_url,
+                        '@logo_dacem_url' => $site_menu_logo_url,
                         '@logo_url' => $logo_url,
                         '@university_name' => $institution->getTitle(),
                         '@university_path' => $institution->toUrl()->getInternalPath(),
@@ -562,5 +564,12 @@ class InstitutionMenuBlock extends BlockBase
         }
 
         return $build;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCacheMaxAge() {
+        return 0;
     }
 }

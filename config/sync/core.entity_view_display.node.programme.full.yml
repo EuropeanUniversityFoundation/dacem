@@ -22,7 +22,6 @@ dependencies:
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
     - field.field.node.programme.field_programme_abbreviation
-    - field.field.node.programme.field_programme_area
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
     - field.field.node.programme.field_programme_grading_scheme
@@ -163,7 +162,6 @@ hidden:
   field_number_of_terms: true
   field_occupational_profiles: true
   field_programme_abbreviation: true
-  field_programme_area: true
   field_programme_end_date: true
   field_programme_grading_scheme: true
   field_programme_grading_table: true

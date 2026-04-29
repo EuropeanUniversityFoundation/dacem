@@ -5,6 +5,7 @@ namespace Drupal\dacem_menu\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Url;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Site\Settings;
 use Drupal\file\Entity\File;
 use Drupal\user\Entity\User;
 
@@ -55,9 +56,14 @@ if (!$show_block) {
   return [];
 }
 
-    // Route to logo 
-    $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
-    $logo_url = base_path() . $theme_path . '/images/dacem-imago.png';
+    $site_branding = Settings::get('site_branding', []);
+    $primary_color = $site_branding['primary_color'] ?? '#ff4949';
+    $logo_url = $site_branding['menu_logo_image'] ?? NULL;
+
+    if (!$logo_url) {
+      $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
+      $logo_url = base_path() . $theme_path . '/images/dacem-imago.png';
+    }
 
  
     $language_manager = \Drupal::service('language_manager');
@@ -145,7 +151,7 @@ if (!$show_block) {
 
     return [
   '#markup' => $this->t('
-    <nav class="navbar sticky-top navbar-expand-lg university-navbar">
+    <nav class="navbar sticky-top navbar-expand-lg university-navbar" style="--university_primary_color: @site_primary_color; --university_emphasis_text_color: #fff;">
       <div class="container-fluid">
           <a class="navbar-brand" href="/">
               <img src="@menu_image_url" alt="DACEM Logo" class="menu-logo d-inline-block align-text-top">
@@ -177,10 +183,18 @@ if (!$show_block) {
     </nav>',
     [
       '@menu_image_url' => $logo_url,
+      '@site_primary_color' => $primary_color,
     ]
   ),
 ];
 
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheMaxAge() {
+    return 0;
   }
 
 }

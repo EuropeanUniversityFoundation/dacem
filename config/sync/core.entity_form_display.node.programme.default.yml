@@ -21,7 +21,6 @@ dependencies:
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
     - field.field.node.programme.field_programme_abbreviation
-    - field.field.node.programme.field_programme_area
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
     - field.field.node.programme.field_programme_grading_scheme
@@ -415,12 +414,6 @@ content:
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
-  field_programme_area:
-    type: options_buttons
-    weight: 42
-    region: content
-    settings: {  }
     third_party_settings: {  }
   field_programme_description:
     type: text_textarea

@@ -8,6 +8,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Site\Settings;
 use Drupal\dacem_footer\Form\DacemFooterFeedbackForm;
 
 /**
@@ -74,7 +75,8 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
   public function build() {
 
   $institution = NULL;
-  $primary_color = '#ff4949'; // Default DACEM color.
+  $site_branding = Settings::get('site_branding', []);
+  $primary_color = $site_branding['primary_color'] ?? '#ff4949';
   $last_updated = NULL;
   $nodebundle = NULL;
 
@@ -88,10 +90,20 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
    */
   $institution_machine = $this->routeMatch->getParameter('arg_0');
   if ($institution_machine) {
-    $institution_data = $this->getNodeFromAlias('/' . $institution_machine, $langcode);
+    if (is_numeric($institution_machine)) {
+      $original_institution = \Drupal\node\Entity\Node::load((int) $institution_machine);
+      $institution = $original_institution;
 
-    $institution = $institution_data ? $institution_data['translated'] : NULL;
-    $original_institution = $institution_data ? $institution_data['original'] : NULL;
+      if ($original_institution && $langcode && $original_institution->hasTranslation($langcode)) {
+        $institution = $original_institution->getTranslation($langcode);
+      }
+    }
+    else {
+      $institution_data = $this->getNodeFromAlias('/' . $institution_machine, $langcode);
+
+      $institution = $institution_data ? $institution_data['translated'] : NULL;
+      $original_institution = $institution_data ? $institution_data['original'] : NULL;
+    }
 
     if ($original_institution && $original_institution->hasField('field_primary_color') && !$original_institution->get('field_primary_color')->isEmpty()) {
       $primary_color = $original_institution->get('field_primary_color')->first()->color;

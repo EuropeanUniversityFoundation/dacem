@@ -1,5 +1,11 @@
 {{ attach_library('b5subtheme/search-programme-sort') }}
 
+<style>
+  :root {
+    --university_primary_color: {{ search_site_primary_color|default('#ff4949') }};
+    --university_emphasis_text_color: #fff;
+  }
+</style>
 
 <div
 	class="negative-margin-search-page">
@@ -112,7 +118,7 @@
 
 							<div class="col-auto">
 								<div role="group" aria-label="Catalogue type">
-									<a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-iec-searcher  " style="background-color: #ff4949;" data-target-segment="programmes">
+                  <a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-iec-searcher btn-newcatalogue-active" data-target-segment="programmes">
 										<h3>PROGRAMMES</h3>
 									</a>
 

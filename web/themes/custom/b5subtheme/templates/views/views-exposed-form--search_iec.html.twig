@@ -79,6 +79,8 @@
     )
   %}
 
+
+
 	<div
     class="custom-btn-group-filter-ou institution-new-catalogue-filters d-flex gap-10 mb-3 flex-wrap">
 
@@ -137,13 +139,13 @@
 		{% endif %}
 
 			{# Mobility (boolean) #}
-			{% if form.iec_avaliable_for_mobility is defined %}
-				<div class="iec-mobility-filter">
-					{{ form.iec_avaliable_for_mobility }}
-					{# Si quieres forzar un label bonito, puedes ocultar el label del elemento en Views y poner este #}
-					<label class="form-check-label mb-0" for="{{ form.iec_avaliable_for_mobility['#id']|default('') }}"></label>
-				</div>
-			{% endif %}
+		{% if form.iec_avaliable_for_mobility is defined %}
+			<div class="iec-mobility-filter">
+			{{ form.iec_avaliable_for_mobility }}
+			{# Si quieres forzar un label bonito, puedes ocultar el label del elemento en Views y poner este #}
+			<label class="form-check-label mb-0" for="{{ form.iec_avaliable_for_mobility['#id']|default('') }}"></label>
+			</div>
+		{% endif %}
 
 
 		

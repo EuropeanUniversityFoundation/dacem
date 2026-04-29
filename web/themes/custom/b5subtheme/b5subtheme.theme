@@ -85,6 +85,9 @@ function b5subtheme_preprocess_page(&$variables)
 
   // Your custom preprocess code for pages.
   $variables['#attached']['library'][] = 'b5subtheme/course_buttons';
+  $branding = \Drupal::service('settings')->get('site_branding', []);
+  $variables['site_primary_color'] = $branding['primary_color'] ?? '#ff4949';
+
   $path = \Drupal::theme()->getActiveTheme()->getPath() . '/translations/translations.yml';
 
 
@@ -225,6 +228,15 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
     }
+
+    $branding = \Drupal::service('settings')->get('site_branding', []);
+
+    $variables['main_banner_image'] = $branding['main_banner_image'] ?? '/themes/custom/b5subtheme/images/dacem-008.jpg';
+    $variables['main_page_primary_color'] = $branding['primary_color'] ?? '#ff4949';
+
+
+
+
   }
 
 
@@ -1416,6 +1428,9 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
 
   if ($variables['view']->id() === 'search_programme' || $variables['view']->id() === 'searcher') {
+    $branding = \Drupal::service('settings')->get('site_branding', []);
+    $variables['search_site_primary_color'] = $branding['primary_color'] ?? '#ff4949';
+
     // Idioma de contenido actual.
     $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
@@ -1568,6 +1583,8 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
 
   if ($variables['view']->id() === 'search_iec') {
+    $branding = \Drupal::service('settings')->get('site_branding', []);
+    $variables['search_site_primary_color'] = $branding['primary_color'] ?? '#ff4949';
 
     $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
@@ -1791,6 +1808,3 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
     }
   }
 }
-
-
-
