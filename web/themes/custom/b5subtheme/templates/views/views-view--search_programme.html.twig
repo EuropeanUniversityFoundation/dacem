@@ -137,7 +137,7 @@
 		<div class="section-container bg-light">
 			<div class="my-custom-container-2">
 				<div class="row institution-new-catalogue-results">
-					
+
 
 					<div class="col-lg-10 ps-lg-5 institution-new-catalogue-list" id="programme-list">
 						{% if selected_home_programme %}
@@ -179,7 +179,7 @@
 
 											<div
 												class="row g-0 catalogue-programme-card__row">
-											
+
 												<div class="col-3 catalogue-programme-card__media" style="height: 123.65px;">
 													{% if logo_uri %}
 														<img src="{{ file_url(logo_uri) }}" alt="{{ institution ? institution.label : '' }}" class="img-fluid rounded-0 h-100 object-fit-contain p-2">
@@ -190,11 +190,11 @@
 													{% endif %}
 												</div>
 
-											
+
 												<div class="col-9 catalogue-programme-card__content">
 													<div
 														class="card-body p-2">
-												
+
 														<h5 class="card-title mb-1 text-start">{{ programme.label }}</h5>
 
 														<div class="programme-meta d-flex align-items-center mb-2">
@@ -231,7 +231,7 @@
 														</div>
 
 
-														
+
 														<div class="ou-tag-bar">
 
 															{% set university_primary_color = institution.field_primary_color[0].color %}
@@ -298,19 +298,19 @@ const norm = s => (s || '').toString().trim();
 
 const searchInput = document.getElementById('programme-search');
 const searchBtn = document.getElementById('search-btn');
-if (! searchInput) 
+if (! searchInput)
 return;
 
 
 
 const wrapper = document.querySelector('[data-view-dom-id]');
-if (! wrapper) 
+if (! wrapper)
 return;
 
 
 
 const form = wrapper.querySelector('form[id^="views-exposed-form-"]');
-if (! form) 
+if (! form)
 return;
 
 
@@ -350,7 +350,7 @@ form.submit();
 
 // Mantén sincronizado si ya había valor del exposed al cargar
 const firstCombine = wrapper.querySelector('input[name="combine"]');
-if (firstCombine && ! searchInput.value) 
+if (firstCombine && ! searchInput.value)
 searchInput.value = firstCombine.value || '';
 
 
@@ -361,7 +361,7 @@ e.preventDefault();
 submitSearch();
 }
 });
-if (searchBtn) 
+if (searchBtn)
 searchBtn.addEventListener('click', (e) => {
 e.preventDefault();
 submitSearch();

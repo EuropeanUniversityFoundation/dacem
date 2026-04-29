@@ -57,10 +57,10 @@ function getEntityFromAlias($alias, $langcode = NULL)
   if (preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
     $nid = (int) $matches[1];
 
-   
+
     $node = Node::load($nid);
 
-   
+
     if ($langcode && $node->hasTranslation($langcode)) {
       return $node->getTranslation($langcode);
     }
@@ -461,8 +461,8 @@ function b5subtheme_preprocess_views_view(&$variables)
   ////dump($variables['view']->id());
 
   $path = \Drupal::theme()->getActiveTheme()->getPath() . '/translations/translations.yml';
- 
-  
+
+
   // Cargar el contenido del archivo YAML.
   if (file_exists($path)) {
     $translations = \Drupal\Component\Serialization\Yaml::decode(file_get_contents($path));
@@ -477,7 +477,7 @@ function b5subtheme_preprocess_views_view(&$variables)
   }
 
 
-  
+
 
 
 
@@ -556,17 +556,17 @@ function b5subtheme_preprocess_views_view(&$variables)
   $current_language = \Drupal::languageManager()
     ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
     ->getId();
-  
-  
+
+
 
   $alias_manager = \Drupal::service('path_alias.manager');
   $language_prefix = '/' . $current_language;
 
   foreach ($variables['view']->result as &$row) {
-   
+
     $programme = $row->_entity ?? NULL;
 
-  
+
     if (!$programme || !$programme->id()) {
       continue;
     }
@@ -584,7 +584,7 @@ function b5subtheme_preprocess_views_view(&$variables)
       continue;
     }
 
-    
+
     $institution = $programme_translated->get('field_programme_institution')->entity;
     if (!$institution || !$institution->id()) {
       continue;
@@ -631,18 +631,18 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.page_2') {
 
-  
+
 
   $current_language = \Drupal::languageManager()
     ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
     ->getId();
 
   foreach ($variables['view']->result as &$row) {
-   
+
     $iec = $row->_entity ?? NULL;
 
     if (!$iec instanceof NodeInterface || !$iec->id()) {
-      
+
       continue;
     }
 
@@ -872,7 +872,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       ($institution_for_colors->hasField('field_text_color') && !$institution_for_colors->get('field_text_color')->isEmpty() && isset($institution_for_colors->get('field_text_color')->first()->color))
         ? $institution_for_colors->get('field_text_color')->first()->color
         : '#000000';
-      
+
     $variables['catalogue_university_emphasis_text_color'] =
       ($institution_for_colors->hasField('field_emphasis_text_color') && !$institution_for_colors->get('field_emphasis_text_color')->isEmpty() && isset($institution_for_colors->get('field_emphasis_text_color')->first()->color))
         ? $institution_for_colors->get('field_emphasis_text_color')->first()->color
@@ -1039,18 +1039,18 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
 
     foreach ($variables['view']->result as &$row) {
-      
+
 
       // Accedemos a la relacion
       if (!empty($row->_relationship_entities['reverse__node__field_iec_programme'])) {
 
         $iec = $row->_relationship_entities['reverse__node__field_iec_programme'];
-        
+
         if ($iec instanceof Node) {
 
 
 
-          
+
           if ($iec->hasTranslation($current_language)) {
 
             // Si la asignatura tiene traducción al idioma actual.
@@ -1104,8 +1104,8 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
 
 
-    
-      
+
+
   }
 
 
@@ -1307,7 +1307,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         ];
       }
 
-    
+
       /*
       if (!empty($variables['has_academic_authorities'])) {
         $sections[] = [
@@ -1350,7 +1350,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
 
 
-      
+
 
       /*
       if (!empty($variables['has_campuses'])) {
@@ -1372,7 +1372,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
 
 
-      
+
       $changed = $node->getChangedTime();
 
       $variables['last_updated'] = \Drupal::service('date.formatter')
@@ -1508,7 +1508,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       //En caso de que sexa rs de campuso o que estamos vendo
       if ($variables['view']->current_display == 'page_2') {
 
-        
+
 
 
 
@@ -1551,7 +1551,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
           'field_rs_special_facilities',
           'field_practical_information_for',
           'field_rs_cost_of_living',
-          
+
           'field_rs_transportation',
           'field_rs_meals',
           'field_rs_housing',
@@ -2184,7 +2184,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     $iec = $row->_entity ?? NULL;
 
     if (!$iec instanceof NodeInterface || !$iec->id()) {
-      
+
       continue;
     }
 
