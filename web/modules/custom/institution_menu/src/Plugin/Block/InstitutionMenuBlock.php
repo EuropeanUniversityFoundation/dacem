@@ -118,6 +118,30 @@ class InstitutionMenuBlock extends BlockBase
                 'RESOURCES AND SERVICES' => 'RESSOURCES ET SERVICES',
                 'UNIVERSITY LIFE' => 'VIE UNIVERSITAIRE',
             ],
+            'it' => [
+                'INSTITUTIONAL INFORMATION' => 'INFORMAZIONI ISTITUZIONALI',
+                'CATALOGUE' => 'CATALOGO',
+                'RESOURCES AND SERVICES' => 'RISORSE E SERVIZI',
+                'UNIVERSITY LIFE' => 'VITA UNIVERSITARIA',
+            ],
+            'de' => [
+                'INSTITUTIONAL INFORMATION' => 'INSTITUTIONELLE INFORMATIONEN',
+                'CATALOGUE' => 'KATALOG',
+                'RESOURCES AND SERVICES' => 'RESSOURCEN UND DIENSTLEISTUNGEN',
+                'UNIVERSITY LIFE' => 'UNIVERSITÄTSLEBEN',
+            ],
+            'lt' => [
+                'INSTITUTIONAL INFORMATION' => 'INSTITUCINĖ INFORMACIJA',
+                'CATALOGUE' => 'KATALOGAS',
+                'RESOURCES AND SERVICES' => 'IŠTEKLIAI IR PASLAUGOS',
+                'UNIVERSITY LIFE' => 'UNIVERSITETO GYVENIMAS',
+            ],
+            'pl' => [
+                'INSTITUTIONAL INFORMATION' => 'INFORMACJE INSTYTUCJONALNE',
+                'CATALOGUE' => 'KATALOG',
+                'RESOURCES AND SERVICES' => 'ZASOBY I USŁUGI',
+                'UNIVERSITY LIFE' => 'ŻYCIE UNIWERSYTECKIE',
+            ],
             'pt-pt' => [
                 'INSTITUTIONAL INFORMATION' => 'INFORMAÇÃO INSTITUCIONAL',
                 'CATALOGUE' => 'CATÁLOGO',
@@ -338,6 +362,10 @@ class InstitutionMenuBlock extends BlockBase
                 'es' => '🇪🇸', // Español
                 'pt-pt' => '🇵🇹', // Portugués
                 'fr' => '🇫🇷', // Francés
+                'it' => '🇮🇹', // Italiano
+                'de' => '🇩🇪', // Alemán
+                'lt' => '🇱🇹', // Lituano
+                'pl' => '🇵🇱', // Polaco
                 'el' => '🇬🇷', // Griego
                 'cs' => '🇨🇿', // Checo
                 'sl' => '🇸🇮', // Esloveno
@@ -487,6 +515,7 @@ class InstitutionMenuBlock extends BlockBase
             $gi_active = (!in_array($current_page, ['catalogue', 'resources-and-services'])) ? ' active ' : '';
             $cat_active = ($current_page === 'catalogue') ? ' active ' : '';
             $rs_active = ($current_page === 'resources-and-services') ? ' active ' : '';
+            $menu_translations = $translations[$current_language] ?? $translations['en'];
 
             // Por accesibilidad, aria-current="page" en el activo.
             $gi_aria = $gi_active ? ' aria-current="page"' : '';
@@ -518,14 +547,14 @@ class InstitutionMenuBlock extends BlockBase
         <div class="collapse navbar-collapse" id="universityNavbar">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link' . $gi_active . '" href="' . $general_info_url . '"' . $gi_aria . '>' . $translations[$current_language]['INSTITUTIONAL INFORMATION'] . '</a>
+              <a class="nav-link' . $gi_active . '" href="' . $general_info_url . '"' . $gi_aria . '>' . $menu_translations['INSTITUTIONAL INFORMATION'] . '</a>
             </li>
             
             <li class="nav-item">
-              <a class="nav-link' . $cat_active . '" href="/' . $catalogue_url . '"' . $cat_aria . '>' . $translations[$current_language]['CATALOGUE'] . '</a>
+              <a class="nav-link' . $cat_active . '" href="/' . $catalogue_url . '"' . $cat_aria . '>' . $menu_translations['CATALOGUE'] . '</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link' . $rs_active . '" href="' . $rs_url . '"' . $rs_aria . '>' . $translations[$current_language]['RESOURCES AND SERVICES'] . '</a>
+              <a class="nav-link' . $rs_active . '" href="' . $rs_url . '"' . $rs_aria . '>' . $menu_translations['RESOURCES AND SERVICES'] . '</a>
             </li>
           </ul>
 

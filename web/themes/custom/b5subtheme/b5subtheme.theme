@@ -159,6 +159,7 @@ function b5subtheme_preprocess_views_view(&$variables)
   if ($variables['view']->id() == 'main_page') {
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $translated_institution = null;
+    $variables['main_page_is_athena'] = str_contains(strtolower(\Drupal::request()->getHost()), 'athena');
 
     // === ADD: Country list (Address repo) para el idioma actual ===
     $country_repo = \Drupal::service('address.country_repository');
@@ -193,25 +194,28 @@ function b5subtheme_preprocess_views_view(&$variables)
         $variables['view']->result[$key]->_entity = $translated_institution;
 
       } else {
-        // Si no tiene traducción, usar el idioma original de la asignatura.
-        $original_language = $institution->language()->getId();
+        // Si no tiene traducción al idioma actual, enlazar a la versión inglesa.
+        $fallback_language = 'en';
+        $fallback_institution = $institution->hasTranslation($fallback_language)
+          ? $institution->getTranslation($fallback_language)
+          : $institution;
 
         //$row->custom_url = $subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
-        $translated_url = $institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
+        $translated_url = $fallback_institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($fallback_language)])->toString();
 
         // Extraer el idioma desde la URL original
-        $language_prefix = \Drupal::languageManager()->getCurrentLanguage()->getId();
+        $language_prefix = $fallback_language;
 
         // Eliminar el prefijo del idioma si ya está presente en la URL original
-        if (strpos($translated_url, '/' . $original_language) === 0) {
+        if (strpos($translated_url, '/' . $fallback_language) === 0) {
 
-          $translated_url = substr($translated_url, strlen('/' . $original_language));
+          $translated_url = substr($translated_url, strlen('/' . $fallback_language));
         }
 
         // Construir la nueva URL con el formato correcto
         $row->custom_url = $language_prefix . '/general-information' . $translated_url;
 
-        $variables['view']->result[$key]->_entity = $institution;
+        $variables['view']->result[$key]->_entity = $fallback_institution;
       }
       // === ADD: país por fila ===
       $entity = $variables['view']->result[$key]->_entity;

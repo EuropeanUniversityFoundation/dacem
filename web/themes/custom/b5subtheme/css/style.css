@@ -14176,6 +14176,20 @@ VISTA DE LISTA DE UNIVERSIDADES
   padding: 10px 20px;
 }
 
+.text-main-image-uni--athena {
+  color: #313c79;
+}
+
+.cta-button--athena {
+  background-color: rgba(49, 60, 121, 0.88);
+  border: 3px solid rgba(49, 60, 121, 0.88);
+}
+
+.cta-button--athena:hover {
+  background-color: #313c79;
+  border-color: #313c79;
+}
+
 .text-under-main-image-uni{
   text-align: center;
   padding-left: 15%;

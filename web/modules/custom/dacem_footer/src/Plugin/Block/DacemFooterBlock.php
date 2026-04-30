@@ -44,6 +44,24 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
 
   protected function getNodeFromAlias($alias, $langcode = NULL)
   {
+    if (preg_match('/^\/(\d+)$/', $alias, $matches)) {
+      $node = \Drupal\node\Entity\Node::load((int) $matches[1]);
+
+      if (!$node) {
+        return NULL;
+      }
+
+      $translated = $node;
+      if ($langcode && $node->hasTranslation($langcode)) {
+        $translated = $node->getTranslation($langcode);
+      }
+
+      return [
+        'original' => $node,
+        'translated' => $translated,
+      ];
+    }
+
     $alias_manager = \Drupal::service('path_alias.manager');
     $internal_path = $alias_manager->getPathByAlias($alias, $langcode);
 
@@ -78,6 +96,7 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
   $site_branding = Settings::get('site_branding', []);
   $primary_color = $site_branding['primary_color'] ?? '#ff4949';
   $last_updated = NULL;
+  $owner = NULL;
   $nodebundle = NULL;
 
   // Idioma de contenido actual.
@@ -133,6 +152,10 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
     if ($first === 'catalogue') {
       // /catalogue/institution_name
       if (isset($parts[1]) && !isset($parts[2])) {
+        $alias = '/' . $parts[1]; // Institution
+      }
+      // /catalogue/institution_name/programmes or /catalogue/institution_name/iecs
+      elseif (isset($parts[1], $parts[2]) && in_array($parts[2], ['programmes', 'iecs'], TRUE) && !isset($parts[3])) {
         $alias = '/' . $parts[1]; // Institution
       }
       // /catalogue/institution_name/programme_name
@@ -193,6 +216,11 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
       $changed = $current_entity->getChangedTime();
       $last_updated = \Drupal::service('date.formatter')
         ->format($changed, 'custom', 'd/m/Y');
+      $owner_id = $current_entity->getOwnerId();
+      if ($owner_id) {
+        $owner_account = $this->entityTypeManager->getStorage('user')->load($owner_id);
+        $owner = $owner_account ? $owner_account->getDisplayName() : NULL;
+      }
 
       // Bundle (institution, programme, campus, individual_educational_component,
       // organizational_unit, resources_and_services, etc.).
@@ -205,6 +233,7 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
     '#institution'   => $institution,
     '#primary_color' => $primary_color,
     '#last_updated'  => $last_updated,
+    '#owner'  => $owner,
     '#nodebundle'    => $nodebundle,
     '#feedback_form' => \Drupal::formBuilder()->getForm(DacemFooterFeedbackForm::class),
   ];

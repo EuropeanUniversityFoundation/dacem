@@ -16,6 +16,7 @@ function dacem_footer_theme($existing, $type, $theme, $path) {
         'institution'   => NULL,
         'primary_color' => NULL,
         'last_updated'  => NULL,
+        'owner' => NULL,
         'nodebundle'    => NULL,
         'feedback_form' => NULL,
       ],
