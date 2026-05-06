@@ -3,12 +3,6 @@
 
 
 
-{% set university_primary_color = view.result[0]._entity.field_programme_institution.entity.field_primary_color[0].color  %}
-{% set university_text_color = view.result[0]._entity.field_programme_institution.entity.field_text_color[0].color  %}
-{% set university_emphasis_text_color = view.result[0]._entity.field_programme_institution.entity.field_emphasis_text_color[0].color  %}
-{% set institution = view.result[0]._entity.field_programme_institution.entity ?? null %}
-{% set shac_code = institution and institution.field_shac_code is defined ? institution.field_shac_code.value : '' %}
-
 <style>:root
 {
 	--university_primary_color: {{catalogue_university_primary_color}};
@@ -120,7 +114,7 @@
 								<div class="" role="group" aria-label="Catalogue type">
 
 									<a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-newcatalogue-active" data-target-segment="programmes">
-										<h3>PROGRAMMES</h3>
+										<h3>{{ 'PROGRAMMES'|t }}</h3>
 									</a>
 
 									<a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn" data-target-segment="iecs">
@@ -182,12 +176,11 @@
 								{% for row in view.result %}
 								
 
-									{% set programme = row._entity %}
-									{% set institution = programme.field_programme_institution.entity ?? null %}
-									{% set ou = programme.field_programme_ou.entity ?? null %}
-									{% set university_primary_color = institution.field_primary_color[0].color %}
+										{% set programme = row._entity %}
+										{% set institution = programme.field_programme_institution.entity ?? null %}
+										{% set ou = programme.field_programme_ou.entity ?? null %}
 
-									{% set logo_uri = null %}
+										{% set logo_uri = null %}
 									{% if ou and ou.field_ou_picture.entity is defined %}
 										{% set logo_uri = ou.field_ou_picture.entity.fileuri %}
 									{% endif %}
@@ -244,12 +237,9 @@
 															<!-- Línea inferior: institución y país 
 															<div class="ou-tag-bar">
 
-																{% set university_primary_color = institution.field_primary_color[0].color %}
-																{% set university_text_color = institution.field_text_color[0].color %}
-																{% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
-																{% if institution.title.value is defined %}
-																	
-																	<span class="ou-tag px-3 py-1" style="background-color: {{university_primary_color}}; color: #fff; border-radius: 0;">
+																	{% if institution.title.value is defined %}
+																		
+																		<span class="ou-tag px-3 py-1" style="background-color: {{ catalogue_university_primary_color }}; color: #fff; border-radius: 0;">
 																		{{ institution.title.value }}
 																	</span>
 																{% endif %}

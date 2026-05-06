@@ -1,9 +1,4 @@
 {{ attach_library('b5subtheme/search-programme-sort') }}
-{% set university_primary_color = view.result[0]._entity.field_iec_programme.entity.field_programme_institution.entity.field_primary_color[0].color  %}
-{% set university_text_color = view.result[0]._entity.field_iec_programme.entity.field_programme_institution.entity.field_text_color[0].color  %}
-{% set university_emphasis_text_color = view.result[0]._entity.field_iec_programme.entity.field_programme_institution.entity.field_emphasis_text_color[0].color  %}
-{% set institution = view.result[0]._entity.field_iec_programme.entity.field_programme_institution.entity ?? null %}
-{% set shac_code = institution and institution.field_shac_code is defined ? institution.field_shac_code.value : '' %}
 
 
 
@@ -132,7 +127,7 @@
 								<div class="" role="group" aria-label="Catalogue type">
 
 									<a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn" data-target-segment="programmes">
-										<h3>PROGRAMMES</h3>
+										<h3>{{ 'PROGRAMMES'|t }}</h3>
 									</a>
 
 									<a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-newcatalogue-active" data-target-segment="iecs">

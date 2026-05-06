@@ -116,16 +116,17 @@
 								<h1 class="section-title" style="color:white">Catalogue</h1>
 							</div>
 
-							<div class="col-auto">
-								<div role="group" aria-label="Catalogue type">
-                  <a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-iec-searcher btn-newcatalogue-active" data-target-segment="programmes">
-										<h3>PROGRAMMES</h3>
-									</a>
+								<div class="col-auto">
+									<div role="group" aria-label="Catalogue type">
+                  {% set current_language = language_manager.getCurrentLanguage().getId() %}
+	                  <a href="#" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-iec-searcher btn-newcatalogue-active" data-target-segment="programmes">
+											<h3>{{ 'PROGRAMMES'|t }}</h3>
+										</a>
 
-									<a href="/search-iec" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-iec-searcher " data-target-segment="iecs">
-											<h3>{{ 'Courses'|t|upper }}</h3>
-									</a>
-								</div>
+										<a href="{{ path('view.search_iec.page_1', {}, {'language': language_manager.getLanguage(current_language)}) }}" class="btn btn-sm btn-whithout-border-radius newcatalogue-btn btn-iec-searcher " data-target-segment="iecs">
+												<h3>{{ 'Courses'|t|upper }}</h3>
+										</a>
+									</div>
 							</div>
 
 							<div class="col ms-auto text-end">

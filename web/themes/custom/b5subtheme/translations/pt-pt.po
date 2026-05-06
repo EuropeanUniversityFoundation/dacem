@@ -474,3 +474,15 @@ msgstr "1.º semestre"
 
 msgid "2nd semester"
 msgstr "2.º semestre"
+
+msgid "Programme Type"
+msgstr "Tipo de programa"
+
+msgid "Organizational Unit"
+msgstr "Unidade Organizacional"
+
+msgid "@count selected"
+msgstr "@count selecionados"
+
+msgid "PROGRAMMES"
+msgstr "PROGRAMAS"

@@ -474,3 +474,15 @@ msgstr "1. semester"
 
 msgid "2nd semester"
 msgstr "2. semester"
+
+msgid "Programme Type"
+msgstr "Vrsta programa"
+
+msgid "Organizational Unit"
+msgstr "Organizacijska enota"
+
+msgid "@count selected"
+msgstr "@count izbranih"
+
+msgid "PROGRAMMES"
+msgstr "PROGRAMI"

@@ -1,0 +1,251 @@
+<?php
+
+namespace Drupal\agreements_programmes\Service;
+
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\node\NodeInterface;
+use Isced\IscedFieldsOfStudy;
+
+final class AgreementProgrammeMatcher {
+
+  private const AGREEMENT_BUNDLE = 'agreement';
+  private const PROGRAMME_BUNDLE = 'programme';
+
+  public function __construct(
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+  ) {}
+
+  public function getCompatibleProgrammesForProgramme(NodeInterface $origin_programme): array {
+    if ($origin_programme->bundle() !== self::PROGRAMME_BUNDLE) {
+      return [];
+    }
+
+    $origin_institution_id = $this->getTargetId($origin_programme, 'field_programme_institution');
+    if (!$origin_institution_id) {
+      return [];
+    }
+
+    $origin_isced_values = $this->getIscedValues($origin_programme, 'field_isced_f');
+    if (!$origin_isced_values) {
+      return [];
+    }
+
+    $node_storage = $this->entityTypeManager->getStorage('node');
+    $agreement_ids = $this->findAgreementIds($node_storage, $origin_institution_id);
+    if (!$agreement_ids) {
+      return [];
+    }
+
+    $origin_department_id = $this->getTargetId($origin_programme, 'field_programme_ou');
+    $rules = [];
+
+    foreach ($node_storage->loadMultiple($agreement_ids) as $agreement) {
+      if ($agreement instanceof NodeInterface) {
+        $rule = $this->buildRuleFromAgreement($agreement, $origin_institution_id, $origin_department_id, $origin_isced_values);
+
+        if ($rule) {
+          $rules[] = $rule;
+        }
+      }
+    }
+
+    return $rules ? $this->findProgrammesFromRules($node_storage, $rules, (int) $origin_programme->id()) : [];
+  }
+
+  private function findAgreementIds(EntityStorageInterface $node_storage, int $origin_institution_id): array {
+    $query = $node_storage->getQuery()
+      ->condition('type', self::AGREEMENT_BUNDLE)
+      ->condition('status', 1)
+      ->accessCheck(TRUE);
+
+    $institution_group = $query->orConditionGroup()
+      ->condition('field_institution_1', $origin_institution_id)
+      ->condition('field_institution_2', $origin_institution_id);
+
+    return $query
+      ->condition($institution_group)
+      ->execute();
+  }
+
+  private function buildRuleFromAgreement(NodeInterface $agreement, int $origin_institution_id, ?int $origin_department_id, array $origin_isced_values): ?array {
+    $institution_1 = $this->getTargetId($agreement, 'field_institution_1');
+    $institution_2 = $this->getTargetId($agreement, 'field_institution_2');
+
+    if (!$institution_1 || !$institution_2) {
+      return NULL;
+    }
+
+    if ($institution_1 === $origin_institution_id) {
+      $target_institution_id = $institution_2;
+      $origin_department_field = 'field_department_partner_1';
+      $target_department_field = 'field_department_partner_2';
+    }
+    elseif ($institution_2 === $origin_institution_id) {
+      $target_institution_id = $institution_1;
+      $origin_department_field = 'field_department_partner_2';
+      $target_department_field = 'field_department_partner_1';
+    }
+    else {
+      return NULL;
+    }
+
+    $agreement_origin_department_id = $this->getTargetId($agreement, $origin_department_field);
+    if ($agreement_origin_department_id && $agreement_origin_department_id !== $origin_department_id) {
+      return NULL;
+    }
+
+    $agreement_isced_values = $this->getIscedValues($agreement, 'field_field_of_education');
+    $allowed_programme_isced_values = $this->expandIscedValuesForProgrammeQuery($agreement_isced_values);
+
+    if (!$allowed_programme_isced_values) {
+      return NULL;
+    }
+
+    $origin_matching_isced_values = array_values(array_intersect($origin_isced_values, $allowed_programme_isced_values));
+    if (!$origin_matching_isced_values) {
+      return NULL;
+    }
+
+    return [
+      'agreement_id' => $agreement->id(),
+      'target_institution_id' => $target_institution_id,
+      'target_department_id' => $this->getTargetId($agreement, $target_department_field),
+      'isced_values' => $agreement_isced_values,
+      'allowed_programme_isced_values' => $allowed_programme_isced_values,
+      'origin_matching_isced_values' => $origin_matching_isced_values,
+    ];
+  }
+
+  private function findProgrammesFromRules(EntityStorageInterface $node_storage, array $rules, int $origin_programme_id): array {
+    $results = [];
+
+    foreach ($rules as $rule) {
+      $query = $node_storage->getQuery()
+        ->condition('type', self::PROGRAMME_BUNDLE)
+        ->condition('status', 1)
+        ->accessCheck(TRUE)
+        ->condition('nid', $origin_programme_id, '<>')
+        ->condition('field_programme_institution', $rule['target_institution_id'])
+        ->condition('field_isced_f.value', $rule['allowed_programme_isced_values'], 'IN');
+
+      if (!empty($rule['target_department_id'])) {
+        $query->condition('field_programme_ou', $rule['target_department_id']);
+      }
+
+      $programme_ids = $query->execute();
+      if (!$programme_ids) {
+        continue;
+      }
+
+      foreach ($node_storage->loadMultiple($programme_ids) as $programme) {
+        if ($programme instanceof NodeInterface) {
+          $matching_isced_values = $this->getMatchingIscedValues($programme, $rule['allowed_programme_isced_values']);
+
+          if (!$matching_isced_values) {
+            continue;
+          }
+
+          $programme_id = $programme->id();
+
+          if (!isset($results[$programme_id])) {
+            $results[$programme_id] = [
+              'programme' => $programme,
+              'agreement_ids' => [],
+              'agreements' => [],
+              'matching_isced_values' => [],
+            ];
+          }
+
+          $results[$programme_id]['agreement_ids'][$rule['agreement_id']] = $rule['agreement_id'];
+          $results[$programme_id]['agreements'][$rule['agreement_id']] = [
+            'agreement_id' => $rule['agreement_id'],
+            'target_institution_id' => $rule['target_institution_id'],
+            'target_department_id' => $rule['target_department_id'],
+            'isced_values' => $rule['isced_values'],
+            'origin_matching_isced_values' => $rule['origin_matching_isced_values'],
+            'matching_isced_values' => $matching_isced_values,
+          ];
+          $results[$programme_id]['matching_isced_values'] = array_values(array_unique(array_merge(
+            $results[$programme_id]['matching_isced_values'],
+            $matching_isced_values,
+          )));
+        }
+      }
+    }
+
+    foreach ($results as &$result) {
+      $result['agreement_ids'] = array_values($result['agreement_ids']);
+      $result['agreements'] = array_values($result['agreements']);
+      $result['agreement_id'] = reset($result['agreement_ids']) ?: NULL;
+    }
+    unset($result);
+
+    return $results;
+  }
+
+  private function expandIscedValuesForProgrammeQuery(array $agreement_values): array {
+    if (!$agreement_values) {
+      return [];
+    }
+
+    $isced = new IscedFieldsOfStudy();
+    $matches = [];
+
+    foreach ($agreement_values as $agreement_value) {
+      if (!$isced->exists($agreement_value)) {
+        continue;
+      }
+
+      foreach ($isced->getList() as $programme_value => $metadata) {
+        if (
+          $programme_value === $agreement_value
+          || $metadata[IscedFieldsOfStudy::BROAD] === $agreement_value
+          || $metadata[IscedFieldsOfStudy::NARROW] === $agreement_value
+          || $metadata[IscedFieldsOfStudy::DETAILED] === $agreement_value
+        ) {
+          $matches[] = (string) $programme_value;
+        }
+      }
+    }
+
+    return array_values(array_unique($matches));
+  }
+
+  private function getTargetId(NodeInterface $node, string $field_name): ?int {
+    if (!$node->hasField($field_name) || $node->get($field_name)->isEmpty()) {
+      return NULL;
+    }
+
+    return (int) $node->get($field_name)->target_id;
+  }
+
+  private function getIscedValues(NodeInterface $node, string $field_name): array {
+    if (!$node->hasField($field_name) || $node->get($field_name)->isEmpty()) {
+      return [];
+    }
+
+    $values = [];
+
+    foreach ($node->get($field_name) as $item) {
+      $value = $item->get('value')->getValue();
+
+      if ($value !== NULL && $value !== '') {
+        $values[] = (string) $value;
+      }
+    }
+
+    return array_values(array_unique($values));
+  }
+
+  private function getMatchingIscedValues(NodeInterface $programme, array $allowed_isced_values): array {
+    $programme_isced_values = $this->getIscedValues($programme, 'field_isced_f');
+
+    if (!$programme_isced_values) {
+      return [];
+    }
+
+    return array_values(array_intersect($programme_isced_values, $allowed_isced_values));
+  }
+
+}

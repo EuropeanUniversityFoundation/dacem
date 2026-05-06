@@ -19,6 +19,7 @@ function dacem_footer_theme($existing, $type, $theme, $path) {
         'owner' => NULL,
         'nodebundle'    => NULL,
         'feedback_form' => NULL,
+        'hide_black_band' => FALSE,
       ],
       'template' => 'dacem-footer-block',
     ],

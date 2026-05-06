@@ -32,8 +32,8 @@
 			class="row">
 			
 			<div class="col-md-6">
-				<h2 class="fw-bold" style="color: black; font-size: 32px;">Found Something Wrong?</h2>
-				<h2 class="fw-bold" style="font-size: 46px;">Give Us Feedback</h2>
+				<h2 class="fw-bold" style="color: black; font-size: 32px;">{{ 'Found Something Wrong?'|t }}</h2>
+				<h2 class="fw-bold" style="font-size: 46px;">{{ 'Give Us Feedback'|t }}</h2>
 			</div>
 
 			<div class="col-md-6">
@@ -121,21 +121,23 @@
 
 
 
-<div class="last-update bg-black text-white py-3">
-  <div class="section-container pt-0 pb-0">
-    <div class="my-custom-container-2">
+{% if not hide_black_band %}
+	<div class="last-update bg-black text-white py-3">
+		<div class="section-container pt-0 pb-0">
+			<div class="my-custom-container-2">
 
-      <span class="rs-source">
-        Source: <span class="rs-source-site" style="color: {{university_primary_color}};">{{owner}}</span>
-      </span>
+				<span class="rs-source">
+					Source: <span class="rs-source-site" style="color: {{university_primary_color}};">{{owner}}</span>
+				</span>
 
-      <span class="rs-last-update">
-        <em>Last update: {{ last_updated }}</em>
-      </span>
+				<span class="rs-last-update">
+					<em>Last update: {{ last_updated }}</em>
+				</span>
 
-    </div>
-  </div>
-</div>
+			</div>
+		</div>
+	</div>
+{% endif %}
 
 <div class="dacem-footer-feedback py-5 text-white" style="background-color: {{university_primary_color}};">
 	<div class="section-container pt-0 pb-0">
@@ -144,8 +146,8 @@
 			class="row">
 			
 			<div class="col-md-6">
-				<h2 class="fw-bold" style="color: black; font-size: 32px;">Found Something Wrong?</h2>
-				<h2 class="fw-bold" style="font-size: 46px;">Give Us Feedback</h2>
+				<h2 class="fw-bold" style="color: black; font-size: 32px;">{{ 'Found Something Wrong?'|t }}</h2>
+				<h2 class="fw-bold" style="font-size: 46px;">{{ 'Give Us Feedback'|t }}</h2>
 			</div>
 
 			<div class="col-md-6">

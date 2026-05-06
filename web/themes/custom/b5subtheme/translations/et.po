@@ -477,3 +477,15 @@ msgstr "1. semester"
 
 msgid "2nd semester"
 msgstr "2. semester"
+
+msgid "Programme Type"
+msgstr "Programmi tüüp"
+
+msgid "Organizational Unit"
+msgstr "Struktuuriüksus"
+
+msgid "@count selected"
+msgstr "@count valitud"
+
+msgid "PROGRAMMES"
+msgstr "PROGRAMMID"

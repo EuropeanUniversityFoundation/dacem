@@ -12,7 +12,6 @@ dependencies:
     - ewp_core
     - isced_field
     - node
-    - options
     - taxonomy
     - user
 id: institution_new_catalogue
@@ -1066,7 +1065,7 @@ display:
           plugin_id: language
           operator: in
           value:
-            '***LANGUAGE_language_content***': '***LANGUAGE_language_content***'
+            en: en
           group: 1
           exposed: false
           expose:
@@ -1108,7 +1107,7 @@ display:
           plugin_id: language
           operator: in
           value:
-            '***LANGUAGE_language_content***': '***LANGUAGE_language_content***'
+            en: en
           group: 1
           exposed: false
           expose:

@@ -113,8 +113,9 @@ function _alter_edit_programme_form(&$form, \Drupal\Core\Form\FormStateInterface
       if (!empty($user_options)) {
         _set_uid_field_as_select($form, $node, $user_options);
 
-        // Botón para crear usuario.
-        _add_create_user_button($form, $university);
+        if (!_add_entity_to_group_is_translation_add_form()) {
+          _add_create_user_button($form, $university);
+        }
       }
     }
   }
@@ -195,8 +196,9 @@ function _alter_edit_individual_educational_component_form(&$form, \Drupal\Core\
         if (!empty($user_options)) {
           _set_uid_field_as_select($form, $node, $user_options);
 
-          // Botón para crear usuario.
-          _add_create_user_button($form, $university);
+          if (!_add_entity_to_group_is_translation_add_form()) {
+            _add_create_user_button($form, $university);
+          }
         }
       }
     }
@@ -280,6 +282,14 @@ function _add_create_user_button(&$form, $university)
     ]),
     '#attributes' => ['class' => ['button', 'button--primary']],
   ];
+}
+
+/**
+ * Checks whether the current node form is creating a translation.
+ */
+function _add_entity_to_group_is_translation_add_form()
+{
+  return \Drupal::routeMatch()->getRouteName() === 'entity.node.content_translation_add';
 }
 
 /**
@@ -592,5 +602,4 @@ function add_entity_to_group_preprocess_views_view(&$variables)
     }
   }*/
 }
-
 

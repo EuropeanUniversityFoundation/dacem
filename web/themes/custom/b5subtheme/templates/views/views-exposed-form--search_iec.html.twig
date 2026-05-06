@@ -23,7 +23,7 @@
 		{% if count == 1 %}
 			{% set label = first_label %}
 		{% elseif count > 1 %}
-			{% set label = count ~ ' selected' %}
+			{% set label = '@count selected'|t({'@count': count}) %}
 		{% endif %}
 
 		{# selección simple (un único valor) #}
@@ -89,7 +89,7 @@
       <button
         class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ area_active ? 'btn-search-filter-active' : 'btn-dark' }}"
         type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-        {{ helpers.filter_label(form.field_isced_f, 'Knowledge Area') }}
+        {{ helpers.filter_label(form.field_isced_f, 'Knowledge Area'|t) }}
       </button>
       <div class="dropdown-menu p-3 filter-menu">
         {{ form.field_isced_f }}
@@ -103,7 +103,7 @@
       <button
         class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ programme_type_active ? 'btn-search-filter-active' : 'btn-dark' }}"
         type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-        {{ helpers.filter_label(form.programme_type, 'Programme Type') }}
+        {{ helpers.filter_label(form.programme_type, 'Programme Type'|t) }}
       </button>
       <div class="dropdown-menu p-3 filter-menu">
         {{ form.programme_type }}
@@ -117,7 +117,7 @@
 			<button
 				class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ country_active ? 'btn-search-filter-active' : 'btn-dark' }}"
 				type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-				{{ helpers.filter_label(form.field_institution_country_value, 'Destination') }}
+				{{ helpers.filter_label(form.field_institution_country_value, 'Destination'|t) }}
 			</button>
 			<div class="dropdown-menu p-3 filter-menu">
 				{{ form.field_institution_country_value }}
@@ -130,7 +130,7 @@
 		{% if form.iec_language is defined %}
 			<div class="dropdown">
 				<button class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ language_active ? 'btn-newcatalogue-active' : 'btn-dark' }}" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-					{{ helpers.filter_label(form.iec_language, 'Languages') }}
+					{{ helpers.filter_label(form.iec_language, 'Languages'|t) }}
 				</button>
 				<div class="dropdown-menu p-3 filter-menu">
 					{{ form.iec_language }}

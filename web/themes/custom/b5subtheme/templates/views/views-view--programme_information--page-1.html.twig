@@ -792,6 +792,68 @@
 		</div>
 	</div>
 
+<!--
+
+
+-->
+<!--
+
+
+-->
+<!--
+
+
+-->
+
+
+<!--
+	{% if compatible_programmes is defined %}
+  {% if compatible_programmes %}
+    <section class="compatible-programmes">
+      <h2>Compatible programmes</h2>
+
+      <ul>
+        {% for item in compatible_programmes %}
+          <li>
+            <a href="{{ path('entity.node.canonical', {'node': item.programme.id}) }}">
+              {{ item.programme.label }}
+            </a>
+
+            <small>
+              Agreement ID: {{ item.agreement_id }}
+            </small>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% else %}
+    <p>No compatible programmes found.</p>
+  {% endif %}
+{% elseif compatible_courses %}
+  <section class="compatible-courses">
+    <h2>Compatible courses</h2>
+
+    <ul>
+      {% for item in compatible_courses %}
+        <li>
+          <a href="{{ path('entity.node.canonical', {'node': item.course.id}) }}">
+            {{ item.course.label }}
+          </a>
+
+          <small>
+            Agreement ID: {{ item.agreement_id }}
+          </small>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% else %}
+  <p>No compatible courses found.</p>
+{% endif %}
+
+-->
+
+
 </div></div></div></div><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script><!--
 		<script>
 		

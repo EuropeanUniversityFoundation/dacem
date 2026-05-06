@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.organizational_unit.field_ou_abbreviation
     - field.field.node.organizational_unit.field_ou_address
     - field.field.node.organizational_unit.field_ou_campus
+    - field.field.node.organizational_unit.field_ou_code
     - field.field.node.organizational_unit.field_ou_description
     - field.field.node.organizational_unit.field_ou_email
     - field.field.node.organizational_unit.field_ou_institution
@@ -61,6 +62,14 @@ content:
     settings:
       match_operator: CONTAINS
       match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_ou_code:
+    type: string_textfield
+    weight: 26
+    region: content
+    settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }

@@ -477,3 +477,15 @@ msgstr "1ο εξάμηνο"
 
 msgid "2nd semester"
 msgstr "2ο εξάμηνο"
+
+msgid "Programme Type"
+msgstr "Τύπος προγράμματος"
+
+msgid "Organizational Unit"
+msgstr "Οργανωτική Μονάδα"
+
+msgid "@count selected"
+msgstr "@count επιλεγμένα"
+
+msgid "PROGRAMMES"
+msgstr "ΠΡΟΓΡΑΜΜΑΤΑ"

@@ -1,0 +1,20 @@
+uuid: cafb9d32-6258-4d76-b1ba-e7762f819104
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_studies_total_months
+field_name: field_studies_total_months
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

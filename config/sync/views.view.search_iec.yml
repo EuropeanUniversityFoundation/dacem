@@ -257,7 +257,7 @@ display:
           plugin_id: language
           operator: in
           value:
-            '***LANGUAGE_language_content***': '***LANGUAGE_language_content***'
+            en: en
           group: 1
           exposed: false
           expose:
@@ -731,6 +731,7 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      rendering_language: '***LANGUAGE_entity_translation***'
       display_extenders: {  }
       path: search-iec
     cache_metadata:

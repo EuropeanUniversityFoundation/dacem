@@ -98,6 +98,7 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
   $last_updated = NULL;
   $owner = NULL;
   $nodebundle = NULL;
+  $hide_black_band = FALSE;
 
   // Idioma de contenido actual.
   $langcode = \Drupal::languageManager()
@@ -134,6 +135,16 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
    */
   $current_path = \Drupal::service('path.current')->getPath(); // p.ej. /es/resources-and-services/uvigo
   $parts = explode('/', trim($current_path, '/'));             // ['es', 'resources-and-services', 'uvigo']
+
+  $route_name = $this->routeMatch->getRouteName();
+  $black_band_hidden_routes = [
+    'view.main_page.page_1',
+    'view.institution_new_catalogue.page_1',
+    'view.institution_new_catalogue.page_2',
+    'view.search_programme.page_1',
+    'view.search_iec.page_1',
+  ];
+  $hide_black_band = in_array($route_name, $black_band_hidden_routes, TRUE);
 
   // --- NUEVO: eliminar prefijo de idioma si existe (en, es, etc.) ---
   if (!empty($parts)) {
@@ -236,6 +247,7 @@ class DacemFooterBlock extends BlockBase implements ContainerFactoryPluginInterf
     '#owner'  => $owner,
     '#nodebundle'    => $nodebundle,
     '#feedback_form' => \Drupal::formBuilder()->getForm(DacemFooterFeedbackForm::class),
+    '#hide_black_band' => $hide_black_band,
   ];
   }
 

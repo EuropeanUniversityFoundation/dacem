@@ -249,19 +249,26 @@ function b5subtheme_preprocess_views_view(&$variables)
 
   $institution = NULL;
   $institution_id = $variables['view']->args[0] ?? NULL;
-  
-  
+  $current_language = \Drupal::languageManager()
+    ->getCurrentLanguage(\Drupal\Core\Language\LanguageInterface::TYPE_CONTENT)
+    ->getId();
 
   if ($institution_id && is_numeric($institution_id)) {
     $institution = Node::load((int) $institution_id);
   }
+  elseif ($institution_id) {
+    $alias_manager = \Drupal::service('path_alias.manager');
+    foreach ([$current_language, 'en'] as $alias_language) {
+      $internal_path = $alias_manager->getPathByAlias('/' . trim($institution_id, '/'), $alias_language);
+      if (preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
+        $institution = Node::load((int) $matches[1]);
+        break;
+      }
+    }
+  }
 
   if ($institution) {
-    
-   
-    $current_language = \Drupal::languageManager()
-      ->getCurrentLanguage(\Drupal\Core\Language\LanguageInterface::TYPE_CONTENT)
-      ->getId();
+    $institution_for_colors = $institution;
 
     if ($institution->hasTranslation($current_language)) {
       $institution = $institution->getTranslation($current_language);
@@ -269,18 +276,18 @@ function b5subtheme_preprocess_views_view(&$variables)
 
     $variables['catalogue_institution'] = $institution;
     $variables['catalogue_university_primary_color'] =
-      (!$institution->get('field_primary_color')->isEmpty() && isset($institution->get('field_primary_color')->first()->color))
-        ? $institution->get('field_primary_color')->first()->color
+      ($institution_for_colors->hasField('field_primary_color') && !$institution_for_colors->get('field_primary_color')->isEmpty() && isset($institution_for_colors->get('field_primary_color')->first()->color))
+        ? $institution_for_colors->get('field_primary_color')->first()->color
         : '#19d329ff';
 
     $variables['catalogue_university_text_color'] =
-      (!$institution->get('field_text_color')->isEmpty() && isset($institution->get('field_text_color')->first()->color))
-        ? $institution->get('field_text_color')->first()->color
+      ($institution_for_colors->hasField('field_text_color') && !$institution_for_colors->get('field_text_color')->isEmpty() && isset($institution_for_colors->get('field_text_color')->first()->color))
+        ? $institution_for_colors->get('field_text_color')->first()->color
         : '#000000';
       
     $variables['catalogue_university_emphasis_text_color'] =
-      (!$institution->get('field_emphasis_text_color')->isEmpty() && isset($institution->get('field_emphasis_text_color')->first()->color))
-        ? $institution->get('field_emphasis_text_color')->first()->color
+      ($institution_for_colors->hasField('field_emphasis_text_color') && !$institution_for_colors->get('field_emphasis_text_color')->isEmpty() && isset($institution_for_colors->get('field_emphasis_text_color')->first()->color))
+        ? $institution_for_colors->get('field_emphasis_text_color')->first()->color
         : '#000000';
 
     $variables['catalogue_shac_code'] =
@@ -473,15 +480,17 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       continue;
     }
 
-    // Trabajar con traducción si existe
-    $iec_translated = $iec->hasTranslation($current_language)
-      ? $iec->getTranslation($current_language)
+    $lang_for_url = $iec->hasTranslation($current_language) ? $current_language : 'en';
+    $language = \Drupal::languageManager()->getLanguage($lang_for_url);
+
+    // Trabajar con traducción si existe; si no, enlazar a inglés.
+    $iec_for_url = $iec->hasTranslation($lang_for_url)
+      ? $iec->getTranslation($lang_for_url)
       : $iec;
 
     // Genera la URL canónica en el idioma adecuado
-    $lang_for_url = $iec_translated->language()->getId();
-    $url = $iec_translated
-      ->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($lang_for_url)])
+    $url = $iec_for_url
+      ->toUrl('canonical', ['language' => $language])
       ->toString();
 
     // Si la URL viene ya con prefijo /xx, lo quitamos para evitar duplicados
@@ -489,9 +498,9 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       $url = substr($url, strlen('/' . $lang_for_url));
     }
 
-    // Construir la nueva URL con el formato correcto: /<current_language>/catalogue/<...>
+    // Construir la nueva URL con el formato correcto: /<lang_for_url>/catalogue/<...>
     // (Nota: pongo "/" al principio para que sea una ruta absoluta correcta)
-    $row->custom_url = '/' . $current_language . '/catalogue' . $url;
+    $row->custom_url = '/' . $lang_for_url . '/catalogue' . $url;
   }
 
 
@@ -1611,15 +1620,17 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       continue;
     }
 
-    // Trabajar con traducción si existe
-    $iec_translated = $iec->hasTranslation($current_language)
-      ? $iec->getTranslation($current_language)
+    $lang_for_url = $iec->hasTranslation($current_language) ? $current_language : 'en';
+    $language = \Drupal::languageManager()->getLanguage($lang_for_url);
+
+    // Trabajar con traducción si existe; si no, enlazar a inglés.
+    $iec_for_url = $iec->hasTranslation($lang_for_url)
+      ? $iec->getTranslation($lang_for_url)
       : $iec;
 
     // Genera la URL canónica en el idioma adecuado
-    $lang_for_url = $iec_translated->language()->getId();
-    $url = $iec_translated
-      ->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($lang_for_url)])
+    $url = $iec_for_url
+      ->toUrl('canonical', ['language' => $language])
       ->toString();
 
     // Si la URL viene ya con prefijo /xx, lo quitamos para evitar duplicados
@@ -1627,9 +1638,9 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       $url = substr($url, strlen('/' . $lang_for_url));
     }
 
-    // Construir la nueva URL con el formato correcto: /<current_language>/catalogue/<...>
+    // Construir la nueva URL con el formato correcto: /<lang_for_url>/catalogue/<...>
     // (Nota: pongo "/" al principio para que sea una ruta absoluta correcta)
-    $row->custom_url = '/' . $current_language . '/catalogue' . $url;
+    $row->custom_url = '/' . $lang_for_url . '/catalogue' . $url;
   }
 
 
@@ -1708,9 +1719,6 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
       ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
       ->getId();
 
-    $alias_manager = \Drupal::service('path_alias.manager');
-    $language_prefix = '/' . $current_language;
-
     foreach ($view->result as &$row) {
       /** @var \Drupal\node\NodeInterface|null $programme */
       $programme = $row->_entity ?? NULL;
@@ -1720,54 +1728,49 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
         continue;
       }
 
-      $programme_translated = $programme->hasTranslation($current_language)
-        ? $programme->getTranslation($current_language)
+      $lang_for_url = $programme->hasTranslation($current_language) ? $current_language : 'en';
+      $language = \Drupal::languageManager()->getLanguage($lang_for_url);
+      $programme_for_url = $programme->hasTranslation($lang_for_url)
+        ? $programme->getTranslation($lang_for_url)
         : $programme;
 
       if (
-        !$programme_translated->hasField('field_programme_institution') ||
-        $programme_translated->get('field_programme_institution')->isEmpty()
+        !$programme_for_url->hasField('field_programme_institution') ||
+        $programme_for_url->get('field_programme_institution')->isEmpty()
       ) {
         \Drupal::logger('catalogue_debug')->warning('Programme @nid has no institution reference.', [
-          '@nid' => $programme_translated->id(),
+          '@nid' => $programme_for_url->id(),
         ]);
         continue;
       }
 
       /** @var \Drupal\node\NodeInterface|null $institution */
-      $institution = $programme_translated->get('field_programme_institution')->entity;
+      $institution = $programme_for_url->get('field_programme_institution')->entity;
       if (!$institution || !$institution->id()) {
         \Drupal::logger('catalogue_debug')->warning('Programme @nid has invalid institution entity.', [
-          '@nid' => $programme_translated->id(),
+          '@nid' => $programme_for_url->id(),
         ]);
         continue;
       }
 
-      $institution_translated = $institution->hasTranslation($current_language)
-        ? $institution->getTranslation($current_language)
+      $institution_for_url = $institution->hasTranslation($lang_for_url)
+        ? $institution->getTranslation($lang_for_url)
         : $institution;
 
-      $programme_alias = $alias_manager->getAliasByPath(
-        '/node/' . $programme_translated->id(),
-        $current_language
-      );
+      $programme_canonical = Url::fromRoute('entity.node.canonical', ['node' => $programme_for_url->id()], ['language' => $language])->toString();
+      $institution_canonical = Url::fromRoute('entity.node.canonical', ['node' => $institution_for_url->id()], ['language' => $language])->toString();
 
-      $institution_alias = $alias_manager->getAliasByPath(
-        '/node/' . $institution_translated->id(),
-        $current_language
-      );
+      $programme_slug = basename(trim($programme_canonical, '/'));
+      $institution_slug = basename(trim($institution_canonical, '/'));
 
-      $programme_slug = basename(trim($programme_alias, '/'));
-      $institution_slug = basename(trim($institution_alias, '/'));
-
-      $row->custom_url = $language_prefix
+      $row->custom_url = '/' . $lang_for_url
         . '/catalogue/'
         . $institution_slug
         . '/'
         . $programme_slug;
 
       \Drupal::logger('catalogue_debug')->notice('Generated custom_url for page_1 nid @nid: @url', [
-        '@nid' => $programme_translated->id(),
+        '@nid' => $programme_for_url->id(),
         '@url' => $row->custom_url,
       ]);
     }
@@ -1786,15 +1789,17 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
         continue;
       }
 
-      // Trabajar con traducción si existe.
-      $iec_translated = $iec->hasTranslation($current_language)
-        ? $iec->getTranslation($current_language)
+      $lang_for_url = $iec->hasTranslation($current_language) ? $current_language : 'en';
+      $language = \Drupal::languageManager()->getLanguage($lang_for_url);
+
+      // Trabajar con traducción si existe; si no, enlazar a inglés.
+      $iec_for_url = $iec->hasTranslation($lang_for_url)
+        ? $iec->getTranslation($lang_for_url)
         : $iec;
 
       // Genera la URL canónica en el idioma adecuado.
-      $lang_for_url = $iec_translated->language()->getId();
-      $url = $iec_translated
-        ->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($lang_for_url)])
+      $url = $iec_for_url
+        ->toUrl('canonical', ['language' => $language])
         ->toString();
 
       // Si la URL viene ya con prefijo /xx, lo quitamos para evitar duplicados.
@@ -1802,11 +1807,11 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
         $url = substr($url, strlen('/' . $lang_for_url));
       }
 
-      // Construir la nueva URL con el formato correcto: /<current_language>/catalogue/<...>
-      $row->custom_url = '/' . $current_language . '/catalogue' . $url;
+      // Construir la nueva URL con el formato correcto: /<lang_for_url>/catalogue/<...>
+      $row->custom_url = '/' . $lang_for_url . '/catalogue' . $url;
 
       \Drupal::logger('catalogue_debug')->notice('Generated custom_url for page_2 nid @nid: @url', [
-        '@nid' => $iec_translated->id(),
+        '@nid' => $iec_for_url->id(),
         '@url' => $row->custom_url,
       ]);
     }

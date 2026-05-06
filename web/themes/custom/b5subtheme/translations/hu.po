@@ -379,3 +379,18 @@ msgstr "1. félév"
 
 msgid "2nd semester"
 msgstr "2. félév"
+
+msgid "Languages"
+msgstr "Nyelvek"
+
+msgid "Programme Type"
+msgstr "Képzéstípus"
+
+msgid "Organizational Unit"
+msgstr "Szervezeti egység"
+
+msgid "@count selected"
+msgstr "@count kiválasztva"
+
+msgid "PROGRAMMES"
+msgstr "PROGRAMOK"

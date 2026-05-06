@@ -410,8 +410,68 @@ class InstitutionMenuBlock extends BlockBase
                     $current_route === 'view.institution_new_catalogue.page_1' || // programmes
                     $current_route === 'view.institution_new_catalogue.page_2'        // iecs
                 ) {
-                    // 🔒 Forzar siempre URL en inglés
-                    $url = \Drupal::request()->getRequestUri();
+                    $url = Url::fromRoute($current_route, [
+                        'arg_0' => $institution->id(),
+                    ], [
+                        'language' => $language,
+                        'query' => \Drupal::request()->query->all(),
+                    ])->toString();
+                }
+
+                if (
+                    $current_route === 'view.resources_and_services.page_1' ||
+                    $current_route === 'view.resources_and_services.page_2'
+                ) {
+                    $rs_route_language = $language;
+                    $rs_target_nid = NULL;
+                    $entity_name = (string) \Drupal::routeMatch()->getParameter('arg_0');
+                    if ($current_route === 'view.resources_and_services.page_2') {
+                        $entity_name .= '/' . (string) \Drupal::routeMatch()->getParameter('arg_1');
+                    }
+
+                    if (!empty($entity_name)) {
+                        $candidate_languages = array_unique([$language->getId(), $current_language, 'en']);
+                        foreach ($candidate_languages as $candidate_language) {
+                            $resolved_path = $alias_manager->getPathByAlias('/' . trim($entity_name, '/'), $candidate_language);
+                            if (preg_match('/^\/node\/(\d+)$/', $resolved_path, $matches)) {
+                                $rs_target_nid = (int) $matches[1];
+                                break;
+                            }
+                        }
+                    }
+
+                    $rs_nodes = [];
+                    if ($rs_target_nid) {
+                        $storage = \Drupal::entityTypeManager()->getStorage('node');
+                        if ($current_route === 'view.resources_and_services.page_1') {
+                            $rs_nodes = $storage->loadByProperties([
+                                'type' => 'resources_and_services',
+                                'field_rs_institution' => $rs_target_nid,
+                            ]);
+                        }
+                        else {
+                            $rs_nodes = $storage->loadByProperties([
+                                'type' => 'resources_and_services',
+                                'field_rs_campus' => $rs_target_nid,
+                            ]);
+                        }
+                    }
+
+                    $rs_node = reset($rs_nodes) ?: NULL;
+                    if (!$rs_node || !$rs_node->hasTranslation($language->getId())) {
+                        $rs_route_language = \Drupal::languageManager()->getLanguage('en');
+                    }
+
+                    $route_parameters = [
+                        'arg_0' => \Drupal::routeMatch()->getParameter('arg_0'),
+                    ];
+                    if ($current_route === 'view.resources_and_services.page_2') {
+                        $route_parameters['arg_1'] = \Drupal::routeMatch()->getParameter('arg_1');
+                    }
+
+                    $url = Url::fromRoute($current_route, $route_parameters, [
+                        'language' => $rs_route_language,
+                    ])->toString();
                 }
 
 
@@ -455,7 +515,7 @@ class InstitutionMenuBlock extends BlockBase
             // Construir la URL con el formato correcto
             //$catalogue_url = $language_prefix . '/catalogue/' . $institution->id() . '/programmes';
          
-            $catalogue_url =  'en/catalogue/' . $institution->id() . '/programmes';
+            $catalogue_url =  $current_language . '/catalogue/' . $institution->id() . '/programmes';
             
             
 
@@ -470,7 +530,33 @@ class InstitutionMenuBlock extends BlockBase
             ])->toString();*/
             
 
-            $rs_url = $language_prefix . '/resources-and-services' . $institution_alias;
+            $rs_language = $current_language;
+            $rs_nodes = \Drupal::entityTypeManager()
+                ->getStorage('node')
+                ->loadByProperties([
+                    'type' => 'resources_and_services',
+                    'field_rs_institution' => $institution->id(),
+                ]);
+
+            $institution_rs = NULL;
+            foreach ($rs_nodes as $rs_node) {
+                if (!$rs_node->hasField('field_rs_campus') || $rs_node->get('field_rs_campus')->isEmpty()) {
+                    $institution_rs = $rs_node;
+                    break;
+                }
+            }
+
+            if (!$institution_rs || !$institution_rs->hasTranslation($current_language)) {
+                $rs_language = 'en';
+            }
+
+            $rs_alias = $alias_manager->getAliasByPath('/node/' . $institution->id(), $rs_language);
+            $rs_language_prefix = '/' . $rs_language;
+            if (strpos($rs_alias, $rs_language_prefix) === 0) {
+                $rs_alias = substr($rs_alias, strlen($rs_language_prefix));
+            }
+
+            $rs_url = $rs_language_prefix . '/resources-and-services' . $rs_alias;
 
 
             $institutions = \Drupal::entityTypeManager()

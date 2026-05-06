@@ -1,0 +1,47 @@
+<?php
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function agreements_programmes_preprocess_views_view(array &$variables): void {
+  $view = $variables['view'];
+
+  if ($view->id() !== 'programme_information') {
+    return;
+  }
+
+  $programme = NULL;
+  $route_node = \Drupal::routeMatch()->getParameter('node');
+
+  if ($route_node instanceof NodeInterface) {
+    $programme = $route_node;
+  }
+
+  if (!$programme instanceof NodeInterface && !empty($view->result[0]->_entity)) {
+    $entity = $view->result[0]->_entity;
+
+    if ($entity instanceof NodeInterface) {
+      $programme = $entity;
+    }
+  }
+
+  if (!$programme instanceof NodeInterface || $programme->bundle() !== 'programme') {
+    return;
+  }
+
+  /** @var \Drupal\agreements_programmes\Service\AgreementProgrammeMatcher $matcher */
+  $matcher = \Drupal::service('agreements_programmes.matcher');
+
+  $variables['compatible_programmes'] = $matcher->getCompatibleProgrammesForProgramme($programme);
+
+  $cacheability = CacheableMetadata::createFromObject($programme)
+    ->addCacheContexts(['route'])
+    ->addCacheTags([
+      'node_list:agreement',
+      'node_list:programme',
+    ]);
+  $cacheability->applyTo($variables);
+}
