@@ -61,6 +61,7 @@
         "euf/isced_field": "^1.0@alpha",
         "euf/myacademicid_user_fields": "^1.0@rc",
         "euf/openid_connect_eufidp": "^1.0@beta",
+        "league/csv": "^9.28",
         "phpoffice/phpspreadsheet": "^3.3",
         "symfony/intl": "^6.4"
     },
