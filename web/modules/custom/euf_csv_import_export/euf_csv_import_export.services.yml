@@ -1,0 +1,3 @@
+services:
+  euf_import_export.csv_importer:
+    class: Drupal\euf_csv_import_export\CsvImporter\CsvImporter

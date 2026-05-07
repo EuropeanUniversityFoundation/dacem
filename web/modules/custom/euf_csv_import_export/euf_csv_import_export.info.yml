@@ -1,0 +1,8 @@
+name: 'CSV Import and Export'
+type: module
+description: 'Provides functionality to enable importing and exporting CSV files'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:views
+  - ewp_institutions:ewp_institutions

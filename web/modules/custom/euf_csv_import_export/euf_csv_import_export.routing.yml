@@ -1,0 +1,14 @@
+euf_csv_import_export.import_ounit_form:
+  path: '/admin/import/ounit'
+  defaults:
+    _form: '\Drupal\euf_csv_import_export\Form\OunitImportForm'
+    _title: 'Import Organizational Units from CSV'
+  requirements:
+    _permission: 'access content' # Build custom access control later
+euf_csv_import_export.import_programme_form:
+  path: '/admin/import/programme'
+  defaults:
+    _form: '\Drupal\euf_csv_import_export\Form\OunitImportForm'
+    _title: 'Import Programmes from CSV'
+  requirements:
+    _permission: 'access content' # Build custom access control later

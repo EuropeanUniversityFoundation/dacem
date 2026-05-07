@@ -1,0 +1,12 @@
+euf_csv_import_export.import_ounit_button:
+  route_name: euf_csv_import_export.import_ounit_form
+  route_parameters: {}
+  title: 'Import Organizational Units'
+  appears_on:
+    - view.admin_organizational_units.page_1
+euf_csv_import_export.import_programme_button:
+  route_name: euf_csv_import_export.import_programme_form
+  route_parameters: {}
+  title: 'Import Programmes'
+  appears_on:
+    - euf_csv_import_export.import_ounit_form
