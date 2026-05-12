@@ -1,5 +1,5 @@
 euf_csv_import_export.import_ounit_form:
-  path: '/admin/import/ounit'
+  path: '/admin/import/organizational_unit'
   defaults:
     _form: '\Drupal\euf_csv_import_export\Form\OunitImportForm'
     _title: 'Import Organizational Units from CSV'
