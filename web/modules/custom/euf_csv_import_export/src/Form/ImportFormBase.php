@@ -4,24 +4,42 @@ namespace Drupal\euf_csv_import_export\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Markup;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\euf_csv_import_export\CsvImporter\CsvImporter;
 use Drupal\file\Entity\File;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class ImportFormBase extends FormBase {
 
   public const ENTITY_TYPE = '';
   public const ENTITY_LABEL = '';
 
+  protected CsvImporter $csvImporter;
+  protected RendererInterface $renderer;
+
+  public function __construct(
+    CsvImporter $csv_importer,
+    RendererInterface $renderer,
+  ) {
+    $this->csvImporter = $csv_importer;
+    $this->renderer = $renderer;
+  }
+
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('euf_csv_import_export.csv_importer'),
+      $container->get('renderer'),
+    );
+  }
+
   public function getFormId() {
     return;
   }
 
   public function buildForm(array $form, FormStateInterface $form_state, $entity_type = NULL) {
-    // Store entity type to know what we are importing (Programme, Unit, etc.)
-    $form_state->set('import_entity_type', static::ENTITY_TYPE);
 
-    $form['header_title'] = $this->getTitle();
-
-    // @todo Figure out how the user interaction is going to happen.
+    // @todo Discuss how user interaction is going to happen.
     // $form['parent_selection'] = [
     //   '#type' => 'select',
     //   '#title' => $this->t('Select HEI'),
@@ -50,45 +68,58 @@ abstract class ImportFormBase extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $file_id = $form_state->getValue('csv_file')[0];
     $file = File::load($file_id);
+    // @todo Decide if we wnat to keep the files.
     // $file->setPermanent();
     // $file->save();
 
-    $hei_id = $form_state->getValue('hei_selection');
-    $entity_type = $form_state->get('import_entity_type');
-
+    // $user = User::load($current_user->id());
     // @ todo Convert this to Batch processing.
-    $this->importCsv($file, $hei_id, $entity_type);
+    $results = $this->importCsv($file, static::ENTITY_TYPE);
 
-    $this->messenger()->addStatus($this->t('Import started for @type.', ['@type' => $entity_type]));
+    if (!empty($results['errors'])) {
+      $table = $this->createErrorsTable($results['errors']);
+      $rendered_table = $this->renderer->renderInIsolation($table);
+
+      $this->messenger()->addError(Markup::create($rendered_table));
+    }
+    $this->messenger()->addStatus($this->t('Import started for @type.', ['@type' => static::ENTITY_LABEL]));
+
+    $file->delete();
   }
 
-  protected function getSelectParentOptions() {
-    // Return an array of HEI ID => Name
-    return [1 => 'HEI Alpha', 2 => 'HEI Beta'];
+  // protected function getSelectParentOptions() {
+  //   // Return an array of HEI ID => Name
+  //   return [1 => 'HEI Alpha', 2 => 'HEI Beta'];
+  // }
+
+  protected function importCsv(File $file, string $entity_type) {
+    return $this->csvImporter->import($file, $entity_type);
   }
 
-  protected function importCsv($file, $hei_id, $entity_type) {
-    return;
-  }
+  protected function createErrorsTable(array $errors) {
+    $header = [$this->t('Row #'), $this->t('Error type'), $this->t('Message'), $this->t('CSV column'), $this->t('Values')];
+    $rows = [];
 
-  protected function getTitle() {
-    // Use a 'markup' element for simple HTML
-    $header = [
-      '#markup' => '<h2>' . $this->t('Import @type', ['@type' => self::ENTITY_LABEL]) . '</h2>',
-      '#weight' => -100, // Ensure it stays at the very top
+    foreach ($errors as $type => $error_list) {
+      foreach ($error_list as $error) {
+        $rows[] = [
+          $error['row_number'],
+          $type,
+          $error['message'],
+          $error['source'],
+          implode(',', $error['values'])
+        ];
+      }
+    }
+
+    $error_table = [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#attributes' => ['class' => ['csv-error-table']],
     ];
 
-    // @todo Add help text.
-    // $help_text = [
-    //   '#type' => 'item',
-    //   '#markup' => $this->t('Please ensure your CSV file follows the standard template for @type.', [
-    //     '@type' => $this->getEntityType()
-    //   ]),
-    //   '#weight' => -99,
-    // ];
-
-    return $header;
+    return  $error_table;
   }
-
 
 }
