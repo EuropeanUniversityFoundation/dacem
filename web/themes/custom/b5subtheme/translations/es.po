@@ -493,5 +493,13 @@ msgstr "@count seleccionados"
 msgid "PROGRAMMES"
 msgstr "PROGRAMAS"
 
+msgid "Found Something Wrong?"
+msgstr "¿Has encontrado algo incorrecto?"
+
+msgid "Give Us Feedback"
+msgstr "Envíanos tus comentarios"
+
+msgid "Available for Mobility Students"
+msgstr "Disponible para estudiantes de movilidad"
 
 

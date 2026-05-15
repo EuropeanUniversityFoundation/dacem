@@ -11,9 +11,11 @@ entity_type: node
 bundle: agreement
 label: 'Blended mobility option for students'
 description: ''
-required: true
+required: false
 translatable: false
-default_value: {  }
+default_value:
+  -
+    value: 0
 default_value_callback: ''
 settings:
   on_label: 'Yes'

@@ -1518,6 +1518,40 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     ];
     $variables['programme_area_labels'] = $map[$langcode] ?? $map['en'];
 
+    $variables['selected_home_programme'] = NULL;
+    $variables['clear_home_programme_url'] = NULL;
+    \Drupal\Core\Cache\CacheableMetadata::createFromRenderArray($variables)
+      ->addCacheContexts(['url.query_args:home_programme'])
+      ->applyTo($variables);
+
+    $home_programme_id = \Drupal::request()->query->get('home_programme');
+    if ($home_programme_id && is_numeric($home_programme_id)) {
+      $home_programme = Node::load((int) $home_programme_id);
+
+      if ($home_programme instanceof NodeInterface && $home_programme->bundle() === 'programme') {
+        $home_programme_label = $home_programme->label();
+        $home_institution_label = '';
+
+        if ($home_programme->hasField('field_programme_institution') && !$home_programme->get('field_programme_institution')->isEmpty()) {
+          $home_institution = $home_programme->get('field_programme_institution')->entity;
+          $home_institution_label = $home_institution ? $home_institution->label() : '';
+        }
+
+        $variables['selected_home_programme'] = [
+          'label' => $home_programme_label,
+          'institution' => $home_institution_label,
+        ];
+
+        $query_params = \Drupal::request()->query->all();
+        unset($query_params['home_programme'], $query_params['page']);
+
+        $variables['clear_home_programme_url'] = Url::fromRoute('view.search_programme.page_1', [], [
+          'query' => $query_params,
+          'language' => \Drupal::languageManager()->getLanguage($langcode),
+        ])->toString();
+      }
+    }
+
 
 
 
@@ -1684,6 +1718,32 @@ function b5subtheme_form_views_exposed_form_alter(array &$form, FormStateInterfa
   if ($view && $view->id() === 'search_programme') {
     // En el form
     $form['#attributes']['data-disable-refocus'] = 'true';
+
+    $request = \Drupal::request();
+    $home_programme_id = $request->query->get('home_programme');
+    $reset_requested = $request->query->get('op') === 'Reset';
+
+    if (!$reset_requested && $home_programme_id && is_numeric($home_programme_id)) {
+      $form['home_programme'] = [
+        '#type' => 'hidden',
+        '#value' => (int) $home_programme_id,
+        '#attributes' => [
+          'data-home-programme-filter' => '1',
+        ],
+      ];
+    }
+
+    if (isset($form['actions']['reset'])) {
+      if ($home_programme_id && is_numeric($home_programme_id)) {
+        $form['actions']['reset']['#access'] = TRUE;
+      }
+
+      $form['actions']['reset']['#attributes']['data-clear-home-programme'] = '1';
+      $form['actions']['reset']['#attributes']['data-reset-url'] = Url::fromRoute('view.search_programme.page_1', [], [
+        'language' => \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT),
+      ])->toString();
+    }
+
     // En todos los hijos del form (inputs/selects)
     array_walk_recursive($form, function (&$value, $key) {
       if ($key === '#attributes') {

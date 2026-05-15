@@ -4,12 +4,9 @@ use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\query\Sql;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\node\Entity\Node;
-
-use Drupal\group\Entity\GroupContent;
 use Drupal\Core\Entity\EntityInterface;
-
+use Drupal\Core\Entity\Element\EntityAutocomplete;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 
 
 
@@ -39,8 +36,6 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
     }
     if ($view->id() == 'institution_catalogue' || $view->id() == 'general_information') {
       $alias_name = $args[0];
-    } else if ($view->id() == 'iec_information') {
-      $alias_name = $args[0] . '/' . $args[1] . '/' . $args[2];
     } else if ($view->id() == 'programme_information') {
       $alias_name = $args[0] . '/' . $args[1];
     }
@@ -165,9 +160,38 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
     }
 
 
-  } else if ($view->id() === 'institution_new_catalogue' && $view->current_display == 'page_1') {
+  } else if ($view->id() === 'search_programme' && $view->current_display === 'page_1') {
 
-    
+    $home_programme_id = \Drupal::request()->query->get('home_programme');
+    if (!$home_programme_id || !is_numeric($home_programme_id)) {
+      return;
+    }
+
+    $origin_programme = Node::load((int) $home_programme_id);
+    if (!$origin_programme || $origin_programme->bundle() !== 'programme') {
+      return;
+    }
+
+    /** @var \Drupal\agreements_programmes\Service\AgreementProgrammeMatcher $matcher */
+    $matcher = \Drupal::service('agreements_programmes.matcher');
+    $compatible_programmes = $matcher->getCompatibleProgrammesForProgramme($origin_programme);
+
+    $compatible_programme_ids = [];
+    foreach ($compatible_programmes as $item) {
+      if (!empty($item['programme']) && $item['programme'] instanceof \Drupal\node\NodeInterface) {
+        $compatible_programme_ids[] = (int) $item['programme']->id();
+      }
+    }
+
+    $compatible_programme_ids = array_values(array_unique($compatible_programme_ids));
+    if (!$compatible_programme_ids) {
+      $query->addWhere(0, 'node_field_data.nid', 0, '=');
+      return;
+    }
+
+    $query->addWhere(0, 'node_field_data.nid', $compatible_programme_ids, 'IN');
+
+  } else if ($view->id() === 'institution_new_catalogue' && $view->current_display == 'page_1') {
 
     /**
      * 1) OU filter (Programme -> field_programme_ou IN selected OUs)
@@ -582,6 +606,7 @@ function custom_views_filters_form_views_exposed_form_alter(array &$form, FormSt
       '#default_value' => array_map('strval', $campus_defaults),
       '#weight' => -9, // ponlo donde quieras en el orden
     ];
+
 
 
 
@@ -1095,25 +1120,6 @@ function custom_views_filters_form_node_academic_authority_edit_form_alter(array
 
 
 
-
-
-
-
-
-function custom_views_filters_form_alter(array &$form, FormStateInterface $form_state, $form_id)
-{
-  \Drupal::logger('custom_views_filters')->info('Interceptado formulario con ID: @id', ['@id' => $form_id]);
-
-  // Si es creación o edición de organizational_unit, aplicamos la lógica común.
-  if ($form_id === 'node_organizational_unit_form' || $form_id === 'node_organizational_unit_edit_form') {
-    _custom_views_filters_alter_organizational_unit_form($form, $form_state, $form_id);
-  }
-}
-
-
-
-
-
 /**
  * Crear ORGANIZATIONAL UNIT.
  */
@@ -1452,6 +1458,253 @@ function custom_views_filters_form_node_programme_form_alter(array &$form, FormS
 
 }
 
+/**
+ * Agreement create form alter.
+ */
+function custom_views_filters_form_node_agreement_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  _custom_views_filters_alter_agreement_form($form, $form_state);
+}
+
+/**
+ * Agreement edit form alter.
+ */
+function custom_views_filters_form_node_agreement_edit_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  _custom_views_filters_alter_agreement_form($form, $form_state);
+}
+
+/**
+ * Common logic for agreement forms.
+ */
+function _custom_views_filters_alter_agreement_form(array &$form, FormStateInterface $form_state): void {
+  $node = $form_state->getFormObject()->getEntity();
+  if (!$node || $node->bundle() !== 'agreement') {
+    return;
+  }
+
+  $route_match = \Drupal::routeMatch();
+  $group_param = $route_match->getParameter('group');
+  $group = NULL;
+
+  if (is_object($group_param)) {
+    $group = $group_param;
+  }
+  elseif (is_numeric($group_param)) {
+    $group = \Drupal::entityTypeManager()->getStorage('group')->load((int) $group_param);
+  }
+
+  $gr_storage = \Drupal::entityTypeManager()->getStorage('group_relationship');
+
+  if (!$group && !$node->isNew()) {
+    $agreement_rels = $gr_storage->loadByProperties([
+      'entity_id' => $node->id(),
+      'plugin_id' => 'group_node:agreement',
+    ]);
+
+    if ($agreement_rel = reset($agreement_rels)) {
+      if (method_exists($agreement_rel, 'getGroup')) {
+        $group = $agreement_rel->getGroup();
+      }
+    }
+  }
+
+  if (!$group) {
+    return;
+  }
+
+  $inst_rels = $gr_storage->loadByProperties([
+    'gid' => $group->id(),
+    'plugin_id' => 'group_node:institution',
+  ]);
+
+  $institution_nid = NULL;
+  foreach ($inst_rels as $rel) {
+    $entity = NULL;
+
+    if (method_exists($rel, 'getEntity')) {
+      $entity = $rel->getEntity();
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
+      $entity = $rel->getContentEntity();
+    }
+
+    if ($entity && $entity->bundle() === 'institution') {
+      $institution_nid = $entity->id();
+      break;
+    }
+  }
+
+  $org_unit_rels = $gr_storage->loadByProperties([
+    'gid' => $group->id(),
+    'plugin_id' => 'group_node:organizational_unit',
+  ]);
+
+  $org_unit_options = [];
+  foreach ($org_unit_rels as $rel) {
+    $organizational_unit = NULL;
+
+    if (method_exists($rel, 'getEntity')) {
+      $organizational_unit = $rel->getEntity();
+    }
+    elseif (method_exists($rel, 'getContentEntity')) {
+      $organizational_unit = $rel->getContentEntity();
+    }
+
+    if ($organizational_unit && $organizational_unit->bundle() === 'organizational_unit') {
+      if ($institution_nid && $organizational_unit->hasField('field_ou_institution') && !$organizational_unit->get('field_ou_institution')->isEmpty()) {
+        $ref = (int) $organizational_unit->get('field_ou_institution')->target_id;
+        if ($ref !== (int) $institution_nid) {
+          continue;
+        }
+      }
+
+      $org_unit_options[$organizational_unit->id()] = $organizational_unit->label();
+    }
+  }
+
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  if (class_exists(\Collator::class)) {
+    $coll = new \Collator($langcode);
+    uasort($org_unit_options, function ($a, $b) use ($coll) {
+      return $coll->compare((string) $a, (string) $b);
+    });
+  }
+
+  if (isset($form['field_department_partner_1']['widget'][0]['target_id'])) {
+    $el =& $form['field_department_partner_1']['widget'][0]['target_id'];
+
+    $el['#type'] = 'select';
+    $el['#multiple'] = FALSE;
+    $el['#size'] = 1;
+    $el['#options'] = $org_unit_options;
+    $el['#empty_option'] = t('- None -');
+    $el['#empty_value'] = '_none';
+    $el['#required'] = FALSE;
+
+    if (!$node->isNew() && !$node->get('field_department_partner_1')->isEmpty()) {
+      $el['#default_value'] = $node->get('field_department_partner_1')->target_id;
+    }
+    else {
+      $el['#default_value'] = '_none';
+    }
+
+    unset($el['#selection_handler'], $el['#selection_settings'], $el['#autocomplete_route_name']);
+    $el['#element_validate'][] = 'custom_views_filters_er_select_empty_to_null';
+  }
+
+  if (isset($form['field_institution_2']['widget'][0]['target_id'])) {
+    $form['field_institution_2']['widget'][0]['target_id']['#ajax'] = [
+      'callback' => 'custom_views_filters_agreement_department_partner_2_ajax',
+      'event' => 'change',
+      'wrapper' => 'agreement-department-partner-2-wrapper',
+    ];
+  }
+
+  if (isset($form['field_department_partner_2'])) {
+    $form['field_department_partner_2']['#prefix'] = '<div id="agreement-department-partner-2-wrapper">';
+    $form['field_department_partner_2']['#suffix'] = '</div>';
+  }
+
+  if (isset($form['field_department_partner_2']['widget'][0]['target_id'])) {
+    $el =& $form['field_department_partner_2']['widget'][0]['target_id'];
+    $selected_institution_2_id = custom_views_filters_get_selected_agreement_institution_2_id($form_state, $node);
+    $org_unit_options_2 = custom_views_filters_get_org_unit_options_for_institution($selected_institution_2_id);
+
+    $el['#type'] = 'select';
+    $el['#multiple'] = FALSE;
+    $el['#size'] = 1;
+    $el['#options'] = $org_unit_options_2;
+    $el['#empty_option'] = t('- None -');
+    $el['#empty_value'] = '_none';
+    $el['#required'] = FALSE;
+
+    $current_department_2 = (!$node->isNew() && !$node->get('field_department_partner_2')->isEmpty())
+      ? (string) $node->get('field_department_partner_2')->target_id
+      : '_none';
+
+    $submitted_department_2 = $form_state->getValue(['field_department_partner_2', 0, 'target_id']);
+    if ($submitted_department_2 !== NULL && $submitted_department_2 !== '') {
+      $current_department_2 = (string) $submitted_department_2;
+    }
+
+    $el['#default_value'] = array_key_exists($current_department_2, $org_unit_options_2) ? $current_department_2 : '_none';
+
+    unset($el['#selection_handler'], $el['#selection_settings'], $el['#autocomplete_route_name']);
+    $el['#element_validate'][] = 'custom_views_filters_er_select_empty_to_null';
+  }
+}
+
+/**
+ * Ajax callback for refreshing agreement destination OUs.
+ */
+function custom_views_filters_agreement_department_partner_2_ajax(array &$form, FormStateInterface $form_state) {
+  $form_state->setRebuild(TRUE);
+  return $form['field_department_partner_2'];
+}
+
+/**
+ * Resolves selected institution 2 from current form state or entity.
+ */
+function custom_views_filters_get_selected_agreement_institution_2_id(FormStateInterface $form_state, Node $node): ?int {
+  $user_input = $form_state->getUserInput();
+
+  if (!empty($user_input['field_institution_2'][0]['target_id']) && is_string($user_input['field_institution_2'][0]['target_id'])) {
+    $entity_id = EntityAutocomplete::extractEntityIdFromAutocompleteInput($user_input['field_institution_2'][0]['target_id']);
+    if ($entity_id) {
+      return (int) $entity_id;
+    }
+  }
+
+  $submitted_value = $form_state->getValue(['field_institution_2', 0, 'target_id']);
+
+  if (is_string($submitted_value) && $submitted_value !== '') {
+    $entity_id = EntityAutocomplete::extractEntityIdFromAutocompleteInput($submitted_value);
+    if ($entity_id) {
+      return (int) $entity_id;
+    }
+  }
+
+  if (is_array($submitted_value) && isset($submitted_value[0]['target_id']) && is_numeric($submitted_value[0]['target_id'])) {
+    return (int) $submitted_value[0]['target_id'];
+  }
+
+  if (!$node->isNew() && $node->hasField('field_institution_2') && !$node->get('field_institution_2')->isEmpty()) {
+    return (int) $node->get('field_institution_2')->target_id;
+  }
+
+  return NULL;
+}
+
+/**
+ * Returns organizational units belonging to one institution.
+ */
+function custom_views_filters_get_org_unit_options_for_institution(?int $institution_id): array {
+  if (!$institution_id) {
+    return [];
+  }
+
+  $org_units = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+    'type' => 'organizational_unit',
+    'field_ou_institution' => $institution_id,
+  ]);
+
+  $options = [];
+  foreach ($org_units as $org_unit) {
+    if ($org_unit instanceof Node) {
+      $options[(string) $org_unit->id()] = $org_unit->label();
+    }
+  }
+
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  if (class_exists(\Collator::class)) {
+    $coll = new \Collator($langcode);
+    uasort($options, function ($a, $b) use ($coll) {
+      return $coll->compare((string) $a, (string) $b);
+    });
+  }
+
+  return $options;
+}
+
 
 
 
@@ -1524,4 +1777,3 @@ function custom_views_filters_entity_operation_alter(array &$operations, \Drupal
   // Eliminar el enlace "Delete".
   unset($operations['delete']);
 }
-

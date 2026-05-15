@@ -10,9 +10,9 @@ id: node.individual_educational_component.field_iec_language_of_instructio
 field_name: field_iec_language_of_instructio
 entity_type: node
 bundle: individual_educational_component
-label: Languages
+label: 'Languages of instruction'
 description: ''
-required: false
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''

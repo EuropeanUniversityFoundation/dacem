@@ -2,8 +2,6 @@
 {{ attach_library('b5subtheme/degree_menu_scroll') }}
 
 
-
-
 {# Obtener la entidad de contenido desde la vista #}
 
 {% set entity = view.result[0]._entity %}
@@ -162,13 +160,13 @@
 					<a class="dropdown-item" href="#grading-scale">{{ 'Assessment'|t }}</a>
 				</li>
 				<li>
-					<a class="dropdown-item" href="#mobility">{{ 'Mobility'|t }}</a>
-				</li>
-				<li>
 					<a class="dropdown-item" href="#work-placements">{{ 'Practice'|t }}</a>
 				</li>
 				<li>
 					<a class="dropdown-item" href="#occupational-profiles">{{ 'Careers'|t }}</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#mobility">{{ 'Mobility'|t }}</a>
 				</li>
 			</ul>
 
@@ -189,13 +187,13 @@
 				<a class="nav-link" href="#grading-scale">{{ 'Assessment'|t }}</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#mobility">{{ translations[current_language]['Mobility'] }}</a>
-			</li>
-			<li class="nav-item">
 				<a class="nav-link" href="#work-placements">{{ 'Practice'|t }}</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#occupational-profiles">{{ 'Careers'|t }}</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#mobility">{{ translations[current_language]['Mobility'] }}</a>
 			</li>
 		</ul>
 	</div>
@@ -232,11 +230,10 @@
 			<div class="row">
 
 				{% if attachment_after %}
-    <div class="col-sm-12 col-md-12 col-xl-4 order-1 order-xl-2">
-      {{ attachment_after }}
-    </div>
-  {% endif %}
-
+					<div class="col-sm-12 col-md-12 col-xl-4 order-1 order-xl-2">
+						{{ attachment_after }}
+					</div>
+				{% endif %}
 
 
 				<div class="col-sm-12 col-md-12 col-xl-8 order-2 order-xl-1">
@@ -273,7 +270,7 @@
 						</div>
 					{% endif %}
 
-					
+
 					{% if translated_entity.field_distribution_of_credits.value is not empty %}
 						<div class="programme-section" id="structure" style="text-align: justify; scroll-margin-top: 150px;">
 							<h3 class="subsection-title">
@@ -289,7 +286,7 @@
 
 					<div class="programme-section" id="iecs" style="text-align: justify; scroll-margin-top: 150px;">
 						<h3 class="subsection-title">{{ 'Courses'|t }}</h3>
-						
+
 						{# === TABS NAV: By course / By semester === #}
 						<ul class="nav nav-tabs justify-content-center mb-3" id="iecsTabs" role="tablist">
 
@@ -314,14 +311,14 @@
 
 								{# Definimos los semestres que queremos mostrar #}
 								{% set semester_terms = [1, 2] %}
-									{% set semester_labels = {
-    1: '1st term'|t,
-    2: '2nd term'|t
-  } %}
+								{% set semester_labels = {
+						1: '1st term'|t,
+						2: '2nd term'|t
+					} %}
 
 
 								{# --- BOTONES DE SEMESTRE (como los de course) --- #}
-									<div class="custom-btn-group btn-group btn-group-adjustment mb-3" role="group" aria-label="{{ 'Terms'|t }}">
+								<div class="custom-btn-group btn-group btn-group-adjustment mb-3" role="group" aria-label="{{ 'Terms'|t }}">
 									{% for term in semester_terms %}
 										{% set is_default_term = term == semester_terms|first %}
 										<button type="button" class="btn btn-outline-primary toggle-button {{ is_default_term ? '' : 'collapsed' }}" data-bs-toggle="collapse" data-bs-target="#semester{{ term }}" aria-expanded="{{ is_default_term ? 'true' : 'false' }}" aria-controls="semester{{ term }}">
@@ -344,15 +341,15 @@
 															<th>{{ 'Mobility'|t }}</th>
 														</tr>
 													</thead>
-														<tbody>
-															{% for row in view.result %}
-																{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
-																{% set iec_terms = [] %}
-																{% for iec_term_item in iec.field_iec_term %}
-																	{% set iec_terms = iec_terms|merge([iec_term_item.value ~ '']) %}
-																{% endfor %}
+													<tbody>
+														{% for row in view.result %}
+															{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
+															{% set iec_terms = [] %}
+															{% for iec_term_item in iec.field_iec_term %}
+																{% set iec_terms = iec_terms|merge([iec_term_item.value ~ '']) %}
+															{% endfor %}
 
-																{% if (term ~ '') in iec_terms or '0' in iec_terms %}
+															{% if (term ~ '') in iec_terms or '0' in iec_terms %}
 
 																{% if iec.hasTranslation(current_language) %}
 																	{% set translated_iec = iec.getTranslation(current_language) %}
@@ -428,15 +425,15 @@
 														<th>{{ 'Mobility'|t }}</th>
 													</tr>
 												</thead>
-													<tbody>
-														{% for row in view.result %}
-															{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
-															{% set iec_terms = [] %}
-															{% for iec_term_item in iec.field_iec_term %}
-																{% set iec_terms = iec_terms|merge([iec_term_item.value ~ '']) %}
-															{% endfor %}
+												<tbody>
+													{% for row in view.result %}
+														{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
+														{% set iec_terms = [] %}
+														{% for iec_term_item in iec.field_iec_term %}
+															{% set iec_terms = iec_terms|merge([iec_term_item.value ~ '']) %}
+														{% endfor %}
 
-															{% if (term ~ '') in iec_terms or '0' in iec_terms %}
+														{% if (term ~ '') in iec_terms or '0' in iec_terms %}
 
 															{% if iec.hasTranslation(current_language) %}
 																{% set translated_iec = iec.getTranslation(current_language) %}
@@ -495,8 +492,8 @@
 
 
 							{# =========================
-														       TAB 1: BY COURSE (lo que ya tenías)
-														       ========================= #}
+																					       TAB 1: BY COURSE (lo que ya tenías)
+																					       ========================= #}
 							<div
 								class="tab-pane fade" id="pane-by-course" role="tabpanel" aria-labelledby="tab-by-course">
 
@@ -599,19 +596,19 @@
 													{% for row in view.result %}
 														{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
 
-															{% if iec.hasTranslation(current_language) %}
-																{% set translated_iec = iec.getTranslation(current_language) %}
-															{% else %}
-																{% set translated_iec = iec %}
-															{% endif %}
+														{% if iec.hasTranslation(current_language) %}
+															{% set translated_iec = iec.getTranslation(current_language) %}
+														{% else %}
+															{% set translated_iec = iec %}
+														{% endif %}
 
-															{% set iec_years = [] %}
-															{% for iec_year_item in translated_iec.field_iec_year %}
-																{% set iec_years = iec_years|merge([iec_year_item.value ~ '']) %}
-															{% endfor %}
+														{% set iec_years = [] %}
+														{% for iec_year_item in translated_iec.field_iec_year %}
+															{% set iec_years = iec_years|merge([iec_year_item.value ~ '']) %}
+														{% endfor %}
 
-															{% if (course_id ~ '') in iec_years or '0' in iec_years %}
-																<tr>
+														{% if (course_id ~ '') in iec_years or '0' in iec_years %}
+															<tr>
 																<td>
 																	{% if translated_iec.field_iec_code is not empty %}
 																		{{ translated_iec.field_iec_code[0].value|t|capitalize }}
@@ -653,18 +650,15 @@
 							</div>
 
 							{# =========================
-														       TAB 2: BY SEMESTER (ordenado por field_iec_term)
-														       ========================= #}
+																					       TAB 2: BY SEMESTER (ordenado por field_iec_term)
+																					       ========================= #}
 							{# =========================
-														   TAB 2: BY SEMESTER (botones + tablas por semestre)
-														   ========================= #}
+																					   TAB 2: BY SEMESTER (botones + tablas por semestre)
+																					   ========================= #}
 
 
 						</div>
 					</div>
-
-
-
 
 
 					{% if translated_entity.field_programme_requirements.value is not empty %}
@@ -689,16 +683,6 @@
 					{% endif %}
 
 
-
-
-
-
-
-
-
-
-
-
 					{% if translated_entity.field_programme_grading_scale.value is not empty or translated_entity.field_programme_explanation_scal.value is not empty or translated_entity.field_programme_grading_table.value is not empty %}
 						<div class="programme-section" id="assessment" style="text-align: justify; scroll-margin-top: 150px;">
 							<h3 class="subsection-title">{{ 'Assessment'|t }}</h3>
@@ -710,11 +694,9 @@
 									{{ translated_entity.field_programme_grading_scale.value|raw }}
 								</div>
 							{% endif %}
-							
-							
 
 
-								{% if translated_entity.field_programme_grading_scheme.value is not empty %}
+							{% if translated_entity.field_programme_grading_scheme.value is not empty %}
 								<div class="programme-section ms-5" id="grade-distribution-table" style="text-align: justify; scroll-margin-top: 150px;">
 									<h4 class="subsection-title">{{ 'Grading Scheme'|t }}</h4>
 									{{ translated_entity.field_programme_grading_scheme.value|raw }}
@@ -729,20 +711,6 @@
 								</div>
 							{% endif %}
 
-						</div>
-					{% endif %}
-
-					{% if translated_entity.field_programme_mobility.value is not empty %}
-						<div class="programme-section" id="mobility" style="text-align: justify; scroll-margin-top: 150px;">
-							<h3 class="subsection-title">{{ translations[current_language]['Mobility'] }}</h3>
-							{{ translated_entity.field_programme_mobility.value|raw }}
-						</div>
-					{% endif %}
-
-					{% if translated_entity.field_programme_mobility_windows.value is not empty %}
-						<div class="programme-section" id="mobility-windows" style="text-align: justify; scroll-margin-top: 150px;">
-							<h3 class="subsection-title">{{ 'Mobility Windows'|t }}</h3>
-							{{ translated_entity.field_programme_mobility_windows.value|raw }}
 						</div>
 					{% endif %}
 
@@ -767,142 +735,171 @@
 						</div>
 					{% endif %}
 
-					{% if translated_entity.field_access_to_further_studies.value is not empty %}
-						<div class="programme-section" id="access-further-studies" style="text-align: justify; scroll-margin-top: 150px;">
-							<h3 class="subsection-title">{{ 'Access to Further Studies'|t }}</h3>
-							{{ translated_entity.field_access_to_further_studies.value|raw }}
+						{% if translated_entity.field_access_to_further_studies.value is not empty %}
+							<div class="programme-section" id="access-further-studies" style="text-align: justify; scroll-margin-top: 150px;">
+								<h3 class="subsection-title">{{ 'Access to Further Studies'|t }}</h3>
+								{{ translated_entity.field_access_to_further_studies.value|raw }}
+							</div>
+						{% endif %}
+
+					{% if translated_entity.field_programme_mobility.value is not empty %}
+						<div class="programme-section" id="mobility" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ translations[current_language]['Mobility'] }}</h3>
+							{{ translated_entity.field_programme_mobility.value|raw }}
+						</div>
+					{% endif %}
+
+					{% if translated_entity.field_programme_mobility_windows.value is not empty %}
+						<div class="programme-section" id="mobility-windows" style="text-align: justify; scroll-margin-top: 150px;">
+							<h3 class="subsection-title">{{ 'Mobility Windows'|t }}</h3>
+							{{ translated_entity.field_programme_mobility_windows.value|raw }}
 						</div>
 					{% endif %}
 
 
-					
-				</div>
-
-				
-
-
-
-
-				
+					</div>
 
 
 			</div>
 
+			{% if compatible_agreement_groups is defined %}
+				{% if compatible_agreement_groups %}
+					<div class="programme-section compatible-programmes" id="compatible-programmes" style="scroll-margin-top: 150px;">
+						<h3 class="subsection-title">{{ 'Agreements'|t }}</h3>
+
+						{% for group in compatible_agreement_groups %}
+							<div class="compatible-programmes__group">
+									<h4>
+										{% if group.university_url %}
+											<a href="{{ group.university_url }}" target="_blank" rel="noopener noreferrer">{{ group.university }}</a>
+										{% else %}
+											{{ group.university }}
+										{% endif %}
+								</h4>
+
+								<div class="compatible-programmes__table-wrap">
+									<table class="compatible-programmes__table table table-sm">
+										<thead>
+											<tr>
+												<th>Agreement</th>
+												<th>Places</th>
+												<th>Duration</th>
+												<th>Language</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for row in group.rows %}
+												<tr>
+													<td>
+														<strong>{{ row.agreement_title|nl2br }}</strong><br>
+														{% if row.contact %}
+															<strong>Contact person:</strong> {{ row.contact|nl2br }}<br>
+														{% endif %}
+														{% if row.destination_ou %}
+																<strong>Destination OU:</strong>
+																{% if row.destination_ou_url %}
+																	<a href="{{ row.destination_ou_url }}" target="_blank" rel="noopener noreferrer">{{ row.destination_ou }}</a>
+																{% else %}
+																	{{ row.destination_ou|nl2br }}
+																{% endif %}
+															<br>
+														{% endif %}
+														{% if row.fields_of_education %}
+															<strong>Fields of education:</strong> {{ row.fields_of_education|nl2br }}<br>
+														{% endif %}
+														{% if row.description %}
+															<strong>Observations:</strong> {{ row.description|nl2br }}
+														{% endif %}
+													</td>
+													<td>{{ row.spots ?: '-' }}</td>
+													<td>{{ row.duration ?: '-' }}</td>
+													<td>{{ row.language ? row.language|nl2br : '-' }}</td>
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			{% endif %}
+
 
 		</div>
+
+
+
 	</div>
 
-<!--
+	<!--
+	
+	
+	-->
+	<!--
+	
+	
+	-->
+	<!--
+	
+	
+	-->
 
 
--->
-<!--
-
-
--->
-<!--
-
-
--->
-
-
-<!--
-	{% if compatible_programmes is defined %}
-  {% if compatible_programmes %}
-    <section class="compatible-programmes">
-      <h2>Compatible programmes</h2>
-
-      <ul>
-        {% for item in compatible_programmes %}
-          <li>
-            <a href="{{ path('entity.node.canonical', {'node': item.programme.id}) }}">
-              {{ item.programme.label }}
-            </a>
-
-            <small>
-              Agreement ID: {{ item.agreement_id }}
-            </small>
-          </li>
-        {% endfor %}
-      </ul>
-    </section>
-  {% else %}
-    <p>No compatible programmes found.</p>
-  {% endif %}
-{% elseif compatible_courses %}
-  <section class="compatible-courses">
-    <h2>Compatible courses</h2>
-
-    <ul>
-      {% for item in compatible_courses %}
-        <li>
-          <a href="{{ path('entity.node.canonical', {'node': item.course.id}) }}">
-            {{ item.course.label }}
-          </a>
-
-          <small>
-            Agreement ID: {{ item.agreement_id }}
-          </small>
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
-{% else %}
-  <p>No compatible courses found.</p>
-{% endif %}
-
--->
-
-
-</div></div></div></div><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script><!--
-		<script>
 		
-		(function () {
-		  const menu = document.getElementById('block-b5subtheme-institutionmenublock');
-		  if (!menu) return;
 		
-		  // Crea un "spacer" para evitar salto cuando fijamos el menú
-		  const spacer = document.createElement('div');
-		  spacer.style.height = menu.offsetHeight + 'px';
-		  spacer.style.display = 'none';
-		  menu.parentNode.insertBefore(spacer, menu);
-		
-		  const getAdminOffset = () =>
-		    parseInt(getComputedStyle(document.documentElement)
-		      .getPropertyValue('--drupal-displace-offset-top')) || 0;
-		
-		  let originalTop = menu.getBoundingClientRect().top + window.scrollY - getAdminOffset();
-		
-		  function onScrollOrResize() {
-		    const adminOffset = getAdminOffset();
-		
-		    if (window.scrollY >= originalTop) {
-		      menu.style.position = 'fixed';
-		      menu.style.top = adminOffset + 'px';
-		      menu.style.left = '0';
-		      menu.style.right = '0';
-		      menu.style.width = '100%';
-		      menu.style.zIndex = '9999';
-		      spacer.style.display = 'block';           // evita salto
-		    } else {
-		      menu.style.position = 'static';
-		      spacer.style.display = 'none';
-		    }
-		  }
-		
-		  window.addEventListener('scroll', onScrollOrResize);
-		  window.addEventListener('resize', () => {
-		    // Recalcula alturas y punto de anclaje en resize
-		    spacer.style.display = 'none';
-		    menu.style.position = 'static';
-		    spacer.style.height = menu.offsetHeight + 'px';
-		    originalTop = menu.getBoundingClientRect().top + window.scrollY - getAdminOffset();
-		    onScrollOrResize();
-		  });
-		
-		  // Primer cálculo
-		  onScrollOrResize();
-		})();
-		
-		</script>
-		-->
+
+
+	</div>
+</div></div></div><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script><!--
+			<script>
+			
+			(function () {
+			  const menu = document.getElementById('block-b5subtheme-institutionmenublock');
+			  if (!menu) return;
+			
+			  // Crea un "spacer" para evitar salto cuando fijamos el menú
+			  const spacer = document.createElement('div');
+			  spacer.style.height = menu.offsetHeight + 'px';
+			  spacer.style.display = 'none';
+			  menu.parentNode.insertBefore(spacer, menu);
+			
+			  const getAdminOffset = () =>
+			    parseInt(getComputedStyle(document.documentElement)
+			      .getPropertyValue('--drupal-displace-offset-top')) || 0;
+			
+			  let originalTop = menu.getBoundingClientRect().top + window.scrollY - getAdminOffset();
+			
+			  function onScrollOrResize() {
+			    const adminOffset = getAdminOffset();
+			
+			    if (window.scrollY >= originalTop) {
+			      menu.style.position = 'fixed';
+			      menu.style.top = adminOffset + 'px';
+			      menu.style.left = '0';
+			      menu.style.right = '0';
+			      menu.style.width = '100%';
+			      menu.style.zIndex = '9999';
+			      spacer.style.display = 'block';           // evita salto
+			    } else {
+			      menu.style.position = 'static';
+			      spacer.style.display = 'none';
+			    }
+			  }
+			
+			  window.addEventListener('scroll', onScrollOrResize);
+			  window.addEventListener('resize', () => {
+			    // Recalcula alturas y punto de anclaje en resize
+			    spacer.style.display = 'none';
+			    menu.style.position = 'static';
+			    spacer.style.height = menu.offsetHeight + 'px';
+			    originalTop = menu.getBoundingClientRect().top + window.scrollY - getAdminOffset();
+			    onScrollOrResize();
+			  });
+			
+			  // Primer cálculo
+			  onScrollOrResize();
+			})();
+			
+			</script>
+			-->

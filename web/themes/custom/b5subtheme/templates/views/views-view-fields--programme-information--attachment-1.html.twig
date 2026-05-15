@@ -15,6 +15,12 @@
          ------------------------- #}
       <div class="col-12 col-md-6 col-xl-12">
 
+        {% set professional_practices_value = row._entity.field_professional_practices.value ?? null %}
+        {% set has_professional_practices =
+          (fields.field_professional_practices is defined and fields.field_professional_practices.content|render|striptags|trim)
+          or professional_practices_value is not null
+        %}
+
         {% set has_general_data =
          (fields.field_programme_abbreviation is defined and fields.field_programme_abbreviation.content|render|striptags|trim)
           or (fields.field_programme_start_date is defined and fields.field_programme_start_date.content|render|striptags|trim)
@@ -28,7 +34,7 @@
           or (fields.field_isced_f is defined and fields.field_isced_f.content|render|striptags|trim)
           or (fields.field_qualification_level is defined and fields.field_qualification_level.content|render|striptags|trim)
           or (fields.field_programme_mode_of_study is defined and fields.field_programme_mode_of_study.content|render|striptags|trim)
-          or (fields.field_professional_practices is defined and fields.field_professional_practices.content|render|striptags|trim)
+          or has_professional_practices
           or (fields.field_avaliable_for_mobility is defined and fields.field_avaliable_for_mobility.content|render|striptags|trim)
           or (fields.field_programme_restricted_allia is defined and fields.field_programme_restricted_allia.content|render|striptags|trim)
         %}
@@ -134,10 +140,14 @@
           </div>
         {% endif %}
 
-        {% if fields.field_professional_practices is defined and fields.field_professional_practices.content|render|striptags|trim %}
+        {% if has_professional_practices %}
           <div class="degree-info-item mb-2">
             <strong>{{ 'Professional Practices'|t }}:</strong>
-            {{ fields.field_professional_practices.content }}
+            {% if fields.field_professional_practices is defined and fields.field_professional_practices.content|render|striptags|trim %}
+              {{ fields.field_professional_practices.content }}
+            {% else %}
+              {{ professional_practices_value == '1' ? 'Yes'|t : 'No'|t }}
+            {% endif %}
           </div>
         {% endif %}
 

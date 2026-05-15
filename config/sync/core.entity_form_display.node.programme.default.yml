@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.programme.body
     - field.field.node.programme.field_access_to_further_studies
     - field.field.node.programme.field_arrangments_recognition
     - field.field.node.programme.field_avaliable_for_mobility
@@ -21,13 +20,13 @@ dependencies:
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
     - field.field.node.programme.field_programme_abbreviation
+    - field.field.node.programme.field_programme_code
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
     - field.field.node.programme.field_programme_grading_scheme
     - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
     - field.field.node.programme.field_programme_language_of_inst
-    - field.field.node.programme.field_programme_languages
     - field.field.node.programme.field_programme_learn_outcomes
     - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_mobility_windows
@@ -402,14 +401,23 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_professional_practices:
-    type: options_buttons
-    weight: 45
+    type: boolean_checkbox
+    weight: 53
     region: content
-    settings: {  }
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_programme_abbreviation:
     type: string_textfield
     weight: 33
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_programme_code:
+    type: string_textfield
+    weight: 52
     region: content
     settings:
       size: 60
@@ -653,6 +661,4 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden:
-  body: true
-  field_programme_languages: true
+hidden: {  }

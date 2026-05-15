@@ -86,6 +86,9 @@ class AdminAreaController extends ControllerBase
       'academic_authority' => [
         'university_admin' => 'view.admin_academic_authorities.page_1',
       ],
+      'agreement' => [
+        'university_admin' => 'view.admin_agreements.page_1',
+      ],
     ];
 
     // Comprobar que ese tipo está soportado
@@ -101,6 +104,7 @@ class AdminAreaController extends ControllerBase
     // Redirigir a la ruta correspondiente
     $route_name = $route_maps[$entity_type][$role];
     \Drupal::logger('admin_area')->info('Redirigimos a ' . $route_name);
+
     return new RedirectResponse(Url::fromRoute($route_name)->toString());
   }
 
@@ -1538,6 +1542,13 @@ public function redirectToCreateUserForm() {
         'query' => ['field_campus_institution' => $parent_entity->id(), 'destination' => '/my-area'], // Incluye el ID de la carrera.
       ])->toString();
 
+    } else if ($entity_type == 'agreement') {
+      return Url::fromRoute('entity.group_relationship.create_form', [
+        'group' => $group_id,
+        'plugin_id' => 'group_node:' . $entity_type,
+      ], [
+        'query' => ['field_institution_1' => $parent_entity->id(), 'destination' => '/my-area'],
+      ])->toString();
 
     } else {
       return 0;

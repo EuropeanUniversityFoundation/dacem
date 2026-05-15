@@ -15649,15 +15649,6 @@ tbody tr:nth-child(odd) td {
   table::-webkit-scrollbar-track { background: transparent; }
 }
 
-
-
-
-
-
-
-
-
-
 .page-link{
   color:black;
 }
@@ -16049,6 +16040,18 @@ header {
 
 .ui-autocomplete.ui-front {
   z-index: 2000 !important;
+}
+
+.ui-autocomplete .ui-menu-item-wrapper.ui-state-active,
+.ui-autocomplete .ui-menu-item-wrapper:hover {
+  background: #f1f3f5 !important;
+  border-color: #d9dee3 !important;
+  color: #111 !important;
+}
+
+.ui-autocomplete .ui-menu-item-wrapper.ui-state-active a,
+.ui-autocomplete .ui-menu-item-wrapper:hover a {
+  color: #111 !important;
 }
 
 
@@ -16622,4 +16625,44 @@ header {
 .iec-mobility-filter *{
   font-weight: bold !important ;
   color: black !important;
+}
+
+.compatible-programmes {
+  max-width: 100%;
+}
+
+.compatible-programmes__group {
+  max-width: 100%;
+}
+
+.compatible-programmes__table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.compatible-programmes__table {
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
+}
+
+.compatible-programmes__table th,
+.compatible-programmes__table td {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.compatible-programmes__table th:nth-child(1),
+.compatible-programmes__table td:nth-child(1) {
+  width: 58%;
+}
+
+.compatible-programmes__table th:nth-child(2),
+.compatible-programmes__table td:nth-child(2),
+.compatible-programmes__table th:nth-child(3),
+.compatible-programmes__table td:nth-child(3),
+.compatible-programmes__table th:nth-child(4),
+.compatible-programmes__table td:nth-child(4) {
+  width: 14%;
 }

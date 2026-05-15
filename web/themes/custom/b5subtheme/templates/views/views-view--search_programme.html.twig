@@ -16,11 +16,6 @@
 
 		<div{{attributes.addClass('catalogue-view')}}>
 
-			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-			<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
 
 			{% set programme_area = {
     'es': {
@@ -89,26 +84,8 @@
   } %}
 
 
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-			<!---->
-        <!----> <div class="catalogue-hero institution-new-catalogue-hero"style="height:300px;"> <div class="section-container">
+			
+         <div class="catalogue-hero institution-new-catalogue-hero"style="height:300px;"> <div class="section-container">
 					<div class="my-custom-container-2">
 
 						<div class="row align-items-center">
@@ -130,8 +107,8 @@
 							</div>
 
 							<div class="col ms-auto text-end">
-								<button class="btn btn-primary bg-black border-0 disabled" data-bs-toggle="modal" data-bs-target="#homeProgrammeModal">
-									Select Home Programme
+								<button class="btn btn-primary bg-black border-0" data-bs-toggle="modal" data-bs-target="#homeProgrammeModal">
+									{{ selected_home_programme ? 'Change Home Programme'|t : 'Select Home Programme'|t }}
 								</button>
 							</div>
 						</div>
@@ -181,6 +158,21 @@
 
 						<div
               class="col-lg-10 ps-lg-5 institution-new-catalogue-list" id="programme-list">
+							{% if selected_home_programme %}
+								<div class="d-flex align-items-center justify-content-between gap-3 flex-wrap bg-white border-start border-4 border-dark p-3 mb-3">
+									<div>
+										<strong>{{ 'Home programme'|t }}:</strong>
+										{{ selected_home_programme.label }}
+										{% if selected_home_programme.institution %}
+											<span class="text-muted">· {{ selected_home_programme.institution }}</span>
+										{% endif %}
+									</div>
+									<a href="{{ clear_home_programme_url }}" class="btn btn-sm btn-outline-dark btn-whithout-border-radius">
+										{{ 'Clear home programme'|t }}
+									</a>
+								</div>
+							{% endif %}
+
 							{# Puedes seguir con tu loop propio: AJAX reemplaza todo el wrapper #}
 							{% if view.result is not empty %}
 								{% for row in view.result %}
@@ -195,7 +187,13 @@
 									{% endif %}
 									<div class="programme-item">
 										<a href="{{ row.programme_url }}" class="text-decoration-none text-reset" target="_blank">
-                      <div class="card shadow-none mb-3 border-0 rounded-0 catalogue-programme-card" style="height: 123.65px; cursor: pointer;">
+                      <div class="card shadow-none mb-3 border-0 rounded-0 position-relative catalogue-programme-card" style="height: 123.65px; cursor: pointer;">
+												{% if programme.field_avaliable_for_mobility.value %}
+													<div class="mobility-badge">
+														<img src="/themes/custom/b5subtheme/images/mobility_iec.jpeg" alt="Available for mobility">
+													</div>
+												{% endif %}
+
 												<div
                           class="row g-0 catalogue-programme-card__row">
 													<!-- Imagen (logo institución) -->

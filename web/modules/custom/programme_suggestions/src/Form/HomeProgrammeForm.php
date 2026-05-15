@@ -77,10 +77,11 @@ class HomeProgrammeForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $nid = (int) $form_state->getValue('home_programme');
 
-    // De momento solo mostramos un mensaje y no redirigimos.
-    $this->messenger()->addStatus(
-      $this->t('Selected home programme ID: @nid', ['@nid' => $nid])
-    );
+    $form_state->setRedirect('view.search_programme.page_1', [], [
+      'query' => [
+        'home_programme' => $nid,
+      ],
+    ]);
   }
 
 }

@@ -12,7 +12,7 @@ entity_type: node
 bundle: organizational_unit
 label: Institution
 description: ''
-required: false
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''

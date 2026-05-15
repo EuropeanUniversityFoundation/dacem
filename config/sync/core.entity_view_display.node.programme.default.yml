@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.programme.body
     - field.field.node.programme.field_access_to_further_studies
     - field.field.node.programme.field_arrangments_recognition
     - field.field.node.programme.field_avaliable_for_mobility
@@ -21,13 +20,13 @@ dependencies:
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
     - field.field.node.programme.field_programme_abbreviation
+    - field.field.node.programme.field_programme_code
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
     - field.field.node.programme.field_programme_grading_scheme
     - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
     - field.field.node.programme.field_programme_language_of_inst
-    - field.field.node.programme.field_programme_languages
     - field.field.node.programme.field_programme_learn_outcomes
     - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_mobility_windows
@@ -77,21 +76,6 @@ third_party_settings:
               context_mapping:
                 entity: layout_builder.entity
             weight: 0
-            additional: {  }
-          c1d11422-45a4-4b12-a1a2-34c75b6f90ec:
-            uuid: c1d11422-45a4-4b12-a1a2-34c75b6f90ec
-            region: content
-            configuration:
-              id: 'field_block:node:programme:body'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: text_default
-                label: hidden
-                settings: {  }
-                third_party_settings: {  }
-            weight: 1
             additional: {  }
           5e64c588-2e82-4994-9196-8632430d7425:
             uuid: 5e64c588-2e82-4994-9196-8632430d7425
@@ -233,21 +217,6 @@ third_party_settings:
                 settings: {  }
                 third_party_settings: {  }
             weight: 12
-            additional: {  }
-          0558ec92-a2e2-4763-8d2c-1bd050a1dee7:
-            uuid: 0558ec92-a2e2-4763-8d2c-1bd050a1dee7
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_professional_practices'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: list_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 13
             additional: {  }
           834f9248-c19f-47a5-bd8d-6efebba700e3:
             uuid: 834f9248-c19f-47a5-bd8d-6efebba700e3
@@ -463,21 +432,6 @@ third_party_settings:
                 settings: {  }
                 third_party_settings: {  }
             weight: 39
-            additional: {  }
-          48d74421-4b0d-4c85-bca0-55e37c2a08a1:
-            uuid: 48d74421-4b0d-4c85-bca0-55e37c2a08a1
-            region: content
-            configuration:
-              id: 'field_block:node:programme:field_programme_languages'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: text_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 40
             additional: {  }
           75b4497a-dc01-4f35-aab0-b083e7509e11:
             uuid: 75b4497a-dc01-4f35-aab0-b083e7509e11
@@ -756,19 +710,46 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 58
             additional: {  }
+          cd4167c7-d6ba-4346-8b89-41b6ff864583:
+            uuid: cd4167c7-d6ba-4346-8b89-41b6ff864583
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_code'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 59
+            additional: {  }
+          caf20f91-71de-4242-b3a7-57515896d6c0:
+            uuid: caf20f91-71de-4242-b3a7-57515896d6c0
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_professional_practices'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: boolean
+                label: above
+                settings:
+                  format: default
+                  format_custom_false: ''
+                  format_custom_true: ''
+                third_party_settings: {  }
+            weight: 60
+            additional: {  }
         third_party_settings: {  }
 id: node.programme.default
 targetEntityType: node
 bundle: programme
 mode: default
 content:
-  body:
-    type: text_default
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 101
-    region: content
   field_access_to_further_studies:
     type: text_default
     label: above
@@ -888,11 +869,14 @@ content:
     weight: 138
     region: content
   field_professional_practices:
-    type: list_default
+    type: boolean
     label: above
-    settings: {  }
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
     third_party_settings: {  }
-    weight: 113
+    weight: 160
     region: content
   field_programme_abbreviation:
     type: string
@@ -901,6 +885,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 148
+    region: content
+  field_programme_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 159
     region: content
   field_programme_description:
     type: text_default
@@ -947,13 +939,6 @@ content:
       link: true
     third_party_settings: {  }
     weight: 145
-    region: content
-  field_programme_languages:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 140
     region: content
   field_programme_learn_outcomes:
     type: text_default

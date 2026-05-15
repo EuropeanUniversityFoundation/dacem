@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.programme_card_catalogue_view
-    - field.field.node.programme.body
     - field.field.node.programme.field_access_to_further_studies
     - field.field.node.programme.field_arrangments_recognition
     - field.field.node.programme.field_avaliable_for_mobility
@@ -22,13 +21,13 @@ dependencies:
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
     - field.field.node.programme.field_programme_abbreviation
+    - field.field.node.programme.field_programme_code
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
     - field.field.node.programme.field_programme_grading_scheme
     - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
     - field.field.node.programme.field_programme_language_of_inst
-    - field.field.node.programme.field_programme_languages
     - field.field.node.programme.field_programme_learn_outcomes
     - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_mobility_windows
@@ -61,7 +60,6 @@ bundle: programme
 mode: programme_card_catalogue_view
 content: {  }
 hidden:
-  body: true
   field_access_to_further_studies: true
   field_arrangments_recognition: true
   field_avaliable_for_mobility: true
@@ -79,13 +77,13 @@ hidden:
   field_occupational_profiles: true
   field_professional_practices: true
   field_programme_abbreviation: true
+  field_programme_code: true
   field_programme_description: true
   field_programme_end_date: true
   field_programme_grading_scheme: true
   field_programme_grading_table: true
   field_programme_institution: true
   field_programme_language_of_inst: true
-  field_programme_languages: true
   field_programme_learn_outcomes: true
   field_programme_mobility: true
   field_programme_mobility_windows: true

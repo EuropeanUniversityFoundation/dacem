@@ -1,12 +1,10 @@
-uuid: 3b3fc246-b4ff-4eef-a77b-e5840dcfc606
+uuid: e92f9310-97ae-4743-aec9-630cd4ddb453
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_professional_practices
     - node.type.programme
-  module:
-    - options
 id: node.programme.field_professional_practices
 field_name: field_professional_practices
 entity_type: node
@@ -14,8 +12,12 @@ bundle: programme
 label: 'Professional Practices'
 description: ''
 required: true
-translatable: true
-default_value: {  }
+translatable: false
+default_value:
+  -
+    value: 0
 default_value_callback: ''
-settings: {  }
-field_type: list_string
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

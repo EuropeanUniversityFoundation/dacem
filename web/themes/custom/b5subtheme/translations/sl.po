@@ -486,3 +486,11 @@ msgstr "@count izbranih"
 
 msgid "PROGRAMMES"
 msgstr "PROGRAMI"
+msgid "Found Something Wrong?"
+msgstr "Ste našli napako?"
+
+msgid "Give Us Feedback"
+msgstr "Pošljite nam povratne informacije"
+
+msgid "Available for Mobility Students"
+msgstr "Na voljo za študente na mobilnosti"

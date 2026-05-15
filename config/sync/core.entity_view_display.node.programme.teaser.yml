@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.programme.body
     - field.field.node.programme.field_access_to_further_studies
     - field.field.node.programme.field_arrangments_recognition
     - field.field.node.programme.field_avaliable_for_mobility
@@ -22,13 +21,13 @@ dependencies:
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
     - field.field.node.programme.field_programme_abbreviation
+    - field.field.node.programme.field_programme_code
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
     - field.field.node.programme.field_programme_grading_scheme
     - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
     - field.field.node.programme.field_programme_language_of_inst
-    - field.field.node.programme.field_programme_languages
     - field.field.node.programme.field_programme_learn_outcomes
     - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_mobility_windows
@@ -49,21 +48,12 @@ dependencies:
     - field.field.node.programme.field_work_based_learning
     - node.type.programme
   module:
-    - text
     - user
 id: node.programme.teaser
 targetEntityType: node
 bundle: programme
 mode: teaser
 content:
-  body:
-    type: text_summary_or_trimmed
-    label: hidden
-    settings:
-      trim_length: 600
-    third_party_settings: {  }
-    weight: 1
-    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -87,13 +77,13 @@ hidden:
   field_occupational_profiles: true
   field_professional_practices: true
   field_programme_abbreviation: true
+  field_programme_code: true
   field_programme_description: true
   field_programme_end_date: true
   field_programme_grading_scheme: true
   field_programme_grading_table: true
   field_programme_institution: true
   field_programme_language_of_inst: true
-  field_programme_languages: true
   field_programme_learn_outcomes: true
   field_programme_mobility: true
   field_programme_mobility_windows: true

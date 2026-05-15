@@ -489,3 +489,11 @@ msgstr "@count επιλεγμένα"
 
 msgid "PROGRAMMES"
 msgstr "ΠΡΟΓΡΑΜΜΑΤΑ"
+msgid "Found Something Wrong?"
+msgstr "Βρήκατε κάτι λάθος;"
+
+msgid "Give Us Feedback"
+msgstr "Στείλτε μας σχόλια"
+
+msgid "Available for Mobility Students"
+msgstr "Διαθέσιμο για φοιτητές κινητικότητας"

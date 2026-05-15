@@ -10,7 +10,7 @@ id: node.programme.field_programme_language_of_inst
 field_name: field_programme_language_of_inst
 entity_type: node
 bundle: programme
-label: 'Programme language of instruction'
+label: 'Languages of instruction'
 description: ''
 required: false
 translatable: true

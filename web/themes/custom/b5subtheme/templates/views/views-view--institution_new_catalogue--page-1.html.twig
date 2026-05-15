@@ -187,7 +187,13 @@
 									<div class="programme-item">
 									
 										<a href="{{ row.custom_url }}" class="text-decoration-none text-reset" target="_blank">
-											<div class="card shadow-none mb-3 border-0 rounded-0 catalogue-programme-card" style="height: 100.65px; cursor: pointer;">
+											<div class="card shadow-none mb-3 border-0 rounded-0 position-relative catalogue-programme-card" style="height: 100.65px; cursor: pointer;">
+												{% if programme.field_avaliable_for_mobility.value %}
+													<div class="mobility-badge">
+														<img src="/themes/custom/b5subtheme/images/mobility_iec.jpeg" alt="Available for mobility">
+													</div>
+												{% endif %}
+
 												<div
 													class="row g-0 catalogue-programme-card__row">
 													<!-- Imagen (logo institución) -->

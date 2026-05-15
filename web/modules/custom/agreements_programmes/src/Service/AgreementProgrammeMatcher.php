@@ -54,17 +54,11 @@ final class AgreementProgrammeMatcher {
   }
 
   private function findAgreementIds(EntityStorageInterface $node_storage, int $origin_institution_id): array {
-    $query = $node_storage->getQuery()
+    return $node_storage->getQuery()
       ->condition('type', self::AGREEMENT_BUNDLE)
       ->condition('status', 1)
-      ->accessCheck(TRUE);
-
-    $institution_group = $query->orConditionGroup()
       ->condition('field_institution_1', $origin_institution_id)
-      ->condition('field_institution_2', $origin_institution_id);
-
-    return $query
-      ->condition($institution_group)
+      ->accessCheck(TRUE)
       ->execute();
   }
 
@@ -76,19 +70,13 @@ final class AgreementProgrammeMatcher {
       return NULL;
     }
 
-    if ($institution_1 === $origin_institution_id) {
-      $target_institution_id = $institution_2;
-      $origin_department_field = 'field_department_partner_1';
-      $target_department_field = 'field_department_partner_2';
-    }
-    elseif ($institution_2 === $origin_institution_id) {
-      $target_institution_id = $institution_1;
-      $origin_department_field = 'field_department_partner_2';
-      $target_department_field = 'field_department_partner_1';
-    }
-    else {
+    if ($institution_1 !== $origin_institution_id) {
       return NULL;
     }
+
+    $target_institution_id = $institution_2;
+    $origin_department_field = 'field_department_partner_1';
+    $target_department_field = 'field_department_partner_2';
 
     $agreement_origin_department_id = $this->getTargetId($agreement, $origin_department_field);
     if ($agreement_origin_department_id && $agreement_origin_department_id !== $origin_department_id) {
@@ -96,13 +84,10 @@ final class AgreementProgrammeMatcher {
     }
 
     $agreement_isced_values = $this->getIscedValues($agreement, 'field_field_of_education');
-    $allowed_programme_isced_values = $this->expandIscedValuesForProgrammeQuery($agreement_isced_values);
+    $agreement_hierarchy_values = $this->expandIscedHierarchy($agreement_isced_values);
+    $origin_hierarchy_values = $this->expandIscedHierarchy($origin_isced_values);
+    $origin_matching_isced_values = array_values(array_intersect($origin_hierarchy_values, $agreement_hierarchy_values));
 
-    if (!$allowed_programme_isced_values) {
-      return NULL;
-    }
-
-    $origin_matching_isced_values = array_values(array_intersect($origin_isced_values, $allowed_programme_isced_values));
     if (!$origin_matching_isced_values) {
       return NULL;
     }
@@ -112,7 +97,7 @@ final class AgreementProgrammeMatcher {
       'target_institution_id' => $target_institution_id,
       'target_department_id' => $this->getTargetId($agreement, $target_department_field),
       'isced_values' => $agreement_isced_values,
-      'allowed_programme_isced_values' => $allowed_programme_isced_values,
+      'agreement_hierarchy_values' => $agreement_hierarchy_values,
       'origin_matching_isced_values' => $origin_matching_isced_values,
     ];
   }
@@ -127,7 +112,7 @@ final class AgreementProgrammeMatcher {
         ->accessCheck(TRUE)
         ->condition('nid', $origin_programme_id, '<>')
         ->condition('field_programme_institution', $rule['target_institution_id'])
-        ->condition('field_isced_f.value', $rule['allowed_programme_isced_values'], 'IN');
+        ->exists('field_isced_f.value');
 
       if (!empty($rule['target_department_id'])) {
         $query->condition('field_programme_ou', $rule['target_department_id']);
@@ -140,7 +125,7 @@ final class AgreementProgrammeMatcher {
 
       foreach ($node_storage->loadMultiple($programme_ids) as $programme) {
         if ($programme instanceof NodeInterface) {
-          $matching_isced_values = $this->getMatchingIscedValues($programme, $rule['allowed_programme_isced_values']);
+          $matching_isced_values = $this->getMatchingIscedValues($programme, $rule['origin_matching_isced_values']);
 
           if (!$matching_isced_values) {
             continue;
@@ -163,6 +148,7 @@ final class AgreementProgrammeMatcher {
             'target_institution_id' => $rule['target_institution_id'],
             'target_department_id' => $rule['target_department_id'],
             'isced_values' => $rule['isced_values'],
+            'agreement_hierarchy_values' => $rule['agreement_hierarchy_values'],
             'origin_matching_isced_values' => $rule['origin_matching_isced_values'],
             'matching_isced_values' => $matching_isced_values,
           ];
@@ -182,34 +168,6 @@ final class AgreementProgrammeMatcher {
     unset($result);
 
     return $results;
-  }
-
-  private function expandIscedValuesForProgrammeQuery(array $agreement_values): array {
-    if (!$agreement_values) {
-      return [];
-    }
-
-    $isced = new IscedFieldsOfStudy();
-    $matches = [];
-
-    foreach ($agreement_values as $agreement_value) {
-      if (!$isced->exists($agreement_value)) {
-        continue;
-      }
-
-      foreach ($isced->getList() as $programme_value => $metadata) {
-        if (
-          $programme_value === $agreement_value
-          || $metadata[IscedFieldsOfStudy::BROAD] === $agreement_value
-          || $metadata[IscedFieldsOfStudy::NARROW] === $agreement_value
-          || $metadata[IscedFieldsOfStudy::DETAILED] === $agreement_value
-        ) {
-          $matches[] = (string) $programme_value;
-        }
-      }
-    }
-
-    return array_values(array_unique($matches));
   }
 
   private function getTargetId(NodeInterface $node, string $field_name): ?int {
@@ -245,7 +203,38 @@ final class AgreementProgrammeMatcher {
       return [];
     }
 
-    return array_values(array_intersect($programme_isced_values, $allowed_isced_values));
+    return array_values(array_intersect(
+      $this->expandIscedHierarchy($programme_isced_values),
+      $allowed_isced_values,
+    ));
+  }
+
+  private function expandIscedHierarchy(array $codes): array {
+    if (!$codes) {
+      return [];
+    }
+
+    $isced = new IscedFieldsOfStudy();
+    $list = $isced->getList();
+    $expanded = [];
+
+    foreach (array_unique($codes) as $code) {
+      if (!$isced->exists($code)) {
+        continue;
+      }
+
+      foreach ($list as $candidate_code => $metadata) {
+        if (
+          $candidate_code === $code
+          || $metadata[IscedFieldsOfStudy::BROAD] === $code
+          || $metadata[IscedFieldsOfStudy::NARROW] === $code
+        ) {
+          $expanded[] = (string) $candidate_code;
+        }
+      }
+    }
+
+    return array_values(array_unique($expanded));
   }
 
 }

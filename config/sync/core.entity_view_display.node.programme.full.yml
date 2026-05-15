@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.full
-    - field.field.node.programme.body
     - field.field.node.programme.field_access_to_further_studies
     - field.field.node.programme.field_arrangments_recognition
     - field.field.node.programme.field_avaliable_for_mobility
@@ -22,13 +21,13 @@ dependencies:
     - field.field.node.programme.field_occupational_profiles
     - field.field.node.programme.field_professional_practices
     - field.field.node.programme.field_programme_abbreviation
+    - field.field.node.programme.field_programme_code
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
     - field.field.node.programme.field_programme_grading_scheme
     - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
     - field.field.node.programme.field_programme_language_of_inst
-    - field.field.node.programme.field_programme_languages
     - field.field.node.programme.field_programme_learn_outcomes
     - field.field.node.programme.field_programme_mobility
     - field.field.node.programme.field_programme_mobility_windows
@@ -49,8 +48,8 @@ dependencies:
     - field.field.node.programme.field_work_based_learning
     - node.type.programme
   module:
+    - isced_field
     - layout_builder
-    - options
     - text
     - user
 third_party_settings:
@@ -62,19 +61,12 @@ targetEntityType: node
 bundle: programme
 mode: full
 content:
-  body:
-    type: text_default
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 101
-    region: content
   field_competencies:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 103
+    weight: 2
     region: content
   field_coordinator:
     type: string
@@ -82,7 +74,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 104
+    weight: 3
     region: content
   field_credits:
     type: number_integer
@@ -91,7 +83,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 105
+    weight: 4
     region: content
   field_email:
     type: string
@@ -99,28 +91,29 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 106
+    weight: 5
+    region: content
+  field_isced_f:
+    type: isced_f_default
+    label: above
+    settings:
+      prefix: true
+    third_party_settings: {  }
+    weight: 11
     region: content
   field_main_objective:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 109
-    region: content
-  field_professional_practices:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 113
+    weight: 8
     region: content
   field_programme_description:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 107
+    weight: 6
     region: content
   field_programme_institution:
     type: entity_reference_label
@@ -128,7 +121,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 111
+    weight: 9
     region: content
   field_programme_phone:
     type: string
@@ -136,19 +129,19 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 108
+    weight: 7
     region: content
   field_programme_qualification:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 112
+    weight: 10
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden:
   field_access_to_further_studies: true
@@ -156,17 +149,17 @@ hidden:
   field_avaliable_for_mobility: true
   field_distribution_of_credits: true
   field_eqf_level: true
-  field_isced_f: true
   field_learning_opportunity_type: true
   field_length_of_programme: true
   field_number_of_terms: true
   field_occupational_profiles: true
+  field_professional_practices: true
   field_programme_abbreviation: true
+  field_programme_code: true
   field_programme_end_date: true
   field_programme_grading_scheme: true
   field_programme_grading_table: true
   field_programme_language_of_inst: true
-  field_programme_languages: true
   field_programme_learn_outcomes: true
   field_programme_mobility: true
   field_programme_mobility_windows: true

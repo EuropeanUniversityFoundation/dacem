@@ -1,12 +1,12 @@
-uuid: c5d043fe-39ac-446b-957f-3ef3711485d0
+uuid: 5ffcfd7b-30cc-4278-91db-19f2733a099f
 langcode: en
 status: true
 dependencies:
   module:
     - node
     - text
-id: node.field_programme_languages
-field_name: field_programme_languages
+id: node.field_agreement_observations
+field_name: field_agreement_observations
 entity_type: node
 type: text_long
 settings: {  }

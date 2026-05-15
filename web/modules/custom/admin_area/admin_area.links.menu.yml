@@ -123,3 +123,12 @@ admin_area.create_user_link:
   parent: admin_area.my_users_link
   menu_name: admin
   weight: 3
+
+admin_area.my_agreements_link:
+  title: 'My Agreements'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'agreement'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 13

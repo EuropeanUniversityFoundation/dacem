@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.individual_educational_component.body
     - field.field.node.individual_educational_component.field_assessment_method_types
     - field.field.node.individual_educational_component.field_fields_of_study
     - field.field.node.individual_educational_component.field_iec_activity_types
@@ -12,7 +11,6 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_contents
     - field.field.node.individual_educational_component.field_iec_coordinator
     - field.field.node.individual_educational_component.field_iec_credits
-    - field.field.node.individual_educational_component.field_iec_cycle
     - field.field.node.individual_educational_component.field_iec_description
     - field.field.node.individual_educational_component.field_iec_elm_type
     - field.field.node.individual_educational_component.field_iec_email
@@ -161,12 +159,6 @@ content:
     region: content
     settings:
       placeholder: ''
-    third_party_settings: {  }
-  field_iec_cycle:
-    type: options_select
-    weight: 24
-    region: content
-    settings: {  }
     third_party_settings: {  }
   field_iec_description:
     type: text_textarea
@@ -380,5 +372,4 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden:
-  body: true
+hidden: {  }

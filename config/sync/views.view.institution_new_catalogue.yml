@@ -124,20 +124,6 @@ display:
               secondary_open: false
               reset_button_always_show: false
             filter:
-              field_programme_area_value:
-                plugin_id: bef
-                advanced:
-                  sort_options: false
-                  rewrite:
-                    filter_rewrite_values: ''
-                    filter_rewrite_values_key: false
-                  collapsible: false
-                  collapsible_disable_automatic_open: false
-                  is_secondary: false
-                  hide_label: true
-                select_all_none: false
-                select_all_none_nested: false
-                display_inline: false
               field_programme_language_of_inst_target_id:
                 plugin_id: bef
                 advanced:
@@ -202,6 +188,17 @@ display:
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
+              field_avaliable_for_mobility_value:
+                plugin_id: bef_single
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+                  hide_label: false
       access:
         type: perm
         options:
@@ -835,6 +832,50 @@ display:
               suject_admi: '0'
               university_admin: '0'
             reduce: true
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_avaliable_for_mobility_value:
+          id: field_avaliable_for_mobility_value
+          table: node__field_avaliable_for_mobility
+          field: field_avaliable_for_mobility_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: boolean
+          operator: '='
+          value: '0'
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: 'Available for Mobility Students'
+            description: ''
+            use_operator: false
+            operator: field_avaliable_for_mobility_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: programme_available_for_mobility
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              content_editor: '0'
+              administrator: '0'
+              degree_admin: '0'
+              suject_admi: '0'
+              university_admin: '0'
           is_grouped: false
           group_info:
             label: ''

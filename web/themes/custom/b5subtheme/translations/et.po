@@ -489,3 +489,11 @@ msgstr "@count valitud"
 
 msgid "PROGRAMMES"
 msgstr "PROGRAMMID"
+msgid "Found Something Wrong?"
+msgstr "Kas leidsite midagi valesti?"
+
+msgid "Give Us Feedback"
+msgstr "Andke meile tagasisidet"
+
+msgid "Available for Mobility Students"
+msgstr "Saadaval mobiilsusüliõpilastele"

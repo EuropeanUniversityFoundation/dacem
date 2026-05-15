@@ -11,8 +11,8 @@ entity_type: node
 bundle: individual_educational_component
 label: Code
 description: ''
-required: false
-translatable: true
+required: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }

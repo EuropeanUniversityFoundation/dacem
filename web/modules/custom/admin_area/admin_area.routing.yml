@@ -20,6 +20,15 @@ admin_area.my_entity_page:
     _permission: 'access content'
     entity_type: '[a-z_]+'
 
+admin_area.admin_agreements_page:
+  path: '/admin/admin-agreements'
+  defaults:
+    _controller: '\Drupal\admin_area\Controller\AdminAreaController::myEntityPage'
+    _title: 'My Agreements'
+    entity_type: 'agreement'
+  requirements:
+    _permission: 'access content'
+
 
 admin_area.redirect_create_user:
   path: '/my-create-user'

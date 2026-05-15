@@ -18,6 +18,21 @@
         const sortOrder = form.querySelector('[name="sort_order"]');
         if (!sortBy || !sortOrder) return;
 
+        form.querySelectorAll('[data-clear-home-programme]').forEach(function (resetButton) {
+          resetButton.addEventListener('click', function (e) {
+            const resetUrl = resetButton.getAttribute('data-reset-url');
+            form.querySelectorAll('[name="home_programme"], [data-home-programme-filter]').forEach(function (field) {
+              field.remove();
+            });
+
+            if (resetUrl) {
+              e.preventDefault();
+              e.stopImmediatePropagation();
+              window.location.href = resetUrl;
+            }
+          }, true);
+        });
+
         // Lista blanca de opciones válidas según el <select> real:
         const allowed = Array.from(sortBy.options).map(o => o.value);
 

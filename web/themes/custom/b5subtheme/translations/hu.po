@@ -394,3 +394,11 @@ msgstr "@count kiválasztva"
 
 msgid "PROGRAMMES"
 msgstr "PROGRAMOK"
+msgid "Found Something Wrong?"
+msgstr "Talált valami hibát?"
+
+msgid "Give Us Feedback"
+msgstr "Küldjön visszajelzést"
+
+msgid "Available for Mobility Students"
+msgstr "Elérhető mobilitási hallgatók számára"

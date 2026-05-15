@@ -9,9 +9,9 @@ id: node.programme.field_number_of_terms
 field_name: field_number_of_terms
 entity_type: node
 bundle: programme
-label: 'Number of terms'
+label: 'Number of terms per year'
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

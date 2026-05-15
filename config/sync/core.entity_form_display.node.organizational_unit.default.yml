@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.organizational_unit.body
     - field.field.node.organizational_unit.field_ou_abbreviation
     - field.field.node.organizational_unit.field_ou_address
     - field.field.node.organizational_unit.field_ou_campus
@@ -209,5 +208,4 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden:
-  body: true
+hidden: {  }
