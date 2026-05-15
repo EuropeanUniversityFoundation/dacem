@@ -10,7 +10,7 @@ id: node.agreement.field_department_partner_1
 field_name: field_department_partner_1
 entity_type: node
 bundle: agreement
-label: 'Department partner 1'
+label: 'Organizational Unit partner 1'
 description: ''
 required: false
 translatable: false

@@ -3,8 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.agreement.body
     - field.field.node.agreement.field_agreement_email
+    - field.field.node.agreement.field_agreement_observations
     - field.field.node.agreement.field_agreement_phone
     - field.field.node.agreement.field_contact_person
     - field.field.node.agreement.field_department_partner_1
@@ -13,7 +13,6 @@ dependencies:
     - field.field.node.agreement.field_duration_to_year
     - field.field.node.agreement.field_field_of_education
     - field.field.node.agreement.field_field_of_education_clarifi
-    - field.field.node.agreement.field_from_erasmus_code
     - field.field.node.agreement.field_institution_1
     - field.field.node.agreement.field_institution_2
     - field.field.node.agreement.field_language_of_instruction_1
@@ -23,7 +22,6 @@ dependencies:
     - field.field.node.agreement.field_recommended_language_level
     - field.field.node.agreement.field_studies_students
     - field.field.node.agreement.field_studies_total_months
-    - field.field.node.agreement.field_to_erasmus_code
     - field.field.node.agreement.field_trainership_students
     - field.field.node.agreement.field_trainership_total_months
     - node.type.agreement
@@ -38,16 +36,6 @@ targetEntityType: node
 bundle: agreement
 mode: default
 content:
-  body:
-    type: text_textarea_with_summary
-    weight: 121
-    region: content
-    settings:
-      rows: 9
-      summary_rows: 3
-      placeholder: ''
-      show_summary: false
-    third_party_settings: {  }
   created:
     type: datetime_timestamp
     weight: 10
@@ -61,6 +49,14 @@ content:
     settings:
       placeholder: ''
       size: 60
+    third_party_settings: {  }
+  field_agreement_observations:
+    type: text_textarea
+    weight: 144
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
     third_party_settings: {  }
   field_agreement_phone:
     type: telephone_default
@@ -126,14 +122,6 @@ content:
     region: content
     settings:
       rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  field_from_erasmus_code:
-    type: string_textfield
-    weight: 128
-    region: content
-    settings:
-      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_institution_1:
@@ -209,14 +197,6 @@ content:
     weight: 146
     region: content
     settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_to_erasmus_code:
-    type: string_textfield
-    weight: 129
-    region: content
-    settings:
-      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_trainership_students:
