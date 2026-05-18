@@ -26,6 +26,7 @@ display:
           label: 'Datum změny'
         count:
           label: 'Použito v'
+          format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
         operations:
           label: Operace
       pager:

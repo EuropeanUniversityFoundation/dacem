@@ -1,4 +1,5 @@
 label: 'Novi uporabniki'
+description: 'Muestra una lista de las cuentas de usuario más recientes del sitio.'
 display:
   default:
     display_title: Privzeto
@@ -11,5 +12,6 @@ display:
   block_1:
     display_title: 'Novi uporabniki'
     display_options:
+      display_description: 'Un listado de nuevos usuarios'
       block_description: 'Novi uporabniki'
       block_category: Uporabnik

@@ -32,10 +32,12 @@ module:
   datetime: 0
   dblog: 0
   degree_admin_locks_university: 0
+  devel: 0
   dynamic_page_cache: 0
   editor: 0
   elm_vocabulary_field: 0
   entity: 0
+  euf_csv_import_export: 0
   euf_group_autojoin: 0
   ewp_contact: 0
   ewp_core: 0

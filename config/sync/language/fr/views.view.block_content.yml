@@ -47,3 +47,4 @@ display:
     display_options:
       menu:
         title: Blocs
+        description: 'Create and edit content blocks.'

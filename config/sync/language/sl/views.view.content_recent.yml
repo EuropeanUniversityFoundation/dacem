@@ -1,7 +1,10 @@
+label: 'Contenido reciente'
+description: 'Contenido reciente.'
 display:
   default:
     display_title: Privzeto
     display_options:
+      title: 'Contenido reciente'
       exposed_form:
         options:
           submit_button: Prijava
