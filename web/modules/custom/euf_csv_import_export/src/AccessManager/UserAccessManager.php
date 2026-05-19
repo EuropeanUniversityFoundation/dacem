@@ -5,9 +5,11 @@ namespace Drupal\euf_csv_import_export\AccessManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\euf_csv_import_export\Dataloader\Dataloader;
 use Drupal\ewp_institutions\Entity\InstitutionEntity;
 use Drupal\group\Entity\GroupMembership;
 use Drupal\node\Entity\Node;
+use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class UserAccessManager {
@@ -15,20 +17,24 @@ class UserAccessManager {
   protected GroupMembership $groupMembership;
   protected AccountInterface $account;
   protected EntityTypeManagerInterface $entityTypeManager;
+  protected Dataloader $dataLoader;
 
 
   public function __construct(
     AccountInterface $account,
     EntityTypeManagerInterface $entity_type_manager,
+    Dataloader $data_loader,
   ) {
     $this->account = $account;
     $this->entityTypeManager = $entity_type_manager;
+    $this->dataLoader = $data_loader;
   }
 
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('current_user'),
       $container->get('entity_type.manager'),
+      $container->get('euf_csv_import_export.data_loader'),
     );
   }
 
@@ -59,14 +65,7 @@ class UserAccessManager {
       $schac_codes[] = $this->getSchacCodeFromHei($hei);
     }
 
-    $storage = $this->entityTypeManager->getStorage('node');
-    $institution_ids = $storage->getQuery()
-      ->accessCheck(FALSE)
-      ->condition('type', 'institution')
-      ->condition('field_shac_code', $schac_codes, 'IN')
-      ->execute();
-
-    $userInstitutions = $storage->loadMultiple($institution_ids);
+    $userInstitutions = $this->dataLoader->getInstitutionsBySchacCodes($schac_codes);
 
     return $userInstitutions;
   }
@@ -102,8 +101,6 @@ class UserAccessManager {
 
     return $institution->get('hei_id')[0]->value;
   }
-
-
 
 }
 
