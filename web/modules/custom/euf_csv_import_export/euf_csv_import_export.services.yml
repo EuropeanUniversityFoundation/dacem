@@ -1,12 +1,25 @@
 services:
   euf_csv_import_export.csv_importer:
     class: Drupal\euf_csv_import_export\CsvImporter\CsvImporter
-    arguments: ['@file_system', '@euf_csv_import_export.file_validator', '@euf_csv_import_export.user_access_manager']
+    arguments: ['@file_system', '@euf_csv_import_export.file_validator', '@euf_csv_import_export.user_access_manager', '@euf_csv_import_export.csv_sorter', '@euf_csv_import_export.csv_decoder', '@euf_csv_import_export.reference_resolver', '@euf_csv_import_export.data_loader']
   euf_csv_import_export.file_validator:
     class: Drupal\euf_csv_import_export\FileValidator\FileValidator
-    arguments: ['@euf_csv_import_export.user_access_manager', '@euf_csv_import_export.field_mapping_service', '@entity_type.manager']
+    arguments: ['@euf_csv_import_export.user_access_manager', '@euf_csv_import_export.field_mapping_service', '@entity_type.manager', '@euf_csv_import_export.data_loader']
   euf_csv_import_export.user_access_manager:
     class: Drupal\euf_csv_import_export\AccessManager\UserAccessManager
-    arguments: ['@current_user', '@entity_type.manager']
+    arguments: ['@current_user', '@entity_type.manager', '@euf_csv_import_export.data_loader']
   euf_csv_import_export.field_mapping_service:
     class: Drupal\euf_csv_import_export\CsvConverter\FieldMappingService
+  euf_csv_import_export.csv_sorter:
+    class: Drupal\euf_csv_import_export\CsvImporter\CsvSorter
+    arguments: ['@euf_csv_import_export.field_mapping_service']
+  euf_csv_import_export.csv_decoder:
+    class: Drupal\euf_csv_import_export\CsvConverter\CsvDecoder
+    arguments: ['@euf_csv_import_export.field_mapping_service']
+  euf_csv_import_export.reference_resolver:
+    class: Drupal\euf_csv_import_export\CsvConverter\ReferenceResolver
+    arguments: ['@entity_type.manager']
+  euf_csv_import_export.data_loader:
+    class: Drupal\euf_csv_import_export\DataLoader\DataLoader
+    arguments: ['@entity_type.manager']
+
