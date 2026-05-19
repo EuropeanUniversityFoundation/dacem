@@ -6,9 +6,9 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\euf_csv_import_export\AccessManager\UserAccessManager;
 use Drupal\euf_csv_import_export\CsvConverter\FieldMappingService;
+use Drupal\euf_csv_import_export\Dataloader\Dataloader;
 use Drupal\euf_csv_import_export\Enum\ImportTargetEntityType;
 use Drupal\node\Entity\Node;
-use League\Csv\Reader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FileValidator {
@@ -133,20 +133,21 @@ class FileValidator {
   protected array $errors = [];
 
   protected UserAccessManager $userAccessManager;
-
   protected FieldMappingService $fieldMappingService;
-
   protected EntityTypeManager $entityTypeManager;
+  protected Dataloader $dataLoader;
 
 
   public function __construct(
     UserAccessManager $user_access_manager,
     FieldMappingService $field_mapping_service,
-    EntityTypeManager $entity_type_manager
+    EntityTypeManager $entity_type_manager,
+    Dataloader $data_loader,
   ) {
     $this->userAccessManager = $user_access_manager;
     $this->fieldMappingService = $field_mapping_service;
     $this->entityTypeManager = $entity_type_manager;
+    $this->dataLoader = $data_loader;
   }
 
   public static function create(ContainerInterface $container) {
@@ -154,13 +155,11 @@ class FileValidator {
       $container->get('euf_csv_import_export.user_access_manager'),
       $container->get('euf_csv_import_export.field_mapping_service'),
       $container->get('entity_type.manager'),
+      $container->get('euf_csv_import_export.data_loader'),
     );
   }
 
-  public function validateFileData(Reader $csvReader, string $entityType, array $userInstitutions) {
-    $records = iterator_to_array($csvReader->getRecords());
-    $headers = iterator_to_array($csvReader->getHeader());
-
+  public function validateFileData(array $records, array $headers, string $entityType, array $userInstitutions) {
     $this->validateSingleHeiInFile($records, $entityType);
     $this->validateHeaders($headers, $entityType);
 
@@ -347,34 +346,21 @@ class FileValidator {
       return [];
     }
 
-    $query = $this->entityTypeManager
-    ->getStorage($definition['target_entity'])
-    ->getQuery()
-    ->accessCheck(FALSE)
-    ->condition($definition['references'], $csv_codes, 'IN');
-
-    if (isset($definition['hei_field_name']) && $hei) {
-      $query->condition($definition['hei_field_name'], $hei->id());
-    }
-
-    if (isset($definition['target_bundle'])) {
-      $query->condition('bundle', $definition['target_bundle']);
-    }
-
-    if (isset($definition['target_type'])) {
-      $query->condition('type', $definition['target_type']);
-    }
-
-    $entity_ids = $query->execute();
-
-    if (empty($entity_ids)) {
-      return [];
-    }
+    $conditions = [
+      [
+        'field' => $definition['references'],
+        'value' => $csv_codes,
+        'operator' => 'IN',
+      ],
+      [
+        'field' => 'type',
+        'value' => $definition['target_type'],
+        'operator' => NULL,
+      ],
+    ];
+    $entities = $this->dataLoader->loadEntitiesWithConditions($definition['target_entity'], $conditions);
 
     $found_codes = [];
-    $entities = $this->entityTypeManager
-      ->getStorage($definition['target_entity'])
-      ->loadMultiple($entity_ids);
 
     foreach ($entities as $entity) {
       /** @var ContentEntityInterface $entity */
