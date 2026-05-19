@@ -74,10 +74,7 @@ class FieldMappingService {
     return array_values(array_unique($language_indicators));
   }
 
-  /**
-   *
-   */
-  public function resolveFieldFromColumn($csv_header) {
+  public function resolveFieldFromColumn(string $csv_header) {
     for ($i = 4; $i >= 3; $i--) {
       $separator = str_repeat(self::HEADER_SEPARATOR, $i);
       $position = strpos($csv_header, $separator);
@@ -94,14 +91,14 @@ class FieldMappingService {
   /**
    *
    */
-  public function columnHasDelta($csv_header) {
+  public function columnHasDelta(string $csv_header) {
     return str_contains($csv_header, str_repeat(self::HEADER_SEPARATOR, 4));
   }
 
   /**
    *
    */
-  public function resolveColumnDelta($csv_header): int | null {
+  public function resolveColumnDelta(string $csv_header): int | null {
 
     if (!$this->columnHasDelta($csv_header)) {
       return NULL;
@@ -120,7 +117,7 @@ class FieldMappingService {
   /**
    *
    */
-  public function columnHasProperty($csv_header): bool | null {
+  public function columnHasProperty(string $csv_header): bool | null {
 
     if ($this->columnHasDelta($csv_header)) {
       $property_string = explode(str_repeat(self::HEADER_SEPARATOR, 4), $csv_header)[1];
@@ -135,7 +132,7 @@ class FieldMappingService {
   /**
    *
    */
-  public function resolveColumnProperty($csv_header): string | null {
+  public function resolveColumnProperty(string $csv_header): string | null {
 
     if (!$this->columnHasProperty($csv_header)) {
       return NULL;
@@ -149,6 +146,15 @@ class FieldMappingService {
     }
 
     return explode(str_repeat(self::HEADER_SEPARATOR, 3), $property_string)[1];
+  }
+
+  public function resolveLanguageFromColumn(string $column_name) {
+    if (str_contains($column_name, self::LANGUAGE_SEPARATOR)) {
+      $exploded = explode(self::LANGUAGE_SEPARATOR, $column_name);
+      return [end($exploded), reset($exploded)];
+    }
+
+    return [self::DEFAULT_LANGUAGE, $column_name];
   }
 
 }
