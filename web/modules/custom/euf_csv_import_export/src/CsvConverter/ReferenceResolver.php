@@ -4,6 +4,7 @@ namespace Drupal\euf_csv_import_export\CsvConverter;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\euf_csv_import_export\Dataloader\Dataloader;
 use Drupal\euf_csv_import_export\Enum\ImportTargetEntityType;
 use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -93,9 +94,14 @@ class ReferenceResolver {
   ];
 
   protected EntityTypeManagerInterface $entityTypeManager;
+  protected Dataloader $dataLoader;
 
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    Dataloader $data_loader,
+  ) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->dataLoader = $data_loader;
   }
 
   /**
@@ -105,6 +111,7 @@ class ReferenceResolver {
     // @phpstan-ignore new.static
     return new static(
       $container->get('entity_type.manager'),
+      $container->get('euf_csv_import_export.data_loader'),
     );
   }
 
@@ -176,10 +183,10 @@ class ReferenceResolver {
 
     $entity = $this->loadEntity(
       entity_id: $reference_details['referenced_entity'],
-      field_name:$reference_details['referenced_field_name'],
+      field_name: $reference_details['referenced_field_name'],
       field_value: $field_value,
       institution: $institution,
-      entity_type: $reference_details['referenced_entity_type'],
+      entity_type:$reference_details['referenced_entity_type'],
       entity_bundle: $reference_details['referenced_entity_bundle'] ?? NULL,
       hei_field_name:$reference_details['referenced_hei_field_name'] ?? NULL
     );
@@ -194,9 +201,6 @@ class ReferenceResolver {
     }
   }
 
-  /**
-   *
-   */
   protected function processMultipleReferences(array &$decoded_entity, array $reference_details, Node $institution): void {
     $field_name = $reference_details['reference_field_name'];
     $has_property = isset($reference_details['reference_field_property_name']);
@@ -231,22 +235,43 @@ class ReferenceResolver {
 
   // @todo Move to data_loader
   public function loadEntity(string $entity_id, string $field_name, string $field_value, Node $institution, ?string $entity_type = NULL, ?string $entity_bundle = NULL, ?string $hei_field_name = NULL): ?EntityInterface {
-    $properties = [$field_name => $field_value];
-    if ($entity_bundle) {
-      $properties['bundle'] = $entity_bundle;
-    }
-    if ($hei_field_name) {
-      $properties[$hei_field_name] = $institution->id();
-    }
-    if ($entity_type) {
-      $properties['type'] = $entity_type;
+
+    $conditions[] = [
+      'field' => $field_name,
+      'value' => $field_value,
+      'operator' => NULL,
+    ];
+
+    if (isset($hei_field_name)) {
+      $conditions[] = [
+        'field' => $hei_field_name,
+        'value' => $institution,
+        'operator' => NULL,
+      ];
     }
 
-    $entities = $this->entityTypeManager
-      ->getStorage($entity_id)
-      ->loadByProperties($properties);
+    if (isset($entity_type)) {
+      $conditions[] = [
+        'field' => 'type',
+        'value' => $entity_type,
+        'operator' => NULL,
+      ];
+    }
 
-    return $entities ? reset($entities) : NULL;
+    if (isset($entity_bundle)) {
+      $conditions[] = [
+        'field' => 'bundle',
+        'value' => $entity_bundle,
+        'operator' => NULL,
+      ];
+    }
+
+    $entity = $this->dataLoader->loadEntitiesWithConditions(
+      entity_type_id: $entity_id,
+      conditions: $conditions
+    );
+
+    return reset($entity);
   }
 
 }

@@ -18,7 +18,7 @@ services:
     arguments: ['@euf_csv_import_export.field_mapping_service']
   euf_csv_import_export.reference_resolver:
     class: Drupal\euf_csv_import_export\CsvConverter\ReferenceResolver
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager', '@euf_csv_import_export.data_loader']
   euf_csv_import_export.data_loader:
     class: Drupal\euf_csv_import_export\DataLoader\DataLoader
     arguments: ['@entity_type.manager']
