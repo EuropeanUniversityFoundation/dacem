@@ -494,3 +494,231 @@ msgstr "Pošlete nám zpětnou vazbu"
 
 msgid "Available for Mobility Students"
 msgstr "Dostupné pro studenty mobility"
+
+msgid "Overview"
+msgstr "Přehled"
+
+msgid "Curriculum"
+msgstr "Studijní plán"
+
+msgid "Careers"
+msgstr "Kariérní možnosti"
+
+msgid "Practice"
+msgstr "Praxe"
+
+msgid "By term"
+msgstr "Podle období"
+
+msgid "By year"
+msgstr "Podle roku"
+
+msgid "1st term"
+msgstr "1. období"
+
+msgid "2nd term"
+msgstr "2. období"
+
+msgid "Terms"
+msgstr "Období"
+
+msgid "Year"
+msgstr "Rok"
+
+msgid "Structure and Distribution of Credits"
+msgstr "Struktura a rozdělení kreditů"
+
+msgid "Grading Scale"
+msgstr "Klasifikační stupnice"
+
+msgid "Grading Scheme"
+msgstr "Klasifikační systém"
+
+msgid "Grading Distribution Table"
+msgstr "Tabulka rozdělení známek"
+
+msgid "Mobility Agreements"
+msgstr "Dohody o mobilitě"
+
+msgid "Start Date"
+msgstr "Datum zahájení"
+
+msgid "End Date"
+msgstr "Datum ukončení"
+
+msgid "Type of Credits"
+msgstr "Typ kreditů"
+
+msgid "Type of credits"
+msgstr "Typ kreditů"
+
+msgid "Fields of study"
+msgstr "Oblasti studia"
+
+msgid "Mode of Learning"
+msgstr "Forma výuky"
+
+msgid "Programme Abbreviation"
+msgstr "Zkratka programu"
+
+msgid "Restricted to alliance students"
+msgstr "Omezeno na studenty aliance"
+
+msgid "Academic Year"
+msgstr "Akademický rok"
+
+msgid "Number of credits"
+msgstr "Počet kreditů"
+
+msgid "Status"
+msgstr "Stav"
+
+msgid "Restricted to alliance"
+msgstr "Omezeno na alianci"
+
+msgid "Change Home Programme"
+msgstr "Změnit domácí program"
+
+msgid "Clear home programme"
+msgstr "Vymazat domácí program"
+
+msgid "Home programme"
+msgstr "Domácí program"
+
+msgid "Study in Europe with ATHENA"
+msgstr "Studujte v Evropě s ATHENA"
+
+msgid "Sport clubs/programs"
+msgstr "Sportovní kluby/programy"
+
+msgid "Language courses"
+msgstr "Jazykové kurzy"
+
+msgid "Support for students with disabilities and special needs"
+msgstr "Podpora pro studenty se zdravotním postižením a speciálními potřebami"
+
+msgid "VISA"
+msgstr "Vízum"
+
+msgid "Student Mobility"
+msgstr "Studentská mobilita"
+
+msgid "University Life"
+msgstr "Univerzitní život"
+
+msgid "Academic requirements for nominations"
+msgstr "Akademické požadavky pro nominace"
+
+msgid "Additional requirements"
+msgstr "Další požadavky"
+
+msgid "Admission description for exchange students"
+msgstr "Popis přijímacího řízení pro výměnné studenty"
+
+msgid "Admission description for full-degree students"
+msgstr "Popis přijímacího řízení pro studenty celého studijního programu"
+
+msgid "Admission description for visiting students"
+msgstr "Popis přijímacího řízení pro hostující studenty"
+
+msgid "All"
+msgstr "Vše"
+
+msgid "Applications"
+msgstr "Přihlášky"
+
+msgid "Arrangements for Academic Guidance"
+msgstr "Opatření pro akademické poradenství"
+
+msgid "Arrangements for the recognition of credit and prior learning"
+msgstr "Opatření pro uznávání kreditů a předchozího vzdělání"
+
+msgid "Autumn"
+msgstr "Podzim"
+
+msgid "Click on an Organizational Unit to see its details."
+msgstr "Kliknutím na organizační jednotku zobrazíte její podrobnosti."
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Department"
+msgstr "Katedra"
+
+msgid "Exchange"
+msgstr "Výměna"
+
+msgid "Exchange timeline"
+msgstr "Harmonogram výměny"
+
+msgid "Faculty"
+msgstr "Fakulta"
+
+msgid "For decision"
+msgstr "Pro rozhodnutí"
+
+msgid "Full-Degree"
+msgstr "Celý studijní program"
+
+msgid "INSTITUTIONAL INFORMATION"
+msgstr "INSTITUCIONÁLNÍ INFORMACE"
+
+msgid "Incoming students"
+msgstr "Přijíždějící studenti"
+
+msgid "Information"
+msgstr "Informace"
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "No Organizational Units found."
+msgstr "Nebyly nalezeny žádné organizační jednotky."
+
+msgid "Nominations"
+msgstr "Nominace"
+
+msgid "Not available"
+msgstr "Není k dispozici"
+
+msgid "Outgoing students"
+msgstr "Vyjíždějící studenti"
+
+msgid "Policies"
+msgstr "Zásady"
+
+msgid "Recognition process for outgoing students"
+msgstr "Proces uznávání pro vyjíždějící studenty"
+
+msgid "Registration procedures for exchange students"
+msgstr "Postupy registrace pro výměnné studenty"
+
+msgid "Registration procedures for full-degree students"
+msgstr "Postupy registrace pro studenty celého studijního programu"
+
+msgid "Registration procedures for visiting students"
+msgstr "Postupy registrace pro hostující studenty"
+
+msgid "School"
+msgstr "Škola"
+
+msgid "Spring"
+msgstr "Jaro"
+
+msgid "Timeframe"
+msgstr "Časový rámec"
+
+msgid "To issue the transcript of records"
+msgstr "K vydání výpisu studijních výsledků"
+
+msgid "Visiting"
+msgstr "Hostující"
+
+msgid "week"
+msgstr "týden"
+
+msgid "weeks"
+msgstr "týdny"
+
+msgid "Message"
+msgstr "Zpráva"

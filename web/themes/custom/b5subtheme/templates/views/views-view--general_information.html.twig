@@ -30,7 +30,7 @@
 																		{{ page.header }}</div>#}<div class="rs-header ">
 <div class="my-custom-container-2">
 	<div class="page-band">
-		<h1 class="rs-title">INSTITUTIONAL INFORMATION</h1>
+		<h1 class="rs-title">{{ 'INSTITUTIONAL INFORMATION'|t }}</h1>
 	</div>
 </div></div><nav id="fixed-navbar" class="fixed-navbar navbar-expand-lg bg-black">
 <div
@@ -209,8 +209,8 @@
 				<h5 style="color: red;">{{country_name}}</h5>
 			{% else %}
 				<p>
-					<strong>País:</strong>
-					No disponible</p>
+					<strong>{{ 'Country'|t }}:</strong>
+					{{ 'Not available'|t }}</p>
 			{% endif %}
 
 			{% set current_language = institution.langcode.value %}
@@ -226,23 +226,23 @@
 						</div>
 					{% else %}
 						<p>
-							<strong>Information:</strong>
-							Not available</p>
+							<strong>{{ 'Information'|t }}:</strong>
+							{{ 'Not available'|t }}</p>
 					{% endif %}
 
 					{#{dump(institution.field_institution_map[0].lon)}#}
 
 
 					<!-- Academic Terms debajo de la info -->
-					<div class="mt-4">
+						<div class="mt-4">
 						{% if institution.field_admission_language_policy is not empty %}
-							<h4 class="subsection-title">Languages</h4>
+							<h4 class="subsection-title">{{ 'Languages'|t }}</h4>
 							<p>{{ institution.field_admission_language_policy.value | raw}}</p>
 						{% endif %}
 
 						{% if institution.field_academic_calendar.value is defined and institution.field_academic_calendar.value %}
 
-							<h4 class="subsection-title">Academic Calendar</h4>
+							<h4 class="subsection-title">{{ 'Academic Calendar'|t }}</h4>
 
 							{{institution.field_academic_calendar.value | raw}}
 						{% endif %}
@@ -349,19 +349,19 @@
 		{% set has_outgoing = institution.field_mobility_outgoing_students is not empty %}
 
 		{% if has_incoming or has_outgoing %}
-			<h2 class="section-title text-center">Mobility</h2>
+			<h2 class="section-title text-center">{{ 'Mobility'|t }}</h2>
 
 			{# Nav tabs #}
 			{% if has_incoming and has_outgoing %}
 				<ul class="nav nav-tabs justify-content-center" id="mobilityTabs-{{ institution.id() }}" role="tablist">
 					<li class="nav-item" role="presentation">
 						<button class="nav-link active" id="tab-incoming-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-incoming-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-incoming-{{ institution.id() }}" aria-selected="true">
-							Incoming students
+							{{ 'Incoming students'|t }}
 						</button>
 					</li>
 					<li class="nav-item" role="presentation">
 						<button class="nav-link" id="tab-outgoing-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-outgoing-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-outgoing-{{ institution.id() }}" aria-selected="false">
-							Outgoing students
+							{{ 'Outgoing students'|t }}
 						</button>
 					</li>
 				</ul>
@@ -379,7 +379,7 @@
 					<div class="tab-pane fade {{ has_incoming ? '' : 'show active' }}" id="pane-outgoing-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-outgoing-{{ institution.id() }}">
 						{{ institution.field_mobility_outgoing_students.value|raw }}
 						{% if institution.field_recognition_outgoing is not empty %}
-							<h3 class="subsection-title mt-3">Recognition process for outgoing students</h3>
+							<h3 class="subsection-title mt-3">{{ 'Recognition process for outgoing students'|t }}</h3>
 							<p>{{ institution.field_recognition_outgoing.value|raw }}</p>
 						{% endif %}
 						<div class="d-flex flex-column gap-2">
@@ -434,7 +434,7 @@
 		<div class="admission-section" id='admission' style="scroll-margin-top: 150px;">
 
 
-			<h2 class="section-title text-center">Admission</h2>
+			<h2 class="section-title text-center">{{ 'Admission'|t }}</h2>
 
 			{% set has_full_degree = institution.field_admission_descipt_full is not empty or institution.field_registration_proc_full is not empty or institution.field_arrangements_recognition is not empty %}
 			{% set has_exchange = institution.field_admission_descript_exchang is not empty
@@ -457,21 +457,21 @@
 					{% if has_full_degree %}
 						<li class="nav-item" role="presentation">
 							<button class="nav-link active" id="tab-full-degree-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-full-degree-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-full-degree-{{ institution.id() }}" aria-selected="true">
-								Full-Degree
+								{{ 'Full-Degree'|t }}
 							</button>
 						</li>
 					{% endif %}
 					{% if has_exchange %}
 						<li class="nav-item" role="presentation">
 							<button class="nav-link {{ has_full_degree ? '' : 'active' }}" id="tab-exchange-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-exchange-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-exchange-{{ institution.id() }}" aria-selected="{{ has_full_degree ? 'false' : 'true' }}">
-								Exchange
+								{{ 'Exchange'|t }}
 							</button>
 						</li>
 					{% endif %}
 					{% if has_visiting %}
 						<li class="nav-item" role="presentation">
 							<button class="nav-link {{ (not has_full_degree and not has_exchange) ? 'active' : '' }}" id="tab-visiting-{{ institution.id() }}" data-bs-toggle="tab" data-bs-target="#pane-visiting-{{ institution.id() }}" type="button" role="tab" aria-controls="pane-visiting-{{ institution.id() }}" aria-selected="{{ (not has_full_degree and not has_exchange) ? 'true' : 'false' }}">
-								Visiting
+								{{ 'Visiting'|t }}
 							</button>
 						</li>
 					{% endif %}
@@ -481,15 +481,15 @@
 					{% if has_full_degree %}
 						<div class="tab-pane fade show active" id="pane-full-degree-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-full-degree-{{ institution.id() }}">
 							{% if institution.field_admission_descipt_full is not empty %}
-								<h3 class="subsection-title">Admission description for full-degree students</h3>
+								<h3 class="subsection-title">{{ 'Admission description for full-degree students'|t }}</h3>
 								<p>{{ institution.field_admission_descipt_full.value | raw }}</p>
 							{% endif %}
 							{% if institution.field_registration_proc_full is not empty %}
-								<h3 class="subsection-title">Registration procedures for full-degree students</h3>
+								<h3 class="subsection-title">{{ 'Registration procedures for full-degree students'|t }}</h3>
 								<p>{{ institution.field_registration_proc_full.value | raw }}</p>
 							{% endif %}
 							{% if institution.field_arrangements_recognition is not empty %}
-								<h3 class="subsection-title">Arrangements for the recognition of credit and prior learning</h3>
+								<h3 class="subsection-title">{{ 'Arrangements for the recognition of credit and prior learning'|t }}</h3>
 								<p>{{ institution.field_arrangements_recognition.value | raw }}</p>
 							{% endif %}
 						</div>
@@ -498,19 +498,19 @@
 					{% if has_exchange %}
 						<div class="tab-pane fade {{ has_full_degree ? '' : 'show active' }}" id="pane-exchange-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-exchange-{{ institution.id() }}">
 							{% if institution.field_admission_descript_exchang is not empty %}
-								<h3 class="subsection-title">Admission description for exchange students</h3>
+								<h3 class="subsection-title">{{ 'Admission description for exchange students'|t }}</h3>
 								<p>{{ institution.field_admission_descript_exchang.value | raw }}</p>
 							{% endif %}
 							{% if institution.field_registration_proc_exchange is not empty %}
-								<h3 class="subsection-title">Registration procedures for exchange students</h3>
+								<h3 class="subsection-title">{{ 'Registration procedures for exchange students'|t }}</h3>
 								<p>{{ institution.field_registration_proc_exchange.value | raw }}</p>
 							{% endif %}
 							{% if institution.field_requirements_nominations is not empty %}
-								<h3 class="subsection-title">Academic requirements for nominations</h3>
+								<h3 class="subsection-title">{{ 'Academic requirements for nominations'|t }}</h3>
 								<p>{{ institution.field_requirements_nominations.value | raw }}</p>
 							{% endif %}
 							{% if institution.field_additional_requirements is not empty %}
-								<h3 class="subsection-title">Additional requirements</h3>
+								<h3 class="subsection-title">{{ 'Additional requirements'|t }}</h3>
 								<p>{{ institution.field_additional_requirements.value | raw }}</p>
 							{% endif %}
 							{% set ex_app_autumn = institution.field_applications_autumn_term is not empty and institution.field_applications_autumn_term.value is defined ? institution.field_applications_autumn_term.value|trim : '' %}
@@ -545,7 +545,7 @@
 
 							{% if ex_app_autumn or ex_app_spring or ex_nom_autumn or ex_nom_spring or ex_decision_weeks or ex_transcript_weeks or app_email or app_phone or app_web %}
 								<div class="mt-4">
-									<h3 class="subsection-title">Exchange timeline</h3>
+									<h3 class="subsection-title">{{ 'Exchange timeline'|t }}</h3>
 									<div class="row g-3">
 										{% if ex_nom_autumn %}
 											{% set parts = ex_nom_autumn|split('/') %}
@@ -553,7 +553,7 @@
 											{% set d = parts[1]|default('')|trim %}
 											<div class="col-12 col-md-6">
 												<div class="border rounded p-3 h-100 bg-white">
-													<div class="small text-muted text-uppercase">Nominations · Autumn</div>
+													<div class="small text-muted text-uppercase">{{ 'Nominations'|t }} · {{ 'Autumn'|t }}</div>
 													<div class="fw-semibold">📅
 														{{ month_names[m]|default(m) }}
 														{{ d }}</div>
@@ -566,7 +566,7 @@
 											{% set d = parts[1]|default('')|trim %}
 											<div class="col-12 col-md-6">
 												<div class="border rounded p-3 h-100 bg-white">
-													<div class="small text-muted text-uppercase">Nominations · Spring</div>
+													<div class="small text-muted text-uppercase">{{ 'Nominations'|t }} · {{ 'Spring'|t }}</div>
 													<div class="fw-semibold">📅
 														{{ month_names[m]|default(m) }}
 														{{ d }}</div>
@@ -579,7 +579,7 @@
 											{% set d = parts[1]|default('')|trim %}
 											<div class="col-12 col-md-6">
 												<div class="border rounded p-3 h-100 bg-white">
-													<div class="small text-muted text-uppercase">Applications · Autumn</div>
+													<div class="small text-muted text-uppercase">{{ 'Applications'|t }} · {{ 'Autumn'|t }}</div>
 													<div class="fw-semibold">📅
 														{{ month_names[m]|default(m) }}
 														{{ d }}</div>
@@ -592,7 +592,7 @@
 											{% set d = parts[1]|default('')|trim %}
 											<div class="col-12 col-md-6">
 												<div class="border rounded p-3 h-100 bg-white">
-													<div class="small text-muted text-uppercase">Applications · Spring</div>
+													<div class="small text-muted text-uppercase">{{ 'Applications'|t }} · {{ 'Spring'|t }}</div>
 													<div class="fw-semibold">📅
 														{{ month_names[m]|default(m) }}
 														{{ d }}</div>
@@ -603,23 +603,23 @@
 
 									{% if ex_decision_weeks or ex_transcript_weeks %}
 										<div class="mt-4">
-											<h3 class="subsection-title">Timeframe</h3>
+											<h3 class="subsection-title">{{ 'Timeframe'|t }}</h3>
 											<div class="row g-3">
 												{% if ex_decision_weeks %}
 													<div class="col-12 col-md-6">
 														<div class="border rounded p-3 h-100 bg-white">
-															<div class="small text-muted text-uppercase">FOR DECISSION</div>
+															<div class="small text-muted text-uppercase">{{ 'For decision'|t|upper }}</div>
 															<div class="fw-semibold">{{ ex_decision_weeks }}
-																{{ ex_decision_weeks == '1' ? 'week' : 'weeks' }}</div>
+																{{ ex_decision_weeks == '1' ? 'week'|t : 'weeks'|t }}</div>
 														</div>
 													</div>
 												{% endif %}
 												{% if ex_transcript_weeks %}
 													<div class="col-12 col-md-6">
 														<div class="border rounded p-3 h-100 bg-white">
-															<div class="small text-muted text-uppercase">TO ISSUE THE TRANSCRIPT OF RECORDS</div>
+															<div class="small text-muted text-uppercase">{{ 'To issue the transcript of records'|t|upper }}</div>
 															<div class="fw-semibold">{{ ex_transcript_weeks }}
-																{{ ex_transcript_weeks == '1' ? 'week' : 'weeks' }}</div>
+																{{ ex_transcript_weeks == '1' ? 'week'|t : 'weeks'|t }}</div>
 														</div>
 													</div>
 												{% endif %}
@@ -629,7 +629,7 @@
 
 									{% if app_email or app_phone or app_web %}
 										<div class="mt-4">
-											<h3 class="subsection-title">Contact</h3>
+											<h3 class="subsection-title">{{ 'Contact'|t }}</h3>
 											<div class="d-flex flex-column gap-2">
 												{% if app_email %}
 													<a href="mailto:{{ app_email }}" class="text-decoration-none text-dark">
@@ -660,11 +660,11 @@
 					{% if has_visiting %}
 						<div class="tab-pane fade {{ (not has_full_degree and not has_exchange) ? 'show active' : '' }}" id="pane-visiting-{{ institution.id() }}" role="tabpanel" aria-labelledby="tab-visiting-{{ institution.id() }}">
 							{% if institution.field_admission_descript_visitin is not empty %}
-								<h3 class="subsection-title">Admission description for visiting students</h3>
+								<h3 class="subsection-title">{{ 'Admission description for visiting students'|t }}</h3>
 								<p>{{ institution.field_admission_descript_visitin.value | raw }}</p>
 							{% endif %}
 							{% if institution.field_registration_proc_visiting is not empty %}
-								<h3 class="subsection-title">Registration procedures for visiting students</h3>
+								<h3 class="subsection-title">{{ 'Registration procedures for visiting students'|t }}</h3>
 								<p>{{ institution.field_registration_proc_visiting.value | raw }}</p>
 							{% endif %}
 						</div>
@@ -681,15 +681,15 @@
 
 		<div class="admission-section" id='ects-policies' style="scroll-margin-top: 150px;">
 
-			<h2 class="section-title text-center">Policies</h2>
+			<h2 class="section-title text-center">{{ 'Policies'|t }}</h2>
 
 			{% if institution.field_ects_credit_allocation_pol is not empty %}
-				<h3 class="subsection-title">ECTS Allocation Policy</h3>
+				<h3 class="subsection-title">{{ 'ECTS Allocation Policy'|t }}</h3>
 				<p>{{ institution.field_ects_credit_allocation_pol.value | raw }}</p>
 			{% endif %}
 
 			{% if institution.field_arrangements_guidance is not empty %}
-				<h3 class="subsection-title">Arrangements for Academic Guidance</h3>
+				<h3 class="subsection-title">{{ 'Arrangements for Academic Guidance'|t }}</h3>
 				<p>{{ institution.field_arrangements_guidance.value | raw }}</p>
 			{% endif %}
 
@@ -712,7 +712,7 @@
 
 			<div class="row mb-4">
 				<div class="col-12">
-					<h2 class="section-title text-center">Campuses</h2>
+					<h2 class="section-title text-center">{{ 'Campuses'|t }}</h2>
 
 
 					{% if institution.field_general_campus_description is not empty  %}
@@ -742,7 +742,8 @@
 
 						<div style="max-height: 500px; overflow-y: auto;">
 							{% for campus in campuses %}
-								{% set campus_path = path('entity.node.canonical', {'node': campus.id}) %}
+								{% set campus_url_language = campus.hasTranslation(current_language) ? current_language : 'en' %}
+								{% set campus_path = path('entity.node.canonical', {'node': campus.id}, {'language': language_manager.getLanguage(campus_url_language)}) %}
 								{% set parts = campus_path|trim('/')|split('/') %}
 
 
@@ -750,7 +751,7 @@
 								{% set campus_alias = parts|last %}
 								{% set institution_alias = parts[parts|length - 2] %}
 
-								<a href="{{ path('view.campus_information.page_1', { 'arg_0': institution_alias, 'arg_1': campus_alias }) }}" class="text-decoration-none text-reset">
+								<a href="{{ path('view.campus_information.page_1', { 'arg_0': institution_alias, 'arg_1': campus_alias }, {'language': language_manager.getLanguage(campus_url_language)}) }}" class="text-decoration-none text-reset">
 
 									<div class="card shadow-none mb-3 border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
 										<div
@@ -797,7 +798,7 @@
 		<!-- ORGANIZATIONAL UNITS SECTION -->
 		<div class="row mb-4">
 			<div class="col-12">
-				<h2 class="section-title text-center">Organizational Units</h2>
+				<h2 class="section-title text-center">{{ 'Organizational Units'|t }}</h2>
 
 				{% if institution.field_general_ou_description is not empty %}
 
@@ -815,7 +816,7 @@
 				class="col-lg-6">
 				<!-- Buscador -->
 				<div class="input-group mb-3">
-					<input type="text" class="form-control bg-light border-0" placeholder="Type here to search" id="ou-search">
+					<input type="text" class="form-control bg-light border-0" placeholder="{{ 'Type here to search'|t }}" id="ou-search">
 					<button class="btn btn-outline-secondary pe-4 ps-4 bg-black" type="button" id="search-btn">
 						<i class="fas fa-search" style="color: white;"></i>
 					</button>
@@ -828,20 +829,20 @@
 					<!-- Type -->
 					<div class="dropdown">
 						<button id="type-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Type
+							{{ 'Type'|t }}
 						</button>
 						<ul class="dropdown-menu" id="filter-type">
 							<li>
-								<a class="dropdown-item" href="#" data-type="">All</a>
+								<a class="dropdown-item" href="#" data-type="">{{ 'All'|t }}</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="#" data-type="Department">Department</a>
+								<a class="dropdown-item" href="#" data-type="Department">{{ 'Department'|t }}</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="#" data-type="Faculty">Faculty</a>
+								<a class="dropdown-item" href="#" data-type="Faculty">{{ 'Faculty'|t }}</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="#" data-type="School">School</a>
+								<a class="dropdown-item" href="#" data-type="School">{{ 'School'|t }}</a>
 							</li>
 						</ul>
 					</div>
@@ -851,11 +852,11 @@
 					{% if campuses|length > 1 %}
 						<div class="dropdown">
 							<button id="campus-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-								Campus
+								{{ 'Campus'|t }}
 							</button>
 							<ul class="dropdown-menu" id="filter-campus">
 								<li>
-									<a class="dropdown-item" href="#" data-campus="">All</a>
+									<a class="dropdown-item" href="#" data-campus="">{{ 'All'|t }}</a>
 								</li>
 								{% for campus in campuses %}
 									{% set campus_label = campus.label %}
@@ -965,7 +966,7 @@
 							</div>
 						{% endif %}
 					{% else %}
-						<p>No Organizational Units found.</p>
+						<p>{{ 'No Organizational Units found.'|t }}</p>
 					{% endfor %}
 
 				</div>
@@ -976,7 +977,7 @@
 			<!-- Columna derecha: detalle dinámico -->
 			<div class="col-lg-6">
 				<div id="ou-details" class="bg-light h-100">
-					<p class="text-muted text-center pt-5">Click on an Organizational Unit to see its details.</p>
+					<p class="text-muted text-center pt-5">{{ 'Click on an Organizational Unit to see its details.'|t }}</p>
 					<!-- Aquí se rellenará dinámicamente con JS -->
 				</div>
 			</div>
@@ -1117,6 +1118,8 @@ desktopDetails.innerHTML = html;
 
 let currentCampus = '';
 let currentType = '';
+const defaultCampusLabel = '{{ 'Campus'|t|e('js') }}';
+const defaultTypeLabel = '{{ 'Type'|t|e('js') }}';
 
 const campusButton = document.getElementById('campus-filter-button');
 const typeButton = document.getElementById('type-filter-button');
@@ -1162,7 +1165,7 @@ document.querySelectorAll('#filter-campus .dropdown-item').forEach(item => {
 item.addEventListener('click', function (e) {
 e.preventDefault();
 currentCampus = this.dataset.campus || '';
-setButton(campusButton, currentCampus, this.textContent, 'Campus');
+setButton(campusButton, currentCampus, this.textContent, defaultCampusLabel);
 filterOUList();
 });
 });
@@ -1171,7 +1174,7 @@ document.querySelectorAll('#filter-type .dropdown-item').forEach(item => {
 item.addEventListener('click', function (e) {
 e.preventDefault();
 currentType = this.dataset.type || '';
-setButton(typeButton, currentType, this.textContent, 'Type');
+setButton(typeButton, currentType, this.textContent, defaultTypeLabel);
 filterOUList();
 });
 });
@@ -1180,8 +1183,8 @@ filterOUList();
 searchInput.addEventListener('input', filterOUList);
 
 /* ----- Initial visual state for buttons ----- */
-setButton(campusButton, '', '', 'Campus');
-setButton(typeButton, '', '', 'Type');
+setButton(campusButton, '', '', defaultCampusLabel);
+setButton(typeButton, '', '', defaultTypeLabel);
 
 /* ==========================================================
    SIMPLE PAGINATION (unchanged)

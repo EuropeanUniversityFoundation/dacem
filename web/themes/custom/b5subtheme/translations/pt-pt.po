@@ -494,3 +494,231 @@ msgstr "Dê-nos feedback"
 
 msgid "Available for Mobility Students"
 msgstr "Disponível para estudantes em mobilidade"
+
+msgid "Overview"
+msgstr "Visão geral"
+
+msgid "Curriculum"
+msgstr "Plano de estudos"
+
+msgid "Careers"
+msgstr "Saídas profissionais"
+
+msgid "Practice"
+msgstr "Prática"
+
+msgid "By term"
+msgstr "Por período"
+
+msgid "By year"
+msgstr "Por ano"
+
+msgid "1st term"
+msgstr "1.º período"
+
+msgid "2nd term"
+msgstr "2.º período"
+
+msgid "Terms"
+msgstr "Períodos"
+
+msgid "Year"
+msgstr "Ano"
+
+msgid "Structure and Distribution of Credits"
+msgstr "Estrutura e distribuição de créditos"
+
+msgid "Grading Scale"
+msgstr "Escala de classificação"
+
+msgid "Grading Scheme"
+msgstr "Sistema de classificação"
+
+msgid "Grading Distribution Table"
+msgstr "Tabela de distribuição de classificações"
+
+msgid "Mobility Agreements"
+msgstr "Acordos de mobilidade"
+
+msgid "Start Date"
+msgstr "Data de início"
+
+msgid "End Date"
+msgstr "Data de fim"
+
+msgid "Type of Credits"
+msgstr "Tipo de créditos"
+
+msgid "Type of credits"
+msgstr "Tipo de créditos"
+
+msgid "Fields of study"
+msgstr "Áreas de estudo"
+
+msgid "Mode of Learning"
+msgstr "Modo de aprendizagem"
+
+msgid "Programme Abbreviation"
+msgstr "Abreviatura do programa"
+
+msgid "Restricted to alliance students"
+msgstr "Restrito a estudantes da aliança"
+
+msgid "Academic Year"
+msgstr "Ano académico"
+
+msgid "Number of credits"
+msgstr "Número de créditos"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Restricted to alliance"
+msgstr "Restrito à aliança"
+
+msgid "Change Home Programme"
+msgstr "Alterar programa de origem"
+
+msgid "Clear home programme"
+msgstr "Limpar programa de origem"
+
+msgid "Home programme"
+msgstr "Programa de origem"
+
+msgid "Study in Europe with ATHENA"
+msgstr "Estude na Europa com a ATHENA"
+
+msgid "Sport clubs/programs"
+msgstr "Clubes e programas desportivos"
+
+msgid "Language courses"
+msgstr "Cursos de línguas"
+
+msgid "Support for students with disabilities and special needs"
+msgstr "Apoio a estudantes com deficiência e necessidades especiais"
+
+msgid "VISA"
+msgstr "Visto"
+
+msgid "Student Mobility"
+msgstr "Mobilidade estudantil"
+
+msgid "University Life"
+msgstr "Vida universitária"
+
+msgid "Academic requirements for nominations"
+msgstr "Requisitos académicos para nomeações"
+
+msgid "Additional requirements"
+msgstr "Requisitos adicionais"
+
+msgid "Admission description for exchange students"
+msgstr "Descrição de admissão para estudantes de intercâmbio"
+
+msgid "Admission description for full-degree students"
+msgstr "Descrição de admissão para estudantes de grau completo"
+
+msgid "Admission description for visiting students"
+msgstr "Descrição de admissão para estudantes visitantes"
+
+msgid "All"
+msgstr "Todos"
+
+msgid "Applications"
+msgstr "Candidaturas"
+
+msgid "Arrangements for Academic Guidance"
+msgstr "Disposições para orientação académica"
+
+msgid "Arrangements for the recognition of credit and prior learning"
+msgstr "Disposições para reconhecimento de créditos e aprendizagem prévia"
+
+msgid "Autumn"
+msgstr "Outono"
+
+msgid "Click on an Organizational Unit to see its details."
+msgstr "Clique numa unidade organizacional para ver os seus detalhes."
+
+msgid "Contact"
+msgstr "Contacto"
+
+msgid "Department"
+msgstr "Departamento"
+
+msgid "Exchange"
+msgstr "Intercâmbio"
+
+msgid "Exchange timeline"
+msgstr "Calendário de intercâmbio"
+
+msgid "Faculty"
+msgstr "Faculdade"
+
+msgid "For decision"
+msgstr "Para decisão"
+
+msgid "Full-Degree"
+msgstr "Grau completo"
+
+msgid "INSTITUTIONAL INFORMATION"
+msgstr "INFORMAÇÃO INSTITUCIONAL"
+
+msgid "Incoming students"
+msgstr "Estudantes recebidos"
+
+msgid "Information"
+msgstr "Informação"
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "No Organizational Units found."
+msgstr "Não foram encontradas unidades organizacionais."
+
+msgid "Nominations"
+msgstr "Nomeações"
+
+msgid "Not available"
+msgstr "Não disponível"
+
+msgid "Outgoing students"
+msgstr "Estudantes enviados"
+
+msgid "Policies"
+msgstr "Políticas"
+
+msgid "Recognition process for outgoing students"
+msgstr "Processo de reconhecimento para estudantes enviados"
+
+msgid "Registration procedures for exchange students"
+msgstr "Procedimentos de registo para estudantes de intercâmbio"
+
+msgid "Registration procedures for full-degree students"
+msgstr "Procedimentos de registo para estudantes de grau completo"
+
+msgid "Registration procedures for visiting students"
+msgstr "Procedimentos de registo para estudantes visitantes"
+
+msgid "School"
+msgstr "Escola"
+
+msgid "Spring"
+msgstr "Primavera"
+
+msgid "Timeframe"
+msgstr "Prazo"
+
+msgid "To issue the transcript of records"
+msgstr "Para emitir o histórico académico"
+
+msgid "Visiting"
+msgstr "Visitante"
+
+msgid "week"
+msgstr "semana"
+
+msgid "weeks"
+msgstr "semanas"
+
+msgid "Message"
+msgstr "Mensagem"

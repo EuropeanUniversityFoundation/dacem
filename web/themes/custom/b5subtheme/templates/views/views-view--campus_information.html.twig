@@ -64,7 +64,7 @@
 				{% set list_academic_authorities = [] %}
 
 				{#{dump(view.result)}}{{dump(campus.field_campus_description.value)}#}
-				<h3 class="subsection-title">{{ translations[current_language]['Academic Contacts'] }}</h3>
+				<h3 class="subsection-title">{{ 'Academic Contacts'|t }}</h3>
 				<br>
 
 				<div class="vstack gap-3 mb-5">
@@ -76,6 +76,9 @@
 							{% set list_academic_authorities = list_academic_authorities|merge([authority.id]) %}
 
 							{% if authority %}
+								{% if authority.hasTranslation(current_language) %}
+									{% set authority = authority.getTranslation(current_language) %}
+								{% endif %}
 
 								
 
@@ -132,7 +135,7 @@
 
 											{% if authority.field_mobility_contact.value %}
 												<span class="text-muted small ms-2">
-												&middot; Mobility
+												&middot; {{ 'Mobility'|t }}
 												</span>
 											{% endif %}
 

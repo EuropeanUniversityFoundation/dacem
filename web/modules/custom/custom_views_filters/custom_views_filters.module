@@ -607,6 +607,15 @@ function custom_views_filters_form_views_exposed_form_alter(array &$form, FormSt
       '#weight' => -9, // ponlo donde quieras en el orden
     ];
 
+    if (isset($form['actions']['reset'])) {
+      $form['actions']['reset']['#attributes']['data-clear-custom-filters'] = '1';
+      $form['actions']['reset']['#attributes']['data-reset-url'] = \Drupal\Core\Url::fromRoute('view.institution_new_catalogue.page_1', [
+        'arg_0' => $institution_nid,
+      ], [
+        'language' => \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT),
+      ])->toString();
+    }
+
 
 
 

@@ -5,6 +5,7 @@
 {# Obtener la entidad de contenido desde la vista #}
 
 {% set entity = view.result[0]._entity %}
+
 {#{dump(entity)}}
 
 {#{{dump(entity)}}
@@ -62,6 +63,26 @@
 #}
 
 {% set institution = entity.field_programme_institution.entity %}
+
+{% set programme_ou = null %}
+{% set programme_ou_url = '' %}
+{% if translated_entity.hasField('field_programme_ou') and not translated_entity.get('field_programme_ou').isEmpty() %}
+	{% set programme_ou = translated_entity.field_programme_ou.entity %}
+	{% if programme_ou.hasTranslation(current_language) %}
+		{% set programme_ou = programme_ou.getTranslation(current_language) %}
+	{% endif %}
+
+	{% set programme_ou_path = path('entity.node.canonical', {'node': programme_ou.id()}, {'langcode': current_language}) %}
+	{% set programme_ou_path_parts = programme_ou_path|trim('/')|split('/') %}
+	{% if programme_ou_path_parts|length >= 2 %}
+		{% set programme_ou_alias = programme_ou_path_parts|last %}
+		{% set programme_ou_institution_alias = programme_ou_path_parts[programme_ou_path_parts|length - 2] %}
+		{% set programme_ou_url = path('view.organizational_unit_information.page_1', {
+			'arg_0': programme_ou_institution_alias,
+			'arg_1': programme_ou_alias
+		}, {'langcode': current_language}) %}
+	{% endif %}
+{% endif %}
 
 {% set institution_primary_color = institution.field_primary_color[0].color %}
 {% set institution_text_color = institution.field_text_color[0].color %}
@@ -196,12 +217,28 @@
 				<a class="nav-link" href="#mobility">{{ translations[current_language]['Mobility'] }}</a>
 			</li>
 		</ul>
-	</div>
-</nav>
+		</div>
+	</nav>
+
+	{% if programme_ou %}
+		<div class="my-custom-container-2 mt-3">
+			<div class="d-flex">
+				{% if programme_ou_url %}
+					<a href="{{ programme_ou_url }}" class="ou-tag px-3 py-1 text-decoration-none" style="background-color: {{ institution_primary_color }}; color: {{ institution_emphasis_text_color }}; border: 2px solid {{ institution_primary_color }}; border-radius: 0;">
+						{{ programme_ou.title.value }}
+					</a>
+				{% else %}
+					<span class="ou-tag px-3 py-1" style="background-color: {{ institution_primary_color }}; color: {{ institution_emphasis_text_color }}; border: 2px solid {{ institution_primary_color }}; border-radius: 0;">
+						{{ programme_ou.title.value }}
+					</span>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
 
 
-{#
-{% if translated_entity.field_degree_pdf %}
+	{#
+	{% if translated_entity.field_degree_pdf %}
   <ul>
     {% for item in translated_entity.field_degree_pdf %}
       {% if item.entity is not empty %}
@@ -765,7 +802,7 @@
 			{% if compatible_agreement_groups is defined %}
 				{% if compatible_agreement_groups %}
 					<div class="programme-section compatible-programmes" id="compatible-programmes" style="scroll-margin-top: 150px;">
-						<h3 class="subsection-title">{{ 'Agreements'|t }}</h3>
+						<h3 class="subsection-title">{{ 'Mobility Agreements'|t }}</h3>
 
 						{% for group in compatible_agreement_groups %}
 							<div class="compatible-programmes__group">
@@ -783,8 +820,8 @@
 											<tr>
 												<th>Agreement</th>
 												<th>Places</th>
-												<th>Duration</th>
-												<th>Language</th>
+												<th>Duration (months)</th>
+												<th>Languages</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -794,25 +831,28 @@
 														<strong>{{ row.agreement_title|nl2br }}</strong><br>
 														{% if row.contact %}
 															<strong>Contact person:</strong> {{ row.contact|nl2br }}<br>
-														{% endif %}
-														{% if row.destination_ou %}
+															{% endif %}
+															{% if row.destination_ou %}
 																<strong>Destination OU:</strong>
 																{% if row.destination_ou_url %}
 																	<a href="{{ row.destination_ou_url }}" target="_blank" rel="noopener noreferrer">{{ row.destination_ou }}</a>
 																{% else %}
 																	{{ row.destination_ou|nl2br }}
 																{% endif %}
-															<br>
-														{% endif %}
-														{% if row.fields_of_education %}
-															<strong>Fields of education:</strong> {{ row.fields_of_education|nl2br }}<br>
-														{% endif %}
+																<br>
+															{% endif %}
+															{% if row.level_of_education %}
+																<strong>Level of education:</strong> {{ row.level_of_education }}<br>
+															{% endif %}
+															{% if row.fields_of_education %}
+																<strong>Fields of education:</strong> {{ row.fields_of_education|nl2br }}<br>
+															{% endif %}
 														{% if row.description %}
 															<strong>Observations:</strong> {{ row.description|nl2br }}
 														{% endif %}
 													</td>
-													<td>{{ row.spots ?: '-' }}</td>
-													<td>{{ row.duration ?: '-' }}</td>
+													<td>{{ row.spots ? row.spots|nl2br : '-' }}</td>
+													<td>{{ row.duration ? row.duration|nl2br : '-' }}</td>
 													<td>{{ row.language ? row.language|nl2br : '-' }}</td>
 												</tr>
 											{% endfor %}

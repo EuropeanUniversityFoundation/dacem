@@ -37,7 +37,9 @@ function b5subtheme_theme_suggestions_HOOK_alter(array &$suggestions, array $var
  */
 function b5subtheme_preprocess_block(&$variables)
 {
-  // Your custom preprocess code for blocks.
+  $variables['current_language'] = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+    ->getId();
 }
 
 
@@ -47,6 +49,7 @@ function b5subtheme_preprocess_block(&$variables)
 
 function getEntityFromAlias($alias, $langcode = NULL)
 {
+
   $alias_manager = \Drupal::service('path_alias.manager');
 
   $internal_path = $alias_manager->getPathByAlias('/' . $alias, $langcode);
@@ -66,6 +69,70 @@ function getEntityFromAlias($alias, $langcode = NULL)
   }
 
   return NULL;
+}
+
+/**
+ * Returns an entity translated to the current language, falling back to English.
+ */
+function b5subtheme_entity_for_language_with_fallback(?EntityInterface $entity, string $langcode): ?EntityInterface
+{
+  if (!$entity) {
+    return NULL;
+  }
+
+  if ($entity->hasTranslation($langcode)) {
+    return $entity->getTranslation($langcode);
+  }
+
+  if ($entity->hasTranslation('en')) {
+    return $entity->getTranslation('en');
+  }
+
+  return $entity;
+}
+
+/**
+ * Returns the language that should be used when linking to an entity.
+ */
+function b5subtheme_entity_language_for_url(?EntityInterface $entity, string $langcode): string
+{
+  if (!$entity) {
+    return 'en';
+  }
+
+  if ($entity->hasTranslation($langcode)) {
+    return $langcode;
+  }
+
+  if ($entity->hasTranslation('en')) {
+    return 'en';
+  }
+
+  return $entity->language()->getId();
+}
+
+/**
+ * Returns translated labels for referenced entities in a field.
+ */
+function b5subtheme_referenced_entity_labels_for_language(EntityInterface $entity, string $field_name, string $langcode): array
+{
+  if (!$entity->hasField($field_name) || $entity->get($field_name)->isEmpty()) {
+    return [];
+  }
+
+  $labels = [];
+  foreach ($entity->get($field_name) as $item) {
+    $referenced_entity = $item->entity ?? NULL;
+    if ($referenced_entity instanceof EntityInterface) {
+      $referenced_entity = b5subtheme_entity_for_language_with_fallback($referenced_entity, $langcode);
+      $labels[] = $referenced_entity->label();
+    }
+    elseif (!empty($item->value)) {
+      $labels[] = $item->value;
+    }
+  }
+
+  return array_filter($labels);
 }
 
 
@@ -480,13 +547,22 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       continue;
     }
 
-    $lang_for_url = $iec->hasTranslation($current_language) ? $current_language : 'en';
+    $lang_for_url = b5subtheme_entity_language_for_url($iec, $current_language);
     $language = \Drupal::languageManager()->getLanguage($lang_for_url);
 
-    // Trabajar con traducción si existe; si no, enlazar a inglés.
-    $iec_for_url = $iec->hasTranslation($lang_for_url)
-      ? $iec->getTranslation($lang_for_url)
-      : $iec;
+    $iec_for_url = b5subtheme_entity_for_language_with_fallback($iec, $current_language);
+    $row->_entity = $iec_for_url;
+
+    if ($iec_for_url->hasField('field_iec_programme') && !$iec_for_url->get('field_iec_programme')->isEmpty()) {
+      $programme = $iec_for_url->get('field_iec_programme')->entity;
+      $programme = b5subtheme_entity_for_language_with_fallback($programme, $current_language);
+      $row->display_programme = $programme;
+
+      if ($programme && $programme->hasField('field_programme_institution') && !$programme->get('field_programme_institution')->isEmpty()) {
+        $institution = $programme->get('field_programme_institution')->entity;
+        $row->display_institution = b5subtheme_entity_for_language_with_fallback($institution, $current_language);
+      }
+    }
 
     // Genera la URL canónica en el idioma adecuado
     $url = $iec_for_url
@@ -889,7 +965,6 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
 
     if ($node && $node->hasTranslation($current_language)) {
-
       // Carga la traducción activa del nodo.
       $translated_node = $node->getTranslation($current_language);
       // Pasa el nodo traducido a las plantillas Twig.
@@ -1529,11 +1604,13 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       $home_programme = Node::load((int) $home_programme_id);
 
       if ($home_programme instanceof NodeInterface && $home_programme->bundle() === 'programme') {
+        $home_programme = b5subtheme_entity_for_language_with_fallback($home_programme, $langcode);
         $home_programme_label = $home_programme->label();
         $home_institution_label = '';
 
         if ($home_programme->hasField('field_programme_institution') && !$home_programme->get('field_programme_institution')->isEmpty()) {
           $home_institution = $home_programme->get('field_programme_institution')->entity;
+          $home_institution = b5subtheme_entity_for_language_with_fallback($home_institution, $langcode);
           $home_institution_label = $home_institution ? $home_institution->label() : '';
         }
 
@@ -1566,22 +1643,25 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         continue;
       }
 
-      // Idioma (si no hay traducción al actual, cae a 'en').
-      $lang_for_url = $programme->hasTranslation($langcode) ? $langcode : 'en';
+      $lang_for_url = b5subtheme_entity_language_for_url($programme, $langcode);
       $language = \Drupal::languageManager()->getLanguage($lang_for_url);
-      $programme_t = $programme->hasTranslation($lang_for_url) ? $programme->getTranslation($lang_for_url) : $programme;
+      $programme_t = b5subtheme_entity_for_language_with_fallback($programme, $langcode);
+      $row->_entity = $programme_t;
+      $row->display_instruction_languages = b5subtheme_referenced_entity_labels_for_language($programme_t, 'field_programme_language_of_inst', $lang_for_url);
 
       // Institution del programme.
       if (
-        !$programme->hasField('field_programme_institution') ||
-        $programme->get('field_programme_institution')->isEmpty()
+        !$programme_t->hasField('field_programme_institution') ||
+        $programme_t->get('field_programme_institution')->isEmpty()
       ) {
         continue;
       }
-      $inst = $programme->get('field_programme_institution')->entity;
-      if ($inst && $inst->hasTranslation($lang_for_url)) {
-        $inst = $inst->getTranslation($lang_for_url);
+      $inst = $programme_t->get('field_programme_institution')->entity;
+      $inst = b5subtheme_entity_for_language_with_fallback($inst, $lang_for_url);
+      if (!$inst) {
+        continue;
       }
+      $row->display_institution = $inst;
 
       // Aliases (último segmento de la URL canónica traducida).
       $prog_canonical = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $programme_t->id()], ['language' => $language])->toString();
@@ -1654,13 +1734,23 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       continue;
     }
 
-    $lang_for_url = $iec->hasTranslation($current_language) ? $current_language : 'en';
+    $lang_for_url = b5subtheme_entity_language_for_url($iec, $current_language);
     $language = \Drupal::languageManager()->getLanguage($lang_for_url);
 
-    // Trabajar con traducción si existe; si no, enlazar a inglés.
-    $iec_for_url = $iec->hasTranslation($lang_for_url)
-      ? $iec->getTranslation($lang_for_url)
-      : $iec;
+    $iec_for_url = b5subtheme_entity_for_language_with_fallback($iec, $current_language);
+    $row->_entity = $iec_for_url;
+    $row->display_instruction_languages = b5subtheme_referenced_entity_labels_for_language($iec_for_url, 'field_iec_language_of_instructio', $lang_for_url);
+
+    if ($iec_for_url->hasField('field_iec_programme') && !$iec_for_url->get('field_iec_programme')->isEmpty()) {
+      $programme = $iec_for_url->get('field_iec_programme')->entity;
+      $programme = b5subtheme_entity_for_language_with_fallback($programme, $current_language);
+      $row->display_programme = $programme;
+
+      if ($programme && $programme->hasField('field_programme_institution') && !$programme->get('field_programme_institution')->isEmpty()) {
+        $institution = $programme->get('field_programme_institution')->entity;
+        $row->display_institution = b5subtheme_entity_for_language_with_fallback($institution, $current_language);
+      }
+    }
 
     // Genera la URL canónica en el idioma adecuado
     $url = $iec_for_url
@@ -1788,11 +1878,11 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
         continue;
       }
 
-      $lang_for_url = $programme->hasTranslation($current_language) ? $current_language : 'en';
+      $lang_for_url = b5subtheme_entity_language_for_url($programme, $current_language);
       $language = \Drupal::languageManager()->getLanguage($lang_for_url);
-      $programme_for_url = $programme->hasTranslation($lang_for_url)
-        ? $programme->getTranslation($lang_for_url)
-        : $programme;
+      $programme_for_url = b5subtheme_entity_for_language_with_fallback($programme, $current_language);
+      $row->_entity = $programme_for_url;
+      $row->display_instruction_languages = b5subtheme_referenced_entity_labels_for_language($programme_for_url, 'field_programme_language_of_inst', $lang_for_url);
 
       if (
         !$programme_for_url->hasField('field_programme_institution') ||
@@ -1806,6 +1896,7 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
 
       /** @var \Drupal\node\NodeInterface|null $institution */
       $institution = $programme_for_url->get('field_programme_institution')->entity;
+      $institution = b5subtheme_entity_for_language_with_fallback($institution, $lang_for_url);
       if (!$institution || !$institution->id()) {
         \Drupal::logger('catalogue_debug')->warning('Programme @nid has invalid institution entity.', [
           '@nid' => $programme_for_url->id(),
@@ -1813,9 +1904,13 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
         continue;
       }
 
-      $institution_for_url = $institution->hasTranslation($lang_for_url)
-        ? $institution->getTranslation($lang_for_url)
-        : $institution;
+      $institution_for_url = $institution;
+      $row->display_institution = $institution_for_url;
+
+      if ($programme_for_url->hasField('field_programme_ou') && !$programme_for_url->get('field_programme_ou')->isEmpty()) {
+        $ou = $programme_for_url->get('field_programme_ou')->entity;
+        $row->display_ou = b5subtheme_entity_for_language_with_fallback($ou, $lang_for_url);
+      }
 
       $programme_canonical = Url::fromRoute('entity.node.canonical', ['node' => $programme_for_url->id()], ['language' => $language])->toString();
       $institution_canonical = Url::fromRoute('entity.node.canonical', ['node' => $institution_for_url->id()], ['language' => $language])->toString();
@@ -1849,13 +1944,18 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
         continue;
       }
 
-      $lang_for_url = $iec->hasTranslation($current_language) ? $current_language : 'en';
+      $lang_for_url = b5subtheme_entity_language_for_url($iec, $current_language);
       $language = \Drupal::languageManager()->getLanguage($lang_for_url);
 
-      // Trabajar con traducción si existe; si no, enlazar a inglés.
-      $iec_for_url = $iec->hasTranslation($lang_for_url)
-        ? $iec->getTranslation($lang_for_url)
-        : $iec;
+      $iec_for_url = b5subtheme_entity_for_language_with_fallback($iec, $current_language);
+      $row->_entity = $iec_for_url;
+      $row->display_instruction_languages = b5subtheme_referenced_entity_labels_for_language($iec_for_url, 'field_iec_language_of_instructio', $lang_for_url);
+
+      if ($iec_for_url->hasField('field_iec_programme') && !$iec_for_url->get('field_iec_programme')->isEmpty()) {
+        $programme = $iec_for_url->get('field_iec_programme')->entity;
+        $programme = b5subtheme_entity_for_language_with_fallback($programme, $current_language);
+        $row->display_programme = $programme;
+      }
 
       // Genera la URL canónica en el idioma adecuado.
       $url = $iec_for_url

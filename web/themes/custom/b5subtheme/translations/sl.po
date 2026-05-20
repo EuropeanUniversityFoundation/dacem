@@ -494,3 +494,231 @@ msgstr "Pošljite nam povratne informacije"
 
 msgid "Available for Mobility Students"
 msgstr "Na voljo za študente na mobilnosti"
+
+msgid "Overview"
+msgstr "Pregled"
+
+msgid "Curriculum"
+msgstr "Učni načrt"
+
+msgid "Careers"
+msgstr "Karierne možnosti"
+
+msgid "Practice"
+msgstr "Praksa"
+
+msgid "By term"
+msgstr "Po obdobju"
+
+msgid "By year"
+msgstr "Po letu"
+
+msgid "1st term"
+msgstr "1. obdobje"
+
+msgid "2nd term"
+msgstr "2. obdobje"
+
+msgid "Terms"
+msgstr "Obdobja"
+
+msgid "Year"
+msgstr "Leto"
+
+msgid "Structure and Distribution of Credits"
+msgstr "Struktura in razporeditev kreditov"
+
+msgid "Grading Scale"
+msgstr "Ocenjevalna lestvica"
+
+msgid "Grading Scheme"
+msgstr "Sistem ocenjevanja"
+
+msgid "Grading Distribution Table"
+msgstr "Tabela porazdelitve ocen"
+
+msgid "Mobility Agreements"
+msgstr "Sporazumi o mobilnosti"
+
+msgid "Start Date"
+msgstr "Datum začetka"
+
+msgid "End Date"
+msgstr "Datum konca"
+
+msgid "Type of Credits"
+msgstr "Vrsta kreditov"
+
+msgid "Type of credits"
+msgstr "Vrsta kreditov"
+
+msgid "Fields of study"
+msgstr "Področja študija"
+
+msgid "Mode of Learning"
+msgstr "Način učenja"
+
+msgid "Programme Abbreviation"
+msgstr "Okrajšava programa"
+
+msgid "Restricted to alliance students"
+msgstr "Omejeno na študente zavezništva"
+
+msgid "Academic Year"
+msgstr "Akademsko leto"
+
+msgid "Number of credits"
+msgstr "Število kreditov"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Restricted to alliance"
+msgstr "Omejeno na zavezništvo"
+
+msgid "Change Home Programme"
+msgstr "Spremeni domači program"
+
+msgid "Clear home programme"
+msgstr "Počisti domači program"
+
+msgid "Home programme"
+msgstr "Domači program"
+
+msgid "Study in Europe with ATHENA"
+msgstr "Študirajte v Evropi z ATHENA"
+
+msgid "Sport clubs/programs"
+msgstr "Športni klubi/programi"
+
+msgid "Language courses"
+msgstr "Jezikovni tečaji"
+
+msgid "Support for students with disabilities and special needs"
+msgstr "Podpora študentom z invalidnostmi in posebnimi potrebami"
+
+msgid "VISA"
+msgstr "Vizum"
+
+msgid "Student Mobility"
+msgstr "Študentska mobilnost"
+
+msgid "University Life"
+msgstr "Univerzitetno življenje"
+
+msgid "Academic requirements for nominations"
+msgstr "Akademske zahteve za nominacije"
+
+msgid "Additional requirements"
+msgstr "Dodatne zahteve"
+
+msgid "Admission description for exchange students"
+msgstr "Opis sprejema za izmenjalne študente"
+
+msgid "Admission description for full-degree students"
+msgstr "Opis sprejema za študente celotnega študijskega programa"
+
+msgid "Admission description for visiting students"
+msgstr "Opis sprejema za gostujoče študente"
+
+msgid "All"
+msgstr "Vse"
+
+msgid "Applications"
+msgstr "Prijave"
+
+msgid "Arrangements for Academic Guidance"
+msgstr "Ureditve za akademsko svetovanje"
+
+msgid "Arrangements for the recognition of credit and prior learning"
+msgstr "Ureditve za priznavanje kreditnih točk in predhodnega učenja"
+
+msgid "Autumn"
+msgstr "Jesen"
+
+msgid "Click on an Organizational Unit to see its details."
+msgstr "Kliknite organizacijsko enoto za ogled podrobnosti."
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Department"
+msgstr "Oddelek"
+
+msgid "Exchange"
+msgstr "Izmenjava"
+
+msgid "Exchange timeline"
+msgstr "Časovnica izmenjave"
+
+msgid "Faculty"
+msgstr "Fakulteta"
+
+msgid "For decision"
+msgstr "Za odločitev"
+
+msgid "Full-Degree"
+msgstr "Celoten študijski program"
+
+msgid "INSTITUTIONAL INFORMATION"
+msgstr "INSTITUCIONALNE INFORMACIJE"
+
+msgid "Incoming students"
+msgstr "Prihajajoči študenti"
+
+msgid "Information"
+msgstr "Informacije"
+
+msgid "Menu"
+msgstr "Meni"
+
+msgid "No Organizational Units found."
+msgstr "Ni najdenih organizacijskih enot."
+
+msgid "Nominations"
+msgstr "Nominacije"
+
+msgid "Not available"
+msgstr "Ni na voljo"
+
+msgid "Outgoing students"
+msgstr "Odhajajoči študenti"
+
+msgid "Policies"
+msgstr "Politike"
+
+msgid "Recognition process for outgoing students"
+msgstr "Postopek priznavanja za odhajajoče študente"
+
+msgid "Registration procedures for exchange students"
+msgstr "Postopki registracije za izmenjalne študente"
+
+msgid "Registration procedures for full-degree students"
+msgstr "Postopki registracije za študente celotnega študijskega programa"
+
+msgid "Registration procedures for visiting students"
+msgstr "Postopki registracije za gostujoče študente"
+
+msgid "School"
+msgstr "Šola"
+
+msgid "Spring"
+msgstr "Pomlad"
+
+msgid "Timeframe"
+msgstr "Časovni okvir"
+
+msgid "To issue the transcript of records"
+msgstr "Za izdajo prepisa ocen"
+
+msgid "Visiting"
+msgstr "Gostujoči"
+
+msgid "week"
+msgstr "teden"
+
+msgid "weeks"
+msgstr "tedni"
+
+msgid "Message"
+msgstr "Sporočilo"

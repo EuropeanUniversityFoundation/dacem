@@ -102,10 +102,17 @@ function agreements_programmes_build_agreement_groups(array $compatible_programm
       ),
       'destination_ou' => agreements_programmes_format_ou_label($agreement_orientation['target_department_label'] ?? ''),
       'destination_ou_url' => $agreement_orientation['target_department_url'] ?? '',
+      'level_of_education' => agreements_programmes_format_level_of_education($agreement),
       'fields_of_education' => agreements_programmes_format_field_of_education($agreement),
       'description' => agreements_programmes_format_description(trim((string) ($agreement->get('field_agreement_observations')->value ?? ''))),
-      'spots' => agreements_programmes_format_decimal($agreement->get('field_studies_students')->value ?? NULL),
-      'duration' => agreements_programmes_format_decimal($agreement->get('field_studies_total_months')->value ?? NULL),
+      'spots' => agreements_programmes_format_agreement_places(
+        $agreement->get('field_studies_students')->value ?? NULL,
+        $agreement->get('field_trainership_students')->value ?? NULL,
+      ),
+      'duration' => agreements_programmes_format_agreement_duration(
+        $agreement->get('field_studies_total_months')->value ?? NULL,
+        $agreement->get('field_trainership_total_months')->value ?? NULL,
+      ),
       'language' => agreements_programmes_format_language_details(
         (string) ($agreement->get('field_recommended_language_level')->value ?? ''),
         agreements_programmes_get_entity_reference_label($agreement, 'field_language_of_instruction_1'),
@@ -173,6 +180,62 @@ function agreements_programmes_build_organizational_unit_information_url(NodeInt
   ], [
     'language' => $language,
   ])->toString();
+}
+
+/**
+ * Formats the agreement level of education.
+ */
+function agreements_programmes_format_level_of_education(NodeInterface $agreement): string {
+  if (!$agreement->hasField('field_level_of_education') || $agreement->get('field_level_of_education')->isEmpty()) {
+    return '';
+  }
+
+  $item = $agreement->get('field_level_of_education')->first();
+  if (!$item) {
+    return '';
+  }
+
+  $view = $item->view(['label' => 'hidden']);
+  $rendered = trim((string) \Drupal::service('renderer')->renderPlain($view));
+
+  return $rendered !== '' ? trim(strip_tags($rendered)) : trim((string) $item->get('value')->getValue());
+}
+
+/**
+ * Formats studies and trainerships places for display.
+ */
+function agreements_programmes_format_agreement_places($studies, $trainerships): string {
+  return agreements_programmes_format_labeled_decimal_values([
+    'studies' => $studies,
+    'trainerships' => $trainerships,
+  ]);
+}
+
+/**
+ * Formats studies and trainerships duration for display.
+ */
+function agreements_programmes_format_agreement_duration($studies, $trainerships): string {
+  return agreements_programmes_format_labeled_decimal_values([
+    'studies' => $studies,
+    'trainerships' => $trainerships,
+  ]);
+}
+
+/**
+ * Formats labeled decimal values as one item per line.
+ */
+function agreements_programmes_format_labeled_decimal_values(array $values): string {
+  $lines = [];
+
+  foreach ($values as $label => $value) {
+    $formatted = agreements_programmes_format_decimal($value);
+
+    if ($formatted !== '') {
+      $lines[] = $formatted . ' (' . $label . ')';
+    }
+  }
+
+  return implode("\n", $lines);
 }
 
 /**
@@ -303,16 +366,16 @@ function agreements_programmes_format_ou_label(string $label): string {
 function agreements_programmes_format_language_details(string $recommended_level, string $instruction_1, string $instruction_2): string {
   $lines = [];
 
-  if ($recommended_level !== '') {
-    $lines[] = $recommended_level;
-  }
-
   if ($instruction_1 !== '') {
-    $lines[] = 'Instruction 1: ' . $instruction_1;
+    $lines[] = $instruction_1;
   }
 
   if ($instruction_2 !== '') {
-    $lines[] = 'Instruction 2: ' . $instruction_2;
+    $lines[] = $instruction_2;
+  }
+
+  if ($recommended_level !== '') {
+    $lines[] = $recommended_level;
   }
 
   if (!$lines) {

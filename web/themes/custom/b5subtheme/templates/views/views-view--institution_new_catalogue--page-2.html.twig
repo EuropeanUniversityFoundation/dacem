@@ -120,7 +120,7 @@
 								{% if catalogue_shac_code %}
 									<span style="color:white;font-weight:700;font-size:1.75rem;line-height:1;">{{ catalogue_shac_code }}</span>
 								{% endif %}
-								<h1 class="section-title" style="color:white;font-weight:400;">catalogue</h1>
+								<h1 class="section-title" style="color:white;font-weight:400;">{{ 'CATALOGUE'|t|lower }}</h1>
 							</div>
 
 							<div class="col-auto">
@@ -167,7 +167,7 @@
             <div class="col-lg-2 institution-new-catalogue-sort">
 							<h3 class="subsection-title p-0 pb-2 m-0">
 								<i class="fas fa-sort-amount-down me-2"></i>
-								SORT
+								{{ 'Sort'|t|upper }}
 							</h3>
 
 							<div
@@ -190,7 +190,7 @@
 									{% set iec = row._entity %}
 
 									{# ✅ CAMBIA este campo si tu referencia al programme tiene otro machine name #}
-									{% set programme = iec.field_iec_programme.entity ?? null %}
+									{% set programme = row.display_programme|default(iec.field_iec_programme.entity ?? null) %}
 
 
 									<div class="iec-item">
@@ -237,22 +237,24 @@
 																	</span>
 															{% endif %}
 
-															{# Languages of instruction #}
-															{% set langs = iec.field_iec_language_of_instructio ?? [] %}
-															{% if langs is not empty %}
-																{% set lang_labels = [] %}
-																{% for item in langs %}
-																	{% set lang_label = item.entity.label ?? item.value ?? '' %}
-																	{% if lang_label %}
-																		{% set lang_labels = lang_labels|merge([lang_label]) %}
-																	{% endif %}
-																{% endfor %}
-																{% if lang_labels is not empty %}
-																	<span class="mx-2">·</span>
-																	<span class="fst-italic">
-																		{{ lang_labels|join(', ') }}
-																	</span>
+															{% set lang_labels = row.display_instruction_languages|default([]) %}
+															{% if lang_labels is empty %}
+																{% set langs = iec.field_iec_language_of_instructio ?? [] %}
+																{% if langs is not empty %}
+																	{% set lang_labels = [] %}
+																	{% for item in langs %}
+																		{% set lang_label = item.entity.label ?? item.value ?? '' %}
+																		{% if lang_label %}
+																			{% set lang_labels = lang_labels|merge([lang_label]) %}
+																		{% endif %}
+																	{% endfor %}
 																{% endif %}
+															{% endif %}
+															{% if lang_labels is not empty %}
+																<span class="mx-2">·</span>
+																<span class="fst-italic">
+																	{{ lang_labels|join(', ') }}
+																</span>
 															{% endif %}
 														</div>
 
@@ -290,7 +292,7 @@
 			<div class="modal-content">
 
 				<div class="modal-header">
-					<h5 class="modal-title" id="homeProgrammeModalLabel">Select Home Programme</h5>
+					<h5 class="modal-title" id="homeProgrammeModalLabel">{{ 'Select Home Programme'|t }}</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
 

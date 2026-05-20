@@ -497,3 +497,231 @@ msgstr "Andke meile tagasisidet"
 
 msgid "Available for Mobility Students"
 msgstr "Saadaval mobiilsusüliõpilastele"
+
+msgid "Overview"
+msgstr "Ülevaade"
+
+msgid "Curriculum"
+msgstr "Õppekava"
+
+msgid "Careers"
+msgstr "Karjäärivõimalused"
+
+msgid "Practice"
+msgstr "Praktika"
+
+msgid "By term"
+msgstr "Perioodi järgi"
+
+msgid "By year"
+msgstr "Aasta järgi"
+
+msgid "1st term"
+msgstr "1. periood"
+
+msgid "2nd term"
+msgstr "2. periood"
+
+msgid "Terms"
+msgstr "Perioodid"
+
+msgid "Year"
+msgstr "Aasta"
+
+msgid "Structure and Distribution of Credits"
+msgstr "Ainepunktide struktuur ja jaotus"
+
+msgid "Grading Scale"
+msgstr "Hindamisskaala"
+
+msgid "Grading Scheme"
+msgstr "Hindamissüsteem"
+
+msgid "Grading Distribution Table"
+msgstr "Hinnete jaotuse tabel"
+
+msgid "Mobility Agreements"
+msgstr "Mobiilsuslepingud"
+
+msgid "Start Date"
+msgstr "Alguskuupäev"
+
+msgid "End Date"
+msgstr "Lõppkuupäev"
+
+msgid "Type of Credits"
+msgstr "Ainepunktide tüüp"
+
+msgid "Type of credits"
+msgstr "Ainepunktide tüüp"
+
+msgid "Fields of study"
+msgstr "Õppevaldkonnad"
+
+msgid "Mode of Learning"
+msgstr "Õppeviis"
+
+msgid "Programme Abbreviation"
+msgstr "Programmi lühend"
+
+msgid "Restricted to alliance students"
+msgstr "Piiratud alliansi üliõpilastele"
+
+msgid "Academic Year"
+msgstr "Akadeemiline aasta"
+
+msgid "Number of credits"
+msgstr "Ainepunktide arv"
+
+msgid "Status"
+msgstr "Staatus"
+
+msgid "Restricted to alliance"
+msgstr "Piiratud alliansile"
+
+msgid "Change Home Programme"
+msgstr "Muuda koduprogrammi"
+
+msgid "Clear home programme"
+msgstr "Tühjenda koduprogramm"
+
+msgid "Home programme"
+msgstr "Koduprogramm"
+
+msgid "Study in Europe with ATHENA"
+msgstr "Õpi Euroopas koos ATHENA-ga"
+
+msgid "Sport clubs/programs"
+msgstr "Spordiklubid/programmid"
+
+msgid "Language courses"
+msgstr "Keelekursused"
+
+msgid "Support for students with disabilities and special needs"
+msgstr "Tugi puuetega ja erivajadustega üliõpilastele"
+
+msgid "VISA"
+msgstr "Viisa"
+
+msgid "Student Mobility"
+msgstr "Üliõpilaste mobiilsus"
+
+msgid "University Life"
+msgstr "Ülikoolielu"
+
+msgid "Academic requirements for nominations"
+msgstr "Akadeemilised nõuded kandideerimiseks"
+
+msgid "Additional requirements"
+msgstr "Lisatingimused"
+
+msgid "Admission description for exchange students"
+msgstr "Vastuvõtu kirjeldus vahetusüliõpilastele"
+
+msgid "Admission description for full-degree students"
+msgstr "Vastuvõtu kirjeldus täisõppe üliõpilastele"
+
+msgid "Admission description for visiting students"
+msgstr "Vastuvõtu kirjeldus külalisüliõpilastele"
+
+msgid "All"
+msgstr "Kõik"
+
+msgid "Applications"
+msgstr "Avaldused"
+
+msgid "Arrangements for Academic Guidance"
+msgstr "Akadeemilise juhendamise korraldus"
+
+msgid "Arrangements for the recognition of credit and prior learning"
+msgstr "Ainepunktide ja varasema õppe tunnustamise korraldus"
+
+msgid "Autumn"
+msgstr "Sügis"
+
+msgid "Click on an Organizational Unit to see its details."
+msgstr "Klõpsake organisatsiooniüksusel, et näha selle üksikasju."
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Department"
+msgstr "Osakond"
+
+msgid "Exchange"
+msgstr "Vahetus"
+
+msgid "Exchange timeline"
+msgstr "Vahetuse ajakava"
+
+msgid "Faculty"
+msgstr "Teaduskond"
+
+msgid "For decision"
+msgstr "Otsuse tegemiseks"
+
+msgid "Full-Degree"
+msgstr "Täisõpe"
+
+msgid "INSTITUTIONAL INFORMATION"
+msgstr "INSTITUTSIONAALNE TEAVE"
+
+msgid "Incoming students"
+msgstr "Sissetulevad üliõpilased"
+
+msgid "Information"
+msgstr "Teave"
+
+msgid "Menu"
+msgstr "Menüü"
+
+msgid "No Organizational Units found."
+msgstr "Organisatsiooniüksusi ei leitud."
+
+msgid "Nominations"
+msgstr "Nominatsioonid"
+
+msgid "Not available"
+msgstr "Pole saadaval"
+
+msgid "Outgoing students"
+msgstr "Väljaminevad üliõpilased"
+
+msgid "Policies"
+msgstr "Poliitikad"
+
+msgid "Recognition process for outgoing students"
+msgstr "Tunnustamisprotsess väljaminevatele üliõpilastele"
+
+msgid "Registration procedures for exchange students"
+msgstr "Registreerimisprotseduurid vahetusüliõpilastele"
+
+msgid "Registration procedures for full-degree students"
+msgstr "Registreerimisprotseduurid täisõppe üliõpilastele"
+
+msgid "Registration procedures for visiting students"
+msgstr "Registreerimisprotseduurid külalisüliõpilastele"
+
+msgid "School"
+msgstr "Kool"
+
+msgid "Spring"
+msgstr "Kevad"
+
+msgid "Timeframe"
+msgstr "Ajakava"
+
+msgid "To issue the transcript of records"
+msgstr "Õppetulemuste väljavõtte väljastamiseks"
+
+msgid "Visiting"
+msgstr "Külalis"
+
+msgid "week"
+msgstr "nädal"
+
+msgid "weeks"
+msgstr "nädalat"
+
+msgid "Message"
+msgstr "Sõnum"

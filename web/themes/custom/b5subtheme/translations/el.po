@@ -497,3 +497,231 @@ msgstr "Στείλτε μας σχόλια"
 
 msgid "Available for Mobility Students"
 msgstr "Διαθέσιμο για φοιτητές κινητικότητας"
+
+msgid "Overview"
+msgstr "Επισκόπηση"
+
+msgid "Curriculum"
+msgstr "Πρόγραμμα σπουδών"
+
+msgid "Careers"
+msgstr "Επαγγελματικές προοπτικές"
+
+msgid "Practice"
+msgstr "Πρακτική"
+
+msgid "By term"
+msgstr "Ανά περίοδο"
+
+msgid "By year"
+msgstr "Ανά έτος"
+
+msgid "1st term"
+msgstr "1η περίοδος"
+
+msgid "2nd term"
+msgstr "2η περίοδος"
+
+msgid "Terms"
+msgstr "Περίοδοι"
+
+msgid "Year"
+msgstr "Έτος"
+
+msgid "Structure and Distribution of Credits"
+msgstr "Δομή και κατανομή πιστωτικών μονάδων"
+
+msgid "Grading Scale"
+msgstr "Κλίμακα βαθμολόγησης"
+
+msgid "Grading Scheme"
+msgstr "Σύστημα βαθμολόγησης"
+
+msgid "Grading Distribution Table"
+msgstr "Πίνακας κατανομής βαθμολογιών"
+
+msgid "Mobility Agreements"
+msgstr "Συμφωνίες κινητικότητας"
+
+msgid "Start Date"
+msgstr "Ημερομηνία έναρξης"
+
+msgid "End Date"
+msgstr "Ημερομηνία λήξης"
+
+msgid "Type of Credits"
+msgstr "Τύπος πιστωτικών μονάδων"
+
+msgid "Type of credits"
+msgstr "Τύπος πιστωτικών μονάδων"
+
+msgid "Fields of study"
+msgstr "Πεδία σπουδών"
+
+msgid "Mode of Learning"
+msgstr "Τρόπος μάθησης"
+
+msgid "Programme Abbreviation"
+msgstr "Συντομογραφία προγράμματος"
+
+msgid "Restricted to alliance students"
+msgstr "Περιορίζεται σε φοιτητές της συμμαχίας"
+
+msgid "Academic Year"
+msgstr "Ακαδημαϊκό έτος"
+
+msgid "Number of credits"
+msgstr "Αριθμός πιστωτικών μονάδων"
+
+msgid "Status"
+msgstr "Κατάσταση"
+
+msgid "Restricted to alliance"
+msgstr "Περιορίζεται στη συμμαχία"
+
+msgid "Change Home Programme"
+msgstr "Αλλαγή προγράμματος προέλευσης"
+
+msgid "Clear home programme"
+msgstr "Εκκαθάριση προγράμματος προέλευσης"
+
+msgid "Home programme"
+msgstr "Πρόγραμμα προέλευσης"
+
+msgid "Study in Europe with ATHENA"
+msgstr "Σπουδάστε στην Ευρώπη με το ATHENA"
+
+msgid "Sport clubs/programs"
+msgstr "Αθλητικοί σύλλογοι/προγράμματα"
+
+msgid "Language courses"
+msgstr "Μαθήματα γλωσσών"
+
+msgid "Support for students with disabilities and special needs"
+msgstr "Υποστήριξη φοιτητών με αναπηρίες και ειδικές ανάγκες"
+
+msgid "VISA"
+msgstr "Βίζα"
+
+msgid "Student Mobility"
+msgstr "Φοιτητική κινητικότητα"
+
+msgid "University Life"
+msgstr "Πανεπιστημιακή ζωή"
+
+msgid "Academic requirements for nominations"
+msgstr "Ακαδημαϊκές απαιτήσεις για υποψηφιότητες"
+
+msgid "Additional requirements"
+msgstr "Πρόσθετες απαιτήσεις"
+
+msgid "Admission description for exchange students"
+msgstr "Περιγραφή εισαγωγής για φοιτητές ανταλλαγής"
+
+msgid "Admission description for full-degree students"
+msgstr "Περιγραφή εισαγωγής για φοιτητές πλήρους τίτλου σπουδών"
+
+msgid "Admission description for visiting students"
+msgstr "Περιγραφή εισαγωγής για επισκέπτες φοιτητές"
+
+msgid "All"
+msgstr "Όλα"
+
+msgid "Applications"
+msgstr "Αιτήσεις"
+
+msgid "Arrangements for Academic Guidance"
+msgstr "Ρυθμίσεις για ακαδημαϊκή καθοδήγηση"
+
+msgid "Arrangements for the recognition of credit and prior learning"
+msgstr "Ρυθμίσεις για την αναγνώριση πιστωτικών μονάδων και προηγούμενης μάθησης"
+
+msgid "Autumn"
+msgstr "Φθινόπωρο"
+
+msgid "Click on an Organizational Unit to see its details."
+msgstr "Κάντε κλικ σε μια οργανωτική μονάδα για να δείτε τις λεπτομέρειές της."
+
+msgid "Contact"
+msgstr "Επικοινωνία"
+
+msgid "Department"
+msgstr "Τμήμα"
+
+msgid "Exchange"
+msgstr "Ανταλλαγή"
+
+msgid "Exchange timeline"
+msgstr "Χρονοδιάγραμμα ανταλλαγής"
+
+msgid "Faculty"
+msgstr "Σχολή"
+
+msgid "For decision"
+msgstr "Για απόφαση"
+
+msgid "Full-Degree"
+msgstr "Πλήρης τίτλος σπουδών"
+
+msgid "INSTITUTIONAL INFORMATION"
+msgstr "ΘΕΣΜΙΚΕΣ ΠΛΗΡΟΦΟΡΙΕΣ"
+
+msgid "Incoming students"
+msgstr "Εισερχόμενοι φοιτητές"
+
+msgid "Information"
+msgstr "Πληροφορίες"
+
+msgid "Menu"
+msgstr "Μενού"
+
+msgid "No Organizational Units found."
+msgstr "Δεν βρέθηκαν οργανωτικές μονάδες."
+
+msgid "Nominations"
+msgstr "Υποψηφιότητες"
+
+msgid "Not available"
+msgstr "Δεν είναι διαθέσιμο"
+
+msgid "Outgoing students"
+msgstr "Εξερχόμενοι φοιτητές"
+
+msgid "Policies"
+msgstr "Πολιτικές"
+
+msgid "Recognition process for outgoing students"
+msgstr "Διαδικασία αναγνώρισης για εξερχόμενους φοιτητές"
+
+msgid "Registration procedures for exchange students"
+msgstr "Διαδικασίες εγγραφής για φοιτητές ανταλλαγής"
+
+msgid "Registration procedures for full-degree students"
+msgstr "Διαδικασίες εγγραφής για φοιτητές πλήρους τίτλου σπουδών"
+
+msgid "Registration procedures for visiting students"
+msgstr "Διαδικασίες εγγραφής για επισκέπτες φοιτητές"
+
+msgid "School"
+msgstr "Σχολείο"
+
+msgid "Spring"
+msgstr "Άνοιξη"
+
+msgid "Timeframe"
+msgstr "Χρονικό πλαίσιο"
+
+msgid "To issue the transcript of records"
+msgstr "Για την έκδοση αναλυτικής βαθμολογίας"
+
+msgid "Visiting"
+msgstr "Επισκέπτης"
+
+msgid "week"
+msgstr "εβδομάδα"
+
+msgid "weeks"
+msgstr "εβδομάδες"
+
+msgid "Message"
+msgstr "Μήνυμα"

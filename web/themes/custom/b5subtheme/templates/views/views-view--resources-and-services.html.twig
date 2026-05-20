@@ -25,15 +25,6 @@
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
 
 
-{% set menu_titles = {
-  'student_affairs': 'Student affairs',
-  'students_mobility': 'Student mobility',
-  'facilities': 'Facilities',
-  'university_life': 'University life',
-  'extra_academic_activities': 'Extra-academic activites'
-} %}
-
-
 <style>:root
 {
 	--university_primary_color: {{university_primary_color}}
@@ -45,7 +36,7 @@
 }</style><!--Por eiqui class="sticky-nav"--><div class="rs-header ">
 <div class="my-custom-container-2">
 	<div class="page-band">
-		<h1 class="rs-title">RESOURCES AND SERVICES</h1>
+		<h1 class="rs-title">{{ 'RESOURCES AND SERVICES'|t }}</h1>
 	</div>
 </div></div><nav id="fixed-navbar" class="fixed-navbar navbar-expand-lg bg-black">
 <div
@@ -98,19 +89,19 @@
 
 
 		<li class="nav-item">
-			<a class="nav-link nav-link-rs-menu fw-bold" href="#student-affairs">{{ menu_titles.student_affairs }}</a>
+			<a class="nav-link nav-link-rs-menu fw-bold" href="#student-affairs">{{ 'Student affairs'|t }}</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link nav-link-rs-menu  fw-bold" href="#facilities">{{ menu_titles.facilities }}</a>
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#facilities">{{ 'Facilities'|t }}</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link nav-link-rs-menu  fw-bold" href="#students-mobility">{{ menu_titles.students_mobility }}</a>
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#students-mobility">{{ 'Students mobility'|t }}</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link nav-link-rs-menu  fw-bold" href="#university-life">{{ menu_titles.university_life }}</a>
+			<a class="nav-link nav-link-rs-menu  fw-bold" href="#university-life">{{ 'University life'|t }}</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link nav-link-rs-menu fw-bold" href="#extra-academic-activities">{{ menu_titles.extra_academic_activities }}</a>
+			<a class="nav-link nav-link-rs-menu fw-bold" href="#extra-academic-activities">{{ 'Extra-academic activities'|t }}</a>
 		</li>
 	</ul>
 
@@ -156,11 +147,11 @@
 	{% if rs_mode == 'campus' %}
 		{% if rs_fallback_data.field_rs_students_affairs_office.rendered %}
 			<div class="col-12">
-				<h1 class="section-title">Students Affairs Office</h1>
+				<h1 class="section-title">{{ 'Students Affairs Office'|t }}</h1>
 				<div class="facility-text">
 					{{ rs_fallback_data.field_rs_students_affairs_office.rendered|raw }}
 					{% if rs_fallback_data.field_rs_students_affairs_office.source == 'institution' %}
-						<small class="text-muted">* For the whole institution</small>
+						<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 					{% else %}
 						<small class="text-muted"></small>
 					{% endif %}
@@ -173,7 +164,7 @@
 
 
 			<div class="col-12">
-				<h1 class="section-title">Students Affairs Office</h1>
+				<h1 class="section-title">{{ 'Students Affairs Office'|t }}</h1>
 				<div class="facility-text">
 					{{ rs.field_rs_students_affairs_office.value|raw }}
 				</div>
@@ -186,11 +177,11 @@
 	{% if rs_mode == 'campus' %}
 		{% if rs_fallback_data.field_financial_support_for_stud.rendered %}
 			<div class="col-md-6 mb-4">
-				<h1 class="section-title">Financial Support for Students</h1>
+				<h1 class="section-title">{{ 'Financial Support for Students'|t }}</h1>
 				<div class="facility-text">
 					{{ rs_fallback_data.field_financial_support_for_stud.rendered|raw }}
 					{% if rs_fallback_data.field_financial_support_for_stud.source == 'institution' %}
-						<small class="text-muted">* For the whole institution</small>
+						<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 					{% else %}
 						<small class="text-muted"></small>
 					{% endif %}
@@ -200,11 +191,11 @@
 
 		{% if rs_fallback_data.field_rs_insurance.rendered %}
 			<div class="col-md-6 mb-4">
-				<h1 class="section-title">Insurance</h1>
+				<h1 class="section-title">{{ 'Insurance'|t }}</h1>
 				<div class="facility-text">
 					{{ rs_fallback_data.field_rs_insurance.rendered|raw }}
 					{% if rs_fallback_data.field_rs_insurance.source == 'institution' %}
-						<small class="text-muted">* For the whole institution</small>
+						<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 					{% else %}
 						<small class="text-muted"></small>
 					{% endif %}
@@ -236,7 +227,7 @@
 	{% else %}
 		{% if rs.field_financial_support_for_stud.value is not empty %}
 			<div class="col-md-6 mb-4">
-				<h1 class="section-title">Financial Support for Students</h1>
+				<h1 class="section-title">{{ 'Financial Support for Students'|t }}</h1>
 				<div class="facility-text">
 					{{ rs.field_financial_support_for_stud.value|raw }}
 				</div>
@@ -245,7 +236,7 @@
 
 		{% if rs.field_rs_insurance.value is not empty %}
 			<div class="col-md-6 mb-4">
-				<h1 class="section-title">Insurance</h1>
+				<h1 class="section-title">{{ 'Insurance'|t }}</h1>
 				<div class="facility-text">
 					{{ rs.field_rs_insurance.value|raw }}
 				</div>
@@ -283,11 +274,11 @@
 	{% if rs_mode == 'campus' %}
 		{% if rs_fallback_data.field_rs_special_needs.rendered %}
 			<div class="col-12">
-				<h1 class="section-title">Support for students with disabilities and special needs</h1>
+				<h1 class="section-title">{{ 'Support for students with disabilities and special needs'|t }}</h1>
 				<div class="facility-text">
 					{{ rs_fallback_data.field_rs_special_needs.rendered|raw }}
 					{% if rs_fallback_data.field_rs_special_needs.source == 'institution' %}
-						<small class="text-muted">* For the whole institution</small>
+						<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 					{% else %}
 						<small class="text-muted"></small>
 					{% endif %}
@@ -300,7 +291,7 @@
 
 
 			<div class="col-12">
-				<h1 class="section-title">Support for students with disabilities and special needs</h1>
+				<h1 class="section-title">{{ 'Support for students with disabilities and special needs'|t }}</h1>
 				<div class="facility-text">
 					{{ rs.field_rs_special_needs.value|raw }}
 				</div>
@@ -376,7 +367,7 @@
 
 	<div class="section-container">
 		<div class="my-custom-container-2">
-			<div class="rs-section-image-text">Facilities</div>
+			<div class="rs-section-image-text">{{ 'Facilities'|t }}</div>
 		</div>
 	</div>
 </div>
@@ -391,11 +382,11 @@
 							<div class="facility-icon">
 								<i class="fas fa-hospital-alt"></i>
 							</div>
-							<h3>Medical Facilities</h3>
+							<h3>{{ 'Medical Facilities'|t }}</h3>
 							<div class="facility-text">
 								{{ rs_fallback_data.field_rs_medical_facilities.rendered|raw }}
 								{% if rs_fallback_data.field_rs_medical_facilities.source == 'institution' %}
-									<small class="text-warning">* For the whole institution</small>
+									<small class="text-warning">* {{ 'For the whole institution'|t }}</small>
 								{% else %}
 									<small class="text-warning"></small>
 								{% endif %}
@@ -410,11 +401,11 @@
 							<div class="facility-icon">
 								<i class="fas fa-graduation-cap"></i>
 							</div>
-							<h3>Learning Facilities</h3>
+							<h3>{{ 'Learning Facilities'|t }}</h3>
 							<div class="facility-text">
 								{{ rs_fallback_data.field_rs_learning_facilities.rendered|raw }}
 								{% if rs_fallback_data.field_rs_learning_facilities.source == 'institution' %}
-									<small class="text-warning">* For the whole institution</small>
+									<small class="text-warning">* {{ 'For the whole institution'|t }}</small>
 								{% else %}
 									<small class="text-warning"></small>
 								{% endif %}
@@ -429,7 +420,7 @@
 							<div class="facility-icon">
 								<i class="fas fa-hospital-alt"></i>
 							</div>
-							<h3>Medical Facilities</h3>
+							<h3>{{ 'Medical Facilities'|t }}</h3>
 							<div class="facility-text">
 								{{ rs.field_rs_medical_facilities.value|raw }}
 							</div>
@@ -443,7 +434,7 @@
 							<div class="facility-icon">
 								<i class="fas fa-graduation-cap"></i>
 							</div>
-							<h3>Learning Facilities</h3>
+							<h3>{{ 'Learning Facilities'|t }}</h3>
 							<div class="facility-text">
 								{{ rs.field_rs_learning_facilities.value|raw }}
 							</div>
@@ -461,11 +452,11 @@
 							<div class="facility-icon">
 								<i class="fas fa-dumbbell"></i>
 							</div>
-							<h3>Sport and Leisure Facilities</h3>
+							<h3>{{ 'Sport and Leisure Facilities'|t }}</h3>
 							<div class="facility-text">
 								{{ rs_fallback_data.field_sport_and_leisure_faciliti.rendered|raw }}
 								{% if rs_fallback_data.field_sport_and_leisure_faciliti.source == 'institution' %}
-									<small class="text-warning">* For the whole institution</small>
+									<small class="text-warning">* {{ 'For the whole institution'|t }}</small>
 								{% else %}
 									<small class="text-warning"></small>
 								{% endif %}
@@ -480,11 +471,11 @@
 							<div class="facility-icon">
 								<i class="fas fa-star"></i>
 							</div>
-							<h3>Special Facilities</h3>
+							<h3>{{ 'Special Facilities'|t }}</h3>
 							<div class="facility-text">
 								{{ rs_fallback_data.field_rs_special_facilities.rendered|raw }}
 								{% if rs_fallback_data.field_rs_special_facilities.source == 'institution' %}
-									<small class="text-warning">* For the whole institution</small>
+									<small class="text-warning">* {{ 'For the whole institution'|t }}</small>
 								{% else %}
 									<small class="text-warning"></small>
 								{% endif %}
@@ -521,7 +512,7 @@
 							<div class="facility-icon">
 								<i class="fas fa-dumbbell"></i>
 							</div>
-							<h3>Sport and Leisure Facilities</h3>
+							<h3>{{ 'Sport and Leisure Facilities'|t }}</h3>
 							<div class="facility-text">
 								{{ rs.field_sport_and_leisure_faciliti.value|raw }}
 							</div>
@@ -535,7 +526,7 @@
 							<div class="facility-icon">
 								<i class="fas fa-star"></i>
 							</div>
-							<h3>Special Facilities</h3>
+							<h3>{{ 'Special Facilities'|t }}</h3>
 							<div class="facility-text">
 								{{ rs.field_rs_special_facilities.value|raw }}
 							</div>
@@ -575,7 +566,7 @@
 
 <div class="section-container">
 	<div class="my-custom-container-2">
-		<div class="rs-section-image-text">Student Mobility</div>
+		<div class="rs-section-image-text">{{ 'Student Mobility'|t }}</div>
 	</div>
 </div></div><div class="section-container">
 <div class="my-custom-container-2">
@@ -583,11 +574,11 @@
 		{% if rs_mode == 'campus' %}
 			{% if rs_fallback_data.field_practical_information_for.rendered %}
 				<div class="col-12 mb-4">
-					<h1 class="section-title">Practical Information For Incoming Mobile Students</h1>
+					<h1 class="section-title">{{ 'Practical Information For Incoming Mobile Students'|t }}</h1>
 					<div class="facility-text">
 						{{ rs_fallback_data.field_practical_information_for.rendered|raw }}
 						{% if rs_fallback_data.field_practical_information_for.source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% else %}
 							<small class="text-muted"></small>
 						{% endif %}
@@ -597,7 +588,7 @@
 		{% else %}
 			{% if rs.field_practical_information_for.value is not empty %}
 				<div class="col-12 mb-4">
-					<h1 class="section-title">Practical Information For Incoming Mobile Students</h1>
+					<h1 class="section-title">{{ 'Practical Information For Incoming Mobile Students'|t }}</h1>
 					<div class="facility-text">
 						{{ rs.field_practical_information_for.value|raw }}
 					</div>
@@ -614,11 +605,11 @@
 		{% if rs_mode == 'campus' %}
 			{% if rs_fallback_data.field_visa.rendered %}
 				<div class="col-12 mb-4">
-					<h1 class="section-title">VISA</h1>
+					<h1 class="section-title">{{ 'VISA'|t }}</h1>
 					<div class="facility-text">
 						{{ rs_fallback_data.field_visa.rendered|raw }}
 						{% if rs_fallback_data.field_visa.source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% else %}
 							<small class="text-muted"></small>
 						{% endif %}
@@ -628,7 +619,7 @@
 		{% else %}
 			{% if rs.field_visa.value is not empty %}
 				<div class="col-12 mb-4">
-					<h1 class="section-title">VISA</h1>
+					<h1 class="section-title">{{ 'VISA'|t }}</h1>
 					<div class="facility-text">
 						{{ rs.field_visa.value|raw }}
 					</div>
@@ -719,7 +710,7 @@
 <img src="/themes/custom/b5subtheme/images/dacem-003.jpg" alt="University Life" class="img-fluid">
 <div class="section-container">
 	<div class="my-custom-container-2">
-		<div class="rs-section-image-text">University Life</div>
+		<div class="rs-section-image-text">{{ 'University Life'|t }}</div>
 	</div>
 </div></div><div class="section-container">
 <div class="my-custom-container-2">
@@ -727,11 +718,11 @@
 		{% if rs_mode == 'campus' %}
 			{% if rs_fallback_data.field_rs_cost_of_living.rendered %}
 				<div class="col-12">
-					<h1 class="section-title">Cost of Living</h1>
+					<h1 class="section-title">{{ 'Cost of Living'|t }}</h1>
 					<div class="facility-text">
 						{{ rs_fallback_data.field_rs_cost_of_living.rendered|raw }}
 						{% if rs_fallback_data.field_rs_cost_of_living.source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% else %}
 							<small class="text-muted"></small>
 						{% endif %}
@@ -741,7 +732,7 @@
 		{% else %}
 			{% if rs.field_rs_cost_of_living.value is not empty %}
 				<div class="col-12">
-					<h1 class="section-title">Cost of Living</h1>
+					<h1 class="section-title">{{ 'Cost of Living'|t }}</h1>
 					<div class="facility-text">
 						{{ rs.field_rs_cost_of_living.value|raw }}
 					</div>
@@ -754,11 +745,11 @@
 		{% if rs_mode == 'campus' %}
 			{% if rs_fallback_data.field_rs_housing.rendered %}
 				<div class="col-12">
-					<h1 class="section-title">Housing</h1>
+					<h1 class="section-title">{{ 'Housing'|t }}</h1>
 					<div class="facility-text">
 						{{ rs_fallback_data.field_rs_housing.rendered|raw }}
 						{% if rs_fallback_data.field_rs_housing.source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% else %}
 							<small class="text-muted"></small>
 						{% endif %}
@@ -768,7 +759,7 @@
 		{% else %}
 			{% if rs.field_rs_housing.value is not empty %}
 				<div class="col-12">
-					<h1 class="section-title">Housing</h1>
+					<h1 class="section-title">{{ 'Housing'|t }}</h1>
 					<div class="facility-text">
 						{{ rs.field_rs_housing.value|raw }}
 					</div>
@@ -785,11 +776,11 @@
 		{% if rs_mode == 'campus' %}
 			{% if rs_fallback_data.field_rs_transportation.rendered %}
 				<div class="col-md-6 mb-4">
-					<h1 class="section-title">Transport</h1>
+					<h1 class="section-title">{{ 'Transport'|t }}</h1>
 					<div class="facility-text">
 						{{ rs_fallback_data.field_rs_transportation.rendered|raw }}
 						{% if rs_fallback_data.field_rs_transportation.source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% else %}
 							<small class="text-muted"></small>
 						{% endif %}
@@ -799,11 +790,11 @@
 
 			{% if rs_fallback_data.field_rs_meals.rendered %}
 				<div class="col-md-6 mb-4">
-					<h1 class="section-title">Meals</h1>
+					<h1 class="section-title">{{ 'Meals'|t }}</h1>
 					<div class="facility-text">
 						{{ rs_fallback_data.field_rs_meals.rendered|raw }}
 						{% if rs_fallback_data.field_rs_meals.source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% else %}
 							<small class="text-muted"></small>
 						{% endif %}
@@ -813,7 +804,7 @@
 		{% else %}
 			{% if rs.field_rs_transportation.value is not empty %}
 				<div class="col-md-6 mb-4">
-					<h1 class="section-title">Transport</h1>
+					<h1 class="section-title">{{ 'Transport'|t }}</h1>
 					<div class="facility-text">
 						{{ rs.field_rs_transportation.value|raw }}
 					</div>
@@ -822,7 +813,7 @@
 
 			{% if rs.field_rs_meals.value is not empty %}
 				<div class="col-md-6 mb-4">
-					<h1 class="section-title">Meals</h1>
+					<h1 class="section-title">{{ 'Meals'|t }}</h1>
 					<div class="facility-text">
 						{{ rs.field_rs_meals.value|raw }}
 					</div>
@@ -834,7 +825,7 @@
 <img src="/themes/custom/b5subtheme/images/dacem-004.jpg" alt="Extra-academic Activities" class="img-fluid">
 <div class="section-container">
 	<div class="my-custom-container-2">
-		<div class="rs-section-image-text">Extra-academic Activities</div>
+		<div class="rs-section-image-text">{{ 'Extra-academic activities'|t }}</div>
 	</div>
 </div></div><div class="section-container">
 <div
@@ -849,12 +840,12 @@
 	{% if sa_has %}
 		<div class="row mb-5">
 			<div class="col-12">
-				<h1 class="section-title">Student Associations</h1>
+				<h1 class="section-title">{{ 'Student Associations'|t }}</h1>
 				<div class="facility-text">
 					{% if rs_mode == 'campus' %}
 						{{ sa_rendered|raw }}
 						{% if sa_source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% endif %}
 					{% else %}
 						{{ sa_value|raw }}
@@ -873,12 +864,12 @@
 	{% if wp_has %}
 		<div class="row mb-5">
 			<div class="col-12">
-				<h1 class="section-title">Work placement possibilities</h1>
+				<h1 class="section-title">{{ 'Work placement possibilities'|t }}</h1>
 				<div class="facility-text">
 					{% if rs_mode == 'campus' %}
 						{{ wp_rendered|raw }}
 						{% if wp_source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% endif %}
 					{% else %}
 						{{ wp_value|raw }}
@@ -897,12 +888,12 @@
 	{% if sp_has %}
 		<div class="row mb-5">
 			<div class="col-12">
-				<h1 class="section-title">Sport clubs/programs</h1>
+				<h1 class="section-title">{{ 'Sport clubs/programs'|t }}</h1>
 				<div class="facility-text">
 					{% if rs_mode == 'campus' %}
 						{{ sp_rendered|raw }}
 						{% if sp_source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% endif %}
 					{% else %}
 						{{ sp_value|raw }}
@@ -921,12 +912,12 @@
 	{% if lc_has %}
 		<div class="row mb-5">
 			<div class="col-12">
-				<h1 class="section-title">Language courses</h1>
+				<h1 class="section-title">{{ 'Language courses'|t }}</h1>
 				<div class="facility-text">
 					{% if rs_mode == 'campus' %}
 						{{ lc_rendered|raw }}
 						{% if lc_source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% endif %}
 					{% else %}
 						{{ lc_value|raw }}
@@ -945,12 +936,12 @@
 	{% if ec_has %}
 		<div class="row mb-5">
 			<div class="col-12">
-				<h1 class="section-title">Events and culture</h1>
+				<h1 class="section-title">{{ 'Events and culture'|t }}</h1>
 				<div class="facility-text">
 					{% if rs_mode == 'campus' %}
 						{{ ec_rendered|raw }}
 						{% if ec_source == 'institution' %}
-							<small class="text-muted">* For the whole institution</small>
+							<small class="text-muted">* {{ 'For the whole institution'|t }}</small>
 						{% endif %}
 					{% else %}
 						{{ ec_value|raw }}

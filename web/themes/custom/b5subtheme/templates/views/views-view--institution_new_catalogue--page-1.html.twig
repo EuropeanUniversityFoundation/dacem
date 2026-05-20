@@ -108,7 +108,7 @@
 								{% if catalogue_shac_code %}
 									<span style="color:white;font-weight:700;font-size:1.75rem;line-height:1;">{{ catalogue_shac_code }}</span>
 								{% endif %}
-								<h1 class="section-title" style="color:white;font-weight:400;">catalogue</h1>
+								<h1 class="section-title" style="color:white;font-weight:400;">{{ 'CATALOGUE'|t|lower }}</h1>
 							</div>
 							<div class="col-auto">
 								<div class="" role="group" aria-label="Catalogue type">
@@ -154,16 +154,16 @@
 						<div class="col-lg-2 institution-new-catalogue-sort">
 							<h3 class="subsection-title p-0 pb-2 m-0">
 								<i class="fas fa-sort-amount-down me-2"></i>
-								SORT
+								{{ 'Sort'|t|upper }}
 							</h3>
 
 							<div class="group-search-sort-buttons w-100">
 								<button class="btn btn-dark btn-sm btn-whithout-border-radius js-sort disabled" data-sort-by="title" data-sort-order="ASC">A - Z</button>
 
 
-								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_programme_level" data-sort-order="ASC">Level</button>
+								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_programme_level" data-sort-order="ASC">{{ 'Level'|t }}</button>
 
-								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_institution_country" data-sort-order="ASC">Country</button>
+								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_institution_country" data-sort-order="ASC">{{ 'Country'|t }}</button>
 							</div>
 
 
@@ -177,8 +177,8 @@
 								
 
 										{% set programme = row._entity %}
-										{% set institution = programme.field_programme_institution.entity ?? null %}
-										{% set ou = programme.field_programme_ou.entity ?? null %}
+										{% set institution = row.display_institution|default(programme.field_programme_institution.entity ?? null) %}
+										{% set ou = row.display_ou|default(programme.field_programme_ou.entity ?? null) %}
 
 										{% set logo_uri = null %}
 									{% if ou and ou.field_ou_picture.entity is defined %}
@@ -231,11 +231,17 @@
 																		ECTS</span>
 																{% endif %}
 
-																{% set langs = programme.field_programme_language_of_inst %}
-																{% if langs is not empty %}
+																{% set lang_labels = row.display_instruction_languages|default([]) %}
+																{% if lang_labels is empty %}
+																	{% set langs = programme.field_programme_language_of_inst %}
+																	{% if langs is not empty %}
+																		{% set lang_labels = langs|map(item => item.entity.label)|filter(label => label) %}
+																	{% endif %}
+																{% endif %}
+																{% if lang_labels is not empty %}
 																	<span class="mx-2">·</span>
 																	<span class="fst-italic">
-																		{{ langs|map(item => item.entity.label)|join(', ') }}
+																		{{ lang_labels|join(', ') }}
 																	</span>
 																{% endif %}
 															</div>
@@ -286,7 +292,7 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title" id="homeProgrammeModalLabel">Select Home Programme</h5>
+        <h5 class="modal-title" id="homeProgrammeModalLabel">{{ 'Select Home Programme'|t }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 

@@ -49,6 +49,38 @@ class InstitutionMenuBlock extends BlockBase
         return NULL;
     }
 
+    protected function getInstitutionResourcesNode(int $institution_id): ?NodeInterface
+    {
+        $query = \Drupal::database()->select('node_field_data', 'nfd');
+        $query->fields('nfd', ['nid']);
+        $query->innerJoin('node__field_rs_institution', 'rs_inst', 'rs_inst.entity_id = nfd.nid');
+        $query->leftJoin('node__field_rs_campus', 'rs_campus', 'rs_campus.entity_id = nfd.nid');
+        $query
+            ->condition('nfd.type', 'resources_and_services')
+            ->condition('nfd.status', 1)
+            ->condition('rs_inst.field_rs_institution_target_id', $institution_id)
+            ->isNull('rs_campus.entity_id')
+            ->range(0, 1);
+
+        $nid = $query->execute()->fetchField();
+        return $nid ? \Drupal\node\Entity\Node::load((int) $nid) : NULL;
+    }
+
+    protected function getCampusResourcesNode(int $campus_id): ?NodeInterface
+    {
+        $query = \Drupal::database()->select('node_field_data', 'nfd');
+        $query->fields('nfd', ['nid']);
+        $query->innerJoin('node__field_rs_campus', 'rs_campus', 'rs_campus.entity_id = nfd.nid');
+        $query
+            ->condition('nfd.type', 'resources_and_services')
+            ->condition('nfd.status', 1)
+            ->condition('rs_campus.field_rs_campus_target_id', $campus_id)
+            ->range(0, 1);
+
+        $nid = $query->execute()->fetchField();
+        return $nid ? \Drupal\node\Entity\Node::load((int) $nid) : NULL;
+    }
+
 
     /**
      * {@inheritdoc}
@@ -440,33 +472,32 @@ class InstitutionMenuBlock extends BlockBase
                         }
                     }
 
-                    $rs_nodes = [];
+                    $rs_node = NULL;
                     if ($rs_target_nid) {
-                        $storage = \Drupal::entityTypeManager()->getStorage('node');
                         if ($current_route === 'view.resources_and_services.page_1') {
-                            $rs_nodes = $storage->loadByProperties([
-                                'type' => 'resources_and_services',
-                                'field_rs_institution' => $rs_target_nid,
-                            ]);
+                            $rs_node = $this->getInstitutionResourcesNode($rs_target_nid);
                         }
                         else {
-                            $rs_nodes = $storage->loadByProperties([
-                                'type' => 'resources_and_services',
-                                'field_rs_campus' => $rs_target_nid,
-                            ]);
+                            $rs_node = $this->getCampusResourcesNode($rs_target_nid);
                         }
                     }
 
-                    $rs_node = reset($rs_nodes) ?: NULL;
                     if (!$rs_node || !$rs_node->hasTranslation($language->getId())) {
                         $rs_route_language = \Drupal::languageManager()->getLanguage('en');
                     }
 
+                    $route_langcode = $rs_route_language->getId();
+                    $route_alias = $rs_target_nid
+                        ? $alias_manager->getAliasByPath('/node/' . $rs_target_nid, $route_langcode)
+                        : '/' . trim($entity_name, '/');
+                    $route_alias = trim($route_alias, '/');
+                    $route_alias_parts = $route_alias !== '' ? explode('/', $route_alias) : [];
+
                     $route_parameters = [
-                        'arg_0' => \Drupal::routeMatch()->getParameter('arg_0'),
+                        'arg_0' => $route_alias_parts[0] ?? \Drupal::routeMatch()->getParameter('arg_0'),
                     ];
                     if ($current_route === 'view.resources_and_services.page_2') {
-                        $route_parameters['arg_1'] = \Drupal::routeMatch()->getParameter('arg_1');
+                        $route_parameters['arg_1'] = $route_alias_parts[1] ?? \Drupal::routeMatch()->getParameter('arg_1');
                     }
 
                     $url = Url::fromRoute($current_route, $route_parameters, [
@@ -531,20 +562,7 @@ class InstitutionMenuBlock extends BlockBase
             
 
             $rs_language = $current_language;
-            $rs_nodes = \Drupal::entityTypeManager()
-                ->getStorage('node')
-                ->loadByProperties([
-                    'type' => 'resources_and_services',
-                    'field_rs_institution' => $institution->id(),
-                ]);
-
-            $institution_rs = NULL;
-            foreach ($rs_nodes as $rs_node) {
-                if (!$rs_node->hasField('field_rs_campus') || $rs_node->get('field_rs_campus')->isEmpty()) {
-                    $institution_rs = $rs_node;
-                    break;
-                }
-            }
+            $institution_rs = $this->getInstitutionResourcesNode((int) $institution->id());
 
             if (!$institution_rs || !$institution_rs->hasTranslation($current_language)) {
                 $rs_language = 'en';
