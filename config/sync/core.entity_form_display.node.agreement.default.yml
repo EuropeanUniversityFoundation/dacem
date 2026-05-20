@@ -187,28 +187,28 @@ content:
     third_party_settings: {  }
   field_studies_students:
     type: number
-    weight: 133
+    weight: 145
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_studies_total_months:
     type: number
-    weight: 134
+    weight: 146
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_trainership_students:
     type: number
-    weight: 135
+    weight: 147
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_trainership_total_months:
     type: number
-    weight: 136
+    weight: 148
     region: content
     settings:
       placeholder: ''

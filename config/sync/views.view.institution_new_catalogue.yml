@@ -199,6 +199,20 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+              field_programme_ou_target_id:
+                plugin_id: bef_sliders
+                advanced:
+                  placeholder_text: ''
+                  collapsible: false
+                  collapsible_disable_automatic_open: false
+                  is_secondary: false
+                  hide_label: false
+                min: '0'
+                max: '5'
+                step: '1'
+                animate: '0'
+                animate_ms: '0'
+                orientation: horizontal
       access:
         type: perm
         options:

@@ -32,7 +32,6 @@ dependencies:
     - field.field.node.institution.field_institution_alliance
     - field.field.node.institution.field_institution_card_image
     - field.field.node.institution.field_institution_country
-    - field.field.node.institution.field_institution_department
     - field.field.node.institution.field_institution_email
     - field.field.node.institution.field_institution_map
     - field.field.node.institution.field_institution_phone
@@ -80,7 +79,7 @@ third_party_settings:
       label: Admission
       region: content
       parent_name: ''
-      weight: 21
+      weight: 22
       format_type: fieldset
       format_settings:
         classes: ''
@@ -141,7 +140,7 @@ third_party_settings:
       label: 'Admission Exchange Students'
       region: content
       parent_name: group_admission
-      weight: 53
+      weight: 54
       format_type: fieldset
       format_settings:
         classes: ''
@@ -157,7 +156,7 @@ third_party_settings:
       label: 'Admission Visiting Students'
       region: content
       parent_name: group_admission
-      weight: 54
+      weight: 55
       format_type: fieldset
       format_settings:
         classes: ''
@@ -173,7 +172,7 @@ third_party_settings:
       label: Policies
       region: content
       parent_name: ''
-      weight: 22
+      weight: 23
       format_type: fieldset
       format_settings:
         classes: ''
@@ -193,7 +192,7 @@ third_party_settings:
       label: Mobility
       region: content
       parent_name: ''
-      weight: 23
+      weight: 21
       format_type: fieldset
       format_settings:
         classes: ''
@@ -401,14 +400,6 @@ content:
     weight: 9
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_institution_department:
-    type: string_textfield
-    weight: 30
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_institution_email:
     type: email_default

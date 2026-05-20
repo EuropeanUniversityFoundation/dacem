@@ -233,7 +233,7 @@ display:
           entity_type: file
           entity_field: status
           plugin_id: field
-          label: Status
+          label: Estado
           exclude: false
           alter:
             alter_text: false
@@ -664,7 +664,7 @@ display:
           exposed: true
           expose:
             operator_id: status_op
-            label: Status
+            label: Estado
             description: ''
             use_operator: false
             operator: status_op

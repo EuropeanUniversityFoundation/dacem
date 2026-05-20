@@ -33,7 +33,6 @@ dependencies:
     - field.field.node.institution.field_institution_alliance
     - field.field.node.institution.field_institution_card_image
     - field.field.node.institution.field_institution_country
-    - field.field.node.institution.field_institution_department
     - field.field.node.institution.field_institution_email
     - field.field.node.institution.field_institution_map
     - field.field.node.institution.field_institution_phone
@@ -110,7 +109,6 @@ hidden:
   field_institution_alliance: true
   field_institution_card_image: true
   field_institution_country: true
-  field_institution_department: true
   field_institution_email: true
   field_institution_map: true
   field_institution_phone: true

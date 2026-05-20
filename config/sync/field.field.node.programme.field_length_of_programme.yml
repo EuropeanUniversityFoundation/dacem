@@ -9,7 +9,7 @@ id: node.programme.field_length_of_programme
 field_name: field_length_of_programme
 entity_type: node
 bundle: programme
-label: 'Length of Programme'
+label: 'Length of programme in academic terms'
 description: ''
 required: true
 translatable: false
