@@ -16196,6 +16196,28 @@ header {
   right: auto !important;
 }
 
+.catalogue-view .institution-new-catalogue-hero {
+  position: relative;
+  z-index: 20;
+  overflow: visible;
+}
+
+.catalogue-view > .section-container.bg-light {
+  position: relative;
+  z-index: 1;
+}
+
+.institution-new-catalogue-exposed-form,
+.institution-new-catalogue-filters,
+.institution-new-catalogue-filters .dropdown {
+  position: relative;
+  z-index: 1050;
+}
+
+.institution-new-catalogue-exposed-form .dropdown-menu.filter-menu {
+  z-index: 1060;
+}
+
 @media (max-width: 991.98px) {
   .institution-new-catalogue-hero {
     height: auto !important;
@@ -16611,7 +16633,7 @@ header {
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 5;
+  z-index: 2;
 }
 
 .mobility-badge img {
