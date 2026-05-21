@@ -135,6 +135,56 @@ function b5subtheme_referenced_entity_labels_for_language(EntityInterface $entit
   return array_filter($labels);
 }
 
+/**
+ * Builds the declared curriculum structure for a programme node.
+ */
+function b5subtheme_programme_curriculum_structure(?NodeInterface $programme): array
+{
+  $terms_per_year = 2;
+  $total_terms = 8;
+
+  if ($programme instanceof NodeInterface) {
+    if ($programme->hasField('field_number_of_terms') && !$programme->get('field_number_of_terms')->isEmpty()) {
+      $terms_per_year = (int) $programme->get('field_number_of_terms')->value;
+    }
+
+    if ($programme->hasField('field_length_of_programme') && !$programme->get('field_length_of_programme')->isEmpty()) {
+      $total_terms = (int) $programme->get('field_length_of_programme')->value;
+    }
+  }
+
+  $terms_per_year = max(1, $terms_per_year);
+  $total_terms = max(1, $total_terms);
+  $number_of_years = max(1, (int) ceil($total_terms / $terms_per_year));
+
+  $years = [];
+  for ($year = 1; $year <= $number_of_years; $year++) {
+    $years[(string) $year] = [
+      'id' => (string) $year,
+      'label' => t('Year @number', ['@number' => $year]),
+    ];
+  }
+
+  $terms = [];
+  $term_short_labels = [];
+  for ($term = 1; $term <= $terms_per_year; $term++) {
+    $terms[$term] = [
+      'id' => $term,
+      'label' => t('Term @number', ['@number' => $term]),
+    ];
+    $term_short_labels[(string) $term] = (string) $term;
+  }
+
+  return [
+    'terms_per_year' => $terms_per_year,
+    'total_terms' => $total_terms,
+    'number_of_years' => $number_of_years,
+    'years' => $years,
+    'terms' => $terms,
+    'term_short_labels' => $term_short_labels,
+  ];
+}
+
 
 
 
@@ -218,6 +268,16 @@ function b5subtheme_preprocess_views_view(&$variables)
     $variables['translations'] = $translations;
   } else {
     //\Drupal::logger('b5subtheme')->error('Translations file not found at path: @path', ['@path' => $path]);
+  }
+
+
+  if ($variables['view']->id() === 'programme_information') {
+    $programme = NULL;
+    if (!empty($variables['view']->result[0]->_entity) && $variables['view']->result[0]->_entity instanceof NodeInterface) {
+      $programme = $variables['view']->result[0]->_entity;
+    }
+
+    $variables['programme_curriculum'] = b5subtheme_programme_curriculum_structure($programme);
   }
 
 

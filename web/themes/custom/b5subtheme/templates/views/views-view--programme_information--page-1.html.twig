@@ -103,27 +103,29 @@
 	;
 	--university_emphasis_text_color: {{institution_emphasis_text_color}}
 	;
-}</style>{% set cuatrimestres_curso = {
-  '1': '1º',
-  '2': '2º',
-  '3': '3º',
-  '4': '4º',
-} %}{% set courses = {
-  '1': '1º Year',
-  '2': '2º Year',
-  '3': '3º Year',
-  '4': '4º Year'
-} %}{% set credit_types = [
+}</style>{% set curriculum = programme_curriculum|default({
+  'years': {
+    '1': {'id': '1', 'label': 'Year 1'|t},
+    '2': {'id': '2', 'label': 'Year 2'|t},
+    '3': {'id': '3', 'label': 'Year 3'|t},
+    '4': {'id': '4', 'label': 'Year 4'|t}
+  },
+  'terms': {
+    1: {'id': 1, 'label': 'Term 1'|t},
+    2: {'id': 2, 'label': 'Term 2'|t}
+  },
+  'term_short_labels': {
+    '1': '1',
+    '2': '2'
+  }
+}) %}{% set cuatrimestres_curso = curriculum.term_short_labels %}{% set courses = curriculum.years %}{% set credit_types = [
   'Core',
   'Mandatory',
   'Optional',
   'Other',
-] %}{# Inicialización del array credits #}{% set credits = {
-  '1o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'Other': 0},
-  '2o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'Other': 0},
-  '3o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'Other': 0},
-  '4o': {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'Other': 0}
-} %}{% for row in view.result %}
+] %}{# Inicialización del array credits #}{% set credits = {} %}{% for course_id, course in courses %}
+{% set credits = credits|merge({ (course_id): {'Core': 0, 'Mandatory': 0, 'Optional': 0, 'Other': 0} }) %}
+{% endfor %}{% for row in view.result %}
 {% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
 
 {% if iec.hasTranslation(current_language) %}
@@ -346,26 +348,22 @@
 							<div
 								class="tab-pane fade show active" id="pane-by-semester" role="tabpanel" aria-labelledby="tab-by-semester">
 
-								{# Definimos los semestres que queremos mostrar #}
-								{% set semester_terms = [1, 2] %}
-								{% set semester_labels = {
-						1: '1st term'|t,
-						2: '2nd term'|t
-					} %}
+								{# Terms declared by the programme structure. #}
+								{% set semester_terms = curriculum.terms %}
 
 
 								{# --- BOTONES DE SEMESTRE (como los de course) --- #}
 								<div class="custom-btn-group btn-group btn-group-adjustment mb-3" role="group" aria-label="{{ 'Terms'|t }}">
-									{% for term in semester_terms %}
-										{% set is_default_term = term == semester_terms|first %}
+									{% for term, term_info in semester_terms %}
+										{% set is_default_term = loop.first %}
 										<button type="button" class="btn btn-outline-primary toggle-button {{ is_default_term ? '' : 'collapsed' }}" data-bs-toggle="collapse" data-bs-target="#semester{{ term }}" aria-expanded="{{ is_default_term ? 'true' : 'false' }}" aria-controls="semester{{ term }}">
-											{{ semester_labels[term] }}
+											{{ term_info.label }}
 										</button>
 
 										{# Versión móvil: tabla dentro del propio loop (como en courses) #}
 										<div class="courses-container d-block d-sm-block d-md-none d-lg-none">
 											<div id="semester{{ term }}" class="collapse {{ is_default_term ? 'show' : '' }}" aria-expand>
-												<h4 class="subsection-title">{{ semester_labels[term] }}</h4>
+												<h4 class="subsection-title">{{ term_info.label }}</h4>
 												<table class="table table-bordered">
 													<thead>
 														<tr>
@@ -412,12 +410,12 @@
 																		{# Curso al que pertenece (usamos courses[year]) #}
 																		{% set course_year = translated_iec.field_iec_year[0].value %}
 																		{% if course_year in courses|keys %}
-																			{{ translations[current_language][courses[course_year]] }}
+																			{{ courses[course_year].label }}
 																		{% else %}
 																			{{ '-' }}
 																		{% endif %}
 																	</td>
-																	<td>{{ cuatrimestres_curso[term] }}</td>
+																	<td>{{ cuatrimestres_curso[term] ?? term }}</td>
 																	<td>
 																		{% if translated_iec.field_iec_credits is not empty %}
 																			{{ translated_iec.field_iec_credits[0].value }}
@@ -447,9 +445,9 @@
 
 								{# --- Versión escritorio: tablas debajo, como en By course --- #}
 								<div class="courses-container d-none d-md-block d-lg-block">
-									{% for term in semester_terms %}
-										<div id="semester{{ term }}" class="collapse {{ term == semester_terms|first ? 'show' : '' }}">
-											<h4 class="subsection-title">{{ semester_labels[term] }}</h4>
+									{% for term, term_info in semester_terms %}
+										<div id="semester{{ term }}" class="collapse {{ loop.first ? 'show' : '' }}">
+											<h4 class="subsection-title">{{ term_info.label }}</h4>
 											<table class="table table-bordered">
 												<thead>
 													<tr>
@@ -494,12 +492,12 @@
 																<td>
 																	{% set course_year = translated_iec.field_iec_year[0].value %}
 																	{% if course_year in courses|keys %}
-																		{{ translations[current_language][courses[course_year]] }}
+																		{{ courses[course_year].label }}
 																	{% else %}
 																		{{ '-' }}
 																	{% endif %}
 																</td>
-																<td>{{ cuatrimestres_curso[term] }}</td>
+																<td>{{ cuatrimestres_curso[term] ?? term }}</td>
 																<td>
 																	{% if translated_iec.field_iec_credits is not empty %}
 																		{{ translated_iec.field_iec_credits[0].value }}
@@ -536,15 +534,15 @@
 
 								<!-- Contenedor de los botones de los cursos -->
 								<div class="custom-btn-group btn-group btn-group-adjustment mb-3" role="group" aria-label="{{ 'Courses'|t }}">
-									{% for course_id, course_name in courses %}
+									{% for course_id, course in courses %}
 										<button type="button" class="btn btn-outline-primary toggle-button {{ loop.first ? '' : 'collapsed' }}" data-bs-toggle="collapse" data-bs-target="#course{{ loop.index }}" aria-expanded="{{ loop.first ? 'true' : 'false' }}" aria-controls="course{{ loop.index }}">
-											{{ translations[current_language][course_name] }}
+											{{ course.label }}
 										</button>
 
 										{# Versión móvil (tablas dentro de cada botón) #}
 										<div class="courses-container d-block d-sm-block d-md-none d-lg-none">
 											<div id="course{{ loop.index }}" class="collapse {{ loop.first ? 'show' : '' }}">
-												<h4 class="subsection-title">{{ translations[current_language][course_name] }}</h4>
+												<h4 class="subsection-title">{{ course.label }}</h4>
 												<table class="table table-bordered">
 													<thead>
 														<tr>
@@ -585,7 +583,7 @@
 																			{{ translated_iec.title.value }}
 																		</a>
 																	</td>
-																	<td>{{ cuatrimestres_curso[translated_iec.field_iec_term[0].value] }}</td>
+																	<td>{{ cuatrimestres_curso[translated_iec.field_iec_term[0].value] ?? translated_iec.field_iec_term[0].value }}</td>
 																	<td>
 																		{% if translated_iec.field_iec_credits is not empty %}
 																			{{ translated_iec.field_iec_credits[0].value|t|capitalize }}
@@ -615,9 +613,9 @@
 
 								<!-- Contenedor de las tablas colapsables, siempre debajo de los botones (desktop) -->
 								<div class="courses-container d-none d-md-block d-lg-block">
-									{% for course_id, course_name in courses %}
+									{% for course_id, course in courses %}
 										<div id="course{{ loop.index }}" class="collapse {{ loop.first ? 'show' : '' }}">
-											<h4 class="subsection-title">{{ translations[current_language][course_name] }}</h4>
+											<h4 class="subsection-title">{{ course.label }}</h4>
 											<table class="table table-bordered">
 												<thead>
 													<tr>
@@ -658,7 +656,7 @@
 																		{{ translated_iec.title.value }}
 																	</a>
 																</td>
-																<td>{{ cuatrimestres_curso[translated_iec.field_iec_term[0].value] }}</td>
+																<td>{{ cuatrimestres_curso[translated_iec.field_iec_term[0].value] ?? translated_iec.field_iec_term[0].value }}</td>
 																<td>
 																	{% if translated_iec.field_iec_credits is not empty %}
 																		{{ translated_iec.field_iec_credits[0].value }}
