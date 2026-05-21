@@ -5,6 +5,8 @@ admin_area.my_area:
     _title: 'My Area'
   requirements:
     _permission: 'access content'
+  options:
+    _admin_route: TRUE
 
 
 
@@ -19,6 +21,8 @@ admin_area.my_entity_page:
   requirements:
     _permission: 'access content'
     entity_type: '[a-z_]+'
+  options:
+    _admin_route: TRUE
 
 admin_area.admin_agreements_page:
   path: '/admin/admin-agreements'
@@ -28,6 +32,8 @@ admin_area.admin_agreements_page:
     entity_type: 'agreement'
   requirements:
     _permission: 'access content'
+  options:
+    _admin_route: TRUE
 
 
 admin_area.redirect_create_user:
@@ -37,3 +43,5 @@ admin_area.redirect_create_user:
     _title: 'Redirect to Create User Form'
   requirements:
     _permission: 'access content'
+  options:
+    _admin_route: TRUE

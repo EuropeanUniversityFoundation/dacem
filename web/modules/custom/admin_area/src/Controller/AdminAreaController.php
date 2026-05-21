@@ -105,7 +105,10 @@ class AdminAreaController extends ControllerBase
     $route_name = $route_maps[$entity_type][$role];
     \Drupal::logger('admin_area')->info('Redirigimos a ' . $route_name);
 
-    return new RedirectResponse(Url::fromRoute($route_name)->toString());
+    $en = \Drupal::languageManager()->getLanguage('en');
+    $options = $en ? ['language' => $en] : [];
+
+    return new RedirectResponse(Url::fromRoute($route_name, [], $options)->toString());
   }
 
   /**
@@ -153,11 +156,17 @@ public function redirectToCreateUserForm() {
   $membership = reset($memberships);
   $group = $membership->getGroup();
 
+  $en = \Drupal::languageManager()->getLanguage('en');
+  $options = [
+    'query' => ['destination' => '/en/admin/admin-users'],
+  ];
+  if ($en) {
+    $options['language'] = $en;
+  }
+
   $url = Url::fromRoute('create_user_group.create_user_form', [
     'group' => $group->id(),
-  ], [
-    'query' => ['destination' => '/admin/admin-users'],
-  ]);
+  ], $options);
 
   return new RedirectResponse($url->toString());
 }

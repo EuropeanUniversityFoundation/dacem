@@ -1,5 +1,6 @@
 <?php
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
@@ -110,6 +111,21 @@ function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
     }
   }
 
+  $is_node_translation_delete_form = FALSE;
+  if (str_starts_with($form_id, 'node_') && str_ends_with($form_id, '_delete_form')) {
+    $form_object = $form_state->getFormObject();
+    $entity = $form_object && method_exists($form_object, 'getEntity') ? $form_object->getEntity() : NULL;
+    $is_node_translation_delete_form = $entity instanceof Node && !$entity->isDefaultTranslation();
+  }
+
+  if ($form_id === 'content_translation_delete_confirm' || $is_node_translation_delete_form) {
+    $form['admin_area_delete_destination'] = [
+      '#type' => 'hidden',
+      '#value' => admin_area_translation_delete_destination_from_request($form_state) ?: '',
+    ];
+    $form['actions']['submit']['#submit'][] = 'admin_area_redirect_after_translation_delete';
+  }
+
 
 
   $entity_types = ['programme', 'institution', 'resources_and_services', 'individual_educational_component', 'campus', 'organizational_unit', 'academic_authority'];
@@ -147,6 +163,70 @@ function admin_area_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $for
 
 
 
+}
+
+/**
+ * Redirects after deleting a translation to the page that started the flow.
+ */
+function admin_area_redirect_after_translation_delete(array &$form, FormStateInterface $form_state): void {
+  $destination = $form_state->getValue('admin_area_delete_destination');
+
+  if (!$destination) {
+    $destination = admin_area_translation_delete_destination_from_request($form_state);
+  }
+
+  if ($destination && UrlHelper::isValid($destination) && !UrlHelper::isExternal($destination)) {
+    $form_state->setRedirectUrl(Url::fromUserInput($destination));
+  }
+}
+
+/**
+ * Finds the best internal destination for a translation delete form.
+ */
+function admin_area_translation_delete_destination_from_request(FormStateInterface $form_state): ?string {
+  $request = \Drupal::requestStack()->getCurrentRequest();
+  $destination = $request->query->get('destination');
+
+  if (!$destination) {
+    $referer = $request->headers->get('referer');
+    if ($referer) {
+      $referer_parts = parse_url($referer);
+      if (!empty($referer_parts['query'])) {
+        parse_str($referer_parts['query'], $query);
+        $destination = $query['destination'] ?? NULL;
+      }
+
+      if (!$destination && !empty($referer_parts['path']) && !admin_area_is_translation_delete_path($referer_parts['path'])) {
+        $destination = $referer_parts['path'];
+        if (!empty($referer_parts['query'])) {
+          $destination .= '?' . $referer_parts['query'];
+        }
+      }
+    }
+  }
+
+  if ($destination && UrlHelper::isValid($destination) && !UrlHelper::isExternal($destination)) {
+    return $destination;
+  }
+
+  $form_object = $form_state->getFormObject();
+  $entity = $form_object && method_exists($form_object, 'getEntity') ? $form_object->getEntity() : NULL;
+  if ($entity instanceof Node) {
+    return Url::fromRoute('entity.node.content_translation_overview', [
+      'node' => $entity->id(),
+    ], [
+      'language' => \Drupal::languageManager()->getLanguage('en'),
+    ])->toString();
+  }
+
+  return NULL;
+}
+
+/**
+ * Returns TRUE when the path is the delete confirmation itself.
+ */
+function admin_area_is_translation_delete_path(string $path): bool {
+  return str_ends_with($path, '/delete') || str_contains($path, '/translations/delete/');
 }
 
 
