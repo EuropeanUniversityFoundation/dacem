@@ -290,6 +290,11 @@ class InstitutionMenuBlock extends BlockBase
            
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
     
+        } elseif ($current_route === 'view.institution_new_catalogue.page_3') {
+            $current_page = 'catalogue';
+
+            $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+
         } elseif ($current_route === 'view.iec_instance.page_1') {
             $current_page = 'catalogue';
            
@@ -440,7 +445,8 @@ class InstitutionMenuBlock extends BlockBase
 
                 if (
                     $current_route === 'view.institution_new_catalogue.page_1' || // programmes
-                    $current_route === 'view.institution_new_catalogue.page_2'        // iecs
+                    $current_route === 'view.institution_new_catalogue.page_2' || // iecs
+                    $current_route === 'view.institution_new_catalogue.page_3'    // programmes index
                 ) {
                     $url = Url::fromRoute($current_route, [
                         'arg_0' => $institution->id(),
@@ -543,10 +549,11 @@ class InstitutionMenuBlock extends BlockBase
                 $institution_alias = substr($institution_alias, strlen($language_prefix));
             }
 
-            // Construir la URL con el formato correcto
-            //$catalogue_url = $language_prefix . '/catalogue/' . $institution->id() . '/programmes';
-         
-            $catalogue_url =  $current_language . '/catalogue/' . $institution->id() . '/programmes';
+            $catalogue_url = Url::fromRoute('view.institution_new_catalogue.page_3', [
+                'arg_0' => $institution->id(),
+            ], [
+                'language' => \Drupal::languageManager()->getLanguage($current_language),
+            ])->toString();
             
             
 
@@ -625,6 +632,9 @@ class InstitutionMenuBlock extends BlockBase
             $gi_aria = $gi_active ? ' aria-current="page"' : '';
             $cat_aria = $cat_active ? ' aria-current="page"' : '';
             $rs_aria = $rs_active ? ' aria-current="page"' : '';
+            $main_page_url = Url::fromRoute('view.main_page.page_1', [], [
+                'language' => \Drupal::languageManager()->getLanguage($current_language),
+            ])->toString();
 
             $build = [
                 '#markup' => $this->t('
@@ -633,7 +643,7 @@ class InstitutionMenuBlock extends BlockBase
       <div class="container-fluid">
 
         <!-- Logo -->
-        <a class="navbar-brand" href="/main-page">
+        <a class="navbar-brand" href="@main_page_url">
           <img src="@logo_dacem_url" alt="@dacem" class="university-logo d-inline-block align-text-top">
         </a>
 
@@ -655,7 +665,7 @@ class InstitutionMenuBlock extends BlockBase
             </li>
             
             <li class="nav-item">
-              <a class="nav-link' . $cat_active . '" href="/' . $catalogue_url . '"' . $cat_aria . '>' . $menu_translations['CATALOGUE'] . '</a>
+              <a class="nav-link' . $cat_active . '" href="' . $catalogue_url . '"' . $cat_aria . '>' . $menu_translations['CATALOGUE'] . '</a>
             </li>
             <li class="nav-item">
               <a class="nav-link' . $rs_active . '" href="' . $rs_url . '"' . $rs_aria . '>' . $menu_translations['RESOURCES AND SERVICES'] . '</a>
@@ -685,6 +695,7 @@ class InstitutionMenuBlock extends BlockBase
     
   </div>',
                     [
+                        '@main_page_url' => $main_page_url,
                         '@logo_dacem_url' => $site_menu_logo_url,
                         '@logo_url' => $logo_url,
                         '@university_name' => $institution->getTitle(),

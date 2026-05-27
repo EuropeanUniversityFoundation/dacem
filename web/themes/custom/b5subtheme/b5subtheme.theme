@@ -136,6 +136,23 @@ function b5subtheme_referenced_entity_labels_for_language(EntityInterface $entit
 }
 
 /**
+ * Returns ISCED-F labels in the requested language, falling back to English.
+ */
+function b5subtheme_isced_labels_for_language(string $langcode): array
+{
+  $isced = new IscedFieldsOfStudy();
+  $labels = [];
+
+  foreach ($isced->getLabeledList() as $code => $label) {
+    // ISCED labels are provided by the isced_field translation catalogue.
+    // phpcs:ignore Drupal.Semantics.FunctionT.NotLiteralString
+    $labels[$code] = (string) t($label, [], ['langcode' => $langcode]);
+  }
+
+  return $labels;
+}
+
+/**
  * Builds the declared curriculum structure for a programme node.
  */
 function b5subtheme_programme_curriculum_structure(?NodeInterface $programme): array
@@ -364,6 +381,9 @@ function b5subtheme_preprocess_views_view(&$variables)
 
     $variables['main_banner_image'] = $branding['main_banner_image'] ?? '/themes/custom/b5subtheme/images/dacem-008.jpg';
     $variables['main_page_primary_color'] = $branding['primary_color'] ?? '#ff4949';
+    $variables['main_page_search_programme_url'] = Url::fromRoute('view.search_programme.page_1', [], [
+      'language' => \Drupal::languageManager()->getLanguage($current_language),
+    ])->toString();
 
 
 
@@ -421,6 +441,136 @@ function b5subtheme_preprocess_views_view(&$variables)
       !$institution->get('field_shac_code')->isEmpty()
         ? $institution->get('field_shac_code')->value
         : '';
+
+    $route_language = \Drupal::languageManager()->getLanguage($current_language);
+    $variables['catalogue_programmes_search_url'] = Url::fromRoute('view.institution_new_catalogue.page_1', ['arg_0' => $institution_id], [
+      'language' => $route_language,
+    ])->toString();
+    $variables['catalogue_programmes_index_url'] = Url::fromRoute('view.institution_new_catalogue.page_3', ['arg_0' => $institution_id], [
+      'language' => $route_language,
+    ])->toString();
+    $variables['catalogue_courses_url'] = Url::fromRoute('view.institution_new_catalogue.page_2', ['arg_0' => $institution_id], [
+      'language' => $route_language,
+    ])->toString();
+
+    if ($variables['view']->current_display === 'page_3') {
+      $generic_area_key = 'generic';
+      $isced_labels = b5subtheme_isced_labels_for_language($current_language);
+      $programmes_by_area = [];
+      $area_meta = [];
+      $seen = [];
+
+      foreach ($variables['view']->result as $row) {
+        $programme = $row->_entity ?? NULL;
+        if (!$programme instanceof NodeInterface) {
+          continue;
+        }
+
+        $programme = b5subtheme_entity_for_language_with_fallback($programme, $current_language);
+        $seen_key = $programme->id();
+        if (isset($seen[$seen_key])) {
+          continue;
+        }
+        $seen[$seen_key] = TRUE;
+
+        $lvl_raw = $programme->hasField('field_eqf_level')
+          ? strtolower($programme->get('field_eqf_level')->value ?? '')
+          : '';
+        if (str_starts_with($lvl_raw, '6')) {
+          $level = 'B';
+        }
+        elseif (str_starts_with($lvl_raw, '7')) {
+          $level = 'M';
+        }
+        elseif (str_starts_with($lvl_raw, '8')) {
+          $level = 'PhD';
+        }
+        else {
+          $programme_level = $programme->hasField('field_programme_level')
+            ? strtolower($programme->get('field_programme_level')->value ?? '')
+            : '';
+          $level = [
+            'bachelor' => 'B',
+            'master' => 'M',
+            'phd' => 'PhD',
+          ][$programme_level] ?? NULL;
+        }
+
+        if (!$level) {
+          continue;
+        }
+
+        $programme_area_keys = [];
+        if ($programme->hasField('field_isced_f') && !$programme->get('field_isced_f')->isEmpty()) {
+          foreach ($programme->get('field_isced_f') as $item) {
+            $broad_key = $item->broad ?? '';
+            if ($broad_key !== '') {
+              $programme_area_keys[$broad_key] = $broad_key;
+            }
+          }
+        }
+        if ($programme_area_keys === []) {
+          $programme_area_keys[$generic_area_key] = $generic_area_key;
+        }
+
+        foreach ($programme_area_keys as $area_key) {
+          if (!isset($programmes_by_area[$area_key])) {
+            $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
+          }
+
+          if (!isset($area_meta[$area_key])) {
+            $area_meta[$area_key] = [
+              'label' => $area_key === $generic_area_key
+                ? (string) t('Other', [], ['langcode' => $current_language])
+                : ($isced_labels[$area_key] ?? $area_key),
+              'icon' => 'fas fa-folder',
+            ];
+          }
+
+          $programmes_by_area[$area_key][$level][] = [
+            'id' => $programme->id(),
+            'label' => $programme->label(),
+            'level_code' => $programme->hasField('field_eqf_level') ? ($programme->get('field_eqf_level')->value ?? '') : '',
+            'programme_url' => $row->custom_url ?? NULL,
+            'ects' => $programme->hasField('field_credits') && !$programme->get('field_credits')->isEmpty()
+              ? $programme->get('field_credits')->value
+              : NULL,
+            'interuniversity' => $programme->hasField('field_interuniversity') && !$programme->get('field_interuniversity')->isEmpty()
+              ? (bool) $programme->get('field_interuniversity')->value
+              : FALSE,
+          ];
+        }
+      }
+
+      foreach ($programmes_by_area as $area => $levels) {
+        foreach (['B', 'M', 'PhD'] as $lev) {
+          usort($programmes_by_area[$area][$lev], static function ($a, $b) {
+            return strcasecmp($a['label'], $b['label']);
+          });
+        }
+      }
+
+      $area_meta_filtered = [];
+      foreach ($programmes_by_area as $area_key => $levels) {
+        $total = count($levels['B']) + count($levels['M']) + count($levels['PhD']);
+        if ($total > 0) {
+          $area_meta_filtered[$area_key] = $area_meta[$area_key];
+        }
+      }
+
+      if (isset($area_meta_filtered[$generic_area_key])) {
+        $generic_area = $area_meta_filtered[$generic_area_key];
+        unset($area_meta_filtered[$generic_area_key]);
+        ksort($area_meta_filtered, SORT_NATURAL);
+        $area_meta_filtered[$generic_area_key] = $generic_area;
+      }
+      else {
+        ksort($area_meta_filtered, SORT_NATURAL);
+      }
+
+      $variables['area_meta'] = $area_meta_filtered;
+      $variables['programmes_by_area'] = $programmes_by_area;
+    }
   }
   else {
 
@@ -432,6 +582,9 @@ function b5subtheme_preprocess_views_view(&$variables)
     $variables['catalogue_university_text_color'] = '#000000';
     $variables['catalogue_university_emphasis_text_color'] = '#000000';
     $variables['catalogue_shac_code'] = '';
+    $variables['catalogue_programmes_search_url'] = NULL;
+    $variables['catalogue_programmes_index_url'] = NULL;
+    $variables['catalogue_courses_url'] = NULL;
   }
 
 
@@ -1262,8 +1415,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $area_meta_filtered = [];
     $generic_area_key = 'generic';
-    $isced = new IscedFieldsOfStudy();
-    $isced_labels = $isced->getLabeledList();
+    $isced_labels = b5subtheme_isced_labels_for_language($langcode);
     $programmes_by_area = [];
     $area_meta = [];
 
@@ -1356,7 +1508,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         if (!isset($area_meta[$area_key])) {
           $area_meta[$area_key] = [
             'label' => $area_key === $generic_area_key
-              ? (string) t('Other')
+              ? (string) t('Other', [], ['langcode' => $langcode])
               : ($isced_labels[$area_key] ?? $area_key),
             'icon' => 'fas fa-folder',
           ];
@@ -1430,8 +1582,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $area_meta_filtered = [];
     $generic_area_key = 'generic';
-    $isced = new IscedFieldsOfStudy();
-    $isced_labels = $isced->getLabeledList();
+    $isced_labels = b5subtheme_isced_labels_for_language($langcode);
     $programmes_by_area = [];
     $area_meta = [];
 
@@ -1526,7 +1677,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         if (!isset($area_meta[$area_key])) {
           $area_meta[$area_key] = [
             'label' => $area_key === $generic_area_key
-              ? (string) t('Other')
+              ? (string) t('Other', [], ['langcode' => $langcode])
               : ($isced_labels[$area_key] ?? $area_key),
             'icon' => 'fas fa-folder',
           ];
@@ -1924,7 +2075,7 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
     return;
   }
 
-  if ($view->current_display === 'page_1') {
+  if ($view->current_display === 'page_1' || $view->current_display === 'page_3') {
     $current_language = \Drupal::languageManager()
       ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
       ->getId();
@@ -1984,7 +2135,8 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
         . '/'
         . $programme_slug;
 
-      \Drupal::logger('catalogue_debug')->notice('Generated custom_url for page_1 nid @nid: @url', [
+      \Drupal::logger('catalogue_debug')->notice('Generated custom_url for @display nid @nid: @url', [
+        '@display' => $view->current_display,
         '@nid' => $programme_for_url->id(),
         '@url' => $row->custom_url,
       ]);

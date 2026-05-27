@@ -562,7 +562,7 @@ function admin_area_form_node_organizational_unit_form_alter(array &$form, \Drup
 
 function admin_area_form_node_programme_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   
-    $form['field_programme_ou']['#disabled'] = TRUE;
+    #$form['field_programme_ou']['#disabled'] = TRUE;
   
 
 }

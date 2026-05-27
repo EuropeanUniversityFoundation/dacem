@@ -110,6 +110,15 @@ if (!$show_block) {
 
     }
 
+    $current_language_object = $language_manager->getLanguage($current_language);
+    $language_options_url = $current_language_object ? ['language' => $current_language_object] : [];
+    $main_page_url = Url::fromRoute('view.main_page.page_1', [], $language_options_url)->toString();
+    $institutions_url = Url::fromRoute('view.main_page.page_1', [], $language_options_url + [
+      'fragment' => 'institutions',
+    ])->toString();
+    $about_url = Url::fromUserInput('/about', $language_options_url)->toString();
+    $contact_url = Url::fromUserInput('/contact', $language_options_url)->toString();
+
     // Obtain the current user to display their profile picture
     $current_user = \Drupal::currentUser();
     $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
@@ -157,7 +166,7 @@ if (!$show_block) {
   '#markup' => $this->t('
     <nav class="navbar sticky-top navbar-expand-lg university-navbar" style="--university_primary_color: @site_primary_color; --university_emphasis_text_color: #fff;">
       <div class="container-fluid">
-          <a class="navbar-brand" href="/">
+          <a class="navbar-brand" href="@main_page_url">
               <img src="@menu_image_url" alt="DACEM Logo" class="menu-logo d-inline-block align-text-top">
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#universityNavbar" aria-controls="universityNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -165,9 +174,9 @@ if (!$show_block) {
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="universityNavbar">
               <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="/about">' . $this->t('ABOUT') . '</a></li>
-                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="/#institutions">' . $this->t('INSTITUTIONS') . '</a></li>
-                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="/contact">' . $this->t('CONTACT') . '</a></li>
+                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="@about_url">' . $this->t('ABOUT') . '</a></li>
+                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="@institutions_url">' . $this->t('INSTITUTIONS') . '</a></li>
+                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="@contact_url">' . $this->t('CONTACT') . '</a></li>
               </ul>
               <div class="d-flex ms-lg-2 right-buttons-university-menu">
                   <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -186,6 +195,10 @@ if (!$show_block) {
       </div>
     </nav>',
     [
+      '@main_page_url' => $main_page_url,
+      '@about_url' => $about_url,
+      '@institutions_url' => $institutions_url,
+      '@contact_url' => $contact_url,
       '@menu_image_url' => $logo_url,
       '@site_primary_color' => $primary_color,
     ]

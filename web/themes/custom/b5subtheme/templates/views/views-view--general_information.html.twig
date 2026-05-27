@@ -26,8 +26,8 @@
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
 }</style>{#
-																		<div class="university-menu-block">
-																		{{ page.header }}</div>#}<div class="rs-header ">
+																			<div class="university-menu-block">
+																			{{ page.header }}</div>#}<div class="rs-header ">
 <div class="my-custom-container-2">
 	<div class="page-band">
 		<h1 class="rs-title">{{ 'INSTITUTIONAL INFORMATION'|t }}</h1>
@@ -36,65 +36,64 @@
 <div
 	class="my-custom-constainer">
 	<!-- Menú desplegable para pantallas pequeñas -->
-	<div
-		class="dropdown d-lg-none w-100">
-    {% set first_menu_section = menu_sections|first %}
-    {% set dropdown_label = first_menu_section.label|default('Menu'|t) %}
-    <button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold bg-black border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      {{ dropdown_label }}
-    </button>
+	<div class="dropdown d-lg-none w-100">
+		{% set first_menu_section = menu_sections|first %}
+		{% set dropdown_label = first_menu_section.label|default('Menu'|t) %}
+		<button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold bg-black border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			{{ dropdown_label }}
+		</button>
 
 		<ul
 			class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
 			<!--
-												<li>
-													<a class="dropdown-item fw-bold" href="#description">{{ 'Description'|t }}</a>
-												</li>
-												<li>
-													<a class="dropdown-item fw-bold" href="#academic-authorities">{{ 'Authorities'|t }}</a>
-												</li>
-												<li>
-													<a class="dropdown-item fw-bold" href="#admission">{{ 'Admission'|t }}</a>
-												</li>
-												<li>
-													<a class="dropdown-item fw-bold" href="#ects-allocation-policty">{{ 'ECTS Policies'|t }}</a>
-												</li>
-												<li>
-													<a class="dropdown-item fw-bold" href="#mobility">{{ 'Mobility'|t }}</a>
-												</li>
-												<li>
-													<a class="dropdown-item fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
-												</li>
-												<li>
-													<a class="dropdown-item fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
-												</li>
-												-->
+															<li>
+																<a class="dropdown-item fw-bold" href="#description">{{ 'Description'|t }}</a>
+															</li>
+															<li>
+																<a class="dropdown-item fw-bold" href="#academic-authorities">{{ 'Authorities'|t }}</a>
+															</li>
+															<li>
+																<a class="dropdown-item fw-bold" href="#admission">{{ 'Admission'|t }}</a>
+															</li>
+															<li>
+																<a class="dropdown-item fw-bold" href="#ects-allocation-policty">{{ 'ECTS Policies'|t }}</a>
+															</li>
+															<li>
+																<a class="dropdown-item fw-bold" href="#mobility">{{ 'Mobility'|t }}</a>
+															</li>
+															<li>
+																<a class="dropdown-item fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
+															</li>
+															<li>
+																<a class="dropdown-item fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
+															</li>
+															-->
 
 
 			{% for section in menu_sections %}
 				<li class="nav-item">
-          <a class="dropdown-item fw-bold" href="#{{ section.id }}">
+					<a class="dropdown-item fw-bold" href="#{{ section.id }}">
 						{{ section.label }}
 					</a>
 				</li>
 
-        {% if section.id == 'description' %}
-          {% if aa_results|length > 0 %}
-					<li class="nav-item">
-              <a class="dropdown-item fw-bold" href="#academic-authorities">
-							{{ 'Contacts'|t }}
-						</a>
-					</li>
+				{% if section.id == 'description' %}
+					{% if aa_results|length > 0 %}
+						<li class="nav-item">
+							<a class="dropdown-item fw-bold" href="#academic-authorities">
+								{{ 'Contacts'|t }}
+							</a>
+						</li>
 
-          {% endif %}
+					{% endif %}
 				{% endif %}
 
-      {% endfor %}
+			{% endfor %}
 
 
 			{% if campuses is not empty %}
 				<li class="nav-item">
-          <a class="dropdown-item fw-bold" href="#campuses">
+					<a class="dropdown-item fw-bold" href="#campuses">
 						{{ 'Campuses'|t }}
 					</a>
 				</li>
@@ -102,7 +101,7 @@
 
 			{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}
 				<li class="nav-item">
-          <a class="dropdown-item fw-bold" href="#organizational-units">
+					<a class="dropdown-item fw-bold" href="#organizational-units">
 						{{ 'Org. Units'|t }}
 					</a>
 				</li>
@@ -117,28 +116,28 @@
 		class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
 		<!--
-								<li class="nav-item">
-									<a class="nav-link nav-link-rs-menu fw-bold" href="#description">{{ 'Description'|t }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link nav-link-rs-menu  fw-bold" href="#academic-authorities">{{ 'Authorities'|t }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link nav-link-rs-menu  fw-bold" href="#admission">{{ 'Admission'|t }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link nav-link-rs-menu  fw-bold" href="#ects-allocation-policy">{{ 'ECTS Policies'|t }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link nav-link-rs-menu  fw-bold" href="#mobility">{{ 'Mobility'|t }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link nav-link-rs-menu  fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
-								</li>
-								-->
+										<li class="nav-item">
+											<a class="nav-link nav-link-rs-menu fw-bold" href="#description">{{ 'Description'|t }}</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link nav-link-rs-menu  fw-bold" href="#academic-authorities">{{ 'Authorities'|t }}</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link nav-link-rs-menu  fw-bold" href="#admission">{{ 'Admission'|t }}</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link nav-link-rs-menu  fw-bold" href="#ects-allocation-policy">{{ 'ECTS Policies'|t }}</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link nav-link-rs-menu  fw-bold" href="#mobility">{{ 'Mobility'|t }}</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link nav-link-rs-menu  fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
+										</li>
+										-->
 
 
 		{% for section in menu_sections %}
@@ -181,8 +180,8 @@
 
 	</ul>
 	{#{ dump(institution_vocab_labels_str) }}
-			
-				{{dump(institution.field_example_vocabularies.value | render)}#}
+				
+					{{dump(institution.field_example_vocabularies.value | render)}#}
 
 </div></nav><div class="university-banner">
 {% if institution.field_institution_picture is not empty %}
@@ -234,7 +233,7 @@
 
 
 					<!-- Academic Terms debajo de la info -->
-						<div class="mt-4">
+					<div class="mt-4">
 						{% if institution.field_admission_language_policy is not empty %}
 							<h4 class="subsection-title">{{ 'Languages'|t }}</h4>
 							<p>{{ institution.field_admission_language_policy.value | raw}}</p>
@@ -385,28 +384,28 @@
 						<div class="d-flex flex-column gap-2">
 
 
-						{% if institution.field_recognition_process_phone.value is defined and institution.field_recognition_process_phone.value %}
-									<div class="d-flex align-items-start mb-3">
-										<i class="fas fa-phone-alt me-2 mt-1"></i>
-										<p class="mb-0">
-											<a href="tel:{{ institution.field_recognition_process_phone.value }}" class="text-dark text-decoration-none">
-												{{ institution.field_recognition_process_phone.value }}
-											</a>
-										</p>
-									</div>
-								{% endif %}
+							{% if institution.field_recognition_process_phone.value is defined and institution.field_recognition_process_phone.value %}
+								<div class="d-flex align-items-start mb-3">
+									<i class="fas fa-phone-alt me-2 mt-1"></i>
+									<p class="mb-0">
+										<a href="tel:{{ institution.field_recognition_process_phone.value }}" class="text-dark text-decoration-none">
+											{{ institution.field_recognition_process_phone.value }}
+										</a>
+									</p>
+								</div>
+							{% endif %}
 
 							{% if institution.field_recognition_process_email.value is defined and institution.field_recognition_process_email.value %}
-									<div class="d-flex align-items-start mb-3">
-										<i class="fas fa-envelope me-2 mt-1"></i>
-										<p class="mb-0">
-											<a href="mailto:{{ institution.field_recognition_process_email.value }}" class="text-dark text-decoration-none">
-												{{ institution.field_recognition_process_email.value }}
-											</a>
-										</p>
-									</div>
-								{% endif %}
-	
+								<div class="d-flex align-items-start mb-3">
+									<i class="fas fa-envelope me-2 mt-1"></i>
+									<p class="mb-0">
+										<a href="mailto:{{ institution.field_recognition_process_email.value }}" class="text-dark text-decoration-none">
+											{{ institution.field_recognition_process_email.value }}
+										</a>
+									</p>
+								</div>
+							{% endif %}
+
 
 							{% if institution.field_recognition_process_websit.uri is defined and institution.field_recognition_process_websit.uri %}
 								<div class="d-flex align-items-start mb-3">
@@ -553,7 +552,9 @@
 											{% set d = parts[1]|default('')|trim %}
 											<div class="col-12 col-md-6">
 												<div class="border rounded p-3 h-100 bg-white">
-													<div class="small text-muted text-uppercase">{{ 'Nominations'|t }} · {{ 'Autumn'|t }}</div>
+													<div class="small text-muted text-uppercase">{{ 'Nominations'|t }}
+														·
+														{{ 'Autumn'|t }}</div>
 													<div class="fw-semibold">📅
 														{{ month_names[m]|default(m) }}
 														{{ d }}</div>
@@ -566,7 +567,9 @@
 											{% set d = parts[1]|default('')|trim %}
 											<div class="col-12 col-md-6">
 												<div class="border rounded p-3 h-100 bg-white">
-													<div class="small text-muted text-uppercase">{{ 'Nominations'|t }} · {{ 'Spring'|t }}</div>
+													<div class="small text-muted text-uppercase">{{ 'Nominations'|t }}
+														·
+														{{ 'Spring'|t }}</div>
 													<div class="fw-semibold">📅
 														{{ month_names[m]|default(m) }}
 														{{ d }}</div>
@@ -579,7 +582,9 @@
 											{% set d = parts[1]|default('')|trim %}
 											<div class="col-12 col-md-6">
 												<div class="border rounded p-3 h-100 bg-white">
-													<div class="small text-muted text-uppercase">{{ 'Applications'|t }} · {{ 'Autumn'|t }}</div>
+													<div class="small text-muted text-uppercase">{{ 'Applications'|t }}
+														·
+														{{ 'Autumn'|t }}</div>
 													<div class="fw-semibold">📅
 														{{ month_names[m]|default(m) }}
 														{{ d }}</div>
@@ -592,7 +597,9 @@
 											{% set d = parts[1]|default('')|trim %}
 											<div class="col-12 col-md-6">
 												<div class="border rounded p-3 h-100 bg-white">
-													<div class="small text-muted text-uppercase">{{ 'Applications'|t }} · {{ 'Spring'|t }}</div>
+													<div class="small text-muted text-uppercase">{{ 'Applications'|t }}
+														·
+														{{ 'Spring'|t }}</div>
 													<div class="fw-semibold">📅
 														{{ month_names[m]|default(m) }}
 														{{ d }}</div>
@@ -702,7 +709,7 @@
 <!--<div class="section-margin-negative"></div>-->
 
 
-{% if institution.field_general_campus_description is not empty  %}
+
 
 
 	<div class='section-container section-bg-grey' id="campuses" style="scroll-margin-top: 150px;">
@@ -786,7 +793,7 @@
 			{% endif %}
 
 		</div>
-	{% endif %}
+	
 
 
 </div></div>{% if  not (view.result|length == 1 and view.result[0]._relationship_entities['reverse__node__field_ou_institution'] is null) %}
@@ -934,7 +941,7 @@
 							{% endif %}
 
 							{# -------- IMAGEN --------
-																											       Intenta sacar la URL de la imagen. Si no hay, queda vacío y el JS hará fallback. #}
+																																		       Intenta sacar la URL de la imagen. Si no hay, queda vacío y el JS hará fallback. #}
 							{% set ou_image_url = '' %}
 							{% if organizational_unit.field_ou_picture is defined 
           and organizational_unit.field_ou_picture.entity is not empty %}
@@ -984,22 +991,22 @@
 		</div>
 	</div>
 {% endif %}</div><!--
-			<div class="last-update bg-black text-white p-3">
-			  <div class="section-container pt-0 pb-0">
-			    <div class="my-custom-container-2">
-			
-			      <span class="rs-source">
-			        Source: <span class="rs-source-site">Example.com</span>
-			      </span>
-			
-			      <span class="rs-last-update">
-			        <em>Last update: {{ last_updated }}</em>
-			      </span>
-			
-			    </div>
-			  </div>
-			</div>
-			--><script>
+				<div class="last-update bg-black text-white p-3">
+				  <div class="section-container pt-0 pb-0">
+				    <div class="my-custom-container-2">
+				
+				      <span class="rs-source">
+				        Source: <span class="rs-source-site">Example.com</span>
+				      </span>
+				
+				      <span class="rs-last-update">
+				        <em>Last update: {{ last_updated }}</em>
+				      </span>
+				
+				    </div>
+				  </div>
+				</div>
+				--><script>
 function loadOUDetails(el) {
 document.querySelectorAll('.ou-item').forEach(item => item.classList.remove('selected'));
 el.classList.add('selected');
@@ -1099,7 +1106,7 @@ const mobileDetails = existingMobileDetails || document.createElement('div');
 mobileDetails.className = 'ou-details-mobile bg-light mb-3';
 mobileDetails.innerHTML = html;
 el.insertAdjacentElement('afterend', mobileDetails);
-mobileDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+mobileDetails.scrollIntoView({behavior: 'smooth', block: 'nearest'});
 } else {
 if (existingMobileDetails) {
 existingMobileDetails.remove();
@@ -1234,3 +1241,4 @@ if (items.length > 0) {
 showPage(currentPage);
 }
 });</script>
+

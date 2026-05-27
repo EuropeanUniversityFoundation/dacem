@@ -1,4 +1,4 @@
-{% set current_language = view.result[0].node_field_data_langcode %}
+{% set current_language = view.result[0].node_field_data_langcode|default(language_manager.getCurrentLanguage().getId(), true) %}
 
 
 {# Acceder a la instancia de asignatura actual #}
@@ -63,10 +63,12 @@
 } %}<div class="programme-page">
 
 {% if translated_programme and translated_programme.id %}
-	{% set original_url = path('entity.node.canonical', {'node': translated_programme.id}) %}
-	{% set language_prefix = '/' ~ current_language ~ '/' %}
-	{% set modified_url = original_url|replace({(language_prefix): language_prefix ~ 'catalogue/'}) %}
-	<a href="{{ modified_url }}" class="programme-header-link">
+	{% set programme_canonical = path('entity.node.canonical', {'node': translated_programme.id}) %}
+	{% set institution_canonical = translated_institution ? path('entity.node.canonical', {'node': translated_institution.id}) : '' %}
+	{% set programme_slug = programme_canonical|trim('/')|split('/')|last %}
+	{% set institution_slug = institution_canonical|trim('/')|split('/')|last %}
+	{% set programme_url = '/' ~ current_language ~ '/catalogue/' ~ institution_slug ~ '/' ~ programme_slug %}
+	<a href="{{ programme_url }}" class="programme-header-link">
 		<div class="rs-header ">
 			<div class="my-custom-container-2">
 				<div class="page-band">

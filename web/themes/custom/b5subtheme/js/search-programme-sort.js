@@ -33,19 +33,36 @@
         const sortOrder = form.querySelector('[name="sort_order"]');
         if (!sortBy || !sortOrder) return;
 
-        // Lista blanca de opciones válidas según el <select> real:
-        const allowed = Array.from(sortBy.options).map(o => o.value);
+        function findSortOption(button) {
+          const by = button.getAttribute('data-sort-by');
+          const label = (button.getAttribute('data-sort-label') || '').trim().toLowerCase();
+
+          return Array.from(sortBy.options).find(option => {
+            const optionValue = option.value;
+            const optionLabel = (option.textContent || '').trim().toLowerCase();
+
+            if (by && optionValue === by) {
+              return true;
+            }
+
+            if (label && optionLabel === label) {
+              return true;
+            }
+
+            return false;
+          });
+        }
 
         // Botones
         wrapper.querySelectorAll('.js-sort').forEach(function (btn) {
           btn.addEventListener('click', function (e) {
             e.preventDefault();
 
-            const by    = btn.getAttribute('data-sort-by');
             const order = btn.getAttribute('data-sort-order') || 'ASC';
+            const option = findSortOption(btn);
 
-            if (!allowed.includes(by)) {
-              console.warn('[SORT] valor no permitido:', by, 'permitidos:', allowed);
+            if (!option) {
+              console.warn('[SORT] opcion no encontrada para el boton:', btn);
               return;
             }
 
@@ -54,7 +71,7 @@
             sortOrder.setAttribute('data-disable-refocus', 'true');
 
             // Setea valores
-            sortBy.value = by;
+            sortBy.value = option.value;
             sortOrder.value = order;
 
             // Dispara autosubmit por "change" (sin clicks → no hay scroll/refocus)

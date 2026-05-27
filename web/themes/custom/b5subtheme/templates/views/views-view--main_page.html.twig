@@ -13,7 +13,7 @@
 				{{'Study in Europe'|t}}
 			{% endif %}
 		</h2>
-		<a href="/search-programme"><button class="cta-button{% if main_page_is_athena %} cta-button--athena{% endif %}">{{'FIND A PROGRAMME'|t}}</button></a>
+		<a href="{{ main_page_search_programme_url|default('/search-programme') }}"><button class="cta-button{% if main_page_is_athena %} cta-button--athena{% endif %}">{{'FIND A PROGRAMME'|t}}</button></a>
 	</div>
 </div>
 
