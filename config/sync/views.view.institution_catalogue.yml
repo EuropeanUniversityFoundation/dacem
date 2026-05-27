@@ -286,7 +286,7 @@ display:
     display_options:
       rendering_language: '***LANGUAGE_entity_translation***'
       display_extenders: {  }
-      path: catalogue/%
+      path: catalogue-legacy/%
     cache_metadata:
       max-age: -1
       contexts:

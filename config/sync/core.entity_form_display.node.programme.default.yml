@@ -68,20 +68,19 @@ third_party_settings:
         - field_programme_type
         - field_programme_language_of_inst
         - field_isced_f
-        - field_programme_area
         - field_programme_mode_of_study
         - field_programme_mode_of_learning
-        - field_professional_practices
         - field_avaliable_for_mobility
         - field_programme_restricted_allia
         - field_length_of_programme
         - field_number_of_terms
         - field_learning_opportunity_type
         - field_qualification_awarded
+        - field_professional_practices
       label: 'General Data'
       region: content
       parent_name: ''
-      weight: 11
+      weight: 12
       format_type: fieldset
       format_settings:
         classes: ''
@@ -99,7 +98,7 @@ third_party_settings:
       label: Coordination
       region: content
       parent_name: ''
-      weight: 12
+      weight: 13
       format_type: html_element
       format_settings:
         classes: ''
@@ -122,7 +121,7 @@ third_party_settings:
       label: Assessment
       region: content
       parent_name: ''
-      weight: 19
+      weight: 18
       format_type: html_element
       format_settings:
         classes: ''
@@ -148,7 +147,7 @@ third_party_settings:
       label: Overview
       region: content
       parent_name: ''
-      weight: 13
+      weight: 14
       format_type: html_element
       format_settings:
         classes: ''
@@ -171,7 +170,7 @@ third_party_settings:
       label: Mobility
       region: content
       parent_name: ''
-      weight: 20
+      weight: 19
       format_type: html_element
       format_settings:
         classes: ''
@@ -195,7 +194,7 @@ third_party_settings:
       label: Practice
       region: content
       parent_name: ''
-      weight: 21
+      weight: 20
       format_type: html_element
       format_settings:
         classes: ''
@@ -217,7 +216,7 @@ third_party_settings:
       label: Careers
       region: content
       parent_name: ''
-      weight: 22
+      weight: 21
       format_type: html_element
       format_settings:
         classes: ''
@@ -241,7 +240,7 @@ third_party_settings:
       label: Admission
       region: content
       parent_name: ''
-      weight: 18
+      weight: 17
       format_type: html_element
       format_settings:
         classes: ''
@@ -262,7 +261,7 @@ third_party_settings:
       label: Curriculum
       region: content
       parent_name: ''
-      weight: 16
+      weight: 15
       format_type: html_element
       format_settings:
         classes: ''
@@ -336,7 +335,7 @@ content:
     third_party_settings: {  }
   field_distribution_of_credits:
     type: text_textarea
-    weight: 17
+    weight: 16
     region: content
     settings:
       rows: 5
@@ -417,7 +416,7 @@ content:
     third_party_settings: {  }
   field_programme_code:
     type: string_textfield
-    weight: 52
+    weight: 11
     region: content
     settings:
       size: 60
