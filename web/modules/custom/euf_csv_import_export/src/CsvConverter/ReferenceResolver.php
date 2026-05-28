@@ -245,7 +245,7 @@ class ReferenceResolver {
     if (isset($hei_field_name)) {
       $conditions[] = [
         'field' => $hei_field_name,
-        'value' => $institution,
+        'value' => $institution->id(),
         'operator' => NULL,
       ];
     }
