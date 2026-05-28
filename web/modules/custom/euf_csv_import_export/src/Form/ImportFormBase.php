@@ -87,11 +87,6 @@ abstract class ImportFormBase extends FormBase {
     $file->delete();
   }
 
-  // protected function getSelectParentOptions() {
-  //   // Return an array of HEI ID => Name
-  //   return [1 => 'HEI Alpha', 2 => 'HEI Beta'];
-  // }
-
   protected function importCsv(File $file, string $entity_type) {
     return $this->csvImporter->import($file, $entity_type);
   }
