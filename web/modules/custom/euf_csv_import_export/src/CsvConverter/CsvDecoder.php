@@ -2,12 +2,8 @@
 
 namespace Drupal\euf_csv_import_export\CsvConverter;
 
-//use Drupal\Component\Uuid\Pecl;
 use Drupal\euf_csv_import_export\CsvConverter\FieldMappingService;
-//use Drupal\occ_development_utility_services\OunitUtilities;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-//use Drupal\occ_development_utility_services\ProgrammeUtilities1;
-//use Drupal\occ_development_utility_services\InstitutionUtilities;
 
 /**
  *
@@ -29,10 +25,10 @@ class CsvDecoder {
     );
   }
 
-  public function decodeMultiple(array $records) {
+  public function decodeMultiple(string $entity_type, array $records) {
     $entity_data = [];
     foreach ($records as $row_number => $record) {
-      $entity_data[] = $this->decode($record);
+      $entity_data[] = $this->decode($entity_type, $record);
     }
 
     return $entity_data;
@@ -41,7 +37,7 @@ class CsvDecoder {
   /**
    *
    */
-  public function decode(array $record) {
+  public function decode(string $entity_type, array $record) {
     $entity_data = [];
 
     foreach ($record as $key => $value) {
@@ -81,6 +77,25 @@ class CsvDecoder {
 
         $entity_data[$language][$field_name] = $value;
       }
+    }
+
+    $entity_data = $this->addEntityType($entity_type, $entity_data);
+    $entity_data = $this->addLanguageCode($entity_data);
+
+    return $entity_data;
+  }
+
+  public function addEntityType(string $entity_type, array $decoded_data) {
+    foreach ($decoded_data as &$data_per_language) {
+      $data_per_language['type'] = $entity_type;
+    }
+
+    return $decoded_data;
+  }
+
+  public function addLanguageCode(array $entity_data) {
+    foreach ($entity_data as $language => &$data_per_language) {
+      $data_per_language['langcode'] = $language;
     }
 
     return $entity_data;
