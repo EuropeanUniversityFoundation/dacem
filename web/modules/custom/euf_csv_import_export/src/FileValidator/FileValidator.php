@@ -378,4 +378,5 @@ class FileValidator {
       'row_number' => $row,
     ];
   }
+
 }
