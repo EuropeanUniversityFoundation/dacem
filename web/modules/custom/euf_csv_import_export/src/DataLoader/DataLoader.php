@@ -3,6 +3,7 @@
 namespace Drupal\euf_csv_import_export\Dataloader;
 
 use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\node\Entity\Node;
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -35,7 +36,7 @@ class Dataloader {
     return $institutions;
   }
 
-  public function getInstitutionBySchac(string $schac_code) {
+  public function getInstitutionBySchacCode(string $schac_code) {
     $storage = $this->entityTypeManager->getStorage('node');
     $institution_id = $storage->getQuery()
       ->accessCheck(FALSE)
@@ -50,6 +51,18 @@ class Dataloader {
     $institution = $storage->load(reset($institution_id));
 
     return $institution;
+  }
+
+  public function getEntityByCodeAndInstitution(string $entityType, string $codeField, string $code, string $institutionField, Node $institution) {
+    $storage = $this->entityTypeManager->getStorage('node');
+
+    $entity = $storage->loadByProperties([
+      'type' => $entityType,
+      $codeField => $code,
+      $institutionField => $institution->id()
+    ]);
+
+    return $entity;
   }
 
   public function loadEntitiesWithConditions(string $entity_type_id, array $conditions, bool $access_check = FALSE) {
