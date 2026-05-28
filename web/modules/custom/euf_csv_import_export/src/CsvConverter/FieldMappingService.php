@@ -25,6 +25,21 @@ class FieldMappingService {
     ]
   ];
 
+  public const CODE_COLUMNS = [
+    ImportTargetEntityType::OUNIT->value => [
+      'code_column_name' => 'field_ou_code',
+    ],
+    ImportTargetEntityType::PROGRAMME->value => [
+      'code_column_name' => 'field_programme_code',
+    ],
+    ImportTargetEntityType::COURSE->value => [
+      'code_column_name' => 'field_iec_code',
+    ],
+    // ImportTargetEntityType::COURSE_INSTANCE->value => [
+    //   'code_column_name' => 'hei',
+    // ]
+  ];
+
   /**
    * List of required headers for each file target.
    */
