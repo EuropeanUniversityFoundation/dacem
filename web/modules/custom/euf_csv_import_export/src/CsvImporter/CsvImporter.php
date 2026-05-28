@@ -2,15 +2,19 @@
 
 namespace Drupal\euf_csv_import_export\CsvImporter;
 
+use Drupal\Core\Config\Entity\ImportableEntityStorageInterface;
 use Drupal\Core\File\FileSystem;
 use Drupal\euf_csv_import_export\AccessManager\UserAccessManager;
-use Drupal\euf_csv_import_export\CsvImporter\CsvSorter;
-use Drupal\euf_csv_import_export\FileValidator\FileValidator;
-use Drupal\file\Entity\File;
 use Drupal\euf_csv_import_export\CsvConverter\CsvDecoder;
 use Drupal\euf_csv_import_export\CsvConverter\FieldMappingService;
 use Drupal\euf_csv_import_export\CsvConverter\ReferenceResolver;
+use Drupal\euf_csv_import_export\CsvImporter\CsvSorter;
+use Drupal\euf_csv_import_export\CsvNormalizer\CsvNormalizer;
 use Drupal\euf_csv_import_export\Dataloader\Dataloader;
+use Drupal\euf_csv_import_export\EntityValidator\OunitValidator;
+use Drupal\euf_csv_import_export\Enum\ImportTargetEntityType;
+use Drupal\euf_csv_import_export\FileValidator\FileValidator;
+use Drupal\file\Entity\File;
 use League\Csv\Reader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -23,6 +27,8 @@ class CsvImporter {
 	protected CsvDecoder $csvDecoder;
 	protected ReferenceResolver $referenceResolver;
 	protected Dataloader $dataLoader;
+	protected OunitValidator $ounitValidator;
+	protected CsvNormalizer $csvNormalizer;
 
 	public function __construct(
 		FileSystem $file_system,
@@ -32,6 +38,8 @@ class CsvImporter {
 		CsvDecoder $csv_decoder,
 		ReferenceResolver $reference_resolver,
 		Dataloader $data_loader,
+		OunitValidator $ounit_validator,
+		CsvNormalizer $csv_normalizer,
 	)	{
 		$this->fileSystem = $file_system;
 		$this->fileValidator = $file_validator;
@@ -40,6 +48,8 @@ class CsvImporter {
 		$this->csvDecoder = $csv_decoder;
 		$this->referenceResolver = $reference_resolver;
 		$this->dataLoader = $data_loader;
+		$this->ounitValidator = $ounit_validator;
+		$this->csvNormalizer = $csv_normalizer;
 	}
 
 	public static function create(ContainerInterface $container) {
@@ -51,6 +61,8 @@ class CsvImporter {
 			$container->get('euf_csv_import_export.csv_decoder'),
 			$container->get('euf_csv_import_export.reference_resolver'),
 			$container->get('euf_csv_import_export.data_loader'),
+			$container->get('euf_csv_import_export.ounit_validator'),
+			$container->get('euf_csv_import_export.csv_normalizer'),
     );
   }
 
@@ -74,11 +86,27 @@ class CsvImporter {
 			}
 		}
 
-		$results = $this->csvDecoder->decodeMultiple($records);
+		$results = $this->csvDecoder->decodeMultiple($entityType, $records);
 
 		$institution_schac_code = $records[0][FieldMappingService::HEI_COLUMNS[$entityType]['hei_column_name']];
-		$institution_in_file = $this->dataLoader->getInstitutionBySchac($institution_schac_code);
+		$institution_in_file = $this->dataLoader->getInstitutionBySchacCode($institution_schac_code);
 		$results = $this->referenceResolver->resolveReferencesMultiple($entityType, $results, $institution_in_file);
+
+		if ($entityType === ImportTargetEntityType::OUNIT->value) {
+			$violations = $this->ounitValidator->validateMultiple($entityType, $results);
+		} else if ($entityType === ImportTargetEntityType::PROGRAMME->value){
+
+		} else if ($entityType === ImportTargetEntityType::COURSE->value){
+
+		} else if ($entityType === ImportTargetEntityType::COURSE_INSTANCE->value){
+
+		}
+
+		if (!empty($violations)) {
+			return ['errors' => $violations];
+		}
+
+		$entities = $this->csvNormalizer->upsertMultiple($entityType, $results, $institution_in_file);
 
 		$results['errors'] = $errors;
 
