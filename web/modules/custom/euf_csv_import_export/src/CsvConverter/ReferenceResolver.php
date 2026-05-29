@@ -46,6 +46,20 @@ class ReferenceResolver {
         'referenced_hei_field_name' => 'field_ou_institution',
         'cardinality' => 1,
       ],
+      [
+        'reference_field_name' => 'field_programme_language_of_inst',
+        'referenced_entity' => 'taxonomy_term',
+        'referenced_entity_type' => NULL,
+        'referenced_field_name' => 'name',
+        'cardinality' => -1,
+      ],
+      [
+        'reference_field_name' => 'field_programme_type',
+        'referenced_entity' => 'taxonomy_term',
+        'referenced_entity_type' => NULL,
+        'referenced_field_name' => 'name',
+        'cardinality' => 1,
+      ],
     ],
     // 'course' => [
     //   [
@@ -234,7 +248,15 @@ class ReferenceResolver {
   }
 
   // @todo Move to data_loader
-  public function loadEntity(string $entity_id, string $field_name, string $field_value, Node $institution, ?string $entity_type = NULL, ?string $entity_bundle = NULL, ?string $hei_field_name = NULL): ?EntityInterface {
+  public function loadEntity(
+  string $entity_id,
+  string $field_name,
+  string $field_value,
+  Node $institution,
+  ?string $entity_type = NULL,
+  ?string $entity_bundle = NULL,
+  ?string $hei_field_name = NULL
+): EntityInterface | FALSE {
 
     $conditions[] = [
       'field' => $field_name,
@@ -259,8 +281,11 @@ class ReferenceResolver {
     }
 
     if (isset($entity_bundle)) {
+      // FIX: Natively swap the condition bundle field key depending on the entity type
+      $bundle_key = ($entity_id === 'taxonomy_term') ? 'vid' : 'type';
+
       $conditions[] = [
-        'field' => 'bundle',
+        'field' => $bundle_key,
         'value' => $entity_bundle,
         'operator' => NULL,
       ];
@@ -271,7 +296,7 @@ class ReferenceResolver {
       conditions: $conditions
     );
 
-    return reset($entity);
+    return !empty($entity) ? reset($entity) : FALSE;
   }
 
 }
