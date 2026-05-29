@@ -3,6 +3,7 @@
 namespace Drupal\euf_csv_import_export\CsvNormalizer;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\euf_csv_import_export\AccessManager\UserAccessManager;
 use Drupal\euf_csv_import_export\CsvConverter\FieldMappingService;
 use Drupal\euf_csv_import_export\CsvConverter\ReferenceResolver;
 use Drupal\euf_csv_import_export\Dataloader\Dataloader;
@@ -14,11 +15,13 @@ class CsvNormalizer {
   protected EntityTypeManagerInterface $entityTypeManager;
   protected Dataloader $dataLoader;
   protected ReferenceResolver $referenceResolver;
+  protected UserAccessManager $userAccessManager;
 
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Dataloader $data_loader, ReferenceResolver $reference_resolver) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, Dataloader $data_loader, ReferenceResolver $reference_resolver, UserAccessManager $user_access_manager) {
     $this->entityTypeManager = $entity_type_manager;
     $this->dataLoader = $data_loader;
     $this->referenceResolver = $reference_resolver;
+    $this->userAccessManager = $user_access_manager;
   }
 
   public static function create(ContainerInterface $container) {
@@ -27,6 +30,7 @@ class CsvNormalizer {
       $container->get('entity_type.manager'),
       $container->get('euf_csv_import_export.data_loader'),
       $container->get('euf_csv_import_export.reference_resolver'),
+      $container->get('euf_csv_import_export.user_access_manager'),
     );
   }
 
@@ -47,6 +51,7 @@ class CsvNormalizer {
       }
 
       $entity->save();
+      $this->userAccessManager->addEntityToInstitutionGroup($entity, $institution);
     }
   }
 
