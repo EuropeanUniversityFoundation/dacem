@@ -7,9 +7,9 @@ use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\euf_csv_import_export\Dataloader\Dataloader;
 use Drupal\ewp_institutions\Entity\InstitutionEntity;
+use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupMembership;
 use Drupal\node\Entity\Node;
-use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class UserAccessManager {
@@ -102,5 +102,41 @@ class UserAccessManager {
     return $institution->get('hei_id')[0]->value;
   }
 
-}
+  public function loadHeiBySchacCode(string $schac_code) {
+    $storage = $this->entityTypeManager->getStorage('hei');
+    $hei = $storage
+      ->loadByProperties([
+        'hei_id' => $schac_code,
+      ]);
 
+    return reset($hei);
+  }
+
+  public function getGroupForInstitution(Node $institution) {
+    $schac_code = $this->getSchacCodeFromInstitution($institution);
+    $hei = $this->loadHeiBySchacCode($schac_code);
+
+    $storage = $this->entityTypeManager->getStorage('group');
+
+    $group = $storage
+      ->loadByProperties([
+        'field_institution_profile' => $hei->id(),
+      ]);
+
+    return reset($group);
+  }
+
+  public function addEntityToInstitutionGroup(Node $entity, Node $institution) {
+    /** @var Group $group */
+    $group = $this->getGroupForInstitution($institution);
+    $plugin_id = 'group_node:' . $entity->getType();
+
+    $existing_relations = $group->getRelationshipsByEntity($entity, $plugin_id);
+
+    if (empty($existing_relations)) {
+      // Natively creates and saves the GroupRelationship bridge entity
+      $group->addRelationship($entity, $plugin_id);
+    }
+  }
+
+}
