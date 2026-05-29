@@ -20,12 +20,12 @@ class FileValidator {
       [FileValidator::class, 'validateNonEmpty'],
       [FileValidator::class, 'validateReferences'],
     ],
-    // ImportTargetEntityType::PROGRAMME->value => [
-    //   [FileValidator::class, 'validateFileHeiUserMatch'],
-    //   [FileValidator::class, 'validateUniqueCodes'],
-    //   [FileValidator::class, 'validateNonEmpty'],
-    //   [FileValidator::class, 'validateReferences'],
-    // ],
+    ImportTargetEntityType::PROGRAMME->value => [
+      [FileValidator::class, 'validateFileHeiUserMatch'],
+      [FileValidator::class, 'validateUniqueCodes'],
+      [FileValidator::class, 'validateNonEmpty'],
+      [FileValidator::class, 'validateReferences'],
+    ],
     // ImportTargetEntityType::COURSE->value => [
     //   [FileValidator::class, 'validateFileHeiUserMatch'],
     //   [FileValidator::class, 'validateUniqueCodes'],
@@ -42,9 +42,9 @@ class FileValidator {
     ImportTargetEntityType::OUNIT->value => [
       'column_name' => 'field_ou_code',
     ],
-    // ImportTargetEntityType::PROGRAMME->value => [
-    //   'column_name' => 'code',
-    // ],
+    ImportTargetEntityType::PROGRAMME->value => [
+      'column_name' => 'field_programme_code',
+    ],
     // ImportTargetEntityType::COURSE->value => [
     //   'column_name' => 'code',
     // ]
@@ -70,18 +70,20 @@ class FileValidator {
       ],
     ],
     ImportTargetEntityType::PROGRAMME->value => [
-      'hei' => [
+      'field_programme_institution' => [
         'entity_label' => 'Institution',
-        'target_entity' => 'hei',
+        'target_entity' => 'node',
+        'target_type' => 'institution',
         'references_label' => 'SCHAC code',
-        'references' => 'hei_id',
+        'references' => 'field_shac_code',
       ],
-      'ounit' => [
+      'field_programme_ou' => [
         'entity_label' => 'Organisational unit',
-        'target_entity' => 'ounit',
+        'target_entity' => 'node',
+        'target_type' => 'organizational_unit',
         'references_label' => 'Organizational unit code',
         'references' => 'field_ou_code',
-        'hei_field_name' => 'parent_hei',
+        'hei_field_name' => 'field_ou_code',
       ],
     ],
     ImportTargetEntityType::COURSE->value => [
@@ -250,7 +252,7 @@ class FileValidator {
 
       // Always required non-translatable fields.
       foreach ($non_translatable as $column_name) {
-        if (empty($record[$column_name])) {
+        if ($this->isValueEmpty($record[$column_name])) {
           $this->addError('Required value is missing', $column_name, $row_number);
         }
       }
@@ -339,6 +341,17 @@ class FileValidator {
         }
       }
     }
+  }
+
+  protected function isValueEmpty(mixed $value): bool {
+    if ($value === NULL) {
+      return TRUE;
+    }
+    // Convert to string and trim trailing spaces to handle cells with empty spaces
+    $trimmed = trim((string) $value);
+
+    // A value is only empty if it evaluates to an empty string ''
+    return $trimmed === '';
   }
 
   protected function getExistingCodesInDb(array $definition, array $csv_codes, ?Node $hei = NULL): array {
