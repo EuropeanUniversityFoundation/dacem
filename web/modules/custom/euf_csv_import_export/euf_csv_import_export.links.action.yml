@@ -10,3 +10,4 @@ euf_csv_import_export.import_programme_button:
   title: 'Import Programmes'
   appears_on:
     - euf_csv_import_export.import_ounit_form
+    - view.admin_programmes.page_1
