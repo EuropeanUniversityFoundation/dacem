@@ -101,30 +101,4 @@ class CsvDecoder {
     return $entity_data;
   }
 
-  // /**
-  //  *
-  //  */
-  // public function addFakeUuids(string $to_field, array $decoded_data) {
-  //   foreach ($decoded_data as $key => &$decoded_entity) {
-  //     if (!isset($decoded_entity[$to_field])) {
-  //       $decoded_entity[$to_field] = $this->uuid->generate();
-  //     }
-  //   }
-
-  //   return $decoded_data;
-  // }
-
-  // /**
-  //  *
-  //  */
-  // public function addBundle(string $bundle, array $decoded_data): array {
-  //   foreach ($decoded_data as $key => &$decoded_entity) {
-  //     if (!isset($decoded_entity['bundle'])) {
-  //       $decoded_entity['bundle'] = $bundle;
-  //     }
-  //   }
-
-  //   return $decoded_data;
-  // }
-
 }
