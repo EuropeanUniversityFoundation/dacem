@@ -48,7 +48,6 @@ class FieldMappingService {
       'non-translatable' => [
         'field_ou_institution',
         'field_ou_code',
-
       ],
       'translatable' => [
         'field_ou_description',
@@ -56,8 +55,25 @@ class FieldMappingService {
         'field_ou_type',
       ]
     ],
+    ImportTargetEntityType::PROGRAMME->value => [
+      'non-translatable' => [
+        'field_programme_institution',
+        'field_programme_code',
+        'field_isced_f____0',
+        'field_length_of_programme',
+        'field_eqf_level',
+        'field_credits',
+        'field_number_of_terms',
+        'field_professional_practices',
+        'field_programme_language_of_inst____0'
+      ],
+      'translatable' => [
+        'title',
+        'field_programme_description',
+        'field_programme_learn_outcomes',
+      ],
+    ],
     // @todo Continue with the rest of the entity types.
-    ImportTargetEntityType::PROGRAMME->value => ['hei', 'title____0___string', /*'title____0___lang',*/ 'code', 'programme__ects', 'programme__eqf_level_provided', 'programme__isced_code____0', 'language_of_instruction____0', 'programme__length', 'description____0___multiline', /*'description____0___lang',*/ 'learning_outcomes____0___multiline', /*'learning_outcomes____0___lang'*/],
     ImportTargetEntityType::COURSE->value => ['title____0___string', /*'title____0___lang',*/ 'code', 'course__ects', 'language_of_instruction____0', 'description____0___multiline', /*'description____0___lang',*/ 'learning_outcomes____0___multiline', /*'learning_outcomes____0___lang'*/ 'course__academic_term____0', ],
     ImportTargetEntityType::COURSE_INSTANCE->value => ['hei', 'start_date', 'end_date', 'academic_term_id', 'course', /*'ects', 'language_of_instruction____0'*/],
   ];
