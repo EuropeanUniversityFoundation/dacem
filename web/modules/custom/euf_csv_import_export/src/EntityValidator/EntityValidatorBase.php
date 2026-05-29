@@ -5,12 +5,9 @@ namespace Drupal\euf_csv_import_export\EntityValidator;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityConstraintViolationList;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\euf_csv_import_export\CsvConverter\FieldMappingService;
 use Drupal\euf_csv_import_export\CsvNormalizer\CsvNormalizer;
 use Drupal\euf_csv_import_export\Dataloader\Dataloader;
-use Drupal\node\Entity\Node;
-use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -134,7 +131,43 @@ class EntityValidatorBase {
 
       foreach ($violation_list as $violation) {
         /** @var \Symfony\Component\Validator\ConstraintViolationInterface $violation */
-        $invalid_string = $violation->getInvalidValue()->value;
+        $invalid_value = $violation->getInvalidValue();
+        $invalid_string = '';
+
+        // Case 1: Simple string, integer, or boolean value
+        if (is_scalar($invalid_value)) {
+          $invalid_string = (string) $invalid_value;
+        }
+        // Case 2: It is a complex Object (Entity, Field item, etc.)
+        elseif (is_object($invalid_value)) {
+          if (property_exists($invalid_value, 'value')) {
+            $invalid_string = (string) $invalid_value->value;
+          }
+          // If it is a FieldItemList, map its internal items
+          elseif ($invalid_value instanceof \Drupal\Core\Field\FieldItemListInterface) {
+            $values = [];
+            foreach ($invalid_value as $item) {
+              $values[] = $item->value ?? $item->target_id ?? '';
+            }
+            $invalid_string = implode(', ', array_filter($values));
+          }
+          // If it is a Drupal Entity, fall back to its Label or ID
+          elseif ($invalid_value instanceof \Drupal\Core\Entity\EntityInterface) {
+            $invalid_string = $invalid_value->label() ?: $invalid_value->id();
+          }
+          // If your custom object uses getName() specifically
+          elseif (method_exists($invalid_value, 'getName')) {
+            $invalid_string = $invalid_value->getName();
+          }
+          else {
+            $invalid_string = get_class($invalid_value);
+          }
+        }
+        // Case 3: It is an array of raw values
+        elseif (is_array($invalid_value)) {
+          $invalid_string = implode(', ', array_filter(array_map('strval', $invalid_value)));
+        }
+
         $error_type = 'Invalid ' . static::ENTITY_LABEL . ' data';
 
         $errors[$error_type][] = [
