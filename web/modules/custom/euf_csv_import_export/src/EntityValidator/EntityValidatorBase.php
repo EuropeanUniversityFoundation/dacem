@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\euf_csv_import_export\CsvConverter\FieldMappingService;
 use Drupal\euf_csv_import_export\CsvNormalizer\CsvNormalizer;
 use Drupal\euf_csv_import_export\Dataloader\Dataloader;
+use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -43,23 +44,23 @@ class EntityValidatorBase {
     );
   }
 
-  public function validate(string $entity_type, mixed $csv_row_no, array $normalized_data): EntityConstraintViolationList {
+  public function validate(string $entity_type, mixed $csv_row_no, array $normalized_data, ?Node $institution = NULL): EntityConstraintViolationList {
 
     $this->removeSkippedFields($normalized_data);
 
-    $entity = $this->dataLoader->getEntityByCodeAndInstitution(
+    if (!$institution) {
+      $institution = $normalized_data[FieldMappingService::DEFAULT_LANGUAGE][static::INSTITUTION_FIELD];
+    }
+
+    $entity = $this->findEntity(
       $entity_type,
       static::CODE_FIELD,
       $normalized_data[FieldMappingService::DEFAULT_LANGUAGE][static::CODE_FIELD],
       static::INSTITUTION_FIELD,
-      $normalized_data[FieldMappingService::DEFAULT_LANGUAGE][static::INSTITUTION_FIELD]
+      $institution,
     );
 
-
-
     if (empty($entity)) {
-      //// This is actually denormalizing, move it on occasion.
-      // Default language entity creation.
       $entity = $this->csvNormalizer->denormalizeEntity($entity_type, $normalized_data);
     }
     else {
@@ -67,7 +68,6 @@ class EntityValidatorBase {
     }
 
     /** @var \Drupal\node\NodeInterface $entity */
-
     $violations = $entity->validate();
 
     // Validating translations.
@@ -82,13 +82,17 @@ class EntityValidatorBase {
     return $violations;
   }
 
-  public function validateMultiple(string $entityType, array $normalized_data): array {
+  public function validateMultiple(string $entityType, array $normalized_data, ?Node $institution = NULL): array {
     $violations_by_row = [];
 
     foreach ($normalized_data as $entity_data) {
       $original_row_no = $entity_data[FieldMappingService::DEFAULT_LANGUAGE]['csv_row'] + 1;
-
-      $violation_list = $this->validate($entityType, $original_row_no, $entity_data);
+      if ($institution) {
+        $violation_list = $this->validate($entityType, $original_row_no, $entity_data, $institution);
+      } else
+      {
+        $violation_list = $this->validate($entityType, $original_row_no, $entity_data);
+      }
 
       if ($violation_list->count() > 0) {
         $violations_by_row[] = [
@@ -117,6 +121,18 @@ class EntityValidatorBase {
         $entity->set($key, $value);
       }
     }
+
+    return $entity;
+  }
+
+  protected function findEntity (string $entity_type, string $code_field, string $code, string $institution_field, Node $institution){
+    $entity = $this->dataLoader->getEntityByCodeAndInstitution(
+      $entity_type,
+      $code_field,
+      $code,
+      $institution_field,
+      $institution
+    );
 
     return $entity;
   }
