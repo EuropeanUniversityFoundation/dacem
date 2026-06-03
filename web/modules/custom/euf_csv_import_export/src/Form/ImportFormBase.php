@@ -72,7 +72,6 @@ abstract class ImportFormBase extends FormBase {
     // $file->setPermanent();
     // $file->save();
 
-    // $user = User::load($current_user->id());
     // @ todo Convert this to Batch processing.
     $results = $this->importCsv($file, static::ENTITY_TYPE);
 
