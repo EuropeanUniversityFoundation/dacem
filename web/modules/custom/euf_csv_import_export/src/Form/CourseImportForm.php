@@ -14,7 +14,7 @@ class CourseImportForm extends ImportFormBase {
 
   public function getFormId() {
 
-		return 'euf_csv_import_export.import_programme_form';
+		return 'euf_csv_import_export.import_course_form';
   }
 
   protected function importCsv(File $file, string $entity_type) {
