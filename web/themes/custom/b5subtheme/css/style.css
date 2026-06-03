@@ -14090,11 +14090,188 @@ VISTA DE LISTA DE UNIVERSIDADES
   text-overflow: ellipsis;  /* Opcional, pero útil */
 }
 
+.main-page-university-grid,
+.alliances-grid {
+  background: #ffffff;
+}
+
+.alliance-institutions-hero {
+  background: #f1f1f1;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.alliance-institutions-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(160px, 28%) 1fr;
+  gap: 32px;
+  align-items: center;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.alliance-institutions-hero__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alliance-institutions-hero__logo img {
+  display: block;
+  max-width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+}
+
+.alliance-institutions-hero__content h1 {
+  margin: 0 0 14px;
+  color: #111111;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.alliance-institutions-hero__description {
+  color: #111111;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.alliance-institutions-hero__description p {
+  margin: 0 0 10px;
+}
+
+.alliance-institutions-hero__description p:last-child {
+  margin-bottom: 0;
+}
+
+.main-page-university-grid__title,
+.alliances-grid__title {
+  margin: 0 0 32px;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #111111;
+}
+
+.main-page-university-card,
+.alliance-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: #f5f5f5;
+  color: #111111;
+  text-decoration: none;
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.main-page-university-card:hover,
+.alliance-card:hover {
+  color: #111111;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.main-page-university-card__media,
+.alliance-card__media {
+  width: 100%;
+  aspect-ratio: 1.53 / 1;
+  background: #d9d9d9;
+}
+
+.main-page-university-card__media img,
+.alliance-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.alliance-card__media img {
+  object-fit: contain;
+  padding: 24px;
+}
+
+.main-page-university-card__body,
+.alliance-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 18px 22px 24px;
+}
+
+.main-page-university-card__name,
+.alliance-card__title {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.main-page-university-card__country {
+  display: inline-flex;
+  align-self: flex-start;
+  margin: 0 0 16px;
+  padding: 5px 16px;
+  background: var(--card-primary-color, #ff4949);
+  color: #ffffff;
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
+.main-page-university-card__description,
+.alliance-card__description {
+  display: -webkit-box;
+  margin: 0;
+  color: #111111;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.main-page-university-grid__empty,
+.alliances-grid__empty {
+  margin: 0;
+  color: #555555;
+  font-size: 1rem;
+}
+
 
 
 .container-university-list{
   padding-left: 10%; /* Ajusta según tus necesidades */
   padding-right: 10%; /* Ajusta según tus necesidades */
+}
+
+.main-page-see-all-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.main-page-see-all-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  padding: 10px 28px;
+  background: var(--university_primary_color, #ff4949);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.main-page-see-all-button:hover {
+  background: #000000;
+  color: #ffffff;
 }
 
 .univerties-map {
@@ -14200,6 +14377,40 @@ VISTA DE LISTA DE UNIVERSIDADES
   text-align-last: center;
 }
 
+.main-page-disclaimer {
+  padding-top: 32px;
+  padding-bottom: 0;
+}
+
+.main-page-disclaimer__box {
+  border-left: 5px solid var(--university_primary_color, #ff4949);
+  background: #f7f7f7;
+  padding: 24px 28px;
+}
+
+.main-page-disclaimer__title {
+  margin: 0 0 12px;
+  color: var(--university_primary_color, #ff4949);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.main-page-disclaimer__content {
+  max-width: 1050px;
+}
+
+.main-page-disclaimer__content p {
+  margin: 0 0 10px;
+  color: #222222;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.main-page-disclaimer__content p:last-child {
+  margin-bottom: 0;
+}
+
 @media (max-width: 767.98px) {
   .image-banner-main-page {
     height: 320px !important;
@@ -14217,6 +14428,33 @@ VISTA DE LISTA DE UNIVERSIDADES
   .text-under-main-image-uni {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .main-page-disclaimer {
+    padding-top: 24px;
+  }
+
+  .main-page-disclaimer__box {
+    padding: 20px;
+  }
+
+  .alliance-institutions-hero {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .alliance-institutions-hero__inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .alliance-institutions-hero__logo {
+    min-height: 120px;
+    justify-content: flex-start;
+  }
+
+  .alliance-institutions-hero__logo img {
+    max-height: 150px;
   }
 
   .map-and-explore {

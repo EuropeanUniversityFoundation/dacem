@@ -15,9 +15,22 @@
 		</h2>
 		<a href="{{ main_page_search_programme_url|default('/search-programme') }}"><button class="cta-button{% if main_page_is_athena %} cta-button--athena{% endif %}">{{'FIND A PROGRAMME'|t}}</button></a>
 	</div>
-</div>
+	</div>
 
-<section>
+<section class="main-page-disclaimer section-container">
+	<div class="my-custom-container-2">
+		<div class="main-page-disclaimer__box">
+			<h2 class="main-page-disclaimer__title">{{ 'Disclaimer'|t }}</h2>
+			<div class="main-page-disclaimer__content">
+				<p>{{ 'The information provided in the DACEM Academic Catalogue is made available exclusively for validation, testing, and demonstration purposes within the context of the DACEM project. The content presented in this catalogue may not be complete, accurate, current, or officially validated by the participating institutions.'|t }}</p>
+				<p>{{ 'Users should not rely on the information contained in this catalogue for official academic, administrative, mobility, or decision-making purposes. Course descriptions, programme information, organisational data, contacts, and other related content may be subject to changes, omissions, or inconsistencies.'|t }}</p>
+				<p>{{ 'For official and up-to-date information, users are advised to consult the corresponding institutional websites or contact the relevant Higher Education Institution directly.'|t }}</p>
+			</div>
+		</div>
+	</div>
+</section>
+	
+	<section>
 
 <div class="container-flex container-university-list" id="institutions">
 
@@ -91,9 +104,13 @@
 		</span>
 		<span class="visually-hidden">Next</span>
 	</button>
-</div>
+	</div>
 
-<div class="row map-and-explore">
+	<div class="main-page-see-all-wrapper">
+		<a href="{{ path('view.main_page.page_2') }}" class="main-page-see-all-button">{{ 'See all'|t }}</a>
+	</div>
+	
+	<div class="row map-and-explore">
 	<div class="col-12 col-xl-7">
 		<div class="map-wrapper" style="min-height: 300px;">
 			{{ drupal_view('map_view', 'block_5') }}

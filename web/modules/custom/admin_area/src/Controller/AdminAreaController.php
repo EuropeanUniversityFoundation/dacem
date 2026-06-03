@@ -89,6 +89,15 @@ class AdminAreaController extends ControllerBase
       'agreement' => [
         'university_admin' => 'view.admin_agreements.page_1',
       ],
+      'joint_programme' => [
+        'university_admin' => 'view.admin_joint_programmes.page_1',
+      ],
+      'member' => [
+        'university_admin' => 'view.admin_joint_member.page_1',
+      ],
+      'available_joint_programmes' => [
+        'university_admin' => 'view.admin_available_joint_programmes.page_1',
+      ],
     ];
 
     // Comprobar que ese tipo está soportado

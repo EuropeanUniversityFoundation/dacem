@@ -36,6 +36,9 @@ $route_name = $route_match->getRouteName();
 // Lista de rutas donde el bloque debe aparecer.
 $allowed_routes = [
   'view.main_page.page_1',
+  'view.main_page.page_2',
+  'view.alliances.page_1',
+  'view.alliance_institutions.page_1',
   'view.search_programme.page_1',
   'view.search_iec.page_1',
 ];
@@ -113,9 +116,8 @@ if (!$show_block) {
     $current_language_object = $language_manager->getLanguage($current_language);
     $language_options_url = $current_language_object ? ['language' => $current_language_object] : [];
     $main_page_url = Url::fromRoute('view.main_page.page_1', [], $language_options_url)->toString();
-    $institutions_url = Url::fromRoute('view.main_page.page_1', [], $language_options_url + [
-      'fragment' => 'institutions',
-    ])->toString();
+    $institutions_url = Url::fromRoute('view.main_page.page_2', [], $language_options_url)->toString();
+    $alliances_url = Url::fromRoute('view.alliances.page_1', [], $language_options_url)->toString();
     $about_url = Url::fromUserInput('/about', $language_options_url)->toString();
     $contact_url = Url::fromUserInput('/contact', $language_options_url)->toString();
 
@@ -176,6 +178,7 @@ if (!$show_block) {
               <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li class="nav-item dacem-menu-item"><a class="nav-link" href="@about_url">' . $this->t('ABOUT') . '</a></li>
                   <li class="nav-item dacem-menu-item"><a class="nav-link" href="@institutions_url">' . $this->t('INSTITUTIONS') . '</a></li>
+                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="@alliances_url">' . $this->t('ALLIANCES') . '</a></li>
                   <li class="nav-item dacem-menu-item"><a class="nav-link" href="@contact_url">' . $this->t('CONTACT') . '</a></li>
               </ul>
               <div class="d-flex ms-lg-2 right-buttons-university-menu">
@@ -198,6 +201,7 @@ if (!$show_block) {
       '@main_page_url' => $main_page_url,
       '@about_url' => $about_url,
       '@institutions_url' => $institutions_url,
+      '@alliances_url' => $alliances_url,
       '@contact_url' => $contact_url,
       '@menu_image_url' => $logo_url,
       '@site_primary_color' => $primary_color,

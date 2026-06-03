@@ -194,7 +194,6 @@ class="negative-margin-search-page">
 							{% for row in view.result %}
 								{% set iec = row._entity %}
 
-								{# ✅ CAMBIA este campo si tu referencia al programme tiene otro machine name #}
 								{% set programme = row.display_programme|default(iec.field_iec_programme.entity ?? null) %}
 
 
@@ -211,12 +210,10 @@ class="negative-margin-search-page">
 											<div
 												class="card-body p-2">
 
-												{# ✅ Título IEC #}
 												<h5 class="card-title mb-1 text-start">
 													{{ iec.label }}
 												</h5>
 
-												{# ✅ Programa debajo #}
 												{% if programme %}
 													<div class="mb-2">
 														<span class="fst-italic">

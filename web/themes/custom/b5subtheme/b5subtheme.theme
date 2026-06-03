@@ -300,7 +300,7 @@ function b5subtheme_preprocess_views_view(&$variables)
 
 
 
-  if ($variables['view']->id() == 'main_page') {
+  if (in_array($variables['view']->id(), ['main_page', 'alliance_institutions'], TRUE)) {
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $translated_institution = null;
     $variables['main_page_is_athena'] = str_contains(strtolower(\Drupal::request()->getHost()), 'athena');
@@ -375,6 +375,16 @@ function b5subtheme_preprocess_views_view(&$variables)
       // Asignar la universidad traducida y la URL personalizada
 
 
+    }
+
+    if ($variables['view']->id() === 'alliance_institutions') {
+      $alliance_id = $variables['view']->args[0] ?? NULL;
+      $alliance = $alliance_id && is_numeric($alliance_id) ? Node::load((int) $alliance_id) : NULL;
+      if ($alliance instanceof NodeInterface) {
+        $alliance = b5subtheme_entity_for_language_with_fallback($alliance, $current_language);
+        $variables['alliance'] = $alliance;
+        $variables['alliance_title'] = $alliance->label();
+      }
     }
 
     $branding = \Drupal::service('settings')->get('site_branding', []);

@@ -45,3 +45,19 @@ admin_area.redirect_create_user:
     _permission: 'access content'
   options:
     _admin_route: TRUE
+
+
+
+
+
+admin_area.add_membership_form:
+  path: '/admin-area/add-membership-form/{joint_programme}'
+  defaults:
+    _controller: '\Drupal\admin_area\Controller\AdminAreaMembershipController::redirectToMembershipForm'
+    _title: 'Add membership'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      joint_programme:
+        type: entity:node

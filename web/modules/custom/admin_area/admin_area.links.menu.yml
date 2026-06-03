@@ -132,3 +132,31 @@ admin_area.my_agreements_link:
   parent: admin_area.admin_menu
   menu_name: admin
   weight: 13
+
+admin_area.my_joint_programmes_link:
+  title: 'My Joint Programmes'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'joint_programme'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 14
+
+admin_area.my_memberships_link:
+  title: 'My Memberships'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'member'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 15
+
+admin_area.available_joint_programmes_link:
+  title: 'Other Joint Programmes'
+  route_name: admin_area.my_entity_page
+  route_parameters:
+    entity_type: 'available_joint_programmes'
+  parent: admin_area.admin_menu
+  menu_name: admin
+  weight: 16
+
