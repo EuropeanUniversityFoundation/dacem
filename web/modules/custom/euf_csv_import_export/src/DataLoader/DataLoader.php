@@ -59,7 +59,7 @@ class Dataloader {
     $entity = $storage->loadByProperties([
       'type' => $entityType,
       $codeField => $code,
-      $institutionField => $institution->id()
+      $institutionField => $institution->id(),
     ]);
 
     return $entity;
