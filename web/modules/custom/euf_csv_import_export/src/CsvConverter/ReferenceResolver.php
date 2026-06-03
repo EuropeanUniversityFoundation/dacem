@@ -61,13 +61,22 @@ class ReferenceResolver {
         'cardinality' => 1,
       ],
     ],
-    // 'course' => [
-    //   [
-    //     'reference_field_name' => 'hei',
-    //     'referenced_entity_type' => 'hei',
-    //     'referenced_field_name' => 'hei_id',
-    //     'cardinality' => 1,
-    //   ],
+    ImportTargetEntityType::COURSE->value => [
+      [
+        'reference_field_name' => 'field_iec_programme',
+        'referenced_entity' => 'node',
+        'referenced_entity_type' => ImportTargetEntityType::PROGRAMME->value,
+        'referenced_field_name' => 'field_programme_code',
+        'referenced_hei_field_name' => 'field_programme_institution',
+        'cardinality' => 1,
+      ],
+      [
+        'reference_field_name' => 'field_iec_language_of_instructio',
+        'referenced_entity' => 'taxonomy_term',
+        'referenced_entity_type' => NULL,
+        'referenced_field_name' => 'name',
+        'cardinality' => -1,
+      ],
     //   [
     //     'reference_field_name' => 'ounit',
     //     'referenced_entity_type' => 'ounit',
@@ -104,7 +113,7 @@ class ReferenceResolver {
     //     'referenced_hei_field_name' => 'hei',
     //     'cardinality' => 1,
     //   ],
-    // ],
+    ],
   ];
 
   protected EntityTypeManagerInterface $entityTypeManager;
@@ -249,14 +258,14 @@ class ReferenceResolver {
 
   // @todo Move to data_loader
   public function loadEntity(
-  string $entity_id,
-  string $field_name,
-  string $field_value,
-  Node $institution,
-  ?string $entity_type = NULL,
-  ?string $entity_bundle = NULL,
-  ?string $hei_field_name = NULL
-): EntityInterface | FALSE {
+    string $entity_id,
+    string $field_name,
+    string $field_value,
+    Node $institution,
+    ?string $entity_type = NULL,
+    ?string $entity_bundle = NULL,
+    ?string $hei_field_name = NULL
+  ): EntityInterface | FALSE {
 
     $conditions[] = [
       'field' => $field_name,
