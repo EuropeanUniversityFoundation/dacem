@@ -11,6 +11,7 @@ services:
       - '@euf_csv_import_export.data_loader'
       - '@euf_csv_import_export.ounit_validator'
       - '@euf_csv_import_export.programme_validator'
+      - '@euf_csv_import_export.course_validator'
       - '@euf_csv_import_export.csv_normalizer'
   euf_csv_import_export.file_validator:
     class: Drupal\euf_csv_import_export\FileValidator\FileValidator
@@ -37,6 +38,9 @@ services:
     arguments: ['@entity_type.manager', '@euf_csv_import_export.data_loader', '@euf_csv_import_export.csv_normalizer']
   euf_csv_import_export.programme_validator:
     class: Drupal\euf_csv_import_export\EntityValidator\ProgrammeValidator
+    arguments: ['@entity_type.manager', '@euf_csv_import_export.data_loader', '@euf_csv_import_export.csv_normalizer']
+  euf_csv_import_export.course_validator:
+    class: Drupal\euf_csv_import_export\EntityValidator\CourseValidator
     arguments: ['@entity_type.manager', '@euf_csv_import_export.data_loader', '@euf_csv_import_export.csv_normalizer']
   euf_csv_import_export.csv_normalizer:
     class: Drupal\euf_csv_import_export\CsvNormalizer\CsvNormalizer
