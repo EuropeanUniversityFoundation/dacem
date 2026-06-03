@@ -10,6 +10,7 @@ use Drupal\euf_csv_import_export\CsvConverter\ReferenceResolver;
 use Drupal\euf_csv_import_export\CsvImporter\CsvSorter;
 use Drupal\euf_csv_import_export\CsvNormalizer\CsvNormalizer;
 use Drupal\euf_csv_import_export\Dataloader\Dataloader;
+use Drupal\euf_csv_import_export\EntityValidator\CourseValidator;
 use Drupal\euf_csv_import_export\EntityValidator\OunitValidator;
 use Drupal\euf_csv_import_export\EntityValidator\ProgrammeValidator;
 use Drupal\euf_csv_import_export\Enum\ImportTargetEntityType;
@@ -29,6 +30,7 @@ class CsvImporter {
 	protected Dataloader $dataLoader;
 	protected OunitValidator $ounitValidator;
 	protected ProgrammeValidator $programmeValidator;
+	protected CourseValidator $courseValidator;
 	protected CsvNormalizer $csvNormalizer;
 
 	public function __construct(
@@ -41,6 +43,7 @@ class CsvImporter {
 		Dataloader $data_loader,
 		OunitValidator $ounit_validator,
 		ProgrammeValidator $programme_validator,
+		CourseValidator $course_validator,
 		CsvNormalizer $csv_normalizer,
 	)	{
 		$this->fileSystem = $file_system;
@@ -52,6 +55,7 @@ class CsvImporter {
 		$this->dataLoader = $data_loader;
 		$this->ounitValidator = $ounit_validator;
 		$this->programmeValidator = $programme_validator;
+		$this->courseValidator = $course_validator;
 		$this->csvNormalizer = $csv_normalizer;
 	}
 
@@ -66,6 +70,7 @@ class CsvImporter {
 			$container->get('euf_csv_import_export.data_loader'),
 			$container->get('euf_csv_import_export.ounit_validator'),
 			$container->get('euf_csv_import_export.programme_validator'),
+			$container->get('euf_csv_import_export.course_validator'),
 			$container->get('euf_csv_import_export.csv_normalizer'),
     );
   }
@@ -103,7 +108,7 @@ class CsvImporter {
 		} else if ($entityType === ImportTargetEntityType::PROGRAMME->value){
 			$violations = $this->programmeValidator->validateMultiple($entityType, $results);
 		} else if ($entityType === ImportTargetEntityType::COURSE->value){
-
+			$violations = $this->courseValidator->validateMultiple($entityType, $results, $institution_in_file);
 		} else if ($entityType === ImportTargetEntityType::COURSE_INSTANCE->value){
 
 		}
