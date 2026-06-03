@@ -6,7 +6,7 @@ use Drupal\euf_csv_import_export\Enum\ImportTargetEntityType;
 
 class FieldMappingService {
 
-  public const LANGUAGE_SEPARATOR = '.';
+  public const LANGUAGE_SEPARATOR = '|';
   public const DEFAULT_LANGUAGE = 'en';
   public const HEADER_SEPARATOR = '_';
 
@@ -18,7 +18,7 @@ class FieldMappingService {
       'hei_column_name' => 'field_programme_institution',
     ],
     ImportTargetEntityType::COURSE->value => [
-      'hei_column_name' => 'hei',
+      'hei_column_name' => 'field_iec_programme.entity.field_programme_institution',
     ],
     ImportTargetEntityType::COURSE_INSTANCE->value => [
       'hei_column_name' => 'hei',
@@ -74,9 +74,26 @@ class FieldMappingService {
       ],
     ],
     // @todo Continue with the rest of the entity types.
-    ImportTargetEntityType::COURSE->value => ['title____0___string', /*'title____0___lang',*/ 'code', 'course__ects', 'language_of_instruction____0', 'description____0___multiline', /*'description____0___lang',*/ 'learning_outcomes____0___multiline', /*'learning_outcomes____0___lang'*/ 'course__academic_term____0', ],
-    ImportTargetEntityType::COURSE_INSTANCE->value => ['hei', 'start_date', 'end_date', 'academic_term_id', 'course', /*'ects', 'language_of_instruction____0'*/],
+    ImportTargetEntityType::COURSE->value => [
+      'non-translatable' => [
+        'field_iec_code',
+        'field_iec_language_of_instructio____0',
+        'field_iec_credits',
+        'field_iec_programme',
+        'field_iec_type',
+        'field_iec_term____0',
+        'field_iec_year____0'
+      ],
+      'translatable' => [
+        'title',
+        'field_iec_description',
+        'field_iec_learning_outcomes',
+      ],
+    ],
+    ImportTargetEntityType::COURSE_INSTANCE->value => ['hei', 'start_date', 'end_date', 'academic_term_id', 'course', /*'ects', 'language_of_instruction____0'*/
+    ],
   ];
+
 
   public function sortHeadersByLanguage(array $headers) {
     $language_sorted_headers = [];
