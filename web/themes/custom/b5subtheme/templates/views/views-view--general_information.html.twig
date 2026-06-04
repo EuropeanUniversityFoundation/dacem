@@ -321,6 +321,19 @@
 								</div>
 							{% endif %}
 
+              {% if general_information_alliance %}
+                {% set alliance_logo = general_information_alliance.field_alliance_logo.entity %}
+                <div class="institution-alliance-membership">
+                  <p class="institution-alliance-membership__label">{{ 'Member of alliance:'|t }}</p>
+                  <a href="{{ path('view.alliance_institutions.page_1', {'arg_0': general_information_alliance.id()}) }}" class="institution-alliance-membership__link">
+                    {% if alliance_logo %}
+                      <img src="{{ file_url(alliance_logo.getFileUri()) }}" alt="{{ general_information_alliance.label() }}">
+                    {% else %}
+                      <span>{{ general_information_alliance.label() }}</span>
+                    {% endif %}
+                  </a>
+                </div>
+              {% endif %}
 
 						</div>
 
@@ -1241,4 +1254,3 @@ if (items.length > 0) {
 showPage(currentPage);
 }
 });</script>
-

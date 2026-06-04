@@ -1,11 +1,21 @@
 {% set primary_color = main_page_primary_color|default('#ff4949') %}
 
+<section class="alliances-search" style="--alliances-primary-color: {{ primary_color }};">
+  <div class="my-custom-container-2">
+    <div class="alliances-search__inner">
+      <h1>{{ 'Institutions'|t }}</h1>
+
+      {% if exposed %}
+        <div class="alliances-search__form">
+          {{ exposed }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
 <section class="main-page-university-grid section-container">
   <div class="my-custom-container-2">
-    {% if title %}
-      <h1 class="main-page-university-grid__title">{{ title }}</h1>
-    {% endif %}
-
     {% if view.result %}
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 g-xl-5">
         {% for row in view.result %}

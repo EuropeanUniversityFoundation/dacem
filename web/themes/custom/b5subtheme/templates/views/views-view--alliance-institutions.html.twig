@@ -1,5 +1,5 @@
 {% set primary_color = main_page_primary_color|default('#ff4949') %}
-{% set alliance_file = alliance.field_alliance_picture.entity ?? null %}
+{% set alliance_file = alliance.field_alliance_logo.entity ?? null %}
 {% set alliance_description = alliance.field_alliance_description.processed|default(alliance.field_alliance_description.value|default('')) %}
 
 {% if alliance %}
@@ -18,6 +18,31 @@
           {% if alliance_description %}
             <div class="alliance-institutions-hero__description">
               {{ alliance_description|raw }}
+            </div>
+          {% endif %}
+
+          {% if alliance_email or alliance_phone or alliance_webpage_url %}
+            <div class="alliance-institutions-hero__contacts">
+              {% if alliance_email %}
+                <a href="mailto:{{ alliance_email }}">
+                  <i class="fas fa-envelope" aria-hidden="true"></i>
+                  <span>{{ alliance_email }}</span>
+                </a>
+              {% endif %}
+
+              {% if alliance_phone %}
+                <a href="tel:{{ alliance_phone|replace({' ': '', '-': '', '(': '', ')': ''}) }}">
+                  <i class="fas fa-phone" aria-hidden="true"></i>
+                  <span>{{ alliance_phone }}</span>
+                </a>
+              {% endif %}
+
+              {% if alliance_webpage_url %}
+                <a href="{{ alliance_webpage_url }}" target="_blank" rel="noopener noreferrer">
+                  <i class="fas fa-globe" aria-hidden="true"></i>
+                  <span>{{ alliance_webpage_title|default('Website'|t) }}</span>
+                </a>
+              {% endif %}
             </div>
           {% endif %}
         </div>

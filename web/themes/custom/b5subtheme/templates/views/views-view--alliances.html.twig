@@ -1,14 +1,24 @@
+<section class="alliances-search" style="--alliances-primary-color: {{ site_primary_color|default('#ff4949') }};">
+  <div class="my-custom-container-2">
+    <div class="alliances-search__inner">
+      <h1>{{ title|default('Alliances'|t) }}</h1>
+
+      {% if exposed %}
+        <div class="alliances-search__form">
+          {{ exposed }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
 <section class="alliances-grid section-container">
   <div class="my-custom-container-2">
-    {% if title %}
-      <h1 class="alliances-grid__title">{{ title }}</h1>
-    {% endif %}
-
     {% if view.result %}
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 g-xl-5">
         {% for row in view.result %}
           {% set alliance = row._entity %}
-          {% set file = alliance.field_alliance_picture.entity %}
+          {% set file = alliance.field_alliance_logo.entity %}
           {% set description = alliance.field_alliance_description.processed|default(alliance.field_alliance_description.value|default('')) %}
           {% set alliance_url = '/alliances/' ~ alliance.id() %}
 

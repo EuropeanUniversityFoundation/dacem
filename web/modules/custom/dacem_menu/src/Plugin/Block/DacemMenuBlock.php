@@ -121,6 +121,24 @@ if (!$show_block) {
     $about_url = Url::fromUserInput('/about', $language_options_url)->toString();
     $contact_url = Url::fromUserInput('/contact', $language_options_url)->toString();
 
+    $alliance_count = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'alliance')
+      ->condition('status', 1)
+      ->count()
+      ->execute();
+
+    $alliances_menu_item = '';
+    if ($alliance_count > 1) {
+      $alliances_menu_item = '<li class="nav-item dacem-menu-item"><a class="nav-link" href="'
+        . $alliances_url
+        . '">'
+        . $this->t('ALLIANCES')
+        . '</a></li>';
+    }
+
     // Obtain the current user to display their profile picture
     $current_user = \Drupal::currentUser();
     $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
@@ -178,7 +196,7 @@ if (!$show_block) {
               <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li class="nav-item dacem-menu-item"><a class="nav-link" href="@about_url">' . $this->t('ABOUT') . '</a></li>
                   <li class="nav-item dacem-menu-item"><a class="nav-link" href="@institutions_url">' . $this->t('INSTITUTIONS') . '</a></li>
-                  <li class="nav-item dacem-menu-item"><a class="nav-link" href="@alliances_url">' . $this->t('ALLIANCES') . '</a></li>
+                  ' . $alliances_menu_item . '
                   <li class="nav-item dacem-menu-item"><a class="nav-link" href="@contact_url">' . $this->t('CONTACT') . '</a></li>
               </ul>
               <div class="d-flex ms-lg-2 right-buttons-university-menu">
@@ -201,7 +219,6 @@ if (!$show_block) {
       '@main_page_url' => $main_page_url,
       '@about_url' => $about_url,
       '@institutions_url' => $institutions_url,
-      '@alliances_url' => $alliances_url,
       '@contact_url' => $contact_url,
       '@menu_image_url' => $logo_url,
       '@site_primary_color' => $primary_color,

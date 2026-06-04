@@ -297,6 +297,11 @@ function b5subtheme_preprocess_views_view(&$variables)
     $variables['programme_curriculum'] = b5subtheme_programme_curriculum_structure($programme);
   }
 
+  if ($variables['view']->id() === 'alliances') {
+    $branding = \Drupal::service('settings')->get('site_branding', []);
+    $variables['site_primary_color'] = $branding['primary_color'] ?? '#ff4949';
+  }
+
 
 
 
@@ -384,6 +389,18 @@ function b5subtheme_preprocess_views_view(&$variables)
         $alliance = b5subtheme_entity_for_language_with_fallback($alliance, $current_language);
         $variables['alliance'] = $alliance;
         $variables['alliance_title'] = $alliance->label();
+        $variables['alliance_email'] = !$alliance->get('field_alliance_email')->isEmpty()
+          ? $alliance->get('field_alliance_email')->value
+          : NULL;
+        $variables['alliance_phone'] = !$alliance->get('field_alliance_phone')->isEmpty()
+          ? $alliance->get('field_alliance_phone')->value
+          : NULL;
+        $variables['alliance_webpage_url'] = !$alliance->get('field_alliance_webpage')->isEmpty()
+          ? $alliance->get('field_alliance_webpage')->first()->getUrl()->toString()
+          : NULL;
+        $variables['alliance_webpage_title'] = !$alliance->get('field_alliance_webpage')->isEmpty()
+          ? ($alliance->get('field_alliance_webpage')->title ?: $variables['alliance_webpage_url'])
+          : NULL;
       }
     }
 
@@ -928,6 +945,17 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       ////dump($translated_node);
       $variables['university'] = $translated_node;
 
+      if (
+        $translated_node->hasField('field_institution_alliance') &&
+        !$translated_node->get('field_institution_alliance')->isEmpty()
+      ) {
+        $alliance = $translated_node->get('field_institution_alliance')->entity;
+        if ($alliance instanceof NodeInterface) {
+          $variables['general_information_alliance'] =
+            b5subtheme_entity_for_language_with_fallback($alliance, $current_language);
+        }
+      }
+
       // Obtener los campus asociados a la universidad.
       $campuses = \Drupal::entityTypeManager()
         ->getStorage('node')
@@ -954,6 +982,18 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
     }
 
+    if (
+      !isset($variables['general_information_alliance']) &&
+      $node instanceof NodeInterface &&
+      $node->hasField('field_institution_alliance') &&
+      !$node->get('field_institution_alliance')->isEmpty()
+    ) {
+      $alliance = $node->get('field_institution_alliance')->entity;
+      if ($alliance instanceof NodeInterface) {
+        $variables['general_information_alliance'] =
+          b5subtheme_entity_for_language_with_fallback($alliance, $current_language);
+      }
+    }
 
 
 
@@ -2026,6 +2066,24 @@ use Drupal\Core\Form\FormStateInterface;
 function b5subtheme_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, $form_id)
 {
   $view = $form_state->getBuildInfo()['callback_object']->view ?? NULL;
+  if ($view && $view->id() === 'alliances') {
+    if (isset($form['title'])) {
+      $form['title']['#attributes']['placeholder'] = t('Type here to search');
+      $form['title']['#title_display'] = 'invisible';
+    }
+
+    if (isset($form['actions']['submit'])) {
+      $form['actions']['submit']['#value'] = t('Search');
+    }
+  }
+
+  if ($view && $view->id() === 'main_page' && $view->current_display === 'page_2') {
+    if (isset($form['title'])) {
+      $form['title']['#attributes']['placeholder'] = t('Type here to search');
+      $form['title']['#title_display'] = 'invisible';
+    }
+  }
+
   if ($view && $view->id() === 'search_programme') {
     // En el form
     $form['#attributes']['data-disable-refocus'] = 'true';

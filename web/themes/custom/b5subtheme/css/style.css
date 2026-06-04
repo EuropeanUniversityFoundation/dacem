@@ -14095,6 +14095,99 @@ VISTA DE LISTA DE UNIVERSIDADES
   background: #ffffff;
 }
 
+.alliances-search {
+  padding: 20px var(--global-side-padding);
+  background: var(--alliances-primary-color, #ff4949);
+}
+
+.alliances-search__inner {
+  display: grid;
+  grid-template-columns: max-content minmax(300px, 560px);
+  gap: 28px;
+  align-items: center;
+  justify-content: start;
+}
+
+.alliances-search h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.alliances-search__form {
+  min-width: 0;
+}
+
+.alliances-exposed-form {
+  width: 100%;
+}
+
+.alliances-exposed-form__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px auto;
+  align-items: stretch;
+  width: 100%;
+}
+
+.alliances-exposed-form__field {
+  width: 100%;
+  min-width: 0;
+}
+
+.alliances-exposed-form__field .form-item {
+  margin: 0;
+}
+
+.alliances-exposed-form__field label,
+.alliances-exposed-form__field .description {
+  display: none;
+}
+
+.alliances-exposed-form__field input {
+  width: 100%;
+  height: 42px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 0;
+  background: #ffffff;
+  color: #111111;
+}
+
+.alliances-exposed-form__field input:focus {
+  outline: 2px solid #111111;
+  outline-offset: -2px;
+}
+
+.alliances-exposed-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: #111111;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.alliances-exposed-form__submit:hover {
+  background: #333333;
+}
+
+.alliances-exposed-form__label {
+  display: inline-flex;
+  align-items: center;
+  padding-left: 16px;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
 .alliance-institutions-hero {
   background: #f1f1f1;
   padding-top: 18px;
@@ -14144,6 +14237,67 @@ VISTA DE LISTA DE UNIVERSIDADES
 
 .alliance-institutions-hero__description p:last-child {
   margin-bottom: 0;
+}
+
+.alliance-institutions-hero__contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 16px;
+}
+
+.alliance-institutions-hero__contacts a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #222222;
+  font-size: 0.88rem;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.alliance-institutions-hero__contacts a:hover {
+  color: var(--university_primary_color, #ff4949);
+  text-decoration: underline;
+}
+
+.alliance-institutions-hero__contacts i {
+  flex: 0 0 auto;
+  color: var(--university_primary_color, #ff4949);
+  font-size: 0.9rem;
+}
+
+.institution-alliance-membership {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #d3d3d3;
+}
+
+.institution-alliance-membership__label {
+  margin: 0 0 12px;
+  color: #222222;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.institution-alliance-membership__link {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  color: #222222;
+  text-decoration: none;
+}
+
+.institution-alliance-membership__link img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 90px;
+  object-fit: contain;
+}
+
+.institution-alliance-membership__link:hover {
+  color: var(--university_primary_color, #ff4949);
 }
 
 .main-page-university-grid__title,
@@ -14378,7 +14532,7 @@ VISTA DE LISTA DE UNIVERSIDADES
 }
 
 .main-page-disclaimer {
-  padding-top: 32px;
+  padding-top: 4px;
   padding-bottom: 0;
 }
 
@@ -14412,6 +14566,19 @@ VISTA DE LISTA DE UNIVERSIDADES
 }
 
 @media (max-width: 767.98px) {
+  .alliances-search {
+    padding: 18px 16px;
+  }
+
+  .alliances-search__inner {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .alliances-search h1 {
+    font-size: 1.8rem;
+  }
+
   .image-banner-main-page {
     height: 320px !important;
   }
@@ -14431,7 +14598,7 @@ VISTA DE LISTA DE UNIVERSIDADES
   }
 
   .main-page-disclaimer {
-    padding-top: 24px;
+    padding-top: 4px;
   }
 
   .main-page-disclaimer__box {
