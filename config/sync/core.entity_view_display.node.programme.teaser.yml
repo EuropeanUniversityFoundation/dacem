@@ -14,6 +14,7 @@ dependencies:
     - field.field.node.programme.field_email
     - field.field.node.programme.field_eqf_level
     - field.field.node.programme.field_isced_f
+    - field.field.node.programme.field_joint_programme
     - field.field.node.programme.field_learning_opportunity_type
     - field.field.node.programme.field_length_of_programme
     - field.field.node.programme.field_main_objective
@@ -70,6 +71,7 @@ hidden:
   field_email: true
   field_eqf_level: true
   field_isced_f: true
+  field_joint_programme: true
   field_learning_opportunity_type: true
   field_length_of_programme: true
   field_main_objective: true

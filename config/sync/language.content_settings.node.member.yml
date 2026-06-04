@@ -1,18 +1,18 @@
-uuid: 9f12f30d-b806-4a80-ad63-0cc4e97ba79e
+uuid: 60a8592b-b559-4d73-8067-a53da4dd819d
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.agreement
+    - node.type.member
   module:
     - content_translation
 third_party_settings:
   content_translation:
-    enabled: false
+    enabled: true
     bundle_settings:
       untranslatable_fields_hide: '0'
-id: node.agreement
+id: node.member
 target_entity_type_id: node
-target_bundle: agreement
+target_bundle: member
 default_langcode: site_default
-language_alterable: false
+language_alterable: true

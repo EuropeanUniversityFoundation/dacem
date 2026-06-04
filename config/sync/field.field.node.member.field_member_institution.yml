@@ -1,15 +1,15 @@
-uuid: 91bf9871-98d4-4e3c-a380-4ade5e33f903
+uuid: 17875f2f-4454-456e-a280-fa8e3d133189
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_ou_institution
+    - field.storage.node.field_member_institution
     - node.type.institution
-    - node.type.organizational_unit
-id: node.organizational_unit.field_ou_institution
-field_name: field_ou_institution
+    - node.type.member
+id: node.member.field_member_institution
+field_name: field_member_institution
 entity_type: node
-bundle: organizational_unit
+bundle: member
 label: Institution
 description: ''
 required: true

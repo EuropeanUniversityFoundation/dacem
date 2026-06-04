@@ -1,18 +1,18 @@
-uuid: 91bf9871-98d4-4e3c-a380-4ade5e33f903
+uuid: 54b4ccff-d77c-46a6-820d-972d0a874b45
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_ou_institution
-    - node.type.institution
-    - node.type.organizational_unit
-id: node.organizational_unit.field_ou_institution
-field_name: field_ou_institution
+    - field.storage.node.field_joint_alliance
+    - node.type.alliance
+    - node.type.joint_programme
+id: node.joint_programme.field_joint_alliance
+field_name: field_joint_alliance
 entity_type: node
-bundle: organizational_unit
-label: Institution
+bundle: joint_programme
+label: Alliance
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -20,7 +20,7 @@ settings:
   handler: 'default:node'
   handler_settings:
     target_bundles:
-      institution: institution
+      alliance: alliance
     sort:
       field: _none
       direction: ASC

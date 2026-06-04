@@ -1,9 +1,9 @@
-uuid: 9f12f30d-b806-4a80-ad63-0cc4e97ba79e
+uuid: 6c5efee0-1685-456c-be12-6512472a2bf2
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.agreement
+    - group.relationship_type.universitytypegroup-141526f84337
   module:
     - content_translation
 third_party_settings:
@@ -11,8 +11,8 @@ third_party_settings:
     enabled: false
     bundle_settings:
       untranslatable_fields_hide: '0'
-id: node.agreement
-target_entity_type_id: node
-target_bundle: agreement
+id: group_relationship.universitytypegroup-141526f84337
+target_entity_type_id: group_relationship
+target_bundle: universitytypegroup-141526f84337
 default_langcode: site_default
 language_alterable: false

@@ -1,26 +1,21 @@
-uuid: 38b9e04b-2df1-4fbd-b93f-50d2b608913e
+uuid: bfb80d1b-f81a-4c0a-9512-dba1b2051f34
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.alliance.field_alliance_address
-    - field.field.node.alliance.field_alliance_description
-    - field.field.node.alliance.field_alliance_email
-    - field.field.node.alliance.field_alliance_logo
-    - field.field.node.alliance.field_alliance_phone
-    - field.field.node.alliance.field_alliance_picture
-    - field.field.node.alliance.field_alliance_webpage
-    - image.style.thumbnail
-    - node.type.alliance
+    - field.field.node.joint_programme.field_arrangements_for_grading
+    - field.field.node.joint_programme.field_form_of_the_diploma
+    - field.field.node.joint_programme.field_joint_alliance
+    - field.field.node.joint_programme.field_joint_description
+    - field.field.node.joint_programme.field_mobility_structure
+    - field.field.node.joint_programme.field_programme
+    - node.type.joint_programme
   module:
-    - image
-    - link
     - path
-    - telephone
     - text
-id: node.alliance.default
+id: node.joint_programme.default
 targetEntityType: node
-bundle: alliance
+bundle: joint_programme
 mode: default
 content:
   created:
@@ -29,15 +24,31 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_alliance_address:
-    type: string_textfield
+  field_arrangements_for_grading:
+    type: text_textarea
     weight: 126
     region: content
     settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_form_of_the_diploma:
+    type: options_select
+    weight: 127
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_joint_alliance:
+    type: entity_reference_autocomplete
+    weight: 124
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_alliance_description:
+  field_joint_description:
     type: text_textarea
     weight: 123
     region: content
@@ -45,44 +56,23 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_alliance_email:
-    type: email_default
-    weight: 128
-    region: content
-    settings:
-      placeholder: ''
-      size: 60
-    third_party_settings: {  }
-  field_alliance_logo:
-    type: image_image
-    weight: 124
-    region: content
-    settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
-    third_party_settings: {  }
-  field_alliance_phone:
-    type: telephone_default
-    weight: 129
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_alliance_picture:
-    type: image_image
+  field_mobility_structure:
+    type: text_textarea
     weight: 125
     region: content
     settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
+      rows: 5
+      placeholder: ''
     third_party_settings: {  }
-  field_alliance_webpage:
-    type: link_default
-    weight: 127
+  field_programme:
+    type: entity_reference_autocomplete
+    weight: 122
     region: content
     settings:
-      placeholder_url: ''
-      placeholder_title: ''
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   langcode:
     type: language_select
@@ -125,6 +115,11 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete

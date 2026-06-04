@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.programme.field_email
     - field.field.node.programme.field_eqf_level
     - field.field.node.programme.field_isced_f
+    - field.field.node.programme.field_joint_programme
     - field.field.node.programme.field_learning_opportunity_type
     - field.field.node.programme.field_length_of_programme
     - field.field.node.programme.field_main_objective
@@ -744,6 +745,24 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 60
             additional: {  }
+          d07d6026-5ca1-4613-a144-33e4f694b872:
+            uuid: d07d6026-5ca1-4613-a144-33e4f694b872
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_joint_programme'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: boolean
+                label: above
+                settings:
+                  format: default
+                  format_custom_false: ''
+                  format_custom_true: ''
+                third_party_settings: {  }
+            weight: 61
+            additional: {  }
         third_party_settings: {  }
 id: node.programme.default
 targetEntityType: node
@@ -827,6 +846,16 @@ content:
       prefix: true
     third_party_settings: {  }
     weight: 123
+    region: content
+  field_joint_programme:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 161
     region: content
   field_learning_opportunity_type:
     type: elm_controlled_vocabulary_default

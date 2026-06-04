@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.institution.body
     - field.field.node.institution.field_abbreviation
     - field.field.node.institution.field_academic_calendar
     - field.field.node.institution.field_additional_requirements
@@ -60,21 +59,12 @@ dependencies:
     - field.field.node.institution.field_urls
     - node.type.institution
   module:
-    - text
     - user
 id: node.institution.teaser
 targetEntityType: node
 bundle: institution
 mode: teaser
 content:
-  body:
-    type: text_summary_or_trimmed
-    label: hidden
-    settings:
-      trim_length: 600
-    third_party_settings: {  }
-    weight: 101
-    region: content
   links:
     settings: {  }
     third_party_settings: {  }

@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.institution.body
     - field.field.node.institution.field_abbreviation
     - field.field.node.institution.field_academic_calendar
     - field.field.node.institution.field_additional_requirements
@@ -413,7 +412,6 @@ content:
     weight: 21
     region: content
 hidden:
-  body: true
   field_abbreviation: true
   field_admission_languages: true
   field_admission_registration: true

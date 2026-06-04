@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.programme.field_email
     - field.field.node.programme.field_eqf_level
     - field.field.node.programme.field_isced_f
+    - field.field.node.programme.field_joint_programme
     - field.field.node.programme.field_learning_opportunity_type
     - field.field.node.programme.field_length_of_programme
     - field.field.node.programme.field_main_objective
@@ -361,6 +362,13 @@ content:
     region: content
     settings:
       allow_all_levels: true
+    third_party_settings: {  }
+  field_joint_programme:
+    type: boolean_checkbox
+    weight: 54
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_learning_opportunity_type:
     type: elm_controlled_vocabulary_select

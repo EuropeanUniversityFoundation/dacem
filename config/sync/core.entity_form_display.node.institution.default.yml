@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.institution.body
     - field.field.node.institution.field_abbreviation
     - field.field.node.institution.field_academic_calendar
     - field.field.node.institution.field_additional_requirements
@@ -635,7 +634,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
-  body: true
   field_abbreviation: true
   field_admission_description: true
   field_admission_languages: true

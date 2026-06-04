@@ -1,16 +1,16 @@
-uuid: 91bf9871-98d4-4e3c-a380-4ade5e33f903
+uuid: db0b7ed4-63d9-45e3-85c3-0f45c5d8f90e
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_ou_institution
-    - node.type.institution
+    - field.storage.node.field_member_organizational_unit
+    - node.type.member
     - node.type.organizational_unit
-id: node.organizational_unit.field_ou_institution
-field_name: field_ou_institution
+id: node.member.field_member_organizational_unit
+field_name: field_member_organizational_unit
 entity_type: node
-bundle: organizational_unit
-label: Institution
+bundle: member
+label: 'Organizational Unit'
 description: ''
 required: true
 translatable: false
@@ -20,7 +20,7 @@ settings:
   handler: 'default:node'
   handler_settings:
     target_bundles:
-      institution: institution
+      organizational_unit: organizational_unit
     sort:
       field: _none
       direction: ASC
