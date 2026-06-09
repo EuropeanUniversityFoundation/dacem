@@ -35,6 +35,6 @@ display:
       arguments:
         gid:
           exception:
-            title: Όλες
+            title: Όλα
   page_1:
     display_title: Σελίδα

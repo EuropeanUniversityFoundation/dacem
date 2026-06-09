@@ -28,7 +28,7 @@ display:
       arguments:
         provider_field:
           exception:
-            title: Όλες
+            title: Όλα
   page:
     display_title: Σελίδα
     display_options:

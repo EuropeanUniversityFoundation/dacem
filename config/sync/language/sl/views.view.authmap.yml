@@ -12,6 +12,6 @@ display:
       arguments:
         provider_field:
           exception:
-            title: Vsi
+            title: Vse
   page:
     display_title: Stran

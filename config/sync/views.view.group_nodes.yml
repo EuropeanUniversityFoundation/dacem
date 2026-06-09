@@ -681,7 +681,7 @@ display:
           exception:
             value: all
             title_enable: false
-            title: All
+            title: Todos
           title_enable: true
           title: '{{ arguments.gid|placeholder }} nodes'
           default_argument_type: fixed

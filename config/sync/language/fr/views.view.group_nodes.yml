@@ -59,7 +59,7 @@ display:
       arguments:
         gid:
           exception:
-            title: Tout
+            title: Tous
       filters:
         status:
           expose:

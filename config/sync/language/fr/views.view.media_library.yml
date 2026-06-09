@@ -83,7 +83,7 @@ display:
       arguments:
         bundle:
           exception:
-            title: Tout
+            title: Tous
       filters:
         name:
           expose:
@@ -108,7 +108,7 @@ display:
       arguments:
         bundle:
           exception:
-            title: Tout
+            title: Tous
       filters:
         name:
           expose:

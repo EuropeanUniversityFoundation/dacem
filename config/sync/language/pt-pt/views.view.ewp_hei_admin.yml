@@ -42,7 +42,7 @@ display:
         mobility_factsheet_url:
           separator: ', '
         contact:
-          label: Contact
+          label: Contacto
       filters:
         label:
           expose:

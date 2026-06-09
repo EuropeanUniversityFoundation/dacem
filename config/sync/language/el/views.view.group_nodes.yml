@@ -42,7 +42,7 @@ display:
       arguments:
         gid:
           exception:
-            title: Όλες
+            title: Όλα
       filters:
         status:
           expose:

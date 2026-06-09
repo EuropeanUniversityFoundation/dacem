@@ -37,7 +37,7 @@ display:
       arguments:
         bundle:
           exception:
-            title: Vsi
+            title: Vse
       filters:
         name:
           expose:
@@ -57,7 +57,7 @@ display:
       arguments:
         bundle:
           exception:
-            title: Vsi
+            title: Vse
       filters:
         name:
           expose:

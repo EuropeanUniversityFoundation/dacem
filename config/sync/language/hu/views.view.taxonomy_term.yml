@@ -23,7 +23,7 @@ display:
       arguments:
         tid:
           exception:
-            title: Mind
+            title: Összes
           title: '{{ arguments.tid }}'
   feed_1:
     display_title: Hírcsatorna

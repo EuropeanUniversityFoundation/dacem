@@ -30,7 +30,7 @@ display:
       arguments:
         provider_field:
           exception:
-            title: Tout
+            title: Tous
   page:
     display_title: Page
     display_options:

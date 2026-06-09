@@ -57,7 +57,7 @@ display:
       arguments:
         gid:
           exception:
-            title: Mind
+            title: Összes
           title: '{{ arguments.gid|placeholder }} tartalmak'
       filters:
         status:

@@ -25,7 +25,7 @@ display:
       arguments:
         gid:
           exception:
-            title: Vsi
+            title: Vse
       filters:
         status:
           group_info:

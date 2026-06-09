@@ -12,9 +12,6 @@ display:
           exposed_sorts_label: 'Řadit dle'
           sort_asc_label: Vzestupně
           sort_desc_label: Sestupně
-      empty:
-        area_text_custom:
-          content: 'Hay 0 usuarios en línea.'
       filters:
         access:
           expose:
@@ -26,5 +23,4 @@ display:
   who_s_online_block:
     display_title: 'Kdo je online'
     display_options:
-      display_description: 'Una lista de los usuarios que están conectados actualmente.'
       block_description: 'Kdo je online'

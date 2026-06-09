@@ -60,7 +60,7 @@ display:
       arguments:
         bundle:
           exception:
-            title: Όλες
+            title: Όλα
       filters:
         name:
           expose:
@@ -84,7 +84,7 @@ display:
       arguments:
         bundle:
           exception:
-            title: Όλες
+            title: Όλα
       filters:
         name:
           expose:

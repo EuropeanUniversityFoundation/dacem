@@ -103,7 +103,7 @@ display:
           exception:
             value: ''
             title_enable: false
-            title: All
+            title: Todos
           title_enable: true
           title: '{{ arguments.tid }}'
           default_argument_type: fixed

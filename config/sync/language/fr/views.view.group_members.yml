@@ -49,7 +49,7 @@ display:
       arguments:
         gid:
           exception:
-            title: Tout
+            title: Tous
   page_1:
     display_title: Page
     display_options:

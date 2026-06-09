@@ -280,7 +280,7 @@ display:
           group_type: group
           admin_label: ''
           plugin_id: dblog_message
-          label: Message
+          label: Mensaje
           exclude: false
           alter:
             alter_text: false

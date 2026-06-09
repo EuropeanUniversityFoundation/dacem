@@ -26,7 +26,6 @@ display:
           label: 'Módosítás dátuma'
         count:
           label: 'Ez használja'
-          format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
         operations:
           label: Műveletek
       pager:
@@ -89,5 +88,5 @@ display:
       arguments:
         fid:
           exception:
-            title: Mind
+            title: Összes
           title: '{{ arguments.fid }} fájlhasználati információi'

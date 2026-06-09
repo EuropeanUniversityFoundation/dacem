@@ -29,7 +29,7 @@ display:
       arguments:
         provider_field:
           exception:
-            title: All
+            title: Todos
   page:
     display_title: Página
     display_options:

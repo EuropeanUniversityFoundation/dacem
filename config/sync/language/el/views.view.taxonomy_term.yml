@@ -23,7 +23,7 @@ display:
       arguments:
         tid:
           exception:
-            title: Όλες
+            title: Όλα
           title: '{{ arguments.tid }}'
   feed_1:
     display_title: Ροή

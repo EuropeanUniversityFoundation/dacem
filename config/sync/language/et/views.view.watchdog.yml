@@ -17,7 +17,7 @@ display:
         timestamp:
           label: Kuupäev
         message:
-          label: Teade
+          label: Sõnum
           alter:
             alt: '{{ message }}'
         name:
