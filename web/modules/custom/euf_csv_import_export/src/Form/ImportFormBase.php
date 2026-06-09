@@ -39,14 +39,6 @@ abstract class ImportFormBase extends FormBase {
 
   public function buildForm(array $form, FormStateInterface $form_state, $entity_type = NULL) {
 
-    // @todo Discuss how user interaction is going to happen.
-    // $form['parent_selection'] = [
-    //   '#type' => 'select',
-    //   '#title' => $this->t('Select HEI'),
-    //   '#options' => $this->getSelectParentOptions(), // Implement this to load your HEIs
-    //   '#required' => TRUE,
-    // ];
-
     $form['csv_file'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('CSV File'),
@@ -68,11 +60,11 @@ abstract class ImportFormBase extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $file_id = $form_state->getValue('csv_file')[0];
     $file = File::load($file_id);
-    // @todo Decide if we wnat to keep the files.
+    // @todo Decide if we want to keep the files.
     // $file->setPermanent();
     // $file->save();
 
-    // @ todo Convert this to Batch processing.
+    // @ todo Convert this to Batch processing if needed.
     $results = $this->importCsv($file, static::ENTITY_TYPE);
 
     if (!empty($results['errors'])) {

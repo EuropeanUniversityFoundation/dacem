@@ -36,7 +36,7 @@ class EntityValidatorBase {
    *
    */
   public static function create(ContainerInterface $container) {
-    // @phpstan-ignore new.static
+
     return new static(
       $container->get('entity_type.manager'),
       $container->get('euf_csv_import_export.data_loader'),

@@ -77,42 +77,6 @@ class ReferenceResolver {
         'referenced_field_name' => 'name',
         'cardinality' => -1,
       ],
-    //   [
-    //     'reference_field_name' => 'ounit',
-    //     'referenced_entity_type' => 'ounit',
-    //     'referenced_field_name' => 'ounit_code',
-    //     'referenced_hei_field_name' => 'parent_hei',
-    //     'cardinality' => 1,
-    //   ],
-    //   [
-    //     'reference_field_name' => 'course__related_programme',
-    //     'reference_field_property_name' => 'code',
-    //     'reference_field_target_property_name' => 'target_id',
-    //     'referenced_entity_type' => 'occ_los',
-    //     'referenced_entity_bundle' => 'programme',
-    //     'referenced_field_name' => 'code',
-    //     'referenced_hei_field_name' => 'hei',
-    //     'cardinality' => -1,
-    //   ],
-    //   [
-    //     'reference_field_name' => 'course__prerequisite_course',
-    //     'referenced_entity_type' => 'occ_los',
-    //     'referenced_entity_bundle' => 'course',
-    //     'referenced_field_name' => 'code',
-    //     'referenced_hei_field_name' => 'hei',
-    //     'cardinality' => -1,
-    //     'runs' => 'on_save',
-    //   ],
-    // ],
-    // 'course_instance' => [
-    //   [
-    //     'reference_field_name' => 'course',
-    //     'referenced_entity_type' => 'occ_los',
-    //     'referenced_entity_bundle' => 'course',
-    //     'referenced_field_name' => 'code',
-    //     'referenced_hei_field_name' => 'hei',
-    //     'cardinality' => 1,
-    //   ],
     ],
   ];
 
@@ -131,7 +95,7 @@ class ReferenceResolver {
    *
    */
   public static function create(ContainerInterface $container) {
-    // @phpstan-ignore new.static
+
     return new static(
       $container->get('entity_type.manager'),
       $container->get('euf_csv_import_export.data_loader'),
@@ -256,7 +220,6 @@ class ReferenceResolver {
     }
   }
 
-  // @todo Move to data_loader
   public function loadEntity(
     string $entity_id,
     string $field_name,
@@ -290,7 +253,6 @@ class ReferenceResolver {
     }
 
     if (isset($entity_bundle)) {
-      // FIX: Natively swap the condition bundle field key depending on the entity type
       $bundle_key = ($entity_id === 'taxonomy_term') ? 'vid' : 'type';
 
       $conditions[] = [

@@ -73,7 +73,6 @@ class FieldMappingService {
         'field_programme_learn_outcomes',
       ],
     ],
-    // @todo Continue with the rest of the entity types.
     ImportTargetEntityType::COURSE->value => [
       'non-translatable' => [
         'field_iec_code',
@@ -90,8 +89,14 @@ class FieldMappingService {
         'field_iec_learning_outcomes',
       ],
     ],
-    ImportTargetEntityType::COURSE_INSTANCE->value => ['hei', 'start_date', 'end_date', 'academic_term_id', 'course', /*'ects', 'language_of_instruction____0'*/
-    ],
+    // Out of scope for now.
+    // ImportTargetEntityType::COURSE_INSTANCE->value => [
+    //   'hei',
+    //   'start_date',
+    //   'end_date',
+    //   'academic_term_id',
+    //   'course',
+    // ],
   ];
 
 

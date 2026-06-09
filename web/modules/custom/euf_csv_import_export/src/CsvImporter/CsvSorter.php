@@ -79,7 +79,6 @@ class CsvSorter {
       }
     }
 
-    // Kahn’s Algorithm
     $queue = [];
     foreach ($inDegree as $node => $degree) {
       if ($degree === 0) {

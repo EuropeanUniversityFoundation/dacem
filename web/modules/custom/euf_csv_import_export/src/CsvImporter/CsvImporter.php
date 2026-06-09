@@ -87,7 +87,7 @@ class CsvImporter {
 			return ['errors' => $errors];
 		}
 
-		// Entities having parents of the same type as them, have to be sorted before import.
+		// Entities having parents of the same type as themselves, have to be sorted before import.
 		if ($sort) {
 			$records = $this->csvSorter->sortData($records, $entityType);
 			if (isset($results[CsvSorter::CYCLIC_ERROR_NAME])) {

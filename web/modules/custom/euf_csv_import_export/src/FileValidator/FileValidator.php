@@ -32,6 +32,7 @@ class FileValidator {
       [FileValidator::class, 'validateNonEmpty'],
       [FileValidator::class, 'validateReferences'],
     ],
+    // Out of scope for now.
     // ImportTargetEntityType::COURSE_INSTANCE->value => [
     //   [FileValidator::class, 'validateFileHeiUserMatch'],
     //   [FileValidator::class, 'validateReferences'],
@@ -87,22 +88,6 @@ class FileValidator {
       ],
     ],
     ImportTargetEntityType::COURSE->value => [
-    // No Institution reference in Courses
-      // 'field_iec_institution' => [
-      //   'entity_label' => 'Institution',
-      //   'target_entity' => 'node',
-      //   'target_type' => 'institution',
-      //   'references_label' => 'SCHAC code',
-      //   'references' => 'field_shac_code',
-      // ],
-    // No Ounit reference in Courses
-      // 'ounit' => [
-      //   'entity_label' => 'Organisational unit',
-      //   'target_entity' => 'ounit',
-      //   'references_label' => 'Organizational unit code',
-      //   'references' => 'field_ou_code',
-      //   'hei_field_name' => 'parent_hei',
-      // ],
       'field_iec_programme' => [
         'entity_label' => 'Programme',
         'target_entity' => 'node',
@@ -111,15 +96,6 @@ class FileValidator {
         'references' => 'field_programme_code',
         'hei_field_name' => 'field_programme_institution',
       ],
-      // 'course__prerequisite_course' => [
-      //   'entity_label' => 'Course',
-      //   'target_entity' => 'occ_los',
-      //   'target_bundle' => 'course',
-      //   'references_label' => 'Course code',
-      //   'references' => 'code',
-      //   'in_file_column_name' => 'code',
-      //   'hei_field_name' => 'hei',
-      // ],
     ],
     ImportTargetEntityType::COURSE_INSTANCE->value => [
       'course' => [

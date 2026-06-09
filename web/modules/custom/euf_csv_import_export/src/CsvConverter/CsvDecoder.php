@@ -5,9 +5,6 @@ namespace Drupal\euf_csv_import_export\CsvConverter;
 use Drupal\euf_csv_import_export\CsvConverter\FieldMappingService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- *
- */
 class CsvDecoder {
 
   protected FieldMappingService $fieldMappingService;
@@ -19,7 +16,7 @@ class CsvDecoder {
   }
 
   public static function create(ContainerInterface $container) {
-    // @phpstan-ignore new.static
+
     return new static(
       $container->get('euf_csv_import_export.field_mapping_service'),
     );

@@ -134,7 +134,6 @@ class UserAccessManager {
     $existing_relations = $group->getRelationshipsByEntity($entity, $plugin_id);
 
     if (empty($existing_relations)) {
-      // Natively creates and saves the GroupRelationship bridge entity
       $group->addRelationship($entity, $plugin_id);
     }
   }
