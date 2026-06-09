@@ -191,49 +191,166 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
 
     $query->addWhere(0, 'node_field_data.nid', $compatible_programme_ids, 'IN');
 
-  } else if ($view->id() === 'institution_new_catalogue' && $view->current_display == 'page_1') {
+  } else if ($view->id() === 'institution_new_catalogue' && ($view->current_display == 'page_1' || $view->current_display == 'page_3')) {
+
+    $institution_id = custom_views_filters_resolve_catalogue_institution_id($view);
+    if (!$institution_id) {
+      $query->addWhere(0, 'node_field_data.nid', 0, '=');
+      return;
+    }
+
+    $catalogue_programmes = custom_views_filters_get_catalogue_programme_ids($institution_id);
+    $allowed_programme_ids = $catalogue_programmes['all'];
+
+    if (empty($allowed_programme_ids)) {
+      $query->addWhere(0, 'node_field_data.nid', 0, '=');
+      return;
+    }
+
+    custom_views_filters_remove_catalogue_institution_argument_condition($query);
+    $query->addWhere(0, 'node_field_data.nid', $allowed_programme_ids, 'IN');
 
     /**
      * 1) OU filter (Programme -> field_programme_ou IN selected OUs)
      */
-    $selected_ou = \Drupal::request()->query->all('programme_ou');
-    $selected_ou = is_array($selected_ou) ? array_values(array_filter($selected_ou, 'is_numeric')) : [];
+    if ($view->current_display == 'page_1') {
+      $selected_ou = \Drupal::request()->query->all('programme_ou');
+      $selected_ou = is_array($selected_ou) ? array_values(array_filter($selected_ou, 'is_numeric')) : [];
 
-    // Tabla del field Programme -> OU
-    $programme_ou_table = 'node__field_programme_ou';
-    $programme_ou_alias = $query->ensureTable($programme_ou_table);
+      // Tabla del field Programme -> OU
+      $programme_ou_table = 'node__field_programme_ou';
+      $programme_ou_alias = $query->ensureTable($programme_ou_table);
 
-    if (!empty($selected_ou)) {
-      $query->addWhere(0, "$programme_ou_alias.field_programme_ou_target_id", $selected_ou, 'IN');
-    }
+      if (!empty($selected_ou)) {
+        $query->addWhere(0, "$programme_ou_alias.field_programme_ou_target_id", $selected_ou, 'IN');
+      }
 
-    /**
-     * 2) Campus filter (Programme -> OU -> Campus IN selected campuses)
-     */
-    $selected_campus = \Drupal::request()->query->all('programme_campus');
-    $selected_campus = is_array($selected_campus) ? array_values(array_filter($selected_campus, 'is_numeric')) : [];
+      /**
+       * 2) Campus filter (Programme -> OU -> Campus IN selected campuses)
+       */
+      $selected_campus = \Drupal::request()->query->all('programme_campus');
+      $selected_campus = is_array($selected_campus) ? array_values(array_filter($selected_campus, 'is_numeric')) : [];
 
-    if (!empty($selected_campus)) {
-      // Join OU -> Campus table: node__field_ou_campus
-      $ou_campus_table = 'node__field_ou_campus';
+      if (!empty($selected_campus)) {
+        // Join OU -> Campus table: node__field_ou_campus
+        $ou_campus_table = 'node__field_ou_campus';
 
-      $join = \Drupal::service('plugin.manager.views.join')->createInstance('standard', [
-        'table' => $ou_campus_table,
-        'field' => 'entity_id', // OU nid is stored as entity_id in this table
-        'left_table' => $programme_ou_alias, // alias of node__field_programme_ou
-        'left_field' => 'field_programme_ou_target_id', // OU nid
-        'operator' => '=',
-      ]);
+        $join = \Drupal::service('plugin.manager.views.join')->createInstance('standard', [
+          'table' => $ou_campus_table,
+          'field' => 'entity_id', // OU nid is stored as entity_id in this table
+          'left_table' => $programme_ou_alias, // alias of node__field_programme_ou
+          'left_field' => 'field_programme_ou_target_id', // OU nid
+          'operator' => '=',
+        ]);
 
-      // Add relationship and get alias
-      $ou_campus_alias = $query->addRelationship('ou_campus_join', $join, $programme_ou_table);
+        // Add relationship and get alias
+        $ou_campus_alias = $query->addRelationship('ou_campus_join', $join, $programme_ou_table);
 
-      // Apply IN on campus target id
-      $query->addWhere(0, "$ou_campus_alias.field_ou_campus_target_id", $selected_campus, 'IN');
+        // Apply IN on campus target id
+        $query->addWhere(0, "$ou_campus_alias.field_ou_campus_target_id", $selected_campus, 'IN');
+      }
     }
   }
 
 
+}
+
+/**
+ * Resolve institution nid from institution_new_catalogue view argument.
+ */
+function custom_views_filters_resolve_catalogue_institution_id(ViewExecutable $view): ?int {
+  $institution_arg = $view->args[0] ?? NULL;
+  if (!$institution_arg) {
+    return NULL;
+  }
+
+  if (is_numeric($institution_arg)) {
+    return (int) $institution_arg;
+  }
+
+  $current_language = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+    ->getId();
+  $alias_manager = \Drupal::service('path_alias.manager');
+
+  foreach ([$current_language, 'en'] as $alias_language) {
+    $internal_path = $alias_manager->getPathByAlias('/' . trim($institution_arg, '/'), $alias_language);
+    if (preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
+      return (int) $matches[1];
+    }
+  }
+
+  return NULL;
+}
+
+/**
+ * Return programme ids shown in the institution catalogue.
+ *
+ * - own: programmes whose owner institution is the current institution.
+ * - joint: external programmes reached through memberships to joint programmes.
+ * - all: merged deduplicated ids.
+ */
+function custom_views_filters_get_catalogue_programme_ids(int $institution_id): array {
+  static $cache = [];
+
+  if (isset($cache[$institution_id])) {
+    return $cache[$institution_id];
+  }
+
+  $database = \Drupal::database();
+
+  $own_programme_ids = $database->select('node__field_programme_institution', 'pi')
+    ->fields('pi', ['entity_id'])
+    ->condition('pi.deleted', 0)
+    ->condition('pi.field_programme_institution_target_id', $institution_id)
+    ->execute()
+    ->fetchCol();
+  $own_programme_ids = array_values(array_unique(array_map('intval', $own_programme_ids)));
+
+  $joint_programme_query = $database->select('node__field_member_institution', 'mi');
+  $joint_programme_query->join('node__field_member_joint_programme', 'mjp', 'mjp.entity_id = mi.entity_id');
+  $joint_programme_query->join('node__field_programme', 'jp', 'jp.entity_id = mjp.field_member_joint_programme_target_id');
+  $joint_programme_query->join('node__field_programme_institution', 'owner', 'owner.entity_id = jp.field_programme_target_id');
+  $joint_programme_ids = $joint_programme_query
+    ->fields('jp', ['field_programme_target_id'])
+    ->condition('mi.deleted', 0)
+    ->condition('mjp.deleted', 0)
+    ->condition('jp.deleted', 0)
+    ->condition('owner.deleted', 0)
+    ->condition('mi.field_member_institution_target_id', $institution_id)
+    ->condition('owner.field_programme_institution_target_id', $institution_id, '<>')
+    ->distinct()
+    ->execute()
+    ->fetchCol();
+  $joint_programme_ids = array_values(array_unique(array_map('intval', $joint_programme_ids)));
+
+  $cache[$institution_id] = [
+    'own' => $own_programme_ids,
+    'joint' => $joint_programme_ids,
+    'all' => array_values(array_unique(array_merge($own_programme_ids, $joint_programme_ids))),
+  ];
+
+  return $cache[$institution_id];
+}
+
+/**
+ * Remove the strict institution contextual filter from institution catalogue.
+ */
+function custom_views_filters_remove_catalogue_institution_argument_condition(Sql $query): void {
+  foreach ($query->where as &$condition_group) {
+    if (empty($condition_group['conditions']) || !is_array($condition_group['conditions'])) {
+      continue;
+    }
+
+    foreach ($condition_group['conditions'] as $index => $condition) {
+      $field = $condition['field'] ?? '';
+      if (is_string($field) && str_contains($field, 'field_programme_institution_target_id')) {
+        unset($condition_group['conditions'][$index]);
+      }
+    }
+
+    $condition_group['conditions'] = array_values($condition_group['conditions']);
+  }
 }
 
 

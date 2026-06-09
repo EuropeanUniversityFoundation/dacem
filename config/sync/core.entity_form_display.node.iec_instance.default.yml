@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.iec_instance.body
     - field.field.node.iec_instance.field_end_date
     - field.field.node.iec_instance.field_engagement_hours
     - field.field.node.iec_instance.field_iec
@@ -217,5 +216,4 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden:
-  body: true
+hidden: {  }

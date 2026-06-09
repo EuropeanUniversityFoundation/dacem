@@ -230,7 +230,12 @@
 														<div
 															class="card-body p-2">
 															<!-- Título del programa -->
-															<h5 class="card-title mb-1 text-start">{{ programme.label }}</h5>
+															<h5 class="card-title mb-1 text-start">
+																{{ programme.label }}
+																{% if row.is_joint_membership|default(false) %}
+																	<span class="badge bg-dark ms-2">{{ 'Joint programme'|t }}</span>
+																{% endif %}
+															</h5>
 
 															<!-- Línea intermedia: nivel, créditos y área -->
 															<div class="programme-meta d-flex align-items-center mb-2">

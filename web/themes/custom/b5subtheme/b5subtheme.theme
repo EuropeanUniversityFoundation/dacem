@@ -112,6 +112,195 @@ function b5subtheme_entity_language_for_url(?EntityInterface $entity, string $la
 }
 
 /**
+ * Builds the General Information URL for an institution.
+ */
+function b5subtheme_build_general_information_url(?NodeInterface $institution, string $langcode): string
+{
+  if (!$institution) {
+    return '';
+  }
+
+  $language_to_use = b5subtheme_entity_language_for_url($institution, $langcode);
+  $language = \Drupal::languageManager()->getLanguage($language_to_use);
+  $institution_for_url = b5subtheme_entity_for_language_with_fallback($institution, $langcode);
+
+  if (!$institution_for_url instanceof NodeInterface) {
+    return '';
+  }
+
+  $canonical_url = $institution_for_url->toUrl('canonical', ['language' => $language])->toString();
+  $institution_alias = basename(trim($canonical_url, '/'));
+
+  if ($institution_alias === '' || $institution_alias === (string) $institution_for_url->id()) {
+    return '';
+  }
+
+  return Url::fromRoute('view.general_information.page_1', [
+    'arg_0' => $institution_alias,
+  ], [
+    'language' => $language,
+  ])->toString();
+}
+
+/**
+ * Builds the Organizational Unit Information URL for an OU.
+ */
+function b5subtheme_build_organizational_unit_information_url(?NodeInterface $organizational_unit, string $langcode): string
+{
+  if (!$organizational_unit) {
+    return '';
+  }
+
+  $language_to_use = b5subtheme_entity_language_for_url($organizational_unit, $langcode);
+  $language = \Drupal::languageManager()->getLanguage($language_to_use);
+  $ou_for_url = b5subtheme_entity_for_language_with_fallback($organizational_unit, $langcode);
+
+  if (!$ou_for_url instanceof NodeInterface) {
+    return '';
+  }
+
+  $canonical_url = $ou_for_url->toUrl('canonical', ['language' => $language])->toString();
+  $parts = explode('/', trim($canonical_url, '/'));
+
+  if (count($parts) < 2) {
+    return '';
+  }
+
+  $ou_alias = end($parts);
+  $institution_alias = prev($parts);
+
+  if (!$institution_alias || !$ou_alias || $ou_alias === (string) $ou_for_url->id()) {
+    return '';
+  }
+
+  return Url::fromRoute('view.organizational_unit_information.page_1', [
+    'arg_0' => $institution_alias,
+    'arg_1' => $ou_alias,
+  ], [
+    'language' => $language,
+  ])->toString();
+}
+
+/**
+ * Returns institutions where a programme is also available via joint memberships.
+ */
+function b5subtheme_get_programme_other_institutions(?NodeInterface $programme, string $langcode): array
+{
+  if (
+    !$programme instanceof NodeInterface ||
+    !$programme->hasField('field_programme_institution') ||
+    $programme->get('field_programme_institution')->isEmpty()
+  ) {
+    return [];
+  }
+
+  $owner_institution = $programme->get('field_programme_institution')->entity;
+  $owner_institution_id = $owner_institution instanceof NodeInterface ? (int) $owner_institution->id() : 0;
+
+  $joint_programme_ids = \Drupal::entityQuery('node')
+    ->accessCheck(TRUE)
+    ->condition('type', 'joint_programme')
+    ->condition('field_programme', $programme->id())
+    ->execute();
+
+  if (empty($joint_programme_ids)) {
+    return [];
+  }
+
+  $member_ids = \Drupal::entityQuery('node')
+    ->accessCheck(TRUE)
+    ->condition('type', 'member')
+    ->condition('field_member_joint_programme', array_values($joint_programme_ids), 'IN')
+    ->execute();
+
+  if (empty($member_ids)) {
+    return [];
+  }
+
+  $members = Node::loadMultiple($member_ids);
+  $institutions = [];
+
+  foreach ($members as $member) {
+    if (
+      !$member instanceof NodeInterface ||
+      !$member->hasField('field_member_institution') ||
+      $member->get('field_member_institution')->isEmpty()
+    ) {
+      continue;
+    }
+
+    $institution = $member->get('field_member_institution')->entity;
+    if (!$institution instanceof NodeInterface) {
+      continue;
+    }
+
+    $institution_id = (int) $institution->id();
+    if ($institution_id === $owner_institution_id) {
+      continue;
+    }
+
+    $institution_for_display = b5subtheme_entity_for_language_with_fallback($institution, $langcode);
+    if (!$institution_for_display instanceof NodeInterface) {
+      continue;
+    }
+
+    $ou_label = '';
+    $ou_url = '';
+    if (
+      $member->hasField('field_member_organizational_unit') &&
+      !$member->get('field_member_organizational_unit')->isEmpty()
+    ) {
+      $ou = $member->get('field_member_organizational_unit')->entity;
+      $ou_for_display = b5subtheme_entity_for_language_with_fallback($ou, $langcode);
+      if ($ou_for_display instanceof NodeInterface) {
+        $ou_label = $ou_for_display->label();
+        $ou_url = b5subtheme_build_organizational_unit_information_url($ou, $langcode);
+      }
+    }
+
+    if (!isset($institutions[$institution_id])) {
+      $institutions[$institution_id] = [
+        'id' => $institution_id,
+        'label' => $institution_for_display->label(),
+        'url' => b5subtheme_build_general_information_url($institution, $langcode),
+        'ous' => [],
+      ];
+    }
+
+    if ($ou_label !== '') {
+      $ou_exists = FALSE;
+      foreach ($institutions[$institution_id]['ous'] as $existing_ou) {
+        if (($existing_ou['label'] ?? '') === $ou_label) {
+          $ou_exists = TRUE;
+          break;
+        }
+      }
+      if (!$ou_exists) {
+        $institutions[$institution_id]['ous'][] = [
+          'label' => $ou_label,
+          'url' => $ou_url,
+        ];
+      }
+    }
+  }
+
+  foreach ($institutions as &$institution_item) {
+    usort($institution_item['ous'], static function (array $a, array $b): int {
+      return strcasecmp($a['label'] ?? '', $b['label'] ?? '');
+    });
+  }
+  unset($institution_item);
+
+  $institutions = array_values($institutions);
+
+  usort($institutions, static function (array $a, array $b): int {
+    return strcasecmp($a['label'], $b['label']);
+  });
+
+  return $institutions;
+}
+
+/**
  * Returns translated labels for referenced entities in a field.
  */
 function b5subtheme_referenced_entity_labels_for_language(EntityInterface $entity, string $field_name, string $langcode): array
@@ -285,336 +474,6 @@ function b5subtheme_preprocess_views_view(&$variables)
     $variables['translations'] = $translations;
   } else {
     //\Drupal::logger('b5subtheme')->error('Translations file not found at path: @path', ['@path' => $path]);
-  }
-
-
-  if ($variables['view']->id() === 'programme_information') {
-    $programme = NULL;
-    if (!empty($variables['view']->result[0]->_entity) && $variables['view']->result[0]->_entity instanceof NodeInterface) {
-      $programme = $variables['view']->result[0]->_entity;
-    }
-
-    $variables['programme_curriculum'] = b5subtheme_programme_curriculum_structure($programme);
-  }
-
-  if ($variables['view']->id() === 'alliances') {
-    $branding = \Drupal::service('settings')->get('site_branding', []);
-    $variables['site_primary_color'] = $branding['primary_color'] ?? '#ff4949';
-  }
-
-
-
-
-  if (in_array($variables['view']->id(), ['main_page', 'alliance_institutions'], TRUE)) {
-    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-    $translated_institution = null;
-    $variables['main_page_is_athena'] = str_contains(strtolower(\Drupal::request()->getHost()), 'athena');
-
-    // === ADD: Country list (Address repo) para el idioma actual ===
-    $country_repo = \Drupal::service('address.country_repository');
-    $full_country_list = $country_repo->getList($current_language); // ['ES' => 'España' / 'Spain', ...]
-
-    foreach ($variables['view']->result as $key => $row) {
-
-      $institution = $row->_entity;
-
-
-      if ($institution->hasTranslation($current_language)) {
-
-        // Si la asignatura tiene traducción al idioma actual.
-        $translated_institution = $institution->getTranslation($current_language);
-        //$row->custom_url = $translated_subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
-
-
-        $translated_url = $translated_institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
-
-        // Extraer el idioma desde la URL original
-        //$language_prefix = '/' . \Drupal::languageManager()->getCurrentLanguage()->getId();
-
-        // Eliminar el prefijo del idioma si ya está presente en la URL original
-        if (strpos($translated_url, '/' . $current_language) === 0) {
-
-          $translated_url = substr($translated_url, strlen('/' . $current_language));
-
-        }
-        ////dump($current_language . '/catalogue' . $translated_url);
-        // Construir la nueva URL con el formato correcto
-        $row->custom_url = $current_language . '/general-information' . $translated_url;
-        $variables['view']->result[$key]->_entity = $translated_institution;
-
-      } else {
-        // Si no tiene traducción al idioma actual, enlazar a la versión inglesa.
-        $fallback_language = 'en';
-        $fallback_institution = $institution->hasTranslation($fallback_language)
-          ? $institution->getTranslation($fallback_language)
-          : $institution;
-
-        //$row->custom_url = $subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
-        $translated_url = $fallback_institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($fallback_language)])->toString();
-
-        // Extraer el idioma desde la URL original
-        $language_prefix = $fallback_language;
-
-        // Eliminar el prefijo del idioma si ya está presente en la URL original
-        if (strpos($translated_url, '/' . $fallback_language) === 0) {
-
-          $translated_url = substr($translated_url, strlen('/' . $fallback_language));
-        }
-
-        // Construir la nueva URL con el formato correcto
-        $row->custom_url = $language_prefix . '/general-information' . $translated_url;
-
-        $variables['view']->result[$key]->_entity = $fallback_institution;
-      }
-      // === ADD: país por fila ===
-      $entity = $variables['view']->result[$key]->_entity;
-      $code = ($entity->hasField('field_institution_country') && !$entity->get('field_institution_country')->isEmpty())
-        ? $entity->get('field_institution_country')->value
-        : NULL;
-
-      // Guarda en la fila (ResultRow) para Twig:
-      $variables['view']->result[$key]->_country_code = $code; // p.ej. "ES"
-      $variables['view']->result[$key]->_country_name = ($code && isset($full_country_list[$code])) ? $full_country_list[$code] : $code;
-
-
-      // Asignar la universidad traducida y la URL personalizada
-
-
-    }
-
-    if ($variables['view']->id() === 'alliance_institutions') {
-      $alliance_id = $variables['view']->args[0] ?? NULL;
-      $alliance = $alliance_id && is_numeric($alliance_id) ? Node::load((int) $alliance_id) : NULL;
-      if ($alliance instanceof NodeInterface) {
-        $alliance = b5subtheme_entity_for_language_with_fallback($alliance, $current_language);
-        $variables['alliance'] = $alliance;
-        $variables['alliance_title'] = $alliance->label();
-        $variables['alliance_email'] = !$alliance->get('field_alliance_email')->isEmpty()
-          ? $alliance->get('field_alliance_email')->value
-          : NULL;
-        $variables['alliance_phone'] = !$alliance->get('field_alliance_phone')->isEmpty()
-          ? $alliance->get('field_alliance_phone')->value
-          : NULL;
-        $variables['alliance_webpage_url'] = !$alliance->get('field_alliance_webpage')->isEmpty()
-          ? $alliance->get('field_alliance_webpage')->first()->getUrl()->toString()
-          : NULL;
-        $variables['alliance_webpage_title'] = !$alliance->get('field_alliance_webpage')->isEmpty()
-          ? ($alliance->get('field_alliance_webpage')->title ?: $variables['alliance_webpage_url'])
-          : NULL;
-      }
-    }
-
-    $branding = \Drupal::service('settings')->get('site_branding', []);
-
-    $variables['main_banner_image'] = $branding['main_banner_image'] ?? '/themes/custom/b5subtheme/images/dacem-008.jpg';
-    $variables['main_page_primary_color'] = $branding['primary_color'] ?? '#ff4949';
-    $variables['main_page_search_programme_url'] = Url::fromRoute('view.search_programme.page_1', [], [
-      'language' => \Drupal::languageManager()->getLanguage($current_language),
-    ])->toString();
-
-
-
-
-  }
-
-
-
-  if ($variables['view']->id() == 'institution_new_catalogue') {
-
-  $institution = NULL;
-  $institution_id = $variables['view']->args[0] ?? NULL;
-  $current_language = \Drupal::languageManager()
-    ->getCurrentLanguage(\Drupal\Core\Language\LanguageInterface::TYPE_CONTENT)
-    ->getId();
-
-  if ($institution_id && is_numeric($institution_id)) {
-    $institution = Node::load((int) $institution_id);
-  }
-  elseif ($institution_id) {
-    $alias_manager = \Drupal::service('path_alias.manager');
-    foreach ([$current_language, 'en'] as $alias_language) {
-      $internal_path = $alias_manager->getPathByAlias('/' . trim($institution_id, '/'), $alias_language);
-      if (preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
-        $institution = Node::load((int) $matches[1]);
-        break;
-      }
-    }
-  }
-
-  if ($institution) {
-    $institution_for_colors = $institution;
-
-    if ($institution->hasTranslation($current_language)) {
-      $institution = $institution->getTranslation($current_language);
-    }
-
-    $variables['catalogue_institution'] = $institution;
-    $variables['catalogue_university_primary_color'] =
-      ($institution_for_colors->hasField('field_primary_color') && !$institution_for_colors->get('field_primary_color')->isEmpty() && isset($institution_for_colors->get('field_primary_color')->first()->color))
-        ? $institution_for_colors->get('field_primary_color')->first()->color
-        : '#19d329ff';
-
-    $variables['catalogue_university_text_color'] =
-      ($institution_for_colors->hasField('field_text_color') && !$institution_for_colors->get('field_text_color')->isEmpty() && isset($institution_for_colors->get('field_text_color')->first()->color))
-        ? $institution_for_colors->get('field_text_color')->first()->color
-        : '#000000';
-      
-    $variables['catalogue_university_emphasis_text_color'] =
-      ($institution_for_colors->hasField('field_emphasis_text_color') && !$institution_for_colors->get('field_emphasis_text_color')->isEmpty() && isset($institution_for_colors->get('field_emphasis_text_color')->first()->color))
-        ? $institution_for_colors->get('field_emphasis_text_color')->first()->color
-        : '#000000';
-
-    $variables['catalogue_shac_code'] =
-      !$institution->get('field_shac_code')->isEmpty()
-        ? $institution->get('field_shac_code')->value
-        : '';
-
-    $route_language = \Drupal::languageManager()->getLanguage($current_language);
-    $variables['catalogue_programmes_search_url'] = Url::fromRoute('view.institution_new_catalogue.page_1', ['arg_0' => $institution_id], [
-      'language' => $route_language,
-    ])->toString();
-    $variables['catalogue_programmes_index_url'] = Url::fromRoute('view.institution_new_catalogue.page_3', ['arg_0' => $institution_id], [
-      'language' => $route_language,
-    ])->toString();
-    $variables['catalogue_courses_url'] = Url::fromRoute('view.institution_new_catalogue.page_2', ['arg_0' => $institution_id], [
-      'language' => $route_language,
-    ])->toString();
-
-    if ($variables['view']->current_display === 'page_3') {
-      $generic_area_key = 'generic';
-      $isced_labels = b5subtheme_isced_labels_for_language($current_language);
-      $programmes_by_area = [];
-      $area_meta = [];
-      $seen = [];
-
-      foreach ($variables['view']->result as $row) {
-        $programme = $row->_entity ?? NULL;
-        if (!$programme instanceof NodeInterface) {
-          continue;
-        }
-
-        $programme = b5subtheme_entity_for_language_with_fallback($programme, $current_language);
-        $seen_key = $programme->id();
-        if (isset($seen[$seen_key])) {
-          continue;
-        }
-        $seen[$seen_key] = TRUE;
-
-        $lvl_raw = $programme->hasField('field_eqf_level')
-          ? strtolower($programme->get('field_eqf_level')->value ?? '')
-          : '';
-        if (str_starts_with($lvl_raw, '6')) {
-          $level = 'B';
-        }
-        elseif (str_starts_with($lvl_raw, '7')) {
-          $level = 'M';
-        }
-        elseif (str_starts_with($lvl_raw, '8')) {
-          $level = 'PhD';
-        }
-        else {
-          $programme_level = $programme->hasField('field_programme_level')
-            ? strtolower($programme->get('field_programme_level')->value ?? '')
-            : '';
-          $level = [
-            'bachelor' => 'B',
-            'master' => 'M',
-            'phd' => 'PhD',
-          ][$programme_level] ?? NULL;
-        }
-
-        if (!$level) {
-          continue;
-        }
-
-        $programme_area_keys = [];
-        if ($programme->hasField('field_isced_f') && !$programme->get('field_isced_f')->isEmpty()) {
-          foreach ($programme->get('field_isced_f') as $item) {
-            $broad_key = $item->broad ?? '';
-            if ($broad_key !== '') {
-              $programme_area_keys[$broad_key] = $broad_key;
-            }
-          }
-        }
-        if ($programme_area_keys === []) {
-          $programme_area_keys[$generic_area_key] = $generic_area_key;
-        }
-
-        foreach ($programme_area_keys as $area_key) {
-          if (!isset($programmes_by_area[$area_key])) {
-            $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
-          }
-
-          if (!isset($area_meta[$area_key])) {
-            $area_meta[$area_key] = [
-              'label' => $area_key === $generic_area_key
-                ? (string) t('Other', [], ['langcode' => $current_language])
-                : ($isced_labels[$area_key] ?? $area_key),
-              'icon' => 'fas fa-folder',
-            ];
-          }
-
-          $programmes_by_area[$area_key][$level][] = [
-            'id' => $programme->id(),
-            'label' => $programme->label(),
-            'level_code' => $programme->hasField('field_eqf_level') ? ($programme->get('field_eqf_level')->value ?? '') : '',
-            'programme_url' => $row->custom_url ?? NULL,
-            'ects' => $programme->hasField('field_credits') && !$programme->get('field_credits')->isEmpty()
-              ? $programme->get('field_credits')->value
-              : NULL,
-            'interuniversity' => $programme->hasField('field_interuniversity') && !$programme->get('field_interuniversity')->isEmpty()
-              ? (bool) $programme->get('field_interuniversity')->value
-              : FALSE,
-          ];
-        }
-      }
-
-      foreach ($programmes_by_area as $area => $levels) {
-        foreach (['B', 'M', 'PhD'] as $lev) {
-          usort($programmes_by_area[$area][$lev], static function ($a, $b) {
-            return strcasecmp($a['label'], $b['label']);
-          });
-        }
-      }
-
-      $area_meta_filtered = [];
-      foreach ($programmes_by_area as $area_key => $levels) {
-        $total = count($levels['B']) + count($levels['M']) + count($levels['PhD']);
-        if ($total > 0) {
-          $area_meta_filtered[$area_key] = $area_meta[$area_key];
-        }
-      }
-
-      if (isset($area_meta_filtered[$generic_area_key])) {
-        $generic_area = $area_meta_filtered[$generic_area_key];
-        unset($area_meta_filtered[$generic_area_key]);
-        ksort($area_meta_filtered, SORT_NATURAL);
-        $area_meta_filtered[$generic_area_key] = $generic_area;
-      }
-      else {
-        ksort($area_meta_filtered, SORT_NATURAL);
-      }
-
-      $variables['area_meta'] = $area_meta_filtered;
-      $variables['programmes_by_area'] = $programmes_by_area;
-    }
-  }
-  else {
-
-    \Drupal::logger('catalogue_debug')->notice('Institutionfsdfsadfasdfasdf id arg: @id', [
-  '@id' => $institution_id ?? 'NULL',
-]);
-    $variables['catalogue_institution'] = NULL;
-    $variables['catalogue_university_primary_color'] = '#F44743';
-    $variables['catalogue_university_text_color'] = '#000000';
-    $variables['catalogue_university_emphasis_text_color'] = '#000000';
-    $variables['catalogue_shac_code'] = '';
-    $variables['catalogue_programmes_search_url'] = NULL;
-    $variables['catalogue_programmes_index_url'] = NULL;
-    $variables['catalogue_courses_url'] = NULL;
-  }
-
-
   }
 
 
@@ -838,6 +697,340 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
 
 
+
+  if ($variables['view']->id() === 'programme_information') {
+    $programme = NULL;
+    if (!empty($variables['view']->result[0]->_entity) && $variables['view']->result[0]->_entity instanceof NodeInterface) {
+      $programme = $variables['view']->result[0]->_entity;
+    }
+
+    $variables['programme_curriculum'] = b5subtheme_programme_curriculum_structure($programme);
+  }
+
+  if ($variables['view']->id() === 'alliances') {
+    $branding = \Drupal::service('settings')->get('site_branding', []);
+    $variables['site_primary_color'] = $branding['primary_color'] ?? '#ff4949';
+  }
+
+
+
+
+  if (in_array($variables['view']->id(), ['main_page', 'alliance_institutions'], TRUE)) {
+    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+    $translated_institution = null;
+    $variables['main_page_is_athena'] = str_contains(strtolower(\Drupal::request()->getHost()), 'athena');
+
+    // === ADD: Country list (Address repo) para el idioma actual ===
+    $country_repo = \Drupal::service('address.country_repository');
+    $full_country_list = $country_repo->getList($current_language); // ['ES' => 'España' / 'Spain', ...]
+
+    foreach ($variables['view']->result as $key => $row) {
+
+      $institution = $row->_entity;
+
+
+      if ($institution->hasTranslation($current_language)) {
+
+        // Si la asignatura tiene traducción al idioma actual.
+        $translated_institution = $institution->getTranslation($current_language);
+        //$row->custom_url = $translated_subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
+
+
+        $translated_url = $translated_institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($current_language)])->toString();
+
+        // Extraer el idioma desde la URL original
+        //$language_prefix = '/' . \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+        // Eliminar el prefijo del idioma si ya está presente en la URL original
+        if (strpos($translated_url, '/' . $current_language) === 0) {
+
+          $translated_url = substr($translated_url, strlen('/' . $current_language));
+
+        }
+        ////dump($current_language . '/catalogue' . $translated_url);
+        // Construir la nueva URL con el formato correcto
+        $row->custom_url = $current_language . '/general-information' . $translated_url;
+        $variables['view']->result[$key]->_entity = $translated_institution;
+
+      } else {
+        // Si no tiene traducción al idioma actual, enlazar a la versión inglesa.
+        $fallback_language = 'en';
+        $fallback_institution = $institution->hasTranslation($fallback_language)
+          ? $institution->getTranslation($fallback_language)
+          : $institution;
+
+        //$row->custom_url = $subject->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($original_language)])->toString();
+        $translated_url = $fallback_institution->toUrl('canonical', ['language' => \Drupal::languageManager()->getLanguage($fallback_language)])->toString();
+
+        // Extraer el idioma desde la URL original
+        $language_prefix = $fallback_language;
+
+        // Eliminar el prefijo del idioma si ya está presente en la URL original
+        if (strpos($translated_url, '/' . $fallback_language) === 0) {
+
+          $translated_url = substr($translated_url, strlen('/' . $fallback_language));
+        }
+
+        // Construir la nueva URL con el formato correcto
+        $row->custom_url = $language_prefix . '/general-information' . $translated_url;
+
+        $variables['view']->result[$key]->_entity = $fallback_institution;
+      }
+      // === ADD: país por fila ===
+      $entity = $variables['view']->result[$key]->_entity;
+      $code = ($entity->hasField('field_institution_country') && !$entity->get('field_institution_country')->isEmpty())
+        ? $entity->get('field_institution_country')->value
+        : NULL;
+
+      // Guarda en la fila (ResultRow) para Twig:
+      $variables['view']->result[$key]->_country_code = $code; // p.ej. "ES"
+      $variables['view']->result[$key]->_country_name = ($code && isset($full_country_list[$code])) ? $full_country_list[$code] : $code;
+
+
+      // Asignar la universidad traducida y la URL personalizada
+
+
+    }
+
+    if ($variables['view']->id() === 'alliance_institutions') {
+      $alliance_id = $variables['view']->args[0] ?? NULL;
+      $alliance = $alliance_id && is_numeric($alliance_id) ? Node::load((int) $alliance_id) : NULL;
+      if ($alliance instanceof NodeInterface) {
+        $alliance = b5subtheme_entity_for_language_with_fallback($alliance, $current_language);
+        $variables['alliance'] = $alliance;
+        $variables['alliance_title'] = $alliance->label();
+        $variables['alliance_email'] = !$alliance->get('field_alliance_email')->isEmpty()
+          ? $alliance->get('field_alliance_email')->value
+          : NULL;
+        $variables['alliance_phone'] = !$alliance->get('field_alliance_phone')->isEmpty()
+          ? $alliance->get('field_alliance_phone')->value
+          : NULL;
+        $variables['alliance_webpage_url'] = !$alliance->get('field_alliance_webpage')->isEmpty()
+          ? $alliance->get('field_alliance_webpage')->first()->getUrl()->toString()
+          : NULL;
+        $variables['alliance_webpage_title'] = !$alliance->get('field_alliance_webpage')->isEmpty()
+          ? ($alliance->get('field_alliance_webpage')->title ?: $variables['alliance_webpage_url'])
+          : NULL;
+      }
+    }
+
+    $branding = \Drupal::service('settings')->get('site_branding', []);
+
+    $variables['main_banner_image'] = $branding['main_banner_image'] ?? '/themes/custom/b5subtheme/images/dacem-008.jpg';
+    $variables['main_page_primary_color'] = $branding['primary_color'] ?? '#ff4949';
+    $variables['main_page_search_programme_url'] = Url::fromRoute('view.search_programme.page_1', [], [
+      'language' => \Drupal::languageManager()->getLanguage($current_language),
+    ])->toString();
+
+
+
+
+  }
+
+
+
+  if ($variables['view']->id() == 'institution_new_catalogue') {
+
+  $institution = NULL;
+  $institution_id = $variables['view']->args[0] ?? NULL;
+  $current_language = \Drupal::languageManager()
+    ->getCurrentLanguage(\Drupal\Core\Language\LanguageInterface::TYPE_CONTENT)
+    ->getId();
+
+  if ($institution_id && is_numeric($institution_id)) {
+    $institution = Node::load((int) $institution_id);
+  }
+  elseif ($institution_id) {
+    $alias_manager = \Drupal::service('path_alias.manager');
+    foreach ([$current_language, 'en'] as $alias_language) {
+      $internal_path = $alias_manager->getPathByAlias('/' . trim($institution_id, '/'), $alias_language);
+      if (preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
+        $institution = Node::load((int) $matches[1]);
+        break;
+      }
+    }
+  }
+
+  if ($institution) {
+    $institution_for_colors = $institution;
+    $catalogue_programme_ids = function_exists('custom_views_filters_get_catalogue_programme_ids')
+      ? custom_views_filters_get_catalogue_programme_ids((int) $institution_for_colors->id())
+      : ['own' => [], 'joint' => [], 'all' => []];
+    $joint_programme_ids = array_fill_keys($catalogue_programme_ids['joint'] ?? [], TRUE);
+
+    if ($institution->hasTranslation($current_language)) {
+      $institution = $institution->getTranslation($current_language);
+    }
+
+    $variables['catalogue_institution'] = $institution;
+    $variables['catalogue_university_primary_color'] =
+      ($institution_for_colors->hasField('field_primary_color') && !$institution_for_colors->get('field_primary_color')->isEmpty() && isset($institution_for_colors->get('field_primary_color')->first()->color))
+        ? $institution_for_colors->get('field_primary_color')->first()->color
+        : '#19d329ff';
+
+    $variables['catalogue_university_text_color'] =
+      ($institution_for_colors->hasField('field_text_color') && !$institution_for_colors->get('field_text_color')->isEmpty() && isset($institution_for_colors->get('field_text_color')->first()->color))
+        ? $institution_for_colors->get('field_text_color')->first()->color
+        : '#000000';
+      
+    $variables['catalogue_university_emphasis_text_color'] =
+      ($institution_for_colors->hasField('field_emphasis_text_color') && !$institution_for_colors->get('field_emphasis_text_color')->isEmpty() && isset($institution_for_colors->get('field_emphasis_text_color')->first()->color))
+        ? $institution_for_colors->get('field_emphasis_text_color')->first()->color
+        : '#000000';
+
+    $variables['catalogue_shac_code'] =
+      !$institution->get('field_shac_code')->isEmpty()
+        ? $institution->get('field_shac_code')->value
+        : '';
+
+    $route_language = \Drupal::languageManager()->getLanguage($current_language);
+    $variables['catalogue_programmes_search_url'] = Url::fromRoute('view.institution_new_catalogue.page_1', ['arg_0' => $institution_id], [
+      'language' => $route_language,
+    ])->toString();
+    $variables['catalogue_programmes_index_url'] = Url::fromRoute('view.institution_new_catalogue.page_3', ['arg_0' => $institution_id], [
+      'language' => $route_language,
+    ])->toString();
+    $variables['catalogue_courses_url'] = Url::fromRoute('view.institution_new_catalogue.page_2', ['arg_0' => $institution_id], [
+      'language' => $route_language,
+    ])->toString();
+
+    if ($variables['view']->current_display === 'page_3') {
+      $generic_area_key = 'generic';
+      $isced_labels = b5subtheme_isced_labels_for_language($current_language);
+      $programmes_by_area = [];
+      $area_meta = [];
+      $seen = [];
+
+      foreach ($variables['view']->result as $row) {
+        $programme = $row->_entity ?? NULL;
+        if (!$programme instanceof NodeInterface) {
+          continue;
+        }
+
+        $programme = b5subtheme_entity_for_language_with_fallback($programme, $current_language);
+        $seen_key = $programme->id();
+        if (isset($seen[$seen_key])) {
+          continue;
+        }
+        $seen[$seen_key] = TRUE;
+
+        $lvl_raw = $programme->hasField('field_eqf_level')
+          ? strtolower($programme->get('field_eqf_level')->value ?? '')
+          : '';
+        if (str_starts_with($lvl_raw, '6')) {
+          $level = 'B';
+        }
+        elseif (str_starts_with($lvl_raw, '7')) {
+          $level = 'M';
+        }
+        elseif (str_starts_with($lvl_raw, '8')) {
+          $level = 'PhD';
+        }
+        else {
+          $programme_level = $programme->hasField('field_programme_level')
+            ? strtolower($programme->get('field_programme_level')->value ?? '')
+            : '';
+          $level = [
+            'bachelor' => 'B',
+            'master' => 'M',
+            'phd' => 'PhD',
+          ][$programme_level] ?? NULL;
+        }
+
+        if (!$level) {
+          continue;
+        }
+
+        $programme_area_keys = [];
+        if ($programme->hasField('field_isced_f') && !$programme->get('field_isced_f')->isEmpty()) {
+          foreach ($programme->get('field_isced_f') as $item) {
+            $broad_key = $item->broad ?? '';
+            if ($broad_key !== '') {
+              $programme_area_keys[$broad_key] = $broad_key;
+            }
+          }
+        }
+        if ($programme_area_keys === []) {
+          $programme_area_keys[$generic_area_key] = $generic_area_key;
+        }
+
+        foreach ($programme_area_keys as $area_key) {
+          if (!isset($programmes_by_area[$area_key])) {
+            $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
+          }
+
+          if (!isset($area_meta[$area_key])) {
+            $area_meta[$area_key] = [
+              'label' => $area_key === $generic_area_key
+                ? (string) t('Other', [], ['langcode' => $current_language])
+                : ($isced_labels[$area_key] ?? $area_key),
+              'icon' => 'fas fa-folder',
+            ];
+          }
+
+          $programmes_by_area[$area_key][$level][] = [
+            'id' => $programme->id(),
+            'label' => $programme->label(),
+            'level_code' => $programme->hasField('field_eqf_level') ? ($programme->get('field_eqf_level')->value ?? '') : '',
+            'programme_url' => $row->custom_url ?? NULL,
+            'is_joint_membership' => !empty($joint_programme_ids[$programme->id()]),
+            'ects' => $programme->hasField('field_credits') && !$programme->get('field_credits')->isEmpty()
+              ? $programme->get('field_credits')->value
+              : NULL,
+            'interuniversity' => $programme->hasField('field_interuniversity') && !$programme->get('field_interuniversity')->isEmpty()
+              ? (bool) $programme->get('field_interuniversity')->value
+              : FALSE,
+          ];
+        }
+      }
+
+      foreach ($programmes_by_area as $area => $levels) {
+        foreach (['B', 'M', 'PhD'] as $lev) {
+          usort($programmes_by_area[$area][$lev], static function ($a, $b) {
+            return strcasecmp($a['label'], $b['label']);
+          });
+        }
+      }
+
+      $area_meta_filtered = [];
+      foreach ($programmes_by_area as $area_key => $levels) {
+        $total = count($levels['B']) + count($levels['M']) + count($levels['PhD']);
+        if ($total > 0) {
+          $area_meta_filtered[$area_key] = $area_meta[$area_key];
+        }
+      }
+
+      if (isset($area_meta_filtered[$generic_area_key])) {
+        $generic_area = $area_meta_filtered[$generic_area_key];
+        unset($area_meta_filtered[$generic_area_key]);
+        ksort($area_meta_filtered, SORT_NATURAL);
+        $area_meta_filtered[$generic_area_key] = $generic_area;
+      }
+      else {
+        ksort($area_meta_filtered, SORT_NATURAL);
+      }
+
+      $variables['area_meta'] = $area_meta_filtered;
+      $variables['programmes_by_area'] = $programmes_by_area;
+    }
+  }
+  else {
+
+    \Drupal::logger('catalogue_debug')->notice('Institution id arg: @id', [
+  '@id' => $institution_id ?? 'NULL',
+]);
+    $variables['catalogue_institution'] = NULL;
+    $variables['catalogue_university_primary_color'] = '#F44743';
+    $variables['catalogue_university_text_color'] = '#000000';
+    $variables['catalogue_university_emphasis_text_color'] = '#000000';
+    $variables['catalogue_shac_code'] = '';
+    $variables['catalogue_programmes_search_url'] = NULL;
+    $variables['catalogue_programmes_index_url'] = NULL;
+    $variables['catalogue_courses_url'] = NULL;
+  }
+
+
+  }
 
 
 
@@ -2147,6 +2340,13 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
     $current_language = \Drupal::languageManager()
       ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
       ->getId();
+    $catalogue_institution_id = function_exists('custom_views_filters_resolve_catalogue_institution_id')
+      ? custom_views_filters_resolve_catalogue_institution_id($view)
+      : NULL;
+    $catalogue_programme_ids = $catalogue_institution_id && function_exists('custom_views_filters_get_catalogue_programme_ids')
+      ? custom_views_filters_get_catalogue_programme_ids((int) $catalogue_institution_id)
+      : ['joint' => []];
+    $joint_programme_ids = array_fill_keys($catalogue_programme_ids['joint'] ?? [], TRUE);
 
     foreach ($view->result as &$row) {
       /** @var \Drupal\node\NodeInterface|null $programme */
@@ -2161,6 +2361,7 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
       $language = \Drupal::languageManager()->getLanguage($lang_for_url);
       $programme_for_url = b5subtheme_entity_for_language_with_fallback($programme, $current_language);
       $row->_entity = $programme_for_url;
+      $row->is_joint_membership = !empty($joint_programme_ids[$programme_for_url->id()]);
       $row->display_instruction_languages = b5subtheme_referenced_entity_labels_for_language($programme_for_url, 'field_programme_language_of_inst', $lang_for_url);
 
       if (
@@ -2256,4 +2457,27 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
       ]);
     }
   }
+}
+
+/**
+ * Implements hook_preprocess_views_view_fields().
+ */
+function b5subtheme_preprocess_views_view_fields(array &$variables): void {
+  $view = $variables['view'] ?? NULL;
+  $row = $variables['row'] ?? NULL;
+
+  if (
+    !$view instanceof ViewExecutable ||
+    $view->id() !== 'programme_information' ||
+    $view->current_display !== 'attachment_1'
+  ) {
+    return;
+  }
+
+  $programme = $row->_entity ?? NULL;
+  $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+  $variables['programme_other_institutions'] = b5subtheme_get_programme_other_institutions(
+    $programme instanceof NodeInterface ? $programme : NULL,
+    $current_language
+  );
 }

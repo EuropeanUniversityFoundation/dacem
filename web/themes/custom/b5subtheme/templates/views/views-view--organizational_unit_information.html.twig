@@ -254,6 +254,13 @@
 					</div>
 				{% endif %}
 
+				{% if organizational_unit.hasField('field_ou_code') and organizational_unit.field_ou_code.value %}
+					<div class="d-flex align-items-start">
+						<i class="fas fa-hashtag me-2 mt-1"></i>
+						<p class="mb-0">{{ organizational_unit.field_ou_code.value }}</p>
+					</div>
+				{% endif %}
+
 
 			</div>
 			<div class="map-wrapper" style="">

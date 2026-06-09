@@ -101,6 +101,10 @@
 																				<span class="ms-1">{{ p.label }}</span>
 																			{% endif %}
 
+																			{% if p.is_joint_membership is defined and p.is_joint_membership %}
+																				<em class="ms-2" style="color: {{ catalogue_university_primary_color }};">{{ 'Joint programme'|t }}</em>
+																			{% endif %}
+
 																			{% if p.interuniversity is defined and p.interuniversity %}
 																				<em class="ms-2" style="color: {{ catalogue_university_primary_color }};">{{ 'Interuniversity'|t }}</em>
 																			{% endif %}

@@ -9,7 +9,6 @@ dependencies:
     - field.field.node.alliance.field_alliance_email
     - field.field.node.alliance.field_alliance_logo
     - field.field.node.alliance.field_alliance_phone
-    - field.field.node.alliance.field_alliance_picture
     - field.field.node.alliance.field_alliance_webpage
     - node.type.alliance
   module:
@@ -30,6 +29,5 @@ hidden:
   field_alliance_email: true
   field_alliance_logo: true
   field_alliance_phone: true
-  field_alliance_picture: true
   field_alliance_webpage: true
   langcode: true

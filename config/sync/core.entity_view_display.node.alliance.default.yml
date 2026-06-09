@@ -8,7 +8,6 @@ dependencies:
     - field.field.node.alliance.field_alliance_email
     - field.field.node.alliance.field_alliance_logo
     - field.field.node.alliance.field_alliance_phone
-    - field.field.node.alliance.field_alliance_picture
     - field.field.node.alliance.field_alliance_webpage
     - node.type.alliance
   module:
@@ -60,17 +59,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 109
-    region: content
-  field_alliance_picture:
-    type: image
-    label: above
-    settings:
-      image_link: ''
-      image_style: ''
-      image_loading:
-        attribute: lazy
-    third_party_settings: {  }
-    weight: 105
     region: content
   field_alliance_webpage:
     type: link

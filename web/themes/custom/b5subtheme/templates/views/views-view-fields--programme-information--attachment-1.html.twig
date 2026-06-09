@@ -22,7 +22,7 @@
         %}
 
         {% set has_general_data =
-         (fields.field_programme_abbreviation is defined and fields.field_programme_abbreviation.content|render|striptags|trim)
+         (fields.field_programme_code is defined and fields.field_programme_code.content|render|striptags|trim)
           or (fields.field_programme_start_date is defined and fields.field_programme_start_date.content|render|striptags|trim)
           or (fields.field_programme_end_date is defined and fields.field_programme_end_date.content|render|striptags|trim)
           or (fields.field_programme_type_of_credits is defined and fields.field_programme_type_of_credits.content|render|striptags|trim)
@@ -41,13 +41,6 @@
 
         {% if has_general_data %}
           <h3 class="subsection-title m-0 mb-3">{{ 'General Data'|t }}</h3>
-        {% endif %}
-
-        {% if fields.field_programme_abbreviation is defined and fields.field_programme_abbreviation.content|render|striptags|trim %}
-          <div class="degree-info-item mb-2">
-            <strong>{{ 'Programme Abbreviation'|t }}:</strong>
-            {{ fields.field_programme_abbreviation.content }}
-          </div>
         {% endif %}
 
         {% if fields.field_programme_start_date is defined and fields.field_programme_start_date.content|render|striptags|trim %}
@@ -164,6 +157,13 @@
             {{ fields.field_programme_restricted_allia.content }}
           </div>
         {% endif %}
+
+        {% if fields.field_programme_code is defined and fields.field_programme_code.content|render|striptags|trim %}
+          <div class="degree-info-item mb-2">
+            <strong>{{ 'Code'|t }}:</strong>
+            {{ fields.field_programme_code.content }}
+          </div>
+        {% endif %}
       </div>
 
       {# -------------------------
@@ -209,6 +209,36 @@
             </p>
           </div>
         {% endif %}
+
+        {% if programme_other_institutions|default([])|length %}
+          <h3 class="mt-4">{{ 'Also available at'|t }}</h3>
+          <div class="degree-info-item mb-1">
+            <ul class="mb-0 ps-3">
+              {% for institution in programme_other_institutions %}
+                <li>
+                  {% if institution.url %}
+                    <a href="{{ institution.url }}">{{ institution.label }}</a>
+                  {% else %}
+                    {{ institution.label }}
+                  {% endif %}
+                  {% if institution.ous|default([])|length %}
+                    <div class="small text-muted">
+                      {% for ou in institution.ous %}
+                        {% if ou.url %}
+                          <a href="{{ ou.url }}" class="text-muted">{{ ou.label }}</a>
+                        {% else %}
+                          {{ ou.label }}
+                        {% endif %}
+                        {% if not loop.last %}, {% endif %}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
       </div>
 
     </div>

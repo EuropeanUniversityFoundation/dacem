@@ -21,13 +21,6 @@
 
     
 
-    {% if fields.field_iec_code is defined and fields.field_iec_code.content|render|striptags|trim %}
-      <div class="degree-info-item mb-2">
-        <strong>{{ 'Code'|t }}:</strong>
-        {{ fields.field_iec_code.content }}
-      </div>
-    {% endif %}
-
     {% if fields.field_iec_type_of_credits is defined and fields.field_iec_type_of_credits.content|render|striptags|trim %}
       <div class="degree-info-item mb-2">
         <strong>{{ 'Type of credits'|t }}:</strong>
@@ -111,6 +104,13 @@
         {{ fields.field_iec_restricted_alliance.content }}
       </div>
     {% endif %}
+
+    {% if fields.field_iec_code is defined and fields.field_iec_code.content|render|striptags|trim %}
+      <div class="degree-info-item mb-2">
+        <strong>{{ 'Code'|t }}:</strong>
+        {{ fields.field_iec_code.content }}
+      </div>
+    {% endif %}
   </div>
 
   {# -------------------------
@@ -147,6 +147,7 @@
         </p>
       </div>
     {% endif %}
+
   </div>
 
 </div>
