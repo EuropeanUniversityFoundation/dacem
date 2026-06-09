@@ -35,14 +35,6 @@ admin_area.admin_agreements_page:
   options:
     _admin_route: TRUE
 
-admin_area.admin_agreements_page:
-  path: '/admin/admin-agreements'
-  defaults:
-    _controller: '\Drupal\admin_area\Controller\AdminAreaController::myEntityPage'
-    _title: 'My Agreements'
-    entity_type: 'agreement'
-  requirements:
-    _permission: 'access content'
 
 
 admin_area.redirect_create_user:
