@@ -259,7 +259,7 @@ display:
           expose:
             label: Level
             field_identifier: field_eqf_level_value
-          exposed: true
+          exposed: false
       arguments: {  }
       filters:
         status:
