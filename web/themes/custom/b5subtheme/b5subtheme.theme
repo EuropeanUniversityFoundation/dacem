@@ -809,11 +809,6 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     }
 
     $variables['programme_curriculum'] = b5subtheme_programme_curriculum_structure($programme);
-    $variables['programme_iec_groups'] = b5subtheme_build_programme_iec_groups(
-      $variables['view']->result ?? [],
-      $current_language,
-      $variables['programme_curriculum']
-    );
     $variables['has_joint_programme_membership'] = b5subtheme_programme_has_joint_membership($programme, $current_language);
   }
 
@@ -1203,10 +1198,16 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
             $row->custom_url = $language_prefix . '/catalogue' . $translated_url;
 
 
-          }
         }
       }
     }
+
+    $variables['programme_iec_groups'] = b5subtheme_build_programme_iec_groups(
+      $variables['view']->result ?? [],
+      $current_language,
+      $variables['programme_curriculum'] ?? []
+    );
+  }
 
 
 
