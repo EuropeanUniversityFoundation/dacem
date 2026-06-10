@@ -301,6 +301,14 @@ function b5subtheme_get_programme_other_institutions(?NodeInterface $programme, 
 }
 
 /**
+ * Returns whether a programme is linked to any joint membership.
+ */
+function b5subtheme_programme_has_joint_membership(?NodeInterface $programme, string $langcode): bool
+{
+  return !empty(b5subtheme_get_programme_other_institutions($programme, $langcode));
+}
+
+/**
  * Returns translated labels for referenced entities in a field.
  */
 function b5subtheme_referenced_entity_labels_for_language(EntityInterface $entity, string $field_name, string $langcode): array
@@ -700,11 +708,13 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
 
   if ($variables['view']->id() === 'programme_information') {
     $programme = NULL;
+    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     if (!empty($variables['view']->result[0]->_entity) && $variables['view']->result[0]->_entity instanceof NodeInterface) {
       $programme = $variables['view']->result[0]->_entity;
     }
 
     $variables['programme_curriculum'] = b5subtheme_programme_curriculum_structure($programme);
+    $variables['has_joint_programme_membership'] = b5subtheme_programme_has_joint_membership($programme, $current_language);
   }
 
   if ($variables['view']->id() === 'alliances') {
@@ -2101,6 +2111,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       $language = \Drupal::languageManager()->getLanguage($lang_for_url);
       $programme_t = b5subtheme_entity_for_language_with_fallback($programme, $langcode);
       $row->_entity = $programme_t;
+      $row->is_joint_membership = b5subtheme_programme_has_joint_membership($programme_t, $lang_for_url);
       $row->display_instruction_languages = b5subtheme_referenced_entity_labels_for_language($programme_t, 'field_programme_language_of_inst', $lang_for_url);
 
       // Institution del programme.

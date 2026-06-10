@@ -168,17 +168,11 @@
 								{% if institution and institution.field_logo.entity is defined %}
 									{% set logo_uri = institution.field_logo.entity.fileuri %}
 								{% endif %}
-								<div class="programme-item">
-									<a href="{{ row.programme_url }}" class="text-decoration-none text-reset" target="_blank">
-										<div class="card shadow-none mb-3 border-0 rounded-0 position-relative catalogue-programme-card" style="height: 123.65px; cursor: pointer;">
-											{% if programme.field_avaliable_for_mobility.value %}
-												<div class="mobility-badge">
-													<img src="/themes/custom/b5subtheme/images/mobility_iec.jpeg" alt="Available for mobility">
-												</div>
-											{% endif %}
-
-											<div
-												class="row g-0 catalogue-programme-card__row">
+									<div class="programme-item">
+										<a href="{{ row.programme_url }}" class="text-decoration-none text-reset" target="_blank">
+											<div class="card shadow-none mb-3 border-0 rounded-0 position-relative catalogue-programme-card" style="height: 123.65px; cursor: pointer;">
+												<div
+													class="row g-0 catalogue-programme-card__row">
 
 												<div class="col-3 catalogue-programme-card__media" style="height: 123.65px;">
 													{% if logo_uri %}
@@ -197,7 +191,7 @@
 
 														<h5 class="card-title mb-1 text-start">{{ programme.label }}</h5>
 
-														<div class="programme-meta d-flex align-items-center mb-2">
+															<div class="programme-meta d-flex align-items-center mb-2">
 
 															{% if programme.field_eqf_level.value %}
 																{% set level_code = {
@@ -221,18 +215,29 @@
 																	{% set lang_labels = langs|map(item => item.entity.label)|filter(label => label) %}
 																{% endif %}
 															{% endif %}
-															{% if lang_labels is not empty %}
-																<span class="mx-2">·</span>
-																<span class="fst-italic">
-																	{{ lang_labels|join(', ') }}
-																</span>
+																{% if lang_labels is not empty %}
+																	<span class="mx-2">·</span>
+																	<span class="fst-italic">
+																		{{ lang_labels|join(', ') }}
+																	</span>
+																{% endif %}
+
+															</div>
+
+															{% if programme.field_avaliable_for_mobility.value or row.is_joint_membership|default(false) %}
+																<div class="position-absolute d-flex align-items-center gap-2" style="right: 12px; bottom: 10px;">
+																	{% if programme.field_avaliable_for_mobility.value %}
+																		<img src="/{{ directory }}/images/mobilityT.png" alt="Available for mobility" style="height: 28px; width: auto;">
+																	{% endif %}
+																	{% if row.is_joint_membership|default(false) %}
+																		<img src="/{{ directory }}/images/jointpT.png" alt="Joint programme" style="height: 28px; width: auto;">
+																	{% endif %}
+																</div>
 															{% endif %}
 
-														</div>
 
 
-
-														<div class="ou-tag-bar">
+															<div class="ou-tag-bar">
 
 															{% set university_primary_color = institution.field_primary_color[0].color %}
 															{% set university_text_color = institution.field_text_color[0].color %}

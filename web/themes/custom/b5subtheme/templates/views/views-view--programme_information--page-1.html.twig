@@ -147,13 +147,16 @@
 {% endif %}{% endfor %}<div class="programme-page">
 
 
-<div class="rs-header ">
+<div class="rs-header">
 	<div class="my-custom-container-2">
-		<div class="page-band">
-			<h1 class="rs-title">{{ translated_entity.title.value|raw }}</h1>
-		</div>
+	  <div class="page-band d-flex align-items-center gap-2">
+	    <h1 class="rs-title mb-0">{{ translated_entity.title.value|raw }}</h1>
+				{% if has_joint_programme_membership|default(false) %}
+	      <img src="/{{ directory }}/images/jointpT_W.png" alt="Joint programme" style="height: 38px; width: auto; padding-left: 40px;">
+				{% endif %}
+			</div>
+	  </div>
 	</div>
-</div>
 
 <nav id="programme-navbar" class="programme-nav" style="background-color: white;" data-bs-spy="scroll" data-bs-target="#programme-navbar" data-bs-offset="0">
 	<div

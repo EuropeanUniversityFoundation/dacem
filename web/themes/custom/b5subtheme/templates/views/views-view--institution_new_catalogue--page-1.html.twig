@@ -204,16 +204,10 @@
 									{% endif %}
 									<div class="programme-item">
 									
-										<a href="{{ row.custom_url }}" class="text-decoration-none text-reset" target="_blank">
-											<div class="card shadow-none mb-3 border-0 rounded-0 position-relative catalogue-programme-card" style="height: 100.65px; cursor: pointer;">
-												{% if programme.field_avaliable_for_mobility.value %}
-													<div class="mobility-badge">
-														<img src="/themes/custom/b5subtheme/images/mobility_iec.jpeg" alt="Available for mobility">
-													</div>
-												{% endif %}
-
-												<div
-													class="row g-0 catalogue-programme-card__row">
+											<a href="{{ row.custom_url }}" class="text-decoration-none text-reset" target="_blank">
+												<div class="card shadow-none mb-3 border-0 rounded-0 position-relative catalogue-programme-card" style="height: 100.65px; cursor: pointer;">
+													<div
+														class="row g-0 catalogue-programme-card__row">
 													<!-- Imagen (logo institución) -->
 													<div class="col-2 catalogue-programme-card__media" style="height: 100.65px;">
 														{% if logo_uri %}
@@ -229,16 +223,13 @@
 													<div class="col-9 catalogue-programme-card__content">
 														<div
 															class="card-body p-2">
-															<!-- Título del programa -->
-															<h5 class="card-title mb-1 text-start">
-																{{ programme.label }}
-																{% if row.is_joint_membership|default(false) %}
-																	<span class="badge bg-dark ms-2">{{ 'Joint programme'|t }}</span>
-																{% endif %}
-															</h5>
+																<!-- Título del programa -->
+																<h5 class="card-title mb-1 text-start">
+																	{{ programme.label }}
+																</h5>
 
 															<!-- Línea intermedia: nivel, créditos y área -->
-															<div class="programme-meta d-flex align-items-center mb-2">
+																<div class="programme-meta d-flex align-items-center mb-2">
 																{% if programme.field_programme_level.value %}
 																	{% set level_code = {
                               'bachelor': 'B',
@@ -261,16 +252,27 @@
 																		{% set lang_labels = langs|map(item => item.entity.label)|filter(label => label) %}
 																	{% endif %}
 																{% endif %}
-																{% if lang_labels is not empty %}
-																	<span class="mx-2">·</span>
-																	<span class="fst-italic">
-																		{{ lang_labels|join(', ') }}
-																	</span>
-																{% endif %}
-															</div>
+																	{% if lang_labels is not empty %}
+																		<span class="mx-2">·</span>
+																		<span class="fst-italic">
+																			{{ lang_labels|join(', ') }}
+																		</span>
+																	{% endif %}
+																</div>
 
-															<!-- Línea inferior: institución y país 
-															<div class="ou-tag-bar">
+																{% if programme.field_avaliable_for_mobility.value or row.is_joint_membership|default(false) %}
+																	<div class="position-absolute d-flex align-items-center gap-2" style="right: 12px; bottom: 10px;">
+																		{% if programme.field_avaliable_for_mobility.value %}
+																			<img src="/{{ directory }}/images/mobilityT.png" alt="Available for mobility" style="height: 28px; width: auto;">
+																		{% endif %}
+																		{% if row.is_joint_membership|default(false) %}
+																			<img src="/{{ directory }}/images/jointpT.png" alt="Joint programme" style="height: 28px; width: auto;">
+																		{% endif %}
+																	</div>
+																{% endif %}
+
+																<!-- Línea inferior: institución y país 
+																<div class="ou-tag-bar">
 
 																	{% if institution.title.value is defined %}
 																		
