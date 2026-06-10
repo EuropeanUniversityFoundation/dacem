@@ -14849,7 +14849,7 @@ INSTITUTION MENU
 .institution-dropdown {
   position: relative;
   display: inline-block;
-  z-index: 2000;
+  z-index: 3000000 !important;
   
 }
 
@@ -14879,6 +14879,7 @@ INSTITUTION MENU
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   min-width: 200px;
   border-radius: 0;
+  z-index: 3000001 !important;
 }
 
 .institution-dropdown .dropdown-menu a {
@@ -14899,6 +14900,8 @@ INSTITUTION MENU
   width: 100%;
   position: sticky;
   top:0;
+  z-index: 2999999 !important;
+  overflow: visible !important;
   padding-bottom: 0 !important;
   margin-bottom: 0 !important;
   max-width: var(--global-site-width);
@@ -16438,7 +16441,8 @@ main, .region-content, .layout-container {
 
 
 header {
-  z-index: 100 !important;
+  z-index: 2999998 !important;
+  overflow: visible !important;
 }
 
 
