@@ -118,7 +118,7 @@
     '1': '1',
     '2': '2'
   }
-}) %}{% set cuatrimestres_curso = curriculum.term_short_labels %}{% set courses = curriculum.years %}{% set credit_types = [
+}) %}{% set iec_groups = programme_iec_groups|default({'by_year': {}, 'by_term': {}}) %}{% set cuatrimestres_curso = curriculum.term_short_labels %}{% set courses = curriculum.years %}{% set credit_types = [
   'Core',
   'Mandatory',
   'Optional',
@@ -379,70 +379,32 @@
 															<th>{{ 'Mobility'|t }}</th>
 														</tr>
 													</thead>
-													<tbody>
-														{% for row in view.result %}
-															{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
-															{% set iec_terms = [] %}
-															{% for iec_term_item in iec.field_iec_term %}
-																{% set iec_terms = iec_terms|merge([iec_term_item.value ~ '']) %}
-															{% endfor %}
-
-															{% if (term ~ '') in iec_terms or '0' in iec_terms %}
-
-																{% if iec.hasTranslation(current_language) %}
-																	{% set translated_iec = iec.getTranslation(current_language) %}
-																{% else %}
-																	{% set translated_iec = iec %}
-																{% endif %}
-
-
+														<tbody>
+															{% for iec_item in iec_groups.by_term[term ~ '']|default([]) %}
 																<tr>
+																	<td>{{ iec_item.code ?: 'Sin codigo'|t }}</td>
 																	<td>
-																		{% if translated_iec.field_iec_code is not empty %}
-																			{{ translated_iec.field_iec_code[0].value }}
-																		{% else %}
-																			{{ 'Sin codigo'|t }}
-																		{% endif %}
-																	</td>
-																	<td>
-																		<a href="/{{ row.custom_url }}">
-																			{{ translated_iec.title.value }}
+																		<a href="{{ iec_item.url }}">
+																			{{ iec_item.title }}
 																		</a>
 																	</td>
 																	<td>
-																		{# Curso al que pertenece (usamos courses[year]) #}
-																		{% set course_year = translated_iec.field_iec_year[0].value %}
-																		{% if course_year in courses|keys %}
-																			{{ courses[course_year].label }}
+																		{% if iec_item.year in courses|keys %}
+																			{{ courses[iec_item.year].label }}
 																		{% else %}
 																			{{ '-' }}
 																		{% endif %}
 																	</td>
-																	<td>{{ cuatrimestres_curso[term] ?? term }}</td>
-																	<td>
-																		{% if translated_iec.field_iec_credits is not empty %}
-																			{{ translated_iec.field_iec_credits[0].value }}
-																		{% else %}
-																			{{ '0' }}
-																		{% endif %}
-																	</td>
-																	<td>
-																		{% if translated_iec.field_iec_type is not empty %}
-																			{{ translations[current_language][translated_iec.field_iec_type[0].value] }}
-																		{% else %}
-																			{{ 'Sin tipo'|t }}
-																		{% endif %}
-																	</td>
-																	<td>
-																		{{ translated_iec.field_iec_avaliable_for_mobility is not empty and translated_iec.field_iec_avaliable_for_mobility[0].value == '1' ? 'Yes'|t : 'No'|t }}
-																	</td>
+																	<td>{{ cuatrimestres_curso[term ~ ''] ?? term }}</td>
+																	<td>{{ iec_item.credits ?: '0' }}</td>
+																	<td>{{ iec_item.type ? translations[current_language][iec_item.type] : 'Sin tipo'|t }}</td>
+																	<td>{{ iec_item.mobility ? 'Yes'|t : 'No'|t }}</td>
 																</tr>
-															{% endif %}
-														{% endfor %}
-													</tbody>
-												</table>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
 											</div>
-										</div>
 									{% endfor %}
 								</div>
 
@@ -463,68 +425,32 @@
 														<th>{{ 'Mobility'|t }}</th>
 													</tr>
 												</thead>
-												<tbody>
-													{% for row in view.result %}
-														{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
-														{% set iec_terms = [] %}
-														{% for iec_term_item in iec.field_iec_term %}
-															{% set iec_terms = iec_terms|merge([iec_term_item.value ~ '']) %}
-														{% endfor %}
-
-														{% if (term ~ '') in iec_terms or '0' in iec_terms %}
-
-															{% if iec.hasTranslation(current_language) %}
-																{% set translated_iec = iec.getTranslation(current_language) %}
-															{% else %}
-																{% set translated_iec = iec %}
-															{% endif %}
-
+													<tbody>
+														{% for iec_item in iec_groups.by_term[term ~ '']|default([]) %}
 															<tr>
+																<td>{{ iec_item.code ?: 'Sin codigo'|t }}</td>
 																<td>
-																	{% if translated_iec.field_iec_code is not empty %}
-																		{{ translated_iec.field_iec_code[0].value }}
-																	{% else %}
-																		{{ 'Sin codigo'|t }}
-																	{% endif %}
-																</td>
-																<td>
-																	<a href="/{{ row.custom_url }}">
-																		{{ translated_iec.title.value }}
+																	<a href="{{ iec_item.url }}">
+																		{{ iec_item.title }}
 																	</a>
 																</td>
 																<td>
-																	{% set course_year = translated_iec.field_iec_year[0].value %}
-																	{% if course_year in courses|keys %}
-																		{{ courses[course_year].label }}
+																	{% if iec_item.year in courses|keys %}
+																		{{ courses[iec_item.year].label }}
 																	{% else %}
 																		{{ '-' }}
 																	{% endif %}
 																</td>
-																<td>{{ cuatrimestres_curso[term] ?? term }}</td>
-																<td>
-																	{% if translated_iec.field_iec_credits is not empty %}
-																		{{ translated_iec.field_iec_credits[0].value }}
-																	{% else %}
-																		{{ '0' }}
-																	{% endif %}
-																</td>
-																<td>
-																	{% if translated_iec.field_iec_type is not empty %}
-																		{{ translations[current_language][translated_iec.field_iec_type[0].value] }}
-																	{% else %}
-																		{{ 'Sin tipo'|t }}
-																	{% endif %}
-																</td>
-																<td>
-																	{{ translated_iec.field_iec_avaliable_for_mobility is not empty and translated_iec.field_iec_avaliable_for_mobility[0].value == '1' ? 'Yes'|t : 'No'|t }}
-																</td>
+																<td>{{ cuatrimestres_curso[term ~ ''] ?? term }}</td>
+																<td>{{ iec_item.credits ?: '0' }}</td>
+																<td>{{ iec_item.type ? translations[current_language][iec_item.type] : 'Sin tipo'|t }}</td>
+																<td>{{ iec_item.mobility ? 'Yes'|t : 'No'|t }}</td>
 															</tr>
-														{% endif %}
-													{% endfor %}
-												</tbody>
-											</table>
-										</div>
-									{% endfor %}
+														{% endfor %}
+													</tbody>
+												</table>
+											</div>
+										{% endfor %}
 								</div>
 							</div>
 
@@ -557,60 +483,25 @@
 															<th>{{ 'Mobility'|t }}</th>
 														</tr>
 													</thead>
-													<tbody>
-														{% for row in view.result %}
-															{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
-
-															{% if iec.hasTranslation(current_language) %}
-																{% set translated_iec = iec.getTranslation(current_language) %}
-															{% else %}
-																{% set translated_iec = iec %}
-															{% endif %}
-
-															{% set iec_years = [] %}
-															{% for iec_year_item in translated_iec.field_iec_year %}
-																{% set iec_years = iec_years|merge([iec_year_item.value ~ '']) %}
-															{% endfor %}
-
-															{% if (course_id ~ '') in iec_years or '0' in iec_years %}
+														<tbody>
+															{% for iec_item in iec_groups.by_year[course_id ~ '']|default([]) %}
 																<tr>
+																	<td>{{ iec_item.code ?: 'Sin codigo'|t }}</td>
 																	<td>
-																		{% if translated_iec.field_iec_code is not empty %}
-																			{{ translated_iec.field_iec_code[0].value|t|capitalize }}
-																		{% else %}
-																			{{ 'Sin codigo'|t }}
-																		{% endif %}
-																	</td>
-																	<td>
-																		<a href="/{{ row.custom_url }}">
-																			{{ translated_iec.title.value }}
+																		<a href="{{ iec_item.url }}">
+																			{{ iec_item.title }}
 																		</a>
 																	</td>
-																	<td>{{ cuatrimestres_curso[translated_iec.field_iec_term[0].value] ?? translated_iec.field_iec_term[0].value }}</td>
-																	<td>
-																		{% if translated_iec.field_iec_credits is not empty %}
-																			{{ translated_iec.field_iec_credits[0].value|t|capitalize }}
-																		{% else %}
-																			{{ 0 }}
-																		{% endif %}
-																	</td>
-																	<td>
-																		{% if translated_iec.field_iec_type is not empty %}
-																			{{ translations[current_language][translated_iec.field_iec_type[0].value] }}
-																		{% else %}
-																			{{ 'Sin tipo'|t }}
-																		{% endif %}
-																	</td>
-																	<td>
-																		{{ translated_iec.field_iec_avaliable_for_mobility is not empty and translated_iec.field_iec_avaliable_for_mobility[0].value == '1' ? 'Yes'|t : 'No'|t }}
-																	</td>
+																	<td>{{ cuatrimestres_curso[iec_item.term] ?? iec_item.term }}</td>
+																	<td>{{ iec_item.credits ?: '0' }}</td>
+																	<td>{{ iec_item.type ? translations[current_language][iec_item.type] : 'Sin tipo'|t }}</td>
+																	<td>{{ iec_item.mobility ? 'Yes'|t : 'No'|t }}</td>
 																</tr>
-															{% endif %}
-														{% endfor %}
-													</tbody>
-												</table>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
 											</div>
-										</div>
 									{% endfor %}
 								</div>
 
@@ -630,60 +521,25 @@
 														<th>{{ 'Mobility'|t }}</th>
 													</tr>
 												</thead>
-												<tbody>
-													{% for row in view.result %}
-														{% set iec = row._relationship_entities['reverse__node__field_iec_programme'] %}
-
-														{% if iec.hasTranslation(current_language) %}
-															{% set translated_iec = iec.getTranslation(current_language) %}
-														{% else %}
-															{% set translated_iec = iec %}
-														{% endif %}
-
-														{% set iec_years = [] %}
-														{% for iec_year_item in translated_iec.field_iec_year %}
-															{% set iec_years = iec_years|merge([iec_year_item.value ~ '']) %}
-														{% endfor %}
-
-														{% if (course_id ~ '') in iec_years or '0' in iec_years %}
+													<tbody>
+														{% for iec_item in iec_groups.by_year[course_id ~ '']|default([]) %}
 															<tr>
+																<td>{{ iec_item.code ?: 'Sin codigo'|t }}</td>
 																<td>
-																	{% if translated_iec.field_iec_code is not empty %}
-																		{{ translated_iec.field_iec_code[0].value|t|capitalize }}
-																	{% else %}
-																		{{ 'Sin codigo'|t }}
-																	{% endif %}
-																</td>
-																<td>
-																	<a href="/{{ row.custom_url }}">
-																		{{ translated_iec.title.value }}
+																	<a href="{{ iec_item.url }}">
+																		{{ iec_item.title }}
 																	</a>
 																</td>
-																<td>{{ cuatrimestres_curso[translated_iec.field_iec_term[0].value] ?? translated_iec.field_iec_term[0].value }}</td>
-																<td>
-																	{% if translated_iec.field_iec_credits is not empty %}
-																		{{ translated_iec.field_iec_credits[0].value }}
-																	{% else %}
-																		{{ '0' }}
-																	{% endif %}
-																</td>
-																<td>
-																	{% if translated_iec.field_iec_type is not empty %}
-																		{{ translations[current_language][translated_iec.field_iec_type[0].value] }}
-																	{% else %}
-																		{{ 'Sin tipo'|t }}
-																	{% endif %}
-																</td>
-																<td>
-																	{{ translated_iec.field_iec_avaliable_for_mobility is not empty and translated_iec.field_iec_avaliable_for_mobility[0].value == '1' ? 'Yes'|t : 'No'|t }}
-																</td>
+																<td>{{ cuatrimestres_curso[iec_item.term] ?? iec_item.term }}</td>
+																<td>{{ iec_item.credits ?: '0' }}</td>
+																<td>{{ iec_item.type ? translations[current_language][iec_item.type] : 'Sin tipo'|t }}</td>
+																<td>{{ iec_item.mobility ? 'Yes'|t : 'No'|t }}</td>
 															</tr>
-														{% endif %}
-													{% endfor %}
-												</tbody>
-											</table>
-										</div>
-									{% endfor %}
+														{% endfor %}
+													</tbody>
+												</table>
+											</div>
+										{% endfor %}
 								</div>
 							</div>
 

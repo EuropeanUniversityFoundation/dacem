@@ -61,8 +61,19 @@
       const collapseElement = document.getElementById('campusCollapse');
       if (collapseElement) {
         collapseElement.addEventListener('show.bs.collapse', () => {
-          const scrollY = window.scrollY;
-          setTimeout(() => window.scrollTo({ top: scrollY }), 10);
+          window.setTimeout(() => {
+            const navbar = document.getElementById('fixed-navbar');
+            const navbarHeight = navbar ? navbar.getBoundingClientRect().height : 0;
+            const adminOffset = parseInt(getComputedStyle(document.documentElement)
+              .getPropertyValue('--drupal-displace-offset-top') || '0', 10) || 0;
+            const extraOffset = 16;
+            const top = window.scrollY + collapseElement.getBoundingClientRect().top - navbarHeight - adminOffset - extraOffset;
+
+            window.scrollTo({
+              top: Math.max(top, 0),
+              behavior: 'smooth'
+            });
+          }, 10);
         });
       }
     }

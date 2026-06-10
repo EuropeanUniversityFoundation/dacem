@@ -399,6 +399,101 @@ function b5subtheme_programme_curriculum_structure(?NodeInterface $programme): a
   ];
 }
 
+/**
+ * Builds sorted IEC groupings for programme information.
+ */
+function b5subtheme_build_programme_iec_groups(array $view_results, string $langcode, array $curriculum): array
+{
+  $years = array_map('strval', array_keys($curriculum['years'] ?? []));
+  $terms = array_map('strval', array_keys($curriculum['terms'] ?? []));
+
+  $grouped = [
+    'by_year' => array_fill_keys($years, []),
+    'by_term' => array_fill_keys($terms, []),
+  ];
+
+  foreach ($view_results as $row) {
+    $iec = $row->_relationship_entities['reverse__node__field_iec_programme'] ?? NULL;
+    if (!$iec instanceof NodeInterface) {
+      continue;
+    }
+
+    $translated_iec = $iec->hasTranslation($langcode) ? $iec->getTranslation($langcode) : $iec;
+    $iec_years = [];
+    foreach ($translated_iec->get('field_iec_year') ?? [] as $item) {
+      $value = (string) ($item->value ?? '');
+      if ($value !== '') {
+        $iec_years[] = $value;
+      }
+    }
+    $iec_years = array_values(array_unique($iec_years));
+
+    $iec_terms = [];
+    foreach ($translated_iec->get('field_iec_term') ?? [] as $item) {
+      $value = (string) ($item->value ?? '');
+      if ($value !== '') {
+        $iec_terms[] = $value;
+      }
+    }
+    $iec_terms = array_values(array_unique($iec_terms));
+
+    $display_year = '0';
+    foreach ($iec_years as $year) {
+      if ($year !== '0') {
+        $display_year = $year;
+        break;
+      }
+    }
+
+    $display_term = '0';
+    foreach ($iec_terms as $term) {
+      if ($term !== '0') {
+        $display_term = $term;
+        break;
+      }
+    }
+
+    $item = [
+      'code' => (string) ($translated_iec->get('field_iec_code')->value ?? ''),
+      'title' => (string) $translated_iec->label(),
+      'url' => isset($row->custom_url) ? '/' . ltrim((string) $row->custom_url, '/') : '',
+      'year' => $display_year,
+      'term' => $display_term,
+      'credits' => (string) ($translated_iec->get('field_iec_credits')->value ?? '0'),
+      'type' => (string) ($translated_iec->get('field_iec_type')->value ?? ''),
+      'mobility' => (string) ($translated_iec->get('field_iec_avaliable_for_mobility')->value ?? '0') === '1',
+    ];
+
+    $target_years = in_array('0', $iec_years, TRUE) ? $years : array_values(array_intersect($years, $iec_years));
+    $target_terms = in_array('0', $iec_terms, TRUE) ? $terms : array_values(array_intersect($terms, $iec_terms));
+
+    foreach ($target_years as $year) {
+      $grouped['by_year'][$year][] = $item;
+    }
+    foreach ($target_terms as $term) {
+      $grouped['by_term'][$term][] = $item;
+    }
+  }
+
+  foreach ($grouped['by_year'] as &$items) {
+    usort($items, static function (array $a, array $b): int {
+      $termCompare = (int) ($a['term'] ?? 0) <=> (int) ($b['term'] ?? 0);
+      return $termCompare !== 0 ? $termCompare : strnatcasecmp($a['title'] ?? '', $b['title'] ?? '');
+    });
+  }
+  unset($items);
+
+  foreach ($grouped['by_term'] as &$items) {
+    usort($items, static function (array $a, array $b): int {
+      $yearCompare = (int) ($a['year'] ?? 0) <=> (int) ($b['year'] ?? 0);
+      return $yearCompare !== 0 ? $yearCompare : strnatcasecmp($a['title'] ?? '', $b['title'] ?? '');
+    });
+  }
+  unset($items);
+
+  return $grouped;
+}
+
 
 
 
@@ -714,6 +809,11 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     }
 
     $variables['programme_curriculum'] = b5subtheme_programme_curriculum_structure($programme);
+    $variables['programme_iec_groups'] = b5subtheme_build_programme_iec_groups(
+      $variables['view']->result ?? [],
+      $current_language,
+      $variables['programme_curriculum']
+    );
     $variables['has_joint_programme_membership'] = b5subtheme_programme_has_joint_membership($programme, $current_language);
   }
 

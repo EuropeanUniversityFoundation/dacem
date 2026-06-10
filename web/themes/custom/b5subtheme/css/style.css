@@ -16349,8 +16349,9 @@ main, .region-content, .layout-container {
   border: none;
   left: 0;
   right: 0;
-  z-index: 30;
+  z-index: 1040;
   top: calc(var(--admin-offset) + var(--inst-menu-height)) !important;
+  overflow: visible;
 }
 
 .fixed-navbar .nav-item .nav-link{
@@ -16378,6 +16379,11 @@ main, .region-content, .layout-container {
 }
 
 @media (max-width: 991.98px) {
+  .fixed-navbar .dropdown {
+    position: relative;
+    overflow: visible;
+  }
+
   .fixed-navbar .dropdown > .btn.dropdown-toggle {
     background-color: #000;
     border-color: #000;
@@ -16388,6 +16394,7 @@ main, .region-content, .layout-container {
     background-color: #000;
     border-color: #000;
     border-radius: 0;
+    z-index: 1050;
   }
 
   .fixed-navbar .dropdown > .dropdown-menu .dropdown-item {
@@ -16614,6 +16621,38 @@ header {
   position: relative;
   z-index: 20;
   overflow: visible;
+}
+
+.view-id-institution_new_catalogue .institution-new-catalogue-hero {
+  height: auto !important;
+  min-height: 300px;
+  pointer-events: none;
+}
+
+.view-id-institution_new_catalogue .institution-new-catalogue-hero .section-container {
+  padding-bottom: 24px;
+  pointer-events: none;
+}
+
+.view-id-search_programme .institution-new-catalogue-hero {
+  height: auto !important;
+  min-height: 300px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.view-id-search_programme .institution-new-catalogue-hero .section-container {
+  padding-bottom: 24px;
+  pointer-events: none;
+}
+
+.view-id-institution_new_catalogue .institution-new-catalogue-hero .row.align-items-center,
+.view-id-institution_new_catalogue .institution-new-catalogue-hero .input-group,
+.view-id-institution_new_catalogue .institution-new-catalogue-hero .catg__filters,
+.view-id-search_programme .institution-new-catalogue-hero .row.align-items-center,
+.view-id-search_programme .institution-new-catalogue-hero .input-group,
+.view-id-search_programme .institution-new-catalogue-hero .catg__filters {
+  pointer-events: auto;
 }
 
 .catalogue-view > .section-container.bg-light {
