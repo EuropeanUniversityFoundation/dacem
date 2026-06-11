@@ -16445,6 +16445,26 @@ header {
   overflow: visible !important;
 }
 
+/* En páginas con toolbar de Drupal, los menús del sitio deben quedar por debajo
+   del admin toolbar y sus submenús. */
+body.toolbar-fixed header,
+body.toolbar-fixed .navbar.sticky-top,
+body.toolbar-fixed #programme-navbar.sticky-top,
+body.toolbar-fixed .fixed-navbar,
+body.toolbar-fixed .sticky-nav,
+body.toolbar-fixed #block-b5subtheme-institutionmenublock,
+body.toolbar-fixed #block-b5subtheme-dacemmenublock-2 {
+  z-index: 400 !important;
+}
+
+body.toolbar-fixed .institution-dropdown {
+  z-index: 401 !important;
+}
+
+body.toolbar-fixed .institution-dropdown .dropdown-menu {
+  z-index: 402 !important;
+}
+
 
 
 /* Texto en cursiva ya está con <em>, pero puedes reforzarlo si quieres */
