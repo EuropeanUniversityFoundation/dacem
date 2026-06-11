@@ -58,7 +58,6 @@
           btn.addEventListener('click', function (e) {
             e.preventDefault();
 
-            const order = btn.getAttribute('data-sort-order') || 'ASC';
             const option = findSortOption(btn);
 
             if (!option) {
@@ -66,17 +65,27 @@
               return;
             }
 
+            // Toggle: si ya estamos ordenados por este campo, invertir dirección.
+            let order;
+            if (sortBy.value === option.value) {
+              order = sortOrder.value === 'ASC' ? 'DESC' : 'ASC';
+            } else {
+              order = 'ASC';
+            }
+
             // Marca también los selects con el atributo (por si se recrean):
             sortBy.setAttribute('data-disable-refocus', 'true');
             sortOrder.setAttribute('data-disable-refocus', 'true');
 
-            // Setea valores
             sortBy.value = option.value;
             sortOrder.value = order;
 
-            // Dispara autosubmit por "change" (sin clicks → no hay scroll/refocus)
-            sortBy.dispatchEvent(new Event('change', { bubbles: true }));
-            sortOrder.dispatchEvent(new Event('change', { bubbles: true }));
+            const submitBtn = form.querySelector('[type="submit"], button[type="submit"]');
+            if (submitBtn) {
+              submitBtn.click();
+            } else {
+              form.submit();
+            }
           });
         });
 

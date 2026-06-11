@@ -166,18 +166,17 @@
 								{{ 'Sort'|t|upper }}
 							</h3>
 
-							<div
-								class="group-search-sort-buttons w-100">
-								{# Ajusta los data-sort-by a tus campos reales de la vista IEC #}
-								<button class="btn btn-dark btn-sm btn-whithout-border-radius js-sort disabled" data-sort-by="title" data-sort-order="ASC">
-									A - Z
-								</button>
+<div class="group-search-sort-buttons w-100">
+  <button class="btn btn-dark btn-sm btn-whithout-border-radius js-sort" data-sort-by="title" data-sort-order="ASC">A - Z</button>
 
-								{# Ejemplos: cámbialos por los de IEC si aplica #}
-								<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_iec_programme" data-sort-order="ASC">
-									Programme
-								</button>
-							</div>
+  <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort" data-sort-by="field_iec_programme_title" data-sort-order="ASC">Programme</button>
+
+  <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort" data-sort-by="field_iec_credits" data-sort-order="ASC">ECTS</button>
+
+  <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort" data-sort-by="field_iec_term" data-sort-order="ASC">Term</button>
+
+  <button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort" data-sort-by="field_institution_country" data-sort-order="ASC">Country</button>
+</div>
 						</div>
 
             <div class="col-lg-10 ps-lg-5 institution-new-catalogue-list" id="iec-list">

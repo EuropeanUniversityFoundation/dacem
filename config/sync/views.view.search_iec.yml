@@ -3,18 +3,18 @@ langcode: en
 status: true
 dependencies:
   config:
-    - node.type.individual_educational_component
-    - taxonomy.vocabulary.languages_of_instuction
-    - taxonomy.vocabulary.type_of_programme
+  - node.type.individual_educational_component
+  - taxonomy.vocabulary.languages_of_instuction
+  - taxonomy.vocabulary.type_of_programme
   module:
-    - address
-    - better_exposed_filters
-    - isced_field
-    - node
-    - taxonomy
-    - user
+  - address
+  - better_exposed_filters
+  - isced_field
+  - node
+  - taxonomy
+  - user
 id: search_iec
-label: 'Search IEC'
+label: Search IEC
 module: views
 description: ''
 tag: ''
@@ -27,7 +27,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Search IEC'
+      title: Search IEC
       fields:
         title:
           id: title
@@ -67,7 +67,7 @@ display:
           settings:
             link_to_entity: true
           group_column: value
-          group_columns: {  }
+          group_columns: {}
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -87,12 +87,12 @@ display:
           tags:
             next: ››
             previous: ‹‹
-            first: '« First'
-            last: 'Last »'
+            first: « First
+            last: Last »
           expose:
             items_per_page: false
-            items_per_page_label: 'Items per page'
-            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_label: Items per page
+            items_per_page_options: 5, 10, 25, 50
             items_per_page_options_all: false
             items_per_page_options_all_label: '- All -'
             offset: false
@@ -104,11 +104,11 @@ display:
           submit_button: Apply
           reset_button: true
           reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
+          exposed_sorts_label: Sort by
           expose_sort_order: true
           sort_asc_label: Asc
           sort_desc_label: Desc
-          text_input_required: 'Select any filter and click on Apply to see results'
+          text_input_required: Select any filter and click on Apply to see results
           text_input_required_format: basic_html
           bef:
             general:
@@ -119,7 +119,7 @@ display:
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
-              secondary_label: 'Advanced options'
+              secondary_label: Advanced options
               secondary_open: false
               reset_button_always_show: false
             filter:
@@ -201,11 +201,11 @@ display:
       access:
         type: perm
         options:
-          perm: 'access content'
+          perm: access content
       cache:
         type: tag
-        options: {  }
-      empty: {  }
+        options: {}
+      empty: {}
       sorts:
         title:
           id: title
@@ -219,10 +219,77 @@ display:
           plugin_id: standard
           order: ASC
           expose:
-            label: ''
-            field_identifier: ''
-          exposed: false
-      arguments: {  }
+            label: A-Z
+            field_identifier: title
+          exposed: true
+        field_iec_credits_value:
+          id: field_iec_credits_value
+          table: node__field_iec_credits
+          field: field_iec_credits_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ECTS
+            field_identifier: field_iec_credits
+          exposed: true
+        field_iec_term_value:
+          id: field_iec_term_value
+          table: node__field_iec_term
+          field: field_iec_term_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: Term
+            field_identifier: field_iec_term
+          exposed: true
+        field_programme_area_value:
+          id: field_programme_area_value
+          table: node__field_programme_area
+          field: field_programme_area_value
+          relationship: field_iec_programme
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: Knowledge Area
+            field_identifier: field_programme_area
+          exposed: true
+        title_1:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: field_iec_programme
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: Programme
+            field_identifier: field_iec_programme_title
+          exposed: true
+        field_institution_country_value:
+          id: field_institution_country_value
+          table: node__field_institution_country
+          field: field_institution_country_value
+          relationship: field_programme_institution
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: Country
+            field_identifier: field_institution_country
+          exposed: true
+      arguments: {}
       filters:
         status:
           id: status
@@ -267,7 +334,7 @@ display:
             use_operator: false
             operator: ''
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
             identifier: ''
             required: false
             remember: false
@@ -285,8 +352,8 @@ display:
             multiple: false
             remember: false
             default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+            default_group_multiple: {}
+            group_items: {}
         field_iec_avaliable_for_mobility_value:
           id: field_iec_avaliable_for_mobility_value
           table: node__field_iec_avaliable_for_mobility
@@ -301,12 +368,12 @@ display:
           exposed: true
           expose:
             operator_id: ''
-            label: 'Available for Mobility Students'
+            label: Available for Mobility Students
             description: ''
             use_operator: false
             operator: field_iec_avaliable_for_mobility_value_op
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
             identifier: iec_avaliable_for_mobility
             required: false
             remember: false
@@ -329,8 +396,8 @@ display:
             multiple: false
             remember: false
             default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+            default_group_multiple: {}
+            group_items: {}
         field_iec_language_of_instructio_target_id:
           id: field_iec_language_of_instructio_target_id
           table: node__field_iec_language_of_instructio
@@ -340,17 +407,17 @@ display:
           admin_label: ''
           plugin_id: taxonomy_index_tid
           operator: or
-          value: {  }
+          value: {}
           group: 1
           exposed: true
           expose:
             operator_id: field_iec_language_of_instructio_target_id_op
-            label: 'IEC Language of instruction (field_iec_language_of_instructio)'
+            label: IEC Language of instruction (field_iec_language_of_instructio)
             description: ''
             use_operator: false
             operator: field_iec_language_of_instructio_target_id_op
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
             identifier: iec_language
             required: false
             remember: false
@@ -374,8 +441,8 @@ display:
             multiple: false
             remember: false
             default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+            default_group_multiple: {}
+            group_items: {}
           reduce_duplicates: true
           vid: languages_of_instuction
           type: select
@@ -403,12 +470,12 @@ display:
           exposed: true
           expose:
             operator_id: field_institution_country_value_op
-            label: 'Institution Country (field_institution_country)'
+            label: Institution Country (field_institution_country)
             description: ''
             use_operator: false
             operator: field_institution_country_value_op
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
             identifier: field_institution_country_value
             required: false
             remember: false
@@ -432,8 +499,8 @@ display:
             multiple: false
             remember: false
             default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+            default_group_multiple: {}
+            group_items: {}
         combine:
           id: combine
           table: views
@@ -448,12 +515,12 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Combine fields filter'
+            label: Combine fields filter
             description: ''
             use_operator: false
             operator: combine_op
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
             identifier: combine
             required: false
             remember: false
@@ -477,8 +544,8 @@ display:
             multiple: false
             remember: false
             default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+            default_group_multiple: {}
+            group_items: {}
           fields:
             title: title
         langcode_1:
@@ -503,7 +570,7 @@ display:
             use_operator: false
             operator: ''
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
             identifier: ''
             required: false
             remember: false
@@ -521,8 +588,8 @@ display:
             multiple: false
             remember: false
             default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+            default_group_multiple: {}
+            group_items: {}
         langcode_2:
           id: langcode_2
           table: node_field_data
@@ -545,7 +612,7 @@ display:
             use_operator: false
             operator: ''
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
             identifier: ''
             required: false
             remember: false
@@ -563,8 +630,8 @@ display:
             multiple: false
             remember: false
             default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+            default_group_multiple: {}
+            group_items: {}
         field_programme_type_target_id:
           id: field_programme_type_target_id
           table: node__field_programme_type
@@ -574,17 +641,17 @@ display:
           admin_label: ''
           plugin_id: taxonomy_index_tid
           operator: or
-          value: {  }
+          value: {}
           group: 1
           exposed: true
           expose:
             operator_id: field_programme_type_target_id_op
-            label: 'Programme Type (field_programme_type)'
+            label: Programme Type (field_programme_type)
             description: ''
             use_operator: false
             operator: field_programme_type_target_id_op
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
             identifier: programme_type
             required: false
             remember: false
@@ -608,8 +675,8 @@ display:
             multiple: false
             remember: false
             default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+            default_group_multiple: {}
+            group_items: {}
           reduce_duplicates: true
           vid: type_of_programme
           type: select
@@ -634,19 +701,19 @@ display:
             '05': '05'
             '06': '06'
             '07': '07'
-            '08': '08'
-            '09': '09'
+            08: 08
+            09: 09
             10: '10'
           group: 1
           exposed: true
           expose:
             operator_id: field_fields_of_study_value_op
-            label: 'Fields of study (field_fields_of_study)'
+            label: Fields of study (field_fields_of_study)
             description: ''
             use_operator: false
             operator: field_fields_of_study_value_op
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
             identifier: field_isced_f
             required: false
             remember: false
@@ -670,8 +737,8 @@ display:
             multiple: false
             remember: false
             default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+            default_group_multiple: {}
+            group_items: {}
       filter_groups:
         operator: AND
         groups:
@@ -682,7 +749,7 @@ display:
         type: fields
         options:
           default_field_elements: true
-          inline: {  }
+          inline: {}
           separator: ''
           hide_empty: false
       query:
@@ -692,7 +759,7 @@ display:
           disable_sql_rewrite: false
           distinct: false
           replica: false
-          query_tags: {  }
+          query_tags: {}
       relationships:
         field_iec_programme:
           id: field_iec_programme
@@ -712,19 +779,19 @@ display:
           admin_label: 'field_programme_institution: Content'
           plugin_id: standard
           required: true
-      header: {  }
-      footer: {  }
-      display_extenders: {  }
+      header: {}
+      footer: {}
+      display_extenders: {}
     cache_metadata:
       max-age: -1
       contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url
-        - url.query_args
-        - 'user.node_grants:view'
-        - user.permissions
-      tags: {  }
+      - languages:language_content
+      - languages:language_interface
+      - url
+      - url.query_args
+      - user.node_grants:view
+      - user.permissions
+      tags: {}
   page_1:
     id: page_1
     display_title: Page
@@ -732,15 +799,15 @@ display:
     position: 1
     display_options:
       rendering_language: '***LANGUAGE_entity_translation***'
-      display_extenders: {  }
+      display_extenders: {}
       path: search-iec
     cache_metadata:
       max-age: -1
       contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url
-        - url.query_args
-        - 'user.node_grants:view'
-        - user.permissions
-      tags: {  }
+      - languages:language_content
+      - languages:language_interface
+      - url
+      - url.query_args
+      - user.node_grants:view
+      - user.permissions
+      tags: {}
