@@ -211,31 +211,38 @@
         {% endif %}
 
         {% if programme_other_institutions|default([])|length %}
-          <h3 class="mt-4">{{ 'Also available at'|t }}</h3>
-          <div class="degree-info-item mb-1">
-            <ul class="mb-0 ps-3">
-              {% for institution in programme_other_institutions %}
-                <li>
-                  {% if institution.url %}
-                    <a href="{{ institution.url }}">{{ institution.label }}</a>
-                  {% else %}
-                    {{ institution.label }}
-                  {% endif %}
-                  {% if institution.ous|default([])|length %}
-                    <div class="small text-muted">
-                      {% for ou in institution.ous %}
-                        {% if ou.url %}
-                          <a href="{{ ou.url }}" class="text-muted">{{ ou.label }}</a>
+          <div class="degree-info-item mt-4 mb-1">
+            {% for joint_programme in programme_other_institutions %}
+              <div class="{{ not loop.first ? 'mt-3' : '' }}">
+                <div class="fw-bold fs-5">{{ 'Joint Programme'|t }}</div>
+                <div>{{ joint_programme.title }}</div>
+              </div>
+              {% if joint_programme.availabilities|default([])|length %}
+                <div class="mt-2">
+                  <strong>{{ 'Also available as'|t }}:</strong>
+                </div>
+                <ul class="mb-0 ps-3 mt-2">
+                  {% for availability in joint_programme.availabilities %}
+                    <li>
+                      {{ availability.membership_label }}
+                      {% if availability.organizational_unit_label %}
+                        {{ ' at '|t }}
+                        {% if availability.organizational_unit_url %}
+                          <a href="{{ availability.organizational_unit_url }}">{{ availability.organizational_unit_label }}</a>
                         {% else %}
-                          {{ ou.label }}
+                          {{ availability.organizational_unit_label }}
                         {% endif %}
-                        {% if not loop.last %}, {% endif %}
-                      {% endfor %}
-                    </div>
-                  {% endif %}
-                </li>
-              {% endfor %}
-            </ul>
+                      {% endif %}
+                      {% if availability.institution_url %}
+                        , <a href="{{ availability.institution_url }}">{{ availability.institution_label }}</a>
+                      {% else %}
+                        , {{ availability.institution_label }}
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endfor %}
           </div>
         {% endif %}
 

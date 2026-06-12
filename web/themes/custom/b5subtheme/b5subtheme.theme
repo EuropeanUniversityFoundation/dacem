@@ -182,7 +182,7 @@ function b5subtheme_build_organizational_unit_information_url(?NodeInterface $or
 }
 
 /**
- * Returns institutions where a programme is also available via joint memberships.
+ * Returns joint-programme availability data for a programme.
  */
 function b5subtheme_get_programme_other_institutions(?NodeInterface $programme, string $langcode): array
 {
@@ -217,8 +217,9 @@ function b5subtheme_get_programme_other_institutions(?NodeInterface $programme, 
     return [];
   }
 
+  $joint_programmes = Node::loadMultiple($joint_programme_ids);
   $members = Node::loadMultiple($member_ids);
-  $institutions = [];
+  $joint_programme_map = [];
 
   foreach ($members as $member) {
     if (
@@ -226,6 +227,27 @@ function b5subtheme_get_programme_other_institutions(?NodeInterface $programme, 
       !$member->hasField('field_member_institution') ||
       $member->get('field_member_institution')->isEmpty()
     ) {
+      continue;
+    }
+
+    if (
+      !$member->hasField('field_member_joint_programme') ||
+      $member->get('field_member_joint_programme')->isEmpty()
+    ) {
+      continue;
+    }
+
+    $joint_programme = $member->get('field_member_joint_programme')->entity;
+    if (!$joint_programme instanceof NodeInterface) {
+      continue;
+    }
+
+    $joint_programme_id = (int) $joint_programme->id();
+    $joint_programme_for_display = b5subtheme_entity_for_language_with_fallback(
+      $joint_programmes[$joint_programme_id] ?? $joint_programme,
+      $langcode
+    );
+    if (!$joint_programme_for_display instanceof NodeInterface) {
       continue;
     }
 
@@ -258,46 +280,59 @@ function b5subtheme_get_programme_other_institutions(?NodeInterface $programme, 
       }
     }
 
-    if (!isset($institutions[$institution_id])) {
-      $institutions[$institution_id] = [
-        'id' => $institution_id,
-        'label' => $institution_for_display->label(),
-        'url' => b5subtheme_build_general_information_url($institution, $langcode),
-        'ous' => [],
+    $membership_label = '';
+    if ($member->hasField('field_member_role') && !$member->get('field_member_role')->isEmpty()) {
+      $member_for_display = b5subtheme_entity_for_language_with_fallback($member, $langcode);
+      $membership_label = trim(strip_tags((string) ($member_for_display?->get('field_member_role')->value ?? '')));
+    }
+    if ($membership_label === '') {
+      $member_for_display = isset($member_for_display) && $member_for_display instanceof NodeInterface
+        ? $member_for_display
+        : b5subtheme_entity_for_language_with_fallback($member, $langcode);
+      $membership_label = $member_for_display instanceof NodeInterface ? trim($member_for_display->label()) : trim($member->label());
+    }
+
+    if (!isset($joint_programme_map[$joint_programme_id])) {
+      $joint_programme_map[$joint_programme_id] = [
+        'id' => $joint_programme_id,
+        'title' => $joint_programme_for_display->label(),
+        'availabilities' => [],
       ];
     }
 
-    if ($ou_label !== '') {
-      $ou_exists = FALSE;
-      foreach ($institutions[$institution_id]['ous'] as $existing_ou) {
-        if (($existing_ou['label'] ?? '') === $ou_label) {
-          $ou_exists = TRUE;
-          break;
-        }
-      }
-      if (!$ou_exists) {
-        $institutions[$institution_id]['ous'][] = [
-          'label' => $ou_label,
-          'url' => $ou_url,
-        ];
-      }
-    }
+    $availability_key = implode(':', [
+      $membership_label,
+      $ou_label,
+      (string) $institution_id,
+    ]);
+
+    $joint_programme_map[$joint_programme_id]['availabilities'][$availability_key] = [
+      'membership_label' => $membership_label,
+      'organizational_unit_label' => $ou_label,
+      'organizational_unit_url' => $ou_url,
+      'institution_label' => $institution_for_display->label(),
+      'institution_url' => b5subtheme_build_general_information_url($institution, $langcode),
+    ];
   }
 
-  foreach ($institutions as &$institution_item) {
-    usort($institution_item['ous'], static function (array $a, array $b): int {
-      return strcasecmp($a['label'] ?? '', $b['label'] ?? '');
+  foreach ($joint_programme_map as &$joint_programme_item) {
+    $joint_programme_item['availabilities'] = array_values($joint_programme_item['availabilities']);
+    usort($joint_programme_item['availabilities'], static function (array $a, array $b): int {
+      return strcasecmp(
+        implode(' ', [$a['membership_label'] ?? '', $a['organizational_unit_label'] ?? '', $a['institution_label'] ?? '']),
+        implode(' ', [$b['membership_label'] ?? '', $b['organizational_unit_label'] ?? '', $b['institution_label'] ?? ''])
+      );
     });
   }
-  unset($institution_item);
+  unset($joint_programme_item);
 
-  $institutions = array_values($institutions);
+  $joint_programmes_data = array_values($joint_programme_map);
 
-  usort($institutions, static function (array $a, array $b): int {
-    return strcasecmp($a['label'], $b['label']);
+  usort($joint_programmes_data, static function (array $a, array $b): int {
+    return strcasecmp($a['title'], $b['title']);
   });
 
-  return $institutions;
+  return $joint_programmes_data;
 }
 
 /**
@@ -306,6 +341,111 @@ function b5subtheme_get_programme_other_institutions(?NodeInterface $programme, 
 function b5subtheme_programme_has_joint_membership(?NodeInterface $programme, string $langcode): bool
 {
   return !empty(b5subtheme_get_programme_other_institutions($programme, $langcode));
+}
+
+/**
+ * Returns programme IDs that belong to at least one joint programme with members.
+ */
+function b5subtheme_get_joint_programme_linked_programme_ids(array $programme_ids): array
+{
+  $programme_ids = array_values(array_unique(array_map('intval', array_filter($programme_ids, 'is_numeric'))));
+  if ($programme_ids === []) {
+    return [];
+  }
+
+  $database = \Drupal::database();
+  $query = $database->select('node__field_programme', 'jp');
+  $query->join('node__field_member_joint_programme', 'mjp', 'mjp.field_member_joint_programme_target_id = jp.entity_id');
+  $linked_programme_ids = $query
+    ->fields('jp', ['field_programme_target_id'])
+    ->condition('jp.deleted', 0)
+    ->condition('mjp.deleted', 0)
+    ->condition('jp.field_programme_target_id', $programme_ids, 'IN')
+    ->distinct()
+    ->execute()
+    ->fetchCol();
+
+  return array_fill_keys(array_map('intval', $linked_programme_ids), TRUE);
+}
+
+/**
+ * Builds a catalogue URL for a programme in the requested language.
+ */
+function b5subtheme_build_programme_catalogue_url(?NodeInterface $programme, string $langcode): ?string
+{
+  if (!$programme instanceof NodeInterface) {
+    return NULL;
+  }
+
+  $lang_for_url = b5subtheme_entity_language_for_url($programme, $langcode);
+  $language = \Drupal::languageManager()->getLanguage($lang_for_url);
+  $programme_for_url = b5subtheme_entity_for_language_with_fallback($programme, $langcode);
+  if (!$programme_for_url instanceof NodeInterface) {
+    return NULL;
+  }
+
+  $programme_canonical = Url::fromRoute('entity.node.canonical', ['node' => $programme_for_url->id()], ['language' => $language])->toString();
+  $programme_parts = array_values(array_filter(explode('/', trim($programme_canonical, '/'))));
+  $programme_alias = end($programme_parts);
+  if (!$programme_alias || $programme_alias === (string) $programme_for_url->id()) {
+    return NULL;
+  }
+
+  if (
+    !$programme_for_url->hasField('field_programme_institution') ||
+    $programme_for_url->get('field_programme_institution')->isEmpty()
+  ) {
+    return NULL;
+  }
+
+  $institution = $programme_for_url->get('field_programme_institution')->entity;
+  $institution_for_url = b5subtheme_entity_for_language_with_fallback($institution, $lang_for_url);
+  if (!$institution_for_url instanceof NodeInterface) {
+    return NULL;
+  }
+
+  $institution_canonical = Url::fromRoute('entity.node.canonical', ['node' => $institution_for_url->id()], ['language' => $language])->toString();
+  $institution_parts = array_values(array_filter(explode('/', trim($institution_canonical, '/'))));
+  $institution_alias = end($institution_parts);
+  if (!$institution_alias || $institution_alias === 'node' || $institution_alias === (string) $institution_for_url->id()) {
+    return NULL;
+  }
+
+  return '/' . $lang_for_url . '/catalogue/' . $institution_alias . '/' . $programme_alias;
+}
+
+/**
+ * Returns joint programmes available through the given OUs.
+ */
+function b5subtheme_get_joint_programmes_for_organizational_units(array $ou_ids, int $institution_id): array
+{
+  $ou_ids = array_values(array_unique(array_map('intval', array_filter($ou_ids, 'is_numeric'))));
+  if ($ou_ids === [] || $institution_id <= 0) {
+    return [];
+  }
+
+  $database = \Drupal::database();
+  $query = $database->select('node__field_member_organizational_unit', 'mou');
+  $query->join('node__field_member_joint_programme', 'mjp', 'mjp.entity_id = mou.entity_id');
+  $query->join('node__field_programme', 'jp', 'jp.entity_id = mjp.field_member_joint_programme_target_id');
+  $query->join('node__field_programme_institution', 'owner', 'owner.entity_id = jp.field_programme_target_id');
+  $programme_ids = $query
+    ->fields('jp', ['field_programme_target_id'])
+    ->condition('mou.deleted', 0)
+    ->condition('mjp.deleted', 0)
+    ->condition('jp.deleted', 0)
+    ->condition('owner.deleted', 0)
+    ->condition('mou.field_member_organizational_unit_target_id', $ou_ids, 'IN')
+    ->condition('owner.field_programme_institution_target_id', $institution_id, '<>')
+    ->distinct()
+    ->execute()
+    ->fetchCol();
+
+  if (!$programme_ids) {
+    return [];
+  }
+
+  return Node::loadMultiple(array_map('intval', $programme_ids));
 }
 
 /**
@@ -962,6 +1102,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
       ? custom_views_filters_get_catalogue_programme_ids((int) $institution_for_colors->id())
       : ['own' => [], 'joint' => [], 'all' => []];
     $joint_programme_ids = array_fill_keys($catalogue_programme_ids['joint'] ?? [], TRUE);
+    $joint_linked_programme_ids = b5subtheme_get_joint_programme_linked_programme_ids($catalogue_programme_ids['all'] ?? []);
 
     if ($institution->hasTranslation($current_language)) {
       $institution = $institution->getTranslation($current_language);
@@ -1078,7 +1219,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
             'label' => $programme->label(),
             'level_code' => $programme->hasField('field_eqf_level') ? ($programme->get('field_eqf_level')->value ?? '') : '',
             'programme_url' => $row->custom_url ?? NULL,
-            'is_joint_membership' => !empty($joint_programme_ids[$programme->id()]),
+            'is_joint_membership' => !empty($joint_programme_ids[$programme->id()]) || !empty($joint_linked_programme_ids[$programme->id()]),
             'ects' => $programme->hasField('field_credits') && !$programme->get('field_credits')->isEmpty()
               ? $programme->get('field_credits')->value
               : NULL,
@@ -1772,8 +1913,35 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     $isced_labels = b5subtheme_isced_labels_for_language($langcode);
     $programmes_by_area = [];
     $area_meta = [];
+    $seen = [];
+    $campus = $variables['view']->result[0]->_entity ?? NULL;
+    $campus_ou_ids = [];
+    $institution_id = 0;
 
-    $seen = []; // dedupe OU:PROG
+    if ($campus instanceof NodeInterface) {
+      if ($campus->hasField('field_campus_institution') && !$campus->get('field_campus_institution')->isEmpty()) {
+        $institution = $campus->get('field_campus_institution')->entity;
+        $institution_id = $institution instanceof NodeInterface ? (int) $institution->id() : 0;
+      }
+
+      $campus_ou_ids = \Drupal::entityQuery('node')
+        ->accessCheck(TRUE)
+        ->condition('type', 'organizational_unit')
+        ->condition('field_ou_campus', $campus->id())
+        ->execute();
+      $campus_ou_ids = array_values(array_unique(array_map('intval', $campus_ou_ids)));
+    }
+
+    $joint_programmes = b5subtheme_get_joint_programmes_for_organizational_units($campus_ou_ids, $institution_id);
+    $own_programme_ids = [];
+    foreach ($variables['view']->result as $row) {
+      $programme = $row->_relationship_entities['reverse__node__field_programme_ou'] ?? NULL;
+      if ($programme instanceof NodeInterface) {
+        $own_programme_ids[] = (int) $programme->id();
+      }
+    }
+    $joint_programme_ids = array_map(static fn($programme) => (int) $programme->id(), $joint_programmes);
+    $joint_linked_programme_ids = b5subtheme_get_joint_programme_linked_programme_ids(array_merge($own_programme_ids, $joint_programme_ids));
 
     // Recorre resultados de la vista.
 
@@ -1786,8 +1954,8 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         continue;
       }
 
-      // Deduplicar por combinación OU+Programme.
-      $key = $ou->id() . ':' . $programme->id();
+      // Deduplicar por programme.
+      $key = $programme->id();
       if (isset($seen[$key])) {
         continue;
       }
@@ -1829,31 +1997,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         $programme_area_keys[$generic_area_key] = $generic_area_key;
       }
 
-      $lang_for_url = $programme->hasTranslation($langcode) ? $langcode : 'en';
-      $language = \Drupal::languageManager()->getLanguage($lang_for_url);
-
-
-      // Canonical en ese idioma (si hay alias lo devuelve; si no, /<lang>/node/<nid>)
-      $canonical = Url::fromRoute('entity.node.canonical', ['node' => $programme->id()], ['language' => $language])->toString();
-      // /es/universidad-x/programa-y   ó   /es/node/123
-
-      $parts = array_values(array_filter(explode('/', trim($canonical, '/'))));
-      // p.ej. ['es','universidad-x','programa-y']  ó  ['es','node','123']
-
-      $programme_url = NULL;
-      if (count($parts) >= 3) {
-        $last = $parts[count($parts) - 1];     // 'programa-y'  ó '123'
-        $prev = $parts[count($parts) - 2];     // 'universidad-x' ó 'node'
-
-        // Si no hay alias (prev == 'node'), no podemos inferir el alias de institución.
-        // Usamos un placeholder 'x' que tu hook puede ignorar/gestionar.
-        // Si hay alias, usamos institución + programa directamente.
-        $institution_alias = ($prev === 'node') ? 'x' : $prev;
-        $programme_alias = $last;
-
-        $programme_url = '/' . $lang_for_url . '/catalogue/' . $institution_alias . '/' . $programme_alias;
-        //dump($programme_url);
-      }
+      $programme_url = b5subtheme_build_programme_catalogue_url($programme, $langcode);
       foreach ($programme_area_keys as $area_key) {
         if (!isset($programmes_by_area[$area_key])) {
           $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
@@ -1873,6 +2017,78 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
           'label' => $programme->label(),
           'level_code' => $programme->get('field_eqf_level')->value,
           'programme_url' => $programme_url,
+          'is_joint_membership' => !empty($joint_linked_programme_ids[$programme->id()]),
+          'ects' => $programme->hasField('field_credits') && !$programme->get('field_credits')->isEmpty()
+            ? $programme->get('field_credits')->value
+            : NULL,
+          'interuniversity' => $programme->hasField('field_interuniversity') && !$programme->get('field_interuniversity')->isEmpty()
+            ? (bool) $programme->get('field_interuniversity')->value
+            : FALSE,
+        ];
+      }
+    }
+
+    foreach ($joint_programmes as $programme) {
+      if (!$programme instanceof NodeInterface) {
+        continue;
+      }
+
+      $programme = b5subtheme_entity_for_language_with_fallback($programme, $langcode);
+      if (!$programme instanceof NodeInterface || isset($seen[$programme->id()])) {
+        continue;
+      }
+      $seen[$programme->id()] = TRUE;
+
+      $lvl_raw = strtolower($programme->get('field_eqf_level')->value ?? '');
+      if (str_starts_with($lvl_raw, '6')) {
+        $level = 'B';
+      } elseif (str_starts_with($lvl_raw, '7')) {
+        $level = 'M';
+      } elseif (str_starts_with($lvl_raw, '8')) {
+        $level = 'PhD';
+      } else {
+        continue;
+      }
+
+      $programme_area_keys = [];
+      if ($programme->hasField('field_isced_f') && !$programme->get('field_isced_f')->isEmpty()) {
+        foreach ($programme->get('field_isced_f') as $item) {
+          $broad_key = $item->broad ?? '';
+          if ($broad_key !== '') {
+            $programme_area_keys[$broad_key] = $broad_key;
+          }
+        }
+      }
+      if ($programme_area_keys === []) {
+        $programme_area_keys[$generic_area_key] = $generic_area_key;
+      }
+
+      $programme_url = b5subtheme_build_programme_catalogue_url($programme, $langcode);
+      foreach ($programme_area_keys as $area_key) {
+        if (!isset($programmes_by_area[$area_key])) {
+          $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
+        }
+        if (!isset($area_meta[$area_key])) {
+          $area_meta[$area_key] = [
+            'label' => $area_key === $generic_area_key
+              ? (string) t('Other', [], ['langcode' => $langcode])
+              : ($isced_labels[$area_key] ?? $area_key),
+            'icon' => 'fas fa-folder',
+          ];
+        }
+
+        $programmes_by_area[$area_key][$level][] = [
+          'id' => $programme->id(),
+          'label' => $programme->label(),
+          'level_code' => $programme->get('field_eqf_level')->value,
+          'programme_url' => $programme_url,
+          'is_joint_membership' => TRUE,
+          'ects' => $programme->hasField('field_credits') && !$programme->get('field_credits')->isEmpty()
+            ? $programme->get('field_credits')->value
+            : NULL,
+          'interuniversity' => $programme->hasField('field_interuniversity') && !$programme->get('field_interuniversity')->isEmpty()
+            ? (bool) $programme->get('field_interuniversity')->value
+            : FALSE,
         ];
       }
     }
@@ -1939,8 +2155,34 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
     $isced_labels = b5subtheme_isced_labels_for_language($langcode);
     $programmes_by_area = [];
     $area_meta = [];
-
     $seen = [];
+    $organizational_unit = $variables['view']->result[0]->_entity ?? NULL;
+    $organizational_unit_id = $organizational_unit instanceof NodeInterface ? (int) $organizational_unit->id() : 0;
+    $institution_id = 0;
+
+    if ($organizational_unit instanceof NodeInterface) {
+      if ($organizational_unit->hasField('field_ou_institution') && !$organizational_unit->get('field_ou_institution')->isEmpty()) {
+        $institution = $organizational_unit->get('field_ou_institution')->entity;
+        $institution_id = $institution instanceof NodeInterface ? (int) $institution->id() : 0;
+      } elseif ($organizational_unit->hasField('field_ou_campus') && !$organizational_unit->get('field_ou_campus')->isEmpty()) {
+        $campus = $organizational_unit->get('field_ou_campus')->entity;
+        if ($campus instanceof NodeInterface && $campus->hasField('field_campus_institution') && !$campus->get('field_campus_institution')->isEmpty()) {
+          $institution = $campus->get('field_campus_institution')->entity;
+          $institution_id = $institution instanceof NodeInterface ? (int) $institution->id() : 0;
+        }
+      }
+    }
+
+    $joint_programmes = b5subtheme_get_joint_programmes_for_organizational_units([$organizational_unit_id], $institution_id);
+    $own_programme_ids = [];
+    foreach ($variables['view']->result as $row) {
+      $programme = $row->_relationship_entities['reverse__node__field_programme_ou'] ?? NULL;
+      if ($programme instanceof NodeInterface) {
+        $own_programme_ids[] = (int) $programme->id();
+      }
+    }
+    $joint_programme_ids = array_map(static fn($programme) => (int) $programme->id(), $joint_programmes);
+    $joint_linked_programme_ids = b5subtheme_get_joint_programme_linked_programme_ids(array_merge($own_programme_ids, $joint_programme_ids));
 
     foreach ($variables['view']->result as $row) {
       $ou = $row->_entity; // la OU principal de la vista
@@ -1950,7 +2192,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         continue;
       }
 
-      $key = $ou->id() . ':' . $programme->id();
+      $key = $programme->id();
       if (isset($seen[$key])) {
         continue;
       }
@@ -1989,39 +2231,7 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
         $programme_area_keys[$generic_area_key] = $generic_area_key;
       }
 
-      // URL (igual que en campus_information, pero institución desde OU)
-      $lang_for_url = $programme->hasTranslation($langcode) ? $langcode : 'en';
-      $language = \Drupal::languageManager()->getLanguage($lang_for_url);
-
-      $prog_canonical = Url::fromRoute('entity.node.canonical', ['node' => $programme->id()], ['language' => $language])->toString();
-      $prog_parts = array_values(array_filter(explode('/', trim($prog_canonical, '/'))));
-      $programme_alias = end($prog_parts);
-
-      $institution_alias = 'x';
-      $inst = NULL;
-      if ($programme->hasField('field_programme_institution') && !$programme->get('field_programme_institution')->isEmpty()) {
-        $inst = $programme->get('field_programme_institution')->entity;
-      } elseif ($ou->hasField('field_ou_institution') && !$ou->get('field_ou_institution')->isEmpty()) {
-        $inst = $ou->get('field_ou_institution')->entity;
-      } elseif ($ou->hasField('field_ou_campus') && !$ou->get('field_ou_campus')->isEmpty()) {
-        $campus = $ou->get('field_ou_campus')->entity;
-        if ($campus && $campus->hasField('field_campus_institution') && !$campus->get('field_campus_institution')->isEmpty()) {
-          $inst = $campus->get('field_campus_institution')->entity;
-        }
-      }
-
-      if ($inst) {
-        if ($inst->hasTranslation($lang_for_url)) {
-          $inst = $inst->getTranslation($lang_for_url);
-        }
-        $inst_canonical = Url::fromRoute('entity.node.canonical', ['node' => $inst->id()], ['language' => $language])->toString();
-        $inst_parts = array_values(array_filter(explode('/', trim($inst_canonical, '/'))));
-        if (count($inst_parts) >= 2 && $inst_parts[count($inst_parts) - 2] !== 'node') {
-          $institution_alias = end($inst_parts);
-        }
-      }
-
-      $programme_url = '/' . $lang_for_url . '/catalogue/' . $institution_alias . '/' . $programme_alias;
+      $programme_url = b5subtheme_build_programme_catalogue_url($programme, $langcode);
 
       foreach ($programme_area_keys as $area_key) {
         if (!isset($programmes_by_area[$area_key])) {
@@ -2042,6 +2252,80 @@ if (\Drupal::routeMatch()->getRouteName() === 'view.institution_new_catalogue.pa
           'label' => $programme->label(),
           'level_code' => $programme->get('field_eqf_level')->value,
           'programme_url' => $programme_url,
+          'is_joint_membership' => !empty($joint_linked_programme_ids[$programme->id()]),
+          'ects' => $programme->hasField('field_credits') && !$programme->get('field_credits')->isEmpty()
+            ? $programme->get('field_credits')->value
+            : NULL,
+          'interuniversity' => $programme->hasField('field_interuniversity') && !$programme->get('field_interuniversity')->isEmpty()
+            ? (bool) $programme->get('field_interuniversity')->value
+            : FALSE,
+        ];
+      }
+    }
+
+    foreach ($joint_programmes as $programme) {
+      if (!$programme instanceof NodeInterface) {
+        continue;
+      }
+
+      $programme = b5subtheme_entity_for_language_with_fallback($programme, $langcode);
+      if (!$programme instanceof NodeInterface || isset($seen[$programme->id()])) {
+        continue;
+      }
+      $seen[$programme->id()] = TRUE;
+
+      $lvl_raw = strtolower($programme->get('field_eqf_level')->value ?? '');
+      if (str_starts_with($lvl_raw, '6')) {
+        $level = 'B';
+      } elseif (str_starts_with($lvl_raw, '7')) {
+        $level = 'M';
+      } elseif (str_starts_with($lvl_raw, '8')) {
+        $level = 'PhD';
+      } else {
+        continue;
+      }
+
+      $programme_area_keys = [];
+      if ($programme->hasField('field_isced_f') && !$programme->get('field_isced_f')->isEmpty()) {
+        foreach ($programme->get('field_isced_f') as $item) {
+          $broad_key = $item->broad ?? '';
+          if ($broad_key !== '') {
+            $programme_area_keys[$broad_key] = $broad_key;
+          }
+        }
+      }
+
+      if ($programme_area_keys === []) {
+        $programme_area_keys[$generic_area_key] = $generic_area_key;
+      }
+
+      $programme_url = b5subtheme_build_programme_catalogue_url($programme, $langcode);
+      foreach ($programme_area_keys as $area_key) {
+        if (!isset($programmes_by_area[$area_key])) {
+          $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
+        }
+
+        if (!isset($area_meta[$area_key])) {
+          $area_meta[$area_key] = [
+            'label' => $area_key === $generic_area_key
+              ? (string) t('Other', [], ['langcode' => $langcode])
+              : ($isced_labels[$area_key] ?? $area_key),
+            'icon' => 'fas fa-folder',
+          ];
+        }
+
+        $programmes_by_area[$area_key][$level][] = [
+          'id' => $programme->id(),
+          'label' => $programme->label(),
+          'level_code' => $programme->get('field_eqf_level')->value,
+          'programme_url' => $programme_url,
+          'is_joint_membership' => TRUE,
+          'ects' => $programme->hasField('field_credits') && !$programme->get('field_credits')->isEmpty()
+            ? $programme->get('field_credits')->value
+            : NULL,
+          'interuniversity' => $programme->hasField('field_interuniversity') && !$programme->get('field_interuniversity')->isEmpty()
+            ? (bool) $programme->get('field_interuniversity')->value
+            : FALSE,
         ];
       }
     }
@@ -2459,6 +2743,7 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
       ? custom_views_filters_get_catalogue_programme_ids((int) $catalogue_institution_id)
       : ['joint' => []];
     $joint_programme_ids = array_fill_keys($catalogue_programme_ids['joint'] ?? [], TRUE);
+    $joint_linked_programme_ids = b5subtheme_get_joint_programme_linked_programme_ids($catalogue_programme_ids['all'] ?? []);
 
     foreach ($view->result as &$row) {
       /** @var \Drupal\node\NodeInterface|null $programme */
@@ -2473,7 +2758,7 @@ function b5subtheme_views_pre_render(ViewExecutable $view) {
       $language = \Drupal::languageManager()->getLanguage($lang_for_url);
       $programme_for_url = b5subtheme_entity_for_language_with_fallback($programme, $current_language);
       $row->_entity = $programme_for_url;
-      $row->is_joint_membership = !empty($joint_programme_ids[$programme_for_url->id()]);
+      $row->is_joint_membership = !empty($joint_programme_ids[$programme_for_url->id()]) || !empty($joint_linked_programme_ids[$programme_for_url->id()]);
       $row->display_instruction_languages = b5subtheme_referenced_entity_labels_for_language($programme_for_url, 'field_programme_language_of_inst', $lang_for_url);
 
       if (
