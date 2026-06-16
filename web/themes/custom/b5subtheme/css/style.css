@@ -14915,8 +14915,8 @@ INSTITUTION MENU
   width: 100%;
   padding-left: 15%; /* Ajusta según tus necesidades */
   padding-right: 16.2%; /* Ajusta según tus necesidades */
-  padding-bottom: 3px !important;
-  margin-bottom: 5px !important;
+  padding-bottom: 0px !important;
+  margin-bottom: 0px !important;
   max-height: 80px;
 }
 

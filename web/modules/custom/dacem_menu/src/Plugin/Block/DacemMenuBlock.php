@@ -184,7 +184,7 @@ if (!$show_block) {
 
     return [
   '#markup' => $this->t('
-    <nav class="navbar sticky-top navbar-expand-lg university-navbar" style="--university_primary_color: @site_primary_color; --university_emphasis_text_color: #fff;">
+    <nav class="navbar sticky-top navbar-expand-lg university-navbar mb-0 pb-0" style="--university_primary_color: @site_primary_color; --university_emphasis_text_color: #fff;">
       <div class="container-fluid">
           <a class="navbar-brand" href="@main_page_url">
               <img src="@menu_image_url" alt="DACEM Logo" class="menu-logo d-inline-block align-text-top">
