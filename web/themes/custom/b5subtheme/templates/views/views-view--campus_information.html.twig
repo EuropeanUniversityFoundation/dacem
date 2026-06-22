@@ -1,6 +1,6 @@
 {% set campus = view.result[0]._entity %}
 {% set institution = view.result[0]._relationship_entities['field_campus_institution'] %}
-{#{dump(campus)}#}
+
 {% set current_language = view.result[0].node_field_data_langcode %}
 
 {% if campus.hasTranslation(current_language) %}
@@ -63,7 +63,6 @@
 			{% if view.result[0]._relationship_entities['reverse__node__field_aa_campus'] %}
 				{% set list_academic_authorities = [] %}
 
-				{#{dump(view.result)}}{{dump(campus.field_campus_description.value)}#}
 				<h3 class="subsection-title">{{ 'Academic Contacts'|t }}</h3>
 				<br>
 
@@ -143,9 +142,6 @@
 
 
 									</div>
-
-									
-
 									
 								</div>
 								
@@ -160,7 +156,7 @@
 
 		<div
 			class="col-lg-6">
-			{# 1) Imagen del campus (con fallback) #}
+			{# Campus image #}
 			<div class="mb-0 text-center">
 				{% set campus_image_url = '/themes/custom/b5subtheme/images/ou-default.png' %}
 
@@ -174,7 +170,7 @@
 					{% set file = campus_tr.get('field_campus_picture').entity %}
 					{% if file %}
 						{% set campus_image_url = file_url(file.uri.value) %}
-						{# o estilo de imagen: {% set campus_image_url = image_style('ou_detail', file.uri.value) %} #}
+				
 					{% endif %}
 				{% elseif campus_base.hasField('field_campus_picture') and (not campus_base.get('field_campus_picture').isEmpty()) %}
 					{% set file = campus_base.get('field_campus_picture').entity %}
@@ -186,7 +182,7 @@
 				<img src="{{ campus_image_url }}" alt="{{ campus_tr.label }}" class="img-fluid w-100" style="max-height: 350px; object-fit: cover;">
 			</div>
 
-			{# 2) Caja negra con datos (mantengo los mismos campos que tenías) #}
+			
 			<div
 				class="bg-black text-white pt-4 pb-4 ps-4 pe-4">
 
@@ -255,7 +251,7 @@
 				{% endif %}
 			</div>
 
-			{# 3) Mapa debajo (mismo que tenías, solo reubicado) #}
+			{# 3) Map #}
 			<div class="map-wrapper" style="">
 				{{ drupal_view('map_view', 'block_3', campus.id) }}
 			</div>
@@ -263,7 +259,7 @@
 
 
 	</div>
-</div></div><!--<img src="/themes/custom/b5subtheme/images/general_information_campuses_map.png" alt="Mapa de campus" class="img-fluid h-100 w-100 object-fit-cover rounded shadow">--><div class='section-container section-bg-grey'>
+</div></div><div class='section-container section-bg-grey'>
 
 {% if area_meta|length > 0 %}
 	<div class='my-custom-container-2'>
@@ -276,11 +272,11 @@
 				{% set M = programmes_by_area[area_key]['M']|default([]) %}
 				{% set D = programmes_by_area[area_key]['PhD']|default([]) %}
 
-				{# 1) Lista única ordenada: primero B, luego M, luego PhD #}
+				
 				{% set ordered = B|merge(M)|merge(D) %}
 				{% set total = ordered|length %}
 
-				{# Si solo hay un área, expandirla #}
+				
 				{% set expanded = (area_meta|length == 1) %}
 
 				{% if total > 0 %}
@@ -308,7 +304,7 @@
 							<div
 								class="accordion-body">
 
-								{# 2) Columnas automáticas (2 si <=18; 3 si >18) #}
+								
 								{% set cols = total > 18 ? 3 : 2 %}
 								{% set per_col = (total / cols)|round(0, 'ceil') %}
 
@@ -319,10 +315,9 @@
 											<div class="col-md-{{ 12 // cols }}">
 												<ul class="list-unstyled mb-0">
 													{% for p in slice %}
-														{# 3) Prefijo por nivel (B / M / PhD) #}
-														{#{dump(p)}#}
+													
 														{% set lvl_raw = p.level_code|default(p.level|default('')) %}
-														{#{dump(lvl_raw)}#}
+													
 														{% set lvl = lvl_raw|lower %}
 												
 
@@ -375,13 +370,7 @@
 
 
 	{#ORGANIZATIONAL UNITS#}
-	{#ORGANIZATIONAL UNITS#}
-	{#ORGANIZATIONAL UNITS#}
-	{#ORGANIZATIONAL UNITS#}
-	{#ORGANIZATIONAL UNITS#}
-	{#ORGANIZATIONAL UNITS#}
-	{#ORGANIZATIONAL UNITS#}
-	{#ORGANIZATIONAL UNITS#}
+	
 
 
 		{% if view.result[0]._relationship_entities['reverse__node__field_ou_campus'] %}
@@ -396,10 +385,10 @@
 
 	<div
 		class="row">
-		<!-- Columna izquierda: buscador y lista -->
+		<!-- Left column: Searcher and list-->
 		<div
 			class="col-lg-6">
-			<!-- Buscador -->
+			<!-- Searcher -->
 			<div class="input-group mb-3">
 				<input type="text" class="form-control bg-light border-0" placeholder="Type here to search" id="ou-search">
 				<button class="btn btn-outline-secondary pe-4 ps-4 bg-black" type="button" id="search-btn">
@@ -407,7 +396,7 @@
 				</button>
 			</div>
 
-			<!-- Filtros -->
+			<!-- Filters -->
 			<div
 				class="custom-btn-group-filter-ou d-flex gap-10 mb-3 flex-wrap">
 				<!-- Type -->
@@ -428,39 +417,17 @@
 						<li>
 							<a class="dropdown-item" href="#" data-type="School">School</a>
 						</li>
-						<!-- Añade aquí tus tipos reales -->
+						
 					</ul>
 				</div>
 
-				<!-- Campus 
-								<div class="dropdown">
-									<button id="campus-filter-button" class="btn btn-dark btn-sm dropdown-toggle btn-whithout-border-radius" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-										Campus
-									</button>
-									<ul class="dropdown-menu" id="filter-campus">
-										<li>
-											<a class="dropdown-item" href="#" data-campus="">All</a>
-										</li>
-										{% for campus in campuses %}
-											{% set campus_label = campus.label %}
-											{% if campus.hasTranslation(language.getId()) %}
-												{% set campus_label = campus.getTranslation(language.getId()).label %}
-											{% endif %}
-											<li>
-												<a class="dropdown-item" href="#" data-campus="{{ campus.id() }}">
-													{{ campus_label }}
-												</a>
-											</li>
-										{% endfor %}
-									</ul>
-								</div>
-								-->
+
 			</div>
 
-			<!-- Lista de Organizational Units -->
+			<!-- Organizational Units List -->
 			<div id="ou-list">
 				<nav>
-					<ul class="pagination justify-content-center mt-4" id="pagination-controls"><!-- Se rellenará con JS --></ul>
+					<ul class="pagination justify-content-center mt-4" id="pagination-controls"><!-- Filled with JS --></ul>
 				</nav>
 
 				{% set list_ous = [] %}
@@ -491,7 +458,7 @@
 							{% set lang_for_path = 'en' %}
 						{% endif %}
 
-						{# Alias canónico de la OU en el idioma correcto #}
+						{# Canonical link #}
 						{% set ou_path = path('entity.node.canonical', {'node': ou_for_path.id()}, {'langcode': lang_for_path}) %}
 						{% set parts = ou_path|trim('/')|split('/') %}
 						{% set ou_alias = parts|last %}
@@ -513,26 +480,23 @@
 							{% set coords_ou = lat ~ ', ' ~ lon %}
 						{% endif %}
 
-						{# -------- IMAGEN --------
-												       Intenta sacar la URL de la imagen. Si no hay, queda vacío y el JS hará fallback. #}
+						
 						{% set ou_image_url = '' %}
 						{% if organizational_unit.field_ou_picture is defined 
           and organizational_unit.field_ou_picture.entity is not empty %}
 							{% set img_file = organizational_unit.field_ou_picture.entity %}
-							{# Opción A: URL directa del archivo #}
+							
 							{% set ou_image_url = file_url(img_file.getFileUri()) %}
 
-						{# Opción B (recomendada): usar un estilo de imagen si tienes uno creado, p.ej. 'ou_detail' #}
-							{# {% set ou_image_url = image_style('ou_detail', img_file.getFileUri()) %} #}
 						{% endif %}
 
 						<div
 							class="ou-item p-3 mb-3 bg-light" data-ou-title="{{ organizational_unit.title.value }}" data-ou-type="{{ organizational_unit.field_ou_type.value }}" data-ou-area="{{ organizational_unit.field_ou_area.value }}" data-ou-description="{{ organizational_unit.field_ou_description.value|striptags }}" data-ou-address="{{ organizational_unit.field_ou_address.value }}" data-ou-gps="{{ coords_ou }}" data-ou-web="{{ organizational_unit.field_ou_web.uri }}" data-ou-web-label="{{ organizational_unit.field_ou_web.title }}" data-ou-email="{{ organizational_unit.field_ou_email.value }}" data-ou-phone="{{ organizational_unit.field_ou_phone.value }}" data-ou-campus-id="{{ organizational_unit.field_ou_campus.entity.id() }}" data-ou-campus-label="{{ campus_label }}" data-ou-url="{{ ou_info_url }}" data-ou-image="{{ ou_image_url|e('html_attr') }}" onclick="loadOUDetails(this)">
 
-							<!-- Título de la unidad organizativa -->
+							<!-- Organizational Unit title -->
 							<h5 class="mb-1">{{ organizational_unit.title.value }}</h5>
 
-							<!-- Tipo de la unidad organizativa -->
+							<!-- Organizational Unit type -->
 							<p class="mb-0 small ou-type">
 								{% if organizational_unit.field_ou_type.value is defined %}
 									{{ organizational_unit.field_ou_type.value }}
@@ -546,19 +510,21 @@
 			</div>
 		</div>
 
-		<!-- Columna derecha: detalle dinámico -->
+		<!-- Right column -->
 		<div class="col-lg-6">
 			<div id="ou-details" class="bg-light h-100">
 				<p class="text-muted text-center pt-5">{{ translations[current_language]['Click on an Organizational Unit to see its details.'] }}</p>
 
-				<!-- Aquí se rellenará dinámicamente con JS -->
+				<!-- Filled with JS -->
 			</div>
 		</div>
 	</div>
-</div></div></div>{% endif %}</div>{#SCRIPTS#}{#SCRIPTS#}{#SCRIPTS#}{#SCRIPTS#}{#SCRIPTS#}{#SCRIPTS#}{#SCRIPTS#}{#SCRIPTS#}{#SCRIPTS#}{#SCRIPTS#}<script>
-// =======================
-// DETALLES (misma lógica) + estilos como en el JS base
-// =======================
+</div></div></div>{% endif %}</div>
+
+
+
+<script>
+
 function loadOUDetails(el) {
 document.querySelectorAll('.ou-item').forEach(item => item.classList.remove('selected'));
 el.classList.add('selected');
@@ -578,7 +544,7 @@ const image = el.dataset.ouImage || '';
 
 const imageSrc = image ? image : '/themes/custom/b5subtheme/images/ou-default.png';
 
-// ✅ Bloques opcionales: si el valor está vacío, no se renderiza nada (ni icono ni espacio).
+
 const webHTML = web ? `
       <div class="d-flex align-items-start mb-2">
         <i class="fas fa-globe me-2 mt-1"></i>
@@ -671,19 +637,16 @@ desktopDetails.innerHTML = html;
 }
 
 
-// =======================
-// FILTROS + BUSCADOR (mismo funcionamiento)
-// Añadimos SOLO estética: texto del botón = etiqueta elegida (sin prefijo)
-// y color activo con --university_primary_color
-// =======================
+
+
+
 let currentCampus = '';
 let currentType = '';
 
-// Botones (respetamos clases existentes)
-// const campusButton = document.getElementById('campus-filter-button');
+
 const typeButton = document.getElementById('type-filter-button');
 
-// Helper para aplicar/quitar color activo sin cambiar clases
+
 function setActiveButtonStyle(btn, active) {
 const root = getComputedStyle(document.documentElement);
 const uniColor = root.getPropertyValue('--university_primary_color') || '';
@@ -703,15 +666,15 @@ document.querySelectorAll('#filter-campus .dropdown-item').forEach(item => {
 item.addEventListener('click', function (e) {
 e.preventDefault();
 currentCampus = this.dataset.campus || '';
-// Texto = solo etiqueta elegida; si vacío, vuelve al label por defecto
+
 campusButton.textContent = currentCampus ? this.textContent.trim() : 'Campus';
-// Estilo activo
+
 setActiveButtonStyle(campusButton, !! currentCampus);
 filterOUList();
 });
 });
 
-// 🔍 Buscador en tiempo real (mismo comportamiento)
+
 document.getElementById('ou-search').addEventListener('input', function () {
 const query = this.value.toLowerCase();
 const items = document.querySelectorAll('#ou-list .ou-item');
@@ -734,7 +697,7 @@ filterOUList();
 });
 });
 
-// Filtro general (combina búsqueda + tipo + campus)
+
 function filterOUList() {
 const query = document.getElementById('ou-search').value.toLowerCase();
 const items = document.querySelectorAll('#ou-list .ou-item');
@@ -752,11 +715,11 @@ item.style.display = (matchText && matchType && matchCampus) ? '' : 'none';
 });
 }
 
-// Duplicado de listener de búsqueda (lo mantenemos tal cual para no tocar funcionamiento)
+
 document.getElementById('ou-search').addEventListener('input', filterOUList);
 
 // =======================
-// PAGINACIÓN (mismo funcionamiento; itemsPerPage=2 como enviaste)
+// Pagination
 // =======================
 document.addEventListener("DOMContentLoaded", function () {
 const items = document.querySelectorAll("#ou-list .ou-item");
@@ -798,11 +761,16 @@ if (items.length > 0) {
 showPage(currentPage);
 }
 
-// Estado inicial de botones (sin color activo)
+
 setActiveButtonStyle(campusButton, false);
 setActiveButtonStyle(typeButton, false);
 setActiveButtonStyle(areaButton, false);
-});</script><!-- ===================== --><!-- JS PROGRAMMES (estilos solo; misma lógica) --><!-- ===================== --><script>
+});</script>
+
+
+
+
+<script>
 (function () {
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
@@ -875,7 +843,7 @@ visibles.forEach(col => row.appendChild(col));
 });
 }
 
-// ===== Estética de botones de filtro (sin tocar clases / lógica) =====
+
 function setActiveBtnStyle(btn, active) {
 const uniColor = getComputedStyle(document.documentElement).getPropertyValue('--university_primary_color') || '';
 if (! btn) 
@@ -883,7 +851,7 @@ return;
 
 
 if (active) {
-btn.textContent = btn.textContent.trim(); // ya se actualiza más abajo con el label elegido
+btn.textContent = btn.textContent.trim(); 
 btn.style.backgroundColor = uniColor;
 btn.style.borderColor = uniColor;
 btn.style.color = '#fff';
@@ -921,12 +889,11 @@ return;
 
 e.preventDefault();
 state.area = a.dataset.programmeArea ? slug(a.dataset.programmeArea) : '';
-// Solo el nombre de la opción
 btnArea.textContent = state.area ? a.textContent.trim() : 'Knowledge Area';
 setActiveBtnStyle(btnArea, !! state.area);
 applyFilter();
 });
-// estado inicial
+
 setActiveBtnStyle(btnArea, false);
 }
 
@@ -939,16 +906,16 @@ return;
 
 e.preventDefault();
 state.level = a.dataset.type ? slug(a.dataset.type) : '';
-// Solo el nombre de la opción
+
 btnLevel.textContent = state.level ? a.textContent.trim() : 'Level';
 setActiveBtnStyle(btnLevel, !! state.level);
 applyFilter();
 });
-// estado inicial
+
 setActiveBtnStyle(btnLevel, false);
 }
 
-// Botón A-Z: dejamos su comportamiento/clases tal cual (rojo)
+
 if (btnAZ) {
 btnAZ.addEventListener('click', e => {
 e.preventDefault();
@@ -962,7 +929,7 @@ sortAZ();
 });
 }
 })();</script><script>
-// Mantener scroll en acordeón (sin cambios de lógica)
+
 (function () {
 const keepScroll = () => {
 const y = window.scrollY;

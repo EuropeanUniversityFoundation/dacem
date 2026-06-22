@@ -1,8 +1,25 @@
-{% set iec = view.result[0]._entity.field_iec.entity %}
-{% set programme = iec ? iec.field_iec_programme.entity : null %}
-{% set institution = programme ? programme.field_programme_institution.entity : null %}
+{% set current_language = language_manager.getCurrentLanguage().getId() %}
+{% set university_primary_color = '#000000' %}
 
-{% set university_primary_color = institution.field_primary_color[0].color %}
+{% if view.result|length > 0 %}
+  {% set instance = view.result[0]._entity %}
+  {% if instance and instance.hasTranslation(current_language) %}
+    {% set instance = instance.getTranslation(current_language) %}
+  {% endif %}
+  {% set iec = instance ? instance.field_iec.entity : null %}
+  {% if iec and iec.hasTranslation(current_language) %}
+    {% set iec = iec.getTranslation(current_language) %}
+  {% endif %}
+  {% set programme = iec ? iec.field_iec_programme.entity : null %}
+  {% if programme and programme.hasTranslation(current_language) %}
+    {% set programme = programme.getTranslation(current_language) %}
+  {% endif %}
+  {% set institution = programme ? programme.field_programme_institution.entity : null %}
+  {% if institution and institution.hasTranslation(current_language) %}
+    {% set institution = institution.getTranslation(current_language) %}
+  {% endif %}
+  {% set university_primary_color = institution.field_primary_color[0].color|default('#000000') %}
+{% endif %}
 
 <style>:root
 {
@@ -15,16 +32,17 @@
 
 
 {% if view.result|length > 0 %}
-  {# Path actual: /en/iec-instance/622 -> nos quedamos con 622 #}
+
   {% set current_path = path('<current>') %}
   {% set current_id = current_path|trim('/')|split('/')|last %}
 
-  {# Texto por defecto del botón #}
   {% set current_label = 'Select'|t %}
 
-  {# Primera pasada: encuentra el label de la instancia actual #}
   {% for row in view.result %}
     {% set instance = row._entity %}
+    {% if instance and instance.hasTranslation(current_language) %}
+      {% set instance = instance.getTranslation(current_language) %}
+    {% endif %}
     {% if instance and (instance.id|striptags|trim == current_id) %}
       {% set current_label = instance.label %}
     {% endif %}
@@ -45,10 +63,13 @@
       <ul class="dropdown-menu dropdown-menu-dark w-100">
         {% for row in view.result %}
           {% set instance = row._entity %}
+          {% if instance and instance.hasTranslation(current_language) %}
+            {% set instance = instance.getTranslation(current_language) %}
+          {% endif %}
           {% if instance %}
             <li>
               <a class="dropdown-item {% if (instance.id|striptags|trim == current_id) %}active{% endif %}"
-                 href="/iec-instance/{{ instance.id }}">
+                 href="{{ path('view.iec_instance.page_1', {'arg_0': instance.id}, {'language': language_manager.getLanguage(current_language)}) }}">
                 {{ instance.label }}
               </a>
             </li>

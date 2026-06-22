@@ -38,7 +38,7 @@
         {% if instance %}
           <li>
             <a class="dropdown-item"
-               href="/iec-instance/{{ instance.id }}">
+               href="{{ path('view.iec_instance.page_1', {'arg_0': instance.id}, {'language': language_manager.getLanguage(current_language)}) }}">
               {{ instance.label }}
             </a>
           </li>

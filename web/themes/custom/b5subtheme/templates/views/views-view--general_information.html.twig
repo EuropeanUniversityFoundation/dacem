@@ -25,9 +25,9 @@
 	;
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
-}</style>{#
-																			<div class="university-menu-block">
-																			{{ page.header }}</div>#}<div class="rs-header ">
+}</style>
+
+<div class="rs-header ">
 <div class="my-custom-container-2">
 	<div class="page-band">
 		<h1 class="rs-title">{{ 'INSTITUTIONAL INFORMATION'|t }}</h1>
@@ -35,7 +35,7 @@
 </div></div><nav id="fixed-navbar" class="fixed-navbar navbar-expand-lg bg-black">
 <div
 	class="my-custom-constainer">
-	<!-- Menú desplegable para pantallas pequeñas -->
+	<!-- Scroll menu for small devices -->
 	<div class="dropdown d-lg-none w-100">
 		{% set first_menu_section = menu_sections|first %}
 		{% set dropdown_label = first_menu_section.label|default('Menu'|t) %}
@@ -45,30 +45,6 @@
 
 		<ul
 			class="dropdown-menu w-100 text-center" aria-labelledby="rsDropdownButton">
-			<!--
-															<li>
-																<a class="dropdown-item fw-bold" href="#description">{{ 'Description'|t }}</a>
-															</li>
-															<li>
-																<a class="dropdown-item fw-bold" href="#academic-authorities">{{ 'Authorities'|t }}</a>
-															</li>
-															<li>
-																<a class="dropdown-item fw-bold" href="#admission">{{ 'Admission'|t }}</a>
-															</li>
-															<li>
-																<a class="dropdown-item fw-bold" href="#ects-allocation-policty">{{ 'ECTS Policies'|t }}</a>
-															</li>
-															<li>
-																<a class="dropdown-item fw-bold" href="#mobility">{{ 'Mobility'|t }}</a>
-															</li>
-															<li>
-																<a class="dropdown-item fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
-															</li>
-															<li>
-																<a class="dropdown-item fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
-															</li>
-															-->
-
 
 			{% for section in menu_sections %}
 				<li class="nav-item">
@@ -111,34 +87,9 @@
 		</ul>
 	</div>
 
-	<!-- Menú de pestañas visible en pantallas grandes -->
+	<!-- Menu -->
 	<ul
 		class="nav nav-tabs justify-content-center d-none d-lg-flex">
-
-		<!--
-										<li class="nav-item">
-											<a class="nav-link nav-link-rs-menu fw-bold" href="#description">{{ 'Description'|t }}</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link nav-link-rs-menu  fw-bold" href="#academic-authorities">{{ 'Authorities'|t }}</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link nav-link-rs-menu  fw-bold" href="#admission">{{ 'Admission'|t }}</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link nav-link-rs-menu  fw-bold" href="#ects-allocation-policy">{{ 'ECTS Policies'|t }}</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link nav-link-rs-menu  fw-bold" href="#mobility">{{ 'Mobility'|t }}</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link nav-link-rs-menu  fw-bold" href="#campuses">{{ 'Campuses'|t }}</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link nav-link-rs-menu fw-bold" href="#organizational-units">{{ 'Org. Units'|t }}</a>
-										</li>
-										-->
-
 
 		{% for section in menu_sections %}
 			<li class="nav-item">
@@ -179,9 +130,6 @@
 
 
 	</ul>
-	{#{ dump(institution_vocab_labels_str) }}
-				
-					{{dump(institution.field_example_vocabularies.value | render)}#}
 
 </div></nav><div class="university-banner">
 {% if institution.field_institution_picture is not empty %}
@@ -216,7 +164,7 @@
 
 			<div
 				class="row" id="description" style="scroll-margin-top: 200px;">
-				<!-- Parte izquierda con información de la universidad -->
+				
 				<div class="col-12 col-lg-8 order-2 order-lg-1">
 					{% if institution.field_information.value is not empty %}
 
@@ -229,10 +177,7 @@
 							{{ 'Not available'|t }}</p>
 					{% endif %}
 
-					{#{dump(institution.field_institution_map[0].lon)}#}
 
-
-					<!-- Academic Terms debajo de la info -->
 					<div class="mt-4">
 						{% if institution.field_admission_language_policy is not empty %}
 							<h4 class="subsection-title">{{ 'Languages'|t }}</h4>
@@ -248,13 +193,13 @@
 					</div>
 				</div>
 
-				<!-- Parte derecha con logo y contacto -->
+				<!-- Logo and contacts -->
 				<div class="col-12 col-lg-4 order-1 order-lg-2">
 
 					<div
 						class="degree-sidebar bg-light p-4">
 
-						<!-- Logo (field_logo como media) -->
+						
 						<div class="d-flex justify-content-center">
 							{% if institution.field_logo.entity.uri.value is defined %}
 								<img src="{{ file_url(institution.field_logo.entity.uri.value) }}" alt="{{ institution.label() }} logo" class="institution-logo">
@@ -695,7 +640,7 @@
 	</div>
 </div>
 
-<!--<div class="section-margin-negative"></div>-->
+
 <div class="section-container">
 	<div class='my-custom-container-2'>
 
@@ -721,10 +666,6 @@
 
 <!--<div class="section-margin-negative"></div>-->
 
-
-
-
-
 	<div class='section-container section-bg-grey' id="campuses" style="scroll-margin-top: 150px;">
 
 		<div class="my-custom-container-2">
@@ -745,10 +686,10 @@
 
 			{% if campuses is not empty %}
 
-				<!-- Contenido: Mapa + Tarjetas -->
+				<!-- Map and cards -->
 				<div
 					class="row">
-					<!-- Mapa -->
+					<!-- Map -->
 					<div class="col-lg-7 col-12 mb-4 mb-lg-0">
 						<div class="map-wrapper">
 
@@ -757,7 +698,7 @@
 
 					</div>
 
-					<!-- Tarjetas -->
+					<!-- Cards -->
 					<div class="col-lg-5 col-12">
 
 						<div style="max-height: 500px; overflow-y: auto;">
@@ -767,7 +708,7 @@
 								{% set parts = campus_path|trim('/')|split('/') %}
 
 
-								{# Últimos 2 segmentos son institution y campus #}
+								
 								{% set campus_alias = parts|last %}
 								{% set institution_alias = parts[parts|length - 2] %}
 
@@ -776,14 +717,14 @@
 									<div class="card shadow-none mb-3 border-0 rounded-0" style="height: 123.65px; cursor: pointer;">
 										<div
 											class="row g-0">
-											<!-- Imagen -->
+											<!-- Campus image -->
 											<div class="col-3" style="height: 123.65px">
 												{% if campus.field_campus_picture is not empty %}
 													<img src="{{ file_url(campus.field_campus_picture.entity.fileuri) }}" alt="{{ campus.title.value }}" class="img-fluid rounded-0 h-100 object-fit-cover">
 												{% endif %}
 											</div>
 
-											<!-- Texto -->
+											<!-- Text -->
 											<div class="col-9">
 												<div class="card-body p-2">
 													<h5 class="card-title mb-1 text-start">{{ campus.title.value }}</h5>
@@ -831,10 +772,10 @@
 		</div>
 		<div
 			class="row">
-			<!-- Columna izquierda: buscador y lista -->
+			<!-- Left column: searcher and list -->
 			<div
 				class="col-lg-6">
-				<!-- Buscador -->
+				<!-- Searcher -->
 				<div class="input-group mb-3">
 					<input type="text" class="form-control bg-light border-0" placeholder="{{ 'Type here to search'|t }}" id="ou-search">
 					<button class="btn btn-outline-secondary pe-4 ps-4 bg-black" type="button" id="search-btn">
@@ -842,7 +783,7 @@
 					</button>
 				</div>
 
-				<!-- Filtros -->
+				<!-- Filters -->
 				<div
 					class="custom-btn-group-filter-ou d-flex gap-10 mb-3 flex-wrap">
 
@@ -867,7 +808,7 @@
 						</ul>
 					</div>
 
-					<!-- Otros botones -->
+					
 					<!-- Campus -->
 					{% if campuses|length > 1 %}
 						<div class="dropdown">
@@ -898,7 +839,7 @@
 				</div>
 
 
-				<!-- Lista de Organizational Units -->
+				<!-- Organizational Units List -->
 				<div id="ou-list">
 					<nav>
 						<ul
@@ -906,7 +847,7 @@
 						</ul>
 					</nav>
 
-					{# Imagen por defecto de OU #}
+					{# Default Organizational Unit image #}
 					{% set default_ou_image = '/themes/custom/b5subtheme/images/ou-default.png' %}
 
 					{% for row in view.result %}
@@ -914,13 +855,13 @@
 						{% set organizational_unit = row._relationship_entities['reverse__node__field_ou_institution'] %}
 
 						{% if organizational_unit %}
-							{# Traducción #}
+							{# Translation #}
 							{% if organizational_unit.hasTranslation(current_language) %}
 								{% set organizational_unit = organizational_unit.getTranslation(current_language) %}
 							{% endif %}
 
 
-							{# Campus y su etiqueta (con traducción, si existe) #}
+							{# Campus #}
 							{% set campus_label = '' %}
 
 							{% if organizational_unit.hasField('field_ou_campus') 
@@ -933,7 +874,7 @@
 							{% endif %}
 
 
-							{# URL de la página de info de la OU #}
+							{# Organizational Unit URL #}
 							{% set ou_path = path('entity.node.canonical', {'node': organizational_unit.id()}) %}
 							{% set parts = ou_path|trim('/')|split('/') %}
 							{% set ou_alias = parts|last %}
@@ -943,7 +884,7 @@
       'arg_1': ou_alias
     }) %}
 
-							{# Coordenadas desde WKT #}
+							{# Coordinates #}
 							{% set coords_ou = '' %}
 							{% if organizational_unit.field_ou_map.value is defined and organizational_unit.field_ou_map.value %}
 								{% set point  = organizational_unit.field_ou_map.value %}
@@ -953,8 +894,6 @@
 								{% set coords_ou = lat ~ ', ' ~ lon %}
 							{% endif %}
 
-							{# -------- IMAGEN --------
-																																		       Intenta sacar la URL de la imagen. Si no hay, queda vacío y el JS hará fallback. #}
 							{% set ou_image_url = '' %}
 							{% if organizational_unit.field_ou_picture is defined 
           and organizational_unit.field_ou_picture.entity is not empty %}
@@ -994,32 +933,21 @@
 
 			</div>
 
-			<!-- Columna derecha: detalle dinámico -->
+			<!-- Right column: dynamic -->
 			<div class="col-lg-6">
 				<div id="ou-details" class="bg-light h-100">
 					<p class="text-muted text-center pt-5">{{ 'Click on an Organizational Unit to see its details.'|t }}</p>
-					<!-- Aquí se rellenará dinámicamente con JS -->
+					<!-- Filled dynamically with JS  -->
 				</div>
 			</div>
 		</div>
 	</div>
-{% endif %}</div><!--
-				<div class="last-update bg-black text-white p-3">
-				  <div class="section-container pt-0 pb-0">
-				    <div class="my-custom-container-2">
-				
-				      <span class="rs-source">
-				        Source: <span class="rs-source-site">Example.com</span>
-				      </span>
-				
-				      <span class="rs-last-update">
-				        <em>Last update: {{ last_updated }}</em>
-				      </span>
-				
-				    </div>
-				  </div>
-				</div>
-				--><script>
+{% endif %}</div>
+
+
+
+
+<script>
 function loadOUDetails(el) {
 document.querySelectorAll('.ou-item').forEach(item => item.classList.remove('selected'));
 el.classList.add('selected');
@@ -1039,7 +967,7 @@ const image = el.dataset.ouImage || '';
 
 const imageSrc = image ? image : '/themes/custom/b5subtheme/images/ou-default.png';
 
-// Bloques opcionales: si el valor está vacío, no se renderiza nada (ni icono ni espacio).
+
 const webHTML = web ? `
       <div class="d-flex align-items-start mb-2">
         <i class="fas fa-globe me-2 mt-1"></i>
@@ -1150,7 +1078,7 @@ function setButton(buttonEl, hasValue, selectedLabel, defaultLabel) {
 const active = !! hasValue;
 buttonEl.textContent = active ? (selectedLabel || '').trim() : defaultLabel;
 
-// Aplicar color dinámico si está activo
+// Apply color to active filter button
 if (active) {
 buttonEl.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--university_primary_color');
 buttonEl.style.color = '#fff';

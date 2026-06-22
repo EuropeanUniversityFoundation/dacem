@@ -443,6 +443,24 @@ class InstitutionMenuBlock extends BlockBase
                     $url = '/en/' . $current_page . $alias_manager->getAliasByPath('/node/' . $current_node_aux->id(), 'en');
                 }
 
+                if ($current_route === 'view.iec_instance.page_1') {
+                    $instance_route_language = $language;
+                    if (!$current_node_aux->hasTranslation($language->getId())) {
+                        $instance_route_language = \Drupal::languageManager()->getLanguage('en');
+                    }
+
+                    $instance_for_url = $current_node_aux;
+                    if ($current_node_aux->hasTranslation($instance_route_language->getId())) {
+                        $instance_for_url = $current_node_aux->getTranslation($instance_route_language->getId());
+                    }
+
+                    $url = Url::fromRoute('view.iec_instance.page_1', [
+                        'arg_0' => $instance_for_url->id(),
+                    ], [
+                        'language' => $instance_route_language,
+                    ])->toString();
+                }
+
                 if (
                     $current_route === 'view.institution_new_catalogue.page_1' || // programmes
                     $current_route === 'view.institution_new_catalogue.page_2' || // iecs

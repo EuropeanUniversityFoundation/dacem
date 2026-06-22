@@ -1,13 +1,9 @@
 {% set current_language = view.result[0].node_field_data_langcode %}
 
 
-{% if sidebar_second %}
-	{{dump('sideebar')}}
-
-{% endif %}
 
 
-{# Acceder a la asignatura actual #}
+
 {% set iec = view.result[0]._entity %}
 {% if iec.hasTranslation(current_language) %}
 	{% set translated_iec = iec.getTranslation(current_language) %}
@@ -15,7 +11,7 @@
 	{% set translated_iec = iec %}
 {% endif %}
 
-{# Acceder a la carrera a la que pertenece la asignatura #}
+{# Obtain the programme #}
 {% set programme = translated_iec.field_iec_programme.entity %}
 
 {% if programme %}
@@ -26,7 +22,7 @@
 	{% endif %}
 {% endif %}
 
-{# Acceder a la universidad a la que pertenece la carrera #}
+{# Obtain the institution #}
 {% set institution = programme.field_programme_institution.entity %}
 
 {% if institution %}
@@ -37,7 +33,7 @@
 	{% endif %}
 {% endif %}
 
-{# Obtener colores de la universidad #}
+{# Institution colors #}
 {% set university_primary_color = institution.field_primary_color[0].color %}
 {% set university_text_color = institution.field_text_color[0].color %}
 {% set university_emphasis_text_color = institution.field_emphasis_text_color[0].color %}
@@ -51,12 +47,10 @@
 	;
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
-}</style>{# Cuatrimestres del curso #}{% set cuatrimestres_curso = {
-  '1o': '1º',
-  '2o': '2º',
-  '3o': '3º',
-  '4o': '4º',
-} %}<div class="programme-page">
+}</style>
+
+
+<div class="programme-page">
 
 {% if translated_programme and translated_programme.id %}
 	{% set original_url = path('entity.node.canonical', {'node': translated_programme.id}) %}
@@ -94,15 +88,12 @@
 
 	<div class="row">
 
-
-  {# SIDEBAR — arriba en móvil, derecha en desktop #}
-{# SIDEBAR — arriba en móvil, derecha en desktop #}
 {% if attachment_after %}
   <div class="col-sm-12 col-md-12 col-xl-4 degree-sidebar-wrapper order-1 order-xl-2">
     {{ attachment_after }}
   </div>
 {% endif %}
-  {# CONTENIDO PRINCIPAL #}
+  {# MAIN CONTENT #}
   <div class="col-sm-12 col-md-12 col-xl-8 order-2 order-xl-1">
 
     {% if translated_iec.field_iec_description.value is not empty %}
