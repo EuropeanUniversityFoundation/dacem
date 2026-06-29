@@ -12,7 +12,6 @@
 <div
 	class="negative-margin-search-page">
 
-	{# 👉 MANTÉN el wrapper de Views: AJAX necesita este div con data-view-dom-id #}
 	<div class="view view-id-{{ view.id }} view-display-id-{{ view.current_display }}
 						              js-view-dom-id-{{ view.dom_id }} view-dom-id-{{ view.dom_id }}" data-view-dom-id="{{ view.dom_id }}">
 
@@ -185,10 +184,6 @@
 
 													
 
-													{# (Opcional) aquí puedes añadir más “meta” de la IEC si quieres:
-																										                       - tipo, área, país, institución, etc.
-																										                       Solo dime qué campos tienes. #}
-
 												</div>
 											</div>
 
@@ -206,7 +201,6 @@
 				</div>
 			</div>
 
-			{# (opcional) attachments/feeds si los usas #}
 			{{ attachment_after }}
 		</div>
 	</div>
@@ -267,12 +261,10 @@ pageField.value = 0;
 function submitSearch() {
 const val = norm(searchInput.value);
 
-// 1) Pon el valor en TODOS los combine existentes
 form.querySelectorAll('input[name="combine"]').forEach(el => {
 el.value = val;
 });
 
-// 2) Inyecta un hidden al FINAL del form (último gana en la querystring)
 let injected = form.querySelector('input[name="combine"][data-injected="1"]');
 if (! injected) {
 injected = document.createElement('input');
@@ -286,7 +278,6 @@ resetPageParam();
 form.submit();
 }
 
-// Mantén sincronizado si ya había valor del exposed al cargar
 const firstCombine = wrapper.querySelector('input[name="combine"]');
 if (firstCombine && ! searchInput.value) 
 searchInput.value = firstCombine.value || '';

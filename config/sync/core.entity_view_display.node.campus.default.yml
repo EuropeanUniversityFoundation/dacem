@@ -8,15 +8,18 @@ dependencies:
     - field.field.node.campus.field_campus_code
     - field.field.node.campus.field_campus_description
     - field.field.node.campus.field_campus_email
+    - field.field.node.campus.field_campus_files
     - field.field.node.campus.field_campus_institution
     - field.field.node.campus.field_campus_location
     - field.field.node.campus.field_campus_phone
     - field.field.node.campus.field_campus_picture
+    - field.field.node.campus.field_campus_urls
     - field.field.node.campus.field_campus_web
     - field.field.node.campus.field_general_ou_campus_descript
     - field.field.node.campus.field_map
     - node.type.campus
   module:
+    - file
     - geofield
     - image
     - link
@@ -65,6 +68,14 @@ content:
     third_party_settings: {  }
     weight: 120
     region: content
+  field_campus_files:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 125
+    region: content
   field_campus_institution:
     type: entity_reference_label
     label: above
@@ -98,6 +109,18 @@ content:
         attribute: lazy
     third_party_settings: {  }
     weight: 117
+    region: content
+  field_campus_urls:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 126
     region: content
   field_campus_web:
     type: link

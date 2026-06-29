@@ -1,12 +1,12 @@
-uuid: 83bf77b1-8969-4bc3-bc3f-6e31542709d0
+uuid: 5fefd862-2ac5-4708-a04f-a96dcc5a3198
 langcode: en
 status: true
 dependencies:
   module:
     - link
     - node
-id: node.field_urls
-field_name: field_urls
+id: node.field_campus_urls
+field_name: field_campus_urls
 entity_type: node
 type: link
 settings: {  }

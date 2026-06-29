@@ -1,17 +1,17 @@
-uuid: 00350d27-7d14-49bb-bb58-6fd5eecf10cf
+uuid: e75bfc81-8987-4326-bd38-90a1b3a2153e
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_university_pdfs
-    - node.type.institution
+    - field.storage.node.field_iec_files
+    - node.type.individual_educational_component
   module:
     - file
-id: node.institution.field_university_pdfs
-field_name: field_university_pdfs
+id: node.individual_educational_component.field_iec_files
+field_name: field_iec_files
 entity_type: node
-bundle: institution
-label: 'University PDFs'
+bundle: individual_educational_component
+label: 'Course files'
 description: ''
 required: false
 translatable: false
@@ -23,5 +23,5 @@ settings:
   file_directory: '[date:custom:Y]-[date:custom:m]'
   file_extensions: 'txt pdf'
   max_filesize: ''
-  description_field: false
+  description_field: true
 field_type: file

@@ -17,9 +17,11 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_email
     - field.field.node.individual_educational_component.field_iec_engagement_hours
     - field.field.node.individual_educational_component.field_iec_evaluation
+    - field.field.node.individual_educational_component.field_iec_files
     - field.field.node.individual_educational_component.field_iec_instructors
     - field.field.node.individual_educational_component.field_iec_language_of_instructio
     - field.field.node.individual_educational_component.field_iec_learning_outcomes
+    - field.field.node.individual_educational_component.field_iec_links
     - field.field.node.individual_educational_component.field_iec_modality
     - field.field.node.individual_educational_component.field_iec_phone
     - field.field.node.individual_educational_component.field_iec_planned_activities
@@ -60,9 +62,11 @@ hidden:
   field_iec_email: true
   field_iec_engagement_hours: true
   field_iec_evaluation: true
+  field_iec_files: true
   field_iec_instructors: true
   field_iec_language_of_instructio: true
   field_iec_learning_outcomes: true
+  field_iec_links: true
   field_iec_modality: true
   field_iec_phone: true
   field_iec_planned_activities: true

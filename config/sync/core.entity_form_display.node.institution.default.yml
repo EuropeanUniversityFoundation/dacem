@@ -32,9 +32,11 @@ dependencies:
     - field.field.node.institution.field_institution_card_image
     - field.field.node.institution.field_institution_country
     - field.field.node.institution.field_institution_email
+    - field.field.node.institution.field_institution_files
     - field.field.node.institution.field_institution_map
     - field.field.node.institution.field_institution_phone
     - field.field.node.institution.field_institution_picture
+    - field.field.node.institution.field_institution_urls
     - field.field.node.institution.field_institution_webpage
     - field.field.node.institution.field_logo
     - field.field.node.institution.field_mobility_incoming_students
@@ -54,14 +56,13 @@ dependencies:
     - field.field.node.institution.field_text_color
     - field.field.node.institution.field_transcript_of_records
     - field.field.node.institution.field_type_of_hei
-    - field.field.node.institution.field_university_pdfs
-    - field.field.node.institution.field_urls
     - image.style.thumbnail
     - node.type.institution
   module:
     - address
     - color_field
     - field_group
+    - file
     - geofield
     - image
     - link
@@ -408,6 +409,13 @@ content:
       placeholder: ''
       size: 60
     third_party_settings: {  }
+  field_institution_files:
+    type: file_generic
+    weight: 56
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
   field_institution_map:
     type: geofield_latlon
     weight: 14
@@ -429,6 +437,14 @@ content:
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_institution_urls:
+    type: link_default
+    weight: 57
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_institution_webpage:
     type: link_default
@@ -639,5 +655,3 @@ hidden:
   field_admission_languages: true
   field_admission_registration: true
   field_erasmus_code: true
-  field_university_pdfs: true
-  field_urls: true

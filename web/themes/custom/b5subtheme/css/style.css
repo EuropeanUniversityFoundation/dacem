@@ -15769,18 +15769,6 @@ body.h-100 {
 
 
 
-/*
-CAMBIOS CON MARIO
-CAMBIOS CON MARIO
-CAMBIOS CON MARIO
-CAMBIOS CON MARIO
-CAMBIOS CON MARIO
-CAMBIOS CON MARIO
-CAMBIOS CON MARIO
-CAMBIOS CON MARIO
-CAMBIOS CON MARIO
-CAMBIOS CON MARIO
-*/
 
 
 .navbar{
@@ -15885,16 +15873,6 @@ p{
 
 
 
-
-/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
-/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
-/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
-/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
-/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
-/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
-/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
-/*SEARCH PROGRAMME*//*SEARCH PROGRAMME*//*SEARCH PROGRAMME*/
-/* Fila */
 
 
 /* Contenedor general ya lo tienes; estilos de tarjeta: */
@@ -16564,18 +16542,7 @@ body.toolbar-fixed .institution-dropdown .dropdown-menu {
 
 
 
-/*
-.newcatalogue-hero::before{
-  content:"";
-  position:absolute; inset:0;
-  background: linear-gradient(180deg,
-    var(--university_primary_color) 0%,   
-    rgba(98,21,15,.80) 100%  
-  );
-  z-index: 0;
-  pointer-events: none;
-}
-*/
+
 
 .newcatalogue-hero::before{
   content:"";

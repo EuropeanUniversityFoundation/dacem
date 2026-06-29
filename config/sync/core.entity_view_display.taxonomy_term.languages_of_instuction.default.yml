@@ -1,0 +1,31 @@
+uuid: e4fed5ae-d194-473f-a8fa-8caca4927136
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.languages_of_instuction.field_language_code
+    - taxonomy.vocabulary.languages_of_instuction
+  module:
+    - text
+id: taxonomy_term.languages_of_instuction.default
+targetEntityType: taxonomy_term
+bundle: languages_of_instuction
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_language_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true

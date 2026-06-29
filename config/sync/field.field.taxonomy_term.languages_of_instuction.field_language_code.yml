@@ -1,0 +1,19 @@
+uuid: fafcc3e7-1135-42ec-bba8-6f59346a297f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_language_code
+    - taxonomy.vocabulary.languages_of_instuction
+id: taxonomy_term.languages_of_instuction.field_language_code
+field_name: field_language_code
+entity_type: taxonomy_term
+bundle: languages_of_instuction
+label: 'Language code'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

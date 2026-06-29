@@ -1,16 +1,16 @@
 {% import _self as helpers %}
 
 {% macro filter_label(element, default_label) %}
-	{# valor actual del filtro #}
+
 	{% set value = element['#value'] ?? [] %}
 	{% set label = default_label %}
 
-	{# multi-selección (valor iterable) #}
+
 	{% if value is iterable %}
 		{% set count = 0 %}
 		{% set first_label = '' %}
 
-		{# recorrer todas las opciones y ver cuáles están seleccionadas #}
+	
 		{% for key, option_label in element['#options'] ?? [] %}
 			{% if key in value and key not in ['', '_none', 'All'] %}
 				{% set count = count + 1 %}
@@ -26,7 +26,7 @@
 			{% set label = '@count selected'|t({'@count': count}) %}
 		{% endif %}
 
-		{# selección simple (un único valor) #}
+	
 	{% else %}
 		{% if value not in ['', '_none', 'All'] %}
 			{% set label = (element['#options'][value] ?? default_label) %}
@@ -39,7 +39,7 @@
 
 <form{{attributes.addClass('institution-new-catalogue-exposed-form').addAttribute('data-disable-refocus','true')}}>
 
-	{# Activo si tiene valor “real” (no vacío / no All / no _none) #}
+	
 	{% set mobility_active =
     form.iec_avaliable_for_mobility is defined
     and (
@@ -123,7 +123,7 @@
 		{% if form.iec_avaliable_for_mobility is defined %}
 			<div class="iec-mobility-filter">
 			{{ form.iec_avaliable_for_mobility }}
-			{# Si quieres forzar un label bonito, puedes ocultar el label del elemento en Views y poner este #}
+			
 			<label class="form-check-label mb-0" for="{{ form.iec_avaliable_for_mobility['#id']|default('') }}"></label>
 			</div>
 		{% endif %}
@@ -138,7 +138,7 @@
 		{% endif %}
 	</div>
 
-	{# Mantener sort hidden si existe #}
+	
 	{% if form.sort_by is defined and form.sort_order is defined %}
 		<div class="visually-hidden">
 			{{ form.sort_by }}
@@ -146,7 +146,7 @@
 		</div>
 	{% endif %}
 
-	{# Búsqueda hidden si existe #}
+
 	{% if form.combine is defined %}
 		<div class="visually-hidden">
 			{{ form.combine }}

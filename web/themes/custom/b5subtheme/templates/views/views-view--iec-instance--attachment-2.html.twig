@@ -37,11 +37,15 @@
   {% set current_id = current_path|trim('/')|split('/')|last %}
 
   {% set current_label = 'Select'|t %}
+  {% set seen_instance_ids = [] %}
 
   {% for row in view.result %}
     {% set instance = row._entity %}
     {% if instance and instance.hasTranslation(current_language) %}
       {% set instance = instance.getTranslation(current_language) %}
+    {% endif %}
+    {% if instance and instance.id not in seen_instance_ids %}
+      {% set seen_instance_ids = seen_instance_ids|merge([instance.id]) %}
     {% endif %}
     {% if instance and (instance.id|striptags|trim == current_id) %}
       {% set current_label = instance.label %}
@@ -61,12 +65,14 @@
       </button>
 
       <ul class="dropdown-menu dropdown-menu-dark w-100">
+        {% set seen_instance_ids = [] %}
         {% for row in view.result %}
           {% set instance = row._entity %}
           {% if instance and instance.hasTranslation(current_language) %}
             {% set instance = instance.getTranslation(current_language) %}
           {% endif %}
-          {% if instance %}
+          {% if instance and instance.id not in seen_instance_ids %}
+            {% set seen_instance_ids = seen_instance_ids|merge([instance.id]) %}
             <li>
               <a class="dropdown-item {% if (instance.id|striptags|trim == current_id) %}active{% endif %}"
                  href="{{ path('view.iec_instance.page_1', {'arg_0': instance.id}, {'language': language_manager.getLanguage(current_language)}) }}">

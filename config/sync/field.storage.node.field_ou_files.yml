@@ -1,12 +1,12 @@
-uuid: b2b15b5f-9c50-44ca-b734-ee03456e9bfb
+uuid: 3e2d5443-4dce-4f57-a546-06df0b8b8de4
 langcode: en
 status: true
 dependencies:
   module:
     - file
     - node
-id: node.field_university_pdfs
-field_name: field_university_pdfs
+id: node.field_ou_files
+field_name: field_ou_files
 entity_type: node
 type: file
 settings:
@@ -16,7 +16,7 @@ settings:
   uri_scheme: public
 module: file
 locked: false
-cardinality: 1
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

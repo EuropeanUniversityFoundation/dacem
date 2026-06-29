@@ -16,9 +16,11 @@ dependencies:
     - field.field.node.individual_educational_component.field_iec_email
     - field.field.node.individual_educational_component.field_iec_engagement_hours
     - field.field.node.individual_educational_component.field_iec_evaluation
+    - field.field.node.individual_educational_component.field_iec_files
     - field.field.node.individual_educational_component.field_iec_instructors
     - field.field.node.individual_educational_component.field_iec_language_of_instructio
     - field.field.node.individual_educational_component.field_iec_learning_outcomes
+    - field.field.node.individual_educational_component.field_iec_links
     - field.field.node.individual_educational_component.field_iec_modality
     - field.field.node.individual_educational_component.field_iec_phone
     - field.field.node.individual_educational_component.field_iec_planned_activities
@@ -35,6 +37,7 @@ dependencies:
     - node.type.individual_educational_component
   module:
     - elm_vocabulary_field
+    - file
     - isced_field
     - link
     - options
@@ -113,6 +116,14 @@ content:
     third_party_settings: {  }
     weight: 14
     region: content
+  field_iec_files:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 19
+    region: content
   field_iec_language_of_instructio:
     type: entity_reference_label
     label: above
@@ -120,6 +131,18 @@ content:
       link: true
     third_party_settings: {  }
     weight: 11
+    region: content
+  field_iec_links:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 20
     region: content
   field_iec_modality:
     type: elm_controlled_vocabulary_default

@@ -1,0 +1,27 @@
+uuid: ce3f4262-01a4-4a55-8e04-7cd161123256
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ou_files
+    - node.type.organizational_unit
+  module:
+    - file
+id: node.organizational_unit.field_ou_files
+field_name: field_ou_files
+entity_type: node
+bundle: organizational_unit
+label: 'Organizational Unit files'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf'
+  max_filesize: ''
+  description_field: true
+field_type: file

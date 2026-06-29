@@ -215,7 +215,13 @@
             {% for joint_programme in programme_other_institutions %}
               <div class="{{ not loop.first ? 'mt-3' : '' }}">
                 <div class="fw-bold fs-5">{{ 'Joint Programme'|t }}</div>
-                <div>{{ joint_programme.title }}</div>
+                <div>
+                  {% if joint_programme.joint_programme_url|default('') %}
+                    <a href="{{ joint_programme.joint_programme_url }}">{{ joint_programme.title }}</a>
+                  {% else %}
+                    {{ joint_programme.title }}
+                  {% endif %}
+                </div>
               </div>
               {% if joint_programme.availabilities|default([])|length %}
                 <div class="mt-2">

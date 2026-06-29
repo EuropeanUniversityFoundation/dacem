@@ -95,8 +95,9 @@
 																			<span class="fw-bold me-1" style="color: {{ prefix == 'B' ? '#111' : catalogue_university_primary_color }};">{{ prefix }}</span>
 																			<span>&middot;</span>
 
-																			{% if p.programme_url is defined and p.programme_url %}
-																				<a href="{{ p.programme_url }}" class="text-reset text-decoration-none ms-1">{{ p.label }}</a>
+																			{% set target_url = (p.is_joint_membership is defined and p.is_joint_membership and p.joint_programme_url is defined and p.joint_programme_url) ? p.joint_programme_url : p.programme_url|default('') %}
+																			{% if target_url %}
+																				<a href="{{ target_url }}" class="text-reset text-decoration-none ms-1">{{ p.label }}</a>
 																			{% else %}
 																				<span class="ms-1">{{ p.label }}</span>
 																			{% endif %}

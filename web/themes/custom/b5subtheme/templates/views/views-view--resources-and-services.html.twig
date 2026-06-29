@@ -19,7 +19,6 @@
 
 {% set university_primary_color = university.field_primary_color[0].color %}
 
-{#{dump(university_primary_color)}#}
 {% set university_text_color = university.field_text_color[0].color %}
 
 {% set university_emphasis_text_color = university.field_emphasis_text_color[0].color %}
@@ -33,7 +32,7 @@
 	;
 	--university_emphasis_text_color: {{university_emphasis_text_color}}
 	;
-}</style><!--Por eiqui class="sticky-nav"--><div class="rs-header ">
+}</style><div class="rs-header ">
 <div class="my-custom-container-2">
 	<div class="page-band">
 		<h1 class="rs-title">{{ 'RESOURCES AND SERVICES'|t }}</h1>
@@ -41,7 +40,6 @@
 </div></div><nav id="fixed-navbar" class="fixed-navbar navbar-expand-lg bg-black">
 <div
 	class="my-custom-constainer">
-	<!-- Menú desplegable para pantallas pequeñas -->
 	<div class="dropdown d-lg-none w-100">
 		<button id="rsDropdownButton" class="btn btn-secondary dropdown-toggle w-100 fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			{{ 'Student affairs'|t }}
@@ -72,7 +70,6 @@
 		</ul>
 	</div>
 
-	<!-- Menú de pestañas visible en pantallas grandes -->
 	<ul class="nav nav-tabs justify-content-center d-none d-lg-flex">
 
 	{% if campuses is defined and campuses|length > 1 %}
@@ -821,7 +818,7 @@
 			{% endif %}
 		{% endif %}
 	</div>
-</div></div></div><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><!--- EXTRA ACADEMIC ACTIVITIEEEEEEES --><div class="" id="extra-academic-activities"> <div class="image-banner">
+</div></div></div><div class="" id="extra-academic-activities"> <div class="image-banner">
 <img src="/themes/custom/b5subtheme/images/dacem-004.jpg" alt="Extra-academic Activities" class="img-fluid">
 <div class="section-container">
 	<div class="my-custom-container-2">

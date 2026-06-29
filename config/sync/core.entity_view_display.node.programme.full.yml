@@ -25,6 +25,7 @@ dependencies:
     - field.field.node.programme.field_programme_code
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
+    - field.field.node.programme.field_programme_files
     - field.field.node.programme.field_programme_grading_scheme
     - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
@@ -42,6 +43,7 @@ dependencies:
     - field.field.node.programme.field_programme_start_date
     - field.field.node.programme.field_programme_type
     - field.field.node.programme.field_programme_type_of_credits
+    - field.field.node.programme.field_programme_urls
     - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
     - field.field.node.programme.field_qualification_awarded
@@ -159,6 +161,7 @@ hidden:
   field_programme_abbreviation: true
   field_programme_code: true
   field_programme_end_date: true
+  field_programme_files: true
   field_programme_grading_scheme: true
   field_programme_grading_table: true
   field_programme_language_of_inst: true
@@ -173,6 +176,7 @@ hidden:
   field_programme_start_date: true
   field_programme_type: true
   field_programme_type_of_credits: true
+  field_programme_urls: true
   field_programme_web: true
   field_programme_work_placements: true
   field_qualification_awarded: true

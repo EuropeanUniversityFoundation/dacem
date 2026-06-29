@@ -33,9 +33,11 @@ dependencies:
     - field.field.node.institution.field_institution_card_image
     - field.field.node.institution.field_institution_country
     - field.field.node.institution.field_institution_email
+    - field.field.node.institution.field_institution_files
     - field.field.node.institution.field_institution_map
     - field.field.node.institution.field_institution_phone
     - field.field.node.institution.field_institution_picture
+    - field.field.node.institution.field_institution_urls
     - field.field.node.institution.field_institution_webpage
     - field.field.node.institution.field_logo
     - field.field.node.institution.field_mobility_incoming_students
@@ -55,8 +57,6 @@ dependencies:
     - field.field.node.institution.field_text_color
     - field.field.node.institution.field_transcript_of_records
     - field.field.node.institution.field_type_of_hei
-    - field.field.node.institution.field_university_pdfs
-    - field.field.node.institution.field_urls
     - node.type.institution
   module:
     - user
@@ -100,9 +100,11 @@ hidden:
   field_institution_card_image: true
   field_institution_country: true
   field_institution_email: true
+  field_institution_files: true
   field_institution_map: true
   field_institution_phone: true
   field_institution_picture: true
+  field_institution_urls: true
   field_institution_webpage: true
   field_logo: true
   field_mobility_incoming_students: true
@@ -122,6 +124,4 @@ hidden:
   field_text_color: true
   field_transcript_of_records: true
   field_type_of_hei: true
-  field_university_pdfs: true
-  field_urls: true
   langcode: true

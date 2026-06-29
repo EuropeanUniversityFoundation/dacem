@@ -100,6 +100,9 @@
 										<span class="text-muted">·
 											{{ selected_home_programme.institution }}</span>
 									{% endif %}
+									<div class="text-muted small mt-2">
+										{{ 'The result list is filtered by the programmes that have an agreement with your home programme.'|t }}
+									</div>
 								</div>
 								<a href="{{ clear_home_programme_url }}" class="btn btn-sm btn-outline-dark btn-whithout-border-radius">
 									{{ 'Clear home programme'|t }}
@@ -107,7 +110,6 @@
 							</div>
 						{% endif %}
 
-						{# Puedes seguir con tu loop propio: AJAX reemplaza todo el wrapper #}
 						{% if view.result is not empty %}
 							{% for row in view.result %}
 
@@ -120,7 +122,7 @@
 									{% set logo_uri = institution.field_logo.entity.fileuri %}
 								{% endif %}
 									<div class="programme-item">
-										<a href="{{ row.programme_url }}" class="text-decoration-none text-reset" target="_blank">
+											<a href="{{ (row.is_joint_membership|default(false) and row.joint_programme_url|default('')) ? row.joint_programme_url : row.programme_url }}" class="text-decoration-none text-reset" target="_blank">
 											<div class="card shadow-none mb-3 border-0 rounded-0 position-relative catalogue-programme-card" style="height: 123.65px; cursor: pointer;">
 												<div
 													class="row g-0 catalogue-programme-card__row">
@@ -217,14 +219,12 @@
 							<p class="empty">{{ empty }}</p>
 						{% endif %}
 
-						{# Pager dentro del wrapper para que AJAX lo actualice #}
 						{{ pager }}
 					</div>
 				</div>
 			</div>
 		</div>
 
-		{# (opcional) attachments/feeds si los usas #}
 		{{ attachment_after }}
 	</div>
 </div>
@@ -285,12 +285,10 @@ pageField.value = 0;
 function submitSearch() {
 const val = norm(searchInput.value);
 
-// 1) Pon el valor en TODOS los combine existentes
 form.querySelectorAll('input[name="combine"]').forEach(el => {
 el.value = val;
 });
 
-// 2) Inyecta un hidden al FINAL del form (último gana en la querystring)
 let injected = form.querySelector('input[name="combine"][data-injected="1"]');
 if (! injected) {
 injected = document.createElement('input');
@@ -304,7 +302,6 @@ resetPageParam();
 form.submit();
 }
 
-// Mantén sincronizado si ya había valor del exposed al cargar
 const firstCombine = wrapper.querySelector('input[name="combine"]');
 if (firstCombine && ! searchInput.value)
 searchInput.value = firstCombine.value || '';

@@ -13,105 +13,12 @@
 }</style><div
 class="negative-margin-search-page">
 
-{# 👉 MANTÉN el wrapper de Views: AJAX necesita este div con data-view-dom-id #}
 <div class="view view-id-{{ view.id }} view-display-id-{{ view.current_display }}
 							              js-view-dom-id-{{ view.dom_id }} view-dom-id-{{ view.dom_id }}" data-view-dom-id="{{ view.dom_id }}">
 
 	<div{{attributes.addClass('catalogue-view')}}>
 
-		<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-		<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-		<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-		<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-		<!-- CAMBIAR ESTO E PRECARGAR DICCIONARIO NESTA VISTA -->
-
-		{% set programme_area = {
-    'es': {
-      'arts_and_humanities': 'Artes y Humanidades',
-      'sciences': 'Ciencias',
-      'health_sciences': 'Ciencias de la Salud',
-      'social_and_legal_sciences': 'Ciencias Sociales y Jurídicas',
-      'engineering_and_architecture': 'Ingeniería y Arquitectura'
-    },
-    'en': {
-      'arts_and_humanities': 'Arts and Humanities',
-      'sciences': 'Sciences',
-      'health_sciences': 'Health Sciences',
-      'social_and_legal_sciences': 'Social and Legal Sciences',
-      'engineering_and_architecture': 'Engineering and Architecture'
-    },
-    'fr': {
-      'arts_and_humanities': 'Arts et Humanités',
-      'sciences': 'Sciences',
-      'health_sciences': 'Sciences de la Santé',
-      'social_and_legal_sciences': 'Sciences Sociales et Juridiques',
-      'engineering_and_architecture': 'Ingénierie et Architecture'
-    },
-    'pt-pt': {
-      'arts_and_humanities': 'Artes e Humanidades',
-      'sciences': 'Ciências',
-      'health_sciences': 'Ciências da Saúde',
-      'social_and_legal_sciences': 'Ciências Sociais e Jurídicas',
-      'engineering_and_architecture': 'Engenharia e Arquitetura'
-    },
-    'gl': {
-      'arts_and_humanities': 'Artes e Humanidades',
-      'sciences': 'sciences',
-      'health_sciences': 'sciences da Saúde',
-      'social_and_legal_sciences': 'sciences Sociais e Xurídicas',
-      'engineering_and_architecture': 'Enxeñería e Arquitectura'
-    },
-    'hu': {
-      'arts_and_humanities': 'Művészetek és Bölcsészettudományok',
-      'sciences': 'Tudományok',
-      'health_sciences': 'Egészségtudományok',
-      'social_and_legal_sciences': 'Társadalmi és Jogtudományok',
-      'engineering_and_architecture': 'Mérnöki és Építészeti Tudományok'
-    },
-    'sl': {
-      'arts_and_humanities': 'Umetnost in Humanistika',
-      'sciences': 'Znanost',
-      'health_sciences': 'Zdravstvene vede',
-      'social_and_legal_sciences': 'Družbene in Pravne Znanosti',
-      'engineering_and_architecture': 'Inženiring in Arhitektura'
-    },
-    'et': {
-      'arts_and_humanities': 'Kunst ja Humanitaarteadused',
-      'sciences': 'Teadused',
-      'health_sciences': 'Tervishoiuteadused',
-      'social_and_legal_sciences': 'Sotsiaal- ja Õigusteadused',
-      'engineering_and_architecture': 'Inseneriteadus ja Arhitektuur'
-    },
-    'el': {
-      'arts_and_humanities': 'Τέχνες και Ανθρωπιστικές Επιστήμες',
-      'sciences': 'Επιστήμες',
-      'health_sciences': 'Επιστήμες Υγείας',
-      'social_and_legal_sciences': 'Κοινωνικές και Νομικές Επιστήμες',
-      'engineering_and_architecture': 'Μηχανική και Αρχιτεκτονική'
-    }
-  } %}
-
-
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-		<!---->
-			<!----> <div class="catalogue-hero newcatalogue-hero institution-new-catalogue-hero"style="height:300px;"> <div class="section-container" style="padding-top: 18px;">
+	 <div class="catalogue-hero newcatalogue-hero institution-new-catalogue-hero"style="height:300px;"> <div class="section-container" style="padding-top: 18px;">
 				<div class="my-custom-container-2">
 
 					<div class="row align-items-center mb-5">
@@ -168,25 +75,7 @@ class="negative-margin-search-page">
 			<div class="my-custom-container-2">
 				<div class="row institution-new-catalogue-results">
 					<div class="col-lg-2 institution-new-catalogue-sort">
-					{#
-						<h3 class="subsection-title p-0 pb-2 m-0">
-							<i class="fas fa-sort-amount-down me-2"></i>
-							{{ 'Sort'|t|upper }}
-						</h3>
-
-						<div
-							class="group-search-sort-buttons w-100">
-							
-							<button class="btn btn-dark btn-sm btn-whithout-border-radius js-sort disabled" data-sort-by="title" data-sort-order="ASC">
-								A - Z
-							</button>
-
-							
-							<button class="btn btn-dark btn-sm btn-whithout-border-radius m-0 js-sort disabled" data-sort-by="field_iec_programme" data-sort-order="ASC">
-								Programme
-							</button>
-						</div>
-					#}
+				
 					</div>
 
 					<div class="col-lg-10 ps-lg-5 institution-new-catalogue-list" id="iec-list">
@@ -221,12 +110,10 @@ class="negative-margin-search-page">
 														</span>
 													</div>
 												{% endif %}
-												<!-- Línea intermedia: nivel, créditos y área -->
 												<div class="programme-meta d-flex align-items-center mb-2">
 
 
 													{% if iec.field_iec_credits.value %}
-														<!--<span class="mx-2">·</span>-->
 														<span class="fst-italic">{{ iec.field_iec_credits.value }}
 															ECTS
 														</span>
@@ -234,7 +121,6 @@ class="negative-margin-search-page">
 													{% endif %}
 
 													{% if iec.field_iec_term.value %}
-														<!--<span class="mx-2">·</span>-->
 														<span class="fst-italic">Term:
 															{{ iec.field_iec_term.value }}
 														</span>
@@ -262,10 +148,6 @@ class="negative-margin-search-page">
 												</div>
 
 
-												{# (Opcional) aquí puedes añadir más “meta” de la IEC si quieres:
-																																						                       - tipo, área, país, institución, etc.
-																																						                       Solo dime qué campos tienes. #}
-
 											</div>
 										</div>
 
@@ -283,7 +165,6 @@ class="negative-margin-search-page">
 			</div>
 		</div>
 
-		{# (opcional) attachments/feeds si los usas #}
 		{{ attachment_after }}
 	</div>
 </div>
@@ -306,12 +187,12 @@ class="negative-margin-search-page">
 	</div>
 </div>
 <script>
-	(function () { // Quita trailing slash salvo que sea "/"
+	(function () { 
 function replaceLastPathSegment(pathname, newSegment) {
 const hasTrailingSlash = pathname.length > 1 && pathname.endsWith('/');
 const clean = hasTrailingSlash ? pathname.slice(0, -1) : pathname;
 
-const parts = clean.split('/').filter(Boolean); // sin vacíos
+const parts = clean.split('/').filter(Boolean); 
 if (parts.length === 0) 
 return '/' + newSegment;
 
@@ -334,7 +215,6 @@ return;
 const {pathname, search, hash} = window.location;
 const nextPath = replaceLastPathSegment(pathname, target);
 
-// Mantiene ?query y #hash
 window.location.href = nextPath + search + hash;
 });
 });

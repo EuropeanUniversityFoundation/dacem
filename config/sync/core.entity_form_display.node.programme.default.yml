@@ -24,6 +24,7 @@ dependencies:
     - field.field.node.programme.field_programme_code
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
+    - field.field.node.programme.field_programme_files
     - field.field.node.programme.field_programme_grading_scheme
     - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
@@ -41,6 +42,7 @@ dependencies:
     - field.field.node.programme.field_programme_start_date
     - field.field.node.programme.field_programme_type
     - field.field.node.programme.field_programme_type_of_credits
+    - field.field.node.programme.field_programme_urls
     - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
     - field.field.node.programme.field_qualification_awarded
@@ -52,6 +54,7 @@ dependencies:
     - elm_vocabulary_field
     - ewp_core
     - field_group
+    - file
     - isced_field
     - link
     - path
@@ -444,6 +447,13 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_programme_files:
+    type: file_generic
+    weight: 55
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
   field_programme_grading_scheme:
     type: text_textarea
     weight: 28
@@ -572,6 +582,14 @@ content:
     weight: 36
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_programme_urls:
+    type: link_default
+    weight: 56
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_programme_web:
     type: link_default

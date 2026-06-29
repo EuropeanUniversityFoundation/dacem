@@ -15,7 +15,7 @@ bundle: agreement
 label: 'Field of education clarification'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

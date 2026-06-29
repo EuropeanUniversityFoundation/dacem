@@ -24,6 +24,7 @@ dependencies:
     - field.field.node.programme.field_programme_code
     - field.field.node.programme.field_programme_description
     - field.field.node.programme.field_programme_end_date
+    - field.field.node.programme.field_programme_files
     - field.field.node.programme.field_programme_grading_scheme
     - field.field.node.programme.field_programme_grading_table
     - field.field.node.programme.field_programme_institution
@@ -41,6 +42,7 @@ dependencies:
     - field.field.node.programme.field_programme_start_date
     - field.field.node.programme.field_programme_type
     - field.field.node.programme.field_programme_type_of_credits
+    - field.field.node.programme.field_programme_urls
     - field.field.node.programme.field_programme_web
     - field.field.node.programme.field_programme_work_placements
     - field.field.node.programme.field_qualification_awarded
@@ -51,6 +53,7 @@ dependencies:
     - datetime
     - elm_vocabulary_field
     - ewp_core
+    - file
     - isced_field
     - layout_builder
     - layout_discovery
@@ -763,6 +766,42 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 61
             additional: {  }
+          c758671b-17f3-4e5f-b861-70fea8a62178:
+            uuid: c758671b-17f3-4e5f-b861-70fea8a62178
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_files'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: file_default
+                label: above
+                settings:
+                  use_description_as_link_text: true
+                third_party_settings: {  }
+            weight: 62
+            additional: {  }
+          57e680da-4ee5-4709-81c3-4d1b2243b6f6:
+            uuid: 57e680da-4ee5-4709-81c3-4d1b2243b6f6
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_urls'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: above
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 63
+            additional: {  }
         third_party_settings: {  }
 id: node.programme.default
 targetEntityType: node
@@ -939,6 +978,14 @@ content:
     third_party_settings: {  }
     weight: 153
     region: content
+  field_programme_files:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 162
+    region: content
   field_programme_grading_scheme:
     type: text_default
     label: above
@@ -1069,6 +1116,18 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 157
+    region: content
+  field_programme_urls:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 163
     region: content
   field_programme_web:
     type: link

@@ -1,0 +1,65 @@
+uuid: c3db61c2-6293-4a3d-a357-4b86b0190abc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.languages_of_instuction.field_language_code
+    - taxonomy.vocabulary.languages_of_instuction
+  module:
+    - path
+    - text
+id: taxonomy_term.languages_of_instuction.default
+targetEntityType: taxonomy_term
+bundle: languages_of_instuction
+mode: default
+content:
+  description:
+    type: text_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_language_code:
+    type: string_textfield
+    weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 100
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

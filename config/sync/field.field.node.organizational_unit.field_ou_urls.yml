@@ -1,0 +1,23 @@
+uuid: 32fefb24-7b37-4c06-915e-f1ad81ad205a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ou_urls
+    - node.type.organizational_unit
+  module:
+    - link
+id: node.organizational_unit.field_ou_urls
+field_name: field_ou_urls
+entity_type: node
+bundle: organizational_unit
+label: 'Organizational Unit urls'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

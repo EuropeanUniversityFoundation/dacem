@@ -1,17 +1,17 @@
-uuid: b038657c-a6a4-433b-b4a9-6a22ba359fdc
+uuid: 9fe49c1e-1e71-4514-93ec-f519e9800986
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_urls
+    - field.storage.node.field_institution_urls
     - node.type.institution
   module:
     - link
-id: node.institution.field_urls
-field_name: field_urls
+id: node.institution.field_institution_urls
+field_name: field_institution_urls
 entity_type: node
 bundle: institution
-label: URLs
+label: 'Institution urls'
 description: ''
 required: false
 translatable: false

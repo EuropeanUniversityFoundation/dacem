@@ -33,9 +33,11 @@ dependencies:
     - field.field.node.institution.field_institution_card_image
     - field.field.node.institution.field_institution_country
     - field.field.node.institution.field_institution_email
+    - field.field.node.institution.field_institution_files
     - field.field.node.institution.field_institution_map
     - field.field.node.institution.field_institution_phone
     - field.field.node.institution.field_institution_picture
+    - field.field.node.institution.field_institution_urls
     - field.field.node.institution.field_institution_webpage
     - field.field.node.institution.field_logo
     - field.field.node.institution.field_mobility_incoming_students
@@ -55,14 +57,10 @@ dependencies:
     - field.field.node.institution.field_text_color
     - field.field.node.institution.field_transcript_of_records
     - field.field.node.institution.field_type_of_hei
-    - field.field.node.institution.field_university_pdfs
-    - field.field.node.institution.field_urls
     - node.type.institution
   module:
     - color_field
-    - file
     - layout_builder
-    - link
     - text
     - user
 third_party_settings:
@@ -138,26 +136,6 @@ content:
     third_party_settings: {  }
     weight: 117
     region: content
-  field_university_pdfs:
-    type: file_default
-    label: above
-    settings:
-      use_description_as_link_text: true
-    third_party_settings: {  }
-    weight: 119
-    region: content
-  field_urls:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 120
-    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -187,9 +165,11 @@ hidden:
   field_institution_card_image: true
   field_institution_country: true
   field_institution_email: true
+  field_institution_files: true
   field_institution_map: true
   field_institution_phone: true
   field_institution_picture: true
+  field_institution_urls: true
   field_institution_webpage: true
   field_logo: true
   field_mobility_incoming_students: true

@@ -9,10 +9,12 @@ dependencies:
     - field.field.node.campus.field_campus_code
     - field.field.node.campus.field_campus_description
     - field.field.node.campus.field_campus_email
+    - field.field.node.campus.field_campus_files
     - field.field.node.campus.field_campus_institution
     - field.field.node.campus.field_campus_location
     - field.field.node.campus.field_campus_phone
     - field.field.node.campus.field_campus_picture
+    - field.field.node.campus.field_campus_urls
     - field.field.node.campus.field_campus_web
     - field.field.node.campus.field_general_ou_campus_descript
     - field.field.node.campus.field_map
@@ -35,10 +37,12 @@ hidden:
   field_campus_code: true
   field_campus_description: true
   field_campus_email: true
+  field_campus_files: true
   field_campus_institution: true
   field_campus_location: true
   field_campus_phone: true
   field_campus_picture: true
+  field_campus_urls: true
   field_campus_web: true
   field_general_ou_campus_descript: true
   field_map: true

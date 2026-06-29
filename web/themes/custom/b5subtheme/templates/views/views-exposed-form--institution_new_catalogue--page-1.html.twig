@@ -1,16 +1,16 @@
 {% import _self as helpers %}
 
 {% macro filter_label(element, default_label) %}
-  {# valor actual del filtro #}
+ 
   {% set value = element['#value'] ?? [] %}
   {% set label = default_label %}
 
-  {# multi-selección (valor iterable) #}
+ 
   {% if value is iterable %}
     {% set count = 0 %}
     {% set first_label = '' %}
 
-    {# recorrer todas las opciones y ver cuáles están seleccionadas #}
+   
     {% for key, option_label in element['#options'] ?? [] %}
       {% if key in value and key not in ['', '_none', 'All'] %}
         {% set count = count + 1 %}
@@ -26,7 +26,7 @@
       {% set label = '@count selected'|t({'@count': count}) %}
     {% endif %}
 
-  {# selección simple (un único valor) #}
+
   {% else %}
     {% if value not in ['', '_none', 'All'] %}
       {% set label = (element['#options'][value] ?? default_label) %}
@@ -41,7 +41,7 @@
 
 <form{{ attributes.addClass('institution-new-catalogue-exposed-form').addAttribute('data-disable-refocus','true') }}>
 
-  {# helpers: está activo si el #value no está vacío, ni '_none', ni 'All' #}
+ 
   {% set area_active =
     form.field_isced_f is defined
     and (
@@ -50,16 +50,7 @@
     )
   %}
 
-  {#
-  {% set programme_type_active =
-    form.programme_type is defined
-    and (
-      (form.programme_type['#value'] is iterable and form.programme_type['#value']|length > 0)
-      or (form.programme_type['#value']|default('') not in ['', '_none', 'All'])
-    )
-  %}
-  #}
-
+ 
   {% set country_active =
     form.field_institution_country_value is defined
     and (
@@ -120,20 +111,7 @@
     </div>
 
 
-    {#
-    <div class="dropdown">
-      <button
-        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ programme_type_active ? 'btn-newcatalogue-active' : 'btn-dark' }}"
-        type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-        {{ helpers.filter_label(form.programme_type, 'Type'|t) }}
-      </button>
-      <div class="dropdown-menu p-3 filter-menu">
-        {{ form.programme_type }}
-      </div>
-    </div>
-
-    #}
-
+ 
 
 
     <div class="dropdown">
@@ -205,23 +183,7 @@
       </div>
     {% endif %}
 
-    
-
-
-    
-
-    <!--
-    <div class="dropdown">
-      <button
-        class="btn btn-sm dropdown-toggle btn-whithout-border-radius {{ country_active ? 'btn-newcatalogue-active' : 'btn-dark' }}"
-        type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-        {{ helpers.filter_label(form.field_institution_country_value, 'Destination'|t) }}
-      </button>
-      <div class="dropdown-menu p-3 filter-menu">
-        {{ form.field_institution_country_value }}
-      </div>
-    </div>
-    -->
+  
 
     {% if form.actions is defined %}
       <div class="ms-auto">

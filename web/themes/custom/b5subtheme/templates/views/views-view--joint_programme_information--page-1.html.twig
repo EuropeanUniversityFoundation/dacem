@@ -1,0 +1,153 @@
+{% set current_language = view.result[0].node_field_data_langcode|default(language_manager.getCurrentLanguage().getId(), true) %}
+{% set joint_programme = joint_programme_information|default({}) %}
+
+<style>:root
+{
+  --university_primary_color: {{ joint_programme.institution_primary_color|default('#F44743') }};
+  --university_text_color: {{ joint_programme.institution_text_color|default('#ffffff') }};
+  --university_emphasis_text_color: {{ joint_programme.institution_emphasis_text_color|default('#ffffff') }};
+}</style>
+
+<div class="rs-header" style="background-color: {{ joint_programme.institution_primary_color|default('#F44743') }};">
+  <div class="my-custom-container-2">
+    <div class="page-band">
+      <h1 class="rs-title" style="color: {{ joint_programme.institution_emphasis_text_color|default('#ffffff') }};">{{ joint_programme.title|default(view.result[0]._entity.label) }}</h1>
+    </div>
+  </div>
+</div>
+
+<div class="section-container">
+  <div class="my-custom-container-2">
+    <div class="row">
+      <div class="col-12 col-xl-8">
+        {% if joint_programme.information %}
+          <div class="programme-section" style="text-align: justify;">
+            <h3 class="subsection-title">{{ 'Information'|t }}</h3>
+            {{ joint_programme.information|raw }}
+          </div>
+        {% endif %}
+
+        {% if joint_programme.description %}
+          <div class="programme-section" style="text-align: justify;">
+            <h3 class="subsection-title">{{ 'Description'|t }}</h3>
+            {{ joint_programme.description|raw }}
+          </div>
+        {% endif %}
+
+        {% if joint_programme.joint_description %}
+          <div class="programme-section" style="text-align: justify;">
+            <h3 class="subsection-title">{{ 'Joint Description'|t }}</h3>
+            {{ joint_programme.joint_description|raw }}
+          </div>
+        {% endif %}
+
+        {% if joint_programme.mobility_structure %}
+          <div class="programme-section" style="text-align: justify;">
+            <h3 class="subsection-title">{{ 'Mobility Structure'|t }}</h3>
+            {{ joint_programme.mobility_structure|raw }}
+          </div>
+        {% endif %}
+
+        {% if joint_programme.arrangements_for_grading %}
+          <div class="programme-section" style="text-align: justify;">
+            <h3 class="subsection-title">{{ 'Arrangements for Grading'|t }}</h3>
+            {{ joint_programme.arrangements_for_grading|raw }}
+          </div>
+        {% endif %}
+
+        {% if joint_programme.body %}
+          <div class="programme-section" style="text-align: justify;">
+            {{ joint_programme.body|raw }}
+          </div>
+        {% endif %}
+
+        <div class="programme-section">
+          <h3 class="subsection-title">{{ 'Memberships'|t }}</h3>
+
+          {% if joint_programme.memberships|default([])|length %}
+            <div class="vstack gap-4">
+              {% for membership in joint_programme.memberships %}
+                <div class="bg-light p-4">
+                  {% if membership.institution_label %}
+                    <div class="mb-2 fw-bold fs-5">
+                      <strong>{{ 'Institution'|t }}:</strong>
+                      {% if membership.institution_url %}
+                        <a href="{{ membership.institution_url }}">{{ membership.institution_label }}</a>
+                      {% else %}
+                        {{ membership.institution_label }}
+                      {% endif %}
+                    </div>
+                  {% endif %}
+
+                  {% if membership.organizational_units|length %}
+                    <div class="mb-3">
+                      <strong>{{ 'Organizational Units'|t }}:</strong>
+                      <ul class="mb-0 mt-2">
+                        {% for ou in membership.organizational_units %}
+                          <li>
+                            {% if ou.url %}
+                              <a href="{{ ou.url }}">{{ ou.label }}</a>
+                            {% else %}
+                              {{ ou.label }}
+                            {% endif %}
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+
+                  <div class="fw-bold">{{ membership.title }}</div>
+
+                  {% if membership.role_raw %}
+                    <div class="mt-2">
+                      <strong>{{ 'Role'|t }}:</strong>
+                      <div>{{ membership.role_raw|raw }}</div>
+                    </div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p class="mb-0">{{ 'No memberships found.'|t }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-4">
+        <div class="degree-sidebar bg-light p-4">
+          {% if joint_programme.programme_label %}
+            <div class="mb-4">
+              <h3 class="subsection-title mt-0">{{ 'Associated Programme'|t }}</h3>
+              {% if joint_programme.programme_url %}
+                <a href="{{ joint_programme.programme_url }}">{{ joint_programme.programme_label }}</a>
+              {% else %}
+                <span>{{ joint_programme.programme_label }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if joint_programme.form_of_the_diploma %}
+            <div class="mb-4">
+              <h3 class="subsection-title">{{ 'Form of the Diploma'|t }}</h3>
+              <div>{{ joint_programme.form_of_the_diploma|raw }}</div>
+            </div>
+          {% endif %}
+
+          {% if joint_programme.alliance %}
+            {% set alliance_logo = joint_programme.alliance.field_alliance_logo.entity ?? null %}
+            <div class="institution-alliance-membership">
+              <p class="institution-alliance-membership__label">{{ 'Member of alliance:'|t }}</p>
+              <a href="{{ path('view.alliance_institutions.page_1', {'arg_0': joint_programme.alliance.id()}) }}" class="institution-alliance-membership__link">
+                {% if alliance_logo %}
+                  <img src="{{ file_url(alliance_logo.getFileUri()) }}" alt="{{ joint_programme.alliance.label() }}">
+                {% else %}
+                  <span>{{ joint_programme.alliance.label() }}</span>
+                {% endif %}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+uuid: b494a463-43df-4d5f-97a5-77f5a55a4ad3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_institution_files
+    - node.type.institution
+  module:
+    - file
+id: node.institution.field_institution_files
+field_name: field_institution_files
+entity_type: node
+bundle: institution
+label: 'Institution files'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf'
+  max_filesize: ''
+  description_field: true
+field_type: file

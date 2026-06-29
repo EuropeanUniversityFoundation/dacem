@@ -1,0 +1,23 @@
+uuid: eda522a2-a056-4ec1-9d51-09622aae7255
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_campus_urls
+    - node.type.campus
+  module:
+    - link
+id: node.campus.field_campus_urls
+field_name: field_campus_urls
+entity_type: node
+bundle: campus
+label: 'Campus urls'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

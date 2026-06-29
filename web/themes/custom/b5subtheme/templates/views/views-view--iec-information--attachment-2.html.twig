@@ -33,9 +33,11 @@
     </button>
 
     <ul class="dropdown-menu dropdown-menu-dark w-100">
+      {% set seen_instance_ids = [] %}
       {% for row in view.result %}
         {% set instance = row._entity %}
-        {% if instance %}
+        {% if instance and instance.id not in seen_instance_ids %}
+          {% set seen_instance_ids = seen_instance_ids|merge([instance.id]) %}
           <li>
             <a class="dropdown-item"
                href="{{ path('view.iec_instance.page_1', {'arg_0': instance.id}, {'language': language_manager.getLanguage(current_language)}) }}">
