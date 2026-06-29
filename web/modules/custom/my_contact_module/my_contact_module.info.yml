@@ -1,7 +1,0 @@
-name: 'My Contact Module'
-type: module
-description: 'Provides a custom contact page.'
-core_version_requirement: ^10 || ^9
-package: Custom
-dependencies:
-  - drupal:system

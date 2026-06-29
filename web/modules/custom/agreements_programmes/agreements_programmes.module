@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\node\NodeInterface;
 use Isced\IscedFieldsOfStudy;
 
@@ -83,7 +84,8 @@ function agreements_programmes_build_agreement_groups(array $compatible_programm
       continue;
     }
 
-    $institution = $agreement->get('field_institution_2')->entity;
+    $agreement = agreements_programmes_get_translated_entity($agreement);
+    $institution = agreements_programmes_get_translated_entity($agreement->get('field_institution_2')->entity);
     $agreement_orientation = agreements_programmes_get_oriented_departments($agreement);
 
     $university_label = $institution ? $institution->label() : t('Unknown university');
@@ -130,12 +132,8 @@ function agreements_programmes_build_agreement_groups(array $compatible_programm
  * Builds the General Information URL for an institution.
  */
 function agreements_programmes_build_general_information_url(NodeInterface $institution): string {
-  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  [$institution_for_url, $langcode] = agreements_programmes_get_preferred_entity_and_langcode($institution);
   $language = \Drupal::languageManager()->getLanguage($langcode);
-  $institution_for_url = $institution->hasTranslation($langcode)
-    ? $institution->getTranslation($langcode)
-    : $institution;
-
   $canonical_url = $institution_for_url->toUrl('canonical', ['language' => $language])->toString();
   $institution_alias = basename(trim($canonical_url, '/'));
 
@@ -154,12 +152,8 @@ function agreements_programmes_build_general_information_url(NodeInterface $inst
  * Builds the Organizational Unit Information URL for an OU.
  */
 function agreements_programmes_build_organizational_unit_information_url(NodeInterface $organizational_unit): string {
-  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  [$ou_for_url, $langcode] = agreements_programmes_get_preferred_entity_and_langcode($organizational_unit);
   $language = \Drupal::languageManager()->getLanguage($langcode);
-  $ou_for_url = $organizational_unit->hasTranslation($langcode)
-    ? $organizational_unit->getTranslation($langcode)
-    : $organizational_unit;
-
   $canonical_url = $ou_for_url->toUrl('canonical', ['language' => $language])->toString();
   $parts = explode('/', trim($canonical_url, '/'));
 
@@ -226,12 +220,16 @@ function agreements_programmes_format_agreement_duration($studies, $trainerships
  */
 function agreements_programmes_format_labeled_decimal_values(array $values): string {
   $lines = [];
+  $label_map = [
+    'studies' => t('Studies'),
+    'trainerships' => t('Trainerships'),
+  ];
 
   foreach ($values as $label => $value) {
     $formatted = agreements_programmes_format_decimal($value);
 
     if ($formatted !== '') {
-      $lines[] = $formatted . ' (' . $label . ')';
+      $lines[] = $formatted . ' (' . ($label_map[$label] ?? $label) . ')';
     }
   }
 
@@ -273,11 +271,11 @@ function agreements_programmes_format_contact_details(string $contact, string $e
   }
 
   if (trim($email) !== '') {
-    $lines[] = 'E-mail: ' . trim($email);
+    $lines[] = t('E-mail') . ': ' . trim($email);
   }
 
   if (trim($phone) !== '') {
-    $lines[] = 'Phone: ' . trim($phone);
+    $lines[] = t('Phone') . ': ' . trim($phone);
   }
 
   if (!$lines) {
@@ -295,6 +293,8 @@ function agreements_programmes_format_description(string $description): string {
     return '';
   }
 
+  $description = html_entity_decode($description, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+  $description = str_replace("\xc2\xa0", ' ', $description);
   $description = trim(strip_tags($description));
 
   if ($description === '') {
@@ -337,8 +337,8 @@ function agreements_programmes_format_field_of_education(NodeInterface $agreemen
  * Resolves origin and target organizational units for one-way agreements.
  */
 function agreements_programmes_get_oriented_departments(NodeInterface $agreement): array {
-  $origin_department = $agreement->get('field_department_partner_1')->entity;
-  $target_department = $agreement->get('field_department_partner_2')->entity;
+  $origin_department = agreements_programmes_get_translated_entity($agreement->get('field_department_partner_1')->entity);
+  $target_department = agreements_programmes_get_translated_entity($agreement->get('field_department_partner_2')->entity);
 
   return [
     'origin_department_label' => $origin_department ? $origin_department->label() : '',
@@ -393,9 +393,52 @@ function agreements_programmes_get_entity_reference_label(NodeInterface $node, s
     return '';
   }
 
-  $entity = $node->get($field_name)->entity;
+  $entity = agreements_programmes_get_translated_entity($node->get($field_name)->entity);
 
   return $entity ? trim($entity->label()) : '';
+}
+
+/**
+ * Returns the current-language translation of an entity when available.
+ */
+function agreements_programmes_get_translated_entity(?EntityInterface $entity, ?string $langcode = NULL): ?EntityInterface {
+  if (!$entity) {
+    return NULL;
+  }
+
+  $langcode = $langcode ?: \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+  if ($entity->hasTranslation($langcode)) {
+    return $entity->getTranslation($langcode);
+  }
+
+  if ($langcode !== 'en' && $entity->hasTranslation('en')) {
+    return $entity->getTranslation('en');
+  }
+
+  return $entity;
+}
+
+/**
+ * Returns the preferred translation and langcode for links.
+ *
+ * Priority: current language, then English, then the base entity language.
+ *
+ * @return array{0:\Drupal\Core\Entity\EntityInterface,1:string}
+ *   The translated entity and the langcode used.
+ */
+function agreements_programmes_get_preferred_entity_and_langcode(EntityInterface $entity): array {
+  $current_langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+  if ($entity->hasTranslation($current_langcode)) {
+    return [$entity->getTranslation($current_langcode), $current_langcode];
+  }
+
+  if ($entity->hasTranslation('en')) {
+    return [$entity->getTranslation('en'), 'en'];
+  }
+
+  return [$entity, $entity->language()->getId()];
 }
 
 /**

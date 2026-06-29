@@ -220,6 +220,7 @@ class InstitutionMenuBlock extends BlockBase
 
         $build = [];
         $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
+        $institution = NULL;
 
         ////dump(\Drupal::routeMatch()->getParameters());
 
@@ -228,7 +229,9 @@ class InstitutionMenuBlock extends BlockBase
         $current_path_aux = preg_replace('#^/[^/]+/#', '/', $current_path);
 
 
-        if(is_numeric($institution_id)){
+        if (\Drupal::routeMatch()->getRouteName() === 'view.joint_programme_information.page_1' && is_numeric($institution_id)) {
+            $current_node_aux = \Drupal\node\Entity\Node::load($institution_id);
+        } elseif(is_numeric($institution_id)){
             $current_node_aux = \Drupal\node\Entity\Node::load($institution_id);
 
         }else{
@@ -295,6 +298,19 @@ class InstitutionMenuBlock extends BlockBase
 
             $institution_id = \Drupal::routeMatch()->getParameter('arg_0');
 
+        } elseif ($current_route === 'view.joint_programme_information.page_1') {
+            $current_page = 'catalogue';
+            $joint_programme_id = \Drupal::routeMatch()->getParameter('arg_0');
+            if (is_numeric($joint_programme_id)) {
+                $joint_programme = \Drupal\node\Entity\Node::load($joint_programme_id);
+                if ($joint_programme instanceof NodeInterface && !$joint_programme->get('field_programme')->isEmpty()) {
+                    $programme = $joint_programme->get('field_programme')->entity;
+                    if ($programme instanceof NodeInterface && !$programme->get('field_programme_institution')->isEmpty()) {
+                        $institution = $programme->get('field_programme_institution')->entity;
+                    }
+                }
+            }
+
         } elseif ($current_route === 'view.iec_instance.page_1') {
             $current_page = 'catalogue';
 
@@ -310,8 +326,6 @@ class InstitutionMenuBlock extends BlockBase
 
             $node_type = $current_node_aux->bundle();
 
-            $institution = null;
-
             if ($node_type == 'institution') {
 
                 $institution = $current_node_aux;
@@ -325,6 +339,11 @@ class InstitutionMenuBlock extends BlockBase
                 $institution = $current_node_aux->get('field_programme_institution')->entity;
             } elseif ($node_type == 'individual_educational_component') {
                 $programme = $current_node_aux->get('field_iec_programme')->entity;
+                if ($programme) {
+                    $institution = $programme->get('field_programme_institution')->entity;
+                }
+            } else if ($node_type == 'joint_programme') {
+                $programme = $current_node_aux->get('field_programme')->entity;
                 if ($programme) {
                     $institution = $programme->get('field_programme_institution')->entity;
                 }
@@ -370,6 +389,9 @@ class InstitutionMenuBlock extends BlockBase
 
             ////dump('if not empty institution');
             $logo_url = '';
+            $institution_primary_color = '#F44743';
+            $institution_text_color = '#000000';
+            $institution_emphasis_text_color = '#000000';
 
             if (!$institution->get('field_logo')->isEmpty()) {
                 $media = $institution->get('field_logo')->entity;
@@ -379,6 +401,16 @@ class InstitutionMenuBlock extends BlockBase
                         $logo_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
                     }
                 }
+            }
+
+            if ($institution->hasField('field_primary_color') && !$institution->get('field_primary_color')->isEmpty()) {
+                $institution_primary_color = $institution->get('field_primary_color')->first()->color ?? $institution_primary_color;
+            }
+            if ($institution->hasField('field_text_color') && !$institution->get('field_text_color')->isEmpty()) {
+                $institution_text_color = $institution->get('field_text_color')->first()->color ?? $institution_text_color;
+            }
+            if ($institution->hasField('field_emphasis_text_color') && !$institution->get('field_emphasis_text_color')->isEmpty()) {
+                $institution_emphasis_text_color = $institution->get('field_emphasis_text_color')->first()->color ?? $institution_emphasis_text_color;
             }
 
             // Obtener el idioma actual
@@ -458,6 +490,24 @@ class InstitutionMenuBlock extends BlockBase
                         'arg_0' => $instance_for_url->id(),
                     ], [
                         'language' => $instance_route_language,
+                    ])->toString();
+                }
+
+                if ($current_route === 'view.joint_programme_information.page_1') {
+                    $joint_route_language = $language;
+                    if (!$current_node_aux->hasTranslation($language->getId())) {
+                        $joint_route_language = \Drupal::languageManager()->getLanguage('en');
+                    }
+
+                    $joint_for_url = $current_node_aux;
+                    if ($current_node_aux->hasTranslation($joint_route_language->getId())) {
+                        $joint_for_url = $current_node_aux->getTranslation($joint_route_language->getId());
+                    }
+
+                    $url = Url::fromRoute('view.joint_programme_information.page_1', [
+                        'arg_0' => $joint_for_url->id(),
+                    ], [
+                        'language' => $joint_route_language,
                     ])->toString();
                 }
 
@@ -657,7 +707,7 @@ class InstitutionMenuBlock extends BlockBase
             $build = [
                 '#markup' => $this->t('
 
-    <nav class="navbar sticky-top navbar-expand-lg university-navbar main-menu-text" style="margin: 0; padding: 0;">
+    <nav class="navbar sticky-top navbar-expand-lg university-navbar main-menu-text" style="margin: 0; padding: 0; --university_primary_color: @institution_primary_color; --university_text_color: @institution_text_color; --university_emphasis_text_color: @institution_emphasis_text_color;">
       <div class="container-fluid">
 
         <!-- Logo -->
@@ -719,6 +769,9 @@ class InstitutionMenuBlock extends BlockBase
                         '@university_name' => $institution->getTitle(),
                         '@university_path' => $institution->toUrl()->getInternalPath(),
                         '@university_url' => $institution_url,
+                        '@institution_primary_color' => $institution_primary_color,
+                        '@institution_text_color' => $institution_text_color,
+                        '@institution_emphasis_text_color' => $institution_emphasis_text_color,
                     ]
                 ),
             ];

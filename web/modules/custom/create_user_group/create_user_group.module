@@ -9,18 +9,17 @@ function create_user_group_preprocess_block(&$variables) {
   //\Drupal::messenger()->addMessage('Hook preprocess block.');
   
 
-  // Verificar si es el bloque de acciones locales (local actions).
+  
   if ($variables['plugin_id'] == 'local_actions_block') {
     //\Drupal::messenger()->addMessage('Estamos en el bloque de acciones locales.');
 
-    // Obtener la ruta actual para asegurarnos de que estamos en la página de miembros del grupo.
     $route_name = \Drupal::routeMatch()->getRouteName();
-    \Drupal::messenger()->addMessage('Actual route: ' . $route_name);
+    //\Drupal::messenger()->addMessage('Actual route: ' . $route_name);
 
     if (strpos($route_name, 'view.group_members') !== false) {
-      //\Drupal::messenger()->addMessage('Estamos en la pestaña Miembros del grupo.');
+    
 
-      // Verificar si el bloque contiene el enlace "Añadir miembro".
+      
       if (isset($variables['content']['group.add_member'])) {
         //\Drupal::messenger()->addMessage('Botón "Añadir miembro" encontrado.');
 
@@ -86,22 +85,5 @@ function create_user_group_preprocess_block(&$variables) {
 
 
 
-/**
- * Implements hook_page_alter().
- */
-function create_user_group_page_alter(&$page) {
-  // Este mensaje debería aparecer en todas las páginas.
-  //\Drupal::messenger()->addMessage(t('hook_page_alter ejecutado en la ruta actual.'));
-
-  // Verificar la ruta actual para depurar.
-  $route_name = \Drupal::routeMatch()->getRouteName();
-  //\Drupal::messenger()->addMessage(t('Ruta actual: @route', ['@route' => $route_name]));
-}
 
 
-/**
- * Implements hook_page_top().
- */
-function create_user_group_page_top(array &$page_top) {
-  //\Drupal::messenger()->addMessage(t('Hook page top.'));
-}
