@@ -1,0 +1,126 @@
+<?php
+
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\node\NodeInterface;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function joint_programmes_preprocess_views_view(array &$variables): void {
+  $view = $variables['view'] ?? NULL;
+
+  if (!$view instanceof ViewExecutable) {
+    return;
+  }
+
+  $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+  $manager = \Drupal::service('joint_programmes.manager');
+
+  switch ($view->id()) {
+    case 'programme_information':
+      $programme = !empty($view->result[0]->_entity) && $view->result[0]->_entity instanceof NodeInterface
+        ? $view->result[0]->_entity
+        : NULL;
+
+      $variables['has_joint_programme_membership'] = $manager
+        ->programmeHasJointMembership($programme, $current_language);
+
+      CacheableMetadata::createFromObject($view)->addCacheContexts(['languages:language_content'])->applyTo($variables);
+      break;
+
+    case 'joint_programme_information':
+      $joint_programme = !empty($view->result[0]->_entity) && $view->result[0]->_entity instanceof NodeInterface
+        ? $view->result[0]->_entity
+        : NULL;
+
+      $variables['joint_programme_information'] = $manager
+        ->getJointProgrammeInformation($joint_programme, $current_language);
+
+      CacheableMetadata::createFromObject($view)->addCacheContexts(['languages:language_content'])->applyTo($variables);
+      break;
+
+    case 'campus_information':
+      $isced_labels = $manager->getIscedLabelsForLanguage($current_language);
+      $data = $manager->buildCampusInformationVariables($view->result, $current_language, $isced_labels);
+
+      $variables['area_meta'] = $data['area_meta'];
+      $variables['programmes_by_area'] = $data['programmes_by_area'];
+      $variables['institution_country_name'] = $data['institution_country_name'];
+      break;
+
+    case 'organizational_unit_information':
+      $isced_labels = $manager->getIscedLabelsForLanguage($current_language);
+      $data = $manager->buildOrganizationalUnitInformationVariables($view->result, $current_language, $isced_labels);
+
+      $variables['area_meta'] = $data['area_meta'];
+      $variables['programmes_by_area'] = $data['programmes_by_area'];
+      break;
+
+    case 'search_programme':
+    case 'searcher':
+      foreach ($view->result as $row) {
+        $manager->enrichSearchProgrammeRow($row, $current_language);
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_fields().
+ */
+function joint_programmes_preprocess_views_view_fields(array &$variables): void {
+  $view = $variables['view'] ?? NULL;
+  $row = $variables['row'] ?? NULL;
+
+  if (
+    !$view instanceof ViewExecutable ||
+    $view->id() !== 'programme_information' ||
+    $view->current_display !== 'attachment_1'
+  ) {
+    return;
+  }
+
+  $programme = $row->_entity ?? NULL;
+  $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+  $variables['programme_other_institutions'] = \Drupal::service('joint_programmes.manager')
+    ->getProgrammeOtherInstitutions($programme instanceof NodeInterface ? $programme : NULL, $current_language);
+
+  CacheableMetadata::createFromObject($view)->addCacheContexts(['languages:language_content'])->applyTo($variables);
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function joint_programmes_views_pre_render(ViewExecutable $view): void {
+  if (
+    $view->id() !== 'institution_new_catalogue' ||
+    ($view->current_display !== 'page_1' && $view->current_display !== 'page_3')
+  ) {
+    return;
+  }
+
+  $current_language = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+    ->getId();
+  $catalogue_institution_id = function_exists('custom_views_filters_resolve_catalogue_institution_id')
+    ? custom_views_filters_resolve_catalogue_institution_id($view)
+    : NULL;
+  $catalogue_programme_ids = $catalogue_institution_id && function_exists('custom_views_filters_get_catalogue_programme_ids')
+    ? custom_views_filters_get_catalogue_programme_ids((int) $catalogue_institution_id)
+    : ['joint' => [], 'all' => []];
+  $joint_programme_ids = array_fill_keys($catalogue_programme_ids['joint'] ?? [], TRUE);
+  $joint_linked_programme_ids = \Drupal::service('joint_programmes.manager')
+    ->getJointProgrammeLinkedProgrammeIds($catalogue_programme_ids['all'] ?? []);
+  $manager = \Drupal::service('joint_programmes.manager');
+
+  foreach ($view->result as $row) {
+    $manager->enrichInstitutionCatalogueProgrammeRow(
+      $row,
+      $current_language,
+      $joint_programme_ids,
+      $joint_linked_programme_ids
+    );
+  }
+}

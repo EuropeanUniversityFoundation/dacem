@@ -1,0 +1,7 @@
+name: Joint Programmes
+type: module
+description: Provides shared business logic for joint programmes.
+core_version_requirement: ^9 || ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:node

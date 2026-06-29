@@ -22,7 +22,6 @@ class ProgrammeSelection extends DefaultSelection {
    */
   protected function buildEntityQuery($match = NULL, $match_operator = 'CONTAINS') {
     $query = parent::buildEntityQuery($match, $match_operator);
-    // Solo nodos de tipo programme.
     $query->condition('type', 'programme');
     return $query;
   }
@@ -45,14 +44,14 @@ class ProgrammeSelection extends DefaultSelection {
         }
 
    
-        // Campo referencia Institution en Programme.
+        
         $institution = '';
         if (!$node->get('field_programme_institution')->isEmpty()) {
           $institution_entity = $node->get('field_programme_institution')->entity;
           $institution = $institution_entity ? $institution_entity->label() : '';
         }
 
-        // Campo referencia Organizational Unit en Programme.
+        
         $ou = '';
         if (!$node->get('field_programme_ou')->isEmpty()) {
           $ou_entity = $node->get('field_programme_ou')->entity;
@@ -61,13 +60,12 @@ class ProgrammeSelection extends DefaultSelection {
 
         $programme = $node->label();
 
-        // Texto final: Institution--OU--Programme
+       
         $custom_label = $institution . '--' . $ou . '--' . $programme;
 
-        // Limpieza final del label para evitar comillas y espacios
-        $custom_label = trim($custom_label);                     // quita espacios iniciales/finales
-        $custom_label = trim($custom_label, "\"' ");             // quita comillas " y '
-        $custom_label = preg_replace('/\s+/', ' ', $custom_label); // colapsa espacios dobles
+        $custom_label = trim($custom_label);                    
+        $custom_label = trim($custom_label, "\"' ");             
+        $custom_label = preg_replace('/\s+/', ' ', $custom_label); 
 
         $result[$bundle][$id] = $custom_label;
       }

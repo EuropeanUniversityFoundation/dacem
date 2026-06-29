@@ -1,6 +1,6 @@
 name: 'Admin Area'
 type: module
-description: 'Módulo para gestionar el área de administración de universidad.'
+description: 'Admin area helpers and routing.'
 core_version_requirement: ^10
 package: Custom
 dependencies:

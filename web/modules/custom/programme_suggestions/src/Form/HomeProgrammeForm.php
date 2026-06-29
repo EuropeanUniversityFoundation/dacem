@@ -44,24 +44,20 @@ class HomeProgrammeForm extends FormBase {
 
   /**
    * {@inheritdoc}
-   * Solo permite enviar si se ha seleccionado un Programme válido.
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $value = $form_state->getValue('home_programme');
 
-    // 1) Vacío → error.
     if ($value === NULL || $value === '' || $value === 0 || $value === '0') {
       $form_state->setErrorByName('home_programme', $this->t('Please select a programme from the list.'));
       return;
     }
 
-    // 2) No numérico → seguramente texto escrito a mano.
     if (!is_numeric($value)) {
       $form_state->setErrorByName('home_programme', $this->t('The selected programme is not valid.'));
       return;
     }
 
-    // 3) Debe ser un nodo programme.
     $nid = (int) $value;
     /** @var \Drupal\node\Entity\Node|null $node */
     $node = Node::load($nid);

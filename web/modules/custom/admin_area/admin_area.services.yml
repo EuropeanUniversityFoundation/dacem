@@ -1,4 +1,22 @@
 services:
+  admin_area.context_resolver:
+    class: Drupal\admin_area\Service\AdminContextResolver
+    arguments:
+      - '@current_user'
+      - '@entity_type.manager'
+      - '@group.membership_loader'
+      - '@database'
+
+  admin_area.route_manager:
+    class: Drupal\admin_area\Service\AdminRouteManager
+
+  admin_area.form_helper:
+    class: Drupal\admin_area\Service\AdminFormHelper
+    arguments:
+      - '@entity_type.manager'
+      - '@current_route_match'
+      - '@language_manager'
+
   admin_area.english_admin_route_subscriber:
     class: Drupal\admin_area\EventSubscriber\EnglishAdminRouteSubscriber
     arguments:

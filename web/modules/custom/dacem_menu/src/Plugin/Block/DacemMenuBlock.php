@@ -45,7 +45,6 @@ $allowed_routes = [
 
 $show_block = in_array($route_name, $allowed_routes, TRUE);
 
-// Si no es una de las Views permitidas, comprueba si es la página /about.
 if (!$show_block && $route_name === 'entity.node.canonical') {
   $current_path = \Drupal::service('path.current')->getPath();
   $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
@@ -75,7 +74,6 @@ if (!$show_block) {
 
     
     $language_manager = \Drupal::service('language_manager');
-    //$current_language = $language_manager->getCurrentLanguage()->getId();
     $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
     $language_options = '';
@@ -100,7 +98,6 @@ if (!$show_block) {
       $langcode = $language->getId();
       $abbreviation = strtoupper($langcode); 
 
-      //$url = Url::fromRoute('<current>', [], ['language' => $language]);
       $url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
 
       $flag = $flags[$langcode] ?? '';
@@ -143,7 +140,6 @@ if (!$show_block) {
     $current_user = \Drupal::currentUser();
     $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
 
-    // Verificar si el usuario no es anónimo
     if ($current_user->isAuthenticated() && $current_user->id() != 0) {
       //dump($current_user->id());      // Cargar la entidad del usuario
       $user = User::load($current_user->id());
