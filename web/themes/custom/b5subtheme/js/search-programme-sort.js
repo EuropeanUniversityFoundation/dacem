@@ -158,7 +158,7 @@
         let isComposing = false;
         let pendingValue = null;
         let lastSubmittedValue = null;
-        const delay = 500;
+        const delay = 1000;
 
         function captureFocusState() {
           const input = $input[0];
