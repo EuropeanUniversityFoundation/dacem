@@ -8,9 +8,6 @@ display:
           action_title: Acción
       pager:
         options:
-          tags:
-            next: ››
-            previous: ‹‹
           expose:
             items_per_page_label: 'Elementos por páxina'
             items_per_page_options_all_label: '- Todo -'
@@ -19,8 +16,6 @@ display:
         options:
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       sorts:
         created:
           expose:
@@ -46,8 +41,6 @@ display:
       fields:
         media_bulk_form:
           action_title: Acción
-        name:
-          separator: ', '
         edit_media:
           text: Editar
         delete_media:

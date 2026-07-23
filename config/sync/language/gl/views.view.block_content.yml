@@ -5,9 +5,6 @@ display:
       fields:
         info:
           label: 'Descrición do bloque'
-          separator: ', '
-        type:
-          separator: ', '
         changed:
           label: Actualizado
         operations:
@@ -26,8 +23,6 @@ display:
           submit_button: Aplicar
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       filters:
         info:
           expose:

@@ -1,3 +1,5 @@
+label: 'Bloque de usuarios conectados'
+description: 'Muestra los nombres de usuario de los usuarios activos más recientes y el número total de usuarios activos.'
 display:
   default:
     display_title: Predeterminado
@@ -8,14 +10,19 @@ display:
           submit_button: Aplicar
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
+      empty:
+        area_text_custom:
+          content: 'Hay 0 usuarios en línea.'
       filters:
         access:
           expose:
             label: 'Último acceso'
             description: 'Un usuario considérase conectado (online) durante este tempo dende que viron unha páxina do sitio por última vez.'
+      header:
+        result:
+          content: 'Actualmente hay un total de  @total usuario en linea.'
   who_s_online_block:
     display_title: 'Usuarios conectados'
     display_options:
+      display_description: 'Una lista de los usuarios que están conectados actualmente.'
       block_description: 'Usuarios conectados'

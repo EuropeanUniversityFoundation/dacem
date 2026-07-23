@@ -12,3 +12,4 @@ display:
     display_title: Blok
     display_options:
       block_description: 'Poslední komentáře'
+      block_category: 'Listas (Views)'

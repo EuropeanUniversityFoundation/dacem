@@ -26,10 +26,11 @@
         "drupal/core-composer-scaffold": "~10.6.2",
         "drupal/core-recommended": "~10.6.2",
         "drupal/devel": "^5.5",
+        "drupal/devel_entity_updates": "^5.0",
         "drupal/devel_kint_extras": "^1.1",
         "drupal/examples": "^4.0",
         "drupal/extlink": "^2.0",
-        "drupal/field_group": "^3.6",
+        "drupal/field_group": "^4.0",
         "drupal/field_permissions": "^1.4",
         "drupal/geocoder": "^4.29",
         "drupal/geocoder_ajax_prepopulate": "^3.0",
@@ -39,10 +40,10 @@
         "drupal/group_content_menu": "^3.0",
         "drupal/jquery_scrollup": "^2.0",
         "drupal/leaflet": "^10.3",
-        "drupal/locale_download": "^1.0@RC",
+        "drupal/locale_download": "^2.0",
         "drupal/login_destination": "^2.0@beta",
         "drupal/og": "^1.0@alpha",
-        "drupal/openid_connect": "^3.0@alpha",
+        "drupal/openid_connect": "3.0-alpha6",
         "drupal/pathauto": "^1.12",
         "drupal/scrollup": "^3.0",
         "drupal/subpathauto": "^1.3",
@@ -60,7 +61,7 @@
         "euf/ewp_phone_number": "^1.0@RC",
         "euf/isced_field": "^1.0@alpha",
         "euf/myacademicid_user_fields": "^1.0@rc",
-        "euf/openid_connect_eufidp": "^1.0@beta",
+        "euf/openid_connect_eufidp": "^3.0@alpha",
         "league/csv": "^9.28",
         "phpoffice/phpspreadsheet": "^3.3",
         "symfony/intl": "^6.4"
@@ -115,6 +116,6 @@
                 "type:drupal-custom-theme"
             ]
         }
-        
+
     }
 }

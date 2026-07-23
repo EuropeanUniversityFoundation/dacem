@@ -11,9 +11,6 @@ display:
           label: 'Última actualización'
       pager:
         options:
-          tags:
-            next: ››
-            previous: ‹‹
           expose:
             items_per_page_label: 'Elementos por páxina'
             items_per_page_options_all_label: '- Todo -'
@@ -23,8 +20,6 @@ display:
           submit_button: Aplicar
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
   attachment_1:
     display_title: Anexo
   page_1:

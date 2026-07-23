@@ -7,7 +7,6 @@ display:
       fields:
         filename:
           label: Nome
-          separator: ', '
         filemime:
           label: 'Tipo MIME'
         filesize:
@@ -21,6 +20,7 @@ display:
           label: 'Data de subida'
         count:
           label: 'Usado en'
+          format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
         operations:
           label: Operacións
       pager:
@@ -37,8 +37,6 @@ display:
           submit_button: Filtro
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       filters:
         filename:
           expose:

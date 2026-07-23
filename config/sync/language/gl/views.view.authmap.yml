@@ -1,18 +1,12 @@
 display:
   default:
-    display_title: Master
     display_options:
       fields:
-        name:
-          separator: ', '
         delete_link:
           label: eliminar
           text: eliminar
       pager:
         options:
-          tags:
-            next: ››
-            previous: ‹‹
           expose:
             items_per_page_label: 'Elementos por páxina'
             items_per_page_options_all_label: '- Todo -'
@@ -22,8 +16,6 @@ display:
           submit_button: Aplicar
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       arguments:
         provider_field:
           exception:

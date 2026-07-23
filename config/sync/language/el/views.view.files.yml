@@ -25,6 +25,7 @@ display:
           label: 'Αλλαγμένη ημερομηνία'
         count:
           label: 'Χρησιμοποιείται σε'
+          format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
         operations:
           label: Λειτουργίες
       pager:
@@ -67,6 +68,8 @@ display:
           label: Οντότητα
         type:
           label: 'Τύπος οντότητας'
+        module:
+          label: 'Registering module'
         count:
           format_plural_string: !!binary MQNAY291bnQ=
       pager:

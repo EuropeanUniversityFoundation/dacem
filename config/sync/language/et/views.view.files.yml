@@ -26,6 +26,7 @@ display:
           label: 'Muutmise kuupäev'
         count:
           label: Kasutuskoht
+          format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
         operations:
           label: Toimingud
       pager:

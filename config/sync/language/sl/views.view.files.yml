@@ -13,6 +13,7 @@ display:
           label: Stanje
         count:
           label: 'Uporabljen v'
+          format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
         operations:
           label: Operacije
       exposed_form:

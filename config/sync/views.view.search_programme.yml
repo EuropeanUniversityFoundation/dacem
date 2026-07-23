@@ -123,6 +123,8 @@ display:
               secondary_label: 'Advanced options'
               secondary_open: false
               reset_button_always_show: false
+              autosubmit_breakpoint: ''
+              auto_submit_sort_only: false
             sort:
               plugin_id: default
               advanced:
@@ -145,9 +147,18 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: true
+                  field_classes: ''
+                  open_by_default: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
+                scrollable: false
+                scrollable_height: 300
+                soft_limit: 0
+                soft_limit_label_less: 'Show less'
+                soft_limit_label_more: 'Show more'
               combine:
                 plugin_id: default
                 advanced:
@@ -156,6 +167,10 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+                  field_classes: ''
+                  open_by_default: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
               field_programme_language_of_inst_target_id:
                 plugin_id: bef
                 advanced:
@@ -167,9 +182,18 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: true
+                  field_classes: ''
+                  open_by_default: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
+                scrollable: false
+                scrollable_height: 300
+                soft_limit: 0
+                soft_limit_label_less: 'Show less'
+                soft_limit_label_more: 'Show more'
               field_programme_type_target_id:
                 plugin_id: bef
                 advanced:
@@ -181,9 +205,18 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: true
+                  field_classes: ''
+                  open_by_default: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
+                scrollable: false
+                scrollable_height: 300
+                soft_limit: 0
+                soft_limit_label_less: 'Show less'
+                soft_limit_label_more: 'Show more'
               field_isced_f_value:
                 plugin_id: bef
                 advanced:
@@ -195,9 +228,18 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: true
+                  field_classes: ''
+                  open_by_default: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
+                scrollable: false
+                scrollable_height: 300
+                soft_limit: 0
+                soft_limit_label_less: 'Show less'
+                soft_limit_label_more: 'Show more'
               field_eqf_level_value_1:
                 plugin_id: bef
                 advanced:
@@ -209,9 +251,18 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: true
+                  field_classes: ''
+                  open_by_default: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
+                scrollable: false
+                scrollable_height: 300
+                soft_limit: 0
+                soft_limit_label_less: 'Show less'
+                soft_limit_label_more: 'Show more'
               field_avaliable_for_mobility_value:
                 plugin_id: bef_single
                 advanced:
@@ -223,6 +274,11 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+                  field_classes: ''
+                  open_by_default: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
+                treat_as_false: false
       access:
         type: perm
         options:

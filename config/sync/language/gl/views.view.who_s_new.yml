@@ -1,4 +1,5 @@
 label: 'Novos usuarios'
+description: 'Muestra una lista de las cuentas de usuario más recientes del sitio.'
 display:
   default:
     display_title: Predeterminado
@@ -9,10 +10,9 @@ display:
           submit_button: Aplicar
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
   block_1:
     display_title: 'Novos usuarios'
     display_options:
+      display_description: 'Un listado de nuevos usuarios'
       block_description: 'Novos usuarios'
       block_category: Usuario/a

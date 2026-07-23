@@ -10,7 +10,6 @@ display:
           label: Título
         type:
           label: 'Tipo de contido'
-          separator: ', '
         name:
           label: Autor/a
         status:
@@ -34,8 +33,6 @@ display:
           submit_button: Filtro
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       empty:
         area_text_custom:
           content: 'Contido non dispoñible'

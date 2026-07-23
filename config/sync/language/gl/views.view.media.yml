@@ -9,24 +9,17 @@ display:
           action_title: Acción
         thumbnail__target_id:
           label: Miniatura
-          separator: ', '
-        name:
-          separator: ', '
         bundle:
           label: Tipo
-          separator: ', '
         uid:
           label: Autor/a
-          separator: ', '
         status:
           label: Estado
           settings:
             format_custom_false: 'Non publicado'
             format_custom_true: Publicado
-          separator: ', '
         changed:
           label: Actualizado
-          separator: ', '
         operations:
           label: Operacións
       pager:
@@ -45,8 +38,6 @@ display:
           submit_button: Filtro
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       filters:
         bundle:
           expose:

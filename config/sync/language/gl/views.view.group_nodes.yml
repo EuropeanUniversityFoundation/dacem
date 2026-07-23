@@ -1,32 +1,25 @@
 label: 'Nodos de grupo'
 display:
   default:
-    display_title: Master
     display_options:
       title: Nodos
       fields:
         title:
           label: Título
-          separator: ', '
         type:
           label: 'Tipo de contido'
-          separator: ', '
         status:
           label: Estado
           settings:
             format_custom_false: 'Non publicado'
             format_custom_true: Publicado
-          separator: ', '
         changed:
           label: Actualizado
-          separator: ', '
         dropbutton:
           label: Operacións
       pager:
         options:
           tags:
-            next: ››
-            previous: ‹‹
             first: '« Primeira'
             last: 'Última »'
           expose:
@@ -38,8 +31,6 @@ display:
           submit_button: Aplicar
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       empty:
         area_text_custom:
           content: 'Contido non dispoñible'

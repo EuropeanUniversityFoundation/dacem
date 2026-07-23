@@ -15,16 +15,12 @@ display:
           settings:
             format_custom_false: Bloqueado
             format_custom_true: Activo
-        roles_target_id:
-          label: Roles
         created:
           label: 'Membro durante'
         access:
           label: 'Último acceso'
         operations:
           label: Operacións
-        mail:
-          separator: ', '
       pager:
         options:
           tags:
@@ -41,8 +37,6 @@ display:
           submit_button: Filtro
           reset_button_label: Reiniciar
           exposed_sorts_label: 'Ordenar por'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       empty:
         area_text_custom:
           content: 'Non hai persoas dispoñibles.'
