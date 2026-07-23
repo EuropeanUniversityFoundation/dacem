@@ -37,7 +37,7 @@ web/sites/*/settings.local.php
 web/sites/simpletest
 
 # Ignore backup files, but keep the directory.
-backup/
+backup/*
 !backup/.gitkeep
 
 # Ignore environment and other sensitive files.
@@ -45,7 +45,7 @@ backup/
 
 # Ignore other software generated files.
 .codex/
-.ddev/
+.ddev/*
 !.ddev/config.yaml
 .idea/
 .vscode/
