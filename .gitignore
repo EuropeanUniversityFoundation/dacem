@@ -1,0 +1,51 @@
+# Ignore Composer and NPM packages.
+vendor/
+node_modules/
+
+# Ignore Drupal scaffolded directories.
+web/core/
+web/libraries/
+web/modules/contrib/
+web/profiles/
+web/themes/contrib
+
+# Ignore Drupal scaffolded files.
+.editorconfig
+.gitattributes
+web/autoload.php
+web/.csslintrc
+web/.eslintignore
+web/.eslintrc.json
+web/example.gitignore
+web/.htaccess
+web/.ht.router.php
+web/index.php
+web/INSTALL.txt
+web/README.md
+web/robots.txt
+web/update.php
+web/web.config
+
+# Ignore multisite and site specific settings files.
+web/sites/sites.php
+web/sites/*/files
+web/sites/*/settings.php
+web/sites/*/settings.ddev.php
+web/sites/*/settings.local.php
+
+# Ignore test site directory.
+web/sites/simpletest
+
+# Ignore backup files, but keep the directory.
+backup/
+!backup/.gitkeep
+
+# Ignore environment and other sensitive files.
+.env
+
+# Ignore other software generated files.
+.codex/
+.ddev/
+!.ddev/config.yaml
+.idea/
+.vscode/
