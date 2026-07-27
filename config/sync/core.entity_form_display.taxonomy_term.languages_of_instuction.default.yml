@@ -3,9 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.languages_of_instuction.field_lang
     - field.field.taxonomy_term.languages_of_instuction.field_language_code
     - taxonomy.vocabulary.languages_of_instuction
   module:
+    - ewp_core
     - path
     - text
 id: taxonomy_term.languages_of_instuction.default
@@ -20,6 +22,12 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_lang:
+    type: ewp_lang_default
+    weight: 102
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_language_code:
     type: string_textfield

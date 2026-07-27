@@ -1,0 +1,21 @@
+uuid: 183c912f-2833-4a00-a548-7f0b639796d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_lang
+    - taxonomy.vocabulary.languages_of_instuction
+  module:
+    - ewp_core
+id: taxonomy_term.languages_of_instuction.field_lang
+field_name: field_lang
+entity_type: taxonomy_term
+bundle: languages_of_instuction
+label: 'Language tag'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: ewp_lang
