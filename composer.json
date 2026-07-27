@@ -1,15 +1,32 @@
 {
-    "name": "drupal/recommended-project",
-    "description": "Project template for Drupal projects with a relocated document root",
+    "name": "dacem/dacem",
+    "description": "DACEM Academic Catalogue",
     "type": "project",
     "license": "GPL-2.0-or-later",
-    "homepage": "https://www.drupal.org/project/drupal",
+    "authors": [
+        {
+            "name": "Óscar Vázquez Trigo",
+            "role": "Developer"
+        },
+        {
+            "name": "Gábor Grósz",
+            "role": "Developer, Maintainer"
+        },
+        {
+            "name": "Tiago Simões",
+            "role": "Maintainer"
+        }
+    ],
+    "homepage": "https://dacem.eu",
     "support": {
-        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
-        "chat": "https://www.drupal.org/node/314178"
+        "issues": "https://github.com/EuropeanUniversityFoundation/dacem/issues",
+        "source": "https://github.com/EuropeanUniversityFoundation/dacem"
     },
     "repositories": [
-        { "type": "composer", "url": "https://packages.uni-foundation.eu/" },
+        {
+            "type": "composer",
+            "url": "https://packages.uni-foundation.eu/"
+        },
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
