@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b5eb6346bd0051477e6168114abc31e",
+    "content-hash": "59a14ebeef23acb43ff0f7c8608311ff",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1011,6 +1011,54 @@
                 "source": "https://github.com/consolidation/site-process/tree/6.1.0"
             },
             "time": "2026-06-07T03:26:06+00:00"
+        },
+        {
+            "name": "dacem/dacem_sync",
+            "version": "1.0.0-alpha",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/dacem_sync.git",
+                "reference": "4e9235835fe19f45bc3a676f658af3eb9c5b8deb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/dacem/dacem_sync/dacem-dacem_sync-4e9235835fe19f45bc3a676f658af3eb9c5b8deb-zip-2ebe79.zip",
+                "reference": "4e9235835fe19f45bc3a676f658af3eb9c5b8deb",
+                "shasum": "1c0d7059c6a4aa01c85785eafb2f30442ddd5a22"
+            },
+            "require": {
+                "drupal/entity_reference_validators": "^2.0",
+                "drupal/group": "^3.0",
+                "euf/ewp_core": "^1.0",
+                "euf/ewp_institutions": "^1.0",
+                "euf/ewp_ounits": "^1.0",
+                "euf/occ_entities": "^1.0"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Provides sync functionality between DACEM content types and OCC entities",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/dacem_sync",
+            "keywords": [
+                "DACEM",
+                "Drupal",
+                "Erasmus Without Paper",
+                "OCCAPI",
+                "Open Course Catalogue"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/dacem_sync/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/dacem_sync"
+            },
+            "time": "2026-07-28T12:43:03+00:00"
         },
         {
             "name": "davedevelopment/stiphle",
@@ -2667,6 +2715,54 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/entity",
                 "issues": "https://www.drupal.org/project/issues/entity"
+            }
+        },
+        {
+            "name": "drupal/entity_reference_validators",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/entity_reference_validators.git",
+                "reference": "2.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/entity_reference_validators-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "e80d6dcb9ed92ea960f041a0ddc2d42149f45361"
+            },
+            "require": {
+                "drupal/core": "^10 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.0",
+                    "datestamp": "1745998016",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "alexpott",
+                    "homepage": "https://www.drupal.org/user/157725"
+                },
+                {
+                    "name": "pcambra",
+                    "homepage": "https://www.drupal.org/user/122101"
+                }
+            ],
+            "description": "Provides additional validators for entity reference fields.",
+            "homepage": "https://www.drupal.org/project/entity_reference_validators",
+            "support": {
+                "source": "https://git.drupalcode.org/project/entity_reference_validators"
             }
         },
         {
@@ -4892,6 +4988,44 @@
             "time": "2026-01-28T12:52:33+00:00"
         },
         {
+            "name": "euf/erasmus_subject_area_code",
+            "version": "1.0.0-rc4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/erasmus_subject_area_code.git",
+                "reference": "893853ad9087876c732a2bd99fec72f7e369a773"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/erasmus_subject_area_code/euf-erasmus_subject_area_code-893853ad9087876c732a2bd99fec72f7e369a773-zip-12dc11.zip",
+                "reference": "893853ad9087876c732a2bd99fec72f7e369a773",
+                "shasum": "0e0bf32ffc41ecd635f031d623bd2c9afda2a7c7"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Provides a field type with Erasmus Subject Area codes as options.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/erasmus_subject_area_code",
+            "keywords": [
+                "Drupal",
+                "Field type"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/erasmus_subject_area_code/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/erasmus_subject_area_code"
+            },
+            "abandoned": true,
+            "time": "2025-07-01T08:56:30+00:00"
+        },
+        {
             "name": "euf/ewp_contact",
             "version": "1.0.0-rc3",
             "source": {
@@ -5063,6 +5197,50 @@
                 "source": "https://github.com/EuropeanUniversityFoundation/ewp_institutions"
             },
             "time": "2026-01-08T15:36:56+00:00"
+        },
+        {
+            "name": "euf/ewp_ounits",
+            "version": "1.0.0-rc4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/ewp_ounits.git",
+                "reference": "a4016e39e353dd3a6c0bddae748a02cb6b477d96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/ewp_ounits/euf-ewp_ounits-a4016e39e353dd3a6c0bddae748a02cb6b477d96-zip-7be051.zip",
+                "reference": "a4016e39e353dd3a6c0bddae748a02cb6b477d96",
+                "shasum": "2b3abecd356105be4f33ddba949dd52f6fa4ae48"
+            },
+            "require": {
+                "drupal/entity_reference_validators": "^2.0",
+                "euf/ewp_contact": "^1.0",
+                "euf/ewp_core": "^1.0",
+                "euf/ewp_institutions": "^1.0"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Implements EWP Organizational Units as a content entity type.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/ewp_ounits",
+            "keywords": [
+                "Drupal",
+                "Entity type",
+                "Erasmus Without Paper"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/ewp_ounits/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/ewp_ounits"
+            },
+            "time": "2025-09-04T15:38:11+00:00"
         },
         {
             "name": "euf/ewp_phone_number",
@@ -5244,6 +5422,108 @@
                 "source": "https://github.com/EuropeanUniversityFoundation/myacademicid_user_fields"
             },
             "time": "2025-10-20T13:07:18+00:00"
+        },
+        {
+            "name": "euf/occ_entities",
+            "version": "1.1.0-alpha.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EuropeanUniversityFoundation/occ_entities.git",
+                "reference": "24f6b638a83c0c67b67ea8c80f780700481d97f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/occ_entities/euf-occ_entities-24f6b638a83c0c67b67ea8c80f780700481d97f1-zip-6d9146.zip",
+                "reference": "24f6b638a83c0c67b67ea8c80f780700481d97f1",
+                "shasum": "98adae4e6fdec7ed8a30d9edecd13b2368a5a6af"
+            },
+            "require": {
+                "drupal/entity_reference_validators": "^2.0",
+                "euf/elm_vocabulary_field": "^1.0",
+                "euf/erasmus_subject_area_code": "^1.0",
+                "euf/ewp_core": "^1.0",
+                "euf/ewp_institutions": "^1.0",
+                "euf/ewp_ounits": "^1.0",
+                "euf/isced_field": "^1.0"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Gábor Grósz",
+                    "email": "gabor.grosz@uni-foundation.eu",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Defines content entity types for Open Course Catalogue.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/occ_entities",
+            "keywords": [
+                "Drupal",
+                "Entity type",
+                "Erasmus Without Paper",
+                "OCCAPI",
+                "Open Course Catalogue"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/occ_entities/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/occ_entities"
+            },
+            "time": "2026-04-15T21:44:48+00:00"
+        },
+        {
+            "name": "euf/occ_occapi_serializer",
+            "version": "1.0.0-alpha",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:EuropeanUniversityFoundation/occ_occapi_serializer.git",
+                "reference": "0f02f3c498052e3ec3765dadaece1f4be1bc3d0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.uni-foundation.eu/dist/euf/occ_occapi_serializer/euf-occ_occapi_serializer-0f02f3c498052e3ec3765dadaece1f4be1bc3d0a-zip-a8b562.zip",
+                "reference": "0f02f3c498052e3ec3765dadaece1f4be1bc3d0a",
+                "shasum": "eb7001d1a174cdd8dc0057058ff228696a245c2d"
+            },
+            "require": {
+                "euf/occ_entities": "^1.1"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Gábor Grósz",
+                    "email": "gabor.grosz@uni-foundation.eu",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Tiago Simões",
+                    "email": "tiago.simoes@uni-foundation.eu",
+                    "role": "Developer"
+                }
+            ],
+            "description": "OCCAPI serializer for the content types in the Open Course Catalogue.",
+            "homepage": "https://github.com/EuropeanUniversityFoundation/occ_occapi_serializer",
+            "keywords": [
+                "Drupal",
+                "Erasmus Without Paper",
+                "OCCAPI",
+                "Open Course Catalogue",
+                "Serializer"
+            ],
+            "support": {
+                "issues": "https://github.com/EuropeanUniversityFoundation/occ_occapi_serializer/issues",
+                "source": "https://github.com/EuropeanUniversityFoundation/occ_occapi_serializer"
+            },
+            "time": "2026-06-24T23:51:32+00:00"
         },
         {
             "name": "euf/openid_connect_eufidp",
@@ -11048,6 +11328,7 @@
     "aliases": [],
     "minimum-stability": "beta",
     "stability-flags": {
+        "dacem/dacem_sync": 15,
         "drupal/login_destination": 10,
         "drupal/og": 15,
         "drupal/openid_connect": 15,
@@ -11059,6 +11340,8 @@
         "euf/ewp_phone_number": 5,
         "euf/isced_field": 15,
         "euf/myacademicid_user_fields": 5,
+        "euf/occ_entities": 15,
+        "euf/occ_occapi_serializer": 15,
         "euf/openid_connect_eufidp": 15
     },
     "prefer-stable": true,

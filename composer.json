@@ -34,6 +34,7 @@
     ],
     "require": {
         "composer/installers": "^2.0",
+        "dacem/dacem_sync": "^1.0-alpha",
         "drupal/address": "^2.0",
         "drupal/admin_toolbar": "^3.4",
         "drupal/better_exposed_filters": "^7.0",
@@ -78,6 +79,8 @@
         "euf/ewp_phone_number": "^1.0@RC",
         "euf/isced_field": "^1.0@alpha",
         "euf/myacademicid_user_fields": "^1.0@rc",
+        "euf/occ_entities": "^1.1-alpha",
+        "euf/occ_occapi_serializer": "^1.0-alpha",
         "euf/openid_connect_eufidp": "^3.0@alpha",
         "league/csv": "^9.28",
         "phpoffice/phpspreadsheet": "^3.3",
