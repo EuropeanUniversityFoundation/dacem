@@ -1,0 +1,25 @@
+uuid: d9e79647-d09f-49ad-ae02-183a2ac31625
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__ects
+    - occ_entities.occ_los_type.course
+_core:
+  default_config_hash: V-ORImH0GonYCzkbqo8jfRJ0cy9Tasy_U6ApR8q447E
+id: occ_los.course.course__ects
+field_name: course__ects
+entity_type: occ_los
+bundle: course
+label: ECTS
+description: 'ECTS credits obtained by completing the course.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0.0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

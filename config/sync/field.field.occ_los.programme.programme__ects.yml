@@ -1,0 +1,25 @@
+uuid: 9e22c01f-025e-47e3-8580-7406e8f91430
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.programme__ects
+    - occ_entities.occ_los_type.programme
+_core:
+  default_config_hash: XnAlW47pxs8oZkWj1Ucku5Xoy2C7FhBkVlYTxB6-IW8
+id: occ_los.programme.programme__ects
+field_name: programme__ects
+entity_type: occ_los
+bundle: programme
+label: ECTS
+description: 'Number of ECTS credits required to complete a Programme.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0.0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

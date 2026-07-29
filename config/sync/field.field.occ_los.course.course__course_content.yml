@@ -1,0 +1,23 @@
+uuid: a56cf061-174d-4b74-b3fd-8b96bd417692
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__course_content
+    - occ_entities.occ_los_type.course
+  module:
+    - ewp_core
+_core:
+  default_config_hash: pbmHH8PF0z7V1azWaKxbR6uBHJeby7rLrtnQ39zHBPo
+id: occ_los.course.course__course_content
+field_name: course__course_content
+entity_type: occ_los
+bundle: course
+label: 'Course content'
+description: 'Contents of the course in detail.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: ewp_multiline_lang

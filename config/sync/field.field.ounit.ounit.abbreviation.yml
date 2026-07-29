@@ -1,0 +1,25 @@
+uuid: 36cd94f5-91fa-4a92-bd93-714128d2a5ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.ounit.abbreviation
+  module:
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: 3enKX6T06MH4Rq7baoZoDXPga53Y96L7d-QByr68Djg
+id: ounit.ounit.abbreviation
+field_name: abbreviation
+entity_type: ounit
+bundle: ounit
+label: Abbreviation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

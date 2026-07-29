@@ -1,0 +1,21 @@
+uuid: b21c711d-b2a0-47cf-8d9e-2962a454a35d
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_core
+    - occ_entities
+_core:
+  default_config_hash: bv6_cr9mPKaZ270ybTytkdxu_OU-606HZFpXG0UBd9g
+id: occ_los.course__prerequisites
+field_name: course__prerequisites
+entity_type: occ_los
+type: ewp_multiline_lang
+settings: {  }
+module: ewp_core
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

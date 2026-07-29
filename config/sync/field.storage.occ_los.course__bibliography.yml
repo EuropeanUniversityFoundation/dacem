@@ -1,0 +1,21 @@
+uuid: 65015c2c-967a-47e0-87a6-b604b325043d
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_core
+    - occ_entities
+_core:
+  default_config_hash: SxWLl8qeV15D6BqIcbZ0Eklxqa82ZhBfpaMJwgX8_ZY
+id: occ_los.course__bibliography
+field_name: course__bibliography
+entity_type: occ_los
+type: ewp_multiline_lang
+settings: {  }
+module: ewp_core
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

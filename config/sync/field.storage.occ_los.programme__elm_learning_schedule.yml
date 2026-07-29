@@ -1,0 +1,22 @@
+uuid: 4f3b5f50-dfb8-4b01-b827-b5641ebbbd9c
+langcode: en
+status: true
+dependencies:
+  module:
+    - elm_vocabulary_field
+    - occ_entities
+_core:
+  default_config_hash: iRbymHWfao6ZZB1tzJbDKBt_r4hHyg3F-0eGOoNQEtQ
+id: occ_los.programme__elm_learning_schedule
+field_name: programme__elm_learning_schedule
+entity_type: occ_los
+type: elm_controlled_vocabulary
+settings:
+  vocabulary: learning_schedule
+module: elm_vocabulary_field
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

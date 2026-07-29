@@ -1,0 +1,139 @@
+uuid: 7fab2bdd-6473-499c-a327-0290ec011476
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.ounit.ounit.abbreviation
+    - field.field.ounit.ounit.contact
+    - field.field.ounit.ounit.logo_url
+    - field.field.ounit.ounit.mailing_address
+    - field.field.ounit.ounit.mobility_factsheet_url
+    - field.field.ounit.ounit.name
+    - field.field.ounit.ounit.ounit_code
+    - field.field.ounit.ounit.ounit_id
+    - field.field.ounit.ounit.parent_hei
+    - field.field.ounit.ounit.parent_ounit
+    - field.field.ounit.ounit.street_address
+    - field.field.ounit.ounit.website_url
+  module:
+    - ewp_core
+    - ewp_flexible_address
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: m1tEYK-PzFdjjZtmtMcC1kJOWChUzBQESGBWftoWjRA
+id: ounit.ounit.default
+targetEntityType: ounit
+bundle: ounit
+mode: default
+content:
+  abbreviation:
+    weight: -16
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  contact:
+    weight: -7
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  label:
+    type: string_textfield
+    weight: -20
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 10
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  logo_url:
+    weight: -9
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_https_default
+    region: content
+  mailing_address:
+    weight: -11
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_flexible_address_default
+    region: content
+  mobility_factsheet_url:
+    weight: -8
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_http_lang_default
+    region: content
+  name:
+    weight: -17
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: ewp_string_lang_default
+    region: content
+  ounit_code:
+    weight: -18
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  ounit_id:
+    weight: -19
+    settings:
+      size: 64
+      placeholder: ''
+    third_party_settings: {  }
+    type: ascii_identifier_default
+    region: content
+  parent_hei:
+    weight: -15
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  parent_ounit:
+    weight: -14
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  street_address:
+    weight: -12
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_flexible_address_default
+    region: content
+  website_url:
+    weight: -10
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_http_lang_default
+    region: content
+hidden: {  }

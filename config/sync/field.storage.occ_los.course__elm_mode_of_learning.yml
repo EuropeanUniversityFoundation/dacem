@@ -1,0 +1,22 @@
+uuid: b5f7ce80-0289-4861-a76b-299e7f80c3e4
+langcode: en
+status: true
+dependencies:
+  module:
+    - elm_vocabulary_field
+    - occ_entities
+_core:
+  default_config_hash: eOBgiRFmin9V-yYz4zUS8YJep9UEn4O6p_arxVt7oUU
+id: occ_los.course__elm_mode_of_learning
+field_name: course__elm_mode_of_learning
+entity_type: occ_los
+type: elm_controlled_vocabulary
+settings:
+  vocabulary: learning_assessment
+module: elm_vocabulary_field
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

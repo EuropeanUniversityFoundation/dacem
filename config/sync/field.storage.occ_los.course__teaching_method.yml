@@ -1,0 +1,21 @@
+uuid: d60d7ad1-3b93-4969-bbf6-640644e3e3cb
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_core
+    - occ_entities
+_core:
+  default_config_hash: GXWYbIpFnIibq4PS-mwIh6VlmSyMaS8BoyhAjjU-mwI
+id: occ_los.course__teaching_method
+field_name: course__teaching_method
+entity_type: occ_los
+type: ewp_multiline_lang
+settings: {  }
+module: ewp_core
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

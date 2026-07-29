@@ -1,0 +1,23 @@
+uuid: 27e6ab88-4123-4e44-a3b4-4d78a5ae3442
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.programme__eqf_level_provided
+    - occ_entities.occ_los_type.programme
+  module:
+    - ewp_core
+_core:
+  default_config_hash: y7D_SaOiv8WxYUTeo5OErPbkTBW-6nhfo_RUsBMXGeE
+id: occ_los.programme.programme__eqf_level_provided
+field_name: programme__eqf_level_provided
+entity_type: occ_los
+bundle: programme
+label: 'EQF level provided'
+description: 'European Qualifications Framework level provided.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: eqf_level

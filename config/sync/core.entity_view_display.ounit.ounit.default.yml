@@ -1,0 +1,130 @@
+uuid: c2aaf909-eeed-4b6d-b95f-285cafcd6f3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.ounit.ounit.abbreviation
+    - field.field.ounit.ounit.contact
+    - field.field.ounit.ounit.logo_url
+    - field.field.ounit.ounit.mailing_address
+    - field.field.ounit.ounit.mobility_factsheet_url
+    - field.field.ounit.ounit.name
+    - field.field.ounit.ounit.ounit_code
+    - field.field.ounit.ounit.ounit_id
+    - field.field.ounit.ounit.parent_hei
+    - field.field.ounit.ounit.parent_ounit
+    - field.field.ounit.ounit.street_address
+    - field.field.ounit.ounit.website_url
+  module:
+    - ewp_core
+    - ewp_flexible_address
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: tw72F7rZ0yzcUfrepUwvUKT2oq89QbPRbP6JKepw4pQ
+id: ounit.ounit.default
+targetEntityType: ounit
+bundle: ounit
+mode: default
+content:
+  abbreviation:
+    weight: -16
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  contact:
+    weight: -8
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  label:
+    label: hidden
+    type: string
+    weight: -20
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  logo_url:
+    weight: -10
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_https_default
+    region: content
+  mailing_address:
+    weight: -12
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_flexible_address_default
+    region: content
+  mobility_factsheet_url:
+    weight: -9
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_http_lang_default
+    region: content
+  name:
+    weight: -17
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_string_lang_default
+    region: content
+  ounit_code:
+    weight: -18
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  ounit_id:
+    weight: -19
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    type: ascii_identifier_default
+    region: content
+  parent_hei:
+    weight: -15
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  parent_ounit:
+    weight: -14
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  street_address:
+    weight: -13
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_flexible_address_default
+    region: content
+  website_url:
+    weight: -11
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: ewp_http_lang_default
+    region: content
+hidden:
+  langcode: true

@@ -1,0 +1,25 @@
+uuid: e87e3ee4-7d00-422c-b3bd-966337a0b656
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__restricted_to_local
+    - occ_entities.occ_los_type.course
+_core:
+  default_config_hash: yJ2hN-Af4sUj5YMo-qIdImWu0YrMZxyyPy9jQKpSH_g
+id: occ_los.course.course__restricted_to_local
+field_name: course__restricted_to_local
+entity_type: occ_los
+bundle: course
+label: 'Restricted to local students'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

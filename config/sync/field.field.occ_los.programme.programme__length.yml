@@ -1,0 +1,21 @@
+uuid: eada0d53-b31f-4147-813a-d28e432a9fde
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.programme__length
+    - occ_entities.occ_los_type.programme
+_core:
+  default_config_hash: erNcUFH_RrzNrMBRFkef7wPHnwxFXMbB42xTqaPjTEA
+id: occ_los.programme.programme__length
+field_name: programme__length
+entity_type: occ_los
+bundle: programme
+label: Length
+description: 'In an N/F format, where N is the total number of terms and F is the number of terms in a year'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

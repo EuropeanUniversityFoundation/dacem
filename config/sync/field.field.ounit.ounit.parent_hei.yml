@@ -1,0 +1,31 @@
+uuid: 308f9f71-c689-4a3b-8c3d-3b839eb6f2be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.ounit.parent_hei
+  module:
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: JMJR_5nfCDzu_aevqeVIJJMzbZv2zmZ0CQermrBz6ME
+id: ounit.ounit.parent_hei
+field_name: parent_hei
+entity_type: ounit
+bundle: ounit
+label: 'Parent Institution'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:hei'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

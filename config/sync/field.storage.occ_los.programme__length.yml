@@ -1,0 +1,23 @@
+uuid: 5236bb66-0d2e-4ab6-8f96-3695de2e27ba
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: WJ_SWx0k453aCOTH5ee0HFSBOdd-vceijyoTocMXMt4
+id: occ_los.programme__length
+field_name: programme__length
+entity_type: occ_los
+type: string
+settings:
+  max_length: 10
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

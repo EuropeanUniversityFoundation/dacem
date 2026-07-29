@@ -1,0 +1,31 @@
+uuid: 5f6dea29-d67c-401a-81a9-06f8855d15ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_loi.course__elm_mode_of_learning
+    - occ_entities.occ_loi_type.course_instance
+  module:
+    - elm_vocabulary_field
+_core:
+  default_config_hash: yy5tZkVk4YICiBolUEqjLNLA0jbob1vuBClSqaaxgis
+id: occ_loi.course_instance.course__elm_mode_of_learning
+field_name: course__elm_mode_of_learning
+entity_type: occ_loi
+bundle: course_instance
+label: 'ELM - Mode of learning'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allow_selection:
+    729f3bed4b: false
+    7813801c77: false
+    9191af2ed9: false
+    920fbb3cbe: false
+    c_3a90b26d: false
+    e92d221e4d: false
+    ed4c557045: false
+field_type: elm_controlled_vocabulary

@@ -1,0 +1,38 @@
+uuid: 320363a6-3cad-47ac-a995-dae7e52d47b3
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+    - serialization
+    - user
+_core:
+  default_config_hash: vppqBrbjlLHGASgs3UqW4bZA9UY6jzP_7bIpjN3nhmA
+id: entity.occ_los
+plugin_id: 'entity:occ_los'
+granularity: method
+configuration:
+  GET:
+    supported_formats:
+      - json
+      - xml
+    supported_auth:
+      - cookie
+  POST:
+    supported_formats:
+      - json
+      - xml
+    supported_auth:
+      - cookie
+  PATCH:
+    supported_formats:
+      - json
+      - xml
+    supported_auth:
+      - cookie
+  DELETE:
+    supported_formats:
+      - json
+      - xml
+    supported_auth:
+      - cookie

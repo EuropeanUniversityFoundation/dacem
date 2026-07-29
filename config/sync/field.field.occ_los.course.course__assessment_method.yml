@@ -1,0 +1,23 @@
+uuid: e5b2b079-41d3-464c-ad82-08849eb5a234
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__assessment_method
+    - occ_entities.occ_los_type.course
+  module:
+    - ewp_core
+_core:
+  default_config_hash: 5Nz_o8TF-c1DxOr8z7JXOka_Oq_PQ_DSJBfW0oeHfu4
+id: occ_los.course.course__assessment_method
+field_name: course__assessment_method
+entity_type: occ_los
+bundle: course
+label: 'Assessment method'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: ewp_multiline_lang

@@ -1,0 +1,178 @@
+uuid: 69ded369-7a5b-46c7-80a4-24d1c374678e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.occ_los.programme.programme__abbreviation
+    - field.field.occ_los.programme.programme__ects
+    - field.field.occ_los.programme.programme__elm_learning_schedule
+    - field.field.occ_los.programme.programme__elm_lo_type
+    - field.field.occ_los.programme.programme__elm_mode_of_learning
+    - field.field.occ_los.programme.programme__eqf_level_provided
+    - field.field.occ_los.programme.programme__isced_code
+    - field.field.occ_los.programme.programme__length
+    - field.field.occ_los.programme.programme__valid_since
+    - field.field.occ_los.programme.programme__valid_until
+    - occ_entities.occ_los_type.programme
+  module:
+    - datetime
+    - elm_vocabulary_field
+    - ewp_core
+    - isced_field
+_core:
+  default_config_hash: sFy5IOYdJ-bU1gRZELHA-Gi58xIUF410onnXyUR8atk
+id: occ_los.programme.default
+targetEntityType: occ_los
+bundle: programme
+mode: default
+content:
+  code:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Programme code...'
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 18
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  description:
+    type: ewp_multiline_lang_default
+    weight: 7
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Programme description...'
+    third_party_settings: {  }
+  hei:
+    type: entity_reference_autocomplete
+    weight: 16
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: 'Institution offering the Programme...'
+    third_party_settings: {  }
+  language_of_instruction:
+    type: ewp_lang_default
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  learning_outcomes:
+    type: ewp_multiline_lang_default
+    weight: 8
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Programme learning outcomes...'
+    third_party_settings: {  }
+  programme__abbreviation:
+    type: ewp_string_lang_default
+    weight: 9
+    region: content
+    settings:
+      size: 60
+      placeholder: Abbreviation...
+    third_party_settings: {  }
+  programme__ects:
+    type: number
+    weight: 2
+    region: content
+    settings:
+      placeholder: 'No of Credits...'
+    third_party_settings: {  }
+  programme__elm_learning_schedule:
+    type: elm_controlled_vocabulary_select
+    weight: 11
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  programme__elm_lo_type:
+    type: elm_controlled_vocabulary_select
+    weight: 10
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  programme__elm_mode_of_learning:
+    type: elm_controlled_vocabulary_select
+    weight: 12
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  programme__eqf_level_provided:
+    type: eqf_level_default
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  programme__isced_code:
+    type: isced_f_select
+    weight: 4
+    region: content
+    settings:
+      allow_all_levels: true
+    third_party_settings: {  }
+  programme__length:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g. 6/2'
+    third_party_settings: {  }
+  programme__valid_since:
+    type: datetime_default
+    weight: 14
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  programme__valid_until:
+    type: datetime_default
+    weight: 15
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 19
+    region: content
+    settings:
+      display_label: false
+    third_party_settings: {  }
+  title:
+    type: ewp_string_lang_default
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Programme title...'
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 17
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url:
+    type: ewp_http_lang_default
+    weight: 13
+    region: content
+    settings:
+      placeholder_url: 'Link with more information...'
+      placeholder_title: 'Display text for link...'
+    third_party_settings: {  }
+hidden:
+  ounit: true

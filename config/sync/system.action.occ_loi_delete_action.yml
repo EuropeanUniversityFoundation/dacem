@@ -1,0 +1,13 @@
+uuid: 848f9537-1abb-459b-9652-8dd4ca22016a
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: Hxn3R3xAKtK3wcGg0ts-4m02UTdER-55iUFzvmJrnN0
+id: occ_loi_delete_action
+label: 'Delete learning opportunity instances'
+type: occ_loi
+plugin: 'entity:delete_action:occ_loi'
+configuration: {  }

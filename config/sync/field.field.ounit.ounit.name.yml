@@ -1,0 +1,26 @@
+uuid: 08cdb18d-0835-4488-bb99-e8d3169a3e27
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.ounit.name
+  module:
+    - ewp_core
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: ExqrP3JrnkoAh8QyX2vsZfdgokg9fQtclXyW_k2SeLo
+id: ounit.ounit.name
+field_name: name
+entity_type: ounit
+bundle: ounit
+label: Name
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: ewp_string_lang

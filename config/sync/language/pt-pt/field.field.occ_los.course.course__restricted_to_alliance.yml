@@ -1,0 +1,4 @@
+label: 'Restrito a estudantes da aliança'
+settings:
+  on_label: Sim
+  off_label: Não

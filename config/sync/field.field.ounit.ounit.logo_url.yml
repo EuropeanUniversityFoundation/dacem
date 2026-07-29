@@ -1,0 +1,28 @@
+uuid: 91ed71ba-2f5d-4fd4-a505-dd0d195c7977
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.ounit.logo_url
+  module:
+    - ewp_core
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: nhbZAzlsB1oI5-JGT_A7xH7169ic6uW6p5EqrrUId6U
+id: ounit.ounit.logo_url
+field_name: logo_url
+entity_type: ounit
+bundle: ounit
+label: 'Logo URL'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: ewp_https

@@ -1,0 +1,21 @@
+uuid: 0599d7ba-0cc3-4975-b21e-cafbc88f9314
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_core
+    - occ_entities
+_core:
+  default_config_hash: W3xAhO-GTX-t3fJc0rX6HExDhT9UmbR52WBAi0XmAoc
+id: occ_los.course__assessment_method
+field_name: course__assessment_method
+entity_type: occ_los
+type: ewp_multiline_lang
+settings: {  }
+module: ewp_core
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

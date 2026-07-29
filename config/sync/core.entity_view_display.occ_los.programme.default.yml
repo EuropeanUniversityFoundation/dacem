@@ -1,0 +1,201 @@
+uuid: 6491cc1a-3608-4cbd-8d74-d8d5a0331ac4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.occ_los.programme.programme__abbreviation
+    - field.field.occ_los.programme.programme__ects
+    - field.field.occ_los.programme.programme__elm_learning_schedule
+    - field.field.occ_los.programme.programme__elm_lo_type
+    - field.field.occ_los.programme.programme__elm_mode_of_learning
+    - field.field.occ_los.programme.programme__eqf_level_provided
+    - field.field.occ_los.programme.programme__isced_code
+    - field.field.occ_los.programme.programme__length
+    - field.field.occ_los.programme.programme__valid_since
+    - field.field.occ_los.programme.programme__valid_until
+    - occ_entities.occ_los_type.programme
+  module:
+    - datetime
+    - elm_vocabulary_field
+    - ewp_core
+    - isced_field
+    - user
+_core:
+  default_config_hash: Z-_IIAInl3SIDgXnwIMa15FX_12QdwuxaBMIn0s2CFw
+id: occ_los.programme.default
+targetEntityType: occ_los
+bundle: programme
+mode: default
+content:
+  code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  created:
+    type: timestamp
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+      tooltip:
+        date_format: long
+        custom_date_format: ''
+      time_diff:
+        enabled: false
+        future_format: '@interval hence'
+        past_format: '@interval ago'
+        granularity: 2
+        refresh: 60
+    third_party_settings: {  }
+    weight: 18
+    region: content
+  description:
+    type: ewp_multiline_lang_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  hei:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 16
+    region: content
+  language_of_instruction:
+    type: ewp_lang_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  learning_outcomes:
+    type: ewp_multiline_lang_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  programme__abbreviation:
+    type: ewp_string_lang_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  programme__ects:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  programme__elm_learning_schedule:
+    type: elm_controlled_vocabulary_default
+    label: above
+    settings:
+      prefix: false
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  programme__elm_lo_type:
+    type: elm_controlled_vocabulary_default
+    label: above
+    settings:
+      prefix: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  programme__elm_mode_of_learning:
+    type: elm_controlled_vocabulary_default
+    label: above
+    settings:
+      prefix: false
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  programme__eqf_level_provided:
+    type: eqf_level_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  programme__isced_code:
+    type: isced_f_default
+    label: above
+    settings:
+      prefix: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  programme__length:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  programme__valid_since:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  programme__valid_until:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 15
+    region: content
+  status:
+    type: boolean
+    label: above
+    settings:
+      format: enabled-disabled
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 19
+    region: content
+  title:
+    type: ewp_string_lang_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  uid:
+    type: author
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  url:
+    type: ewp_http_lang_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 13
+    region: content
+hidden:
+  ounit: true

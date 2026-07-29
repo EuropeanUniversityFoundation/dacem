@@ -1,0 +1,267 @@
+uuid: bd1be604-070b-4162-bb77-ae42aef32bc4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.occ_los.course.course__academic_term
+    - field.field.occ_los.course.course__assessment_method
+    - field.field.occ_los.course.course__bibliography
+    - field.field.occ_los.course.course__course_availability
+    - field.field.occ_los.course.course__course_content
+    - field.field.occ_los.course.course__deprecated
+    - field.field.occ_los.course.course__ects
+    - field.field.occ_los.course.course__elm_activity_type
+    - field.field.occ_los.course.course__elm_assessment_type
+    - field.field.occ_los.course.course__elm_lo_type
+    - field.field.occ_los.course.course__elm_mode_of_learning
+    - field.field.occ_los.course.course__isced_code
+    - field.field.occ_los.course.course__local_classification
+    - field.field.occ_los.course.course__prerequisite_course
+    - field.field.occ_los.course.course__prerequisites
+    - field.field.occ_los.course.course__related_programme
+    - field.field.occ_los.course.course__restricted_to_alliance
+    - field.field.occ_los.course.course__restricted_to_local
+    - field.field.occ_los.course.course__teaching_method
+    - occ_entities.occ_los_type.course
+  module:
+    - elm_vocabulary_field
+    - ewp_core
+    - isced_field
+    - occ_entities
+_core:
+  default_config_hash: JuotutejXnWGtMbYXJQp4k1VTJf5jfUtVSLzH5Ox9rU
+id: occ_los.course.default
+targetEntityType: occ_los
+bundle: course
+mode: default
+content:
+  code:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Course code...'
+    third_party_settings: {  }
+  course__academic_term:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g. 1/2'
+    third_party_settings: {  }
+  course__assessment_method:
+    type: ewp_multiline_lang_default
+    weight: 7
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Course assessment method...'
+    third_party_settings: {  }
+  course__bibliography:
+    type: ewp_multiline_lang_default
+    weight: 8
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Bibliography for the Course...'
+    third_party_settings: {  }
+  course__course_availability:
+    type: ewp_multiline_lang_default
+    weight: 9
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Course availability...'
+    third_party_settings: {  }
+  course__course_content:
+    type: ewp_multiline_lang_default
+    weight: 10
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Course content...'
+    third_party_settings: {  }
+  course__deprecated:
+    type: boolean_checkbox
+    weight: 24
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  course__ects:
+    type: number
+    weight: 2
+    region: content
+    settings:
+      placeholder: 'No of Credits...'
+    third_party_settings: {  }
+  course__elm_activity_type:
+    type: elm_controlled_vocabulary_select
+    weight: 12
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  course__elm_assessment_type:
+    type: elm_controlled_vocabulary_select
+    weight: 11
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  course__elm_lo_type:
+    type: elm_controlled_vocabulary_select
+    weight: 13
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  course__elm_mode_of_learning:
+    type: elm_controlled_vocabulary_select
+    weight: 14
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  course__isced_code:
+    type: isced_f_select
+    weight: 15
+    region: content
+    settings:
+      allow_all_levels: true
+    third_party_settings: {  }
+  course__local_classification:
+    type: occ_entities_local_classification_default
+    weight: 16
+    region: content
+    settings:
+      type_size: 60
+      type_placeholder: 'Classification type...'
+      value_size: 60
+      value_placeholder: 'Classification value...'
+    third_party_settings: {  }
+  course__prerequisite_course:
+    type: entity_reference_autocomplete
+    weight: 17
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: 'Prerequisite Course...'
+    third_party_settings: {  }
+  course__prerequisites:
+    type: ewp_multiline_lang_default
+    weight: 18
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Other prerequisites...'
+    third_party_settings: {  }
+  course__related_programme:
+    type: related_programme_autocomplete
+    weight: 19
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: 'Related Programme...'
+    third_party_settings: {  }
+  course__restricted_to_alliance:
+    type: boolean_checkbox
+    weight: 21
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  course__restricted_to_local:
+    type: boolean_checkbox
+    weight: 20
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  course__teaching_method:
+    type: ewp_multiline_lang_default
+    weight: 22
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Teaching method...'
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 27
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  description:
+    type: ewp_multiline_lang_default
+    weight: 4
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Course description...'
+    third_party_settings: {  }
+  hei:
+    type: entity_reference_autocomplete
+    weight: 25
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: 'Institution offering the Course...'
+    third_party_settings: {  }
+  language_of_instruction:
+    type: ewp_lang_default
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  learning_outcomes:
+    type: ewp_multiline_lang_default
+    weight: 5
+    region: content
+    settings:
+      rows: 5
+      placeholder: 'Course learning outcomes...'
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 28
+    region: content
+    settings:
+      display_label: false
+    third_party_settings: {  }
+  title:
+    type: ewp_string_lang_default
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Course title...'
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 26
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url:
+    type: ewp_http_lang_default
+    weight: 23
+    region: content
+    settings:
+      placeholder_url: 'Link with more information...'
+      placeholder_title: 'Text displayed for the link...'
+    third_party_settings: {  }
+hidden:
+  ounit: true

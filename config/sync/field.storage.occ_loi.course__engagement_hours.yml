@@ -1,0 +1,22 @@
+uuid: 268e7808-ea6a-4f31-b952-49e056fc995f
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: IqvN8hzPSWUAVRp3vMSbJiGnCV4kSU8AiO78Bro0zBQ
+id: occ_loi.course__engagement_hours
+field_name: course__engagement_hours
+entity_type: occ_loi
+type: decimal
+settings:
+  precision: 10
+  scale: 2
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

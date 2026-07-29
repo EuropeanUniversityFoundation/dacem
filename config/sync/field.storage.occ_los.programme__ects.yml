@@ -1,0 +1,22 @@
+uuid: 0df0e90b-b248-4a4e-939e-9b327a957400
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: ym4vHGBswsuxzhdNLlg1WJfvQvnuNNQToBqIgYgHQwM
+id: occ_los.programme__ects
+field_name: programme__ects
+entity_type: occ_los
+type: decimal
+settings:
+  precision: 10
+  scale: 2
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

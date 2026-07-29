@@ -1,0 +1,21 @@
+uuid: 49e3e4f8-0432-4828-a1b2-6a01d05fd666
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__academic_term
+    - occ_entities.occ_los_type.course
+_core:
+  default_config_hash: 0vsqT0wGZaVY7PyMSUx-rnNEpG4VEAx2WmCqjvTVTcc
+id: occ_los.course.course__academic_term
+field_name: course__academic_term
+entity_type: occ_los
+bundle: course
+label: 'Academic term'
+description: 'Academic term the course is generally delivered at in an n/N format.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

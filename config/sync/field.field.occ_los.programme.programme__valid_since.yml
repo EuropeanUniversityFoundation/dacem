@@ -1,0 +1,23 @@
+uuid: affa6fb7-8c76-4ced-8da9-a40553d2a8c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.programme__valid_since
+    - occ_entities.occ_los_type.programme
+  module:
+    - datetime
+_core:
+  default_config_hash: SDYbYvY8OIchCCDY5lZW50pp1zoKjJlB_bQhvaQ-8vM
+id: occ_los.programme.programme__valid_since
+field_name: programme__valid_since
+entity_type: occ_los
+bundle: programme
+label: 'Valid since'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

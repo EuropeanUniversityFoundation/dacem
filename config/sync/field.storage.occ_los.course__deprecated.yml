@@ -1,0 +1,20 @@
+uuid: b83fb6be-62c4-4d16-9809-91c16cdd58b1
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: Xf0PYVlTiaKwOOHYH5bXTeiCSrbZOiVYNJx35ehzKJ4
+id: occ_los.course__deprecated
+field_name: course__deprecated
+entity_type: occ_los
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

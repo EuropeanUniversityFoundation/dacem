@@ -1,0 +1,25 @@
+uuid: bb24b22a-38c8-42fc-a7d7-4885d323a440
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_loi.course__engagement_hours
+    - occ_entities.occ_loi_type.course_instance
+_core:
+  default_config_hash: NH92PbpBmpnXFJjjOOiQjK1laAi4jgZ19aj7E2Ymltg
+id: occ_loi.course_instance.course__engagement_hours
+field_name: course__engagement_hours
+entity_type: occ_loi
+bundle: course_instance
+label: 'Engagement hours'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0.0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

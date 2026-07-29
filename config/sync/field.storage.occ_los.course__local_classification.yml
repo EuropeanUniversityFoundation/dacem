@@ -1,0 +1,21 @@
+uuid: 9867099b-fc78-4bcd-b0d2-fccf8f988034
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: ql0maJ1b8wWbulVjeleVDrZnZj9p2N56-o6h5C0vZ74
+id: occ_los.course__local_classification
+field_name: course__local_classification
+entity_type: occ_los
+type: occ_entities_local_classification
+settings:
+  max_length: 255
+module: occ_entities
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

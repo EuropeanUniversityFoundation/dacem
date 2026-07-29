@@ -1,0 +1,26 @@
+uuid: 70108963-1edc-4ba5-b738-700996244935
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: sqojVocncEravSkNBjykKhWDS0xT8TM_zsadHhzvb20
+id: ounit.ounit_code
+field_name: ounit_code
+entity_type: ounit
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

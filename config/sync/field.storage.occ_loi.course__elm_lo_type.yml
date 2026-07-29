@@ -1,0 +1,22 @@
+uuid: a69c4e8d-5d15-4d66-8e37-87ff966522b6
+langcode: en
+status: true
+dependencies:
+  module:
+    - elm_vocabulary_field
+    - occ_entities
+_core:
+  default_config_hash: btVvLi33c4RxNLJbs5jB3RqyvDWO8UfXeQdk2R9loWM
+id: occ_loi.course__elm_lo_type
+field_name: course__elm_lo_type
+entity_type: occ_loi
+type: elm_controlled_vocabulary
+settings:
+  vocabulary: learning_opportunity
+module: elm_vocabulary_field
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
