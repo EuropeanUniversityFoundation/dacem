@@ -6,18 +6,18 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\dacem_csv_import_export\AccessManager\UserAccessManager;
 use Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService;
 use Drupal\dacem_csv_import_export\CsvConverter\ReferenceResolver;
-use Drupal\dacem_csv_import_export\Dataloader\Dataloader;
+use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
 use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CsvNormalizer {
 
   protected EntityTypeManagerInterface $entityTypeManager;
-  protected Dataloader $dataLoader;
+  protected DataLoader $dataLoader;
   protected ReferenceResolver $referenceResolver;
   protected UserAccessManager $userAccessManager;
 
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Dataloader $data_loader, ReferenceResolver $reference_resolver, UserAccessManager $user_access_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, DataLoader $data_loader, ReferenceResolver $reference_resolver, UserAccessManager $user_access_manager) {
     $this->entityTypeManager = $entity_type_manager;
     $this->dataLoader = $data_loader;
     $this->referenceResolver = $reference_resolver;

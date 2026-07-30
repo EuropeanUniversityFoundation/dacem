@@ -6,20 +6,20 @@ use Drupal\Core\Entity\EntityFieldManager;
 use Drupal\Core\File\FileSystem;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService;
-use Drupal\dacem_csv_import_export\Dataloader\Dataloader;
+use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
 use League\Csv\Writer;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class CsvExporter {
 
-	protected Dataloader $dataLoader;
+	protected DataLoader $dataLoader;
   protected EntityFieldManager $entityFieldManager;
   protected FieldMappingService $fieldMappingService;
   protected FileSystem $fileSystem;
 
   public function __construct(
-		Dataloader $data_loader,
+		DataLoader $data_loader,
     EntityFieldManager $entity_field_manager,
     FieldMappingService $field_mapping_service,
     FileSystem $file_system,
@@ -34,7 +34,7 @@ class CsvExporter {
     // Load entities to dynamically to analyze headers to be created.
     $entities = $this->dataLoader->loadEntitiesByIds($entity_type_id, $entity_bundle, $entity_ids);
     $field_metadata = $this->fieldMappingService->generateFieldMetadata($entity_type_id, $entity_bundle, $entities);
-    $schema = $this->fieldMappingService->generateHeadersAndBlueprint($field_metadata);
+    $schema = $this->fieldMappingService->generateHeadersAndBlueprint($entity_bundle, $field_metadata);
     $headers = $schema['headers'];
     $blueprint = $schema['blueprint'];
 

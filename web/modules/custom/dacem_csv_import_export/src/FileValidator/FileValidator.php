@@ -6,7 +6,7 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\dacem_csv_import_export\AccessManager\UserAccessManager;
 use Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService;
-use Drupal\dacem_csv_import_export\Dataloader\Dataloader;
+use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
 use Drupal\dacem_csv_import_export\Enum\ImportTargetEntityType;
 use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -115,14 +115,14 @@ class FileValidator {
   protected UserAccessManager $userAccessManager;
   protected FieldMappingService $fieldMappingService;
   protected EntityTypeManager $entityTypeManager;
-  protected Dataloader $dataLoader;
+  protected DataLoader $dataLoader;
 
 
   public function __construct(
     UserAccessManager $user_access_manager,
     FieldMappingService $field_mapping_service,
     EntityTypeManager $entity_type_manager,
-    Dataloader $data_loader,
+    DataLoader $data_loader,
   ) {
     $this->userAccessManager = $user_access_manager;
     $this->fieldMappingService = $field_mapping_service;

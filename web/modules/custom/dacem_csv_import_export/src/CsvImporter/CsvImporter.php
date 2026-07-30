@@ -9,7 +9,7 @@ use Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService;
 use Drupal\dacem_csv_import_export\CsvConverter\ReferenceResolver;
 use Drupal\dacem_csv_import_export\CsvImporter\CsvSorter;
 use Drupal\dacem_csv_import_export\CsvNormalizer\CsvNormalizer;
-use Drupal\dacem_csv_import_export\Dataloader\Dataloader;
+use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
 use Drupal\dacem_csv_import_export\EntityValidator\CourseValidator;
 use Drupal\dacem_csv_import_export\EntityValidator\OunitValidator;
 use Drupal\dacem_csv_import_export\EntityValidator\ProgrammeValidator;
@@ -27,7 +27,7 @@ class CsvImporter {
 	protected CsvSorter $csvSorter;
 	protected CsvDecoder $csvDecoder;
 	protected ReferenceResolver $referenceResolver;
-	protected Dataloader $dataLoader;
+	protected DataLoader $dataLoader;
 	protected OunitValidator $ounitValidator;
 	protected ProgrammeValidator $programmeValidator;
 	protected CourseValidator $courseValidator;
@@ -40,7 +40,7 @@ class CsvImporter {
 		CsvSorter $csv_sorter,
 		CsvDecoder $csv_decoder,
 		ReferenceResolver $reference_resolver,
-		Dataloader $data_loader,
+		DataLoader $data_loader,
 		OunitValidator $ounit_validator,
 		ProgrammeValidator $programme_validator,
 		CourseValidator $course_validator,

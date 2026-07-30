@@ -4,7 +4,7 @@ namespace Drupal\dacem_csv_import_export\CsvConverter;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\dacem_csv_import_export\Dataloader\Dataloader;
+use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
 use Drupal\dacem_csv_import_export\Enum\ImportTargetEntityType;
 use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -81,11 +81,11 @@ class ReferenceResolver {
   ];
 
   protected EntityTypeManagerInterface $entityTypeManager;
-  protected Dataloader $dataLoader;
+  protected DataLoader $dataLoader;
 
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
-    Dataloader $data_loader,
+    DataLoader $data_loader,
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->dataLoader = $data_loader;

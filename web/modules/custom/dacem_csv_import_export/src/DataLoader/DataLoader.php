@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\dacem_csv_import_export\Dataloader;
+namespace Drupal\dacem_csv_import_export\DataLoader;
 
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\node\Entity\Node;
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Dataloader {
+class DataLoader {
 
   protected EntityTypeManager $entityTypeManager;
 

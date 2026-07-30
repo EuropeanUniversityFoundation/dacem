@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityConstraintViolationList;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService;
 use Drupal\dacem_csv_import_export\CsvNormalizer\CsvNormalizer;
-use Drupal\dacem_csv_import_export\Dataloader\Dataloader;
+use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
 use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -23,10 +23,10 @@ class EntityValidatorBase {
 
 
   protected EntityTypeManagerInterface $entityTypeManager;
-  protected Dataloader $dataLoader;
+  protected DataLoader $dataLoader;
   protected CsvNormalizer $csvNormalizer;
 
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Dataloader $data_loader, CsvNormalizer $csv_normalizer) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, DataLoader $data_loader, CsvNormalizer $csv_normalizer) {
     $this->entityTypeManager = $entity_type_manager;
     $this->dataLoader = $data_loader;
     $this->csvNormalizer = $csv_normalizer;

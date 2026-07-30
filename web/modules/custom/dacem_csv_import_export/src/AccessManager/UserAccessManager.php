@@ -5,7 +5,7 @@ namespace Drupal\dacem_csv_import_export\AccessManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\dacem_csv_import_export\Dataloader\Dataloader;
+use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
 use Drupal\ewp_institutions\Entity\InstitutionEntity;
 use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupMembership;
@@ -17,13 +17,13 @@ class UserAccessManager {
   protected GroupMembership $groupMembership;
   protected AccountInterface $account;
   protected EntityTypeManagerInterface $entityTypeManager;
-  protected Dataloader $dataLoader;
+  protected DataLoader $dataLoader;
 
 
   public function __construct(
     AccountInterface $account,
     EntityTypeManagerInterface $entity_type_manager,
-    Dataloader $data_loader,
+    DataLoader $data_loader,
   ) {
     $this->account = $account;
     $this->entityTypeManager = $entity_type_manager;
