@@ -7,6 +7,7 @@ dependencies:
     - field.storage.node.field_programme_ou
     - node.type.programme
   module:
+    - dacem_csv_import_export
     - group
     - node
     - user
@@ -1281,6 +1282,7 @@ display:
         fields: false
         filters: false
         filter_groups: false
+        header: false
       relationships:
         group_relationship:
           id: group_relationship
@@ -1357,6 +1359,16 @@ display:
           required: true
           group_relation_plugins:
             group_membership: group_membership
+      header:
+        dacem_csv_export_link:
+          id: dacem_csv_export_link
+          table: views
+          field: dacem_csv_export_link
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: dacem_csv_export_link
+          empty: false
       display_extenders: {  }
       path: admin/admin-programmes
     cache_metadata:

@@ -24,6 +24,7 @@ module:
   contextual: 0
   create_user_group: 0
   custom_views_filters: 0
+  dacem_csv_import_export: 0
   dacem_footer: 0
   dacem_menu: 0
   datetime: 0
@@ -34,7 +35,6 @@ module:
   entity: 0
   entity_reference_validators: 0
   erasmus_subject_area_code: 0
-  euf_csv_import_export: 0
   euf_group_autojoin: 0
   ewp_contact: 0
   ewp_core: 0

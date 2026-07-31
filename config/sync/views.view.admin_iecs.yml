@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_iec_programme
     - node.type.individual_educational_component
   module:
+    - dacem_csv_import_export
     - group
     - node
     - user
@@ -786,7 +787,12 @@ display:
           group_relation_plugins:
             group_membership: group_membership
       group_by: true
-      header: {  }
+      header:
+        dacem_csv_export_link:
+          id: dacem_csv_export_link
+          table: views
+          field: dacem_csv_export_link
+          plugin_id: dacem_csv_export_link
       footer: {  }
       display_extenders: {  }
     cache_metadata:
@@ -1446,6 +1452,17 @@ display:
         title: false
         fields: false
         arguments: false
+        header: false
+      header:
+        dacem_csv_export_link:
+          id: dacem_csv_export_link
+          table: views
+          field: dacem_csv_export_link
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: dacem_csv_export_link
+          empty: false
       display_extenders: {  }
       path: admin/admin-iecs
     cache_metadata:
