@@ -30,23 +30,23 @@ bundle: ounit
 mode: default
 content:
   abbreviation:
+    type: string_textfield
     weight: -16
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   contact:
+    type: entity_reference_autocomplete
     weight: -7
+    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   label:
     type: string_textfield
     weight: -20
@@ -63,77 +63,77 @@ content:
       include_locked: true
     third_party_settings: {  }
   logo_url:
-    weight: -9
-    settings: {  }
-    third_party_settings: {  }
     type: ewp_https_default
+    weight: -9
     region: content
+    settings: {  }
+    third_party_settings: {  }
   mailing_address:
-    weight: -11
-    settings: {  }
-    third_party_settings: {  }
     type: ewp_flexible_address_default
+    weight: -11
     region: content
-  mobility_factsheet_url:
-    weight: -8
     settings: {  }
     third_party_settings: {  }
+  mobility_factsheet_url:
     type: ewp_http_lang_default
+    weight: -8
     region: content
+    settings: {  }
+    third_party_settings: {  }
   name:
-    weight: -17
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
     type: ewp_string_lang_default
+    weight: -17
     region: content
-  ounit_code:
-    weight: -18
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  ounit_code:
     type: string_textfield
+    weight: -18
     region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   ounit_id:
+    type: ascii_identifier_default
     weight: -19
+    region: content
     settings:
       size: 64
       placeholder: ''
     third_party_settings: {  }
-    type: ascii_identifier_default
-    region: content
   parent_hei:
+    type: entity_reference_autocomplete
     weight: -15
+    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   parent_ounit:
+    type: entity_reference_autocomplete
     weight: -14
+    region: content
     settings:
       match_operator: CONTAINS
       match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   street_address:
-    weight: -12
-    settings: {  }
-    third_party_settings: {  }
     type: ewp_flexible_address_default
+    weight: -12
     region: content
-  website_url:
-    weight: -10
     settings: {  }
     third_party_settings: {  }
+  website_url:
     type: ewp_http_lang_default
+    weight: -10
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden: {  }

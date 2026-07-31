@@ -26,6 +26,9 @@ module:
   custom_views_filters: 0
   dacem_footer: 0
   dacem_menu: 0
+  dacem_sync: 0
+  dacem_sync_ewp_ounits: 0
+  dacem_sync_occ_entities: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
@@ -98,6 +101,7 @@ module:
   path: 0
   path_alias: 0
   programme_suggestions: 0
+  queue_ui: 0
   rest: 0
   search: 0
   serialization: 0

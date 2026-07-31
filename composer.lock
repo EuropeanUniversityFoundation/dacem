@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59a14ebeef23acb43ff0f7c8608311ff",
+    "content-hash": "4c8ccfdfce8b1c5d1fb0815f4246f64c",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1014,17 +1014,17 @@
         },
         {
             "name": "dacem/dacem_sync",
-            "version": "1.0.0-alpha",
+            "version": "1.1.0-alpha",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EuropeanUniversityFoundation/dacem_sync.git",
-                "reference": "4e9235835fe19f45bc3a676f658af3eb9c5b8deb"
+                "reference": "f964b3dd4d60296f0f5d36f116d7a2b61256a96f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.uni-foundation.eu/dist/dacem/dacem_sync/dacem-dacem_sync-4e9235835fe19f45bc3a676f658af3eb9c5b8deb-zip-2ebe79.zip",
-                "reference": "4e9235835fe19f45bc3a676f658af3eb9c5b8deb",
-                "shasum": "1c0d7059c6a4aa01c85785eafb2f30442ddd5a22"
+                "url": "https://api.github.com/repos/EuropeanUniversityFoundation/dacem_sync/zipball/f964b3dd4d60296f0f5d36f116d7a2b61256a96f",
+                "reference": "f964b3dd4d60296f0f5d36f116d7a2b61256a96f",
+                "shasum": ""
             },
             "require": {
                 "drupal/entity_reference_validators": "^2.0",
@@ -1058,7 +1058,7 @@
                 "issues": "https://github.com/EuropeanUniversityFoundation/dacem_sync/issues",
                 "source": "https://github.com/EuropeanUniversityFoundation/dacem_sync"
             },
-            "time": "2026-07-28T12:43:03+00:00"
+            "time": "2026-07-31T20:00:01+00:00"
         },
         {
             "name": "davedevelopment/stiphle",
@@ -4220,6 +4220,90 @@
             }
         },
         {
+            "name": "drupal/queue_ui",
+            "version": "3.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/queue_ui.git",
+                "reference": "3.2.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/queue_ui-3.2.3.zip",
+                "reference": "3.2.3",
+                "shasum": "320f7e3bf8390ed558a5127f33351c3efcc68dc7"
+            },
+            "require": {
+                "drupal/core": "^10.3 || ^11.0"
+            },
+            "require-dev": {
+                "drupal/queue_order": "^2",
+                "drush/drush": "^12.0 || ^13.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.2.3",
+                    "datestamp": "1766588442",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^12.0 || ^13.0"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "floretan",
+                    "homepage": "https://www.drupal.org/user/2743951",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "coltrane",
+                    "homepage": "https://www.drupal.org/user/91990",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "tsphethean",
+                    "homepage": "https://www.drupal.org/user/66163",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "bceyssens",
+                    "homepage": "https://www.drupal.org/user/2811585",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "voleger",
+                    "homepage": "https://www.drupal.org/user/881620",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "voleger",
+                    "homepage": "https://www.drupal.org/user/3260314"
+                }
+            ],
+            "description": "Interface and manager for Drupal queues.",
+            "homepage": "https://www.drupal.org/project/queue_ui",
+            "keywords": [
+                "drupal",
+                "php",
+                "queue"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/queue_ui",
+                "issues": "https://www.drupal.org/project/issues/queue_ui"
+            }
+        },
+        {
             "name": "drupal/scrollup",
             "version": "3.0.4",
             "source": {
@@ -5200,17 +5284,17 @@
         },
         {
             "name": "euf/ewp_ounits",
-            "version": "1.0.0-rc4",
+            "version": "1.1.0-alpha",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EuropeanUniversityFoundation/ewp_ounits.git",
-                "reference": "a4016e39e353dd3a6c0bddae748a02cb6b477d96"
+                "reference": "4a4a27149ba0b97d2ab3103225dea3848d8b2f05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.uni-foundation.eu/dist/euf/ewp_ounits/euf-ewp_ounits-a4016e39e353dd3a6c0bddae748a02cb6b477d96-zip-7be051.zip",
-                "reference": "a4016e39e353dd3a6c0bddae748a02cb6b477d96",
-                "shasum": "2b3abecd356105be4f33ddba949dd52f6fa4ae48"
+                "url": "https://packages.uni-foundation.eu/dist/euf/ewp_ounits/euf-ewp_ounits-4a4a27149ba0b97d2ab3103225dea3848d8b2f05-zip-6bc609.zip",
+                "reference": "4a4a27149ba0b97d2ab3103225dea3848d8b2f05",
+                "shasum": "e189dcc0c7ab13eb5f12a4fa78dec0ec4e259076"
             },
             "require": {
                 "drupal/entity_reference_validators": "^2.0",
@@ -5240,7 +5324,7 @@
                 "issues": "https://github.com/EuropeanUniversityFoundation/ewp_ounits/issues",
                 "source": "https://github.com/EuropeanUniversityFoundation/ewp_ounits"
             },
-            "time": "2025-09-04T15:38:11+00:00"
+            "time": "2026-04-30T16:13:12+00:00"
         },
         {
             "name": "euf/ewp_phone_number",
@@ -11337,6 +11421,7 @@
         "euf/ewp_core": 5,
         "euf/ewp_flexible_address": 5,
         "euf/ewp_institutions": 5,
+        "euf/ewp_ounits": 15,
         "euf/ewp_phone_number": 5,
         "euf/isced_field": 15,
         "euf/myacademicid_user_fields": 5,

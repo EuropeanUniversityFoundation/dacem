@@ -16,8 +16,8 @@ entity_type: ounit
 type: ascii_identifier
 settings:
   max_length: 64
-  is_ascii: true
   case_sensitive: true
+  is_ascii: true
 module: ewp_core
 locked: false
 cardinality: 1

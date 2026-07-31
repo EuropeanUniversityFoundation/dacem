@@ -30,101 +30,101 @@ bundle: ounit
 mode: default
 content:
   abbreviation:
-    weight: -16
+    type: string
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: -16
     region: content
   contact:
-    weight: -8
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: -8
     region: content
   label:
-    label: hidden
     type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
     weight: -20
     region: content
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
   logo_url:
-    weight: -10
+    type: ewp_https_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_https_default
+    weight: -10
     region: content
   mailing_address:
-    weight: -12
+    type: ewp_flexible_address_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_flexible_address_default
+    weight: -12
     region: content
   mobility_factsheet_url:
-    weight: -9
+    type: ewp_http_lang_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_http_lang_default
+    weight: -9
     region: content
   name:
-    weight: -17
+    type: ewp_string_lang_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_string_lang_default
+    weight: -17
     region: content
   ounit_code:
-    weight: -18
+    type: string
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: -18
     region: content
   ounit_id:
-    weight: -19
+    type: ascii_identifier_default
     label: inline
     settings: {  }
     third_party_settings: {  }
-    type: ascii_identifier_default
+    weight: -19
     region: content
   parent_hei:
-    weight: -15
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: -15
     region: content
   parent_ounit:
-    weight: -14
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: -14
     region: content
   street_address:
-    weight: -13
+    type: ewp_flexible_address_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_flexible_address_default
+    weight: -13
     region: content
   website_url:
-    weight: -11
+    type: ewp_http_lang_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: ewp_http_lang_default
+    weight: -11
     region: content
 hidden:
   langcode: true
