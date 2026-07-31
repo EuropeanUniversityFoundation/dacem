@@ -1,0 +1,28 @@
+uuid: af089121-dcf1-4b28-a525-9f2d43119e5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.ounit.mobility_factsheet_url
+  module:
+    - ewp_core
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: 4PCHmtEtDFzHeVVSo0xWm4HQimNBMAQLhy2bvQxykzE
+id: ounit.ounit.mobility_factsheet_url
+field_name: mobility_factsheet_url
+entity_type: ounit
+bundle: ounit
+label: 'Mobility factsheet URL'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: ewp_http_lang

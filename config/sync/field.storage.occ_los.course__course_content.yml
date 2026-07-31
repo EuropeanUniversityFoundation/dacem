@@ -1,0 +1,21 @@
+uuid: ea649948-ea62-462d-ad4f-02ea71abc860
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_core
+    - occ_entities
+_core:
+  default_config_hash: ntGMI-TmL0K-VbozFswtNdPZbdGp9BlAhgfQfonYaBA
+id: occ_los.course__course_content
+field_name: course__course_content
+entity_type: occ_los
+type: ewp_multiline_lang
+settings: {  }
+module: ewp_core
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

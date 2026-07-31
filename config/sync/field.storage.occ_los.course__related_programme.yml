@@ -1,0 +1,21 @@
+uuid: bfd742e8-cb1e-42f2-9b7c-9b6ebe1491db
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: 4bCewIQuerk1gM_KR8KosVwh-xCF0sPlZ2CmyIWIZ6g
+id: occ_los.course__related_programme
+field_name: course__related_programme
+entity_type: occ_los
+type: related_programme
+settings:
+  target_type: occ_los
+module: occ_entities
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

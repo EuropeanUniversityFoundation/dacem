@@ -1,0 +1,24 @@
+uuid: db98f44a-8145-49f7-9e13-17f84abc60a4
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: gVjIPZr7VgNW8SzZ9qFlyWmExdcYkH4SIRgCmMpPhHs
+id: ounit.parent_ounit
+field_name: parent_ounit
+entity_type: ounit
+type: entity_reference
+settings:
+  target_type: ounit
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

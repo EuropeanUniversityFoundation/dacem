@@ -1,0 +1,25 @@
+uuid: 1511b038-3770-4180-8f27-fb1f21c2909b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.ounit.ounit_code
+  module:
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: y1XsIBROaJIlRASPqlNDRAzX4sdIvEZFjUGogd0FMWg
+id: ounit.ounit.ounit_code
+field_name: ounit_code
+entity_type: ounit
+bundle: ounit
+label: 'OUnit code'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

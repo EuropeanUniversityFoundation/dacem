@@ -1,0 +1,23 @@
+uuid: e5e4f3b2-e306-47d3-9551-2a3a7ab1f587
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__prerequisites
+    - occ_entities.occ_los_type.course
+  module:
+    - ewp_core
+_core:
+  default_config_hash: BuJPCB0z15azIj3q5zp2Dte4gV1LmxWYAzSv0EvdVFE
+id: occ_los.course.course__prerequisites
+field_name: course__prerequisites
+entity_type: occ_los
+bundle: course
+label: Prerequisites
+description: 'Prerequisites of the course, other than having completed other courses.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: ewp_multiline_lang

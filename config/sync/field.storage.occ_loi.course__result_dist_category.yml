@@ -1,0 +1,21 @@
+uuid: d3918796-aad0-4fc6-aab7-d004135fb113
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: KGMSbgevQmK1PotKzkVX5gYIKzuGyNp3Pe2_zkA3G_I
+id: occ_loi.course__result_dist_category
+field_name: course__result_dist_category
+entity_type: occ_loi
+type: result_distribution_category
+settings:
+  max_length: 255
+module: occ_entities
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

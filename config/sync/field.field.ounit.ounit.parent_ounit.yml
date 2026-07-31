@@ -1,0 +1,38 @@
+uuid: e6e3c6dc-020b-45e7-a407-3741807d7fff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.ounit.parent_ounit
+  module:
+    - entity_reference_validators
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+third_party_settings:
+  entity_reference_validators:
+    circular_reference: true
+    circular_reference_deep: true
+    duplicate_reference: false
+_core:
+  default_config_hash: '-X556rinjEYvRrntE0xcMNrOEQjJgfLsK1dX6ZtnJXs'
+id: ounit.ounit.parent_ounit
+field_name: parent_ounit
+entity_type: ounit
+bundle: ounit
+label: 'Parent Organizational Unit'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:ounit'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+field_type: entity_reference

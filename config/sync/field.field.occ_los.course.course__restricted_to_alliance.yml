@@ -1,0 +1,25 @@
+uuid: d51cf02c-0153-4d66-9c30-f09d75f1a053
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__restricted_to_alliance
+    - occ_entities.occ_los_type.course
+_core:
+  default_config_hash: IYP0VSYbDhhyL730Ku8B9e7Ab4g8CxvE9m4Mul16-Kw
+id: occ_los.course.course__restricted_to_alliance
+field_name: course__restricted_to_alliance
+entity_type: occ_los
+bundle: course
+label: 'Restricted to alliance students'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

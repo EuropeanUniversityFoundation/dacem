@@ -1,0 +1,24 @@
+uuid: 3985c5f9-6a7c-47d2-8125-9dec1d9f1a53
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_core
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: Xj8Md6ESkezLWzy0A-drJqBJu5mWaL9BeY6FXUuc5b8
+id: ounit.mobility_factsheet_url
+field_name: mobility_factsheet_url
+entity_type: ounit
+type: ewp_http_lang
+settings: {  }
+module: ewp_core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

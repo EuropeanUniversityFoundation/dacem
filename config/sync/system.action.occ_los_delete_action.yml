@@ -1,0 +1,13 @@
+uuid: 7d043398-a4cd-4718-a720-c25cfc115361
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: 9u3GGN2Jf4V80zk0qwOq613nJfFvCIy0WlGahDXVUzw
+id: occ_los_delete_action
+label: 'Delete learning opportunity specifications'
+type: occ_los
+plugin: 'entity:delete_action:occ_los'
+configuration: {  }

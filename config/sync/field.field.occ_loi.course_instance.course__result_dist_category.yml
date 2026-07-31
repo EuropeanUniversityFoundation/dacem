@@ -1,0 +1,23 @@
+uuid: ce11b9f8-c82b-44ea-9cf2-7eaee5290b0a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_loi.course__result_dist_category
+    - occ_entities.occ_loi_type.course_instance
+  module:
+    - occ_entities
+_core:
+  default_config_hash: MR09aDYQGV_reeP30mEkW3fMKMZZDkUcPE1tzZsoeos
+id: occ_loi.course_instance.course__result_dist_category
+field_name: course__result_dist_category
+entity_type: occ_loi
+bundle: course_instance
+label: 'Result distribution category'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: result_distribution_category

@@ -1,0 +1,36 @@
+uuid: 350385a5-7a8f-403b-b404-f256f7957902
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__elm_activity_type
+    - occ_entities.occ_los_type.course
+  module:
+    - elm_vocabulary_field
+_core:
+  default_config_hash: b3LZSGKp8xghb4siMYD7tA7lV6E2JUSTNMQLsT5Sjw0
+id: occ_los.course.course__elm_activity_type
+field_name: course__elm_activity_type
+entity_type: occ_los
+bundle: course
+label: 'ELM - Learning activity type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allow_selection:
+    3c8bd58d62: false
+    4357e0e681: false
+    59eaf34fab: false
+    a7e556215a: false
+    b660f5dcea: false
+    bf2e3a7bae: false
+    bf5588ff84: false
+    c_5665a0ad: false
+    d46a826a39: false
+    efff75e10a: false
+    fd33e234ae: false
+    ff436ea7c9: false
+field_type: elm_controlled_vocabulary

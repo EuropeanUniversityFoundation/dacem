@@ -1,0 +1,22 @@
+uuid: 9775b951-dc49-4adb-aae3-f5604644ec17
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: U5q4ZMgtMh-gkNxeQNxULWB6S0x254l0WeitCGqE95o
+id: occ_los.course__ects
+field_name: course__ects
+entity_type: occ_los
+type: decimal
+settings:
+  precision: 10
+  scale: 2
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

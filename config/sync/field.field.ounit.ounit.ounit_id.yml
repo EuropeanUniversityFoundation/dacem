@@ -1,0 +1,26 @@
+uuid: 52ac6b5b-294f-4747-a353-8379898ab5ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.ounit.ounit_id
+  module:
+    - ewp_core
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: FbXKXTCENDJcBOIphTWF8kZE_yGWLZCNSuWhi-ThIAU
+id: ounit.ounit.ounit_id
+field_name: ounit_id
+entity_type: ounit
+bundle: ounit
+label: 'OUnit ID'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: ascii_identifier

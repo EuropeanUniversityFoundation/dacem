@@ -1,0 +1,145 @@
+uuid: 05fe2347-e38b-44e5-88fb-5ee0d7854191
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.occ_loi.course_instance.course__elm_activity_type
+    - field.field.occ_loi.course_instance.course__elm_assessment_type
+    - field.field.occ_loi.course_instance.course__elm_lo_type
+    - field.field.occ_loi.course_instance.course__elm_mode_of_learning
+    - field.field.occ_loi.course_instance.course__engagement_hours
+    - field.field.occ_loi.course_instance.course__result_dist_category
+    - field.field.occ_loi.course_instance.course__result_dist_description
+    - occ_entities.occ_loi_type.course_instance
+  module:
+    - datetime
+    - elm_vocabulary_field
+    - ewp_core
+    - occ_entities
+_core:
+  default_config_hash: go_HKbo7-NVzUmdlrsGNUiHm0AxzfzpJ7i0BixaUMQM
+id: occ_loi.course_instance.default
+targetEntityType: occ_loi
+bundle: course_instance
+mode: default
+content:
+  academic_term_id:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  course:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  course__elm_activity_type:
+    type: elm_controlled_vocabulary_select
+    weight: 7
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  course__elm_assessment_type:
+    type: elm_controlled_vocabulary_select
+    weight: 6
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  course__elm_lo_type:
+    type: elm_controlled_vocabulary_select
+    weight: 8
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  course__elm_mode_of_learning:
+    type: elm_controlled_vocabulary_select
+    weight: 9
+    region: content
+    settings:
+      prefix: false
+    third_party_settings: {  }
+  course__engagement_hours:
+    type: number
+    weight: 10
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  course__result_dist_category:
+    type: result_distribution_category_default
+    weight: 11
+    region: content
+    settings:
+      label_size: 60
+      label_placeholder: 'Category label...'
+      count_size: 10
+      count_placeholder: 'Student count...'
+    third_party_settings: {  }
+  course__result_dist_description:
+    type: ewp_multiline_lang_default
+    weight: 12
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 15
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  ects:
+    type: number
+    weight: 4
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  end_date:
+    type: datetime_default
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  language_of_instruction:
+    type: ewp_lang_default
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  start_date:
+    type: datetime_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 13
+    region: content
+    settings:
+      display_label: false
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 14
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

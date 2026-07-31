@@ -1,0 +1,31 @@
+uuid: c213673f-6b7d-4c37-9ead-2d684067fadc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.programme__elm_mode_of_learning
+    - occ_entities.occ_los_type.programme
+  module:
+    - elm_vocabulary_field
+_core:
+  default_config_hash: 4WIl0r_V2PEUTR0D0Gb3QYYXskGkdGUEKatRAwt2Cn8
+id: occ_los.programme.programme__elm_mode_of_learning
+field_name: programme__elm_mode_of_learning
+entity_type: occ_los
+bundle: programme
+label: 'ELM - Mode of learning'
+description: 'ELM vocabulary for Mode of learning and assessment'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allow_selection:
+    729f3bed4b: false
+    7813801c77: false
+    9191af2ed9: false
+    920fbb3cbe: false
+    c_3a90b26d: false
+    e92d221e4d: false
+    ed4c557045: false
+field_type: elm_controlled_vocabulary

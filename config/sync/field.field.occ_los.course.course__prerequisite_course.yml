@@ -1,0 +1,37 @@
+uuid: f01db880-a7aa-48b4-9e78-5fb684e95f7d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__prerequisite_course
+    - occ_entities.occ_los_type.course
+  module:
+    - entity_reference_validators
+third_party_settings:
+  entity_reference_validators:
+    circular_reference: true
+    circular_reference_deep: true
+    duplicate_reference: true
+_core:
+  default_config_hash: NPLMMzP9mUEl1DairuVmyyHeigjCDp3BaEdrVkK6S4I
+id: occ_los.course.course__prerequisite_course
+field_name: course__prerequisite_course
+entity_type: occ_los
+bundle: course
+label: 'Prerequisite Course'
+description: 'Courses that must be completed before enrolling in this course.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:occ_los'
+  handler_settings:
+    target_bundles:
+      course: course
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

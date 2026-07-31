@@ -1,0 +1,23 @@
+uuid: f54905e1-036b-4019-a30c-02febc9e80d0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_loi.course__result_dist_description
+    - occ_entities.occ_loi_type.course_instance
+  module:
+    - ewp_core
+_core:
+  default_config_hash: 6uFX0II5dR9NuLKFHbMShIXerxaEkGsHAkAIqOr1Hzc
+id: occ_loi.course_instance.course__result_dist_description
+field_name: course__result_dist_description
+entity_type: occ_loi
+bundle: course_instance
+label: 'Result distribution description'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: ewp_multiline_lang

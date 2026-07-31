@@ -1,0 +1,8 @@
+uuid: 3ba51cc0-20f6-4e31-9f3d-996191697ab6
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: PGV_WjKAMt-Xl3yVePsQKA-yRaCac5Xuxm9u-dLCCng
+id: course_instance
+label: 'Course Instance'

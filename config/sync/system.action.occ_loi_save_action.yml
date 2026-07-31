@@ -1,0 +1,13 @@
+uuid: d973b1cb-74a3-414f-87f4-5fa9888fe2f7
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: 5CSGYwhjyTE1o2068vxJ0PqFZNu5SdgS6P-Ganl5FT4
+id: occ_loi_save_action
+label: 'Save learning opportunity instances'
+type: occ_loi
+plugin: 'entity:save_action:occ_loi'
+configuration: {  }

@@ -1,0 +1,13 @@
+uuid: c99fb30b-f7ef-4f36-98a8-2b503c19f184
+langcode: en
+status: true
+dependencies:
+  module:
+    - occ_entities
+_core:
+  default_config_hash: IkTrSowL7TCRfckSuqnjkDEjjwqHVOjJoKdtALo0SXw
+id: occ_los_save_action
+label: 'Save learning opportunity specifications'
+type: occ_los
+plugin: 'entity:save_action:occ_los'
+configuration: {  }

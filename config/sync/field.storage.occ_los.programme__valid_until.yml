@@ -1,0 +1,22 @@
+uuid: 7c188ee8-dca3-411e-b3f8-9bbe45f359df
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - occ_entities
+_core:
+  default_config_hash: m8wp4Xg7jmvXCC2QFQAv48xHk6wkSSJPfEtuEtQfHiQ
+id: occ_los.programme__valid_until
+field_name: programme__valid_until
+entity_type: occ_los
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

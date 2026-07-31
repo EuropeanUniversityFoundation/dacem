@@ -1,0 +1,23 @@
+uuid: 148da57a-1f76-49a4-aae7-faaa904b6844
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__isced_code
+    - occ_entities.occ_los_type.course
+  module:
+    - isced_field
+_core:
+  default_config_hash: cdK7AtkK-Kql-R98lojAEMKYcdDbJA82BtTeWmnLd_o
+id: occ_los.course.course__isced_code
+field_name: course__isced_code
+entity_type: occ_los
+bundle: course
+label: 'ISCED-F field of study'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: isced_f

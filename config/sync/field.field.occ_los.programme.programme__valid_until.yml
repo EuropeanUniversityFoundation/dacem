@@ -1,0 +1,23 @@
+uuid: c5da1f89-8d5a-4d58-ae68-a90038cf78ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.programme__valid_until
+    - occ_entities.occ_los_type.programme
+  module:
+    - datetime
+_core:
+  default_config_hash: 4GIdc2G4m1sgO2Ij7m1nUklGOjEdnd7F0hAsTt4aIMM
+id: occ_los.programme.programme__valid_until
+field_name: programme__valid_until
+entity_type: occ_los
+bundle: programme
+label: 'Valid until'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

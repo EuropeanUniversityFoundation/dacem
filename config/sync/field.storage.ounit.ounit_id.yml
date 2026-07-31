@@ -1,0 +1,27 @@
+uuid: e123daee-cf15-4b38-b8fa-b6c6072acc9e
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_core
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: rV8nfsQU7InHP6WPlmCwFng1CSWC2WWx13WFfuichto
+id: ounit.ounit_id
+field_name: ounit_id
+entity_type: ounit
+type: ascii_identifier
+settings:
+  max_length: 64
+  case_sensitive: true
+  is_ascii: true
+module: ewp_core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

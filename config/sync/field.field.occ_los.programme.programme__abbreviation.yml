@@ -1,0 +1,23 @@
+uuid: 1b49f314-52db-4511-92a8-6e9a9319c51b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.programme__abbreviation
+    - occ_entities.occ_los_type.programme
+  module:
+    - ewp_core
+_core:
+  default_config_hash: ppmNLhOdsVqs_HdPjfBpteQtfhg38LGjjAIdPnzYeC4
+id: occ_los.programme.programme__abbreviation
+field_name: programme__abbreviation
+entity_type: occ_los
+bundle: programme
+label: Abbreviation
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: ewp_string_lang

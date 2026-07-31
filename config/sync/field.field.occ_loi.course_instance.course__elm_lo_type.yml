@@ -1,0 +1,37 @@
+uuid: f7e7823c-57fa-497a-97bb-dc086f370183
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_loi.course__elm_lo_type
+    - occ_entities.occ_loi_type.course_instance
+  module:
+    - elm_vocabulary_field
+_core:
+  default_config_hash: be4DKEH8fh1wiOFp58l3N7i_qrwEG0D1bCC0WUFPmGs
+id: occ_loi.course_instance.course__elm_lo_type
+field_name: course__elm_lo_type
+entity_type: occ_loi
+bundle: course_instance
+label: 'ELM - Learning opportunity type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allow_selection:
+    05053c1cbe: true
+    11252a5207: true
+    17744a2647: true
+    63f9f6180c: true
+    65a4cf5de2: true
+    77b99de990: true
+    7e1ac538db: true
+    8b965da2d4: true
+    b2434ca358: true
+    c_170b037d: true
+    0f7dac46ca: false
+    74a4a268e8: false
+    79343569f3: false
+field_type: elm_controlled_vocabulary

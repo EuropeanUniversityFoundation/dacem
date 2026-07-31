@@ -26,12 +26,17 @@ module:
   custom_views_filters: 0
   dacem_footer: 0
   dacem_menu: 0
+  dacem_sync: 0
+  dacem_sync_ewp_ounits: 0
+  dacem_sync_occ_entities: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
   editor: 0
   elm_vocabulary_field: 0
   entity: 0
+  entity_reference_validators: 0
+  erasmus_subject_area_code: 0
   euf_csv_import_export: 0
   euf_group_autojoin: 0
   ewp_contact: 0
@@ -41,6 +46,7 @@ module:
   ewp_institutions_get: 0
   ewp_institutions_lookup: 0
   ewp_institutions_user: 0
+  ewp_ounits: 0
   ewp_phone_number: 0
   field: 0
   field_group: 0
@@ -64,6 +70,7 @@ module:
   institution_menu: 0
   isced_field: 0
   joint_programmes: 0
+  jsonapi: 0
   language: 0
   layout_builder: 0
   layout_builder_expose_all_field_blocks: 0
@@ -84,6 +91,9 @@ module:
   myacademicid_user_roles: 0
   mysql: 0
   node: 0
+  occ_entities: 0
+  occ_entity_reference_selection: 0
+  occ_occapi_serializer: 0
   openid_connect: 0
   openid_connect_eufidp: 0
   options: 0
@@ -91,6 +101,7 @@ module:
   path: 0
   path_alias: 0
   programme_suggestions: 0
+  queue_ui: 0
   rest: 0
   search: 0
   serialization: 0

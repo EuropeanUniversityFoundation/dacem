@@ -1,0 +1,172 @@
+uuid: 53650c7b-3203-490b-b720-1bc898171f90
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.occ_loi.course_instance.course__elm_activity_type
+    - field.field.occ_loi.course_instance.course__elm_assessment_type
+    - field.field.occ_loi.course_instance.course__elm_lo_type
+    - field.field.occ_loi.course_instance.course__elm_mode_of_learning
+    - field.field.occ_loi.course_instance.course__engagement_hours
+    - field.field.occ_loi.course_instance.course__result_dist_category
+    - field.field.occ_loi.course_instance.course__result_dist_description
+    - occ_entities.occ_loi_type.course_instance
+  module:
+    - datetime
+    - elm_vocabulary_field
+    - ewp_core
+    - occ_entities
+    - user
+_core:
+  default_config_hash: 81mX21WI4X-9kP0iX-7Gs9sySdEDhksJq_cVDkMqeMA
+id: occ_loi.course_instance.default
+targetEntityType: occ_loi
+bundle: course_instance
+mode: default
+content:
+  academic_term_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  course:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  course__elm_activity_type:
+    type: elm_controlled_vocabulary_default
+    label: above
+    settings:
+      prefix: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  course__elm_assessment_type:
+    type: elm_controlled_vocabulary_default
+    label: above
+    settings:
+      prefix: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  course__elm_lo_type:
+    type: elm_controlled_vocabulary_default
+    label: above
+    settings:
+      prefix: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  course__elm_mode_of_learning:
+    type: elm_controlled_vocabulary_default
+    label: above
+    settings:
+      prefix: false
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  course__engagement_hours:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  course__result_dist_category:
+    type: result_distribution_category_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  course__result_dist_description:
+    type: ewp_multiline_lang_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  created:
+    type: timestamp
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+      tooltip:
+        date_format: long
+        custom_date_format: ''
+      time_diff:
+        enabled: false
+        future_format: '@interval hence'
+        past_format: '@interval ago'
+        granularity: 2
+        refresh: 60
+    third_party_settings: {  }
+    weight: 15
+    region: content
+  ects:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  end_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: html_date
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  language_of_instruction:
+    type: ewp_lang_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  start_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: html_date
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  status:
+    type: boolean
+    label: above
+    settings:
+      format: enabled-disabled
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 13
+    region: content
+  uid:
+    type: author
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 14
+    region: content
+hidden: {  }

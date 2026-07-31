@@ -1,0 +1,33 @@
+uuid: d71cfaff-8912-4f9b-b17f-4985163c8a3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__related_programme
+    - occ_entities.occ_los_type.course
+    - occ_entities.occ_los_type.programme
+  module:
+    - occ_entities
+_core:
+  default_config_hash: HDcdvNbRbBkViUtaE6-tplt2dBMCq3fgoRlioT8t6jA
+id: occ_los.course.course__related_programme
+field_name: course__related_programme
+entity_type: occ_los
+bundle: course
+label: 'Related Programme'
+description: 'Information on Programmes the course is related to.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:occ_los'
+  handler_settings:
+    target_bundles:
+      programme: programme
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: related_programme

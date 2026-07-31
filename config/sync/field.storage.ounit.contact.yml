@@ -1,0 +1,25 @@
+uuid: bac9580f-034b-48af-8383-a8fb37435c8e
+langcode: en
+status: true
+dependencies:
+  module:
+    - ewp_contact
+    - ewp_ounits
+  enforced:
+    module:
+      - ewp_ounits
+_core:
+  default_config_hash: ZjojAFhEjwb7AudR3mZRQqkF8ayaZavFbaXt3bXDi74
+id: ounit.contact
+field_name: contact
+entity_type: ounit
+type: entity_reference
+settings:
+  target_type: contact
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

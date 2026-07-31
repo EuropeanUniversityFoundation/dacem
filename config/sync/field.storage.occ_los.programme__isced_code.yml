@@ -1,0 +1,21 @@
+uuid: 715d1258-ab3a-4efc-ad55-819ed77469dc
+langcode: en
+status: true
+dependencies:
+  module:
+    - isced_field
+    - occ_entities
+_core:
+  default_config_hash: hoGQfWx3WNGfICW-l3CJa9kmXDbvaY_nMiANoziz91M
+id: occ_los.programme__isced_code
+field_name: programme__isced_code
+entity_type: occ_los
+type: isced_f
+settings: {  }
+module: isced_field
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

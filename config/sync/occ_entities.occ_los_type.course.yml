@@ -1,0 +1,8 @@
+uuid: 138fdb33-ab52-4226-9036-bffa33e25d04
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: uothV7mNH3o8RBcN1RDEiH8JDrIBdfyGed9GtmN0FBo
+id: course
+label: Course

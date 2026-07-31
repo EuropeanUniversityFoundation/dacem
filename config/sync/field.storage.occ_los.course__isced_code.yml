@@ -1,0 +1,21 @@
+uuid: c09e7631-d536-47b7-b7ff-4d6303808ad7
+langcode: en
+status: true
+dependencies:
+  module:
+    - isced_field
+    - occ_entities
+_core:
+  default_config_hash: lKNJdoiPHZUlFkw3QflS1yciIGHOJn-hFkpHlA7eAKo
+id: occ_los.course__isced_code
+field_name: course__isced_code
+entity_type: occ_los
+type: isced_f
+settings: {  }
+module: isced_field
+locked: false
+cardinality: -1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

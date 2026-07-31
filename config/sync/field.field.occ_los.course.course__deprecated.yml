@@ -1,0 +1,25 @@
+uuid: ea24de1f-6db1-402a-9409-529d6f938c8e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.occ_los.course__deprecated
+    - occ_entities.occ_los_type.course
+_core:
+  default_config_hash: NtNqnJJnYskCmqH2f_8Dzx9WNeV3-AFDA6Fju3rrd_0
+id: occ_los.course.course__deprecated
+field_name: course__deprecated
+entity_type: occ_los
+bundle: course
+label: Deprecated
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean
