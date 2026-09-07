@@ -36,7 +36,6 @@ module:
   elm_vocabulary_field: 0
   entity: 0
   entity_reference_validators: 0
-  erasmus_subject_area_code: 0
   euf_csv_import_export: 0
   euf_group_autojoin: 0
   ewp_contact: 0

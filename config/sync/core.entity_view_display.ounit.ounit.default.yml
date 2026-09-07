@@ -128,3 +128,4 @@ content:
     region: content
 hidden:
   langcode: true
+  uid: true
