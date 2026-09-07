@@ -159,6 +159,7 @@ display:
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
+                soft_limit_include_children: false
               combine:
                 plugin_id: default
                 advanced:
@@ -194,6 +195,7 @@ display:
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
+                soft_limit_include_children: false
               field_programme_type_target_id:
                 plugin_id: bef
                 advanced:
@@ -217,6 +219,7 @@ display:
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
+                soft_limit_include_children: false
               field_isced_f_value:
                 plugin_id: bef
                 advanced:
@@ -240,6 +243,7 @@ display:
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
+                soft_limit_include_children: false
               field_eqf_level_value_1:
                 plugin_id: bef
                 advanced:
@@ -263,6 +267,7 @@ display:
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
+                soft_limit_include_children: false
               field_avaliable_for_mobility_value:
                 plugin_id: bef_single
                 advanced:

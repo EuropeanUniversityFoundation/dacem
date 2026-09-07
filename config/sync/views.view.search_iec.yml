@@ -164,6 +164,7 @@ display:
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
+                soft_limit_include_children: false
               field_institution_country_value:
                 plugin_id: bef
                 advanced:
@@ -187,6 +188,7 @@ display:
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
+                soft_limit_include_children: false
               combine:
                 plugin_id: default
                 advanced:
@@ -222,6 +224,7 @@ display:
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
+                soft_limit_include_children: false
               field_fields_of_study_value:
                 plugin_id: bef
                 advanced:
@@ -245,6 +248,7 @@ display:
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
+                soft_limit_include_children: false
       access:
         type: perm
         options:
