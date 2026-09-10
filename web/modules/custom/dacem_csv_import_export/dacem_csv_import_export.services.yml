@@ -1,0 +1,57 @@
+services:
+  dacem_csv_import_export.csv_importer:
+    class: Drupal\dacem_csv_import_export\CsvImporter\CsvImporter
+    arguments:
+      - '@file_system'
+      - '@dacem_csv_import_export.file_validator'
+      - '@dacem_csv_import_export.user_access_manager'
+      - '@dacem_csv_import_export.csv_sorter'
+      - '@dacem_csv_import_export.csv_decoder'
+      - '@dacem_csv_import_export.reference_resolver'
+      - '@dacem_csv_import_export.data_loader'
+      - '@dacem_csv_import_export.ounit_validator'
+      - '@dacem_csv_import_export.programme_validator'
+      - '@dacem_csv_import_export.course_validator'
+      - '@dacem_csv_import_export.csv_normalizer'
+  dacem_csv_import_export.file_validator:
+    class: Drupal\dacem_csv_import_export\FileValidator\FileValidator
+    arguments: ['@dacem_csv_import_export.user_access_manager', '@dacem_csv_import_export.field_mapping_service', '@entity_type.manager', '@dacem_csv_import_export.data_loader']
+  dacem_csv_import_export.user_access_manager:
+    class: Drupal\dacem_csv_import_export\AccessManager\UserAccessManager
+    arguments: ['@current_user', '@entity_type.manager', '@dacem_csv_import_export.data_loader']
+  dacem_csv_import_export.field_mapping_service:
+    class: Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService
+    arguments: ['@entity_field.manager']
+  dacem_csv_import_export.csv_sorter:
+    class: Drupal\dacem_csv_import_export\CsvImporter\CsvSorter
+    arguments: ['@dacem_csv_import_export.field_mapping_service']
+  dacem_csv_import_export.csv_decoder:
+    class: Drupal\dacem_csv_import_export\CsvConverter\CsvDecoder
+    arguments: ['@dacem_csv_import_export.field_mapping_service']
+  dacem_csv_import_export.reference_resolver:
+    class: Drupal\dacem_csv_import_export\CsvConverter\ReferenceResolver
+    arguments: ['@entity_type.manager', '@dacem_csv_import_export.data_loader']
+  dacem_csv_import_export.data_loader:
+    class: Drupal\dacem_csv_import_export\DataLoader\DataLoader
+    arguments: ['@entity_type.manager']
+  dacem_csv_import_export.ounit_validator:
+    class: Drupal\dacem_csv_import_export\EntityValidator\OunitValidator
+    arguments: ['@entity_type.manager', '@dacem_csv_import_export.data_loader', '@dacem_csv_import_export.csv_normalizer']
+  dacem_csv_import_export.programme_validator:
+    class: Drupal\dacem_csv_import_export\EntityValidator\ProgrammeValidator
+    arguments: ['@entity_type.manager', '@dacem_csv_import_export.data_loader', '@dacem_csv_import_export.csv_normalizer']
+  dacem_csv_import_export.course_validator:
+    class: Drupal\dacem_csv_import_export\EntityValidator\CourseValidator
+    arguments: ['@entity_type.manager', '@dacem_csv_import_export.data_loader', '@dacem_csv_import_export.csv_normalizer']
+  dacem_csv_import_export.csv_normalizer:
+    class: Drupal\dacem_csv_import_export\CsvNormalizer\CsvNormalizer
+    arguments: ['@entity_type.manager', '@dacem_csv_import_export.data_loader', '@dacem_csv_import_export.reference_resolver', '@dacem_csv_import_export.user_access_manager']
+  dacem_csv_import_export.csv_exporter:
+    class: Drupal\dacem_csv_import_export\CsvExporter\CsvExporter
+    arguments:
+      - '@dacem_csv_import_export.data_loader'
+      - '@entity_field.manager'
+      - '@dacem_csv_import_export.field_mapping_service'
+      - '@file_system'
+
+
