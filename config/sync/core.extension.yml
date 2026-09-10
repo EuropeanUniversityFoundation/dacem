@@ -27,6 +27,9 @@ module:
   dacem_csv_import_export: 0
   dacem_footer: 0
   dacem_menu: 0
+  dacem_sync: 0
+  dacem_sync_ewp_ounits: 0
+  dacem_sync_occ_entities: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
@@ -34,7 +37,6 @@ module:
   elm_vocabulary_field: 0
   entity: 0
   entity_reference_validators: 0
-  erasmus_subject_area_code: 0
   euf_group_autojoin: 0
   ewp_contact: 0
   ewp_core: 0
@@ -98,6 +100,7 @@ module:
   path: 0
   path_alias: 0
   programme_suggestions: 0
+  queue_ui: 0
   rest: 0
   search: 0
   serialization: 0
