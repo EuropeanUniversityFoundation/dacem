@@ -5,6 +5,7 @@ dependencies:
   config:
     - node.type.organizational_unit
   module:
+    - dacem_csv_import_export
     - group
     - node
     - user
@@ -1260,6 +1261,17 @@ display:
       defaults:
         title: false
         fields: false
+        header: false
+      header:
+        dacem_csv_export_link:
+          id: dacem_csv_export_link
+          table: views
+          field: dacem_csv_export_link
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: dacem_csv_export_link
+          empty: false
       display_extenders: {  }
       path: admin/admin-organizational-units
     cache_metadata:
