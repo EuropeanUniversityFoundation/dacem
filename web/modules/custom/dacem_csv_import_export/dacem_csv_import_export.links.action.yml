@@ -9,7 +9,6 @@ dacem_csv_import_export.import_programme_button:
   route_parameters: {}
   title: 'Import Programmes'
   appears_on:
-    - dacem_csv_import_export.import_ounit_form
     - view.admin_programmes.page_1
 dacem_csv_import_export.import_course_button:
   route_name: dacem_csv_import_export.import_course_form
