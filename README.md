@@ -31,6 +31,7 @@ The recommended preconfigured local development setup is using DDEV for containe
 9. Start the DDEV project with `ddev start` and take note of the URL where your project will be available.
 10. Run `ddev composer install`.
 11. Run `ddev exec scripts/config_install.sh`. This will create the database, install and configure the Drupal site.
+> **Note:** The command might throw error messages about disallowed or malformed HTML strings in translations and translation files missing for contributed modules. These errors and warnings can be ignored, they do not effect site operations.
 12. Visit the URL output by the command in step 9 to test if the site works as expected. Default URL is `https://dacem.ddev.site`
 
 ## Deploying to a server
