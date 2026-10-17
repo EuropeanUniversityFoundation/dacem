@@ -141,6 +141,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -162,6 +163,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
               field_programme_type_target_id:
                 plugin_id: bef
                 advanced:
@@ -177,6 +179,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -201,6 +204,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -225,6 +229,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -249,6 +254,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 treat_as_false: false
               field_programme_ou_target_id:
                 plugin_id: bef_sliders
@@ -262,6 +268,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 min: '0'
                 max: '5'
                 step: '1'
@@ -1034,6 +1041,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 treat_as_false: false
               field_iec_language_of_instructio_target_id:
                 plugin_id: bef
@@ -1050,6 +1058,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -1071,6 +1080,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
               field_programme_type_target_id:
                 plugin_id: bef
                 advanced:
@@ -1086,6 +1096,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -1110,6 +1121,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false

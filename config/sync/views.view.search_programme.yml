@@ -135,6 +135,7 @@ display:
                 collapsible: false
                 collapsible_label: 'Sort options'
                 is_secondary: false
+                no_reset: false
             filter:
               field_institution_country_value:
                 plugin_id: bef
@@ -151,6 +152,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -172,6 +174,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
               field_programme_language_of_inst_target_id:
                 plugin_id: bef
                 advanced:
@@ -187,6 +190,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -211,6 +215,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -235,6 +240,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -259,6 +265,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -283,6 +290,7 @@ display:
                   open_by_default: false
                   sort_options_method: alphabetical_asc
                   sort_options_natural: true
+                  no_reset: false
                 treat_as_false: false
       access:
         type: perm
