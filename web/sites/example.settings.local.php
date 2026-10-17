@@ -149,3 +149,8 @@ $settings['skip_permissions_hardening'] = TRUE;
  * the language or field module.
  */
 # $settings['config_exclude_modules'] = ['devel', 'stage_file_proxy'];
+
+/**
+ * Overrides default config sync directory location setting from DDEV to match repository.
+*/
+$settings['config_sync_directory'] = '../config/sync';

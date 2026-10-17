@@ -72,14 +72,14 @@ while true; do
 done
 
 # Change the configuration files to allow the config install
-# if [[ ${PROFILE} != "minimal" ]]; then
-#   OLDMODULE=${PROFILE}": 1000"
-#   NEWMODULE="minimal: 1000"
-#   sed -i "s/${OLDMODULE}/${NEWMODULE}/g" $PWD/${EXTENSION_YML}
-#   OLDPROFILE="profile: "${PROFILE}
-#   NEWPROFILE="profile: minimal"
-#   sed -i "s/${OLDPROFILE}/${NEWPROFILE}/g" $PWD/${EXTENSION_YML}
-# fi
+if [[ ${PROFILE} != "minimal" ]]; then
+  OLDMODULE=${PROFILE}": 1000"
+  NEWMODULE="minimal: 1000"
+  sed -i "s/${OLDMODULE}/${NEWMODULE}/g" $PWD/${EXTENSION_YML}
+  OLDPROFILE="profile: "${PROFILE}
+  NEWPROFILE="profile: minimal"
+  sed -i "s/${OLDPROFILE}/${NEWPROFILE}/g" $PWD/${EXTENSION_YML}
+fi
 
 # Perform the site install
 ${DRUSH} site-install --existing-config \

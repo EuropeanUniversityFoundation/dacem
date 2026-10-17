@@ -21,8 +21,8 @@ The recommended preconfigured local development setup is using DDEV for containe
 4. Copy the `.env.example` file to `.env`.
 5. The default values in `.env` already match what DDEV expects, so most of them can be left as-is.
 6. Modify / add administrator user information in the `.env` file on the lines starting with `ACCOUNT_`. You might want to use double quotes when setting the `ACCOUNT_PASS` variable.
-7. Go to the `web/sites/default` folder. Copy `example.settings.local.php` to `settings.local.php` and review it.
-8. Uncomment the following code block at the end of your `settings.php`
+7. Copy `web/sites/example.settings.local.php` to `web/sites/default/settings.local.php` and review it.
+8. Uncomment the following code block at the end of your `web/sites/default/settings.php`
 ```
   if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
     include $app_root . '/' . $site_path . '/settings.local.php';
@@ -30,7 +30,8 @@ The recommended preconfigured local development setup is using DDEV for containe
 ```
 9. Start the DDEV project with `ddev start` and take note of the URL where your project will be available.
 10. Run `ddev composer install`.
-11. Run `ddev scripts/config_install.sh`. This will create the database, install and configure the Drupal site.
+11. Run `ddev exec scripts/config_install.sh`. This will create the database, install and configure the Drupal site.
+> **Note:** The command might throw error messages about disallowed or malformed HTML strings in translations and translation files missing for contributed modules. These errors and warnings can be ignored, they do not effect site operations.
 12. Visit the URL output by the command in step 9 to test if the site works as expected. Default URL is `https://dacem.ddev.site`
 
 ## Deploying to a server
