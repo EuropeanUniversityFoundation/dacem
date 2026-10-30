@@ -375,11 +375,16 @@ class FieldMappingService {
         continue;
       }
 
-      // 1. Get the internal sub-properties of the field (e.g., ['uri', 'title', 'options'])
+      // Only export stored properties, not computed objects such as datetime's date.
       $storage_definition = $definition->getFieldStorageDefinition();
-      $properties = $storage_definition->getPropertyNames();
+      $properties = [];
+      foreach ($storage_definition->getPropertyDefinitions() as $property_name => $property_definition) {
+        if (!$property_definition->isComputed()) {
+          $properties[] = $property_name;
+        }
+      }
 
-      // Filter out internal/computed properties you do not want in your CSV
+      // Filter out internal properties you do not want in your CSV.
       $properties = array_diff($properties, self::EXPORT_SKIPPED_PROPERTIES);
 
       $metadata['fields'][$field_name] = [
