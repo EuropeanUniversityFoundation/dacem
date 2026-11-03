@@ -148,8 +148,13 @@ class ReferenceResolver {
     $field_name = $reference_details['reference_field_name'];
 
     foreach ($decoded_entity as $language => &$translation) {
-      if (!isset($translation[$field_name])) {
-        return;
+      if (!array_key_exists($field_name, $translation)) {
+        continue;
+      }
+
+      if ($translation[$field_name] === '' || $translation[$field_name] === NULL) {
+        $translation[$field_name] = [];
+        continue;
       }
 
       if ($reference_details['cardinality'] === 1) {
@@ -195,6 +200,11 @@ class ReferenceResolver {
 
     foreach ($decoded_entity[$field_name] as $key => $value) {
       $search_value = $has_property ? $value[$reference_details['reference_field_property_name']] : $value;
+
+      if ($search_value === '' || $search_value === NULL) {
+        unset($decoded_entity[$field_name][$key]);
+        continue;
+      }
 
       $entity = $this->loadEntity(
         entity_id: $reference_details['referenced_entity'],

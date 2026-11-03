@@ -60,26 +60,11 @@ class EntityValidatorBase {
       $institution,
     );
 
-    if (empty($entity)) {
-      $entity = $this->csvNormalizer->denormalizeEntity($entity_type, $normalized_data);
-    }
-    else {
-      $entity = reset($entity);
-    }
-
-    /** @var \Drupal\node\NodeInterface $entity */
-    $violations = $entity->validate();
-
-    // Validating translations.
-    foreach ($entity->getTranslationLanguages() as $langcode => $language) {
-      if ($langcode === $entity->language()->getId()) {
-        continue;
-      }
-      $translation_violations = $entity->getTranslation($langcode)->validate();
-      $violations->addAll($translation_violations);
-    }
-
-    return $violations;
+    return $this->csvNormalizer->validateImport(
+      $entity_type,
+      $normalized_data,
+      $entity ? reset($entity) : NULL,
+    );
   }
 
   public function validateMultiple(string $entityType, array $normalized_data, ?Node $institution = NULL): array {

@@ -52,6 +52,8 @@ class CsvDecoder {
     $entity_data = [];
 
     foreach ($record as $key => $value) {
+      // A present empty cell clears a value; missing columns remain untouched.
+      $value = $value ?? '';
       [$language, $column_name] = $this->fieldMappingService->resolveLanguageFromColumn($key);
       $field_name = $this->fieldMappingService->resolveFieldFromColumn($column_name);
       $delta = $this->fieldMappingService->resolveColumnDelta($column_name);
@@ -59,32 +61,28 @@ class CsvDecoder {
 
       if (!is_null($field_name)
         && !is_null($delta)
-        && !is_null($property)
-        && $value != '') {
+        && !is_null($property)) {
 
         $entity_data[$language][$field_name][$delta][$property] = $value;
 
       }
       elseif (!is_null($field_name)
         && !is_null($delta)
-        && is_null($property)
-        && $value != '') {
+        && is_null($property)) {
 
         $entity_data[$language][$field_name][$delta] = $value;
 
       }
       elseif (!is_null($field_name)
         && is_null($delta)
-        && !is_null($property)
-        && $value != '') {
+        && !is_null($property)) {
 
         $entity_data[$language][$field_name][$property] = $value;
 
       }
       elseif (!is_null($field_name)
         && is_null($delta)
-        && is_null($property)
-        && $value != '') {
+        && is_null($property)) {
 
         $entity_data[$language][$field_name] = $value;
       }
@@ -123,7 +121,10 @@ class CsvDecoder {
       $lat = $data_row[self::GEO_FIELD_LAT_LONGS[$entity_type]['target_field_name']][self::GEO_FIELD_LAT_LONGS[$entity_type]['lat_property']] ?? NULL;
       $lon = $data_row[self::GEO_FIELD_LAT_LONGS[$entity_type]['target_field_name']][self::GEO_FIELD_LAT_LONGS[$entity_type]['lon_property']] ?? NULL;
 
-      if (!is_null($lat) && !is_null($lon)) {
+      if ($lat === '' && $lon === '') {
+        $data_row[self::GEO_FIELD_LAT_LONGS[$entity_type]['target_field_name']] = [];
+      }
+      elseif (!is_null($lat) && !is_null($lon) && $lat !== '' && $lon !== '') {
         $value = sprintf('%s (%f %f)',
           self::GEO_FIELD_LAT_LONGS[$entity_type]['type'],
           $lon,
