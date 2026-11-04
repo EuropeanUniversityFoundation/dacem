@@ -5,151 +5,130 @@ namespace Drupal\dacem_csv_import_export\CsvImporter;
 use Drupal\Core\File\FileSystem;
 use Drupal\dacem_csv_import_export\AccessManager\UserAccessManager;
 use Drupal\dacem_csv_import_export\CsvConverter\CsvDecoder;
-use Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService;
 use Drupal\dacem_csv_import_export\CsvConverter\ReferenceResolver;
 use Drupal\dacem_csv_import_export\CsvImporter\CsvSorter;
-use Drupal\dacem_csv_import_export\CsvNormalizer\CsvNormalizer;
-use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
-use Drupal\dacem_csv_import_export\EntityValidator\CourseValidator;
-use Drupal\dacem_csv_import_export\EntityValidator\OunitValidator;
-use Drupal\dacem_csv_import_export\EntityValidator\ProgrammeValidator;
-use Drupal\dacem_csv_import_export\Enum\ImportTargetEntityType;
+use Drupal\dacem_csv_import_export\Import\ImportWriterInterface;
+use Drupal\dacem_csv_import_export\Definition\BundleCsvDefinitions;
 use Drupal\dacem_csv_import_export\FileValidator\FileValidator;
+use Drupal\dacem_csv_import_export\Import\ImportRowValidator;
+use Drupal\dacem_csv_import_export\Import\ImportWriteException;
+use Drupal\dacem_csv_import_export\Import\Result\ImportError;
+use Drupal\dacem_csv_import_export\Import\Result\ImportResult;
+use Drupal\dacem_csv_import_export\Import\Result\ValidationErrorMapper;
+use Drupal\dacem_csv_import_export\Repository\AmbiguousEntityException;
+use Drupal\dacem_csv_import_export\Repository\CatalogueEntityRepository;
 use Drupal\file\Entity\File;
+use League\Csv\Exception as CsvException;
 use League\Csv\Reader;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 class CsvImporter {
 
-	protected FileSystem $fileSystem;
-	protected FileValidator $fileValidator;
-	protected UserAccessManager $userAccessManager;
-	protected CsvSorter $csvSorter;
-	protected CsvDecoder $csvDecoder;
-	protected ReferenceResolver $referenceResolver;
-	protected DataLoader $dataLoader;
-	protected OunitValidator $ounitValidator;
-	protected ProgrammeValidator $programmeValidator;
-	protected CourseValidator $courseValidator;
-	protected CsvNormalizer $csvNormalizer;
+  public function __construct(
+    protected FileSystem $fileSystem,
+    protected FileValidator $fileValidator,
+    protected UserAccessManager $userAccessManager,
+    protected CsvSorter $csvSorter,
+    protected CsvDecoder $csvDecoder,
+    protected ReferenceResolver $referenceResolver,
+    protected CatalogueEntityRepository $repository,
+    protected ImportRowValidator $rowValidator,
+    protected ImportWriterInterface $writer,
+    protected BundleCsvDefinitions $definitions,
+    protected ValidationErrorMapper $errorMapper,
+    protected LoggerInterface $logger,
+  ) {}
 
-	public function __construct(
-		FileSystem $file_system,
-		FileValidator $file_validator,
-		UserAccessManager $user_access_manager,
-		CsvSorter $csv_sorter,
-		CsvDecoder $csv_decoder,
-		ReferenceResolver $reference_resolver,
-		DataLoader $data_loader,
-		OunitValidator $ounit_validator,
-		ProgrammeValidator $programme_validator,
-		CourseValidator $course_validator,
-		CsvNormalizer $csv_normalizer,
-	)	{
-		$this->fileSystem = $file_system;
-		$this->fileValidator = $file_validator;
-		$this->userAccessManager = $user_access_manager;
-		$this->csvSorter = $csv_sorter;
-		$this->csvDecoder = $csv_decoder;
-		$this->referenceResolver = $reference_resolver;
-		$this->dataLoader = $data_loader;
-		$this->ounitValidator = $ounit_validator;
-		$this->programmeValidator = $programme_validator;
-		$this->courseValidator = $course_validator;
-		$this->csvNormalizer = $csv_normalizer;
-	}
-
-	public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('file_system'),
-			$container->get('dacem_csv_import_export.file_validator'),
-			$container->get('dacem_csv_import_export.user_access_manager'),
-			$container->get('dacem_csv_import_export.csv_sorter'),
-			$container->get('dacem_csv_import_export.csv_decoder'),
-			$container->get('dacem_csv_import_export.reference_resolver'),
-			$container->get('dacem_csv_import_export.data_loader'),
-			$container->get('dacem_csv_import_export.ounit_validator'),
-			$container->get('dacem_csv_import_export.programme_validator'),
-			$container->get('dacem_csv_import_export.course_validator'),
-			$container->get('dacem_csv_import_export.csv_normalizer'),
-    );
+  public function import(File $file, string $entityType, ?bool $sort = FALSE): ImportResult {
+    try {
+      return $this->importFile($file, $entityType, (bool) $sort);
+    }
+    catch (ImportWriteException $exception) {
+      $cause = $exception->getPrevious();
+      if ($cause instanceof AmbiguousEntityException) {
+        $definition = $this->definitions->get($exception->row->bundle);
+        return ImportResult::failure([new ImportError(
+          'Ambiguous identity', $cause->getMessage(), $exception->row->rowNumber,
+          $definition->codeField, [(string) $exception->row->fieldValue($definition->codeField)],
+        )]);
+      }
+      if ($cause instanceof ValidationFailedException) {
+        return ImportResult::failure($this->errorMapper->map(
+          $exception->row, $cause->getViolations(), 'Validation failed while saving', $exception->language,
+        ));
+      }
+      $this->logger->error('CSV import failed at row @row: @message', [
+        '@row' => $exception->row->rowNumber, '@message' => $cause->getMessage(), 'exception' => $cause,
+      ]);
+      return ImportResult::failure([new ImportError(
+        'Save failed',
+        'This row could not be saved. No changes were saved. Please contact the site administrator.',
+        $exception->row->rowNumber,
+      )]);
+    }
+    catch (AmbiguousEntityException $exception) {
+      return ImportResult::failure([new ImportError('Ambiguous identity', $exception->getMessage(), 'File')]);
+    }
+    catch (CsvException | \InvalidArgumentException $exception) {
+      return ImportResult::failure([new ImportError('Invalid CSV', $exception->getMessage(), 'File')]);
+    }
+    catch (\Throwable $exception) {
+      $this->logger->error('CSV import failed: @message', ['@message' => $exception->getMessage(), 'exception' => $exception]);
+      return ImportResult::failure([new ImportError(
+        'Import failed', 'The CSV could not be imported. No changes were saved. Please contact the site administrator.', 'File',
+      )]);
+    }
   }
 
-	public function import(File $file, string $entityType, ?bool $sort = FALSE) {
-		$userInstitutions = $this->userAccessManager->loadCurrentUserInstitutions();
+  protected function importFile(File $file, string $entityType, bool $sort): ImportResult {
+    $userInstitutions = $this->userAccessManager->loadCurrentUserInstitutions();
+    $reader = $this->createReaderFromFile($file);
+    $records = iterator_to_array($reader->getRecords());
+    $headers = $reader->getHeader();
+    $errors = $this->fileValidator->validateFileData($records, $headers, $entityType, $userInstitutions);
+    if ($errors) {
+      return ImportResult::failure($errors);
+    }
+    if ($sort) {
+      $records = $this->csvSorter->sortData($records, $entityType);
+      if ($records && reset($records) instanceof ImportError) {
+        return ImportResult::failure($records);
+      }
+    }
+    $rows = $this->csvDecoder->decodeMultiple($entityType, $records);
+    $institution_code = $records[array_key_first($records)][$this->definitions->get($entityType)->institutionColumn];
+    $institution = $this->repository->findInstitutionBySchacCode($institution_code);
+    if (!$institution) {
+      return ImportResult::failure([new ImportError('Invalid institution', 'The institution code does not identify an institution.', 'File', $this->definitions->get($entityType)->institutionColumn, [$institution_code])]);
+    }
+    $rows = $this->referenceResolver->resolveReferencesMultiple($rows, $institution);
+    $errors = $this->rowValidator->validateMultiple($rows, $institution);
+    if ($errors) {
+      return ImportResult::failure($errors);
+    }
+    $this->writer->writeMultiple($rows, $institution);
+    return ImportResult::success(count($rows));
+  }
 
-		$csvReader = $this->createReaderFromFile($file);
-		$records = iterator_to_array($csvReader->getRecords());
-    $headers = iterator_to_array($csvReader->getHeader());
+  protected function createReaderFromFile(File $file) {
+    $path = $this->getFilePath($file);
 
-		$errors = $this->fileValidator->validateFileData($records, $headers, $entityType, $userInstitutions);
-		if (!empty($errors)) {
-			return ['errors' => $errors];
-		}
+    $csv_reader = Reader::from($path, 'r');
+    $csv_reader->setHeaderOffset(0);
 
-		// Entities having parents of the same type as themselves, have to be sorted before import.
-		if ($sort) {
-			$records = $this->csvSorter->sortData($records, $entityType);
-			if (isset($results[CsvSorter::CYCLIC_ERROR_NAME])) {
-				return ['errors' => $records];
-			}
-		} else {
-			$records = $this->addRowNumbers($records);
-		}
+    return $csv_reader;
+  }
 
-		$results = $this->csvDecoder->decodeMultiple($entityType, $records);
-
-		$institution_schac_code = $records[array_key_first($records)][FieldMappingService::HEI_COLUMNS[$entityType]['hei_column_name']];
-		$institution_in_file = $this->dataLoader->getInstitutionBySchacCode($institution_schac_code);
-		$results = $this->referenceResolver->resolveReferencesMultiple($entityType, $results, $institution_in_file);
-
-		if ($entityType === ImportTargetEntityType::OUNIT->value) {
-			$violations = $this->ounitValidator->validateMultiple($entityType, $results);
-		} else if ($entityType === ImportTargetEntityType::PROGRAMME->value){
-			$violations = $this->programmeValidator->validateMultiple($entityType, $results);
-		} else if ($entityType === ImportTargetEntityType::COURSE->value){
-			$violations = $this->courseValidator->validateMultiple($entityType, $results, $institution_in_file);
-		} else if ($entityType === ImportTargetEntityType::COURSE_INSTANCE->value){
-
-		}
-
-		if (!empty($violations)) {
-			return ['errors' => $violations];
-		}
-
-		$entities = $this->csvNormalizer->upsertMultiple($entityType, $results, $institution_in_file);
-
-		$results['errors'] = $errors;
-
-		return($results);
-	}
-
-	protected function createReaderFromFile(File $file) {
-		$path = $this->getFilePath($file);
-
-		$csv_reader = Reader::from($path, 'r');
-		$csv_reader->setHeaderOffset(0);
-
-		return $csv_reader;
-	}
-
-	protected function getFilePath(File $file) {
-		$file_uri = $file->getFileUri();
+  protected function getFilePath(File $file) {
+    $file_uri = $file->getFileUri();
     $physical_path = $this->fileSystem->realpath($file_uri);
 
     if (!$physical_path || !file_exists($physical_path)) {
       throw new \Exception("The file could not be uploaded to the server or is not found.");
     }
 
-		return $physical_path;
-	}
-
-	protected function addRowNumbers(array $records) {
-		foreach ($records as $index => &$record) {
-    	$record['csv_row'] = $index;
-  	}
-
-		return $records;
-	}
+    return $physical_path;
+  }
 
 }

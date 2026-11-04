@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\dacem_csv_import_export\CsvImporter\CsvImporter;
+use Drupal\dacem_csv_import_export\Import\Result\ImportResult;
 use Drupal\file\Entity\File;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -43,7 +44,7 @@ abstract class ImportFormBase extends FormBase {
       '#type' => 'managed_file',
       '#title' => $this->t('CSV File'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['csv'],
+        'FileExtension' => ['extensions' => 'csv'],
       ],
       '#upload_location' => 'public://import-csv/',
       '#required' => TRUE,
@@ -60,52 +61,59 @@ abstract class ImportFormBase extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $file_id = $form_state->getValue('csv_file')[0];
     $file = File::load($file_id);
-    // @todo Decide if we want to keep the files.
-    // $file->setPermanent();
-    // $file->save();
-
-    // @ todo Convert this to Batch processing if needed.
-    $results = $this->importCsv($file, static::ENTITY_TYPE);
-
-    if (!empty($results['errors'])) {
-      $table = $this->createErrorsTable($results['errors']);
-      $rendered_table = $this->renderer->renderInIsolation($table);
-
-      $this->messenger()->addError(Markup::create($rendered_table));
+    try {
+      $this->displayResult($this->importCsv($file, static::ENTITY_TYPE));
     }
-    $this->messenger()->addStatus($this->t('Import started for @type.', ['@type' => static::ENTITY_LABEL]));
+    finally {
+      $file->delete();
+    }
+  }
 
-    $file->delete();
+  protected function displayResult(ImportResult $result): void {
+    if ($result->isSuccessful()) {
+      $this->messenger()->addStatus($this->formatPlural(
+        $result->importedCount, 'Imported 1 row for @type.', 'Imported @count rows for @type.',
+        ['@type' => static::ENTITY_LABEL],
+      ));
+      return;
+    }
+    $this->messenger()->addError($this->t('Import failed. No rows were imported. Correct the errors below and try again.'));
+    $table = $this->createErrorsTable($result->errors);
+    $this->messenger()->addError(Markup::create($this->renderer->renderInIsolation($table)));
   }
 
   protected function importCsv(File $file, string $entity_type) {
     return $this->csvImporter->import($file, $entity_type);
   }
 
-  protected function createErrorsTable(array $errors) {
-    $header = [$this->t('Row #'), $this->t('Error type'), $this->t('Message'), $this->t('CSV column'), $this->t('Values')];
+  /**
+   * Allows filtered message formatting and escapes CSV source context.
+   *
+   * @param \Drupal\dacem_csv_import_export\Import\Result\ImportError[] $errors
+   *   File, preflight, sorting, or save errors in the same format.
+   */
+  protected function createErrorsTable(array $errors): array {
+    $header = [$this->t('Row #'), $this->t('Error type'), $this->t('Message'), $this->t('CSV column'), $this->t('Language'), $this->t('Values')];
     $rows = [];
-
-    foreach ($errors as $type => $error_list) {
-      foreach ($error_list as $error) {
-        $rows[] = [
-          $error['row_number'],
-          $type,
-          $error['message'],
-          $error['source'],
-          implode(',', $error['values'])
-        ];
-      }
+    foreach ($errors as $error) {
+      $values = array_map(fn ($value) => $value === '' ? (string) $this->t('(empty)') : $value, $error->values);
+      $cells = [
+        (string) ($error->rowNumber ?? ''), $error->type, $error->message,
+        $error->column ?: (string) $this->t('Whole row'), $error->language ?? '', implode(', ', $values),
+      ];
+      $row = array_map(static fn ($value) => ['data' => ['#plain_text' => $value]], $cells);
+      // Drupal validation messages include formatted placeholders. Filter them
+      // through the renderer rather than trusting arbitrary message HTML.
+      $row[2]['data'] = [
+        '#markup' => $error->message,
+        '#allowed_tags' => ['em', 'strong', 'code', 'a', 'br'],
+      ];
+      $rows[] = $row;
     }
-
-    $error_table = [
-      '#type' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
+    return [
+      '#type' => 'table', '#header' => $header, '#rows' => $rows,
       '#attributes' => ['class' => ['csv-error-table']],
     ];
-
-    return  $error_table;
   }
 
 }

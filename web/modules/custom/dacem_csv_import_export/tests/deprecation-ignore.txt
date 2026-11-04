@@ -1,0 +1,5 @@
+# Compatibility notices from the installed EWP field plugins and Group 3.3.
+# Remove these allowances when those dependencies migrate to the newer APIs.
+# All other deprecations retain Drupal's normal failure policy.
+%\AUsing a translatable string as a category for field type is deprecated in drupal:10\.2\.0 and is removed from drupal:11\.0\.0\. See https://www\.drupal\.org/node/3375748\z%
+%\AThe "group\.membership_loader" service relies on the deprecated "Drupal\\group\\GroupMembershipLoader" class\. It should either be deprecated or its implementation upgraded\.\z%

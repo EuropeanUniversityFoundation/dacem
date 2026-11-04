@@ -2,156 +2,82 @@
 
 namespace Drupal\dacem_csv_import_export\CsvConverter;
 
-use Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService;
-use Drupal\dacem_csv_import_export\Enum\ImportTargetEntityType;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\dacem_csv_import_export\Import\Conversion\CoordinatesConverter;
+use Drupal\dacem_csv_import_export\Import\Conversion\FormattedTextConverter;
+use Drupal\dacem_csv_import_export\Import\ImportRow;
+use Drupal\dacem_csv_import_export\Schema\CsvHeaderParser;
 
+/**
+ * Maps CSV cells into field replacements and delegates value conversion.
+ */
 class CsvDecoder {
 
-  public const GEO_FIELD_LAT_LONGS = [
-    ImportTargetEntityType::OUNIT->value => [
-      'target_field_name' => 'field_ou_map',
-      'lat_column' => 'field_ou_map___lat',
-      'lon_column' => 'field_ou_map___lon',
-      'type' => 'POINT',
-      'lat_property' => 'lat',
-      'lon_property' => 'lon',
-    ]
-  ];
-
-  public const DEFAULT_FORMATTED_TEXT_FORMAT = 'basic_html';
-
-  protected FieldMappingService $fieldMappingService;
-
   public function __construct(
-    FieldMappingService $field_mapping_service,
-  ) {
-    $this->fieldMappingService = $field_mapping_service;
-  }
+    protected CsvHeaderParser $headerParser,
+    protected CoordinatesConverter $coordinatesConverter,
+    protected FormattedTextConverter $formattedTextConverter,
+  ) {}
 
-  public static function create(ContainerInterface $container) {
-
-    return new static(
-      $container->get('dacem_csv_import_export.field_mapping_service'),
-    );
-  }
-
-  public function decodeMultiple(string $entity_type, array $records) {
+  /**
+   * @return \Drupal\dacem_csv_import_export\Import\ImportRow[]
+   *   Decoded rows retaining the original CSV record numbers.
+   */
+  public function decodeMultiple(string $entity_type, array $records): array {
     $entity_data = [];
+    $columns = [];
     foreach ($records as $row_number => $record) {
-      $entity_data[] = $this->decode($entity_type, $record);
+      $entity_data[] = $this->decodeRecord($entity_type, $record, $columns, $row_number + 1);
     }
 
     return $entity_data;
   }
 
+  public function decode(string $entity_type, array $record, int $row_number = 2): ImportRow {
+    $columns = [];
+    return $this->decodeRecord($entity_type, $record, $columns, $row_number);
+  }
+
   /**
+   * Shares parsed headers across rows while preserving absent and empty cells.
    *
+   * @param \Drupal\dacem_csv_import_export\Schema\CsvColumn[] $columns
+   *   Columns keyed by original header, compiled once per distinct header.
    */
-  public function decode(string $entity_type, array $record) {
+  protected function decodeRecord(string $entity_type, array $record, array &$columns, int $row_number): ImportRow {
     $entity_data = [];
+    $source_columns = [];
 
     foreach ($record as $key => $value) {
       // A present empty cell clears a value; missing columns remain untouched.
       $value = $value ?? '';
-      [$language, $column_name] = $this->fieldMappingService->resolveLanguageFromColumn($key);
-      $field_name = $this->fieldMappingService->resolveFieldFromColumn($column_name);
-      $delta = $this->fieldMappingService->resolveColumnDelta($column_name);
-      $property = $this->fieldMappingService->resolveColumnProperty($column_name);
+      $column = $columns[$key] ??= $this->headerParser->parse($key);
+      $source_columns[$key] = $column;
+      // These are operation metadata or protected Drupal fields, not content.
+      if (in_array($column->fieldName, ['type', 'langcode', 'csv_row'], TRUE)) {
+        continue;
+      }
+      $language = $column->language ?? CsvHeaderParser::DEFAULT_LANGUAGE;
+      $field_name = $column->fieldName;
+      $delta = $column->delta;
+      $property = $column->property;
 
-      if (!is_null($field_name)
-        && !is_null($delta)
-        && !is_null($property)) {
-
+      if ($delta !== NULL && $property !== NULL) {
         $entity_data[$language][$field_name][$delta][$property] = $value;
-
       }
-      elseif (!is_null($field_name)
-        && !is_null($delta)
-        && is_null($property)) {
-
+      elseif ($delta !== NULL) {
         $entity_data[$language][$field_name][$delta] = $value;
-
       }
-      elseif (!is_null($field_name)
-        && is_null($delta)
-        && !is_null($property)) {
-
+      elseif ($property !== NULL) {
         $entity_data[$language][$field_name][$property] = $value;
-
       }
-      elseif (!is_null($field_name)
-        && is_null($delta)
-        && is_null($property)) {
-
+      else {
         $entity_data[$language][$field_name] = $value;
       }
     }
 
-    $entity_data = $this->addEntityType($entity_type, $entity_data);
-    $entity_data = $this->addLanguageCode($entity_data);
-    $entity_data = $this->generateWKTFromColumns($entity_type, $entity_data);
-    $entity_data = $this->convertLineBreaks($entity_type, $entity_data);
-
-    return $entity_data;
-  }
-
-  public function addEntityType(string $entity_type, array $decoded_data) {
-    foreach ($decoded_data as &$data_per_language) {
-      $data_per_language['type'] = $entity_type;
-    }
-
-    return $decoded_data;
-  }
-
-  public function addLanguageCode(array $entity_data) {
-    foreach ($entity_data as $language => &$data_per_language) {
-      $data_per_language['langcode'] = $language;
-    }
-
-    return $entity_data;
-  }
-
-  public function generateWKTFromColumns(string $entity_type, array $entity_data): array {
-    if (!isset(self::GEO_FIELD_LAT_LONGS[$entity_type])){
-      return $entity_data;
-    }
-
-    foreach ($entity_data as $language => &$data_row) {
-      $lat = $data_row[self::GEO_FIELD_LAT_LONGS[$entity_type]['target_field_name']][self::GEO_FIELD_LAT_LONGS[$entity_type]['lat_property']] ?? NULL;
-      $lon = $data_row[self::GEO_FIELD_LAT_LONGS[$entity_type]['target_field_name']][self::GEO_FIELD_LAT_LONGS[$entity_type]['lon_property']] ?? NULL;
-
-      if ($lat === '' && $lon === '') {
-        $data_row[self::GEO_FIELD_LAT_LONGS[$entity_type]['target_field_name']] = [];
-      }
-      elseif (!is_null($lat) && !is_null($lon) && $lat !== '' && $lon !== '') {
-        $value = sprintf('%s (%f %f)',
-          self::GEO_FIELD_LAT_LONGS[$entity_type]['type'],
-          $lon,
-          $lat,
-        );
-
-        $data_row[self::GEO_FIELD_LAT_LONGS[$entity_type]['target_field_name']] = $value;
-      }
-    }
-
-    return $entity_data;
-  }
-
-  public function convertLineBreaks(string $entity_type, array $entity_data): array {
-    $formatted_fields = $this->fieldMappingService->getFormattedFieldList($entity_type);
-    foreach ($entity_data as $language => &$data_row) {
-      foreach ($data_row as $field_name => &$field_value) {
-        if (in_array($field_name, $formatted_fields)) {
-          $text = nl2br($data_row[$field_name]);
-          $data_row[$field_name] = [];
-          $data_row[$field_name]['value'] = $text;
-          $data_row[$field_name]['format'] = self::DEFAULT_FORMATTED_TEXT_FORMAT;
-        }
-      }
-    }
-
-    return $entity_data;
+    $row = new ImportRow($entity_type, $row_number, $entity_data, $source_columns);
+    $row = $this->coordinatesConverter->convert($row);
+    return $this->formattedTextConverter->convert($row);
   }
 
 }

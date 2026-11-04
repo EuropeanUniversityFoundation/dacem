@@ -3,148 +3,66 @@
 namespace Drupal\dacem_csv_import_export\FileValidator;
 
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\dacem_csv_import_export\AccessManager\UserAccessManager;
-use Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService;
-use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
-use Drupal\dacem_csv_import_export\Enum\ImportTargetEntityType;
+use Drupal\dacem_csv_import_export\Definition\BundleCsvDefinitions;
+use Drupal\dacem_csv_import_export\Import\Result\ImportError;
+use Drupal\dacem_csv_import_export\Repository\CatalogueEntityRepository;
+use Drupal\dacem_csv_import_export\Schema\CsvColumn;
+use Drupal\dacem_csv_import_export\Schema\CsvHeaderParser;
 use Drupal\node\Entity\Node;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FileValidator {
 
-  public const VALIDATION_BY_TYPE = [
-    ImportTargetEntityType::OUNIT->value => [
-      [FileValidator::class, 'validateFileHeiUserMatch'],
-      [FileValidator::class, 'validateUniqueCodes'],
-      [FileValidator::class, 'validateNonEmpty'],
-      [FileValidator::class, 'validateReferences'],
-    ],
-    ImportTargetEntityType::PROGRAMME->value => [
-      [FileValidator::class, 'validateFileHeiUserMatch'],
-      [FileValidator::class, 'validateUniqueCodes'],
-      [FileValidator::class, 'validateNonEmpty'],
-      [FileValidator::class, 'validateReferences'],
-    ],
-    ImportTargetEntityType::COURSE->value => [
-      [FileValidator::class, 'validateFileHeiUserMatch'],
-      [FileValidator::class, 'validateUniqueCodes'],
-      [FileValidator::class, 'validateNonEmpty'],
-      [FileValidator::class, 'validateReferences'],
-    ],
-    // Out of scope for now.
-    // ImportTargetEntityType::COURSE_INSTANCE->value => [
-    //   [FileValidator::class, 'validateFileHeiUserMatch'],
-    //   [FileValidator::class, 'validateReferences'],
-    // ]
+  private const VALIDATION_METHODS = [
+    'validateFileHeiUserMatch',
+    'validateUniqueCodes',
+    'validateNonEmpty',
+    'validateReferences',
   ];
 
-  public const UNIQUE_CODE_COLUMNS = [
-    ImportTargetEntityType::OUNIT->value => [
-      'column_name' => 'field_ou_code',
-    ],
-    ImportTargetEntityType::PROGRAMME->value => [
-      'column_name' => 'field_programme_code',
-    ],
-    ImportTargetEntityType::COURSE->value => [
-      'column_name' => 'field_iec_code',
-    ]
-  ];
-
-  public const REFERENCES_VALIDATION = [
-    ImportTargetEntityType::OUNIT->value => [
-      'field_ou_institution' => [
-        'entity_label' => 'Institution',
-        'target_entity' => 'node',
-        'target_type' => 'institution',
-        'references_label' => 'SCHAC code',
-        'references' => 'field_shac_code',
-      ],
-      'field_parent_organizational_unit' => [
-        'entity_label' => 'Organisational unit',
-        'target_entity' => 'node',
-        'target_type' => 'organizational_unit',
-        'references_label' => 'Organizational unit code',
-        'references' => 'field_ou_code',
-        'in_file_column_name' => 'field_ou_code',
-        'hei_field_name' => 'field_ou_institution',
-      ],
-    ],
-    ImportTargetEntityType::PROGRAMME->value => [
-      'field_programme_institution' => [
-        'entity_label' => 'Institution',
-        'target_entity' => 'node',
-        'target_type' => 'institution',
-        'references_label' => 'SCHAC code',
-        'references' => 'field_shac_code',
-      ],
-      'field_programme_ou' => [
-        'entity_label' => 'Organisational unit',
-        'target_entity' => 'node',
-        'target_type' => 'organizational_unit',
-        'references_label' => 'Organizational unit code',
-        'references' => 'field_ou_code',
-        'hei_field_name' => 'field_ou_institution',
-      ],
-    ],
-    ImportTargetEntityType::COURSE->value => [
-      'field_iec_programme' => [
-        'entity_label' => 'Programme',
-        'target_entity' => 'node',
-        'target_type' => 'programme',
-        'references_label' => 'Programme code',
-        'references' => 'field_programme_code',
-        'hei_field_name' => 'field_programme_institution',
-      ],
-    ],
-    ImportTargetEntityType::COURSE_INSTANCE->value => [
-      'course' => [
-        'entity_label' => 'Course',
-        'target_entity' => 'occ_los',
-        'target_bundle' => 'course',
-        'references_label' => 'Course code',
-        'references' => 'code',
-        'in_file_column_name' => 'code',
-        'hei_field_name' => 'hei',
-      ]
-    ],
-  ];
-
+  /**
+   * @var \Drupal\dacem_csv_import_export\Import\Result\ImportError[]
+   */
   protected array $errors = [];
 
-  protected UserAccessManager $userAccessManager;
-  protected FieldMappingService $fieldMappingService;
-  protected EntityTypeManager $entityTypeManager;
-  protected DataLoader $dataLoader;
-
-
   public function __construct(
-    UserAccessManager $user_access_manager,
-    FieldMappingService $field_mapping_service,
-    EntityTypeManager $entity_type_manager,
-    DataLoader $data_loader,
-  ) {
-    $this->userAccessManager = $user_access_manager;
-    $this->fieldMappingService = $field_mapping_service;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->dataLoader = $data_loader;
-  }
+    protected UserAccessManager $userAccessManager,
+    protected CsvHeaderParser $headerParser,
+    protected CatalogueEntityRepository $repository,
+    protected BundleCsvDefinitions $definitions,
+  ) {}
 
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('dacem_csv_import_export.user_access_manager'),
-      $container->get('dacem_csv_import_export.field_mapping_service'),
-      $container->get('entity_type.manager'),
-      $container->get('dacem_csv_import_export.data_loader'),
-    );
-  }
-
-  public function validateFileData(array $records, array $headers, string $entityType, array $userInstitutions) {
-    $this->validateSingleHeiInFile($records, $entityType);
+  public function validateFileData(array $records, array $headers, string $entityType, array $userInstitutions): array {
+    $this->errors = [];
+    if (!$this->definitions->get($entityType)->importable) {
+      throw new \InvalidArgumentException('CSV import is not supported for bundle: ' . $entityType);
+    }
+    // Report malformed suffixes as CSV errors before decoding or querying data.
+    $invalid_headers = FALSE;
+    foreach ($headers as $header) {
+      try {
+        $this->headerParser->parse($header);
+      }
+      catch (\InvalidArgumentException $exception) {
+        $this->addError('Invalid CSV header', $header, 'CSV Headers', $exception->getMessage());
+        $invalid_headers = TRUE;
+      }
+    }
+    if ($invalid_headers) {
+      return $this->errors;
+    }
     $this->validateHeaders($headers, $entityType);
+    if ($this->errors) {
+      return $this->errors;
+    }
+    if (!$records) {
+      $this->addError('Empty CSV', '', 'File', 'The CSV contains no data rows.');
+      return $this->errors;
+    }
+    $this->validateSingleHeiInFile($records, $entityType);
 
-    foreach (self::VALIDATION_BY_TYPE[$entityType] as $method) {
-      call_user_func($method, $records, $entityType, $headers, $userInstitutions);
+    foreach (self::VALIDATION_METHODS as $method) {
+      $this->{$method}($records, $entityType, $headers, $userInstitutions);
     }
 
     return $this->errors;
@@ -152,7 +70,7 @@ class FileValidator {
 
   protected function validateSingleHeiInFile(array $records, string $entityType) {
     $heis_in_file = [];
-    $hei_column_name = FieldMappingService::HEI_COLUMNS[$entityType]['hei_column_name'];
+    $hei_column_name = $this->definitions->get($entityType)->institutionColumn;
 
     foreach ($records as $record) {
       if (!in_array($record[$hei_column_name], $heis_in_file)) {
@@ -167,7 +85,7 @@ class FileValidator {
 
   protected function validateFileHeiUserMatch(array $records, string $entityType, array $headers, array $userInstitutions) {
     $userInstitutionCodes = $this->userAccessManager->getSchacCodesFromInstitutions($userInstitutions);
-    $hei_column_name = FieldMappingService::HEI_COLUMNS[$entityType]['hei_column_name'];
+    $hei_column_name = $this->definitions->get($entityType)->institutionColumn;
 
     foreach ($records as $row_number => $record) {
       if (!in_array($record[$hei_column_name], $userInstitutionCodes)) {
@@ -176,20 +94,19 @@ class FileValidator {
     }
   }
 
-
   protected function validateHeaders(array $headers, string $entityType): void {
-    $language_sorted_headers = $this->fieldMappingService->sortHeadersByLanguage($headers);
+    $language_sorted_headers = $this->headerParser->groupByLanguage($headers);
 
-    foreach (FieldMappingService::REQUIRED_DATA[$entityType]['non-translatable'] as $required_header) {
+    foreach ($this->definitions->get($entityType)->requiredSharedColumns as $required_header) {
       if (!in_array($required_header, $language_sorted_headers['non-translatable'])) {
         $this->addError('Required header is missing', $required_header, 'CSV Headers', 'Required header is missing from CSV.');
       }
     }
 
-    foreach (FieldMappingService::REQUIRED_DATA[$entityType]['translatable'] as $required_header) {
+    foreach ($this->definitions->get($entityType)->requiredTranslatedColumns as $required_header) {
       foreach ($language_sorted_headers['translatable'] as $language => $headers_by_language) {
         if (!in_array($required_header, $headers_by_language)) {
-          $this->addError('Required header is missing', $required_header . FieldMappingService::LANGUAGE_SEPARATOR . $language, 'CSV Headers', 'Required header is missing from CSV.');
+          $this->addError('Required header is missing', $required_header . CsvColumn::LANGUAGE_SEPARATOR . $language, 'CSV Headers', 'Required header is missing from CSV.');
         }
       }
     }
@@ -199,10 +116,10 @@ class FileValidator {
 
     $results = [];
     $duplicates = [];
-    $column_name = self::UNIQUE_CODE_COLUMNS[$entityType]['column_name'];
+    $column_name = $this->definitions->get($entityType)->codeField;
 
     foreach ($records as $row_number => $record) {
-      $results[$record[$column_name]][] = $row_number;
+      $results[$record[$column_name]][] = $row_number + 1;
     }
 
     foreach ($results as $code => $rows) {
@@ -218,13 +135,13 @@ class FileValidator {
       }
     }
 
-    return empty($this->errors['csv_records']['non_unique_codes']);
+    return !$duplicates;
   }
 
   public function validateNonEmpty(array $records, string $entityType, array $headers, ?array $userInstitutions = NULL): void {
-    $languages = $this->fieldMappingService->getTranslationLanguagesFromHeaders($headers);
-    $non_translatable = FieldMappingService::REQUIRED_DATA[$entityType]['non-translatable'];
-    $translatable = FieldMappingService::REQUIRED_DATA[$entityType]['translatable'];
+    $languages = $this->headerParser->languages($headers);
+    $non_translatable = $this->definitions->get($entityType)->requiredSharedColumns;
+    $translatable = $this->definitions->get($entityType)->requiredTranslatedColumns;
 
     foreach ($records as $index => $record) {
       $row_number = $index + 1;
@@ -240,13 +157,13 @@ class FileValidator {
       foreach ($languages as $language) {
 
         // Values in Default language, are always required.
-        $is_default = ($language === FieldMappingService::DEFAULT_LANGUAGE);
+        $is_default = ($language === CsvHeaderParser::DEFAULT_LANGUAGE);
         // Values in any secondary language are only required if the row has at least one value for it.
         $has_any_data_for_lang = false;
 
         // Check if a specific language has any content in the row.
         foreach ($translatable as $column_name) {
-          $full_column_name = $column_name . FieldMappingService::LANGUAGE_SEPARATOR . $language;
+          $full_column_name = $column_name . CsvColumn::LANGUAGE_SEPARATOR . $language;
           if (!empty($record[$full_column_name])) {
             $has_any_data_for_lang = true;
             break;
@@ -256,7 +173,7 @@ class FileValidator {
         // Validate the translation.
         if ($is_default || $has_any_data_for_lang) {
           foreach ($translatable as $column_name) {
-            $full_column_name = $column_name . FieldMappingService::LANGUAGE_SEPARATOR . $language;
+            $full_column_name = $column_name . CsvColumn::LANGUAGE_SEPARATOR . $language;
             if (empty($record[$full_column_name])) {
               $message = $is_default
                 ? "Base translation ($language) is required."
@@ -271,11 +188,12 @@ class FileValidator {
   }
 
   public function validateReferences(array $records, string $entityType, array $headers, array $userInstitutions): void {
-    $hei_column = FieldMappingService::HEI_COLUMNS[$entityType]['hei_column_name'];
+    $hei_column = $this->definitions->get($entityType)->institutionColumn;
     $first_record = $records[array_key_first($records)];
     // Only one schac code is accepted per file.
     $schac_in_records = $first_record[$hei_column] ?? NULL;
 
+    $hei = NULL;
     foreach ($userInstitutions as $institution) {
       if ($this->userAccessManager->getSchacCodeFromInstitution($institution) === $schac_in_records) {
         $hei = $institution;
@@ -283,7 +201,13 @@ class FileValidator {
       }
     }
 
-    foreach (self::REFERENCES_VALIDATION[$entityType] as $target_field => $definition) {
+    // Institution access errors have already been reported; do not query with
+    // an unknown institution or expose whether its referenced entities exist.
+    if (!$hei) {
+      return;
+    }
+
+    foreach ($this->definitions->get($entityType)->referenceValidation as $target_field => $definition) {
       // The name of the primary identifier (code) column in the CSV.
       $pk_column = isset($definition['in_file_column_name']) ? $definition['in_file_column_name'] : NULL;
 
@@ -359,8 +283,7 @@ class FileValidator {
       ];
     }
 
-
-    $entities = $this->dataLoader->loadEntitiesWithConditions($definition['target_entity'], $conditions);
+    $entities = $this->repository->findByConditions($definition['target_entity'], $conditions);
 
     $found_codes = [];
 
@@ -373,12 +296,16 @@ class FileValidator {
   }
 
   protected function addError(string $type, string $source, mixed $row = '', ?string $message = '', ?array $values = []): void {
-    $this->errors[$type][] = [
-      'message' => $message ?: "No error message was provided",
-      'source' => $source,
-      'values' => $values,
-      'row_number' => $row,
-    ];
+    $language = NULL;
+    try {
+      $language = $this->headerParser->parse($source)->language;
+    }
+    catch (\InvalidArgumentException) {
+      // Global errors and malformed headers need no inferred language.
+    }
+    $this->errors[] = new ImportError(
+      $type, $message ?: $type . '.', $row, $source, $values ?? [], $language,
+    );
   }
 
 }

@@ -6,3 +6,6 @@ core_version_requirement: ^10 || ^11
 dependencies:
   - drupal:views
   - ewp_institutions:ewp_institutions
+  - drupal:file
+  - drupal:node
+  - group:gnode

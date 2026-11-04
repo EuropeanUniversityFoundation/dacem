@@ -3,145 +3,39 @@
 namespace Drupal\dacem_csv_import_export\CsvConverter;
 
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
-use Drupal\dacem_csv_import_export\Enum\ImportTargetEntityType;
+use Drupal\dacem_csv_import_export\Definition\BundleCsvDefinitions;
+use Drupal\dacem_csv_import_export\Import\ImportRow;
+use Drupal\dacem_csv_import_export\Repository\CatalogueEntityRepository;
 use Drupal\node\Entity\Node;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ReferenceResolver {
 
-  public const REFERENCES_BY_ENTITY_TYPE = [
-    ImportTargetEntityType::OUNIT->value => [
-      [
-        'reference_field_name' => 'field_ou_institution',
-        'referenced_entity' => 'node',
-        'referenced_entity_type' => ImportTargetEntityType::HEI->value,
-        'referenced_field_name' => 'field_shac_code',
-        'cardinality' => 1,
-      ],
-      [
-        'reference_field_name' => 'field_parent_organizational_unit',
-        'referenced_entity' => 'node',
-        'referenced_entity_type' => ImportTargetEntityType::OUNIT->value,
-        'referenced_field_name' => 'field_ou_code',
-        'referenced_hei_field_name' => 'field_ou_institution',
-        'cardinality' => 1,
-        'runs' => 'on_save',
-      ],
-    ],
-    ImportTargetEntityType::PROGRAMME->value => [
-      [
-        'reference_field_name' => 'field_programme_institution',
-        'referenced_entity' => 'node',
-        'referenced_entity_type' => ImportTargetEntityType::HEI->value,
-        'referenced_field_name' => 'field_shac_code',
-        'cardinality' => 1,
-      ],
-      [
-        'reference_field_name' => 'field_programme_ou',
-        'referenced_entity' => 'node',
-        'referenced_entity_type' => ImportTargetEntityType::OUNIT->value,
-        'referenced_field_name' => 'field_ou_code',
-        'referenced_hei_field_name' => 'field_ou_institution',
-        'cardinality' => 1,
-      ],
-      [
-        'reference_field_name' => 'field_programme_language_of_inst',
-        'referenced_entity' => 'taxonomy_term',
-        'referenced_entity_type' => NULL,
-        'referenced_field_name' => 'name',
-        'cardinality' => -1,
-      ],
-      [
-        'reference_field_name' => 'field_programme_type',
-        'referenced_entity' => 'taxonomy_term',
-        'referenced_entity_type' => NULL,
-        'referenced_field_name' => 'name',
-        'cardinality' => 1,
-      ],
-    ],
-    ImportTargetEntityType::COURSE->value => [
-      [
-        'reference_field_name' => 'field_iec_programme',
-        'referenced_entity' => 'node',
-        'referenced_entity_type' => ImportTargetEntityType::PROGRAMME->value,
-        'referenced_field_name' => 'field_programme_code',
-        'referenced_hei_field_name' => 'field_programme_institution',
-        'cardinality' => 1,
-      ],
-      [
-        'reference_field_name' => 'field_iec_language_of_instructio',
-        'referenced_entity' => 'taxonomy_term',
-        'referenced_entity_type' => NULL,
-        'referenced_field_name' => 'name',
-        'cardinality' => -1,
-      ],
-    ],
-  ];
-
-  protected EntityTypeManagerInterface $entityTypeManager;
-  protected DataLoader $dataLoader;
-
   public function __construct(
-    EntityTypeManagerInterface $entity_type_manager,
-    DataLoader $data_loader,
-  ) {
-    $this->entityTypeManager = $entity_type_manager;
-    $this->dataLoader = $data_loader;
+    protected CatalogueEntityRepository $repository,
+    protected BundleCsvDefinitions $definitions,
+  ) {}
+
+  public function resolveReferencesMultiple(array $rows, Node $institution): array {
+    return array_map(fn (ImportRow $row): ImportRow => $this->resolveReferences($row, $institution), $rows);
   }
 
-  /**
-   *
-   */
-  public static function create(ContainerInterface $container) {
-
-    return new static(
-      $container->get('entity_type.manager'),
-      $container->get('dacem_csv_import_export.data_loader'),
-    );
+  public function resolveReferences(ImportRow $row, Node $institution): ImportRow {
+    return $this->resolveRow($row, $institution, FALSE);
   }
 
-  /**
-   *
-   */
-  public function resolveReferencesMultiple(string $entity_type, array &$decoded_data, Node $institution): array {
-    array_walk($decoded_data, function (&$decoded_entity) use ($entity_type, $institution) {
-      $this->resolveReferences($entity_type, $decoded_entity, $institution);
-    });
-
-    return $decoded_data;
+  public function resolveReferencesOnSave(ImportRow $row, Node $institution): ImportRow {
+    return $this->resolveRow($row, $institution, TRUE);
   }
 
-  /**
-   *
-   */
-  public function resolveReferences(string $entity_type, array &$decoded_entity, Node $institution): void {
-    if (!isset(self::REFERENCES_BY_ENTITY_TYPE[$entity_type])) {
-      return;
-    }
-
-    foreach (self::REFERENCES_BY_ENTITY_TYPE[$entity_type] as $reference_details) {
-      // @phpstan-ignore booleanOr.rightAlwaysFalse
-      if (!isset($reference_details['runs']) || $reference_details['runs'] != 'on_save') {
-        $this->processReference($decoded_entity, $reference_details, $institution);
+  protected function resolveRow(ImportRow $row, Node $institution, bool $on_save): ImportRow {
+    $fields = $row->fieldsByLanguage;
+    foreach (($this->definitions->find($row->bundle)?->referenceResolution ?? []) as $reference_details) {
+      $deferred = ($reference_details['runs'] ?? NULL) === 'on_save';
+      if ($deferred === $on_save) {
+        $this->processReference($fields, $reference_details, $institution);
       }
     }
-  }
-
-  /**
-   *
-   */
-  public function resolveReferencesOnSave(string $entity_type, array &$decoded_entity, Node $institution): void {
-    if (!isset(self::REFERENCES_BY_ENTITY_TYPE[$entity_type])) {
-      return;
-    }
-
-    foreach (self::REFERENCES_BY_ENTITY_TYPE[$entity_type] as $reference_details) {
-      if (isset($reference_details['runs']) && $reference_details['runs'] === 'on_save') {
-        $this->processReference($decoded_entity, $reference_details, $institution);
-      }
-    }
+    return $row->withFields($fields);
   }
 
   protected function processReference(array &$decoded_entity, array $reference_details, Node $institution): void {
@@ -166,9 +60,6 @@ class ReferenceResolver {
     }
   }
 
-  /**
-   *
-   */
   protected function processSingleReference(array &$translation, array $reference_details, Node $institution): void {
     $field_name = $reference_details['reference_field_name'];
     $field_value = $translation[$field_name];
@@ -272,8 +163,8 @@ class ReferenceResolver {
       ];
     }
 
-    $entity = $this->dataLoader->loadEntitiesWithConditions(
-      entity_type_id: $entity_id,
+    $entity = $this->repository->findByConditions(
+      entity_type: $entity_id,
       conditions: $conditions
     );
 

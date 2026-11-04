@@ -5,38 +5,19 @@ namespace Drupal\dacem_csv_import_export\AccessManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
+use Drupal\dacem_csv_import_export\Repository\CatalogueEntityRepository;
 use Drupal\ewp_institutions\Entity\InstitutionEntity;
 use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupMembership;
 use Drupal\node\Entity\Node;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class UserAccessManager {
 
-  protected GroupMembership $groupMembership;
-  protected AccountInterface $account;
-  protected EntityTypeManagerInterface $entityTypeManager;
-  protected DataLoader $dataLoader;
-
-
   public function __construct(
-    AccountInterface $account,
-    EntityTypeManagerInterface $entity_type_manager,
-    DataLoader $data_loader,
-  ) {
-    $this->account = $account;
-    $this->entityTypeManager = $entity_type_manager;
-    $this->dataLoader = $data_loader;
-  }
-
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('current_user'),
-      $container->get('entity_type.manager'),
-      $container->get('dacem_csv_import_export.data_loader'),
-    );
-  }
+    protected AccountInterface $account,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected CatalogueEntityRepository $repository,
+  ) {}
 
   public function loadCurrentUserHeis() {
     $memberships = GroupMembership::loadByUser($this->account);
@@ -65,7 +46,7 @@ class UserAccessManager {
       $schac_codes[] = $this->getSchacCodeFromHei($hei);
     }
 
-    $userInstitutions = $this->dataLoader->getInstitutionsBySchacCodes($schac_codes);
+    $userInstitutions = $this->repository->findInstitutionsBySchacCodes($schac_codes);
 
     return $userInstitutions;
   }
