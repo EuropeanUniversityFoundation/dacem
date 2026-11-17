@@ -86,10 +86,6 @@
         "phpoffice/phpspreadsheet": "^3.3",
         "symfony/intl": "^6.4"
     },
-    "scripts": {
-        "test:csv:browser": "mkdir -p /tmp/dacem-csv-browser-output && cd web && SIMPLETEST_DB=sqlite://localhost//tmp/dacem-csv-browser.sqlite SIMPLETEST_BASE_URL=http://localhost BROWSERTEST_OUTPUT_DIRECTORY=/tmp/dacem-csv-browser-output ../vendor/bin/phpunit -c core/phpunit.xml.dist --bootstrap modules/custom/dacem_csv_import_export/tests/bootstrap.php --group csv_browser modules/custom/dacem_csv_import_export/tests/src/Functional",
-        "test:csv": "cd web && SIMPLETEST_DB=sqlite://localhost/:memory: ../vendor/bin/phpunit -c core/phpunit.xml.dist --bootstrap modules/custom/dacem_csv_import_export/tests/bootstrap.php --exclude-group csv_browser modules/custom/dacem_csv_import_export/tests/src"
-    },
     "conflict": {
         "drupal/drupal": "*"
     },
