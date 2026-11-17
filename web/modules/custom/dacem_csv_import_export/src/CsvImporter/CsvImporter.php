@@ -14,6 +14,7 @@ use Drupal\dacem_csv_import_export\Import\ImportRowValidator;
 use Drupal\dacem_csv_import_export\Import\ImportWriteException;
 use Drupal\dacem_csv_import_export\Import\Result\ImportError;
 use Drupal\dacem_csv_import_export\Import\Result\ImportResult;
+use Drupal\dacem_csv_import_export\Import\Result\ImportSummary;
 use Drupal\dacem_csv_import_export\Import\Result\ValidationErrorMapper;
 use Drupal\dacem_csv_import_export\Repository\AmbiguousEntityException;
 use Drupal\dacem_csv_import_export\Repository\CatalogueEntityRepository;
@@ -41,8 +42,16 @@ class CsvImporter {
   ) {}
 
   public function import(File $file, string $entityType, ?bool $sort = FALSE): ImportResult {
+    return $this->run($file, $entityType, (bool) $sort, FALSE);
+  }
+
+  public function preview(File $file, string $entityType, bool $sort = FALSE): ImportResult {
+    return $this->run($file, $entityType, $sort, TRUE);
+  }
+
+  private function run(File $file, string $entityType, bool $sort, bool $preview): ImportResult {
     try {
-      return $this->importFile($file, $entityType, (bool) $sort);
+      return $this->importFile($file, $entityType, $sort, $preview);
     }
     catch (ImportWriteException $exception) {
       $cause = $exception->getPrevious();
@@ -81,7 +90,7 @@ class CsvImporter {
     }
   }
 
-  protected function importFile(File $file, string $entityType, bool $sort): ImportResult {
+  protected function importFile(File $file, string $entityType, bool $sort, bool $preview = FALSE): ImportResult {
     $userInstitutions = $this->userAccessManager->loadCurrentUserInstitutions();
     $reader = $this->createReaderFromFile($file);
     $records = iterator_to_array($reader->getRecords());
@@ -106,6 +115,20 @@ class CsvImporter {
     $errors = $this->rowValidator->validateMultiple($rows, $institution);
     if ($errors) {
       return ImportResult::failure($errors);
+    }
+    if ($preview) {
+      $created_count = 0;
+      $updated_codes = [];
+      $code_field = $this->definitions->get($entityType)->codeField;
+      foreach ($rows as $row) {
+        if ($this->repository->findImportTarget($row, $institution)) {
+          $updated_codes[] = (string) $row->fieldValue($code_field);
+        }
+        else {
+          $created_count++;
+        }
+      }
+      return ImportResult::preview(new ImportSummary($institution_code, $created_count, $updated_codes));
     }
     $this->writer->writeMultiple($rows, $institution);
     return ImportResult::success(count($rows));

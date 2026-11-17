@@ -74,15 +74,72 @@ class CsvImportFormTest extends BrowserTestBase {
       fclose($stream);
       $this->drupalLogin($account);
       $this->drupalGet('/admin/import/programme');
-      $this->submitForm(['files[csv_file]' => $path], 'Start Import');
+      $this->submitForm(['files[csv_file]' => $path], 'Review import');
+      $this->assertSession()->pageTextContains('Records to create: 1');
+      $this->assertSession()->pageTextContains('Records to update: 0');
+      $storage = $this->container->get('entity_type.manager')->getStorage('node');
+      $this->assertCount(0, $storage->loadByProperties(['field_programme_code' => 'browser-programme']));
+      $this->submitForm([], 'Confirm import');
       $this->assertSession()->pageTextContains('Imported 1 row for Programmes.');
       $this->assertSession()->elementNotExists('css', '.csv-error-table');
       $nodes = $this->container->get('entity_type.manager')->getStorage('node')->loadByProperties(['field_programme_code' => 'browser-programme']);
       $this->assertCount(1, $nodes);
       $this->assertCount(1, $group->getRelationshipsByEntity(reset($nodes), 'group_node:programme'));
+      // Existing targets are listed by code, and cancelling preserves values.
+      $node = reset($nodes);
+      $original_title = $node->label();
+      $record['title|en'] = 'Changed programme';
+      $stream = fopen($path, 'w');
+      fputcsv($stream, array_keys($record));
+      fputcsv($stream, array_values($record));
+      fclose($stream);
+      $this->drupalGet('/admin/import/programme');
+      $this->submitForm(['files[csv_file]' => $path], 'Review import');
+      $this->assertSession()->pageTextContains('Records to create: 0');
+      $this->assertSession()->pageTextContains('Records to update: 1');
+      $this->assertSession()->pageTextContains('browser-programme');
+      $this->assertSame($original_title, $storage->loadUnchanged($node->id())->label());
+      $this->submitForm([], 'Cancel');
+      $this->assertSession()->pageTextContains('Import cancelled. No catalogue data was changed.');
+      $this->assertSame($original_title, $storage->loadUnchanged($node->id())->label());
+      $this->drupalGet('/admin/import/programme');
+      $this->submitForm(['files[csv_file]' => $path], 'Review import');
+      $this->submitForm([], 'Confirm import');
+      $this->assertSession()->pageTextContains('Imported 1 row for Programmes.');
+      $this->assertSame('Changed programme', $storage->loadUnchanged($node->id())->label());
+      // A target created after review requires a new confirmation summary.
+      $record['field_programme_code'] = 'concurrent-programme';
+      $stream = fopen($path, 'w');
+      fputcsv($stream, array_keys($record));
+      fputcsv($stream, array_values($record));
+      fclose($stream);
+      $this->drupalGet('/admin/import/programme');
+      $this->submitForm(['files[csv_file]' => $path], 'Review import');
+      $this->assertSession()->pageTextContains('Records to create: 1');
+      $concurrent = Node::create([
+        'type' => 'programme', 'title' => 'Created during review',
+        'field_programme_code' => 'concurrent-programme',
+        'field_programme_institution' => $node->get('field_programme_institution')->target_id,
+      ]);
+      $concurrent->save();
+      $this->submitForm([], 'Confirm import');
+      $this->assertSession()->pageTextContains('The import has changed. Review the updated summary before confirming.');
+      $this->assertSession()->pageTextContains('Records to update: 1');
+      $this->assertSession()->pageTextContains('concurrent-programme');
+      $this->assertSame('Created during review', $storage->loadUnchanged($concurrent->id())->label());
+      $this->submitForm([], 'Confirm import');
+      $this->assertSame('Changed programme', $storage->loadUnchanged($concurrent->id())->label());
+      // Access lost while reviewing must be checked again on confirmation.
+      $this->drupalGet('/admin/import/programme');
+      $this->submitForm(['files[csv_file]' => $path], 'Review import');
+      $group->removeMember($account);
+      $this->submitForm([], 'Confirm import');
+      $this->assertSession()->pageTextContains('Import failed. No rows were imported.');
+      $this->assertSession()->buttonNotExists('Confirm import');
+      $group->addMember($account);
       file_put_contents($path, "field_credits____invalid\n1\n");
       $this->drupalGet('/admin/import/programme');
-      $this->submitForm(['files[csv_file]' => $path], 'Start Import');
+      $this->submitForm(['files[csv_file]' => $path], 'Review import');
       $this->assertSession()->pageTextContains('Import failed. No rows were imported.');
       $this->assertSession()->pageTextContains('Invalid CSV header');
       $this->assertSession()->pageTextContains('field_credits____invalid');

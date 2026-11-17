@@ -15,6 +15,7 @@ abstract class ImportFormBase extends FormBase {
 
   public const ENTITY_TYPE = '';
   public const ENTITY_LABEL = '';
+  protected const SORT = FALSE;
 
   protected CsvImporter $csvImporter;
   protected RendererInterface $renderer;
@@ -40,6 +41,33 @@ abstract class ImportFormBase extends FormBase {
 
   public function buildForm(array $form, FormStateInterface $form_state, $entity_type = NULL) {
 
+    if ($summary = $form_state->get('import_summary')) {
+      $form['summary'] = [
+        '#theme' => 'item_list',
+        '#title' => $this->t('Review import'),
+        '#items' => [
+          $this->t('File: @file', ['@file' => $form_state->get('import_filename')]),
+          $this->t('Import type: @type', ['@type' => static::ENTITY_LABEL]),
+          $this->t('Institution: @institution', ['@institution' => $summary->institution]),
+          $this->t('Records to create: @count', ['@count' => $summary->createdCount]),
+          $this->t('Records to update: @count', ['@count' => count($summary->updatedCodes)]),
+        ],
+      ];
+      $form['updated_codes'] = [
+        '#theme' => 'item_list',
+        '#title' => $this->t('Codes of entities to update'),
+        '#items' => array_map(static fn ($code) => ['#plain_text' => $code], $summary->updatedCodes),
+        '#empty' => $this->t('No existing entities will be updated.'),
+      ];
+      $form['notice'] = ['#markup' => '<p>' . $this->t('Supplied values replace existing values. Empty cells clear existing values. No catalogue data has been saved yet.') . '</p>'];
+      $form['submit'] = ['#type' => 'submit', '#value' => $this->t('Confirm import')];
+      $form['cancel'] = [
+        '#type' => 'submit', '#value' => $this->t('Cancel'),
+        '#submit' => ['::cancelImport'], '#limit_validation_errors' => [],
+      ];
+      return $form;
+    }
+
     $form['csv_file'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('CSV File'),
@@ -52,21 +80,67 @@ abstract class ImportFormBase extends FormBase {
 
     $form['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Start Import'),
+      '#value' => $this->t('Review import'),
     ];
 
     return $form;
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $file_id = $form_state->getValue('csv_file')[0];
-    $file = File::load($file_id);
+    $reviewing = $form_state->get('import_summary') !== NULL;
+    $file_id = $reviewing ? $form_state->get('import_file_id') : ($form_state->getValue('csv_file')[0] ?? NULL);
+    $file = $file_id ? File::load($file_id) : NULL;
+    if (!$file) {
+      $this->messenger()->addError($this->t('The uploaded CSV is no longer available. Upload it again.'));
+      $this->resetImport($form_state);
+      return;
+    }
+    $keep_file = FALSE;
     try {
+      // Recheck authorization, validation, and target identities on confirmation.
+      $result = $this->csvImporter->preview($file, static::ENTITY_TYPE, static::SORT);
+      if (!$result->isSuccessful()) {
+        $this->displayResult($result);
+        $this->resetImport($form_state);
+        return;
+      }
+      $hash = hash_file('sha256', $file->getFileUri());
+      if (!$reviewing || $result->summary != $form_state->get('import_summary') || $hash !== $form_state->get('import_hash')) {
+        if ($reviewing) {
+          $this->messenger()->addWarning($this->t('The import has changed. Review the updated summary before confirming.'));
+        }
+        $form_state->set('import_summary', $result->summary);
+        $form_state->set('import_file_id', $file->id());
+        $form_state->set('import_filename', $file->getFilename());
+        $form_state->set('import_hash', $hash);
+        $form_state->setRebuild();
+        $keep_file = TRUE;
+        return;
+      }
       $this->displayResult($this->importCsv($file, static::ENTITY_TYPE));
+      $this->resetImport($form_state);
     }
     finally {
+      if (!$keep_file) {
+        $file->delete();
+      }
+    }
+  }
+
+  public function cancelImport(array &$form, FormStateInterface $form_state): void {
+    if ($file = File::load($form_state->get('import_file_id'))) {
       $file->delete();
     }
+    $this->resetImport($form_state);
+    $this->messenger()->addStatus($this->t('Import cancelled. No catalogue data was changed.'));
+  }
+
+  private function resetImport(FormStateInterface $form_state): void {
+    foreach (['import_summary', 'import_file_id', 'import_filename', 'import_hash'] as $key) {
+      $form_state->set($key, NULL);
+    }
+    $form_state->setUserInput([]);
+    $form_state->setRebuild();
   }
 
   protected function displayResult(ImportResult $result): void {
@@ -83,7 +157,7 @@ abstract class ImportFormBase extends FormBase {
   }
 
   protected function importCsv(File $file, string $entity_type) {
-    return $this->csvImporter->import($file, $entity_type);
+    return $this->csvImporter->import($file, $entity_type, static::SORT);
   }
 
   /**

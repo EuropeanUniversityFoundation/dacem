@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\dacem_csv_import_export\Unit;
 
+use Drupal\Core\Form\FormState;
+use Drupal\dacem_csv_import_export\Import\Result\ImportSummary;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\dacem_csv_import_export\CsvImporter\CsvImporter;
@@ -41,6 +43,18 @@ class ImportFormResultTest extends UnitTestCase {
     $form->show(ImportResult::failure([
       new ImportError('Validation', '<script>bad message</script>', 12, 'title|es', ['<script>bad value</script>'], 'es'),
     ]));
+  }
+
+  public function testReviewEscapesCodesAndRequiresConfirmation(): void {
+    $form = $this->form($this->createMock(RendererInterface::class), $this->createMock(MessengerInterface::class));
+    $state = new FormState();
+    $state->set('import_summary', new ImportSummary('example.edu', 2, ['<script>code</script>']));
+    $state->set('import_filename', 'example.csv');
+    $build = $form->buildForm([], $state);
+    $this->assertSame(['#plain_text' => '<script>code</script>'], $build['updated_codes']['#items'][0]);
+    $this->assertSame('Confirm import', (string) $build['submit']['#value']);
+    $this->assertArrayNotHasKey('csv_file', $build);
+    $this->assertSame(['::cancelImport'], $build['cancel']['#submit']);
   }
 
   public function testSuccessReportsCompletedCount(): void {

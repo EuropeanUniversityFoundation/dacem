@@ -30,7 +30,9 @@ preflight exclusions and error labels and the shared repository for lookup.
 
 `CsvImporter::import()` always returns an `ImportResult`: a completed row count
 on success, or a flat list of `ImportError` objects and zero committed rows on
-failure. It no longer mixes decoded rows with grouped error arrays.
+failure. `CsvImporter::preview()` returns the same result type with a summary
+and zero imported rows on success. Neither method mixes decoded rows with
+grouped error arrays.
 
 The file validator, dependency sorter, and entity validation use the same error
 objects. `ValidationErrorMapper` maps Drupal field paths to the original CSV
@@ -49,7 +51,23 @@ The form displays row, error type, message, CSV column, language, and values.
 Error messages allow a small set of formatting tags through Drupal's HTML filtering, so validation placeholders display correctly. CSV values, column names, and other source context use plain-text rendering.
 Failures show no success notice; successful imports show the completed row
 count rather than an "Import started" message. Uploaded files are cleaned up
-after either result.
+after either result or cancellation. Abandoned reviews retain temporary uploads,
+which Drupal cleans up through its normal temporary-file lifecycle.
+
+### Import confirmation
+
+All three upload forms use **Review import** before **Confirm import**. Review
+runs the same access checks and preflight validation as import without calling
+the writer. It shows the filename, import type, institution SCHAC code, create
+and update counts, and each existing target's code. Existing targets count as
+updates even when supplied values match; there is no field comparison.
+
+The uploaded file and summary stay in server-side form state. Confirmation
+repeats preflight and compares the current summary and file hash with the
+reviewed version. Changes require another review. Import then performs its
+normal validation and transactional write; cancellation saves no catalogue data.
+Concurrent edits to field values are not detected by this summary comparison.
+
 
 ### Typed import rows
 
@@ -214,7 +232,9 @@ ddev exec composer test:csv:browser
 ```
 
 It installs an isolated test site and uses the actual managed-file upload form.
-A successful upload creates a programme and a real Group relationship; a bad
+Review saves nothing; confirmation creates a programme and a real Group relationship.
+Updates list the existing code, cancellation preserves data, and confirmation
+applies the update. A bad
 header produces an error table and no success notice. It uses
 `/tmp/dacem-csv-browser.sqlite` and writes debugging pages under
 `/tmp/dacem-csv-browser-output`; the installed site's records are not used.
