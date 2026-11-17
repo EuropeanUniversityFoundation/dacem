@@ -3,13 +3,21 @@
 namespace Drupal\institution_menu\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Path\CurrentPathStack;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
-use Drupal\file\Entity\File;
-use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Site\Settings;
-use Drupal\user\Entity\User;
+use Drupal\path_alias\AliasManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides an Institution Menu block.
@@ -121,11 +129,80 @@ final class InstitutionMenuBlock extends BlockBase {
   ];
 
   /**
+   * Constructs an InstitutionMenuBlock object.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin ID for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
+   *   The language manager.
+   * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
+   *   The current route match.
+   * @param \Drupal\path_alias\AliasManagerInterface $aliasManager
+   *   The path alias manager.
+   * @param \Drupal\Core\Path\CurrentPathStack $currentPath
+   *   The current path stack.
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
+   * @param \Drupal\Core\File\FileUrlGeneratorInterface $fileUrlGenerator
+   *   The file URL generator.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+   *   The request stack.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entityRepository
+   *   The entity repository.
+   * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
+   *   The current user.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    private readonly LanguageManagerInterface $languageManager,
+    private readonly RouteMatchInterface $routeMatch,
+    private readonly AliasManagerInterface $aliasManager,
+    private readonly CurrentPathStack $currentPath,
+    private readonly Connection $database,
+    private readonly FileUrlGeneratorInterface $fileUrlGenerator,
+    private readonly RequestStack $requestStack,
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+    private readonly EntityRepositoryInterface $entityRepository,
+    private readonly AccountProxyInterface $currentUser,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new self(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('language_manager'),
+      $container->get('current_route_match'),
+      $container->get('path_alias.manager'),
+      $container->get('path.current'),
+      $container->get('database'),
+      $container->get('file_url_generator'),
+      $container->get('request_stack'),
+      $container->get('entity_type.manager'),
+      $container->get('entity.repository'),
+      $container->get('current_user'),
+    );
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function build() {
-    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-    $current_route = \Drupal::routeMatch()->getRouteName();
+    $current_language = $this->languageManager->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+    $current_route = $this->routeMatch->getRouteName();
     $site_branding = Settings::get('site_branding', []);
     $site_menu_logo_url = $site_branding['menu_logo_image'] ?? '/themes/custom/b5subtheme/images/dacem-imago.png';
 
@@ -153,7 +230,7 @@ final class InstitutionMenuBlock extends BlockBase {
     $rs_aria = $rs_active !== '' ? ' aria-current="page"' : '';
 
     $main_page_url = Url::fromRoute('view.main_page.page_1', [], [
-      'language' => \Drupal::languageManager()->getLanguage($current_language),
+      'language' => $this->languageManager->getLanguage($current_language),
     ])->toString();
 
     return [
@@ -216,13 +293,16 @@ final class InstitutionMenuBlock extends BlockBase {
     ];
   }
 
+  /**
+   * Get node from alias.
+   */
   protected function getNodeFromAlias(string $alias, ?string $langcode = NULL): ?NodeInterface {
-    $internal_path = \Drupal::service('path_alias.manager')->getPathByAlias($alias, $langcode);
+    $internal_path = $this->aliasManager->getPathByAlias($alias, $langcode);
     if (!preg_match('/^\/node\/(\d+)$/', $internal_path, $matches)) {
       return NULL;
     }
 
-    $node = Node::load((int) $matches[1]);
+    $node = $this->entityTypeManager->getStorage('node')->load((int) $matches[1]);
     if (!$node instanceof NodeInterface) {
       return NULL;
     }
@@ -234,8 +314,11 @@ final class InstitutionMenuBlock extends BlockBase {
     return $node;
   }
 
+  /**
+   * Get Institution Resources node.
+   */
   protected function getInstitutionResourcesNode(int $institution_id): ?NodeInterface {
-    $query = \Drupal::database()->select('node_field_data', 'nfd');
+    $query = $this->database->select('node_field_data', 'nfd');
     $query->fields('nfd', ['nid']);
     $query->innerJoin('node__field_rs_institution', 'rs_inst', 'rs_inst.entity_id = nfd.nid');
     $query->leftJoin('node__field_rs_campus', 'rs_campus', 'rs_campus.entity_id = nfd.nid');
@@ -247,11 +330,14 @@ final class InstitutionMenuBlock extends BlockBase {
       ->range(0, 1);
 
     $nid = $query->execute()->fetchField();
-    return $nid ? Node::load((int) $nid) : NULL;
+    return $nid ? $this->entityTypeManager->getStorage('node')->load((int) $nid) : NULL;
   }
 
+  /**
+   * Get Campus Resources node.
+   */
   protected function getCampusResourcesNode(int $campus_id): ?NodeInterface {
-    $query = \Drupal::database()->select('node_field_data', 'nfd');
+    $query = $this->database->select('node_field_data', 'nfd');
     $query->fields('nfd', ['nid']);
     $query->innerJoin('node__field_rs_campus', 'rs_campus', 'rs_campus.entity_id = nfd.nid');
     $query
@@ -261,21 +347,27 @@ final class InstitutionMenuBlock extends BlockBase {
       ->range(0, 1);
 
     $nid = $query->execute()->fetchField();
-    return $nid ? Node::load((int) $nid) : NULL;
+    return $nid ? $this->entityTypeManager->getStorage('node')->load((int) $nid) : NULL;
   }
 
+  /**
+   * Resolve current node.
+   */
   private function resolveCurrentNode(string $current_language): ?NodeInterface {
-    $route_parameter = \Drupal::routeMatch()->getParameter('arg_0');
+    $route_parameter = $this->routeMatch->getParameter('arg_0');
     if (is_numeric($route_parameter)) {
-      return Node::load((int) $route_parameter);
+      return $this->entityTypeManager->getStorage('node')->load((int) $route_parameter);
     }
 
-    $current_path = \Drupal::service('path.current')->getPath();
+    $current_path = $this->currentPath->getPath();
     $path_without_language = preg_replace('#^/[^/]+/#', '/', $current_path) ?: $current_path;
 
     return $this->getNodeFromAlias($path_without_language, $current_language);
   }
 
+  /**
+   * Resolve current page.
+   */
   private function resolveCurrentPage(string $current_route): string {
     return match ($current_route) {
       'view.general_information.page_1' => 'general-information',
@@ -295,12 +387,15 @@ final class InstitutionMenuBlock extends BlockBase {
     };
   }
 
+  /**
+   * Resolve Institution.
+   */
   private function resolveInstitution(?NodeInterface $current_node, string $current_route): ?NodeInterface {
     if ($current_node instanceof NodeInterface) {
       return $this->resolveInstitutionFromNode($current_node);
     }
 
-    $route_parameter = \Drupal::routeMatch()->getParameter('arg_0');
+    $route_parameter = $this->routeMatch->getParameter('arg_0');
     if (!is_numeric($route_parameter)) {
       return NULL;
     }
@@ -311,11 +406,14 @@ final class InstitutionMenuBlock extends BlockBase {
       'view.resources_and_services.page_1',
       'view.institution_new_catalogue.page_1',
       'view.institution_new_catalogue.page_2',
-      'view.institution_new_catalogue.page_3' => Node::load((int) $route_parameter),
+      'view.institution_new_catalogue.page_3' => $this->entityTypeManager->getStorage('node')->load((int) $route_parameter),
       default => NULL,
     };
   }
 
+  /**
+   * Resolve Institution from Node.
+   */
   private function resolveInstitutionFromNode(NodeInterface $node): ?NodeInterface {
     return match ($node->bundle()) {
       'institution' => $node,
@@ -329,6 +427,9 @@ final class InstitutionMenuBlock extends BlockBase {
     };
   }
 
+  /**
+   * Resolve Institution from Programme reference.
+   */
   private function resolveInstitutionFromProgrammeReference(NodeInterface $node, string $field_name): ?NodeInterface {
     if (!$node->hasField($field_name) || $node->get($field_name)->isEmpty()) {
       return NULL;
@@ -343,6 +444,9 @@ final class InstitutionMenuBlock extends BlockBase {
     return $institution instanceof NodeInterface ? $institution : NULL;
   }
 
+  /**
+   * Resolve Institution from IEC instance.
+   */
   private function resolveInstitutionFromIecInstance(NodeInterface $node): ?NodeInterface {
     if (!$node->hasField('field_iec') || $node->get('field_iec')->isEmpty()) {
       return NULL;
@@ -362,6 +466,9 @@ final class InstitutionMenuBlock extends BlockBase {
     return $institution instanceof NodeInterface ? $institution : NULL;
   }
 
+  /**
+   * Build Institution branding.
+   */
   private function buildInstitutionBranding(NodeInterface $institution, string $current_language): array {
     $branding = [
       'logo_url' => '',
@@ -369,7 +476,7 @@ final class InstitutionMenuBlock extends BlockBase {
       'text_color' => '#000000',
       'emphasis_text_color' => '#000000',
       'institution_url' => $institution->toUrl('canonical', [
-        'language' => \Drupal::languageManager()->getLanguage($current_language),
+        'language' => $this->languageManager->getLanguage($current_language),
       ])->toString(),
     ];
 
@@ -378,7 +485,7 @@ final class InstitutionMenuBlock extends BlockBase {
       if ($media && $media->hasField('field_media_image')) {
         $file = $media->get('field_media_image')->entity;
         if ($file) {
-          $branding['logo_url'] = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+          $branding['logo_url'] = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
         }
       }
     }
@@ -396,9 +503,12 @@ final class InstitutionMenuBlock extends BlockBase {
     return $branding;
   }
 
+  /**
+   * Build language options.
+   */
   private function buildLanguageOptions(?NodeInterface $current_node, NodeInterface $institution, string $current_page, string $current_route, string $current_language): string {
     $language_options = '';
-    foreach (\Drupal::languageManager()->getLanguages() as $language) {
+    foreach ($this->languageManager->getLanguages() as $language) {
       $langcode = $language->getId();
       $language_url = $this->buildLanguageSwitchUrl($current_node, $institution, $current_page, $current_route, $current_language, $language);
       $flag = self::LANGUAGE_FLAGS[$langcode] ?? '';
@@ -408,6 +518,9 @@ final class InstitutionMenuBlock extends BlockBase {
     return $language_options;
   }
 
+  /**
+   * Build language switch URL.
+   */
   private function buildLanguageSwitchUrl(?NodeInterface $current_node, NodeInterface $institution, string $current_page, string $current_route, string $current_language, $language): string {
     if (
       $current_route === 'view.institution_new_catalogue.page_1' ||
@@ -418,14 +531,14 @@ final class InstitutionMenuBlock extends BlockBase {
         'arg_0' => $institution->id(),
       ], [
         'language' => $language,
-        'query' => \Drupal::request()->query->all(),
+        'query' => $this->requestStack->getCurrentRequest()->query->all(),
       ])->toString();
     }
 
     if ($current_route === 'view.iec_instance.page_1' && $current_node instanceof NodeInterface) {
       $route_language = $current_node->hasTranslation($language->getId())
         ? $language
-        : \Drupal::languageManager()->getLanguage('en');
+        : $this->languageManager->getLanguage('en');
       $instance_for_url = $current_node->hasTranslation($route_language->getId())
         ? $current_node->getTranslation($route_language->getId())
         : $current_node;
@@ -440,7 +553,7 @@ final class InstitutionMenuBlock extends BlockBase {
     if ($current_route === 'view.joint_programme_information.page_1' && $current_node instanceof NodeInterface) {
       $route_language = $current_node->hasTranslation($language->getId())
         ? $language
-        : \Drupal::languageManager()->getLanguage('en');
+        : $this->languageManager->getLanguage('en');
       $joint_for_url = $current_node->hasTranslation($route_language->getId())
         ? $current_node->getTranslation($route_language->getId())
         : $current_node;
@@ -461,7 +574,7 @@ final class InstitutionMenuBlock extends BlockBase {
 
     if ($current_node instanceof NodeInterface) {
       $target_langcode = $current_node->hasTranslation($language->getId()) ? $language->getId() : 'en';
-      $alias = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $current_node->id(), $target_langcode);
+      $alias = $this->aliasManager->getAliasByPath('/node/' . $current_node->id(), $target_langcode);
       $alias = $this->stripLanguagePrefix($alias, $target_langcode);
       return '/' . $target_langcode . '/' . $current_page . $alias;
     }
@@ -469,14 +582,17 @@ final class InstitutionMenuBlock extends BlockBase {
     return $this->buildSectionAliasUrl($institution, 'general-information', $language->getId());
   }
 
+  /**
+   * Build Resources and Services language URLs.
+   */
   private function buildResourcesAndServicesLanguageUrl(string $current_route, string $current_language, $language): string {
-    $alias_manager = \Drupal::service('path_alias.manager');
+    $alias_manager = $this->aliasManager;
     $route_language = $language;
     $target_nid = NULL;
-    $entity_name = (string) \Drupal::routeMatch()->getParameter('arg_0');
+    $entity_name = (string) $this->routeMatch->getParameter('arg_0');
 
     if ($current_route === 'view.resources_and_services.page_2') {
-      $entity_name .= '/' . (string) \Drupal::routeMatch()->getParameter('arg_1');
+      $entity_name .= '/' . (string) $this->routeMatch->getParameter('arg_1');
     }
 
     if ($entity_name !== '') {
@@ -498,7 +614,7 @@ final class InstitutionMenuBlock extends BlockBase {
     }
 
     if (!$rs_node || !$rs_node->hasTranslation($language->getId())) {
-      $route_language = \Drupal::languageManager()->getLanguage('en');
+      $route_language = $this->languageManager->getLanguage('en');
     }
 
     $route_langcode = $route_language->getId();
@@ -509,10 +625,10 @@ final class InstitutionMenuBlock extends BlockBase {
     $route_alias_parts = $route_alias !== '' ? explode('/', $route_alias) : [];
 
     $route_parameters = [
-      'arg_0' => $route_alias_parts[0] ?? \Drupal::routeMatch()->getParameter('arg_0'),
+      'arg_0' => $route_alias_parts[0] ?? $this->routeMatch->getParameter('arg_0'),
     ];
     if ($current_route === 'view.resources_and_services.page_2') {
-      $route_parameters['arg_1'] = $route_alias_parts[1] ?? \Drupal::routeMatch()->getParameter('arg_1');
+      $route_parameters['arg_1'] = $route_alias_parts[1] ?? $this->routeMatch->getParameter('arg_1');
     }
 
     return Url::fromRoute($current_route, $route_parameters, [
@@ -520,11 +636,14 @@ final class InstitutionMenuBlock extends BlockBase {
     ])->toString();
   }
 
+  /**
+   * Build menu URLs.
+   */
   private function buildMenuUrls(NodeInterface $institution, string $current_language): array {
     $catalogue_url = Url::fromRoute('view.institution_new_catalogue.page_3', [
       'arg_0' => $institution->id(),
     ], [
-      'language' => \Drupal::languageManager()->getLanguage($current_language),
+      'language' => $this->languageManager->getLanguage($current_language),
     ])->toString();
 
     $general_info_url = $this->buildSectionAliasUrl($institution, 'general-information', $current_language);
@@ -544,12 +663,15 @@ final class InstitutionMenuBlock extends BlockBase {
     ];
   }
 
+  /**
+   * Build Institution options.
+   */
   private function buildInstitutionOptions(NodeInterface $current_institution, string $current_language): string {
-    $institutions = \Drupal::entityTypeManager()
+    $institutions = $this->entityTypeManager
       ->getStorage('node')
       ->loadByProperties(['type' => 'institution', 'status' => 1]);
 
-    $translated_institution = \Drupal::service('entity.repository')
+    $translated_institution = $this->entityRepository
       ->getTranslationFromContext($current_institution, $current_language);
     $current_institution_name = $translated_institution->getTitle();
 
@@ -570,12 +692,18 @@ final class InstitutionMenuBlock extends BlockBase {
     return $institution_options;
   }
 
+  /**
+   * Build section alias URL.
+   */
   private function buildSectionAliasUrl(NodeInterface $node, string $section, string $langcode): string {
-    $alias = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $node->id(), $langcode);
+    $alias = $this->aliasManager->getAliasByPath('/node/' . $node->id(), $langcode);
     $alias = $this->stripLanguagePrefix($alias, $langcode);
     return '/' . $langcode . '/' . $section . $alias;
   }
 
+  /**
+   * Strip language prefix.
+   */
   private function stripLanguagePrefix(string $alias, string $langcode): string {
     $language_prefix = '/' . $langcode;
     return str_starts_with($alias, $language_prefix)
@@ -583,19 +711,22 @@ final class InstitutionMenuBlock extends BlockBase {
       : $alias;
   }
 
+  /**
+   * Build profile HTML.
+   */
   private function buildProfileHtml(): string {
-    $current_user = \Drupal::currentUser();
+    $current_user = $this->currentUser;
     if (!$current_user->isAuthenticated() || (int) $current_user->id() === 0) {
       return '';
     }
 
     $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
-    $user = User::load($current_user->id());
+    $user = $this->entityTypeManager->getStorage('user')->load($current_user->id());
 
     if ($user && $user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
-      $file = File::load($user->get('user_picture')->target_id);
+      $file = $this->entityTypeManager->getStorage('file')->load($user->get('user_picture')->target_id);
       if ($file) {
-        $profile_picture_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+        $profile_picture_url = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
       }
     }
 
