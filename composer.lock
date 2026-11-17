@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "acc772f23cf7b6def2d242c3e25f82ee",
+    "content-hash": "55dbe3474dfc48aae83535e3e138254a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2030,65 +2030,6 @@
             }
         },
         {
-            "name": "drupal/content_access",
-            "version": "2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/content_access.git",
-                "reference": "2.1.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/content_access-2.1.0.zip",
-                "reference": "2.1.0",
-                "shasum": "20bcc62fe5fede64dc2a5adbbca102d626560e1e"
-            },
-            "require": {
-                "drupal/core": "^9.4 || ^10 || ^11"
-            },
-            "require-dev": {
-                "drupal/acl": "~1.0 || ~2.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "2.1.0",
-                    "datestamp": "1781167048",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "fago",
-                    "homepage": "https://www.drupal.org/user/16747"
-                },
-                {
-                    "name": "gisle",
-                    "homepage": "https://www.drupal.org/user/409554"
-                },
-                {
-                    "name": "quadrexdev",
-                    "homepage": "https://www.drupal.org/user/3683807"
-                },
-                {
-                    "name": "steven jones",
-                    "homepage": "https://www.drupal.org/user/99644"
-                }
-            ],
-            "description": "Provides flexible content access control.",
-            "homepage": "https://drupal.org/project/content_access",
-            "support": {
-                "source": "https://git.drupalcode.org/project/content_access"
-            }
-        },
-        {
             "name": "drupal/core",
             "version": "10.6.19",
             "source": {
@@ -2599,58 +2540,6 @@
             }
         },
         {
-            "name": "drupal/devel_kint_extras",
-            "version": "1.1.6",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/devel_kint_extras.git",
-                "reference": "1.1.6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/devel_kint_extras-1.1.6.zip",
-                "reference": "1.1.6",
-                "shasum": "b1bd34276f0e0bf924710f3c6a7feccff11f158b"
-            },
-            "require": {
-                "drupal/core": "^9 || ^10 || ^11",
-                "drupal/devel": "^5.4",
-                "kint-php/kint": "^3.3 || ^4.0 || ^5.0 || ^6.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "1.1.6",
-                    "datestamp": "1759998789",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Jan Chojnacki",
-                    "homepage": "https://www.drupal.org/u/janchojnacki"
-                },
-                {
-                    "name": "Other contributors",
-                    "homepage": "https://www.drupal.org/node/3164492/committers"
-                }
-            ],
-            "description": "Shows methods and statics available for an object when using Kint with Devel",
-            "homepage": "https://www.drupal.org/project/devel_kint_extras",
-            "support": {
-                "source": "http://git.drupal.org/project/devel_kint_extras.git",
-                "issues": "https://www.drupal.org/project/issues/devel_kint_extras",
-                "chat": "irc://irc.freenode.org/drupal-contribute"
-            }
-        },
-        {
             "name": "drupal/entity",
             "version": "1.8.0",
             "source": {
@@ -2773,127 +2662,6 @@
             "homepage": "https://www.drupal.org/project/entity_reference_validators",
             "support": {
                 "source": "https://git.drupalcode.org/project/entity_reference_validators"
-            }
-        },
-        {
-            "name": "drupal/examples",
-            "version": "4.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/examples.git",
-                "reference": "4.0.7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/examples-4.0.7.zip",
-                "reference": "4.0.7",
-                "shasum": "282dabe0bb3a3146f1244d166db87703cfdbf1fe"
-            },
-            "require": {
-                "drupal/core": "^10.6 || ^11.0",
-                "drupal/hal": "^2.0",
-                "drupal/toolbar": "*",
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "drupal/toolbar": "*",
-                "drupal/tour": "^2.0",
-                "phpspec/prophecy-phpunit": "*"
-            },
-            "suggest": {
-                "drupal/devel": "Some modules will be able to pretty-print PHP with this module."
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "4.0.7",
-                    "datestamp": "1791391135",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "add1sun",
-                    "homepage": "https://www.drupal.org/user/65088"
-                },
-                {
-                    "name": "avpaderno",
-                    "homepage": "https://www.drupal.org/user/55077"
-                },
-                {
-                    "name": "cyberswat",
-                    "homepage": "https://www.drupal.org/user/27802"
-                },
-                {
-                    "name": "dave reid",
-                    "homepage": "https://www.drupal.org/user/53892"
-                },
-                {
-                    "name": "ilo",
-                    "homepage": "https://www.drupal.org/user/118449"
-                },
-                {
-                    "name": "itangalo",
-                    "homepage": "https://www.drupal.org/user/153998"
-                },
-                {
-                    "name": "jn2",
-                    "homepage": "https://www.drupal.org/user/1001014"
-                },
-                {
-                    "name": "jungle",
-                    "homepage": "https://www.drupal.org/user/2919723"
-                },
-                {
-                    "name": "katbailey",
-                    "homepage": "https://www.drupal.org/user/172987"
-                },
-                {
-                    "name": "linclark",
-                    "homepage": "https://www.drupal.org/user/396253"
-                },
-                {
-                    "name": "marvil07",
-                    "homepage": "https://www.drupal.org/user/132175"
-                },
-                {
-                    "name": "mikl",
-                    "homepage": "https://www.drupal.org/user/58679"
-                },
-                {
-                    "name": "mile23",
-                    "homepage": "https://www.drupal.org/user/116231"
-                },
-                {
-                    "name": "socketwench",
-                    "homepage": "https://www.drupal.org/user/65793"
-                },
-                {
-                    "name": "Torenware",
-                    "homepage": "https://www.drupal.org/user/18784"
-                },
-                {
-                    "name": "valthebald",
-                    "homepage": "https://www.drupal.org/user/239562"
-                },
-                {
-                    "name": "yched",
-                    "homepage": "https://www.drupal.org/user/39567"
-                }
-            ],
-            "description": "The Examples for Developers project aims to provide high-quality, well-documented API examples for a broad range of Drupal core functionality.",
-            "homepage": "https://www.drupal.org/project/examples",
-            "support": {
-                "source": "https://git.drupalcode.org/project/examples",
-                "issues": "https://www.drupal.org/project/issues/examples",
-                "documentation": "https://api.drupal.org/api/examples"
             }
         },
         {
@@ -3626,107 +3394,6 @@
             }
         },
         {
-            "name": "drupal/hal",
-            "version": "2.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/hal.git",
-                "reference": "2.0.5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/hal-2.0.5.zip",
-                "reference": "2.0.5",
-                "shasum": "a95b5af38061e580b51985cdfd20975e8f2f41ae"
-            },
-            "require": {
-                "drupal/core": "^10 || ^11 || ^12"
-            },
-            "require-dev": {
-                "drupal/aggregator": "2.x-dev",
-                "drupal/contact": "^1",
-                "drupal/entity_reference_revisions": "1.x-dev",
-                "drupal/rdf": "3.0.x-dev",
-                "drupal/tour": "^1"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "2.0.5",
-                    "datestamp": "1782694027",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "bbrala",
-                    "homepage": "https://www.drupal.org/user/3366066"
-                },
-                {
-                    "name": "larowlan",
-                    "homepage": "https://www.drupal.org/user/395439"
-                }
-            ],
-            "description": "Hypermedia Application Language (HAL)",
-            "homepage": "https://www.drupal.org/project/hal",
-            "support": {
-                "source": "https://git.drupalcode.org/project/hal"
-            }
-        },
-        {
-            "name": "drupal/jquery_scrollup",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/jquery_scrollup.git",
-                "reference": "2.0.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/jquery_scrollup-2.0.0.zip",
-                "reference": "2.0.0",
-                "shasum": "33a5d649135dd59ed325e9a1eac7b0d557e975c3"
-            },
-            "require": {
-                "drupal/core": "^9.3 || ^10"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "2.0.0",
-                    "datestamp": "1672671622",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Dominique Clause (Dom.)",
-                    "homepage": "https://www.drupal.org/u/dom",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "Integrates jquery ScrollUp plugin with Drupal",
-            "homepage": "https://www.drupal.org/project/jquery_scrollup",
-            "support": {
-                "source": "https://git.drupalcode.org/project/jquery_scrollup",
-                "issues": "https://www.drupal.org/project/issues/jquery_scrollup?version=8.x"
-            }
-        },
-        {
             "name": "drupal/leaflet",
             "version": "10.4.13",
             "source": {
@@ -3969,109 +3636,6 @@
             "time": "2025-01-03T10:53:20+00:00"
         },
         {
-            "name": "drupal/og",
-            "version": "1.0.0-alpha14",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/og.git",
-                "reference": "8.x-1.0-alpha14"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/og-8.x-1.0-alpha14.zip",
-                "reference": "8.x-1.0-alpha14",
-                "shasum": "35391e87d80253f40c329e87d703215caf73afac"
-            },
-            "require": {
-                "drupal/core": "^9 || ^10 || ^11"
-            },
-            "require-dev": {
-                "drupal/coder": "^8.3.16",
-                "drush/drush": "^11 || ^12.5 || ^13.3",
-                "phpunit/phpunit": "^7 || ^8 || ^9 || ^10.5"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.0-alpha14",
-                    "datestamp": "1747850269",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Alpha releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "amitaibu",
-                    "homepage": "https://www.drupal.org/u/amitaibu"
-                },
-                {
-                    "name": "mpp",
-                    "homepage": "https://www.drupal.org/u/mpp"
-                },
-                {
-                    "name": "pfrenssen",
-                    "homepage": "https://www.drupal.org/u/pfrenssen"
-                },
-                {
-                    "name": "dries",
-                    "homepage": "https://www.drupal.org/user/1"
-                },
-                {
-                    "name": "dww",
-                    "homepage": "https://www.drupal.org/user/46549"
-                },
-                {
-                    "name": "Grayside",
-                    "homepage": "https://www.drupal.org/user/346868"
-                },
-                {
-                    "name": "joelpittet",
-                    "homepage": "https://www.drupal.org/user/160302"
-                },
-                {
-                    "name": "merlinofchaos",
-                    "homepage": "https://www.drupal.org/user/26979"
-                },
-                {
-                    "name": "moshe weitzman",
-                    "homepage": "https://www.drupal.org/user/23"
-                },
-                {
-                    "name": "mpp",
-                    "homepage": "https://www.drupal.org/user/359881"
-                },
-                {
-                    "name": "pfrenssen",
-                    "homepage": "https://www.drupal.org/user/382067"
-                },
-                {
-                    "name": "roysegall",
-                    "homepage": "https://www.drupal.org/user/1812910"
-                },
-                {
-                    "name": "sethcohn",
-                    "homepage": "https://www.drupal.org/user/14944"
-                },
-                {
-                    "name": "Zen",
-                    "homepage": "https://www.drupal.org/user/21209"
-                }
-            ],
-            "description": "API to allow associating content with groups.",
-            "homepage": "https://drupal.org/project/og",
-            "support": {
-                "source": "https://git.drupalcode.org/project/og",
-                "issues": "https://drupal.org/project/issues/og",
-                "slack": "https://drupal.slack.com/messages/CELR48EA0"
-            }
-        },
-        {
             "name": "drupal/openid_connect",
             "version": "3.0.0-alpha6",
             "source": {
@@ -4305,65 +3869,6 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/queue_ui",
                 "issues": "https://www.drupal.org/project/issues/queue_ui"
-            }
-        },
-        {
-            "name": "drupal/scrollup",
-            "version": "3.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/scrollup.git",
-                "reference": "3.0.4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/scrollup-3.0.4.zip",
-                "reference": "3.0.4",
-                "shasum": "f5d6e79ced736af895444970caa223edce07568c"
-            },
-            "require": {
-                "drupal/core": "^10.3 || ^11.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "3.0.4",
-                    "datestamp": "1736069632",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Vladimir Roudakov (VladimirAus)",
-                    "homepage": "https://www.drupal.org/u/vladimiraus",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Gajendra Sharma (gajendra.sharma)",
-                    "homepage": "https://www.drupal.org/u/gajendrasharma",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Himmat Bhatia (himmatbhatia)",
-                    "homepage": "https://www.drupal.org/u/himmatbhatia",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "This module allows users with appropriate permissions to add and configure 'Scroll up' button. Button allows users to scroll up to the top of the page.",
-            "homepage": "https://www.drupal.org/project/scrollup",
-            "keywords": [
-                "Drupal"
-            ],
-            "support": {
-                "source": "http://cgit.drupalcode.org/scrollup",
-                "issues": "https://www.drupal.org/project/issues/scrollup"
             }
         },
         {
@@ -6255,69 +5760,6 @@
                 "source": "https://github.com/itamair/geoPHP/tree/1.12"
             },
             "time": "2026-04-02T10:02:52+00:00"
-        },
-        {
-            "name": "kint-php/kint",
-            "version": "6.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kint-php/kint.git",
-                "reference": "dd0f723029e3ebd0fa4edd895fa408bb2ce7003e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kint-php/kint/zipball/dd0f723029e3ebd0fa4edd895fa408bb2ce7003e",
-                "reference": "dd0f723029e3ebd0fa4edd895fa408bb2ce7003e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.4"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3",
-                "phpunit/phpunit": "^9",
-                "seld/phar-utils": "^1",
-                "symfony/finder": ">=7",
-                "vimeo/psalm": "^6"
-            },
-            "suggest": {
-                "kint-php/kint-helpers": "Provides extra helper functions",
-                "kint-php/kint-twig": "Provides d() and s() functions in twig templates"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "init.php"
-                ],
-                "psr-4": {
-                    "Kint\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jonathan Vollebregt",
-                    "homepage": "https://github.com/jnvsor"
-                },
-                {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/kint-php/kint/graphs/contributors"
-                }
-            ],
-            "description": "Kint - Advanced PHP dumper",
-            "homepage": "https://kint-php.github.io/kint/",
-            "keywords": [
-                "debug",
-                "dump"
-            ],
-            "support": {
-                "issues": "https://github.com/kint-php/kint/issues",
-                "source": "https://github.com/kint-php/kint/tree/6.1.0"
-            },
-            "time": "2025-11-08T12:59:43+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -17029,7 +16471,6 @@
     "stability-flags": {
         "dacem/dacem_sync": 15,
         "drupal/login_destination": 10,
-        "drupal/og": 15,
         "drupal/openid_connect": 15,
         "drupal/views_field_view": 10,
         "euf/elm_vocabulary_field": 15,
