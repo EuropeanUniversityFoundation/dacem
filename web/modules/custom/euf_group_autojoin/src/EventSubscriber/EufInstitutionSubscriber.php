@@ -8,19 +8,22 @@ use Drupal\user\UserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\ewp_institutions_user\Event\SetUserInstitutionEvent;
 use Drupal\ewp_institutions_user\Event\UserInstitutionChangeEvent;
+use Drupal\group\Entity\GroupMembership;
 
 /**
+ * Institution subscriber.
+ *
  * Auto-joins a user to the institution Group after HEI is set,
  * and removes memberships from previous institution Groups.
  */
 class EufInstitutionSubscriber implements EventSubscriberInterface {
 
   // Group bundle to attach users to.
-  private const GROUP_TYPE      = 'universitytypegroup';
+  private const GROUP_TYPE = 'universitytypegroup';
   // Group field (entity reference to HEI).
   private const GROUP_HEI_FIELD = 'field_institution_profile';
   // User base field that stores the HEI reference.
-  private const USER_HEI_FIELD  = 'user_institution';
+  private const USER_HEI_FIELD = 'user_institution';
 
   public function __construct(
     protected EntityTypeManagerInterface $etm,
@@ -36,21 +39,29 @@ class EufInstitutionSubscriber implements EventSubscriberInterface {
     ];
   }
 
+  /**
+   * When HEI is set.
+   */
   public function onSetUserInstitution(SetUserInstitutionEvent $event): void {
-    $user = $event->user ?? null;
-    if ($user instanceof UserInterface) {
-      $this->syncInstitutionMemberships($user);
-    }
-  }
-
-  public function onUserInstitutionChange(UserInstitutionChangeEvent $event): void {
-    $user = $event->user ?? null;
+    $user = $event->user ?? NULL;
     if ($user instanceof UserInterface) {
       $this->syncInstitutionMemberships($user);
     }
   }
 
   /**
+   * When HEI changes.
+   */
+  public function onUserInstitutionChange(UserInstitutionChangeEvent $event): void {
+    $user = $event->user ?? NULL;
+    if ($user instanceof UserInterface) {
+      $this->syncInstitutionMemberships($user);
+    }
+  }
+
+  /**
+   * Sync.
+   *
    * Ensure the user belongs only to the Group of their current HEI.
    * If HEI is empty, remove the user from all institution Groups.
    */
@@ -65,7 +76,7 @@ class EufInstitutionSubscriber implements EventSubscriberInterface {
     }
     else {
       // No HEI on user: remove from all institution Groups.
-      $this->pruneOtherInstitutionGroups($user, null);
+      $this->pruneOtherInstitutionGroups($user, NULL);
     }
   }
 
@@ -74,17 +85,17 @@ class EufInstitutionSubscriber implements EventSubscriberInterface {
    */
   protected function getHeiFromUser(UserInterface $user): ?string {
     if ($user->hasField(self::USER_HEI_FIELD) && !$user->get(self::USER_HEI_FIELD)->isEmpty()) {
-      $val = $user->get(self::USER_HEI_FIELD)->target_id ?? null;
-      return $val !== null ? (string) $val : null;
+      $val = $user->get(self::USER_HEI_FIELD)->target_id ?? NULL;
+      return $val !== NULL ? (string) $val : NULL;
     }
-    return null;
+    return NULL;
   }
 
   /**
    * Add the user to the Group that references the given HEI (idempotent).
    */
   protected function joinUserToHeiGroup(UserInterface $user, string $hei_id): void {
-    $gids = \Drupal::entityQuery('group')
+    $gids = $this->etm->getStorage('group')->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', self::GROUP_TYPE)
       ->condition(self::GROUP_HEI_FIELD . '.target_id', $hei_id)
@@ -102,20 +113,21 @@ class EufInstitutionSubscriber implements EventSubscriberInterface {
     }
 
     if ($group->getMember($user)) {
-      return; // already a member (idempotent)
+      // Already a member (idempotent)
+      return;
     }
 
     $group->addMember($user);
   }
 
   /**
+   * Prune.
+   *
    * Remove the user from institution Groups not matching $keep_hei_id.
    * If $keep_hei_id is null, remove from all institution Groups.
    */
   protected function pruneOtherInstitutionGroups(UserInterface $user, ?string $keep_hei_id): void {
-    /** @var \Drupal\group\GroupMembershipLoaderInterface $loader */
-    $loader = \Drupal::service('group.membership_loader');
-    $memberships = $loader->loadByUser($user);
+    $memberships = GroupMembership::loadByUser($user);
 
     foreach ($memberships as $membership) {
       /** @var \Drupal\group\Entity\GroupInterface $group */
@@ -124,15 +136,18 @@ class EufInstitutionSubscriber implements EventSubscriberInterface {
         continue;
       }
       if ($group->bundle() !== self::GROUP_TYPE) {
-        continue; // only touch institution Groups
+        // Only touch institution Groups.
+        continue;
       }
       if (!$group->hasField(self::GROUP_HEI_FIELD) || $group->get(self::GROUP_HEI_FIELD)->isEmpty()) {
-        continue; // no HEI reference on the Group
+        // No HEI reference on the Group.
+        continue;
       }
 
       $group_hei = (string) ($group->get(self::GROUP_HEI_FIELD)->target_id ?? '');
       $should_remove =
-        ($keep_hei_id === null) || // remove all if no HEI on user
+      // Remove all if no HEI on user.
+        ($keep_hei_id === NULL) ||
         ($group_hei !== '' && $group_hei !== $keep_hei_id);
 
       if ($should_remove) {
@@ -140,4 +155,5 @@ class EufInstitutionSubscriber implements EventSubscriberInterface {
       }
     }
   }
+
 }
