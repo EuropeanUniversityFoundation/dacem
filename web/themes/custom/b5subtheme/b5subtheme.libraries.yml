@@ -17,9 +17,10 @@ global-scripts:
     js/degree_menu_scroll.js: {}
     js/campus-selection.js: {}
     js/rs_submenu_scroll.js: {}
-    
+
   dependencies:
-    #- core/jquery
+    - core/drupal
+    - core/once
 
 university_carousel:
   version: 1.x

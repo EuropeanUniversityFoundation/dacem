@@ -1,5 +1,5 @@
 name: 'DACEM Footer'
 type: module
 description: 'Custom footer with feedback and links for DACEM project.'
-core_version_requirement: ^10
+core_version_requirement: ^10 || ^11
 package: Custom
