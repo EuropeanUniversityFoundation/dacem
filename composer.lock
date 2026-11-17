@@ -1020,16 +1020,16 @@
         },
         {
             "name": "dacem/dacem_sync",
-            "version": "1.1.0-alpha",
+            "version": "1.1.0-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EuropeanUniversityFoundation/dacem_sync.git",
-                "reference": "f964b3dd4d60296f0f5d36f116d7a2b61256a96f"
+                "reference": "e45888daa9f307c98f48c73d58b396b0913eedba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EuropeanUniversityFoundation/dacem_sync/zipball/f964b3dd4d60296f0f5d36f116d7a2b61256a96f",
-                "reference": "f964b3dd4d60296f0f5d36f116d7a2b61256a96f",
+                "url": "https://api.github.com/repos/EuropeanUniversityFoundation/dacem_sync/zipball/e45888daa9f307c98f48c73d58b396b0913eedba",
+                "reference": "e45888daa9f307c98f48c73d58b396b0913eedba",
                 "shasum": ""
             },
             "require": {
@@ -1064,7 +1064,7 @@
                 "issues": "https://github.com/EuropeanUniversityFoundation/dacem_sync/issues",
                 "source": "https://github.com/EuropeanUniversityFoundation/dacem_sync"
             },
-            "time": "2026-07-31T20:00:01+00:00"
+            "time": "2026-11-17T14:35:43+00:00"
         },
         {
             "name": "davedevelopment/stiphle",
@@ -2625,7 +2625,8 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/entity",
                 "issues": "https://www.drupal.org/project/issues/entity"
-            }
+            },
+            "published-time": "2026-08-26T14:49:46+00:00"
         },
         {
             "name": "drupal/entity_reference_validators",
@@ -2673,7 +2674,8 @@
             "homepage": "https://www.drupal.org/project/entity_reference_validators",
             "support": {
                 "source": "https://git.drupalcode.org/project/entity_reference_validators"
-            }
+            },
+            "published-time": "2025-04-30T07:26:51+00:00"
         },
         {
             "name": "drupal/externalauth",
@@ -2982,7 +2984,8 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/flexible_permissions",
                 "issues": "https://drupal.org/project/issues/flexible_permissions"
-            }
+            },
+            "published-time": "2024-09-20T12:29:49+00:00"
         },
         {
             "name": "drupal/geocoder",
@@ -3344,7 +3347,8 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/group",
                 "issues": "https://drupal.org/project/issues/group"
-            }
+            },
+            "published-time": "2025-05-06T08:18:55+00:00"
         },
         {
             "name": "drupal/group_content_menu",
@@ -4546,7 +4550,8 @@
                 "issues": "https://github.com/EuropeanUniversityFoundation/elm_vocabularies_php/issues",
                 "source": "https://github.com/EuropeanUniversityFoundation/elm_vocabularies_php/tree/v0.1.0"
             },
-            "time": "2026-01-27T00:16:03+00:00"
+            "time": "2026-01-27T00:16:03+00:00",
+            "published-time": "2026-01-27T00:21:01+00:00"
         },
         {
             "name": "euf/elm_vocabulary_field",
@@ -4718,17 +4723,17 @@
         },
         {
             "name": "euf/ewp_institutions",
-            "version": "1.0.0-rc9",
+            "version": "1.0.0-rc10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EuropeanUniversityFoundation/ewp_institutions.git",
-                "reference": "7a6234fd8d91bbe724d88bcb1b574a59113664dd"
+                "reference": "7562a334d211ab046fda3338fdfe03974f5c2a88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.uni-foundation.eu/dist/euf/ewp_institutions/euf-ewp_institutions-7a6234fd8d91bbe724d88bcb1b574a59113664dd-zip-360ce2.zip",
-                "reference": "7a6234fd8d91bbe724d88bcb1b574a59113664dd",
-                "shasum": "d8c71b2896feb7beb1c0717eefcb7536dcfc5385"
+                "url": "https://packages.uni-foundation.eu/dist/euf/ewp_institutions/euf-ewp_institutions-7562a334d211ab046fda3338fdfe03974f5c2a88-zip-ee0429.zip",
+                "reference": "7562a334d211ab046fda3338fdfe03974f5c2a88",
+                "shasum": "93e35f43fe8057112503b1c24f47dcf79a9aa849"
             },
             "require": {
                 "euf/ewp_contact": "^1.0",
@@ -4762,7 +4767,7 @@
                 "issues": "https://github.com/EuropeanUniversityFoundation/ewp_institutions/issues",
                 "source": "https://github.com/EuropeanUniversityFoundation/ewp_institutions"
             },
-            "time": "2026-01-08T15:36:56+00:00"
+            "time": "2026-10-06T16:39:26+00:00"
         },
         {
             "name": "euf/ewp_ounits",
@@ -4895,7 +4900,8 @@
                 "issues": "https://github.com/EuropeanUniversityFoundation/isced_php/issues",
                 "source": "https://github.com/EuropeanUniversityFoundation/isced_php/tree/v0.1.0"
             },
-            "time": "2026-01-29T01:33:29+00:00"
+            "time": "2026-01-29T01:33:29+00:00",
+            "published-time": "2026-01-29T14:23:26+00:00"
         },
         {
             "name": "euf/isced_field",
@@ -5206,7 +5212,8 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-12-01T10:18:08+00:00"
+            "time": "2024-12-01T10:18:08+00:00",
+            "published-time": "2024-12-01T10:19:29+00:00"
         },
         {
             "name": "gettext/languages",
@@ -5281,7 +5288,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-23T14:05:50+00:00"
+            "time": "2026-02-23T14:05:50+00:00",
+            "published-time": "2026-02-23T14:07:59+00:00"
         },
         {
             "name": "grasmash/expander",
@@ -10686,7 +10694,8 @@
                 "issues": "https://github.com/Toobo/bcp47/issues",
                 "source": "https://github.com/Toobo/bcp47/tree/1.0.1"
             },
-            "time": "2026-06-30T17:20:22+00:00"
+            "time": "2026-06-30T17:20:22+00:00",
+            "published-time": "2026-06-30T17:22:46+00:00"
         },
         {
             "name": "twig/twig",
@@ -10818,7 +10827,8 @@
             "support": {
                 "source": "https://github.com/wikimedia/mediawiki-libs-Bcp47Code/tree/v2.0.3"
             },
-            "time": "2026-02-13T05:50:58+00:00"
+            "time": "2026-02-13T05:50:58+00:00",
+            "published-time": "2026-02-13T05:53:53+00:00"
         },
         {
             "name": "willdurand/geocoder",
