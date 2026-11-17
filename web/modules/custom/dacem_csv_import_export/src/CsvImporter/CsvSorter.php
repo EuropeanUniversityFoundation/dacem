@@ -2,9 +2,9 @@
 
 namespace Drupal\dacem_csv_import_export\CsvImporter;
 
-use Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService;
-use Drupal\dacem_csv_import_export\Enum\ImportTargetEntityType;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\dacem_csv_import_export\Definition\BundleCsvDefinitions;
+use Drupal\dacem_csv_import_export\Import\Result\ImportError;
+use Drupal\dacem_csv_import_export\Schema\CsvHeaderParser;
 
 /**
  *
@@ -13,35 +13,20 @@ class CsvSorter {
 
   public const CYCLIC_ERROR_NAME = 'Cyclic dependency found';
 
-  public const SORTING_BY_TYPE = [
-    ImportTargetEntityType::OUNIT->value => [
-      'code_key' => 'field_ou_code',
-      'parent_key' => 'field_parent_organizational_unit'
-    ],
-  ];
-
   protected array $errors = [];
 
-  protected FieldMappingService $fieldMappingService;
-
   public function __construct(
-    FieldMappingService $field_mapping_service
-  ) {
-    $this->fieldMappingService = $field_mapping_service;
-  }
+    protected CsvHeaderParser $headerParser,
+    protected BundleCsvDefinitions $definitions,
+  ) {}
 
-  public static function create(ContainerInterface $container) {
-    return new static (
-      $container->get('dacem_csv_import_export.field_mapping_service'),
-    );
-  }
-
-  /**
-   *
-   */
   public function sortData(array $records, string $entityType) {
 
-    $sorted_collection = $this->topologicalSort($records, self::SORTING_BY_TYPE[$entityType]['code_key'], self::SORTING_BY_TYPE[$entityType]['parent_key']);
+    $definition = $this->definitions->get($entityType);
+    if (!$definition->parentField) {
+      return $records;
+    }
+    $sorted_collection = $this->topologicalSort($records, $definition->codeField, $definition->parentField);
 
     return $sorted_collection;
   }
@@ -50,11 +35,12 @@ class CsvSorter {
     $graph = [];
     $inDegree = [];
     $objectMap = [];
+    $rowOffsets = [];
 
     foreach ($records as $row_no => $obj) {
       $code = $obj[$code_key];
       $objectMap[$code] = $obj;
-      $objectMap[$code]['csv_row'] = $row_no;
+      $rowOffsets[$code] = $row_no;
 
       if (!isset($graph[$code])) {
         $graph[$code] = [];
@@ -62,7 +48,7 @@ class CsvSorter {
       }
 
       foreach ($obj as $key => $value) {
-        if ($this->fieldMappingService->resolveFieldFromColumn($key) === $parent_key && !empty($value)) {
+        if ($this->headerParser->parse($key)->fieldName === $parent_key && !empty($value)) {
           $parent = $value;
 
           if (!isset($graph[$parent])) {
@@ -103,13 +89,17 @@ class CsvSorter {
     if (count($sorted) !== count($graph)) {
       $cycles = $this->findCycles($graph);
 
+      $this->errors = [];
       foreach ($cycles as $cycle) {
-        $this->errors[self::CYCLIC_ERROR_NAME][] = [
-          'message' => 'Two or more entities reference each other in the CSV.',
-          'source' => $parent_key,
-          'values' => $cycle,
-          'row_number' => 'Multiple',
-        ];
+        $this->errors[] = new ImportError(
+          self::CYCLIC_ERROR_NAME,
+          'Two or more entities reference each other in the CSV.',
+          'Multiple', $parent_key, array_map('strval', $cycle),
+        );
+      }
+      // Tarjan's larger components omit self-references, which are cycles too.
+      if (!$this->errors) {
+        $this->errors[] = new ImportError(self::CYCLIC_ERROR_NAME, 'A parent reference creates a dependency cycle.', 'Multiple', $parent_key);
       }
 
       return $this->errors;
@@ -119,7 +109,7 @@ class CsvSorter {
     $sortedObjects = [];
     foreach ($sorted as $code) {
       if (isset($objectMap[$code])) {
-        $sortedObjects[] = $objectMap[$code];
+        $sortedObjects[$rowOffsets[$code]] = $objectMap[$code];
       }
     }
 

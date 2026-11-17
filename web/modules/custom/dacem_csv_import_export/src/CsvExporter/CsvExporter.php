@@ -2,42 +2,30 @@
 
 namespace Drupal\dacem_csv_import_export\CsvExporter;
 
-use Drupal\Core\Entity\EntityFieldManager;
 use Drupal\Core\File\FileSystem;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\dacem_csv_import_export\CsvConverter\FieldMappingService;
-use Drupal\dacem_csv_import_export\CsvExporter\DacemCsvForceQuotesFilter;
-use Drupal\dacem_csv_import_export\DataLoader\DataLoader;
+use Drupal\dacem_csv_import_export\Repository\CatalogueEntityRepository;
+use Drupal\dacem_csv_import_export\Schema\CsvSchemaCompiler;
 use League\Csv\Writer;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class CsvExporter {
 
-	protected DataLoader $dataLoader;
-  protected EntityFieldManager $entityFieldManager;
-  protected FieldMappingService $fieldMappingService;
-  protected FileSystem $fileSystem;
-
   public function __construct(
-		DataLoader $data_loader,
-    EntityFieldManager $entity_field_manager,
-    FieldMappingService $field_mapping_service,
-    FileSystem $file_system,
-  ) {
-    $this->dataLoader = $data_loader;
-    $this->entityFieldManager = $entity_field_manager;
-    $this->fieldMappingService = $field_mapping_service;
-    $this->fileSystem = $file_system;
-  }
+    protected CatalogueEntityRepository $repository,
+    protected FieldMappingService $fieldMappingService,
+    protected FileSystem $fileSystem,
+    protected CsvSchemaCompiler $schemaCompiler,
+  ) {}
 
   public function export(string $entity_type_id, string $entity_bundle, array $entity_ids) {
     // Load entities to dynamically analyze headers to be created.
-    $entities = $this->dataLoader->loadEntitiesByIds($entity_type_id, $entity_bundle, $entity_ids);
+    $entities = $this->repository->loadByIds($entity_type_id, $entity_ids);
     $field_metadata = $this->fieldMappingService->generateFieldMetadata($entity_type_id, $entity_bundle, $entities);
-    $schema = $this->fieldMappingService->generateHeadersAndBlueprint($entity_bundle, $field_metadata);
-    $headers = $schema['headers'];
-    $blueprint = $schema['blueprint'];
+    $schema = $this->schemaCompiler->compile($entity_bundle, $field_metadata);
+    $headers = $schema->headers();
 
     // 4. Set up a secure temporary file on the system disk using league/csv
     $temp_dir = 'temporary://csv-exports';
@@ -75,9 +63,9 @@ class CsvExporter {
     // Insert the first row (The flat CSV Headers)
     $csv_writer->insertOne($headers);
 
-    // Loop through entities and extract rows instantly using our O(1) blueprint instructions
+    // Extract each row using the ordered export schema.
     foreach ($entities as $entity) {
-      $row_data = $this->fieldMappingService->exportEntityRow($entity, $blueprint);
+      $row_data = $this->fieldMappingService->exportEntityRow($entity, $schema);
       $csv_writer->insertOne($row_data);
     }
 
