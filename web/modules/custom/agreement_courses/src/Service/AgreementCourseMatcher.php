@@ -7,6 +7,9 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\NodeInterface;
 use Isced\IscedFieldsOfStudy;
 
+/**
+ * Agreement Course Matcher service.
+ */
 final class AgreementCourseMatcher {
 
   private const AGREEMENT_BUNDLE = 'agreement';
@@ -17,6 +20,9 @@ final class AgreementCourseMatcher {
     private readonly EntityTypeManagerInterface $entityTypeManager,
   ) {}
 
+  /**
+   * Get compatible courses for programme.
+   */
   public function getCompatibleCoursesForProgramme(NodeInterface $programme): array {
     if ($programme->bundle() !== self::PROGRAMME_BUNDLE) {
       return [];
@@ -54,6 +60,9 @@ final class AgreementCourseMatcher {
     return $rules ? $this->findCoursesFromRules($node_storage, $rules) : [];
   }
 
+  /**
+   * Find agreement IDs.
+   */
   private function findAgreementIds(EntityStorageInterface $node_storage, int $origin_institution_id): array {
     $query = $node_storage->getQuery()
       ->condition('type', self::AGREEMENT_BUNDLE)
@@ -69,6 +78,9 @@ final class AgreementCourseMatcher {
       ->execute();
   }
 
+  /**
+   * Build rule from agreement.
+   */
   private function buildRuleFromAgreement(NodeInterface $agreement, int $origin_institution_id, ?int $origin_department_id, array $origin_course_isced_values): ?array {
     $institution_1 = $this->getTargetId($agreement, 'field_institution_1');
     $institution_2 = $this->getTargetId($agreement, 'field_institution_2');
@@ -118,6 +130,9 @@ final class AgreementCourseMatcher {
     ];
   }
 
+  /**
+   * Find courses from rules.
+   */
   private function findCoursesFromRules(EntityStorageInterface $node_storage, array $rules): array {
     $results = [];
 
@@ -185,6 +200,9 @@ final class AgreementCourseMatcher {
     return $results;
   }
 
+  /**
+   * Find target programme IDs.
+   */
   private function findTargetProgrammeIds(EntityStorageInterface $node_storage, array $rule): array {
     $query = $node_storage->getQuery()
       ->condition('type', self::PROGRAMME_BUNDLE)
@@ -199,6 +217,9 @@ final class AgreementCourseMatcher {
     return $query->execute();
   }
 
+  /**
+   * Expand ISCED values for course query.
+   */
   private function expandIscedValuesForCourseQuery(array $agreement_values): array {
     if (!$agreement_values) {
       return [];
@@ -227,6 +248,9 @@ final class AgreementCourseMatcher {
     return array_values(array_unique($matches));
   }
 
+  /**
+   * Get target ID.
+   */
   private function getTargetId(NodeInterface $node, string $field_name): ?int {
     if (!$node->hasField($field_name) || $node->get($field_name)->isEmpty()) {
       return NULL;
@@ -235,6 +259,9 @@ final class AgreementCourseMatcher {
     return (int) $node->get($field_name)->target_id;
   }
 
+  /**
+   * Get ISCED values.
+   */
   private function getIscedValues(NodeInterface $node, string $field_name): array {
     if (!$node->hasField($field_name) || $node->get($field_name)->isEmpty()) {
       return [];
@@ -253,6 +280,9 @@ final class AgreementCourseMatcher {
     return array_values(array_unique($values));
   }
 
+  /**
+   * Get programme course ISCED values.
+   */
   private function getProgrammeCourseIscedValues(EntityStorageInterface $node_storage, NodeInterface $programme): array {
     $course_ids = $node_storage->getQuery()
       ->condition('type', self::COURSE_BUNDLE)
@@ -277,6 +307,9 @@ final class AgreementCourseMatcher {
     return array_values(array_unique($values));
   }
 
+  /**
+   * Get matching ISCED values.
+   */
   private function getMatchingIscedValues(NodeInterface $course, array $allowed_isced_values): array {
     $course_isced_values = $this->getIscedValues($course, 'field_fields_of_study');
 
