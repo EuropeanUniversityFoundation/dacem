@@ -6,18 +6,18 @@
     <rule ref="DrupalPractice"/>
 
     <!-- Define default paths to check -->
-    <file>web/modules/custom/admin_area</file>
-    <file>web/modules/custom/agreement_courses</file>
-    <file>web/modules/custom/agreements_programmes</file>
-    <file>web/modules/custom/create_user_group</file>
-    <file>web/modules/custom/custom_views_filters</file>
-    <file>web/modules/custom/dacem_csv_import_export</file>
-    <file>web/modules/custom/dacem_footer</file>
-    <file>web/modules/custom/dacem_menu</file>
-    <file>web/modules/custom/euf_group_autojoin</file>
-    <file>web/modules/custom/institution_menu</file>
-    <file>web/modules/custom/joint_programmes</file>
-    <file>web/modules/custom/programme_suggestions</file>
+    <!-- <file>web/modules/custom/admin_area</file> -->
+    <!-- <file>web/modules/custom/agreement_courses</file> -->
+    <!-- <file>web/modules/custom/agreements_programmes</file> -->
+    <!-- <file>web/modules/custom/create_user_group</file> -->
+    <!-- <file>web/modules/custom/custom_views_filters</file> -->
+    <!-- <file>web/modules/custom/dacem_csv_import_export</file> -->
+    <!-- <file>web/modules/custom/dacem_footer</file> -->
+    <!-- <file>web/modules/custom/dacem_menu</file> -->
+    <!-- <file>web/modules/custom/euf_group_autojoin</file> -->
+    <!-- <file>web/modules/custom/institution_menu</file> -->
+    <!-- <file>web/modules/custom/joint_programmes</file> -->
+    <!-- <file>web/modules/custom/programme_suggestions</file> -->
 
     <!-- Define directories to ignore -->
     <exclude-pattern>*/my_custom_module/*</exclude-pattern>

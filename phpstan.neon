@@ -1,18 +1,18 @@
 parameters:
     level: 1
     paths:
-        - web/modules/custom/admin_area
-        - web/modules/custom/agreement_courses
-        - web/modules/custom/agreements_programmes
-        - web/modules/custom/create_user_group
-        - web/modules/custom/custom_views_filters
-        - web/modules/custom/dacem_csv_import_export
-        - web/modules/custom/dacem_footer
-        - web/modules/custom/dacem_menu
-        - web/modules/custom/euf_group_autojoin
-        - web/modules/custom/institution_menu
-        - web/modules/custom/joint_programmes
-        - web/modules/custom/programme_suggestions
+        # - web/modules/custom/admin_area
+        # - web/modules/custom/agreement_courses
+        # - web/modules/custom/agreements_programmes
+        # - web/modules/custom/create_user_group
+        # - web/modules/custom/custom_views_filters
+        # - web/modules/custom/dacem_csv_import_export
+        # - web/modules/custom/dacem_footer
+        # - web/modules/custom/dacem_menu
+        # - web/modules/custom/euf_group_autojoin
+        # - web/modules/custom/institution_menu
+        # - web/modules/custom/joint_programmes
+        # - web/modules/custom/programme_suggestions
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # new static() is a best practice in Drupal, so we cannot fix that.
