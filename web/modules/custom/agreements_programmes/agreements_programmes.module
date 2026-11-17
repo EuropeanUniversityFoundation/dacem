@@ -190,7 +190,7 @@ function agreements_programmes_format_level_of_education(NodeInterface $agreemen
   }
 
   $view = $item->view(['label' => 'hidden']);
-  $rendered = trim((string) \Drupal::service('renderer')->renderPlain($view));
+  $rendered = trim((string) \Drupal::service('renderer')->renderInIsolation($view));
 
   return $rendered !== '' ? trim(strip_tags($rendered)) : trim((string) $item->get('value')->getValue());
 }
