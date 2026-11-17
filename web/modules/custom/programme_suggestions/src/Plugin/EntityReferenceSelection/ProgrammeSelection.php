@@ -31,7 +31,7 @@ class ProgrammeSelection extends DefaultSelection {
    */
   public function getReferenceableEntities($match = NULL, $match_operator = 'CONTAINS', $limit = 0) {
     $entities = parent::getReferenceableEntities($match, $match_operator, $limit);
-    $storage = \Drupal::entityTypeManager()->getStorage('node');
+    $storage = $this->entityTypeManager->getStorage('node');
 
     $result = [];
 
@@ -43,15 +43,12 @@ class ProgrammeSelection extends DefaultSelection {
           continue;
         }
 
-   
-        
         $institution = '';
         if (!$node->get('field_programme_institution')->isEmpty()) {
           $institution_entity = $node->get('field_programme_institution')->entity;
           $institution = $institution_entity ? $institution_entity->label() : '';
         }
 
-        
         $ou = '';
         if (!$node->get('field_programme_ou')->isEmpty()) {
           $ou_entity = $node->get('field_programme_ou')->entity;
@@ -60,12 +57,11 @@ class ProgrammeSelection extends DefaultSelection {
 
         $programme = $node->label();
 
-       
         $custom_label = $institution . '--' . $ou . '--' . $programme;
 
-        $custom_label = trim($custom_label);                    
-        $custom_label = trim($custom_label, "\"' ");             
-        $custom_label = preg_replace('/\s+/', ' ', $custom_label); 
+        $custom_label = trim($custom_label);
+        $custom_label = trim($custom_label, "\"' ");
+        $custom_label = preg_replace('/\s+/', ' ', $custom_label);
 
         $result[$bundle][$id] = $custom_label;
       }

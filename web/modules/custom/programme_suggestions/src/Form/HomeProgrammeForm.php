@@ -4,9 +4,39 @@ namespace Drupal\programme_suggestions\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\node\Entity\Node;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Home Programme form.
+ */
 class HomeProgrammeForm extends FormBase {
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  /**
+   * Constructs a new form instance.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   */
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container): static {
+    return new static(
+    $container->get('entity_type.manager'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -27,7 +57,7 @@ class HomeProgrammeForm extends FormBase {
       '#selection_handler' => 'programme_suggestions_programme_selection',
       '#required' => TRUE,
       '#description' => $this->t('Start typing the programme you are studying.'),
-       '#maxlength' => 255, 
+      '#maxlength' => 255,
     ];
 
     $form['actions']['submit'] = [
@@ -60,7 +90,7 @@ class HomeProgrammeForm extends FormBase {
 
     $nid = (int) $value;
     /** @var \Drupal\node\Entity\Node|null $node */
-    $node = Node::load($nid);
+    $node = $this->entityTypeManager->getStorage('node')->load($nid);
 
     if (!$node || $node->bundle() !== 'programme') {
       $form_state->setErrorByName('home_programme', $this->t('The selected programme is not valid.'));
