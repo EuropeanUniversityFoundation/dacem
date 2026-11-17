@@ -2,11 +2,11 @@
 
 namespace Drupal\admin_area\Service;
 
-use Collator;
 use Drupal\Core\Entity\Element\EntityAutocomplete;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\group\Entity\GroupInterface;
 use Drupal\node\NodeInterface;
 
@@ -14,6 +14,8 @@ use Drupal\node\NodeInterface;
  * Provides shared admin form helpers.
  */
 class AdminFormHelper {
+
+  use StringTranslationTrait;
 
   /**
    * Constructs the helper.
@@ -260,7 +262,7 @@ class AdminFormHelper {
       $el['#multiple'] = FALSE;
       $el['#size'] = 1;
       $el['#options'] = $this->normalizeOptions($org_unit_options_2);
-      $el['#empty_option'] = t('- None -');
+      $el['#empty_option'] = $this->t('- None -');
       $el['#empty_value'] = '_none';
       $el['#required'] = FALSE;
       $el['#default_value'] = array_key_exists($current_department_2, $org_unit_options_2) ? $current_department_2 : '_none';
@@ -432,7 +434,7 @@ class AdminFormHelper {
     $el['#multiple'] = FALSE;
     $el['#size'] = 1;
     $el['#options'] = $this->normalizeOptions($options);
-    $el['#empty_option'] = t('- None -');
+    $el['#empty_option'] = $this->t('- None -');
     $el['#empty_value'] = '_none';
     $el['#required'] = $required;
     $el['#default_value'] = $default_value;
@@ -473,8 +475,8 @@ class AdminFormHelper {
    */
   private function sortOptions(array &$options): void {
     $langcode = $this->languageManager->getCurrentLanguage()->getId();
-    if (class_exists(Collator::class)) {
-      $collator = new Collator($langcode);
+    if (class_exists(\Collator::class)) {
+      $collator = new \Collator($langcode);
       uasort($options, static fn($a, $b) => $collator->compare((string) $a, (string) $b));
     }
   }
