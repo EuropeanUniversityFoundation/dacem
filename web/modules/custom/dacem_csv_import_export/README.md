@@ -178,7 +178,7 @@ translation forms. They do not change the bundle's translation configuration.
 Install the development dependencies with `ddev composer install`, then run:
 
 ```sh
-ddev exec composer test:csv
+ddev exec bash scripts/tests_csv.sh
 ```
 
 The command runs unit and kernel tests with PHPUnit. Unit tests exercise header
@@ -228,7 +228,7 @@ The browser suite runs separately because it needs DDEV's HTTP server and a
 SQLite file shared with web requests:
 
 ```sh
-ddev exec composer test:csv:browser
+ddev exec bash scripts/tests_csv_browser.sh
 ```
 
 It installs an isolated test site and uses the actual managed-file upload form.
@@ -239,6 +239,12 @@ header produces an error table and no success notice. It uses
 `/tmp/dacem-csv-browser.sqlite` and writes debugging pages under
 `/tmp/dacem-csv-browser-output`; the installed site's records are not used.
 This functional browser test uses BrowserKit and does not require Chrome.
+
+Both scripts resolve paths from their own location and accept additional PHPUnit
+options, for example `ddev exec bash scripts/tests_csv.sh --filter CsvHeaderParserTest`.
+The scripts use the database and browser settings above by default; exported
+`SIMPLETEST_DB`, `SIMPLETEST_BASE_URL`, and `BROWSERTEST_OUTPUT_DIRECTORY` values
+can override the applicable defaults.
 
 `tests/bootstrap.php` preserves Drupal's normal deprecation rules and adds the
 two exact upstream EWP/Group notices listed in `tests/deprecation-ignore.txt`.
