@@ -38,6 +38,7 @@
     ],
     "require": {
         "composer/installers": "^2.0",
+        "consolidation/robo": "5.1.1",
         "dacem/dacem_sync": "^1.1@alpha",
         "drupal/address": "^2.0",
         "drupal/admin_toolbar": "^3.4",
