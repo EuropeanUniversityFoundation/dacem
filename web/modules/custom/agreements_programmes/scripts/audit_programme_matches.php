@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Helper script, to be removed.
+ */
+
 use Drupal\node\NodeInterface;
 
 $storage = \Drupal::entityTypeManager()->getStorage('node');

@@ -114,6 +114,8 @@ display:
           bef:
             general:
               autosubmit: false
+              auto_submit_sort_only: false
+              autosubmit_breakpoint: ''
               autosubmit_exclude_textfield: false
               autosubmit_textfield_delay: 500
               autosubmit_textfield_minimum_length: 3
@@ -123,162 +125,160 @@ display:
               secondary_label: 'Advanced options'
               secondary_open: false
               reset_button_always_show: false
-              autosubmit_breakpoint: ''
-              auto_submit_sort_only: false
             filter:
               field_programme_language_of_inst_target_id:
                 plugin_id: bef
                 advanced:
                   sort_options: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: true
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-                scrollable: false
-                scrollable_height: 300
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
                 soft_limit_include_children: false
+                scrollable: false
+                scrollable_height: 300
               combine:
                 plugin_id: default
                 advanced:
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   placeholder_text: ''
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: false
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
               field_programme_type_target_id:
                 plugin_id: bef
                 advanced:
                   sort_options: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: true
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-                scrollable: false
-                scrollable_height: 300
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
                 soft_limit_include_children: false
+                scrollable: false
+                scrollable_height: 300
               field_isced_f_value:
                 plugin_id: bef
                 advanced:
                   sort_options: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: true
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-                scrollable: false
-                scrollable_height: 300
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
                 soft_limit_include_children: false
+                scrollable: false
+                scrollable_height: 300
               field_eqf_level_value:
                 plugin_id: bef
                 advanced:
                   sort_options: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: true
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-                scrollable: false
-                scrollable_height: 300
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
                 soft_limit_include_children: false
+                scrollable: false
+                scrollable_height: 300
               field_avaliable_for_mobility_value:
                 plugin_id: bef_single
                 advanced:
                   sort_options: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: false
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
                 treat_as_false: false
               field_programme_ou_target_id:
                 plugin_id: bef_sliders
                 advanced:
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   placeholder_text: ''
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: false
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
                 min: '0'
                 max: '5'
                 step: '1'
                 animate: '0'
                 animate_ms: '0'
                 orientation: horizontal
-                placement_location: end
                 enable_tooltips: false
                 tooltips_value_prefix: ''
                 tooltips_value_suffix: ''
+                placement_location: end
       access:
         type: perm
         options:
@@ -1014,6 +1014,8 @@ display:
           bef:
             general:
               autosubmit: false
+              auto_submit_sort_only: false
+              autosubmit_breakpoint: ''
               autosubmit_exclude_textfield: false
               autosubmit_textfield_delay: 500
               autosubmit_textfield_minimum_length: 3
@@ -1023,114 +1025,112 @@ display:
               secondary_label: 'Advanced options'
               secondary_open: false
               reset_button_always_show: false
-              autosubmit_breakpoint: ''
-              auto_submit_sort_only: false
             filter:
               field_iec_avaliable_for_mobility_value:
                 plugin_id: bef_single
                 advanced:
                   sort_options: true
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: false
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
                 treat_as_false: false
               field_iec_language_of_instructio_target_id:
                 plugin_id: bef
                 advanced:
                   sort_options: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: true
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-                scrollable: false
-                scrollable_height: 300
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
                 soft_limit_include_children: false
+                scrollable: false
+                scrollable_height: 300
               combine:
                 plugin_id: default
                 advanced:
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   placeholder_text: ''
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: false
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
               field_programme_type_target_id:
                 plugin_id: bef
                 advanced:
                   sort_options: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: true
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-                scrollable: false
-                scrollable_height: 300
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
                 soft_limit_include_children: false
+                scrollable: false
+                scrollable_height: 300
               field_fields_of_study_value:
                 plugin_id: bef
                 advanced:
                   sort_options: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                   rewrite:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
                   collapsible_disable_automatic_open: false
+                  open_by_default: false
                   is_secondary: false
+                  no_reset: false
                   hide_label: true
                   field_classes: ''
-                  open_by_default: false
-                  sort_options_method: alphabetical_asc
-                  sort_options_natural: true
-                  no_reset: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-                scrollable: false
-                scrollable_height: 300
                 soft_limit: 0
                 soft_limit_label_less: 'Show less'
                 soft_limit_label_more: 'Show more'
                 soft_limit_include_children: false
+                scrollable: false
+                scrollable_height: 300
       arguments:
         field_programme_institution_target_id:
           id: field_programme_institution_target_id

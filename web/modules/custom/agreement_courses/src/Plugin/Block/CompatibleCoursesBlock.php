@@ -28,6 +28,9 @@ final class CompatibleCoursesBlock extends BlockBase implements ContainerFactory
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): self {
     return new self(
       $configuration,
@@ -38,6 +41,9 @@ final class CompatibleCoursesBlock extends BlockBase implements ContainerFactory
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function build(): array {
     $node = $this->routeMatch->getParameter('node');
 

@@ -28,6 +28,9 @@ final class CompatibleProgrammesBlock extends BlockBase implements ContainerFact
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): self {
     return new self(
       $configuration,
@@ -38,6 +41,9 @@ final class CompatibleProgrammesBlock extends BlockBase implements ContainerFact
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function build(): array {
     $node = $this->routeMatch->getParameter('node');
 

@@ -1,7 +1,7 @@
 name: 'B5 subtheme'
 type: theme
 description: 'B5 subtheme subtheme based on Bootstrap 5 theme.'
-core_version_requirement: '^9.4 || ^10'
+core_version_requirement: ^10 || ^11
 'base theme': bootstrap5
 libraries:
   - b5subtheme/global-styling
@@ -24,4 +24,3 @@ regions:
   institution_menu: 'Institution Menu'
 libraries-override:
   bootstrap5/global-styling: false
-  
