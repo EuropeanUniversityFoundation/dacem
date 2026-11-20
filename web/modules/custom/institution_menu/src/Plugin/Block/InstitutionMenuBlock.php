@@ -10,6 +10,7 @@ use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Path\CurrentPathStack;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
@@ -28,7 +29,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *   category = @Translation("Custom")
  * )
  */
-final class InstitutionMenuBlock extends BlockBase {
+final class InstitutionMenuBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   private const MENU_TRANSLATIONS = [
     'en' => [
