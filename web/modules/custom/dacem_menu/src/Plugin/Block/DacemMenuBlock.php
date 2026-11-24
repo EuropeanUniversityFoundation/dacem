@@ -3,11 +3,19 @@
 namespace Drupal\dacem_menu\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileUrlGeneratorInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Path\CurrentPathStack;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Site\Settings;
-use Drupal\file\Entity\File;
-use Drupal\user\Entity\User;
+use Drupal\path_alias\AliasManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'Dacem Menu' Block.
@@ -18,91 +26,195 @@ use Drupal\user\Entity\User;
  *   category = @Translation("Custom")
  * )
  */
-class DacemMenuBlock extends BlockBase
-{
+class DacemMenuBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
-   * {@inheritdoc}
+   * The current route match.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
    */
+  protected RouteMatchInterface $routeMatch;
+
   /**
-   * {@inheritdoc}
+   * The current path stack.
+   *
+   * @var \Drupal\Core\Path\CurrentPathStack
    */
-  public function build()
-  {
+  protected CurrentPathStack $currentPath;
 
-    $route_match = \Drupal::routeMatch();
-$route_name = $route_match->getRouteName();
+  /**
+   * The path alias manager.
+   *
+   * @var \Drupal\path_alias\AliasManagerInterface
+   */
+  protected AliasManagerInterface $aliasManager;
 
-// Lista de rutas donde el bloque debe aparecer.
-$allowed_routes = [
-  'view.main_page.page_1',
-  'view.main_page.page_2',
-  'view.alliances.page_1',
-  'view.alliance_institutions.page_1',
-  'view.search_programme.page_1',
-  'view.search_iec.page_1',
-];
+  /**
+   * The theme manager.
+   *
+   * @var \Drupal\Core\Theme\ThemeManagerInterface
+   */
+  protected ThemeManagerInterface $themeManager;
 
-$show_block = in_array($route_name, $allowed_routes, TRUE);
+  /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected LanguageManagerInterface $languageManager;
 
-if (!$show_block && $route_name === 'entity.node.canonical') {
-  $current_path = \Drupal::service('path.current')->getPath();
-  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
 
-  if ($alias === '/about' || $alias === '/contact') {
-    $show_block = TRUE;
+  /**
+   * The current user.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected AccountProxyInterface $currentUser;
+
+  /**
+   * The file URL generator.
+   *
+   * @var \Drupal\Core\File\FileUrlGeneratorInterface
+   */
+  protected FileUrlGeneratorInterface $fileUrlGenerator;
+
+  /**
+   * Constructs a DacemMenuBlock object.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin ID for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The current route match.
+   * @param \Drupal\Core\Path\CurrentPathStack $current_path
+   *   The current path stack.
+   * @param \Drupal\path_alias\AliasManagerInterface $alias_manager
+   *   The path alias manager.
+   * @param \Drupal\Core\Theme\ThemeManagerInterface $theme_manager
+   *   The theme manager.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   The language manager.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user.
+   * @param \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator
+   *   The file URL generator.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, RouteMatchInterface $route_match, CurrentPathStack $current_path, AliasManagerInterface $alias_manager, ThemeManagerInterface $theme_manager, LanguageManagerInterface $language_manager, EntityTypeManagerInterface $entity_type_manager, AccountProxyInterface $current_user, FileUrlGeneratorInterface $file_url_generator) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->routeMatch = $route_match;
+    $this->currentPath = $current_path;
+    $this->aliasManager = $alias_manager;
+    $this->themeManager = $theme_manager;
+    $this->languageManager = $language_manager;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->currentUser = $current_user;
+    $this->fileUrlGenerator = $file_url_generator;
   }
-}
 
-if (!$show_block) {
-  return [];
-}
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('current_route_match'),
+      $container->get('path.current'),
+      $container->get('path_alias.manager'),
+      $container->get('theme.manager'),
+      $container->get('language_manager'),
+      $container->get('entity_type.manager'),
+      $container->get('current_user'),
+      $container->get('file_url_generator')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
+
+    $route_match = $this->routeMatch;
+    $route_name = $route_match->getRouteName();
+
+    // Lista de rutas donde el bloque debe aparecer.
+    $allowed_routes = [
+      'view.main_page.page_1',
+      'view.main_page.page_2',
+      'view.alliances.page_1',
+      'view.alliance_institutions.page_1',
+      'view.search_programme.page_1',
+      'view.search_iec.page_1',
+    ];
+
+    $show_block = in_array($route_name, $allowed_routes, TRUE);
+
+    if (!$show_block && $route_name === 'entity.node.canonical') {
+      $current_path = $this->currentPath->getPath();
+      $alias = $this->aliasManager->getAliasByPath($current_path);
+
+      if ($alias === '/about' || $alias === '/contact') {
+        $show_block = TRUE;
+      }
+    }
+
+    if (!$show_block) {
+      return [];
+    }
 
     $site_branding = Settings::get('site_branding', []);
     $primary_color = $site_branding['primary_color'] ?? '#ff4949';
     $logo_url = $site_branding['menu_logo_image'] ?? NULL;
 
     if (!$logo_url) {
-      $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
+      $theme_path = $this->themeManager->getActiveTheme()->getPath();
       $logo_url = base_path() . $theme_path . '/images/dacem-imago.png';
     }
 
- 
-    $language_manager = \Drupal::service('language_manager');
+    $language_manager = $this->languageManager;
     $languages = $language_manager->getLanguages();
-    $switch_links = [];
 
-    
-    $language_manager = \Drupal::service('language_manager');
-    $current_language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+    $current_language = $this->languageManager->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
     $language_options = '';
     $flags = [
       'en' => '🇬🇧',
-      'es' => '🇪🇸', 
-      'pt-pt' => '🇵🇹', 
-      'fr' => '🇫🇷', 
+      'es' => '🇪🇸',
+      'pt-pt' => '🇵🇹',
+      'fr' => '🇫🇷',
       'it' => '🇮🇹',
       'de' => '🇩🇪',
       'lt' => '🇱🇹',
       'pl' => '🇵🇱',
       'el' => '🇬🇷',
       'cs' => '🇨🇿',
-      'sl' => '🇸🇮', 
-      'hu' => '🇭🇺', 
-      'et' => '🇪🇪', 
-      'gl' => '🇪🇸', 
+      'sl' => '🇸🇮',
+      'hu' => '🇭🇺',
+      'et' => '🇪🇪',
+      'gl' => '🇪🇸',
     ];
 
     foreach ($languages as $language) {
       $langcode = $language->getId();
-      $abbreviation = strtoupper($langcode); 
+      $abbreviation = strtoupper($langcode);
 
       $url = Url::fromRoute('<current>', [], ['language' => $language])->toString();
 
       $flag = $flags[$langcode] ?? '';
 
-      //Language menu
+      // Language menu.
       $language_options .= '
             <li>
               <a class="dropdown-item" href="' . $url . '">' . $flag . ' ' . $abbreviation . '</a>
@@ -118,7 +230,7 @@ if (!$show_block) {
     $about_url = Url::fromUserInput('/about', $language_options_url)->toString();
     $contact_url = Url::fromUserInput('/contact', $language_options_url)->toString();
 
-    $alliance_count = \Drupal::entityTypeManager()
+    $alliance_count = $this->entityTypeManager
       ->getStorage('node')
       ->getQuery()
       ->accessCheck(TRUE)
@@ -136,28 +248,27 @@ if (!$show_block) {
         . '</a></li>';
     }
 
-    // Obtain the current user to display their profile picture
-    $current_user = \Drupal::currentUser();
+    // Obtain the current user to display their profile picture.
+    $current_user = $this->currentUser;
     $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
 
     if ($current_user->isAuthenticated() && $current_user->id() != 0) {
-      //dump($current_user->id());      // Cargar la entidad del usuario
-      $user = User::load($current_user->id());
+      // dump($current_user->id());      // Cargar la entidad del usuario.
+      $user = $this->entityTypeManager->getStorage('user')->load($current_user->id());
 
-      // Verify if has profile picture
+      // Verify if has profile picture.
       if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
-        $file = File::load($user->get('user_picture')->target_id);
+        $file = $this->entityTypeManager->getStorage('file')->load($user->get('user_picture')->target_id);
         if ($file) {
-          $profile_picture_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+          $profile_picture_url = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
         }
       }
 
-      // If no image, set default image
+      // If no image, set default image.
       if (!$profile_picture_url) {
         $profile_picture_url = '/themes/custom/b5subtheme/images/default-profile.jpg';
       }
 
-      
       $profile_html = '
       <div class="user-profile-container dropdown ms-3">
           <a href="#" id="userProfileDropdown" class="dropdown-toggle user-profile-link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -170,16 +281,14 @@ if (!$show_block) {
           </ul>
       </div>';
 
-    } else {
-      // If the user is annonymous, dont render the image
+    }
+    else {
+      // If the user is annonymous, dont render the image.
       $profile_html = '';
     }
 
-
-
-
     return [
-  '#markup' => $this->t('
+      '#markup' => $this->t('
     <nav class="navbar sticky-top navbar-expand-lg university-navbar mb-0 pb-0" style="--university_primary_color: @site_primary_color; --university_emphasis_text_color: #fff;">
       <div class="container-fluid">
           <a class="navbar-brand" href="@main_page_url">
@@ -219,8 +328,8 @@ if (!$show_block) {
       '@menu_image_url' => $logo_url,
       '@site_primary_color' => $primary_color,
     ]
-  ),
-];
+      ),
+    ];
 
   }
 

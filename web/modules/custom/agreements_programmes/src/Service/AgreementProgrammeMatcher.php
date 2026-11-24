@@ -7,6 +7,9 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\NodeInterface;
 use Isced\IscedFieldsOfStudy;
 
+/**
+ * Agreement Programme Matcher service.
+ */
 final class AgreementProgrammeMatcher {
 
   private const AGREEMENT_BUNDLE = 'agreement';
@@ -16,6 +19,9 @@ final class AgreementProgrammeMatcher {
     private readonly EntityTypeManagerInterface $entityTypeManager,
   ) {}
 
+  /**
+   * Get compatible programmes for programme.
+   */
   public function getCompatibleProgrammesForProgramme(NodeInterface $origin_programme): array {
     if ($origin_programme->bundle() !== self::PROGRAMME_BUNDLE) {
       return [];
@@ -51,6 +57,9 @@ final class AgreementProgrammeMatcher {
     return $rules ? $this->findProgrammesFromRules($node_storage, $rules, (int) $origin_programme->id()) : [];
   }
 
+  /**
+   * Find agreement IDs.
+   */
   private function findAgreementIds(EntityStorageInterface $node_storage, int $origin_institution_id): array {
     return $node_storage->getQuery()
       ->condition('type', self::AGREEMENT_BUNDLE)
@@ -60,6 +69,9 @@ final class AgreementProgrammeMatcher {
       ->execute();
   }
 
+  /**
+   * Build rule from agreement.
+   */
   private function buildRuleFromAgreement(NodeInterface $agreement, int $origin_institution_id, ?int $origin_department_id, array $origin_isced_values, ?string $origin_eqf_level): ?array {
     $institution_1 = $this->getTargetId($agreement, 'field_institution_1');
     $institution_2 = $this->getTargetId($agreement, 'field_institution_2');
@@ -125,6 +137,9 @@ final class AgreementProgrammeMatcher {
     ];
   }
 
+  /**
+   * Find programmes from rules.
+   */
   private function findProgrammesFromRules(EntityStorageInterface $node_storage, array $rules, int $origin_programme_id): array {
     $results = [];
 
@@ -204,6 +219,9 @@ final class AgreementProgrammeMatcher {
     return $results;
   }
 
+  /**
+   * Get target ID.
+   */
   private function getTargetId(NodeInterface $node, string $field_name): ?int {
     if (!$node->hasField($field_name) || $node->get($field_name)->isEmpty()) {
       return NULL;
@@ -212,6 +230,9 @@ final class AgreementProgrammeMatcher {
     return (int) $node->get($field_name)->target_id;
   }
 
+  /**
+   * Get field value.
+   */
   private function getFieldValue(NodeInterface $node, string $field_name): ?string {
     if (!$node->hasField($field_name) || $node->get($field_name)->isEmpty()) {
       return NULL;
@@ -222,6 +243,9 @@ final class AgreementProgrammeMatcher {
     return $value !== NULL && $value !== '' ? (string) $value : NULL;
   }
 
+  /**
+   * Get ISCED values.
+   */
   private function getIscedValues(NodeInterface $node, string $field_name): array {
     if (!$node->hasField($field_name) || $node->get($field_name)->isEmpty()) {
       return [];
@@ -240,6 +264,9 @@ final class AgreementProgrammeMatcher {
     return array_values(array_unique($values));
   }
 
+  /**
+   * Get matching ISCED values.
+   */
   private function getMatchingIscedValues(NodeInterface $programme, array $allowed_isced_values): array {
     $programme_isced_values = $this->getIscedValues($programme, 'field_isced_f');
 
@@ -253,6 +280,9 @@ final class AgreementProgrammeMatcher {
     ));
   }
 
+  /**
+   * Expand ISCED hierarchy.
+   */
   private function expandIscedHierarchy(array $codes): array {
     if (!$codes) {
       return [];

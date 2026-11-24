@@ -17,3 +17,4 @@ settings:
     - email
   prompt:
     - login
+  provider_slug: ''

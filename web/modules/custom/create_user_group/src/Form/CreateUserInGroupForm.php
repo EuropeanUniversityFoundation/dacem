@@ -1,14 +1,70 @@
 <?php
 
-
 namespace Drupal\create_user_group\Form;
 
+use Drupal\Core\Url;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\user\Entity\User;
 use Drupal\group\Entity\Group;
+use Drupal\group\Entity\GroupMembership;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Custom form to create a user in a group.
+ */
 class CreateUserInGroupForm extends FormBase {
+
+  /**
+   * The current route match.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected RouteMatchInterface $currentRouteMatch;
+
+  /**
+   * The current user.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected AccountProxyInterface $account;
+
+  /**
+   * The request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected RequestStack $currentRequestStack;
+
+  /**
+   * Constructs a CreateUserInGroupForm object.
+   *
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The current route match.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   The current user.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   The request stack.
+   */
+  public function __construct(RouteMatchInterface $route_match, AccountProxyInterface $current_user, RequestStack $request_stack) {
+    $this->currentRouteMatch = $route_match;
+    $this->account = $current_user;
+    $this->currentRequestStack = $request_stack;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+    $container->get('current_route_match'),
+    $container->get('current_user'),
+    $container->get('request_stack'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -21,14 +77,13 @@ class CreateUserInGroupForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $group = \Drupal::routeMatch()->getParameter('group');
+    $group = $this->currentRouteMatch->getParameter('group');
 
     if (!$group || !$group instanceof Group) {
       return ['#markup' => $this->t('Invalid group.')];
     }
 
-    $current_user = \Drupal::currentUser();
-    $membership = \Drupal::service('group.membership_loader')->load($group, $current_user);
+    $membership = GroupMembership::loadSingle($group, $this->account);
 
     if ($membership) {
       $roles = $membership->getRoles();
@@ -61,11 +116,10 @@ class CreateUserInGroupForm extends FormBase {
               'ou_administr' => $this->t('Organizational Unit (OU) Administrator'),
               'degree_admin' => $this->t('Programme Administrator'),
               'subject_admi' => $this->t('Course Editor'),
-               
+
             ],
             '#required' => TRUE,
           ];
-          
 
           $form['submit'] = [
             '#type' => 'submit',
@@ -97,18 +151,18 @@ class CreateUserInGroupForm extends FormBase {
     ]);
     $user->save();
 
-    $group = \Drupal::routeMatch()->getParameter('group');
+    $group = $this->currentRouteMatch->getParameter('group');
     if ($group instanceof Group) {
       $group->addMember($user, ['group_roles' => ['universitytypegroup-' . $role]]);
     }
 
-    $destination = \Drupal::request()->query->get('destination');
+    $destination = $this->currentRequestStack->getCurrentRequest()->query->get('destination');
 
     if ($destination) {
-      $form_state->setRedirectUrl(\Drupal\Core\Url::fromUserInput($destination));
+      $form_state->setRedirectUrl(Url::fromUserInput($destination));
     }
     else {
-      $group = \Drupal::routeMatch()->getParameter('group');
+      $group = $this->currentRouteMatch->getParameter('group');
       $form_state->setRedirect('view.group_members.page_1', ['group' => $group->id()]);
     }
   }
@@ -128,4 +182,5 @@ class CreateUserInGroupForm extends FormBase {
       $form_state->setErrorByName('email', $this->t('The email %email is already registered.', ['%email' => $email]));
     }
   }
+
 }

@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\group\Entity\GroupInterface;
-use Drupal\group\GroupMembershipLoaderInterface;
+use Drupal\group\Entity\GroupMembership;
 use Drupal\user\UserInterface;
 
 /**
@@ -32,7 +32,6 @@ class AdminContextResolver {
   public function __construct(
     private readonly AccountProxyInterface $currentUser,
     private readonly EntityTypeManagerInterface $entityTypeManager,
-    private readonly GroupMembershipLoaderInterface $membershipLoader,
     private readonly Connection $database,
   ) {}
 
@@ -60,7 +59,7 @@ class AdminContextResolver {
       return NULL;
     }
 
-    $memberships = $this->membershipLoader->loadByUser($user);
+    $memberships = GroupMembership::loadByUser($user);
     if (empty($memberships) || !is_array($memberships)) {
       return NULL;
     }
@@ -113,7 +112,7 @@ class AdminContextResolver {
    * Resolves the admin role for a given group and account.
    */
   public function getAdminRoleForGroup(GroupInterface $group, AccountInterface $account): ?string {
-    $membership = $this->membershipLoader->load($group, $account);
+    $membership = GroupMembership::loadSingle($group, $account);
     if (!$membership) {
       return NULL;
     }

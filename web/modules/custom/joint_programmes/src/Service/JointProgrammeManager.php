@@ -9,9 +9,15 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 use CommerceGuys\Addressing\Country\CountryRepositoryInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Isced\IscedFieldsOfStudy;
 
+/**
+ * Joint Programme Manager.
+ */
 final class JointProgrammeManager {
+
+  use StringTranslationTrait;
 
   /**
    * Cache resolved joint programme URLs keyed by programme id.
@@ -27,10 +33,9 @@ final class JointProgrammeManager {
     private readonly CountryRepositoryInterface $countryRepository,
   ) {}
 
-  /*
+  /**
    * Joint programme domain logic.
    */
-
   public function buildJointProgrammeInformationUrl(?NodeInterface $programme, string $langcode): string {
     if (!$programme instanceof NodeInterface) {
       return '';
@@ -64,6 +69,9 @@ final class JointProgrammeManager {
     return $this->jointProgrammeUrlCache[$programme_id];
   }
 
+  /**
+   * Get other Institutions related to the Programme.
+   */
   public function getProgrammeOtherInstitutions(?NodeInterface $programme, string $langcode): array {
     if (
       !$programme instanceof NodeInterface ||
@@ -190,8 +198,16 @@ final class JointProgrammeManager {
       $joint_programme_item['availabilities'] = array_values($joint_programme_item['availabilities']);
       usort($joint_programme_item['availabilities'], static function (array $a, array $b): int {
         return strcasecmp(
-          implode(' ', [$a['membership_label'] ?? '', $a['organizational_unit_label'] ?? '', $a['institution_label'] ?? '']),
-          implode(' ', [$b['membership_label'] ?? '', $b['organizational_unit_label'] ?? '', $b['institution_label'] ?? ''])
+          implode(' ', [
+            $a['membership_label'] ?? '',
+            $a['organizational_unit_label'] ?? '',
+            $a['institution_label'] ?? '',
+          ]),
+          implode(' ', [
+            $b['membership_label'] ?? '',
+            $b['organizational_unit_label'] ?? '',
+            $b['institution_label'] ?? '',
+          ])
         );
       });
     }
@@ -205,10 +221,16 @@ final class JointProgrammeManager {
     return $joint_programmes_data;
   }
 
+  /**
+   * Whether the Programme has other Institutions.
+   */
   public function programmeHasJointMembership(?NodeInterface $programme, string $langcode): bool {
     return !empty($this->getProgrammeOtherInstitutions($programme, $langcode));
   }
 
+  /**
+   * Build Programme membership metadata.
+   */
   public function buildProgrammeMembershipMetadata(?NodeInterface $programme, string $langcode): array {
     if (!$programme instanceof NodeInterface) {
       return [
@@ -227,6 +249,9 @@ final class JointProgrammeManager {
     ];
   }
 
+  /**
+   * Build Programme joint metadata.
+   */
   public function buildProgrammeJointMetadata(?NodeInterface $programme, array $direct_joint_programme_ids, array $linked_joint_programme_ids, string $langcode): array {
     if (!$programme instanceof NodeInterface) {
       return [
@@ -246,6 +271,9 @@ final class JointProgrammeManager {
     ];
   }
 
+  /**
+   * Get joint Programme metadata.
+   */
   public function getJointProgrammeInformation(?NodeInterface $joint_programme, string $langcode): array {
     if (!$joint_programme instanceof NodeInterface) {
       return [];
@@ -397,6 +425,9 @@ final class JointProgrammeManager {
     ];
   }
 
+  /**
+   * Get linked Programme IDs for the joint Programme.
+   */
   public function getJointProgrammeLinkedProgrammeIds(array $programme_ids): array {
     $programme_ids = array_values(array_unique(array_map('intval', array_filter($programme_ids, 'is_numeric'))));
     if ($programme_ids === []) {
@@ -417,6 +448,9 @@ final class JointProgrammeManager {
     return array_fill_keys(array_map('intval', $linked_programme_ids), TRUE);
   }
 
+  /**
+   * Get joint Programmes for OUnits.
+   */
   public function getJointProgrammesForOrganizationalUnits(array $ou_ids, int $institution_id): array {
     $ou_ids = array_values(array_unique(array_map('intval', array_filter($ou_ids, 'is_numeric'))));
     if ($ou_ids === [] || $institution_id <= 0) {
@@ -446,6 +480,9 @@ final class JointProgrammeManager {
     return $this->getNodeStorage()->loadMultiple(array_map('intval', $programme_ids));
   }
 
+  /**
+   * Build Campus information variables.
+   */
   public function buildCampusInformationVariables(array $view_result, string $langcode, array $isced_labels): array {
     $generic_area_key = 'generic';
     $programmes_by_area = [];
@@ -534,7 +571,9 @@ final class JointProgrammeManager {
     if ($country_code !== '') {
       $country_list = $this->countryRepository->getList($langcode);
       if (isset($country_list[$country_code])) {
-        $country_name = (string) t($country_list[$country_code], [], ['langcode' => $langcode]);
+        $country_name = (string) $this->t("@country_name", [
+          "@country_name" => $country_list[$country_code],
+        ], ['langcode' => $langcode]);
       }
     }
 
@@ -545,6 +584,9 @@ final class JointProgrammeManager {
     ];
   }
 
+  /**
+   * Build OUnit information variables.
+   */
   public function buildOrganizationalUnitInformationVariables(array $view_result, string $langcode, array $isced_labels): array {
     $generic_area_key = 'generic';
     $programmes_by_area = [];
@@ -634,6 +676,9 @@ final class JointProgrammeManager {
     ];
   }
 
+  /**
+   * Build Institution catalogue index variables.
+   */
   public function buildInstitutionCatalogueIndexVariables(array $view_result, array $direct_joint_programme_ids, array $linked_joint_programme_ids, string $langcode): array {
     $generic_area_key = 'generic';
     $isced_labels = $this->getIscedLabelsForLanguage($langcode);
@@ -676,22 +721,24 @@ final class JointProgrammeManager {
     ];
   }
 
+  /**
+   * Get ISCED labels for a language.
+   */
   public function getIscedLabelsForLanguage(string $langcode): array {
     $isced = new IscedFieldsOfStudy();
     $labels = [];
 
     foreach ($isced->getLabeledList() as $code => $label) {
       // phpcs:ignore Drupal.Semantics.FunctionT.NotLiteralString
-      $labels[$code] = (string) t($label, [], ['langcode' => $langcode]);
+      $labels[$code] = (string) $this->t($label, [], ['langcode' => $langcode]);
     }
 
     return $labels;
   }
 
-  /*
+  /**
    * Generic row/view enrichment helpers.
    */
-
   public function getReferencedEntityLabelsForLanguage(?EntityInterface $entity, string $field_name, string $langcode): array {
     if (!$entity instanceof EntityInterface) {
       return [];
@@ -716,6 +763,9 @@ final class JointProgrammeManager {
     return array_values(array_filter($labels));
   }
 
+  /**
+   * Enrich search Programme row.
+   */
   public function enrichSearchProgrammeRow(object $row, string $current_language): void {
     $programme = $row->_entity ?? NULL;
     if (!$programme instanceof NodeInterface) {
@@ -755,6 +805,9 @@ final class JointProgrammeManager {
     $row->programme_url = $this->buildProgrammeCatalogueUrl($programme_for_display, $lang_for_url);
   }
 
+  /**
+   * Enrich Institution catalogue Programme row.
+   */
   public function enrichInstitutionCatalogueProgrammeRow(object $row, string $current_language, array $direct_joint_programme_ids, array $linked_joint_programme_ids): void {
     $programme = $row->_entity ?? NULL;
     if (!$programme instanceof NodeInterface || !$programme->id()) {
@@ -800,6 +853,9 @@ final class JointProgrammeManager {
     $row->custom_url = $this->buildProgrammeCatalogueUrl($programme_for_display, $lang_for_url);
   }
 
+  /**
+   * Build joint Programme information URL from entitiy.
+   */
   private function buildJointProgrammeInformationUrlFromEntity(NodeInterface $joint_programme, string $langcode): string {
     $lang_for_url = $this->entityLanguageForUrl($joint_programme, $langcode);
     $language = $this->languageManager->getLanguage($lang_for_url);
@@ -811,6 +867,9 @@ final class JointProgrammeManager {
     ])->toString();
   }
 
+  /**
+   * Build general information URL.
+   */
   private function buildGeneralInformationUrl(?NodeInterface $institution, string $langcode): string {
     if (!$institution instanceof NodeInterface) {
       return '';
@@ -838,6 +897,9 @@ final class JointProgrammeManager {
     ])->toString();
   }
 
+  /**
+   * Build OUnit information URL.
+   */
   private function buildOrganizationalUnitInformationUrl(?NodeInterface $organizational_unit, string $langcode): string {
     if (!$organizational_unit instanceof NodeInterface) {
       return '';
@@ -873,6 +935,9 @@ final class JointProgrammeManager {
     ])->toString();
   }
 
+  /**
+   * Build Programme catalogue URL.
+   */
   private function buildProgrammeCatalogueUrl(?NodeInterface $programme, string $langcode): ?string {
     if (!$programme instanceof NodeInterface) {
       return NULL;
@@ -915,6 +980,9 @@ final class JointProgrammeManager {
     return '/' . $lang_for_url . '/catalogue/' . $institution_alias . '/' . $programme_alias;
   }
 
+  /**
+   * Entity for a language with fallback.
+   */
   private function entityForLanguageWithFallback(?EntityInterface $entity, string $langcode): ?EntityInterface {
     if (!$entity instanceof EntityInterface) {
       return NULL;
@@ -931,6 +999,9 @@ final class JointProgrammeManager {
     return $entity;
   }
 
+  /**
+   * Entity language for URL.
+   */
   private function entityLanguageForUrl(?EntityInterface $entity, string $langcode): string {
     if (!$entity instanceof EntityInterface) {
       return 'en';
@@ -947,14 +1018,16 @@ final class JointProgrammeManager {
     return $entity->language()->getId();
   }
 
+  /**
+   * Get node storage.
+   */
   private function getNodeStorage() {
     return $this->entityTypeManager->getStorage('node');
   }
 
-  /*
+  /**
    * Area grouping helpers used by listing views.
    */
-
   private function programmeLevelBucket(NodeInterface $programme): ?string {
     $lvl_raw = strtolower($programme->get('field_eqf_level')->value ?? '');
     if (str_starts_with($lvl_raw, '6')) {
@@ -978,6 +1051,9 @@ final class JointProgrammeManager {
     ][$programme_level] ?? NULL;
   }
 
+  /**
+   * Programme area keys.
+   */
   private function programmeAreaKeys(NodeInterface $programme, string $generic_area_key): array {
     $programme_area_keys = [];
     if ($programme->hasField('field_isced_f') && !$programme->get('field_isced_f')->isEmpty()) {
@@ -996,6 +1072,9 @@ final class JointProgrammeManager {
     return $programme_area_keys;
   }
 
+  /**
+   * Ensure Programme area bucket.
+   */
   private function ensureProgrammeAreaBucket(array &$programmes_by_area, array &$area_meta, string $area_key, string $generic_area_key, array $isced_labels, string $langcode): void {
     if (!isset($programmes_by_area[$area_key])) {
       $programmes_by_area[$area_key] = ['B' => [], 'M' => [], 'PhD' => []];
@@ -1004,13 +1083,16 @@ final class JointProgrammeManager {
     if (!isset($area_meta[$area_key])) {
       $area_meta[$area_key] = [
         'label' => $area_key === $generic_area_key
-          ? (string) t('Other', [], ['langcode' => $langcode])
+          ? (string) $this->t('Other', [], ['langcode' => $langcode])
           : ($isced_labels[$area_key] ?? $area_key),
         'icon' => 'fas fa-folder',
       ];
     }
   }
 
+  /**
+   * Build Programme area item.
+   */
   private function buildProgrammeAreaItem(NodeInterface $programme, string $programme_url, array $joint_programme_meta): array {
     return [
       'id' => $programme->id(),
@@ -1028,6 +1110,9 @@ final class JointProgrammeManager {
     ];
   }
 
+  /**
+   * Finalize Programmes by area.
+   */
   private function finalizeProgrammesByArea(array &$programmes_by_area, array $area_meta, string $generic_area_key): array {
     foreach ($programmes_by_area as $area => $levels) {
       foreach (['B', 'M', 'PhD'] as $lev) {
@@ -1058,6 +1143,9 @@ final class JointProgrammeManager {
     return $area_meta_filtered;
   }
 
+  /**
+   * Append Programme to area buckets.
+   */
   private function appendProgrammeToAreaBuckets(array &$programmes_by_area, array &$area_meta, NodeInterface $programme, string $langcode, array $isced_labels, string $generic_area_key, array $joint_programme_meta, ?string $programme_url_override = NULL): void {
     $level = $this->programmeLevelBucket($programme);
     if (!$level) {

@@ -7,8 +7,6 @@ use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 
-
-
 /**
  * Implements hook_views_query_alter().
  * Modifies the query to replace the alias of the university with its node ID.
@@ -103,15 +101,16 @@ function custom_views_filters_views_query_alter(ViewExecutable $view, Sql $query
         $resource = reset($resources);
       }
 
-      if ($resource && $resource->hasTranslation($current_language)) {
+      if (isset($resource) && $resource->hasTranslation($current_language)) {
         $resource = $resource->getTranslation($current_language);
-      }
-      $where_conditions = &$query->where;
 
-      foreach ($where_conditions as &$condition_group) {
-        foreach ($condition_group['conditions'] as &$condition) {
-          if (isset($condition['field']) && strpos($condition['field'], 'node_field_data.nid') !== false) {
-            $condition['value'][':node_field_data_nid'] = $resource->id();
+        $where_conditions = &$query->where;
+
+        foreach ($where_conditions as &$condition_group) {
+          foreach ($condition_group['conditions'] as &$condition) {
+            if (isset($condition['field']) && strpos($condition['field'], 'node_field_data.nid') !== false) {
+              $condition['value'][':node_field_data_nid'] = $resource->id();
+            }
           }
         }
       }
@@ -311,18 +310,6 @@ function custom_views_filters_remove_catalogue_institution_argument_condition(Sq
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * Resolves composite aliases to node IDs for selected views.
  */
@@ -393,11 +380,11 @@ function custom_views_filters_views_pre_view(ViewExecutable $view, $display_id, 
   $path = $alias_manager->getPathByAlias($full_alias, $langcode);
 
   $m = [];
-  if (!preg_match('/^\/node\/(\d+)$/', $path ?? '', $m)) {
+  if (!preg_match('/^\/node\/(\d+)$/', $path, $m)) {
     $last_segment = $is_iec ? trim($args[2], '/') : trim($args[1], '/');
     $path2 = $alias_manager->getPathByAlias('/' . $last_segment, $langcode);
 
-    if (preg_match('/^\/node\/(\d+)$/', $path2 ?? '', $m2)) {
+    if (preg_match('/^\/node\/(\d+)$/', $path2, $m2)) {
       $m = $m2;
       $path = $path2;
     }
@@ -409,24 +396,6 @@ function custom_views_filters_views_pre_view(ViewExecutable $view, $display_id, 
     $view->setArguments($args);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Implements hook_entity_insert().
@@ -467,10 +436,6 @@ function custom_views_filters_entity_insert(EntityInterface $entity)
   }
 }
 
-
-
-
-
 /**
  * Implements hook_entity_predelete().
  */
@@ -491,50 +456,6 @@ function custom_views_filters_entity_predelete(\Drupal\Core\Entity\EntityInterfa
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 use Drupal\views\Views;
 
@@ -560,12 +481,6 @@ function custom_views_filters_form_views_exposed_form_alter(array &$form, FormSt
       '#weight' => -10,
     ];
 
-
-
-
-
-
-
     $campus_param = 'programme_campus';
     $institution_nid = _cvf_get_institution_from_path();
     $campus_options = _cvf_get_campus_options_from_view($institution_nid);
@@ -589,15 +504,6 @@ function custom_views_filters_form_views_exposed_form_alter(array &$form, FormSt
         'language' => \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT),
       ])->toString();
     }
-
-
-
-
-
-
-
-
-
 
 
   }
